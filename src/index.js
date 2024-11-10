@@ -3,15 +3,23 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { ModalProvider } from './components/util/ModalContext';
+import { LoadingProvider } from './components/util/LoadingContext';  // Import LoadingProvider
+import GlobalLoading from './components/util/GlobalLoading';  // Import GlobalLoading
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <LoadingProvider>  {/* Wrap with LoadingProvider */}
+        <ModalProvider>
+          <GlobalLoading />  {/* Display loading bar at the top when loading */}
+          <App />
+        </ModalProvider>
+      </LoadingProvider>
+    </Router>
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

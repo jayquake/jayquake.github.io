@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React from "react";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -11,36 +10,9 @@ import TagFacesIcon from "@mui/icons-material/TagFaces";
 import AccessibleTwoToneIcon from "@mui/icons-material/AccessibleTwoTone";
 import Chip from "@mui/material/Chip";
 import CustomizedBreadcrumbs from "../util/ruleBreadcrumb";
-import { fetchItemData } from "../util/dataService";
 
-function ItemPage() {
-  const { currentRule } = useParams();
-  const [itemData, setItemData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    // Fetch the item data when the component mounts
-    fetchItemData(currentRule)
-      .then((data) => {
-        setItemData(data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setError(error);
-        setIsLoading(false);
-      });
-  }, [currentRule]);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
-  if (!itemData) {
+function ItemPage({ ruleData }) {
+  if (!ruleData) {
     return <div>No item found</div>;
   }
 
@@ -52,7 +24,7 @@ function ItemPage() {
             <CustomizedBreadcrumbs />
             <Divider />
             <Typography sx={{ p: 2 }} m="auto" variant="overline" gutterBottom>
-              {itemData.id} {itemData.name}
+              {ruleData.id} {ruleData.name}
             </Typography>
             <IconButton
               component="button"
@@ -61,7 +33,7 @@ function ItemPage() {
                 position: "absolute",
                 right: 8,
                 top: 8,
-                color: (theme) => theme.palette.grey[500]
+                color: (theme) => theme.palette.grey[500],
               }}
             >
               <CloseIcon />
@@ -73,18 +45,18 @@ function ItemPage() {
               alignItems="center"
             >
               <Typography sx={{ mb: 1.5, pt: 1.5 }} variant="overline">
-                {itemData.shortDescription}
+                {ruleData.shortDescription}
               </Typography>
             </Grid>
-            <Typography sx={{ mb: 1.5, pt: 1.5 }} variant="">
-              {itemData.issueDescription}
+            <Typography sx={{ mb: 1.5, pt: 1.5 }}>
+              {ruleData.issueDescription}
             </Typography>
             <Box mt={2}>
               <Chip
                 variant="outlined"
                 color="warning"
                 icon={<TagFacesIcon />}
-                label={itemData.criteria}
+                label={ruleData.criteria}
               />
             </Box>
             <Box mt={2} mb={2}>
@@ -92,12 +64,13 @@ function ItemPage() {
                 variant="outlined"
                 color="primary"
                 icon={<AccessibleTwoToneIcon />}
-                label={itemData.WCAGLevel}
+                label={ruleData.WCAGLevel}
               />
             </Box>
             <Typography variant="overline">Issue Resolution:</Typography>
             <Box sx={{ width: "100%" }} mb={2}>
-              <CodeSection>{itemData.issueResolution}</CodeSection>
+              {/* Replace CodeSection with your appropriate component */}
+              <CodeSection>{ruleData.issueResolution}</CodeSection>
             </Box>
           </Paper>
         </Grid>

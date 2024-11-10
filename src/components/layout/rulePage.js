@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -17,51 +17,9 @@ import ThumbUpAltTwoToneIcon from "@mui/icons-material/ThumbUpAltTwoTone";
 import ThumbDownTwoToneIcon from "@mui/icons-material/ThumbDownTwoTone";
 import DialogActions from "@mui/material/DialogActions";
 import { Link } from "react-router-dom";
-import { fetchItemData } from "../util/dataService";
 
 function ItemPage({ ruleData }) {
-  const [itemData, setItemData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  console.log(`Rule Data is: ${ruleData}`);
-  useEffect(() => {
-    let isMounted = true; // Flag to track if the component is still mounted
-
-    // Fetch the item data when the component mounts
-    fetchItemData(ruleData)
-      .then((data) => {
-        if (isMounted) {
-          // Check if the component is still mounted before updating state
-          setItemData(data);
-          setIsLoading(false);
-        }
-      })
-      .catch((error) => {
-        if (isMounted) {
-          setError(error);
-          setIsLoading(false);
-        }
-      });
-
-    return () => {
-      // This cleanup function runs when the component unmounts
-      isMounted = false;
-    };
-  }, [ruleData]);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return (
-      <div>
-        Error:{ruleData}
-        {itemData} {error.message}
-      </div>
-    );
-  }
-
+  // If ruleData is null, render "No item found"
   if (!ruleData) {
     return <div>No item found</div>;
   }
@@ -83,7 +41,7 @@ function ItemPage({ ruleData }) {
                 position: "absolute",
                 right: 8,
                 top: 8,
-                color: (theme) => theme.palette.grey[500]
+                color: (theme) => theme.palette.grey[500],
               }}
             >
               <CloseIcon />
@@ -98,7 +56,7 @@ function ItemPage({ ruleData }) {
                 {ruleData.shortDescription}
               </Typography>
             </Grid>
-            <Typography sx={{ mb: 1.5, pt: 1.5 }} variant="">
+            <Typography sx={{ mb: 1.5, pt: 1.5 }}>
               {ruleData.issueDescription}
             </Typography>
             <Box mt={2}>

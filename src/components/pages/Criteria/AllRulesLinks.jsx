@@ -1,64 +1,63 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import ItemPage from "../../layout/rulePage";
-import { fetchItemData } from "../../util/dataService";
+import { createFilter } from "../../util/Filter";
+import { useLoading } from "../../util/LoadingContext";  // Import useLoading
 
-function AllRulesWithRoutes(props) {
-  const { filters } = props;
+function AllRulesWithRoutes({ filters }) {
+  const { showLoading, hideLoading } = useLoading();  // Access loading functions from context
   const location = useLocation();
   const pathnames = location.pathname.split("/").filter((x) => x);
   const currentPath = pathnames[1];
   const [filteredFormRules, setFilteredFormRules] = useState([]);
-  const [itemData, setItemData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch JSON data and apply filters
-    fetch("/data.json")
-      .then((res) => res.json())
-      .then((data) => {
+    let isMounted = true;
+
+    const fetchData = async () => {
+      showLoading();  // Set loading to true
+      try {
+        const response = await fetch("/data.json");
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        let data = await response.json();
         if (Array.isArray(filters) && filters.length) {
           data = data.filter(createFilter(...filters));
         }
-        setFilteredFormRules(data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setError(err);
-        setIsLoading(false);
-      });
-  }, [filters]);
+        if (isMounted) {
+          setFilteredFormRules(data);
+        }
+      } catch (err) {
+        if (isMounted) setError(err);
+      } finally {
+        if (isMounted) hideLoading();  // Set loading to false
+      }
+    };
 
-  useEffect(() => {
-    // Fetch item data when the current path changes
-    fetchItemData(currentPath)
-      .then((data) => {
-        setItemData(data);
-      })
-      .catch((err) => {
-        setError(err);
-      });
-  }, [currentPath]);
+    fetchData();
+
+    return () => {
+      isMounted = false;
+      hideLoading();  // Ensure loading is set to false on unmount
+    };
+  }, [filters, showLoading, hideLoading]);
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
-    <>
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : error ? (
-        <div>Error: {error.message}</div>
-      ) : (
-        <Routes>
-          {filteredFormRules.map((formRule) => (
-            <Route
-              key={formRule.id}
-              path={`${formRule.criteria}/${formRule.route}`}
-              element={<ItemPage ruleData={formRule} />} // Pass formRule as itemData prop
-            />
-          ))}
-        </Routes>
-      )}
-    </>
+    <Routes>
+      {filteredFormRules.map((formRule) => (
+        <Route
+          key={formRule.id}
+          path={`${formRule.criteria}/${formRule.route}`}
+          element={<ItemPage ruleData={formRule} />}
+        />
+      ))}
+    </Routes>
   );
 }
 

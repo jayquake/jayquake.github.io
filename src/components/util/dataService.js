@@ -7,17 +7,17 @@ export async function fetchItemData(currentRule) {
     const data = await response.json();
     console.log(`Item ${currentRule} is found`);
 
-    const matchingItem = data.find((item) => {
-      item.route === currentRule;
-    });
+    // Corrected this line to return the condition directly
+    const matchingItem = data.find((item) => item.route === currentRule);
+    
     console.log(currentRule);
     console.log(`Match for ${matchingItem}`);
 
-    if (!currentRule) {
+    if (!matchingItem) {  // Fixed condition to check for matchingItem instead of currentRule
       throw new Error(`Data Service - Item with ID ${currentRule} not found`);
     }
 
-    return matchingItem, currentRule;
+    return matchingItem;  // Corrected to return matchingItem only
   } catch (error) {
     throw error;
   }
