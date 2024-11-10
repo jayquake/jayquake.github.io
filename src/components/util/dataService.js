@@ -1,6 +1,6 @@
 export async function fetchItemData(currentRule) {
   try {
-    const response = await fetch(`/data.json`);
+    const response = await fetch(`/audit-rules/data.json`);
     if (!response.ok) {
       throw new Error("Failed to fetch item data");
     }

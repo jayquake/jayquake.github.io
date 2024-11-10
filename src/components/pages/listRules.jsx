@@ -64,7 +64,7 @@ class List extends Component {
   }
 
   componentDidMount() {
-    fetch("/data.json")
+    fetch("/audit-rules/data.json")
       .then((res) => res.json())
       .then(this.onLoad);
   }

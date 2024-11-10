@@ -62,7 +62,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-end",
-  padding: theme.spacing(0, 1),
+  padding: theme.spacing(0, 3),
   ...theme.mixins.toolbar,
 }));
 
@@ -149,60 +149,60 @@ export default function App() {
           flexGrow: 1,
           height: "100vh",
           overflow: "auto",
-          padding: (theme) => theme.spacing(4),
+          padding: (theme) => theme.spacing(3),
         }}
       >
         <Toolbar />
         <Container maxWidth="lg">
           <Routes>
             <Route index element={<Home navigate={navigate} title="Home" />} />
-            <Route path="rules/*" element={<ListRoutes />} />
+            <Route path="/rules/*" element={<ListRoutes />} />
             <Route path="/*" element={<AllRulesWithRoutes navigate={navigate} />} />
             <Route
-              path="clickables"
+              path="/clickables"
               element={<Clickables navigate={navigate} title="Clickables" />}
             />
             <Route
-              path="context"
+              path="/context"
               element={<Context navigate={navigate} title="Context" />}
             />
             <Route
-              path="headings"
+              path="/headings"
               element={<Headings navigate={navigate} title="Headings" />}
             />
             <Route
-              path="document"
+              path="/document"
               element={<Document navigate={navigate} title="Document" />}
             />
             <Route
-              path="errors"
+              path="/errors"
               element={<Errors navigate={navigate} title="Errors" />}
             />
             <Route
-              path="forms"
+              path="/forms"
               element={<Forms navigate={navigate} title="Forms" />}
             />
             <Route
-              path="graphics"
+              path="/graphics"
               element={<Graphics navigate={navigate} title="Graphics" />}
             />
             <Route
-              path="keyboard"
+              path="/keyboard"
               element={<Keyboard navigate={navigate} title="Keyboard" />}
             />
             {KeyboardRoutes}
             {FormruleRoutes}
             {ClickableruleRoutes}
             <Route
-              path="navigation"
+              path="/navigation"
               element={<Navigation navigate={navigate} title="Navigation" />}
             />
             <Route
-              path="readability"
+              path="/readability"
               element={<Readability navigate={navigate} title="Readability" />}
             />
             <Route
-              path="tables"
+              path="/tables"
               element={<Tables navigate={navigate} title="Tables" />}
             />
           </Routes>

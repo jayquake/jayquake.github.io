@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import ItemPage from "../../layout/rulePage";
 import { createFilter } from "../../util/Filter";
-import { useLoading } from "../../util/LoadingContext";  // Import useLoading
+import { useLoading } from "../../util/LoadingContext";
 
 function AllRulesWithRoutes({ filters }) {
-  const { showLoading, hideLoading } = useLoading();  // Access loading functions from context
+  const { showLoading, hideLoading } = useLoading();
   const location = useLocation();
   const pathnames = location.pathname.split("/").filter((x) => x);
   const currentPath = pathnames[1];
@@ -16,9 +16,9 @@ function AllRulesWithRoutes({ filters }) {
     let isMounted = true;
 
     const fetchData = async () => {
-      showLoading();  // Set loading to true
+      showLoading();
       try {
-        const response = await fetch("/data.json");
+        const response = await fetch("/audit-rules/data.json");
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
@@ -32,15 +32,15 @@ function AllRulesWithRoutes({ filters }) {
       } catch (err) {
         if (isMounted) setError(err);
       } finally {
-        if (isMounted) hideLoading();  // Set loading to false
+        if (isMounted) hideLoading();
       }
     };
 
     fetchData();
 
+    // Only set `isMounted` to false in the cleanup function, no need to call `hideLoading` again
     return () => {
       isMounted = false;
-      hideLoading();  // Ensure loading is set to false on unmount
     };
   }, [filters, showLoading, hideLoading]);
 

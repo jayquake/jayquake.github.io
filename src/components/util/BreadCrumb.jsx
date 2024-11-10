@@ -13,7 +13,7 @@ const SimpleBreadcrumbs = () => {
   const pathnames = location.pathname.split("/").filter((x) => x);
 
   return (
-    <Grid container xs={12}>
+    <Grid container item xs={12}>
       <Paper elevation={0} style={{ padding: "8px 16px" }}>
         <Breadcrumbs
           separator={<NavigateNextIcon fontSize="small" />}

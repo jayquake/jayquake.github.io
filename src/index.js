@@ -11,8 +11,8 @@ import GlobalLoading from './components/util/GlobalLoading';  // Import GlobalLo
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Router>
-      <LoadingProvider>  {/* Wrap with LoadingProvider */}
+    <Router basename="/audit-rules">  {/* Set the base path here */}
+    <LoadingProvider>  {/* Wrap with LoadingProvider */}
         <ModalProvider>
           <GlobalLoading />  {/* Display loading bar at the top when loading */}
           <App />
