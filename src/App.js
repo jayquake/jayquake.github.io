@@ -185,7 +185,7 @@ export default function App() {
             color="inherit"
             noWrap
             className={classes.title}
-            onClick={() => goToPage("/")}
+            
           >
             Dashboard
           </Typography>
