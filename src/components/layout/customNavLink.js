@@ -14,7 +14,7 @@ const CustomNavLink = ({ to, label, icon: Icon }) => {
   };
 
   return (
-    <NavLink role="button" to={to} style={linkStyle}>
+    <NavLink to={to} style={linkStyle}>
       {({ isActive }) => (
         <ListItemButton
           sx={{ width: "100%" }}
