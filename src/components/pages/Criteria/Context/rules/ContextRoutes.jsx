@@ -14,6 +14,10 @@ import CopyOfScrollFocusSuccess from "./Success/Copy-of-scroll-focusSuccess";
 import CopyOfScrollFocusFailures from "./Failures/Copy-of-scroll-focusFailures";
 import MainLandmarkSuccess from "./Success/Main-landmarkSuccess";
 import MainLandmarkFailure from "./Failures/Main-landmarkFailure";
+import MultipleMainLandmarksFailure from "./Failures/Multiple-main-landmarksFailure";
+import MultipleMainLandmarksSuccess from "./Success/Multiple-main-landmarksSuccess";
+
+
 export default (
   <>
     <Route
@@ -71,6 +75,14 @@ export default (
     <Route
       path="/context/main-landmark_failure"
       element={<MainLandmarkFailure />}
+    />
+    <Route
+      path="/context/multiple-main-landmarks_success"
+      element={<MultipleMainLandmarksSuccess />}
+    />
+    <Route
+      path="/context/multiple-main-landmarks_failure"
+      element={<MultipleMainLandmarksFailure />}
     />
   </>
 );
