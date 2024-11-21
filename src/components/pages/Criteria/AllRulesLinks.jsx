@@ -7,13 +7,16 @@ import { useLoading } from "../../util/LoadingContext";
 function AllRulesWithRoutes({ filters }) {
   const { showLoading, hideLoading } = useLoading();
   const location = useLocation();
-  const pathnames = location.pathname.split("/").filter((x) => x);
-  const currentPath = pathnames[1];
   const [filteredFormRules, setFilteredFormRules] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
+
+    // Prevent fetching if data is already loaded
+    if (filteredFormRules.length > 0) {
+      return;
+    }
 
     const fetchData = async () => {
       showLoading();
@@ -38,11 +41,10 @@ function AllRulesWithRoutes({ filters }) {
 
     fetchData();
 
-    // Only set `isMounted` to false in the cleanup function, no need to call `hideLoading` again
     return () => {
       isMounted = false;
     };
-  }, [filters, showLoading, hideLoading]);
+  }, [filters, showLoading, hideLoading, filteredFormRules.length]);
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -52,7 +54,7 @@ function AllRulesWithRoutes({ filters }) {
     <Routes>
       {filteredFormRules.map((formRule) => (
         <Route
-          key={formRule.id}
+          key={`${formRule.id}-${formRule.criteria}-${formRule.route}`}
           path={`${formRule.criteria}/${formRule.route}`}
           element={<ItemPage ruleData={formRule} />}
         />
