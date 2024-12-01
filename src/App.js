@@ -12,13 +12,12 @@ import {
   List,
   Divider,
   AppBar as MuiAppBar,
-  Tooltip
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { mainListItems, secondaryListItems } from "./listItems";
 import { useNavigate, useLocation } from "react-router-dom";
-import Search from "./components/layout/search";
+import SearchComponent from "./components/layout/search"; // Updated import
 import AppRoutes from "./routes/AppRoutes";
 
 const drawerWidth = 240;
@@ -89,7 +88,7 @@ export default function App() {
             </Typography>
           )}
           <Box sx={{ display: open ? "flex" : "none" }}>
-            <Search />
+            <SearchComponent onSearchChange={(e) => console.log("Search Query:", e.target.value)} />
           </Box>
         </Toolbar>
       </AppBar>
@@ -123,13 +122,9 @@ export default function App() {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-          {mainListItems}
-        </List>
+        <List>{mainListItems}</List>
         <Divider />
-        <List>
-          {secondaryListItems}
-        </List>
+        <List>{secondaryListItems}</List>
       </Drawer>
 
       <Box
@@ -145,9 +140,6 @@ export default function App() {
         <Toolbar />
         <Container maxWidth="lg">
           <AppRoutes navigate={navigate} />
-          <Box pt={4}>
-            <Copyright />
-          </Box>
         </Container>
       </Box>
     </Box>
@@ -156,17 +148,4 @@ export default function App() {
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-}
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center" sx={{ mt: 2 }}>
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/" target="_blank" rel="noopener noreferrer">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
 }

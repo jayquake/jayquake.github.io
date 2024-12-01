@@ -1,41 +1,47 @@
-import React, { useState, useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import { useSearch } from "../../util/SearchContext"; // Adjust path as needed
 import ItemPage from "../../layout/rulePage";
-import { createFilter } from "../../util/Filter";
 import { useLoading } from "../../util/LoadingContext";
 
 function AllRulesWithRoutes({ filters }) {
+  const { query } = useSearch();
   const { showLoading, hideLoading } = useLoading();
-  const location = useLocation();
   const [filteredFormRules, setFilteredFormRules] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [error, setError] = useState(null);
+
+  // Memoize filters if necessary
+  const stableFilters = React.useMemo(() => filters, [filters]);
 
   useEffect(() => {
     let isMounted = true;
 
-    // Prevent fetching if data is already loaded
-    if (filteredFormRules.length > 0) {
-      return;
-    }
-
     const fetchData = async () => {
-      showLoading();
       try {
+        showLoading(); // Show loading indicator
         const response = await fetch("/audit-rules/data.json");
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
-        let data = await response.json();
-        if (Array.isArray(filters) && filters.length) {
-          data = data.filter(createFilter(...filters));
+        const data = await response.json();
+
+        // If filters exist, apply them
+        let filteredData = data;
+        if (Array.isArray(stableFilters) && stableFilters.length) {
+          filteredData = data.filter((rule) =>
+            stableFilters.every((filter) => filter(rule))
+          );
         }
+
         if (isMounted) {
-          setFilteredFormRules(data);
+          setFilteredFormRules(filteredData);
+          setSearchResults(filteredData); // Initialize with all rules
         }
       } catch (err) {
         if (isMounted) setError(err);
       } finally {
-        if (isMounted) hideLoading();
+        if (isMounted) hideLoading(); // Hide loading indicator
       }
     };
 
@@ -44,7 +50,20 @@ function AllRulesWithRoutes({ filters }) {
     return () => {
       isMounted = false;
     };
-  }, [filters, showLoading, hideLoading, filteredFormRules.length]);
+  }, [stableFilters, showLoading, hideLoading]);
+
+  useEffect(() => {
+    if (!query) {
+      setSearchResults(filteredFormRules);
+      return;
+    }
+
+    const results = filteredFormRules.filter((rule) =>
+      rule.name.toLowerCase().includes(query.toLowerCase()) ||
+      rule.criteria.toLowerCase().includes(query.toLowerCase())
+    );
+    setSearchResults(results);
+  }, [query, filteredFormRules]);
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -52,7 +71,7 @@ function AllRulesWithRoutes({ filters }) {
 
   return (
     <Routes>
-      {filteredFormRules.map((formRule) => (
+      {searchResults.map((formRule) => (
         <Route
           key={`${formRule.id}-${formRule.criteria}-${formRule.route}`}
           path={`${formRule.criteria}/${formRule.route}`}
