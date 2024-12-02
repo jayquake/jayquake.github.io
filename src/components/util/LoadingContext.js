@@ -1,21 +1,18 @@
-// LoadingContext.js
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useCallback, useState } from "react";
 
 const LoadingContext = createContext();
 
-export function useLoading() {
-  return useContext(LoadingContext);
-}
+export const useLoading = () => useContext(LoadingContext);
 
-export function LoadingProvider({ children }) {
-  const [isLoading, setIsLoading] = useState(false);
+export const LoadingProvider = ({ children }) => {
+  const [loading, setLoading] = useState(false);
 
-  const showLoading = () => setIsLoading(true);
-  const hideLoading = () => setIsLoading(false);
+  const showLoading = useCallback(() => setLoading(true), []);
+  const hideLoading = useCallback(() => setLoading(false), []);
 
   return (
-    <LoadingContext.Provider value={{ isLoading, showLoading, hideLoading }}>
+    <LoadingContext.Provider value={{ loading, showLoading, hideLoading }}>
       {children}
     </LoadingContext.Provider>
   );
-}
+};
