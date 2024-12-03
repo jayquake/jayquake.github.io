@@ -53,7 +53,7 @@ const SearchComponent = ({ onSearchChange }) => {
       </SearchIconWrapper>
       <StyledInputBase
         placeholder="Search…"
-        inputProps={{ "aria-label": "search" }}
+        inputProps={{ "aria-label": "search", "tabindex":"0" }}
         onChange={onSearchChange}
       />
     </Search>

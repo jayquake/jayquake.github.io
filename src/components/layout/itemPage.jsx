@@ -13,7 +13,46 @@ import CustomizedBreadcrumbs from "../util/ruleBreadcrumb";
 
 function ItemPage({ ruleData }) {
   if (!ruleData) {
-    return <div>No item found</div>;
+    return (<Container sx={{ mt: 4, mb: 4 }}>
+      <Grid container xs={12}>
+        <Grid item xs={12}>
+          <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+            <CustomizedBreadcrumbs />
+            <Divider />
+            <Typography sx={{ p: 2 }} m="auto" variant="overline" gutterBottom>
+            
+            </Typography>
+            <IconButton
+              component="button"
+              aria-label="close"
+              sx={{
+                position: "absolute",
+                right: 8,
+                top: 8,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+            <Grid
+              container
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Typography sx={{ mb: 1.5, pt: 1.5 }} variant="overline">
+                {ruleData.shortDescription}
+              </Typography>
+            </Grid>
+            <Typography sx={{ mb: 1.5, pt: 1.5 }}>
+              No items found
+            </Typography>
+            
+           
+          </Paper>
+        </Grid>
+      </Grid>
+    </Container>)
   }
 
   return (

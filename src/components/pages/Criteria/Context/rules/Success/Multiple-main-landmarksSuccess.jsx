@@ -8,9 +8,7 @@ export default () => (
     itemContent={
       <>
         <div className="list-item" id="multiple-main-success-1">
-          <main>
-            <h1>Main Content for Page</h1>
-          </main>
+      
         </div>
        
       </>
