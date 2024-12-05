@@ -68,13 +68,14 @@ const AppRoutes = ({ navigate }) => (
     {ErrorsRoutes()}
     {ReadabilityRoutes()}
     {GraphicsRoutes()}
+    {HeadingsRoutes()}
    {/* {CarouselsRoutes()}
     
     
     
     {NavigationRoutes()}
     
-    {HeadingsRoutes()}
+    
     {TablesRoutes()} */}
 
     {/* Test Item Page */}
