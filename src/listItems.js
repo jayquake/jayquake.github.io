@@ -1,5 +1,5 @@
 import * as React from "react";
-
+import ViewCarouselTwoTone from "@mui/icons-material/ViewCarouselTwoTone"
 import ListSubheader from "@mui/material/ListSubheader";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PeopleIcon from "@mui/icons-material/People";
@@ -20,6 +20,7 @@ import HtmlTwoToneIcon from "@mui/icons-material/HtmlTwoTone";
 export const mainListItems = (
   <React.Fragment>
     <Typography underline="none" m="auto" variant="overline">
+    <CustomNavLink to="/carousels" label="Carousels" icon={ViewCarouselTwoTone} />
       <CustomNavLink
         to="/clickables"
         label="Clickables"
