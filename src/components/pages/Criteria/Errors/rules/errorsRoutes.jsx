@@ -10,6 +10,10 @@ import HiddenVisibleContentSuccess from "./Success/Hidden-visible-contentSuccess
 import HiddenVisibleContentFailure from "./Failures/Hidden-visible-contentFailure";
 import FakeHiddenContentSuccess from "./Success/Fake-hidden-contentSuccess";
 import FakeHiddenContentFailures from "./Failures/Fake-hidden-contentFailures";
+import DuplicateIdsSuccess from "./Success/Duplicate-idsSuccess";
+import DuplicateIdsFailures from "./Failures/Duplicate-idsFailures";
+import EmptylinksSuccess from "../../Clickables/rules/Success/EmptylinksSuccess";
+import EmptylinksFailures from "../../Clickables/rules/Failures/EmptylinksFailures";
 
 const ErrorsRoutes = () => (
   <>
@@ -23,6 +27,8 @@ const ErrorsRoutes = () => (
     <Route path="errors/hidden-visible-content_failure" element={<HiddenVisibleContentFailure />} />
     <Route path="errors/fake-hidden-content_success" element={<FakeHiddenContentSuccess />} />
     <Route path="errors/fake-hidden-content_failure" element={<FakeHiddenContentFailures />} />
+    <Route path="errors/duplicate-ids_success" element={<DuplicateIdsSuccess />} />
+    <Route path="errors/duplicate-ids_failure" element={<DuplicateIdsFailures />} />
     
     
     
