@@ -12,8 +12,10 @@ import FakeHiddenContentSuccess from "./Success/Fake-hidden-contentSuccess";
 import FakeHiddenContentFailures from "./Failures/Fake-hidden-contentFailures";
 import DuplicateIdsSuccess from "./Success/Duplicate-idsSuccess";
 import DuplicateIdsFailures from "./Failures/Duplicate-idsFailures";
-import EmptylinksSuccess from "../../Clickables/rules/Success/EmptylinksSuccess";
-import EmptylinksFailures from "../../Clickables/rules/Failures/EmptylinksFailures";
+import EmptyListSuccess from "./Success/Empty-listSuccess";
+import EmptyListFailures from "./Failures/Empty-listFailures";
+import LoadAutofocusSuccess from "./Success/Load-autofocusSuccess";
+import LoadAutofocusFailure from "./Failures/Load-autofocusFailure";
 
 const ErrorsRoutes = () => (
   <>
@@ -29,6 +31,11 @@ const ErrorsRoutes = () => (
     <Route path="errors/fake-hidden-content_failure" element={<FakeHiddenContentFailures />} />
     <Route path="errors/duplicate-ids_success" element={<DuplicateIdsSuccess />} />
     <Route path="errors/duplicate-ids_failure" element={<DuplicateIdsFailures />} />
+    <Route path="errors/empty-list_success" element={<EmptyListSuccess />} />
+    <Route path="errors/empty-list_failure" element={<EmptyListFailures />} />
+    <Route path="errors/load-autofocus_success" element={<LoadAutofocusSuccess />} />
+    <Route path="errors/load-autofocus_failure" element={<LoadAutofocusFailure />} />
+    
     
     
     
