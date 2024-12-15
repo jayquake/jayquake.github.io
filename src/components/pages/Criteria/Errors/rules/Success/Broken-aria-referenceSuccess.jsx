@@ -7,43 +7,41 @@ export default () => (
   <IssueSuccess
     itemContent={
       <>
-        <div className="list-item" id="ariaReference-success-1">
+        <li className="list-item" id="ariaReference-success-1">
           <label id="name-label" htmlFor="name-input">Name</label>
           <input id="name-input" type="text" aria-labelledby="name-label" />
-        </div>
+        </li>
         
-        <div className="list-item" id="ariaReference-success-2">
-          <p id="password-instructions">Password must be at least 8 characters long.</p>
-          <input id="password-input" type="password" aria-describedby="password-instructions" />
-        </div>
+        <li className="list-item" id="ariaReference-success-2">
+          <p id="email-help">Enter your email address.</p>
+          <input id="email-input" type="email" aria-describedby="email-help" />
+        </li>
         
-        <div className="list-item" id="ariaReference-success-3">
+        <li className="list-item" id="ariaReference-success-3">
+          <span id="hidden-label" className="sr-only">Search Field</span>
+          <input id="search-input" type="search" aria-labelledby="hidden-label" />
+        </li>
+        
+        <li className="list-item" id="ariaReference-success-4">
+          <p id="password-hint">Password must be at least 8 characters long.</p>
+          <input id="password-input" type="password" aria-describedby="password-hint" />
+        </li>
+        
+        <li className="list-item" id="ariaReference-success-5">
           <button aria-controls="dropdown-menu" aria-expanded="false">Toggle Menu</button>
           <ul id="dropdown-menu" hidden>
             <li>Option 1</li>
             <li>Option 2</li>
           </ul>
-        </div>
+        </li>
         
-        <div className="list-item" id="ariaReference-success-4">
-          <div role="listbox" id="listbox" aria-owns="option1 option2">
-            <div id="option1" role="option">Option 1</div>
-            <div id="option2" role="option">Option 2</div>
-          </div>
-        </div>
-        
-        <div className="list-item" id="ariaReference-success-5">
+        <li className="list-item" id="ariaReference-success-6">
           <ul id="autocomplete-list" role="listbox">
-            <li id="suggestion1" role="option">Suggestion 1</li>
-            <li id="suggestion2" role="option">Suggestion 2</li>
+            <li id="suggestion1" role="option">Apple</li>
+            <li id="suggestion2" role="option">Orange</li>
           </ul>
           <input type="text" aria-activedescendant="suggestion1" aria-owns="autocomplete-list" />
-        </div>
-        
-        <div className="list-item" id="ariaReference-success-6">
-          <input id="search-input" type="search" aria-labelledby="search-label" />
-          <label id="search-label" htmlFor="search-input">Search</label>
-        </div>
+        </li>
       </>
     }
     itemDescription={itemDescription}

@@ -83,7 +83,7 @@ export default function App() {
             {open ? <ChevronLeftIcon /> : <MenuIcon />}
           </IconButton>
           {open && (
-            <Typography component="h1" variant="h6" noWrap sx={{ fontWeight: "500" }}>
+            <Typography  variant="h6" noWrap sx={{ fontWeight: "500" }}>
               Dashboard - {capitalizeFirstLetter(pathnames.join(" / ")) || "Home"}
             </Typography>
           )}
