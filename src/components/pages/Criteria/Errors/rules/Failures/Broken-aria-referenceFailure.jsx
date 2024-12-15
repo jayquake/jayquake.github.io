@@ -31,10 +31,13 @@ export default () => (
         </li>
         
         <li className="list-item" id="ariaReference-failure-6">
-          <ul id="autocomplete-list" role="listbox">
-            <li id="suggestion1" role="option">Apple</li>
-          </ul>
-          <input type="text" aria-activedescendant="non-existent-suggestion" aria-owns="autocomplete-list" />
+          <p id="hint-text">This field is required.</p>
+          <input
+            id="input-with-valid-aria-describedby-and-invalid-aria-labelledby"
+            type="text"
+            aria-labelledby="invalid-id"
+            aria-describedby="hint-text"
+          />
         </li>
       </>
     }
