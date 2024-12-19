@@ -3,6 +3,8 @@ import React from "react";
 import { Route } from "react-router-dom";
 import NonintTabFail from "./Failures/NonintTabFail";
 import NonintTabSucc from "./Success/NonintTabSucc";
+import BrokentabSuccess from "./Success/BrokentabSuccess";
+import BrokenTabindexFailure from "./Failures/Broken-tabindexFailure";
 
 const KeyboardRoutes = () => (
   <>
@@ -14,6 +16,10 @@ const KeyboardRoutes = () => (
       path="/keyboard/noninteractive-tabindex_failure"
       element={<NonintTabFail />}
     />
+    <Route path="/keyboard/broken-tabindex_success" element={<BrokentabSuccess />} />
+    <Route
+      path="/keyboard/broken-tabindex_failure"
+      element={<BrokenTabindexFailure />} />
   </>
 );
 

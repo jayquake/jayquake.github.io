@@ -1,44 +1,35 @@
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import { Link } from "react-router-dom";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
-import Stack from "@mui/material/Stack";
-import { Typography } from "@mui/material";
+import React from "react";
+import IssueSuccess from "../../../../../layout/issueSuccess";
 
-export default function BrokenTab() {
-  return (
-    <>
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-              <Typography m="auto" variant="overline">
-                Broken Tab
-              </Typography>
-            </Paper>
-          </Grid>
-        </Grid>
-      </Container>
+const itemDescription = "Keyboard: Broken Tabindex - Success";
 
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-              <Typography m="auto" variant="overline">
-                Examples Issues
-              </Typography>
-              <Divider sx={{ mb: 2 }}></Divider>
-
-              <Grid item xs={12}>
-                <Stack direction="row" spacing={1}></Stack>
-              </Grid>
-            </Paper>
-          </Grid>
-        </Grid>
-      </Container>
-    </>
-  );
-}
+export default () => (
+  <IssueSuccess
+    itemContent={
+      <>
+        <div className="list-item" id="broken-tabindex-success-1">
+          <button tabIndex="0">Click Me</button>
+        </div>
+        <div className="list-item" id="broken-tabindex-success-2">
+          <a href="#" tabIndex="0">Link</a>
+        </div>
+        <div className="list-item" id="broken-tabindex-success-3">
+          <input type="text" tabIndex="0" placeholder="Enter text" />
+        </div>
+        <div className="list-item" id="broken-tabindex-success-4">
+          <div tabIndex="-1">Non-navigable element</div>
+        </div>
+        <div className="list-item" id="broken-tabindex-success-5">
+          <textarea tabIndex="0" placeholder="Enter description"></textarea>
+        </div>
+        <div className="list-item" id="broken-tabindex-success-6">
+          <select tabIndex="0">
+            <option>Option 1</option>
+            <option>Option 2</option>
+          </select>
+        </div>
+      </>
+    }
+    itemDescription={itemDescription}
+  />
+);
