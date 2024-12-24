@@ -19,6 +19,8 @@ const DocumentRoutes = () => (
 
     {/* Dynamic Route for Language Report Failures */}
     <Route path="document/language-report_failure/:id" element={<LanguageReportFailure />} />
+    <Route path="document/viewport-scalability_failure/:id" element={<ViewportscalabilityFailure />} />
+
   </>
 );
 
