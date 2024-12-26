@@ -70,11 +70,10 @@ const AppRoutes = ({ navigate }) => (
     {GraphicsRoutes()}
     {HeadingsRoutes()}
     {CarouselsRoutes()}
-    {TablesRoutes()} 
-   {/*    
+    {TablesRoutes()}
     {NavigationRoutes()}
-    
-    {/* Test Item Page */}
+
+
     <Route path="/test-item" element={<ItemPage ruleData={{ name: "Test Rule", description: "Testing ItemPage" }} />} />
   </Routes>
 );

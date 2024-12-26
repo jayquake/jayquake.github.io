@@ -16,6 +16,8 @@ import EmptyListSuccess from "./Success/Empty-listSuccess";
 import EmptyListFailures from "./Failures/Empty-listFailures";
 import LoadAutofocusSuccess from "./Success/Load-autofocusSuccess";
 import LoadAutofocusFailure from "./Failures/Load-autofocusFailure";
+import MarqueeSuccess from "./Success/MarqueeSuccess";
+import MarqueeFailure from "./Failures/MarqueeFailure";
 
 const ErrorsRoutes = () => (
   <>
@@ -35,6 +37,8 @@ const ErrorsRoutes = () => (
     <Route path="errors/empty-list_failure" element={<EmptyListFailures />} />
     <Route path="errors/load-autofocus_success" element={<LoadAutofocusSuccess />} />
     <Route path="errors/load-autofocus_failure" element={<LoadAutofocusFailure />} />
+    <Route path="errors/marquee_success" element={<MarqueeSuccess />} />
+    <Route path="errors/marquee_failure" element={<MarqueeFailure />} />
     
     
     
