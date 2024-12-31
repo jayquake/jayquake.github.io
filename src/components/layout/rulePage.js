@@ -11,6 +11,7 @@ import SimpleBreadcrumbs from "../util/BreadCrumb";
 import TagFacesIcon from "@mui/icons-material/TagFaces";
 import Box from "@mui/material/Box";
 import AccessibleTwoToneIcon from "@mui/icons-material/AccessibleTwoTone";
+import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import Chip from "@mui/material/Chip";
 import Fab from "@mui/material/Fab";
 import ThumbUpAltTwoToneIcon from "@mui/icons-material/ThumbUpAltTwoTone";
@@ -121,6 +122,48 @@ function ItemPage({ ruleData }) {
                     </Grid>
                   </Grid>
                 </Box>
+                <Divider />
+
+                <br />
+                
+  <Typography variant="overline">Rule Release JSON:</Typography>
+  <Box sx={{ width: "75%", bgcolor: "#f4f4f4", padding: 4, borderRadius: 1, position: "relative" }}>
+  <pre
+    style={{
+      fontFamily: "monospace",
+      fontSize: "14px",
+      margin: 0,
+      overflow: "auto",
+      whiteSpace: "pre-wrap",
+    }}
+  >
+    {`{
+  "shortTextMarkdown": "New rule updated",
+  "bodyMarkdown": "**${ruleData.name}** detection has been updated and may affect the number of issues found in your audit.",
+  "ctaLink": "rules/${ruleData._id.$oid}"
+}`}
+  </pre>
+  <IconButton
+    onClick={() => {
+      navigator.clipboard.writeText(`{
+  "shortTextMarkdown": "New rule updated",
+  "bodyMarkdown": "**${ruleData.name}** detection has been updated and may affect the number of issues found in your audit.",
+  "ctaLink": "rules/${ruleData._id.$oid}"
+}`);
+      alert("Copied to clipboard!");
+    }}
+    sx={{
+      position: "absolute",
+      top: 8,
+      right: 8,
+      color: (theme) => theme.palette.grey[700],
+    }}
+  >
+    <ContentPasteIcon />
+  </IconButton>
+</Box>
+                
+
               </Grid>
             </DialogActions>
           </Paper>
