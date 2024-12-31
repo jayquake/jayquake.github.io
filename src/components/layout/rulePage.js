@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -11,23 +11,35 @@ import SimpleBreadcrumbs from "../util/BreadCrumb";
 import TagFacesIcon from "@mui/icons-material/TagFaces";
 import Box from "@mui/material/Box";
 import AccessibleTwoToneIcon from "@mui/icons-material/AccessibleTwoTone";
-import ContentPasteIcon from '@mui/icons-material/ContentPaste';
+import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import Chip from "@mui/material/Chip";
 import Fab from "@mui/material/Fab";
 import ThumbUpAltTwoToneIcon from "@mui/icons-material/ThumbUpAltTwoTone";
 import ThumbDownTwoToneIcon from "@mui/icons-material/ThumbDownTwoTone";
 import DialogActions from "@mui/material/DialogActions";
 import { Link } from "react-router-dom";
+import Tooltip from "@mui/material/Tooltip";
 
 function ItemPage({ ruleData }) {
-  // If ruleData is null, render "No item found"
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(`{
+  "shortTextMarkdown": "New rule updated",
+  "bodyMarkdown": "**${ruleData.name}** detection has been updated and may affect the number of issues found in your audit.",
+  "ctaLink": "rules/${ruleData._id.$oid}"
+}`);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000); // Reset tooltip after 2 seconds
+  };
+
   if (!ruleData) {
     return <div>No item found</div>;
   }
 
   return (
     <Container sx={{ mt: 4, mb: 4 }}>
-      <Grid container xs={12}>
+      <Grid container>
         <Grid item xs={12}>
           <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
             <SimpleBreadcrumbs />
@@ -36,7 +48,6 @@ function ItemPage({ ruleData }) {
               {ruleData.id} {ruleData.name}
             </Typography>
             <IconButton
-              component="button"
               aria-label="close"
               sx={{
                 position: "absolute",
@@ -86,7 +97,7 @@ function ItemPage({ ruleData }) {
                 direction="row"
                 justifyContent="center"
                 alignItems="center"
-                spacing="2"
+                spacing={2}
                 sx={{ p: 1 }}
               >
                 <Box sx={{ width: "75%" }}>
@@ -123,47 +134,49 @@ function ItemPage({ ruleData }) {
                   </Grid>
                 </Box>
                 <Divider />
-
-                <br />
-                
-  <Typography variant="overline">Rule Release JSON:</Typography>
-  <Box sx={{ width: "75%", bgcolor: "#f4f4f4", padding: 4, borderRadius: 1, position: "relative" }}>
-  <pre
-    style={{
-      fontFamily: "monospace",
-      fontSize: "14px",
-      margin: 0,
-      overflow: "auto",
-      whiteSpace: "pre-wrap",
-    }}
-  >
-    {`{
+<Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                <Typography variant="overline" sx={{ mt: 2 }}>
+                  Rule Release JSON:
+                </Typography>
+                <Box
+                  sx={{
+                    width: "100%",
+                    bgcolor: "#f4f4f4",
+                    padding: 4,
+                    borderRadius: 1,
+                    position: "relative",
+                  }}
+                >
+                  <pre
+                    style={{
+                      fontFamily: "monospace",
+                      fontSize: "14px",
+                      margin: 0,
+                      overflow: "auto",
+                      whiteSpace: "pre-wrap",
+                    }}
+                  >
+                    {`{
   "shortTextMarkdown": "New rule updated",
   "bodyMarkdown": "**${ruleData.name}** detection has been updated and may affect the number of issues found in your audit.",
   "ctaLink": "rules/${ruleData._id.$oid}"
 }`}
-  </pre>
-  <IconButton
-    onClick={() => {
-      navigator.clipboard.writeText(`{
-  "shortTextMarkdown": "New rule updated",
-  "bodyMarkdown": "**${ruleData.name}** detection has been updated and may affect the number of issues found in your audit.",
-  "ctaLink": "rules/${ruleData._id.$oid}"
-}`);
-      alert("Copied to clipboard!");
-    }}
-    sx={{
-      position: "absolute",
-      top: 8,
-      right: 8,
-      color: (theme) => theme.palette.grey[700],
-    }}
-  >
-    <ContentPasteIcon />
-  </IconButton>
-</Box>
-                
-
+                  </pre>
+                  <Tooltip title={copied ? "Copied!" : "Copy to clipboard"} arrow>
+                    <IconButton
+                      onClick={handleCopy}
+                      sx={{
+                        position: "absolute",
+                        top: 8,
+                        right: 8,
+                        color: (theme) => theme.palette.grey[700],
+                      }}
+                    >
+                      <ContentPasteIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+</Paper>
               </Grid>
             </DialogActions>
           </Paper>
