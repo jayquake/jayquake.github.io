@@ -1,56 +1,51 @@
 import React, { useState } from "react";
-import { styled, alpha } from "@mui/material/styles";
-import { InputBase, List, ListItem, ListItemText, Typography, Paper, Box } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import {
+  InputBase,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+  Box,
+  IconButton,
+} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { Link } from "react-router-dom"; // Import React Router's Link
+import ClearIcon from "@mui/icons-material/Clear";
+import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 
-// Styled Components
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(1),
-    width: "auto",
-  },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
+const StyledSearchBar = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
-  justifyContent: "center",
+  backgroundColor: theme.palette.background.paper,
+  borderRadius: theme.shape.borderRadius,
+  boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
+  padding: theme.spacing(0.5, 2),
+  gap: theme.spacing(1),
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "12ch",
-      "&:focus": {
-        width: "20ch",
-      },
-    },
-  },
+  flex: 1,
+  fontSize: "1rem",
+  color: theme.palette.text.primary,
+}));
+
+const StyledDropdown = styled(motion.div)(({ theme }) => ({
+  position: "absolute",
+  top: "100%",
+  left: 0,
+  right: 0,
+  zIndex: 1,
+  backgroundColor: theme.palette.background.paper,
+  boxShadow: "0px 4px 10px rgba(0,0,0,0.2)",
+  borderRadius: theme.shape.borderRadius,
+  overflow: "hidden",
 }));
 
 const SearchComponent = ({ data }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
 
-  // Filter the data based on the search query
   const filteredData = data.filter((item) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -58,73 +53,80 @@ const SearchComponent = ({ data }) => {
   const handleInputChange = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
-    setShowDropdown(query.length > 0); // Show dropdown if there is a query
+    setShowDropdown(query.length > 0);
   };
 
-  const handleResultClick = () => {
-    setShowDropdown(false); // Close the dropdown when a result is clicked
+  const handleClearSearch = () => {
+    setSearchQuery("");
+    setShowDropdown(false);
   };
 
   return (
     <Box sx={{ position: "relative", width: "100%" }}>
-      <Search>
-        <SearchIconWrapper>
-          <SearchIcon aria-hidden="true" />
-        </SearchIconWrapper>
+      <StyledSearchBar>
+        <SearchIcon color="action" />
         <StyledInputBase
-          placeholder="Search…"
-          inputProps={{ "aria-label": "search" }}
+          placeholder="Search..."
           value={searchQuery}
           onChange={handleInputChange}
-          onFocus={() => setShowDropdown(searchQuery.length > 0)} // Show dropdown on focus
+          onFocus={() => setShowDropdown(searchQuery.length > 0)}
         />
-      </Search>
-      {showDropdown && (
-        <Paper
-          sx={{
-            position: "absolute",
-            top: "100%",
-            left: 0,
-            right: 0,
-            zIndex: 1,
-            maxHeight: 300,
-            overflowY: "auto",
-            boxShadow: 3,
-          }}
-        >
-          <List>
-            {filteredData.length > 0 ? (
-              filteredData.map((item) => (
-                <ListItem
-                  key={item._id.$oid}
-                  component={Link} // Use React Router's Link component
-                  to={`/${item.criteria}/${item.route}`} // Dynamically link to the route
-                  button
-                  onClick={handleResultClick}
-                >
+        {searchQuery && (
+          <IconButton onClick={handleClearSearch} size="small">
+            <ClearIcon />
+          </IconButton>
+        )}
+      </StyledSearchBar>
+
+      <AnimatePresence>
+        {showDropdown && (
+          <StyledDropdown
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+          >
+            <List>
+              {filteredData.length > 0 ? (
+                filteredData.map((item) => (
+                  <ListItem
+                    key={item._id.$oid}
+                    component={Link}
+                    to={`/${item.criteria}/${item.route}`}
+                    button
+                  >
+                    <ListItemText
+                      primary={item.name}
+                      secondary={
+                        <>
+                          <Typography variant="body2" color="textSecondary">
+                            <strong>Severity:</strong> {item.severity}
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            <strong>Criteria:</strong> {item.criteria}
+                          </Typography>
+                        </>
+                      }
+                    />
+                  </ListItem>
+                ))
+              ) : (
+                // Fallback Message for No Results
+                <ListItem>
                   <ListItemText
-                    primary={item.name}
-                    secondary={
-                      <>
-                        <Typography variant="body2" color="textSecondary">
-                          <strong>Severity:</strong> {item.severity}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary">
-                          <strong>Criteria:</strong> {item.criteria}
-                        </Typography>
-                      </>
-                    }
+                    primary="No results found"
+                    primaryTypographyProps={{
+                      align: "center",
+                      color: "textSecondary",
+                      fontWeight: "bold",
+                    }}
                   />
                 </ListItem>
-              ))
-            ) : (
-              <ListItem>
-                <ListItemText primary="No results found" />
-              </ListItem>
-            )}
-          </List>
-        </Paper>
-      )}
+              )}
+            </List>
+          </StyledDropdown>
+        )}
+      </AnimatePresence>
     </Box>
   );
 };

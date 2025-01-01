@@ -1,189 +1,208 @@
 import React, { useState } from "react";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import Divider from "@mui/material/Divider";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import { CodeSection } from "react-code-section-lib";
-import SimpleBreadcrumbs from "../util/BreadCrumb";
-import TagFacesIcon from "@mui/icons-material/TagFaces";
-import Box from "@mui/material/Box";
-import AccessibleTwoToneIcon from "@mui/icons-material/AccessibleTwoTone";
-import ContentPasteIcon from "@mui/icons-material/ContentPaste";
-import Chip from "@mui/material/Chip";
-import Fab from "@mui/material/Fab";
-import ThumbUpAltTwoToneIcon from "@mui/icons-material/ThumbUpAltTwoTone";
-import ThumbDownTwoToneIcon from "@mui/icons-material/ThumbDownTwoTone";
-import DialogActions from "@mui/material/DialogActions";
+import {
+  Container,
+  Grid,
+  Paper,
+  Typography,
+  IconButton,
+  Chip,
+  Box,
+  Tooltip,
+  Fab,
+  Divider,
+} from "@mui/material";
+import {
+  ContentPaste as ContentPasteIcon,
+  ThumbUpAlt as ThumbUpAltIcon,
+  ThumbDownAlt as ThumbDownAltIcon,
+  TagFaces as TagFacesIcon,
+  AccessibleTwoTone as AccessibleTwoToneIcon,
+} from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import Tooltip from "@mui/material/Tooltip";
+import SimpleBreadcrumbs from "../util/BreadCrumb";
 
-function ItemPage({ ruleData }) {
+function ModernItemPage({ ruleData }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(`{
-  "shortTextMarkdown": "New rule updated",
-  "bodyMarkdown": "**${ruleData.name}** detection has been updated and may affect the number of issues found in your audit.",
-  "ctaLink": "rules/${ruleData._id.$oid}"
-}`);
+      "shortTextMarkdown": "New rule updated",
+      "bodyMarkdown": "**${ruleData.name}** detection has been updated.",
+      "ctaLink": "rules/${ruleData._id.$oid}"
+    }`);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000); // Reset tooltip after 2 seconds
+    setTimeout(() => setCopied(false), 2000);
   };
 
   if (!ruleData) {
-    return <div>No item found</div>;
+    return (
+      <Container sx={{ mt: 4 }}>
+        <Typography variant="h6" textAlign="center" color="text.secondary">
+          No item found
+        </Typography>
+      </Container>
+    );
   }
 
   return (
-    <Container sx={{ mt: 4, mb: 4 }}>
-      <Grid container>
-        <Grid item xs={12}>
-          <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-            <SimpleBreadcrumbs />
-            <Divider />
-            <Typography sx={{ p: 2 }} m="auto" variant="overline" gutterBottom>
-              {ruleData.id} {ruleData.name}
+    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      <Paper elevation={6} sx={{ p: 6, borderRadius: 3 }}>
+        {/* Breadcrumbs */}
+        <Box mb={3}>
+          <SimpleBreadcrumbs />
+        </Box>
+
+        {/* Title Section */}
+        <Grid container spacing={3} alignItems="center">
+          <Grid item xs={10}>
+            <Typography variant="h4" fontWeight="bold" gutterBottom>
+              {ruleData.name}
             </Typography>
-            <IconButton
-              aria-label="close"
+            <Typography variant="body1" color="text.secondary">
+              {ruleData.shortDescription}
+            </Typography>
+          </Grid>
+        </Grid>
+
+        <Divider sx={{ my: 3 }} />
+
+        {/* Issue Description */}
+        <Typography variant="body1" sx={{ mb: 2 }}>
+          {ruleData.issueDescription}
+        </Typography>
+
+        {/* Chips Section */}
+        <Box mt={2}>
+          <Chip
+            icon={<TagFacesIcon />}
+            label={ruleData.criteria}
+            variant="outlined"
+            color="warning"
+            sx={{ mr: 1 }}
+          />
+          <Chip
+            icon={<AccessibleTwoToneIcon />}
+            label={`WCAG: ${ruleData.WCAGLevel}`}
+            variant="outlined"
+            color="primary"
+          />
+        </Box>
+
+        {/* Issue Resolution Section */}
+        <Box
+          mt={4}
+          p={3}
+          sx={{
+            bgcolor: "grey.100",
+            borderRadius: 2,
+            boxShadow: 2,
+            fontSize: "0.9rem",
+            whiteSpace: "pre-wrap",
+            fontFamily: "monospace",
+          }}
+        >
+          <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 2 }}>
+            Issue Resolution:
+          </Typography>
+          {typeof ruleData.issueResolution === "string" ? (
+            <Typography variant="body1" color="text.primary">
+              {ruleData.issueResolution}
+            </Typography>
+          ) : (
+            <Box
+              component="pre"
               sx={{
-                position: "absolute",
-                right: 8,
-                top: 8,
-                color: (theme) => theme.palette.grey[500],
+                bgcolor: "#f4f4f4",
+                border: "1px solid #ddd",
+                borderRadius: 4,
+                p: 2,
+                overflowX: "auto",
+                fontFamily: "monospace",
+                whiteSpace: "pre-wrap",
+                fontSize: "0.95rem",
               }}
             >
-              <CloseIcon />
-            </IconButton>
-            <Grid
-              container
-              direction="row"
-              justifyContent="center"
-              alignItems="center"
+              <code>{ruleData.issueResolution.code}</code>
+            </Box>
+          )}
+        </Box>
+
+        {/* Action Buttons with Fab */}
+        <Box mt={4} display="flex" justifyContent="center" gap={3}>
+          <Link
+            to={`/${ruleData.criteria}/${ruleData.route}_success`}
+            style={{ textDecoration: "none" }}
+          >
+            <Fab
+              color="success"
+              variant="extended"
+              sx={{
+                px: 4,
+                boxShadow: 3,
+                fontWeight: "bold",
+                "&:hover": {
+                  backgroundColor: "success.dark",
+                },
+              }}
             >
-              <Typography sx={{ mb: 1.5, pt: 1.5 }} variant="overline">
-                {ruleData.shortDescription}
-              </Typography>
-            </Grid>
-            <Typography sx={{ mb: 1.5, pt: 1.5 }}>
-              {ruleData.issueDescription}
-            </Typography>
-            <Box mt={2}>
-              <Chip
-                variant="outlined"
-                color="warning"
-                icon={<TagFacesIcon />}
-                label={ruleData.criteria}
-              />
-            </Box>
-            <Box mt={2} mb={2}>
-              <Chip
-                variant="outlined"
-                color="primary"
-                icon={<AccessibleTwoToneIcon />}
-                label={ruleData.WCAGLevel}
-              />
-            </Box>
-            <Typography variant="overline">Issue Resolution:</Typography>
-            <Box sx={{ width: "100%" }} mb={2}>
-              <CodeSection>{ruleData.issueResolution}</CodeSection>
-            </Box>
-            <DialogActions sx={{ p: 2 }}>
-              <Grid
-                container
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-                spacing={2}
-                sx={{ p: 1 }}
-              >
-                <Box sx={{ width: "75%" }}>
-                  <Grid
-                    container
-                    rowSpacing={1}
-                    columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                  >
-                    <Grid item xs={6}>
-                      <Link
-                        component="button"
-                        to={`/${ruleData.criteria}/${ruleData.route}_success`}
-                      >
-                        <Fab color="success" variant="extended">
-                          <ThumbUpAltTwoToneIcon sx={{ mr: 1 }} />
-                          Success
-                        </Fab>
-                      </Link>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Link
-                        to={`/${ruleData.criteria}/${ruleData.route}_failure`}
-                      >
-                        <Fab
-                          component="button"
-                          color="error"
-                          variant="extended"
-                        >
-                          <ThumbDownTwoToneIcon sx={{ mr: 1 }} />
-                          Failures
-                        </Fab>
-                      </Link>
-                    </Grid>
-                  </Grid>
-                </Box>
-                <Divider />
-<Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Typography variant="overline" sx={{ mt: 2 }}>
-                  Rule Release JSON:
-                </Typography>
-                <Box
-                  sx={{
-                    width: "100%",
-                    bgcolor: "#f4f4f4",
-                    padding: 4,
-                    borderRadius: 1,
-                    position: "relative",
-                  }}
-                >
-                  <pre
-                    style={{
-                      fontFamily: "monospace",
-                      fontSize: "14px",
-                      margin: 0,
-                      overflow: "auto",
-                      whiteSpace: "pre-wrap",
-                    }}
-                  >
-                    {`{
+              <ThumbUpAltIcon sx={{ mr: 1 }} />
+              Success
+            </Fab>
+          </Link>
+          <Link
+            to={`/${ruleData.criteria}/${ruleData.route}_failure`}
+            style={{ textDecoration: "none" }}
+          >
+            <Fab
+              color="error"
+              variant="extended"
+              sx={{
+                px: 4,
+                boxShadow: 3,
+                fontWeight: "bold",
+                "&:hover": {
+                  backgroundColor: "error.dark",
+                },
+              }}
+            >
+              <ThumbDownAltIcon sx={{ mr: 1 }} />
+              Failures
+            </Fab>
+          </Link>
+        </Box>
+
+        {/* Rule Release JSON */}
+        <Box
+          mt={4}
+          p={3}
+          sx={{
+            bgcolor: "background.default",
+            borderRadius: 2,
+            position: "relative",
+            border: "1px solid",
+            borderColor: "grey.300",
+          }}
+        >
+          <Typography variant="subtitle2" color="text.secondary">
+            Rule Release JSON:
+          </Typography>
+          <pre>{`{
   "shortTextMarkdown": "New rule updated",
-  "bodyMarkdown": "**${ruleData.name}** detection has been updated and may affect the number of issues found in your audit.",
+  "bodyMarkdown": "**${ruleData.name}** detection has been updated.",
   "ctaLink": "rules/${ruleData._id.$oid}"
-}`}
-                  </pre>
-                  <Tooltip title={copied ? "Copied!" : "Copy to clipboard"} arrow>
-                    <IconButton
-                      onClick={handleCopy}
-                      sx={{
-                        position: "absolute",
-                        top: 8,
-                        right: 8,
-                        color: (theme) => theme.palette.grey[700],
-                      }}
-                    >
-                      <ContentPasteIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-</Paper>
-              </Grid>
-            </DialogActions>
-          </Paper>
-        </Grid>
-      </Grid>
+}`}</pre>
+          <Tooltip title={copied ? "Copied!" : "Copy to clipboard"} arrow>
+            <IconButton
+              onClick={handleCopy}
+              sx={{ position: "absolute", top: 8, right: 8 }}
+            >
+              <ContentPasteIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      </Paper>
     </Container>
   );
 }
 
-export default ItemPage;
+export default ModernItemPage;
