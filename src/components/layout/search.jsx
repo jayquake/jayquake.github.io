@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
+import { InputBase, List, ListItem, ListItemText, Typography, Paper, Box } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { Link } from "react-router-dom"; // Import React Router's Link
 
-// Inline styles using Material-UI's `styled` utility
+// Styled Components
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -45,18 +46,86 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const SearchComponent = ({ onSearchChange }) => {
+const SearchComponent = ({ data }) => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  // Filter the data based on the search query
+  const filteredData = data.filter((item) =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const handleInputChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    setShowDropdown(query.length > 0); // Show dropdown if there is a query
+  };
+
+  const handleResultClick = () => {
+    setShowDropdown(false); // Close the dropdown when a result is clicked
+  };
+
   return (
-    <Search>
-      <SearchIconWrapper>
-        <SearchIcon />
-      </SearchIconWrapper>
-      <StyledInputBase
-        placeholder="Search…"
-        inputProps={{ "aria-label": "search", "tabindex":"0" }}
-        onChange={onSearchChange}
-      />
-    </Search>
+    <Box sx={{ position: "relative", width: "100%" }}>
+      <Search>
+        <SearchIconWrapper>
+          <SearchIcon aria-hidden="true" />
+        </SearchIconWrapper>
+        <StyledInputBase
+          placeholder="Search…"
+          inputProps={{ "aria-label": "search" }}
+          value={searchQuery}
+          onChange={handleInputChange}
+          onFocus={() => setShowDropdown(searchQuery.length > 0)} // Show dropdown on focus
+        />
+      </Search>
+      {showDropdown && (
+        <Paper
+          sx={{
+            position: "absolute",
+            top: "100%",
+            left: 0,
+            right: 0,
+            zIndex: 1,
+            maxHeight: 300,
+            overflowY: "auto",
+            boxShadow: 3,
+          }}
+        >
+          <List>
+            {filteredData.length > 0 ? (
+              filteredData.map((item) => (
+                <ListItem
+                  key={item._id.$oid}
+                  component={Link} // Use React Router's Link component
+                  to={`/${item.criteria}/${item.route}`} // Dynamically link to the route
+                  button
+                  onClick={handleResultClick}
+                >
+                  <ListItemText
+                    primary={item.name}
+                    secondary={
+                      <>
+                        <Typography variant="body2" color="textSecondary">
+                          <strong>Severity:</strong> {item.severity}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary">
+                          <strong>Criteria:</strong> {item.criteria}
+                        </Typography>
+                      </>
+                    }
+                  />
+                </ListItem>
+              ))
+            ) : (
+              <ListItem>
+                <ListItemText primary="No results found" />
+              </ListItem>
+            )}
+          </List>
+        </Paper>
+      )}
+    </Box>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import {
   Link,
@@ -24,7 +24,7 @@ const drawerWidth = 240;
 const collapsedDrawerWidth = 60;
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open"
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
   background: "#3f51b5",
@@ -32,24 +32,24 @@ const AppBar = styled(MuiAppBar, {
   boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.15)",
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen
+    duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen
-    })
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   }),
   ...(!open && {
     marginLeft: collapsedDrawerWidth,
     width: `calc(100% - ${collapsedDrawerWidth}px)`,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    })
-  })
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  }),
 }));
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -57,7 +57,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "space-between",
   padding: theme.spacing(0, 1),
-  ...theme.mixins.toolbar
+  ...theme.mixins.toolbar,
 }));
 
 export default function App() {
@@ -66,7 +66,41 @@ export default function App() {
   const location = useLocation();
   const pathnames = location.pathname.split("/").filter((x) => x);
 
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const handleDrawerToggle = () => setOpen(!open);
+
+  // Fetch data
+  useEffect(() => {
+    fetch("/audit-rules/data.json")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((jsonData) => {
+        setData(jsonData);
+        setFilteredData(jsonData); // Initialize filtered data
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError(error.message);
+        setLoading(false);
+      });
+  }, []);
+
+  // Handle search query
+  const handleSearchChange = (query) => {
+    const lowerCaseQuery = query.toLowerCase();
+    const filtered = data.filter((item) =>
+      item.toLowerCase().includes(lowerCaseQuery)
+    );
+    setFilteredData(filtered);
+  };
 
   return (
     <Box sx={{ display: "flex", backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
@@ -83,12 +117,15 @@ export default function App() {
             {open ? <ChevronLeftIcon /> : <MenuIcon />}
           </IconButton>
           {open && (
-            <Typography  variant="h6" noWrap sx={{ fontWeight: "500" }}>
+            <Typography variant="h6" noWrap sx={{ fontWeight: "500" }}>
               Dashboard - {capitalizeFirstLetter(pathnames.join(" / ")) || "Home"}
             </Typography>
           )}
           <Box sx={{ display: open ? "flex" : "none" }}>
-            <SearchComponent onSearchChange={(e) => console.log("Search Query:", e.target.value)} />
+            <SearchComponent
+              data={data}
+              onSearchChange={(e) => handleSearchChange(e.target.value)}
+            />
           </Box>
         </Toolbar>
       </AppBar>
@@ -106,9 +143,9 @@ export default function App() {
             transition: (theme) =>
               theme.transitions.create("width", {
                 easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.standard
-              })
-          }
+                duration: theme.transitions.duration.standard,
+              }),
+          },
         }}
       >
         <DrawerHeader>
@@ -139,7 +176,13 @@ export default function App() {
       >
         <Toolbar />
         <Container maxWidth="lg">
-          <AppRoutes navigate={navigate} />
+          {loading ? (
+            <Typography>Loading...</Typography>
+          ) : error ? (
+            <Typography color="error">Error: {error}</Typography>
+          ) : (
+            <AppRoutes navigate={navigate} />
+          )}
         </Container>
       </Box>
     </Box>
