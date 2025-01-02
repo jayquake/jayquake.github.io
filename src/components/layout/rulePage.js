@@ -27,7 +27,7 @@ function ModernItemPage({ ruleData }) {
   const handleCopy = () => {
     navigator.clipboard.writeText(`{
       "shortTextMarkdown": "New rule updated",
-      "bodyMarkdown": "**${ruleData.name}** detection has been updated.",
+      "bodyMarkdown": "**${ruleData.name}** detection has been updated and may affect the number of issues found in your audit.",
       "ctaLink": "rules/${ruleData._id.$oid}"
     }`);
     setCopied(true);
