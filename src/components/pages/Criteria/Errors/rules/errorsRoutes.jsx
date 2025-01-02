@@ -18,6 +18,8 @@ import LoadAutofocusSuccess from "./Success/Load-autofocusSuccess";
 import LoadAutofocusFailure from "./Failures/Load-autofocusFailure";
 import MarqueeSuccess from "./Success/MarqueeSuccess";
 import MarqueeFailure from "./Failures/MarqueeFailure";
+import RoleApplicationsSuccess from "./Success/Role-applicationsSuccess";
+import RoleApplicationsFailure from "./Failures/Role-applicationsFailure";
 
 const ErrorsRoutes = () => (
   <>
@@ -39,6 +41,8 @@ const ErrorsRoutes = () => (
     <Route path="errors/load-autofocus_failure" element={<LoadAutofocusFailure />} />
     <Route path="errors/marquee_success" element={<MarqueeSuccess />} />
     <Route path="errors/marquee_failure" element={<MarqueeFailure />} />
+    <Route path="errors/role-applications_success" element={<RoleApplicationsSuccess />} />
+    <Route path="errors/role-applications_failure" element={<RoleApplicationsFailure />} />
     
     
     
