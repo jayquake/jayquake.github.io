@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import DOMPurify from "dompurify";
+import Prism from "prismjs";
+import "prismjs/themes/prism.css";
+import "prismjs/components/prism-json"; // JSON support
+import "prismjs/components/prism-javascript";
 import {
   Container,
   Grid,
@@ -34,6 +39,10 @@ function ModernItemPage({ ruleData }) {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  useEffect(() => {
+    Prism.highlightAll(); // Apply Prism.js syntax highlighting after component renders
+  }, [ruleData]);
+
   if (!ruleData) {
     return (
       <Container sx={{ mt: 4 }}>
@@ -44,15 +53,16 @@ function ModernItemPage({ ruleData }) {
     );
   }
 
+  // Sanitize the HTML content for the Issue Resolution section
+  const sanitizedHtml = DOMPurify.sanitize(ruleData.issueResolution);
+
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Paper elevation={6} sx={{ p: 6, borderRadius: 3 }}>
-        {/* Breadcrumbs */}
         <Box mb={3}>
           <SimpleBreadcrumbs />
         </Box>
 
-        {/* Title Section */}
         <Grid container spacing={3} alignItems="center">
           <Grid item xs={10}>
             <Typography variant="h4" fontWeight="bold" gutterBottom>
@@ -66,12 +76,10 @@ function ModernItemPage({ ruleData }) {
 
         <Divider sx={{ my: 3 }} />
 
-        {/* Issue Description */}
         <Typography variant="body1" sx={{ mb: 2 }}>
           {ruleData.issueDescription}
         </Typography>
 
-        {/* Chips Section */}
         <Box mt={2}>
           <Chip
             icon={<TagFacesIcon />}
@@ -104,30 +112,14 @@ function ModernItemPage({ ruleData }) {
           <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 2 }}>
             Issue Resolution:
           </Typography>
-          {typeof ruleData.issueResolution === "string" ? (
-            <Typography variant="body1" color="text.primary">
-              {ruleData.issueResolution}
-            </Typography>
-          ) : (
-            <Box
-              component="pre"
-              sx={{
-                bgcolor: "#f4f4f4",
-                border: "1px solid #ddd",
-                borderRadius: 4,
-                p: 2,
-                overflowX: "auto",
-                fontFamily: "monospace",
-                whiteSpace: "pre-wrap",
-                fontSize: "0.95rem",
-              }}
-            >
-              <code>{ruleData.issueResolution.code}</code>
-            </Box>
-          )}
+          <pre>
+            <code
+              className="language-html"
+              dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+            />
+          </pre>
         </Box>
 
-        {/* Action Buttons with Fab */}
         <Box mt={4} display="flex" justifyContent="center" gap={3}>
           <Link
             to={`/${ruleData.criteria}/${ruleData.route}_success`}
@@ -171,7 +163,7 @@ function ModernItemPage({ ruleData }) {
           </Link>
         </Box>
 
-        {/* Rule Release JSON */}
+        {/* Rule Release JSON Section */}
         <Box
           mt={4}
           p={3}
@@ -186,11 +178,15 @@ function ModernItemPage({ ruleData }) {
           <Typography variant="subtitle2" color="text.secondary">
             Rule Release JSON:
           </Typography>
-          <pre>{`{
+          <pre>
+            <code className="language-json">
+              {`{
   "shortTextMarkdown": "New rule updated",
   "bodyMarkdown": "**${ruleData.name}** detection has been updated and may affect the number of issues found in your audit.",
   "ctaLink": "rules/${ruleData._id.$oid}"
-}`}</pre>
+}`}
+            </code>
+          </pre>
           <Tooltip title={copied ? "Copied!" : "Copy to clipboard"} arrow>
             <IconButton
               onClick={handleCopy}
