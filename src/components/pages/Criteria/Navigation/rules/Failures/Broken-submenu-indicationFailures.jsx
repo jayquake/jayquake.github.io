@@ -39,7 +39,13 @@ export default () => {
             >
               Menu Item 1
             </div>
-            <p>Description: A <b>div</b> is used for interactivity, which lacks semantic meaning and is non-focusable.</p>
+            {menuOpen.menu1 && (
+              <ul>
+                <li><a href="#">Submenu 1.1</a></li>
+                <li><a href="#">Submenu 1.2</a></li>
+              </ul>
+            )}
+            <p>Description: A <b>div</b> is used as a menu toggle, which lacks semantic meaning and keyboard support.</p>
           </div>
 
           {/* Failure 2 */}
@@ -51,7 +57,13 @@ export default () => {
             >
               Menu Item 2
             </span>
-            <p>Description: A <b>span</b> is used for toggling, which is not inherently interactive or focusable.</p>
+            {menuOpen.menu2 && (
+              <ul>
+                <li><a href="#">Submenu 2.1</a></li>
+                <li><a href="#">Submenu 2.2</a></li>
+              </ul>
+            )}
+            <p>Description: A <b>span</b> is used for toggling, which is non-interactive and lacks proper semantics.</p>
           </div>
 
           {/* Failure 3 */}
@@ -63,7 +75,13 @@ export default () => {
               aria-haspopup="true"
               onClick={() => toggleMenu("menu3")}
             />
-            <p>Description: An <b>img</b> is used as a menu item, which is non-interactive and lacks proper semantics.</p>
+            {menuOpen.menu3 && (
+              <ul>
+                <li><a href="#">Submenu 3.1</a></li>
+                <li><a href="#">Submenu 3.2</a></li>
+              </ul>
+            )}
+            <p>Description: An <b>img</b> is used as an interactive toggle, which lacks keyboard accessibility and semantics.</p>
           </div>
 
           {/* Failure 4 */}
@@ -75,7 +93,13 @@ export default () => {
             >
               Menu Item 4
             </li>
-            <p>Description: A <b>list item</b> (<b>li</b>) is misused as an interactive element without proper roles.</p>
+            {menuOpen.menu4 && (
+              <ul>
+                <li><a href="#">Submenu 4.1</a></li>
+                <li><a href="#">Submenu 4.2</a></li>
+              </ul>
+            )}
+            <p>Description: A <b>list item</b> (<b>li</b>) is used as a toggle, which lacks interactive roles.</p>
           </div>
 
           {/* Failure 5 */}
@@ -87,7 +111,13 @@ export default () => {
             >
               Menu Item 5
             </p>
-            <p>Description: A <b>paragraph</b> is used for interaction, which is incorrect and non-semantic.</p>
+            {menuOpen.menu5 && (
+              <ul>
+                <li><a href="#">Submenu 5.1</a></li>
+                <li><a href="#">Submenu 5.2</a></li>
+              </ul>
+            )}
+            <p>Description: A <b>paragraph</b> is used as a toggle, which is incorrect and lacks focusability.</p>
           </div>
 
           {/* Failure 6 */}
@@ -99,7 +129,13 @@ export default () => {
             >
               Menu Item 6
             </h3>
-            <p>Description: A <b>heading</b> (<b>h3</b>) is used for toggling, which is not appropriate for menus.</p>
+            {menuOpen.menu6 && (
+              <ul>
+                <li><a href="#">Submenu 6.1</a></li>
+                <li><a href="#">Submenu 6.2</a></li>
+              </ul>
+            )}
+            <p>Description: A <b>heading</b> (<b>h3</b>) is used for toggling, which is semantically incorrect for menus.</p>
           </div>
 
           {/* Failure 7 */}
@@ -113,7 +149,13 @@ export default () => {
                 <td>Menu Item 7</td>
               </tr>
             </table>
-            <p>Description: A <b>table</b> element is misused as a menu item, which is inappropriate and non-interactive.</p>
+            {menuOpen.menu7 && (
+              <ul>
+                <li><a href="#">Submenu 7.1</a></li>
+                <li><a href="#">Submenu 7.2</a></li>
+              </ul>
+            )}
+            <p>Description: A <b>table</b> element is misused as a menu toggle, which is inappropriate and lacks semantics.</p>
           </div>
 
           {/* Failure 8 */}
@@ -125,7 +167,13 @@ export default () => {
             >
               Menu Item 8
             </section>
-            <p>Description: A <b>section</b> is used as an interactive menu, which lacks semantic focusability.</p>
+            {menuOpen.menu8 && (
+              <ul>
+                <li><a href="#">Submenu 8.1</a></li>
+                <li><a href="#">Submenu 8.2</a></li>
+              </ul>
+            )}
+            <p>Description: A <b>section</b> element is used for toggling, which is not focusable or interactive.</p>
           </div>
 
           {/* Failure 9 */}
@@ -137,7 +185,13 @@ export default () => {
             >
               Menu Item 9
             </label>
-            <p>Description: A <b>label</b> element is misused for toggling submenus, which is incorrect and confusing.</p>
+            {menuOpen.menu9 && (
+              <ul>
+                <li><a href="#">Submenu 9.1</a></li>
+                <li><a href="#">Submenu 9.2</a></li>
+              </ul>
+            )}
+            <p>Description: A <b>label</b> element is used as a toggle, which is confusing and non-interactive.</p>
           </div>
 
           {/* Failure 10 */}
@@ -149,7 +203,13 @@ export default () => {
             >
               Menu Item 10
             </article>
-            <p>Description: An <b>article</b> is used as an interactive menu, which is non-semantic for this purpose.</p>
+            {menuOpen.menu10 && (
+              <ul>
+                <li><a href="#">Submenu 10.1</a></li>
+                <li><a href="#">Submenu 10.2</a></li>
+              </ul>
+            )}
+            <p>Description: An <b>article</b> element is used for toggling, which is inappropriate for interactive elements.</p>
           </div>
 
           {/* Failure 11 */}
@@ -161,7 +221,13 @@ export default () => {
             >
               Menu Item 11
             </footer>
-            <p>Description: A <b>footer</b> element is inappropriately used as a menu toggle.</p>
+            {menuOpen.menu11 && (
+              <ul>
+                <li><a href="#">Submenu 11.1</a></li>
+                <li><a href="#">Submenu 11.2</a></li>
+              </ul>
+            )}
+            <p>Description: A <b>footer</b> element is used as a toggle, which is non-semantic for menus.</p>
           </div>
 
           {/* Failure 12 */}
@@ -173,7 +239,13 @@ export default () => {
             >
               Menu Item 12
             </aside>
-            <p>Description: An <b>aside</b> is misused as an interactive menu toggle.</p>
+            {menuOpen.menu12 && (
+              <ul>
+                <li><a href="#">Submenu 12.1</a></li>
+                <li><a href="#">Submenu 12.2</a></li>
+              </ul>
+            )}
+            <p>Description: An <b>aside</b> element is misused as a menu toggle, which is not focusable or interactive.</p>
           </div>
         </>
       }
