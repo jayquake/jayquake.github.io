@@ -46,7 +46,7 @@ export default function Home({ title }) {
             </Typography>
             <Divider sx={{ mb: 2, borderColor: "#ddd" }} />
             <Box display="flex" justifyContent="center" gap={3} mt={2}>
-              <Link to="/audit-rules/rules" style={{ textDecoration: "none" }}>
+              <Link to="/rules" style={{ textDecoration: "none" }}>
                 <Button variant="outlined" color="primary" startIcon={<GavelTwoToneIcon />} sx={{ px: 3 }}>
                   Rules List
                 </Button>

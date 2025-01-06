@@ -1,7 +1,7 @@
 {
   "name": "accessibility-rule-testing",
   "version": "0.1.0",
-  "homepage": "https://jayquake.github.io/audit-rules/",
+  "homepage": "https://jayquake.github.io/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.13.3",

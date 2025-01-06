@@ -64,7 +64,7 @@ class List extends Component {
   componentDidMount() {
     this.setState({ loading: true, progress: 0 }); // Initialize progress to 0
 
-    fetch("/audit-rules/data.json")
+    fetch("/data.json")
       .then((res) => res.json())
       .then(this.onLoad);
   }

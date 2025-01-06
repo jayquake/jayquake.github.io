@@ -55,7 +55,7 @@ class List extends Component {
   }
 
   componentDidMount() {
-    fetch("/audit-rules/data.json")
+    fetch("/data.json")
       .then((res) => res.json())
       .then(this.onLoad)
       .catch((error) => console.error("Error fetching data:", error));

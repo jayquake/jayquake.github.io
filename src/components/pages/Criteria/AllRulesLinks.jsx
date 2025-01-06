@@ -20,7 +20,7 @@ function AllRulesWithRoutes({ filters }) {
     const fetchData = async () => {
       try {
         showLoading(); // Show loading indicator
-        const response = await fetch("/audit-rules/data.json");
+        const response = await fetch("/data.json");
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
