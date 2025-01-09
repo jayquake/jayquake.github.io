@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import DOMPurify from "dompurify";
 import Prism from "prismjs";
-import "prismjs/themes/prism.css";
-import "prismjs/components/prism-json"; // JSON support
+import "prismjs/themes/prism-okaidia.css"; // Modern Prism theme
+import "prismjs/components/prism-json";
 import "prismjs/components/prism-javascript";
 import {
   Container,
@@ -20,9 +20,10 @@ import {
   ContentPaste as ContentPasteIcon,
   ThumbUpAlt as ThumbUpAltIcon,
   ThumbDownAlt as ThumbDownAltIcon,
-  TagFaces as TagFacesIcon,
-  AccessibleTwoTone as AccessibleTwoToneIcon,
 } from "@mui/icons-material";
+import LocalLibraryTwoToneIcon from "@mui/icons-material/LocalLibraryTwoTone";
+import GavelTwoToneIcon from "@mui/icons-material/GavelTwoTone";
+import AccessibleTwoToneIcon from "@mui/icons-material/AccessibleTwoTone";
 import { Link } from "react-router-dom";
 import SimpleBreadcrumbs from "../util/BreadCrumb";
 
@@ -40,7 +41,7 @@ function ModernItemPage({ ruleData }) {
   };
 
   useEffect(() => {
-    Prism.highlightAll(); // Apply Prism.js syntax highlighting after component renders
+    Prism.highlightAll();
   }, [ruleData]);
 
   if (!ruleData) {
@@ -53,22 +54,61 @@ function ModernItemPage({ ruleData }) {
     );
   }
 
-  // Sanitize the HTML content for the Issue Resolution section
   const sanitizedHtml = DOMPurify.sanitize(ruleData.issueResolution);
+
+  // Function to determine severity chip colors
+  const getSeverityColor = (severity) => {
+    switch (severity) {
+      case "extreme":
+        return {
+          textColor: "#d32f2f", // Red
+          borderColor: "#d32f2f",
+          iconColor: "#d32f2f",
+        };
+      case "high":
+        return {
+          textColor: "#f57c00", // Orange
+          borderColor: "#f57c00",
+          iconColor: "#f57c00",
+        };
+      case "medium":
+        return {
+          textColor: "#1976d2", // Blue
+          borderColor: "#1976d2",
+          iconColor: "#1976d2",
+        };
+      case "low":
+        return {
+          textColor: "#388e3c", // Green
+          borderColor: "#388e3c",
+          iconColor: "#388e3c",
+        };
+      default:
+        return {
+          textColor: "grey",
+          borderColor: "grey",
+          iconColor: "grey",
+        };
+    }
+  };
+
+  const severityColors = getSeverityColor(ruleData.severity);
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Paper elevation={6} sx={{ p: 6, borderRadius: 3 }}>
+        {/* Breadcrumbs */}
         <Box mb={3}>
           <SimpleBreadcrumbs />
         </Box>
 
+        {/* Title Section */}
         <Grid container spacing={3} alignItems="center">
-          <Grid item xs={10}>
-            <Typography variant="h4" fontWeight="bold" gutterBottom>
+          <Grid item xs={12}>
+            <Typography variant="h3" fontWeight="bold" gutterBottom>
               {ruleData.name}
             </Typography>
-            <Typography variant="body1" color="text.secondary">
+            <Typography variant="h6" color="text.secondary">
               {ruleData.shortDescription}
             </Typography>
           </Grid>
@@ -76,24 +116,79 @@ function ModernItemPage({ ruleData }) {
 
         <Divider sx={{ my: 3 }} />
 
-        <Typography variant="body1" sx={{ mb: 2 }}>
+        {/* Issue Description */}
+        <Typography variant="body1" sx={{ mb: 3 }}>
           {ruleData.issueDescription}
         </Typography>
 
-        <Box mt={2}>
+        {/* Chips Section */}
+        <Box mt={2} display="flex" flexWrap="wrap" gap={2}>
           <Chip
-            icon={<TagFacesIcon />}
-            label={ruleData.criteria}
+            icon={<LocalLibraryTwoToneIcon />}
+            label={`Criteria: ${ruleData.criteria}`}
             variant="outlined"
             color="warning"
-            sx={{ mr: 1 }}
+            sx={{
+              boxShadow: 2,
+              fontWeight: "bold",
+            }}
+          />
+          <Chip
+            icon={<GavelTwoToneIcon sx={{ color: severityColors.iconColor }} />}
+            label={`Severity: ${ruleData.severity}`}
+            variant="outlined"
+            color={`${severityColors.iconColor}`}
+            sx={{
+              boxShadow: 2,
+              fontWeight: "bold",
+              color: severityColors.textColor,
+              borderColor: severityColors.borderColor,
+            }}
           />
           <Chip
             icon={<AccessibleTwoToneIcon />}
-            label={`WCAG: ${ruleData.WCAGLevel}`}
+            label={`WCAG Level: ${ruleData.WCAGLevel}`}
             variant="outlined"
             color="primary"
+            sx={{
+              boxShadow: 2,
+              fontWeight: "bold",
+            }}
           />
+        </Box>
+
+        {/* WCAG Documentation Section */}
+        <Box
+          mt={4}
+          p={2}
+          sx={{
+            borderRadius: 2,
+            boxShadow: 1,
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
+          }}
+        >
+          <Typography
+            variant="subtitle2"
+            color="text.secondary"
+            sx={{ fontWeight: "bold" }}
+          >
+            WCAG Documentation:
+          </Typography>
+          <a
+            href={ruleData.issueWCAGLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              textDecoration: "none",
+              color: "#1976d2",
+              wordBreak: "break-all",
+              fontWeight: "bold",
+            }}
+          >
+            {ruleData.issueWCAGLink}
+          </a>
         </Box>
 
         {/* Issue Resolution Section */}
@@ -109,8 +204,8 @@ function ModernItemPage({ ruleData }) {
             fontFamily: "monospace",
           }}
         >
-          <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 2 }}>
-            Issue Resolution:
+          <Typography variant="h6" color="text.secondary" sx={{ mb: 2 }}>
+            Issue Resolution
           </Typography>
           <pre>
             <code
@@ -120,6 +215,7 @@ function ModernItemPage({ ruleData }) {
           </pre>
         </Box>
 
+        {/* Action Buttons */}
         <Box mt={4} display="flex" justifyContent="center" gap={3}>
           <Link
             to={`/${ruleData.criteria}/${ruleData.route}_success`}
@@ -175,8 +271,8 @@ function ModernItemPage({ ruleData }) {
             borderColor: "grey.300",
           }}
         >
-          <Typography variant="subtitle2" color="text.secondary">
-            Rule Release JSON:
+          <Typography variant="h6" color="text.secondary" sx={{ mb: 2 }}>
+            Rule Release JSON
           </Typography>
           <pre>
             <code className="language-json">
@@ -190,7 +286,15 @@ function ModernItemPage({ ruleData }) {
           <Tooltip title={copied ? "Copied!" : "Copy to clipboard"} arrow>
             <IconButton
               onClick={handleCopy}
-              sx={{ position: "absolute", top: 8, right: 8 }}
+              sx={{
+                position: "absolute",
+                top: 8,
+                right: 8,
+                boxShadow: 2,
+                "&:hover": {
+                  color: "primary.main",
+                },
+              }}
             >
               <ContentPasteIcon />
             </IconButton>
@@ -201,4 +305,4 @@ function ModernItemPage({ ruleData }) {
   );
 }
 
-export default ModernItemPage;
+export default ModernItemPage; 

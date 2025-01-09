@@ -2806,7 +2806,7 @@
       "$oid": "62065005807c385bb8e74a81"
     },
     "name": "Broken Aria Labels",
-    "route": "aria-label-missuse",
+    "route": "broken-aria-labels",
     "ordering": 9999999,
     "owner": {
       "value": {
