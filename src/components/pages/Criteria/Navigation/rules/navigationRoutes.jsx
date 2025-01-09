@@ -11,6 +11,8 @@ import NestedNavigationSuccess from "./Success/Nested-navigationSuccess";
 import NestedNavigationFailures from "./Failures/Nested-navigationFailures";
 import BrokenNavItemsSuccess from "./Success/Broken-nav-itemsSuccess";
 import BrokenNavItemsFailure from "./Failures/Broken-nav-itemsFailure";
+import BrokenSubmenuIndicationSuccess from "./Success/Broken-submenu-indicationSuccess"; 
+import BrokenSubmenuIndicationFailures from "./Failures/Broken-submenu-indicationFailures";
 
 
 const NavigationRoutes = () => (
@@ -25,6 +27,8 @@ const NavigationRoutes = () => (
     <Route path="navigation/breadcrumbs_failure" element={<BreadcrumbsFailure />} />  
     <Route path="navigation/broken-nav-tagging_success" element={<BrokenNavTaggingSuccess />} />
     <Route path="navigation/broken-nav-tagging_failure" element={<BrokenNavTaggingFailures />} />
+    <Route path="navigation/broken-submenu-indication_success" element={<BrokenSubmenuIndicationSuccess />} />
+    <Route path="navigation/broken-submenu-indication_failure" element={<BrokenSubmenuIndicationFailures />} />
 
   </>
 );
