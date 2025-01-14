@@ -36,7 +36,7 @@ export default () => (
         <div className="list-item" id="aria-label-success-5">
           {/* A navigation bar for error links with an appropriate ARIA label */}
           <nav aria-label="Error navigation">
-            <a href="#error1">Go to first error</a>
+            <button href="#error1" type="button">Go to first error</button>
           </nav>
         </div>
         <div className="list-item" id="aria-label-success-6">
