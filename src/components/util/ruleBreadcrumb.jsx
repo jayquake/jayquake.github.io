@@ -93,7 +93,7 @@ const CustomizedBreadcrumbs = ({ selectedOption, handleOptionChange }) => {
             value={lastPart}
             onChange={(event) => handleOptionSelection(event.target.value)}
             style={{ marginLeft: "8px" }} 
-            aria-label="Rule Options"
+            
           >
             <MenuItem aria-label="Option failure" value="failure">Failure</MenuItem>
             <MenuItem aria-label="Option success" value="success">Success</MenuItem>
