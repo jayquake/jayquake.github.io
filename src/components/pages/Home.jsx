@@ -47,7 +47,7 @@ export default function Home({ title }) {
             <Divider sx={{ mb: 2, borderColor: "#ddd" }} />
             <Box display="flex" justifyContent="center" gap={3} mt={2}>
               <Link to="/rules" style={{ textDecoration: "none" }}>
-                <Button variant="outlined" color="primary" startIcon={<GavelTwoToneIcon />} sx={{ px: 3 }}>
+                <Button role="button" variant="outlined" color="primary" startIcon={<GavelTwoToneIcon />} sx={{ px: 3 }}>
                   Rules List
                 </Button>
               </Link>
