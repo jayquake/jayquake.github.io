@@ -8,6 +8,8 @@ import UntaggedHeadingsFailures from "./Failures/Untagged-headingsFailures";
 import UntaggedHeadingsSuccess from "./Success/Untagged-headingsSuccess"; 
 import LongHeadingsSuccess from "./Success/Long-headingsSuccess";
 import LongHeadingsFailure from "./Failures/Long-headingsFailure";
+import EmptyHeadingsFailure from "./Failures/Empty-headingsFailure";
+import EmptyHeadingsSuccess from "./Success/Empty-headingsSuccess";
 
 const HeadingsRoutes = () => (
   <>
@@ -19,6 +21,8 @@ const HeadingsRoutes = () => (
   <Route path="headings/untagged-headings_success" element={<UntaggedHeadingsSuccess />} />
   <Route path="headings/long-headings_success" element={<LongHeadingsSuccess />} />
   <Route path="headings/long-headings_failure" element={<LongHeadingsFailure />} /> 
+  <Route path="headings/empty-headings_failure" element={<EmptyHeadingsFailure />} />
+  <Route path="headings/empty-headings_success" element={<EmptyHeadingsSuccess />} />
 
   </>
 );

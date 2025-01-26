@@ -17,8 +17,8 @@ const GraphicsRoutes = () => (
     <Route path="graphics/alt-text_failure" element={<AltTextFailures />} />
     <Route path="graphics/figure-setup_success" element={<FigureSetupSuccess />} />
     <Route path="graphics/figure-setup_failure" element={<FigureSetupFailures />} />
-    <Route path="graphics/spacers_success" element={<SpacersSuccess />} />
-    <Route path="graphics/spacers_failure" element={<SpacersFailures />} />
+    <Route path="graphics/decorative-content_success" element={<SpacersSuccess />} />
+    <Route path="graphics/decorative-content_failure" element={<SpacersFailures />} />
 
   </>
 );

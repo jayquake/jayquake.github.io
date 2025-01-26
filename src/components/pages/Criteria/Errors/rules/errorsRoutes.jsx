@@ -20,11 +20,14 @@ import MarqueeSuccess from "./Success/MarqueeSuccess";
 import MarqueeFailure from "./Failures/MarqueeFailure";
 import RoleApplicationsSuccess from "./Success/Role-applicationsSuccess";
 import RoleApplicationsFailure from "./Failures/Role-applicationsFailure";
-
+import TitleMisuseSuccess from "./Success/Title-misuseSuccess";
+import TitleMisuseFailure from "./Failures/Title-misuseFailure";
+import RedundantAriaLabelsSuccess from "./Success/Redundant-aria-labelsSuccess";
+import RedundantAriaLabelsFailure from "./Failures/Redundant-aria-labelsFailure";
 const ErrorsRoutes = () => (
   <>
-    <Route path="errors/aria-label-missuse_success" element={<AriaLabelMissuseSuccess />} />
-    <Route path="errors/aria-label-missuse_failure" element={<AriaLabelMissuseFailure />} />
+    <Route path="errors/aria-label-misuse_success" element={<AriaLabelMissuseSuccess />} />
+    <Route path="errors/aria-label-misuse_failure" element={<AriaLabelMissuseFailure />} />
     <Route path="errors/broken-aria-reference_success" element={<BrokenAriaReferenceSuccess />} />
     <Route path="errors/broken-aria-reference_failure" element={<BrokenAriaReferenceFailure />} />
     <Route path="errors/broken-list_success" element={<BrokenListSuccess />} />
@@ -43,7 +46,10 @@ const ErrorsRoutes = () => (
     <Route path="errors/marquee_failure" element={<MarqueeFailure />} />
     <Route path="errors/role-applications_success" element={<RoleApplicationsSuccess />} />
     <Route path="errors/role-applications_failure" element={<RoleApplicationsFailure />} />
-    
+    <Route path="errors/title-misuse_success" element={<TitleMisuseSuccess />} />
+    <Route path="errors/title-misuse_failure" element={<TitleMisuseFailure />} />
+    <Route path="errors/redundant-aria-labels_success" element={<RedundantAriaLabelsSuccess />} />
+    <Route path="errors/redundant-aria-labels_failure" element={<RedundantAriaLabelsFailure />} />  
     
     
     
