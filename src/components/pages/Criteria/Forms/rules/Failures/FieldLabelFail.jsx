@@ -100,7 +100,7 @@ export default () => (
 
         <li className="list-item">
           <h2>F46: Using th elements in layout tables</h2>
-          <table>
+          <table role="presentation">
           <thead>
             <tr>
               <th style={{ fontWeight: "normal" }}>
@@ -123,7 +123,7 @@ export default () => (
 
         <li className="list-item">
           <h2>F90: Incorrectly associating table headers and content</h2>
-          <table>
+          <table role="presentation">
             <tr>
               <th id="name">Name</th>
             </tr>
@@ -135,7 +135,7 @@ export default () => (
 
         <li className="list-item">
           <h2>F91: Not correctly marking up table headers</h2>
-          <table>
+          <table role="presentation">
             <tr>
               <td>Name</td>
               <td>Age</td>
