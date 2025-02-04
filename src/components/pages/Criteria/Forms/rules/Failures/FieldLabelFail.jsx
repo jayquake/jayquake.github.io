@@ -101,11 +101,13 @@ export default () => (
         <li className="list-item">
           <h2>F46: Using th elements in layout tables</h2>
           <table>
+          <thead>
             <tr>
               <th style={{ fontWeight: "normal" }}>
                 This is a layout cell, not a table header.
               </th>
             </tr>
+            </thead>
           </table>
         </li>
 
