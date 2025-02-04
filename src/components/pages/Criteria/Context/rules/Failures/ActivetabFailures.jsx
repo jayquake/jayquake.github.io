@@ -14,9 +14,9 @@ export default () => (
         </li>
         <li className="list-item" id="rule-failure-2">
           <div role="tablist">
-            <div role="tab">Overview</div>
-            <div role="tab">Details</div>
-            <div role="tab" aria-selected="true">Reviews</div>
+            <div role="tab" aria-label="overview">Overview</div>
+            <div role="tab" aria-label="details">Details</div>
+            <div role="tab" aria-label="reviews" aria-selected="true">Reviews</div>
           </div>
         </li>
         <li className="list-item" id="rule-failure-3">
