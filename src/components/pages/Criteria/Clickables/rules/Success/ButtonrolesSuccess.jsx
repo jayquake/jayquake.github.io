@@ -1,7 +1,7 @@
 import React from "react";
 import IssueSuccess from "../../../../../layout/issueSuccess";
 
-const itemDescription = "Button Roles - Success";
+const itemDescription = "Button Roles - Extended Success Examples";
 
 export default () => (
   <IssueSuccess
@@ -66,6 +66,7 @@ export default () => (
             Presentation Button
           </button>
         </div>
+
         <div className="list-item" id="button-role-11">
           <button role="gridcell" onClick={() => alert('Gridcell clicked!')}>
             Gridcell Button
