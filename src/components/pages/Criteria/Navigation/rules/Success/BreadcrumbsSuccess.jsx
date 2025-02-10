@@ -58,7 +58,7 @@ export default () => (
           <nav aria-labelledby="breadcrumb-nav">
             <span id="breadcrumb-nav">You are here:</span>
             <ul>
-              <li><a href="/index">Index</a></li>
+              <li><a href="/">Index</a></li>
               <li><a href="/section">Section</a></li>
               <li>Subsection</li>
             </ul>
