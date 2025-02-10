@@ -66,6 +66,65 @@ export default () => (
             Presentation Button
           </button>
         </div>
+        <div className="list-item" id="button-role-11">
+          <button role="gridcell" onClick={() => alert('Gridcell clicked!')}>
+            Gridcell Button
+          </button>
+        </div>
+
+        <div className="list-item" id="button-role-12">
+          <button role="tooltip" onClick={() => alert('Tooltip Activated!')}>
+            Tooltip Button
+          </button>
+        </div>
+
+        <div className="list-item" id="button-role-13">
+          <button role="dialog" onClick={() => alert('Dialog Opened!')}>
+            Open Dialog
+          </button>
+        </div>
+
+        <div className="list-item" id="button-role-14">
+          <button role="log" onClick={() => alert('Log Message Displayed!')}>
+            Log Button
+          </button>
+        </div>
+
+        <div className="list-item" id="button-role-15">
+          <button role="marquee" onClick={() => alert('Marquee Scrolling!')}>
+            Marquee Button
+          </button>
+        </div>
+
+        <div className="list-item" id="button-role-16">
+          <button role="status" onClick={() => alert('Status Updated!')}>
+            Status Button
+          </button>
+        </div>
+
+        <div className="list-item" id="button-role-17">
+          <button role="treeitem" onClick={() => alert('Tree Item Selected!')}>
+            Tree Item Button
+          </button>
+        </div>
+
+        <div className="list-item" id="button-role-18">
+          <button role="toolbar" onClick={() => alert('Toolbar Activated!')}>
+            Toolbar Button
+          </button>
+        </div>
+
+        <div className="list-item" id="button-role-19">
+          <button role="combobox" aria-expanded="false" onClick={() => alert('Combobox Opened!')}>
+            Open Combobox
+          </button>
+        </div>
+
+        <div className="list-item" id="button-role-20">
+          <button role="treegrid" onClick={() => alert('Tree Grid Activated!')}>
+            Tree Grid Button
+          </button>
+        </div>
       </>
     }
     itemDescription={itemDescription}
