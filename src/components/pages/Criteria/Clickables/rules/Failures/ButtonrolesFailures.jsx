@@ -84,7 +84,12 @@ export default () => (
           </div>
           <div>❌ Failure Reason: `aria-hidden="true"` makes this button invisible to screen readers, breaking accessibility.</div>
         </div>
-        </>
+        <div class="d-f fd-c bcssr-ubr22j epbl8rw1"><h3 class="wb m-0 text-ellipsis-multiline fw-sb bcssr-11y8s9c e804vwf1" >Benefits</h3><div class="wb m-0 text-ellipsis-multiline editor-content bcssr-1g0sanh e804vwf0" ><p>Wir bieten diverse Leistungen für unsere Mitarbeiter:innen</p></div></div>
+
+        <div class="sc-kuACkN sc-hWWBcw sc-uZIaX kDBgUW ktGlFr bnwRPv"><p id=":r5:" class="sc-KXCwU FVZcD">Skip to main menu</p><button scale="primary" aria-labelledby=":r5:" role="link" class="sc-cGXZpB kksyIA"><span>Enter</span><i aria-hidden="true" role="presentation" class="sc-ldgYGE gMHHqG"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m8 4 8 8-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></i></button></div>
+        <div>❌ Failure Reason: `button with the role=link` Dashboard Skip links.</div>
+
+      </>
     }
     itemDescription={itemDescription}
   />
