@@ -65,6 +65,29 @@ export default () => (
             <h3 id="failure-rule-6">I tag used as button without tabindex</h3>
             <i id="failure-6" className="icon-button">Icon Button</i>
           </div>
+          <div className="list-item" id="interactive-not-tabbable-failure-1">
+          <button style={{ display: "none" }}>I'm hidden and not keyboard accessible</button>
+        </div>
+
+        <div className="list-item" id="interactive-not-tabbable-failure-2">
+          <a>No href, not focusable</a>
+        </div>
+
+        <div className="list-item" id="interactive-not-tabbable-failure-3">
+          <div role="button">No tabindex, can't receive focus</div>
+        </div>
+
+        <div className="list-item" id="interactive-not-tabbable-failure-4">
+          <span role="checkbox" aria-checked="false">No tabindex, can't be toggled</span>
+        </div>
+
+        <div className="list-item" id="interactive-not-tabbable-failure-5">
+          <input type="text" disabled placeholder="Disabled input is not focusable" />
+        </div>
+
+        <div className="list-item" id="interactive-not-tabbable-failure-6">
+          <div onClick={() => alert("Clicked!")}>I'm clickable but not focusable</div>
+        </div>
         </>
       }
       itemDescription={itemDescription}
