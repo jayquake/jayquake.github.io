@@ -19,6 +19,8 @@ import MisusedNavTaggingSuccess from "./Success/Misused-nav-taggingSuccess";
 import MisusedNavTaggingFailure from "./Failures/Misused-nav-taggingFailure";
 import NavigationTaggingSuccess from "./Success/Navigation-taggingSuccess";
 import NavigationTaggingFailure from "./Failures/Navigation-taggingFailure";
+import NavigationFailures from "./Failures/Navigation-taggingFailure";
+
 
 
 const NavigationRoutes = () => (
@@ -41,6 +43,8 @@ const NavigationRoutes = () => (
     <Route path="navigation/misused-nav-tagging_failure" element={<MisusedNavTaggingFailure />} />   
     <Route path="navigation/navigation-tagging_success" element={<NavigationTaggingSuccess />} />
     <Route path="navigation/navigation-tagging_failure" element={<NavigationTaggingFailure />} />
+    <Route path="navigation/navigation-tagging_failure/:id" element={<NavigationTaggingFailure />} />
+
   </>
 );
 
