@@ -1,5 +1,9 @@
 import React from "react";
 import List from "../../listRules";
 
-const filters = [{ property: "criteria", value: "keyboard" }];
-export default () => <List filters={filters} />;
+const Keyboard = () => {
+  const filters = [{ property: "criteria", value: "keyboard" }];
+  return <List filters={filters} embedded={true} />;
+};
+
+export default Keyboard;

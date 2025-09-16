@@ -1,5 +1,9 @@
 import React from "react";
 import List from "../../listRules";
 
-const filters = [{ property: "criteria", value: "context" }];
-export default () => <List filters={filters} />;
+const Context = () => {
+  const filters = [{ property: "criteria", value: "context" }];
+  return <List filters={filters} embedded={true} />;
+};
+
+export default Context;

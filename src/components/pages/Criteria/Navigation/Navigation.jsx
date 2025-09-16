@@ -1,5 +1,9 @@
 import React from "react";
 import List from "../../listRules";
 
-const filters = [{ property: "criteria", value: "navigation" }];
-export default () => <List filters={filters} />;
+const Navigation = () => {
+  const filters = [{ property: "criteria", value: "navigation" }];
+  return <List filters={filters} embedded={true} />;
+};
+
+export default Navigation;

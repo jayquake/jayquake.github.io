@@ -1,64 +1,235 @@
 import * as React from "react";
-import ViewCarouselTwoTone from "@mui/icons-material/ViewCarouselTwoTone"
-import ListSubheader from "@mui/material/ListSubheader";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import PeopleIcon from "@mui/icons-material/People";
-import LayersIcon from "@mui/icons-material/Layers";
-import ArticleIcon from "@mui/icons-material/Article";
-import AnimationIcon from "@mui/icons-material/Animation";
-import KeyboardIcon from "@mui/icons-material/Keyboard";
-import NavigationIcon from "@mui/icons-material/Navigation";
-import AutoStoriesIcon from "@mui/icons-material/AutoStories";
-import BorderColorIcon from "@mui/icons-material/BorderColor";
-import BackupTableIcon from "@mui/icons-material/BackupTable";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import { Typography } from "@mui/material";
+import { Box } from "@mui/material";
+import {
+  ViewCarousel as ViewCarouselIcon,
+  TouchApp as ClickableIcon,
+  Psychology as ContextIcon,
+  Article as ArticleIcon,
+  Error as ErrorIcon,
+  BorderColor as FormIcon,
+  Animation as AnimationIcon,
+  AccountTree as HeadingIcon,
+  Keyboard as KeyboardIcon,
+  Navigation as NavigationIcon,
+  AutoStories as ReadabilityIcon,
+  TableChart as TableIcon,
+  Assignment as RulesIcon,
+  Scanner as ScannerIcon,
+  Html as HtmlIcon,
+  Dashboard as DashboardIcon
+} from "@mui/icons-material";
 import CustomNavLink from "./components/layout/customNavLink";
-import AccountTreeTwoToneIcon from "@mui/icons-material/AccountTreeTwoTone";
-import HtmlTwoToneIcon from "@mui/icons-material/HtmlTwoTone";
 
-export const mainListItems = (
+// Helper function to count rules by criteria
+const getRuleCount = (data, criteria) => {
+  if (!data || !Array.isArray(data)) return 0;
+  return data.filter(rule => 
+    rule.criteria && rule.criteria.toLowerCase() === criteria.toLowerCase()
+  ).length;
+};
+
+export const getMainListItems = (data = [], isOpen = true) => (
   <React.Fragment>
-    <Typography underline="none" m="auto" variant="overline">
-    <CustomNavLink to="/carousels" label="Carousels" icon={ViewCarouselTwoTone} />
-      <CustomNavLink
-        to="/clickables"
-        label="Clickables"
-        icon={ShoppingCartIcon}
+    {/* QA Dashboard */}
+    <Box sx={{ mb: isOpen ? 2 : 1 }}>
+      <CustomNavLink 
+        to="/" 
+        label="QA Dashboard" 
+        icon={DashboardIcon} 
+        category="Dashboard"
+        isTestable={false}
+        hasSuccess={false}
+        hasFailure={false}
+        isDrawerOpen={isOpen}
       />
-      <CustomNavLink to="/context" label="Context" icon={PeopleIcon} />
-      <CustomNavLink to="/document" label="Document" icon={ArticleIcon} />
-      <CustomNavLink to="/errors" label="Errors" icon={LayersIcon} />
-      <CustomNavLink to="/forms" label="Forms" icon={BorderColorIcon} />
-      <CustomNavLink to="/graphics" label="Graphics" icon={AnimationIcon} />
-      <CustomNavLink
-        to="/headings"
-        label="Headings"
-        icon={AccountTreeTwoToneIcon}
-      />
-      <CustomNavLink to="/keyboard" label="Keyboard" icon={KeyboardIcon} />
-      <CustomNavLink
-        to="/navigation"
-        label="Navigation"
-        icon={NavigationIcon}
-      />{" "}
-      <CustomNavLink
-        to="/readability"
-        label="Readability"
-        icon={AutoStoriesIcon}
-      />{" "}
-      <CustomNavLink to="/tables" label="Tables" icon={BackupTableIcon} />
-    </Typography>
+    </Box>
+
+    {/* All Testing Criteria */}
+    <CustomNavLink 
+      to="/graphics" 
+      label="Graphics" 
+      icon={AnimationIcon} 
+      ruleCount={getRuleCount(data, "graphics")}
+      category="Graphics"
+      hasSuccess={true}
+      hasFailure={true}
+      isTestable={true}
+      isDrawerOpen={isOpen}
+    />
+    <CustomNavLink 
+      to="/forms" 
+      label="Forms" 
+      icon={FormIcon} 
+      ruleCount={getRuleCount(data, "forms")}
+      category="Forms"
+      hasSuccess={true}
+      hasFailure={true}
+      isTestable={true}
+      isDrawerOpen={isOpen}
+    />
+    <CustomNavLink 
+      to="/keyboard" 
+      label="Keyboard" 
+      icon={KeyboardIcon} 
+      ruleCount={getRuleCount(data, "keyboard")}
+      category="Keyboard"
+      hasSuccess={true}
+      hasFailure={true}
+      isTestable={true}
+      isDrawerOpen={isOpen}
+    />
+    <CustomNavLink 
+      to="/navigation" 
+      label="Navigation" 
+      icon={NavigationIcon} 
+      ruleCount={getRuleCount(data, "navigation")}
+      category="Navigation"
+      hasSuccess={true}
+      hasFailure={true}
+      isTestable={true}
+      isDrawerOpen={isOpen}
+    />
+    <CustomNavLink 
+      to="/headings" 
+      label="Headings" 
+      icon={HeadingIcon} 
+      ruleCount={getRuleCount(data, "headings")}
+      category="Headings"
+      hasSuccess={true}
+      hasFailure={true}
+      isTestable={true}
+      isDrawerOpen={isOpen}
+    />
+    <CustomNavLink 
+      to="/errors" 
+      label="Errors" 
+      icon={ErrorIcon} 
+      ruleCount={getRuleCount(data, "errors")}
+      category="Errors"
+      hasSuccess={true}
+      hasFailure={true}
+      isTestable={true}
+      isDrawerOpen={isOpen}
+    />
+    <CustomNavLink 
+      to="/carousels" 
+      label="Carousels" 
+      icon={ViewCarouselIcon} 
+      ruleCount={getRuleCount(data, "carousels")}
+      category="Carousels"
+      hasSuccess={true}
+      hasFailure={true}
+      isTestable={true}
+      isDrawerOpen={isOpen}
+    />
+    <CustomNavLink 
+      to="/clickables" 
+      label="Clickables" 
+      icon={ClickableIcon} 
+      ruleCount={getRuleCount(data, "clickables")}
+      category="Clickables"
+      hasSuccess={true}
+      hasFailure={true}
+      isTestable={true}
+      isDrawerOpen={isOpen}
+    />
+    <CustomNavLink 
+      to="/context" 
+      label="Context" 
+      icon={ContextIcon} 
+      ruleCount={getRuleCount(data, "context")}
+      category="Context"
+      hasSuccess={true}
+      hasFailure={true}
+      isTestable={true}
+      isDrawerOpen={isOpen}
+    />
+    <CustomNavLink 
+      to="/document" 
+      label="Document" 
+      icon={ArticleIcon} 
+      ruleCount={getRuleCount(data, "document")}
+      category="Document"
+      hasSuccess={true}
+      hasFailure={false}
+      isTestable={true}
+      isDrawerOpen={isOpen}
+    />
+    <CustomNavLink 
+      to="/readability" 
+      label="Readability" 
+      icon={ReadabilityIcon} 
+      ruleCount={getRuleCount(data, "readability")}
+      category="Readability"
+      hasSuccess={true}
+      hasFailure={true}
+      isTestable={true}
+      isDrawerOpen={isOpen}
+    />
+    <CustomNavLink 
+      to="/tables" 
+      label="Tables" 
+      icon={TableIcon} 
+      ruleCount={getRuleCount(data, "tables")}
+      category="Tables"
+      hasSuccess={true}
+      hasFailure={true}
+      isTestable={true}
+      isDrawerOpen={isOpen}
+    />
   </React.Fragment>
 );
 
-export const secondaryListItems = (
+export const getSecondaryListItems = (data = [], isOpen = true) => (
   <React.Fragment>
-    <ListSubheader component="div" inset>
-      Quick Links
-    </ListSubheader>
-    <CustomNavLink to="/rules" label="Rules" icon={BackupTableIcon} />
-    <CustomNavLink to="/tables" label="Page Scanner" icon={BookmarkIcon} />
-    <CustomNavLink to="/tables" label="HTML Elements" icon={HtmlTwoToneIcon} />
+    {/* Divider */}
+    <Box sx={{ 
+      height: '1px', 
+      backgroundColor: 'rgba(102, 126, 234, 0.15)', 
+      mx: isOpen ? 2.5 : 1, 
+      my: isOpen ? 2.5 : 1.5,
+      transition: (theme) =>
+        theme.transitions.create(["margin"], {
+          easing: theme.transitions.easing.easeInOut,
+          duration: theme.transitions.duration.standard,
+        }),
+    }} />
+    
+    {/* Tools & Actions */}
+    <CustomNavLink 
+      to="/rules" 
+      label="All Rules" 
+      icon={RulesIcon} 
+      ruleCount={data.length}
+      category="Rules"
+      hasSuccess={true}
+      hasFailure={true}
+      isTestable={false}
+      isDrawerOpen={isOpen}
+    />
+    <CustomNavLink 
+      to="/scanner" 
+      label="Page Scanner" 
+      icon={ScannerIcon} 
+      category="Tools"
+      hasSuccess={false}
+      hasFailure={false}
+      isTestable={true}
+      isDrawerOpen={isOpen}
+    />
+    <CustomNavLink 
+      to="/elements" 
+      label="HTML Elements" 
+      icon={HtmlIcon} 
+      category="Tools"
+      hasSuccess={false}
+      hasFailure={false}
+      isTestable={true}
+      isDrawerOpen={isOpen}
+    />
   </React.Fragment>
 );
+
+// Keep backward compatibility by exporting the old static versions as well
+export const mainListItems = getMainListItems([]);
+export const secondaryListItems = getSecondaryListItems([]);

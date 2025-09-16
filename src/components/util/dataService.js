@@ -22,3 +22,19 @@ export async function fetchItemData(currentRule) {
     throw error;
   }
 }
+
+export const DataService = {
+  async getData() {
+    try {
+      const response = await fetch('/data.json');
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('DataService getData error:', error);
+      throw error;
+    }
+  }
+};

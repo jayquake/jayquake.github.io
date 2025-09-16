@@ -1,5 +1,9 @@
 import React from "react";
 import List from "../../listRules";
 
-const filters = [{ property: "criteria", value: "readability" }];
-export default () => <List filters={filters} />;
+const Readability = () => {
+  const filters = [{ property: "criteria", value: "readability" }];
+  return <List filters={filters} embedded={true} />;
+};
+
+export default Readability;
