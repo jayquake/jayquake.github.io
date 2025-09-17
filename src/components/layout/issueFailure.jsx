@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import {
   Container,
@@ -148,7 +148,26 @@ const IssueFailure = ({ itemContent, itemDescription, helpText, fixSteps }) => {
   };
 
   // Convert itemContent to array if it's not already
-  const examples = React.Children.toArray(itemContent);
+  // If itemContent contains multiple .list-item elements, extract them as separate examples
+  const examples = useMemo(() => {
+    if (React.isValidElement(itemContent) && itemContent.props.children) {
+      // Look for .list-item divs within the content
+      const children = React.Children.toArray(itemContent.props.children);
+      const listItems = children.filter(child => 
+        React.isValidElement(child) && 
+        child.props.className && 
+        child.props.className.includes('list-item')
+      );
+      
+      // If we found list items, return them as separate examples
+      if (listItems.length > 0) {
+        return listItems;
+      }
+    }
+    
+    // Otherwise, treat the entire content as a single example
+    return React.Children.toArray(itemContent);
+  }, [itemContent]);
 
   return (
     <>
