@@ -66,19 +66,19 @@ const CustomNavLink = ({
             <Box display="flex" alignItems="center" gap={1}>
               {hasSuccess && (
                 <Box display="flex" alignItems="center" gap={0.5}>
-                  <Box sx={{ width: 4, height: 4, borderRadius: '50%', bgcolor: 'success.main' }} />
+                  <Box sx={{ width: 4, height: 4, borderRadius: '50%', bgcolor: 'success.main' }} aria-hidden="true" />
                   <Typography variant="caption" sx={{ fontSize: '0.7rem' }}>Success</Typography>
                 </Box>
               )}
               {hasFailure && (
                 <Box display="flex" alignItems="center" gap={0.5}>
-                  <Box sx={{ width: 4, height: 4, borderRadius: '50%', bgcolor: 'error.main' }} />
+                  <Box sx={{ width: 4, height: 4, borderRadius: '50%', bgcolor: 'error.main' }} aria-hidden="true" />
                   <Typography variant="caption" sx={{ fontSize: '0.7rem' }}>Failure</Typography>
                 </Box>
               )}
               {isTestable && (
                 <Box display="flex" alignItems="center" gap={0.5}>
-                  <Box sx={{ width: 4, height: 4, borderRadius: '2px', bgcolor: categoryColor }} />
+                  <Box sx={{ width: 4, height: 4, borderRadius: '2px', bgcolor: categoryColor }} aria-hidden="true" />
                   <Typography variant="caption" sx={{ fontSize: '0.7rem' }}>Test</Typography>
                 </Box>
               )}
@@ -246,6 +246,7 @@ const CustomNavLink = ({
                         border: '1px solid rgba(255, 255, 255, 0.5)',
                         boxShadow: `0 1px 3px rgba(0, 0, 0, 0.2), 0 0 6px ${alpha(categoryColor, 0.4)}`,
                       }}
+                      aria-hidden="true"
                     />
                   )}
                 </Box>
@@ -285,6 +286,7 @@ const CustomNavLink = ({
                         backdropFilter: 'blur(5px)',
                         WebkitBackdropFilter: 'blur(5px)'
                       }} 
+                      aria-hidden="true"
                     />
                   )}
                   {hasFailure && (
@@ -300,6 +302,7 @@ const CustomNavLink = ({
                         WebkitBackdropFilter: 'blur(5px)',
                         ml: hasSuccess ? 0.5 : 0
                       }} 
+                      aria-hidden="true"
                     />
                   )}
                 </Box>
@@ -318,6 +321,7 @@ const CustomNavLink = ({
                     WebkitBackdropFilter: 'blur(5px)',
                     ml: 0.5
                   }}
+                  aria-hidden="true"
                 />
               )}
             </Box>
