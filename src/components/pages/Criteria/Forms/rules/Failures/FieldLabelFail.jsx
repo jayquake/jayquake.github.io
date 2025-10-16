@@ -3,7 +3,7 @@ import IssueFailure from "../../../../../layout/issueFailure";
 
 const itemDescription = "Form - Field Label Failures";
 
-export default () => (
+const FieldLabelFail = () => (
   <IssueFailure
     itemContent={
       <ul>
@@ -85,7 +85,15 @@ export default () => (
         <li className="list-item">
           <h2>F42: Emulating links</h2>
           <div
+            role="button"
+            tabIndex={0}
             onClick={() => (window.location.href = "https://example.com")}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                window.location.href = "https://example.com";
+              }
+            }}
             style={{ cursor: "pointer" }}
           >
             Fake link
@@ -156,3 +164,5 @@ export default () => (
     itemDescription={itemDescription}
   />
 );
+
+export default FieldLabelFail;
