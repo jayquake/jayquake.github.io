@@ -1,5 +1,9 @@
 import React from "react";
 import List from "../../listRules";
 
+const Tables = () => {
 const filters = [{ property: "criteria", value: "tables" }];
-export default () => <List filters={filters} />;
+  return <List filters={filters} embedded={true} />;
+};
+
+export default Tables;
