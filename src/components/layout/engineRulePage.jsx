@@ -1,0 +1,621 @@
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import {
+  Container,
+  Grid,
+  Paper,
+  Divider,
+  Typography,
+  IconButton,
+  Chip,
+  Box,
+  Alert,
+  AlertTitle,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Card,
+  CardContent,
+  Stack,
+  Fab,
+  Button,
+  Tooltip,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
+import {
+  Info as InfoIcon,
+  ExpandMore as ExpandMoreIcon,
+  Description as DescriptionIcon,
+  Code as CodeIcon,
+  Link as LinkIcon,
+  OpenInNew as OpenInNewIcon,
+  ContentCopy as ContentCopyIcon,
+  BugReport as BugReportIcon,
+  CheckCircle as CheckCircleIcon,
+  LocalLibrary as LocalLibraryIcon,
+  Gavel as GavelIcon,
+  AccessibleTwoTone as AccessibleTwoToneIcon,
+  Science as ScienceIcon,
+} from "@mui/icons-material";
+import CustomizedBreadcrumbs from "../util/ruleBreadcrumb";
+
+function EngineRulePage({ ruleData }) {
+  const [copied, setCopied] = useState(false);
+  const [expandedSections, setExpandedSections] = useState({
+    details: true,
+    advice: true,
+    references: false,
+    tests: false,
+  });
+
+  const handleCopy = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
+
+  const handleSectionToggle = (section) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
+
+  const getSeverityColor = (impact) => {
+    switch (impact?.toLowerCase()) {
+      case "critical":
+        return {
+          textColor: "#d32f2f",
+          borderColor: "#d32f2f",
+          iconColor: "#d32f2f",
+        };
+      case "major":
+        return {
+          textColor: "#f57c00",
+          borderColor: "#f57c00",
+          iconColor: "#f57c00",
+        };
+      case "moderate":
+        return {
+          textColor: "#1976d2",
+          borderColor: "#1976d2",
+          iconColor: "#1976d2",
+        };
+      case "minor":
+        return {
+          textColor: "#388e3c",
+          borderColor: "#388e3c",
+          iconColor: "#388e3c",
+        };
+      default:
+        return {
+          textColor: "#666",
+          borderColor: "#666",
+          iconColor: "#666",
+        };
+    }
+  };
+
+  // Helper function to format rule ID into readable title
+  const formatRuleTitle = (id) => {
+    return id
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
+  if (!ruleData) {
+    return (
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <Paper 
+          elevation={0} 
+          sx={{ 
+            p: 4, 
+            borderRadius: 4, 
+            textAlign: 'center',
+            background: 'rgba(255, 255, 255, 0.4)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255, 255, 255, 0.6)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+          }}
+        >
+          <CustomizedBreadcrumbs />
+          <Divider sx={{ my: 3 }} />
+          
+          <Alert 
+            severity="info" 
+            sx={{ 
+              mb: 3,
+              background: 'rgba(255, 255, 255, 0.6)',
+              backdropFilter: 'blur(15px)',
+              WebkitBackdropFilter: 'blur(15px)',
+              border: '1px solid rgba(255, 255, 255, 0.7)',
+              borderRadius: 3,
+              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08)'
+            }} 
+            icon={<InfoIcon />}
+          >
+            <AlertTitle sx={{ fontWeight: 'bold' }}>
+              No Engine Rule Data Available
+            </AlertTitle>
+            <Typography variant="body1">
+              The requested engine rule could not be found or is not available at this time.
+            </Typography>
+          </Alert>
+        </Paper>
+      </Container>
+    );
+  }
+
+  const severityColors = getSeverityColor(ruleData.impact);
+  const wcagRefs = ruleData.refs?.filter(r => r.type === "WCAG") || [];
+  const otherRefs = ruleData.refs?.filter(r => r.type !== "WCAG") || [];
+  const formattedTitle = formatRuleTitle(ruleData.id);
+
+  return (
+    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      {/* Header Section */}
+      <Paper 
+        elevation={0} 
+        sx={{ 
+          p: 4, 
+          mb: 3, 
+          borderRadius: 4, 
+          background: 'rgba(255, 255, 255, 0.4)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.6)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+        }}
+      >
+        <CustomizedBreadcrumbs />
+        <Divider sx={{ my: 3 }} />
+        
+        <Alert 
+          severity="info" 
+          sx={{ 
+            mb: 3,
+            background: 'rgba(255, 255, 255, 0.6)',
+            backdropFilter: 'blur(15px)',
+            WebkitBackdropFilter: 'blur(15px)',
+            border: '1px solid rgba(255, 255, 255, 0.7)',
+            borderRadius: 3,
+            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08)'
+          }} 
+          icon={<ScienceIcon />}
+        >
+          <AlertTitle sx={{ fontWeight: 'bold', color: '#1e293b' }}>
+            Engine Rule Details
+          </AlertTitle>
+          <Typography variant="body1" sx={{ color: '#64748b' }}>
+            This is an automated accessibility validation rule from the audit engine with comprehensive testing coverage.
+          </Typography>
+        </Alert>
+
+        <Grid container spacing={4}>
+          <Grid item xs={12}>
+            {/* Main Title - Formatted from ID */}
+            <Typography 
+              variant="h2" 
+              fontWeight="bold" 
+              gutterBottom
+              sx={{ 
+                mb: 2,
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                textShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                letterSpacing: '-0.02em'
+              }}
+            >
+              {formattedTitle}
+            </Typography>
+
+            {/* Rule ID Badge */}
+            <Box sx={{ mb: 3 }}>
+              <Chip
+                label={`Rule ID: ${ruleData.id}`}
+                sx={{ 
+                  fontWeight: 'bold',
+                  fontSize: '0.9rem',
+                  background: 'rgba(103, 58, 183, 0.1)',
+                  color: '#673ab7',
+                  border: '1px solid rgba(103, 58, 183, 0.3)',
+                  fontFamily: 'monospace'
+                }}
+              />
+            </Box>
+
+            {/* Rule Title from data */}
+            <Typography 
+              variant="h5" 
+              sx={{ 
+                mb: 3, 
+                color: '#475569', 
+                fontWeight: 500,
+                lineHeight: 1.4
+              }}
+            >
+              {ruleData.title}
+            </Typography>
+            
+            {/* Enhanced Status Chips */}
+            <Stack direction="row" spacing={2} flexWrap="wrap" sx={{ gap: 1 }}>
+              <Chip
+                icon={<ScienceIcon />}
+                label="Engine Rule"
+                sx={{ 
+                  fontWeight: 'bold', 
+                  background: 'rgba(103, 58, 183, 0.2)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(103, 58, 183, 0.4)',
+                  color: '#673ab7',
+                  boxShadow: '0 2px 8px rgba(103, 58, 183, 0.2)',
+                  '& .MuiChip-icon': { color: '#673ab7' }
+                }}
+              />
+              <Chip
+                icon={<GavelIcon sx={{ color: severityColors.iconColor }} />}
+                label={`Impact: ${ruleData.impact.charAt(0).toUpperCase() + ruleData.impact.slice(1)}`}
+                sx={{
+                  fontWeight: 'bold',
+                  background: `rgba(${severityColors.textColor === '#d32f2f' ? '211, 47, 47' : 
+                    severityColors.textColor === '#f57c00' ? '245, 124, 0' :
+                    severityColors.textColor === '#1976d2' ? '25, 118, 210' : '56, 142, 60'}, 0.2)`,
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  color: severityColors.textColor,
+                  border: `1px solid ${severityColors.borderColor}40`,
+                  boxShadow: `0 2px 8px ${severityColors.borderColor}30`
+                }}
+              />
+              {wcagRefs.length > 0 && (
+                <Chip
+                  icon={<AccessibleTwoToneIcon />}
+                  label={`WCAG Compliant (${wcagRefs.length} criteria)`}
+                  sx={{ 
+                    fontWeight: 'bold', 
+                    background: 'rgba(25, 118, 210, 0.2)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(25, 118, 210, 0.4)',
+                    color: '#1976d2',
+                    boxShadow: '0 2px 8px rgba(25, 118, 210, 0.2)',
+                    '& .MuiChip-icon': { color: '#1976d2' }
+                  }}
+                />
+              )}
+            </Stack>
+          </Grid>
+        </Grid>
+      </Paper>
+
+      {/* Rule Description Section */}
+      <Paper 
+        elevation={0} 
+        sx={{ 
+          mb: 3, 
+          p: 4,
+          borderRadius: 4, 
+          background: 'rgba(255, 255, 255, 0.4)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.6)',
+          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08)'
+        }}
+      >
+        <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 3 }}>
+          <DescriptionIcon color="primary" fontSize="large" />
+          <Typography variant="h5" fontWeight="bold" color="primary">
+            Description
+          </Typography>
+        </Stack>
+        <Typography 
+          variant="body1" 
+          sx={{ 
+            lineHeight: 1.8,
+            fontSize: '1.1rem',
+            color: '#374151',
+            background: 'rgba(248, 250, 252, 0.8)',
+            p: 3,
+            borderRadius: 2,
+            border: '1px solid rgba(203, 213, 225, 0.5)'
+          }}
+        >
+          {ruleData.description}
+        </Typography>
+      </Paper>
+
+      {/* Advice Section */}
+      <Paper 
+        elevation={0} 
+        sx={{ 
+          mb: 3, 
+          p: 4,
+          borderRadius: 4, 
+          background: 'rgba(255, 255, 255, 0.4)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.6)',
+          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08)'
+        }}
+      >
+        <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 3 }}>
+          <CodeIcon color="primary" fontSize="large" />
+          <Typography variant="h5" fontWeight="bold" color="primary">
+            Implementation Advice
+          </Typography>
+        </Stack>
+        <Box
+          sx={{
+            background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(34, 197, 94, 0.1) 100%)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            borderRadius: 3,
+            p: 4,
+            position: 'relative',
+            border: '2px solid rgba(34, 197, 94, 0.2)',
+            boxShadow: '0 4px 16px rgba(34, 197, 94, 0.1)'
+          }}
+        >
+          <Tooltip title={copied ? "Copied!" : "Copy advice"}>
+            <IconButton
+              onClick={() => handleCopy(ruleData.advice)}
+              sx={{
+                position: 'absolute',
+                top: 12,
+                right: 12,
+                color: '#059669',
+                backgroundColor: 'rgba(255,255,255,0.9)',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                '&:hover': { 
+                  backgroundColor: 'rgba(255,255,255,1)',
+                  transform: 'scale(1.05)'
+                },
+                transition: 'all 0.2s ease'
+              }}
+              size="small"
+            >
+              <ContentCopyIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+          <Typography 
+            variant="body1" 
+            sx={{ 
+              lineHeight: 1.8, 
+              pr: 6,
+              fontSize: '1.1rem',
+              color: '#065f46',
+              fontWeight: 500
+            }}
+          >
+            {ruleData.advice}
+          </Typography>
+        </Box>
+      </Paper>
+
+      {/* References Section */}
+      <Paper 
+        elevation={0} 
+        sx={{ 
+          mb: 3, 
+          p: 4,
+          borderRadius: 4, 
+          background: 'rgba(255, 255, 255, 0.4)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.6)',
+          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08)'
+        }}
+      >
+        <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 3 }}>
+          <LinkIcon color="primary" fontSize="large" />
+          <Typography variant="h5" fontWeight="bold" color="primary">
+            References & Documentation
+          </Typography>
+        </Stack>
+
+        {/* WCAG References */}
+        {wcagRefs.length > 0 && (
+          <Box sx={{ mb: 4 }}>
+            <Typography variant="h6" sx={{ mb: 2, color: '#1976d2', fontWeight: 'bold' }}>
+              WCAG Guidelines
+            </Typography>
+            <Grid container spacing={2}>
+              {wcagRefs.map((ref, index) => (
+                <Grid item xs={12} md={6} key={index}>
+                  <Card sx={{ 
+                    p: 3,
+                    background: 'linear-gradient(135deg, rgba(25, 118, 210, 0.1) 0%, rgba(21, 101, 192, 0.1) 100%)',
+                    border: '2px solid rgba(25, 118, 210, 0.2)',
+                    borderRadius: 3,
+                    boxShadow: '0 4px 16px rgba(25, 118, 210, 0.1)',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: '0 8px 32px rgba(25, 118, 210, 0.2)'
+                    }
+                  }}>
+                    <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2 }}>
+                      <Chip 
+                        label="WCAG" 
+                        size="small" 
+                        sx={{ 
+                          backgroundColor: '#1976d2', 
+                          color: 'white',
+                          fontWeight: 'bold'
+                        }}
+                      />
+                      <Typography variant="h6" fontWeight="bold" color="#1565c0">
+                        {ref.id} - Level {ref.level}
+                      </Typography>
+                    </Stack>
+                    <Button
+                      href={ref.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      variant="contained"
+                      fullWidth
+                      startIcon={<OpenInNewIcon />}
+                      sx={{ 
+                        textTransform: 'none',
+                        backgroundColor: '#1976d2',
+                        '&:hover': { backgroundColor: '#1565c0' }
+                      }}
+                    >
+                      View WCAG Guideline
+                    </Button>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        )}
+
+        {/* Other References */}
+        {otherRefs.length > 0 && (
+          <Box>
+            <Typography variant="h6" sx={{ mb: 2, color: '#7c3aed', fontWeight: 'bold' }}>
+              Additional Resources
+            </Typography>
+            <Grid container spacing={2}>
+              {otherRefs.map((ref, index) => (
+                <Grid item xs={12} md={6} key={index}>
+                  <Card sx={{ 
+                    p: 3,
+                    background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(109, 40, 217, 0.1) 100%)',
+                    border: '2px solid rgba(124, 58, 237, 0.2)',
+                    borderRadius: 3,
+                    boxShadow: '0 4px 16px rgba(124, 58, 237, 0.1)',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: '0 8px 32px rgba(124, 58, 237, 0.2)'
+                    }
+                  }}>
+                    <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2 }}>
+                      <Chip 
+                        label={ref.type} 
+                        size="small" 
+                        sx={{ 
+                          backgroundColor: '#7c3aed', 
+                          color: 'white',
+                          fontWeight: 'bold'
+                        }}
+                      />
+                    </Stack>
+                    <Button
+                      href={ref.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      variant="contained"
+                      fullWidth
+                      startIcon={<OpenInNewIcon />}
+                      sx={{ 
+                        textTransform: 'none',
+                        backgroundColor: '#7c3aed',
+                        '&:hover': { backgroundColor: '#6d28d9' }
+                      }}
+                    >
+                      View Resource
+                    </Button>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        )}
+      </Paper>
+
+
+
+      {/* Summary Footer */}
+      <Paper 
+        elevation={0} 
+        sx={{ 
+          p: 4, 
+          borderRadius: 4, 
+          textAlign: 'center', 
+          background: 'linear-gradient(135deg, rgba(103, 58, 183, 0.1) 0%, rgba(81, 45, 168, 0.1) 100%)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: '2px solid rgba(103, 58, 183, 0.2)',
+          boxShadow: '0 8px 32px rgba(103, 58, 183, 0.1)'
+        }}
+      >
+        <ScienceIcon sx={{ fontSize: 48, color: '#673ab7', mb: 2 }} />
+        <Typography variant="h5" sx={{ mb: 2, fontWeight: 'bold', color: '#673ab7' }}>
+          Engine Rule: {formattedTitle}
+        </Typography>
+        <Typography variant="body1" sx={{ mb: 3, color: '#64748b', maxWidth: '600px', mx: 'auto' }}>
+          This automated accessibility validation rule helps ensure your web content meets 
+          accessibility standards and provides a better experience for all users.
+        </Typography>
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center" alignItems="center">
+          <Chip
+            icon={<CheckCircleIcon />}
+            label="Automated Testing"
+            sx={{ 
+              fontWeight: 'bold',
+              background: 'rgba(34, 197, 94, 0.2)',
+              color: '#059669',
+              border: '1px solid rgba(34, 197, 94, 0.3)',
+            }}
+          />
+          <Chip
+            icon={<AccessibleTwoToneIcon />}
+            label="WCAG Compliant"
+            sx={{ 
+              fontWeight: 'bold',
+              background: 'rgba(25, 118, 210, 0.2)',
+              color: '#1976d2',
+              border: '1px solid rgba(25, 118, 210, 0.3)',
+            }}
+          />
+          <Chip
+            icon={<GavelIcon />}
+            label={`${ruleData.impact.charAt(0).toUpperCase() + ruleData.impact.slice(1)} Impact`}
+            sx={{ 
+              fontWeight: 'bold',
+              background: `rgba(${severityColors.textColor === '#d32f2f' ? '211, 47, 47' : 
+                severityColors.textColor === '#f57c00' ? '245, 124, 0' :
+                severityColors.textColor === '#1976d2' ? '25, 118, 210' : '56, 142, 60'}, 0.2)`,
+              color: severityColors.textColor,
+              border: `1px solid ${severityColors.borderColor}40`,
+            }}
+          />
+        </Stack>
+      </Paper>
+    </Container>
+  );
+}
+
+EngineRulePage.propTypes = {
+  ruleData: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    advice: PropTypes.string,
+    impact: PropTypes.string,
+    passCondition: PropTypes.string,
+    associatedDetectors: PropTypes.array,
+    refs: PropTypes.arrayOf(PropTypes.shape({
+      type: PropTypes.string,
+      id: PropTypes.string,
+      level: PropTypes.string,
+      link: PropTypes.string,
+    })),
+  })
+};
+
+export default EngineRulePage;

@@ -1,0 +1,16 @@
+<!--testconfig
+    "testedClass": "Rules.VisibleTextPartOfAccessibleName",
+    "expect": {
+        "passedNodes": ["button"]
+    },
+    "skip": true
+-->
+<!-- TODO: waits for https://github.com/acsbe/core-engine-classifier/pull/463 -->
+<!-- This button element has the text “search” rendered as an magnifying glass icon by the font. Because the text is rendered as non-text content, the text does not need to be contained within the accessible name. -->
+<link href="../assets/material-icons/icon.css" rel="stylesheet" />
+<style>
+  button {
+    font-family: "Material Icons";
+  }
+</style>
+<button aria-label="Find">search</button>

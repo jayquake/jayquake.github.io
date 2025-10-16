@@ -1140,7 +1140,7 @@ const List = ({ filters: propFilters, sorters: propSorters, embedded = false }) 
 List.defaultProps = {
   filters: [
     { property: "criteria", value: "" },
-    { property: "enabled", value: true },
+    // Removed enabled filter to show all rules
   ],
   sorters: [
     { property: "name" },

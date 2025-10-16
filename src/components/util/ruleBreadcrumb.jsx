@@ -28,10 +28,20 @@ const CustomizedBreadcrumbs = ({ selectedOption, handleOptionChange }) => {
       : null
   );
 
-  const initialSelectedOption = selectedOptionFromURL || selectedOption;
-  const value = initialSelectedOption.trim().replace(/^\[|\]$/g, "");
-  var parts = value.split("_");
-  var lastPart = parts[parts.length - 1];
+  const initialSelectedOption = selectedOptionFromURL || selectedOption || "";
+  
+  // Handle engine rules (they don't have success/failure pattern)
+  const isEngineRule = pathnames.includes("engine");
+  
+  if (isEngineRule) {
+    // For engine rules, we don't need the success/failure selector
+    var parts = [""];
+    var lastPart = "";
+  } else {
+    const value = initialSelectedOption.trim().replace(/^\[|\]$/g, "");
+    var parts = value.split("_");
+    var lastPart = parts[parts.length - 1];
+  }
 
   const handleOptionSelection = (selectedValue) => {
     const newURL = location.pathname.replace(
@@ -123,7 +133,7 @@ const CustomizedBreadcrumbs = ({ selectedOption, handleOptionChange }) => {
             return last ? (
               <NavLink
                 underline="hover"
-                to={`/${pathnames[0]}/${parts[0]}`}
+                to={isEngineRule ? to : `/${pathnames[0]}/${parts[0]}`}
                 style={{ 
                   textDecoration: "none", 
                   color: "#1565c0",
@@ -169,40 +179,42 @@ const CustomizedBreadcrumbs = ({ selectedOption, handleOptionChange }) => {
             );
           })}
 
-          <Select
-            value={lastPart}
-            onChange={(event) => handleOptionSelection(event.target.value)}
-            size="small"
-            sx={{ 
-              marginLeft: "12px",
-              minWidth: "100px",
-              background: 'rgba(255, 255, 255, 0.4)',
-              backdropFilter: 'blur(10px)',
-              WebkitBackdropFilter: 'blur(10px)',
-              border: '1px solid rgba(25, 118, 210, 0.3)',
-              borderRadius: 2,
-              fontWeight: 600,
-              color: '#1976d2',
-              '& .MuiSelect-select': {
-                padding: '6px 12px'
-              },
-              '& .MuiOutlinedInput-notchedOutline': {
-                border: 'none'
-              },
-              '&:hover': {
-                background: 'rgba(255, 255, 255, 0.5)',
+          {!isEngineRule && (
+            <Select
+              value={lastPart}
+              onChange={(event) => handleOptionSelection(event.target.value)}
+              size="small"
+              sx={{ 
+                marginLeft: "12px",
+                minWidth: "100px",
+                background: 'rgba(255, 255, 255, 0.4)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                border: '1px solid rgba(25, 118, 210, 0.3)',
+                borderRadius: 2,
+                fontWeight: 600,
+                color: '#1976d2',
+                '& .MuiSelect-select': {
+                  padding: '6px 12px'
+                },
                 '& .MuiOutlinedInput-notchedOutline': {
                   border: 'none'
+                },
+                '&:hover': {
+                  background: 'rgba(255, 255, 255, 0.5)',
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    border: 'none'
+                  }
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  border: '2px solid rgba(25, 118, 210, 0.5)'
                 }
-              },
-              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                border: '2px solid rgba(25, 118, 210, 0.5)'
-              }
-            }}
-          >
-            <MenuItem aria-label="Option failure" value="failure">Failure</MenuItem>
-            <MenuItem aria-label="Option success" value="success">Success</MenuItem>
-          </Select>
+              }}
+            >
+              <MenuItem aria-label="Option failure" value="failure">Failure</MenuItem>
+              <MenuItem aria-label="Option success" value="success">Success</MenuItem>
+            </Select>
+          )}
         </Breadcrumbs>
       </Paper>
     </Grid>

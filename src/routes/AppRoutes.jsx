@@ -31,10 +31,13 @@ import ReadabilityRoutes from "../components/pages/Criteria/Readability/rules/re
 import HeadingsRoutes from "../components/pages/Criteria/Headings/rules/headingsRoutes";
 import TablesRoutes from "../components/pages/Criteria/Tables/rules/tablesRoutes";
 import ItemPage from "../components/layout/rulePage";
+import Rules from "../components/pages/Rules";
 
 // Additional Dynamic Routes
 import ListRoutes from "../routes/routes";
 import AllRulesWithRoutes from "../components/pages/Criteria/AllRulesLinks";
+import List from "../components/pages/listRules";
+import EngineRoutes from "./engineRoutes";
 
 const AppRoutes = ({ navigate }) => (
   <Routes>
@@ -42,7 +45,7 @@ const AppRoutes = ({ navigate }) => (
     <Route index element={<Home navigate={navigate} title="Home" />} />
 
     {/* Dynamic Routes */}
-    <Route path="/rules/*" element={<ListRoutes />} />
+    <Route path="rules" element={<Rules navigate={navigate} title="Rules" />} />
     <Route path="/*" element={<AllRulesWithRoutes navigate={navigate} />} />
 
     {/* Individual Criteria Pages */}
@@ -59,22 +62,23 @@ const AppRoutes = ({ navigate }) => (
     <Route path="headings" element={<Headings navigate={navigate} title="Headings" />} />
     <Route path="tables" element={<Tables navigate={navigate} title="Tables" />} />
 
-    {/* Individual Criteria Rule Routes */}
-    {ClickablesRoutes()}
-    {ContextRoutes()}
-    {KeyboardRoutes()}
-    {FormruleRoutes()}
-    {DocumentRoutes()}
-    {ErrorsRoutes()}
-    {ReadabilityRoutes()}
-    {GraphicsRoutes()}
-    {HeadingsRoutes()}
-    {CarouselsRoutes()}
-    {TablesRoutes()}
-    {NavigationRoutes()}
+  {/* Individual Criteria Rule Routes */}
+  {ClickablesRoutes()}
+  {ContextRoutes()}
+  {KeyboardRoutes()}
+  {FormruleRoutes()}
+  {DocumentRoutes()}
+  {ErrorsRoutes()}
+  {ReadabilityRoutes()}
+  {GraphicsRoutes()}
+  {HeadingsRoutes()}
+  {CarouselsRoutes()}
+  {TablesRoutes()}
+  {NavigationRoutes()}
+  {/* Engine Rule Routes */}
+  {EngineRoutes()}
 
-
-    <Route path="/test-item" element={<ItemPage ruleData={{ name: "Test Rule", description: "Testing ItemPage" }} />} />
+  <Route path="/test-item" element={<ItemPage ruleData={{ name: "Test Rule", description: "Testing ItemPage" }} />} />
   </Routes>
 );
 
