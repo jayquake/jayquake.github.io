@@ -1,7 +1,11 @@
 const { test, expect } = require('@playwright/test');
 const { AccessFlowSDK } = require('@acsbe/accessflow-sdk');
 
-AccessFlowSDK.init({ apiKey: 'flow-1qS6Yt2KyK6fZaRMQJg0J7DdOmeIDKnw' });
+// Initialize AccessFlow SDK with API key from environment variable or fallback
+const accessFlowApiKey = process.env.ACCESSFLOW_API_KEY || 'flow-1qS6Yt2KyK6fZaRMQJg0J7DdOmeIDKnw';
+if (accessFlowApiKey) {
+  AccessFlowSDK.init({ apiKey: accessFlowApiKey });
+}
 
 test.describe('Search Component Tests', () => {
   test.beforeEach(async ({ page }) => {
