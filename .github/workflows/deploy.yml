@@ -20,30 +20,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Debug GH_TOKEN
-      shell: bash
-      run: |
-        echo "🔍 Checking GH_TOKEN..."
-        GH_TOKEN_VALUE="${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}"
-        if [ -z "$GH_TOKEN_VALUE" ]; then
-          echo "⚠️  Warning: GH_TOKEN is not set"
-          echo "Using GITHUB_TOKEN (automatically provided by GitHub Actions)"
-          GH_TOKEN_VALUE="${{ secrets.GITHUB_TOKEN }}"
-        else
-          echo "✅ GH_TOKEN is set"
-        fi
-        echo "GH_TOKEN length: ${#GH_TOKEN_VALUE}"
-        if [ -n "$GH_TOKEN_VALUE" ]; then
-          echo "GH_TOKEN first 4 chars: $(echo "$GH_TOKEN_VALUE" | cut -c1-4)..."
-          echo "GH_TOKEN last 4 chars: ...$(echo "$GH_TOKEN_VALUE" | rev | cut -c1-4 | rev)"
-        fi
-        echo "GH_TOKEN exists: $([ -n "$GH_TOKEN_VALUE" ] && echo 'yes' || echo 'no')"
-        echo ""
-        echo "📝 Full GH_TOKEN value (will be masked by GitHub):"
-        echo "$GH_TOKEN_VALUE"
-      env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
-    
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
@@ -51,36 +27,33 @@ jobs:
     
     - name: Install local @acsbe/accessflow-sdk tarball
       run: |
-        echo "📦 Checking for local @acsbe/accessflow-sdk tarball..."
         if [ -f "acsbe-accessflow-sdk-1.0.0.tgz" ]; then
-          echo "✅ Found acsbe-accessflow-sdk-1.0.0.tgz"
-          echo "📊 File size: $(ls -lh acsbe-accessflow-sdk-1.0.0.tgz | awk '{print $5}')"
-          echo "📦 Installing local tarball package..."
           npm install ./acsbe-accessflow-sdk-1.0.0.tgz --save-dev
-          echo "✅ Local tarball installed successfully"
-        else
-          echo "⚠️  acsbe-accessflow-sdk-1.0.0.tgz not found - will try to install from registry"
         fi
     
     - name: Install dependencies
       run: |
-        echo "📦 Checking .npmrc for @acsbe packages..."
-        
-        # Priority 1: Use .npmrc if it exists and has token
         if [ -f ".npmrc" ] && grep -q "//npm.pkg.github.com/:_authToken=" .npmrc; then
-          echo "✅ Found .npmrc with token - using it directly"
-          echo "⚠️  SECURITY: Token is in committed .npmrc file"
-          echo ""
-          echo "📋 .npmrc contents (token masked):"
-          cat .npmrc | sed 's/_authToken=.*/_authToken=***MASKED***/'
-          echo ""
-          echo "📦 Installing remaining dependencies with .npmrc token..."
+          if ! grep -q "@acsbe:registry" .npmrc; then
+            echo '@acsbe:registry=https://npm.pkg.github.com' >> .npmrc
+          fi
           npm ci
         else
-          echo "⚠️  .npmrc not found or missing token - npm ci will use default auth"
-          echo "📦 Installing remaining dependencies..."
+          if [ ! -f ".npmrc" ] || ! grep -q "@acsbe:registry" .npmrc; then
+            echo '@acsbe:registry=https://npm.pkg.github.com' > .npmrc
+          fi
+          if [ -n "${{ secrets.ACSBE_TOKEN }}" ]; then
+            echo '//npm.pkg.github.com/:_authToken='${{ secrets.ACSBE_TOKEN }} >> .npmrc
+          elif [ -n "${{ secrets.GH_TOKEN }}" ]; then
+            echo '//npm.pkg.github.com/:_authToken='${{ secrets.GH_TOKEN }} >> .npmrc
+          else
+            echo '//npm.pkg.github.com/:_authToken='${{ secrets.GITHUB_TOKEN }} >> .npmrc
+          fi
           npm ci
         fi
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
+        ACSBE_TOKEN: ${{ secrets.ACSBE_TOKEN }}
     
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
@@ -111,30 +84,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Debug GH_TOKEN
-      shell: bash
-      run: |
-        echo "🔍 Checking GH_TOKEN..."
-        GH_TOKEN_VALUE="${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}"
-        if [ -z "$GH_TOKEN_VALUE" ]; then
-          echo "⚠️  Warning: GH_TOKEN is not set"
-          echo "Using GITHUB_TOKEN (automatically provided by GitHub Actions)"
-          GH_TOKEN_VALUE="${{ secrets.GITHUB_TOKEN }}"
-        else
-          echo "✅ GH_TOKEN is set"
-        fi
-        echo "GH_TOKEN length: ${#GH_TOKEN_VALUE}"
-        if [ -n "$GH_TOKEN_VALUE" ]; then
-          echo "GH_TOKEN first 4 chars: $(echo "$GH_TOKEN_VALUE" | cut -c1-4)..."
-          echo "GH_TOKEN last 4 chars: ...$(echo "$GH_TOKEN_VALUE" | rev | cut -c1-4 | rev)"
-        fi
-        echo "GH_TOKEN exists: $([ -n "$GH_TOKEN_VALUE" ] && echo 'yes' || echo 'no')"
-        echo ""
-        echo "📝 Full GH_TOKEN value (will be masked by GitHub):"
-        echo "$GH_TOKEN_VALUE"
-      env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
-    
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
@@ -142,36 +91,33 @@ jobs:
     
     - name: Install local @acsbe/accessflow-sdk tarball
       run: |
-        echo "📦 Checking for local @acsbe/accessflow-sdk tarball..."
         if [ -f "acsbe-accessflow-sdk-1.0.0.tgz" ]; then
-          echo "✅ Found acsbe-accessflow-sdk-1.0.0.tgz"
-          echo "📊 File size: $(ls -lh acsbe-accessflow-sdk-1.0.0.tgz | awk '{print $5}')"
-          echo "📦 Installing local tarball package..."
           npm install ./acsbe-accessflow-sdk-1.0.0.tgz --save-dev
-          echo "✅ Local tarball installed successfully"
-        else
-          echo "⚠️  acsbe-accessflow-sdk-1.0.0.tgz not found - will try to install from registry"
         fi
     
     - name: Install dependencies
       run: |
-        echo "📦 Checking .npmrc for @acsbe packages..."
-        
-        # Priority 1: Use .npmrc if it exists and has token
         if [ -f ".npmrc" ] && grep -q "//npm.pkg.github.com/:_authToken=" .npmrc; then
-          echo "✅ Found .npmrc with token - using it directly"
-          echo "⚠️  SECURITY: Token is in committed .npmrc file"
-          echo ""
-          echo "📋 .npmrc contents (token masked):"
-          cat .npmrc | sed 's/_authToken=.*/_authToken=***MASKED***/'
-          echo ""
-          echo "📦 Installing remaining dependencies with .npmrc token..."
+          if ! grep -q "@acsbe:registry" .npmrc; then
+            echo '@acsbe:registry=https://npm.pkg.github.com' >> .npmrc
+          fi
           npm ci
         else
-          echo "⚠️  .npmrc not found or missing token - npm ci will use default auth"
-          echo "📦 Installing remaining dependencies..."
+          if [ ! -f ".npmrc" ] || ! grep -q "@acsbe:registry" .npmrc; then
+            echo '@acsbe:registry=https://npm.pkg.github.com' > .npmrc
+          fi
+          if [ -n "${{ secrets.ACSBE_TOKEN }}" ]; then
+            echo '//npm.pkg.github.com/:_authToken='${{ secrets.ACSBE_TOKEN }} >> .npmrc
+          elif [ -n "${{ secrets.GH_TOKEN }}" ]; then
+            echo '//npm.pkg.github.com/:_authToken='${{ secrets.GH_TOKEN }} >> .npmrc
+          else
+            echo '//npm.pkg.github.com/:_authToken='${{ secrets.GITHUB_TOKEN }} >> .npmrc
+          fi
           npm ci
         fi
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
+        ACSBE_TOKEN: ${{ secrets.ACSBE_TOKEN }}
     
     - name: Build application
       run: npm run build
