@@ -1,11 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const { AccessFlowSDK } = require('@acsbe/accessflow-sdk');
-
 // Initialize AccessFlow SDK with API key from environment variable or fallback
-const accessFlowApiKey = process.env.ACCESSFLOW_API_KEY || 'flow-1qS6Yt2KyK6fZaRMQJg0J7DdOmeIDKnw';
-if (accessFlowApiKey) {
-  AccessFlowSDK.init({ apiKey: accessFlowApiKey });
-}
+AccessFlowSDK.init({ apiKey: 'flow-1qS6Yt2KyK6fZaRMQJg0J7DdOmeIDKnw' });
 
 test.describe('Search Component Tests', () => {
   test.beforeEach(async ({ page }) => {
@@ -21,7 +17,10 @@ test.describe('Search Component Tests', () => {
     // Verify drawer is open by default (search should be visible)
     // Try multiple selectors to find the search input
     const sdk = new AccessFlowSDK(page);
-    await sdk.audit();
+    
+    const report = await sdk.audit();
+    const r = sdk.generateReport(report);
+    console.log(r);
     const searchInput = page.locator('input[aria-label="Search"]').or(
       page.locator('input[placeholder="Search..."]')
     ).or(

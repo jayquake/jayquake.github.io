@@ -28,7 +28,7 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@acsbe/accessflow-sdk": "^1.0.1-dev.6",
+    "@acsbe/accessflow-sdk": "^1.0.1-dev.7",
     "@playwright/test": "^1.56.1",
     "gh-pages": "^6.2.0",
     "playwright": "^1.56.1"
