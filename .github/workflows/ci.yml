@@ -67,21 +67,43 @@ jobs:
     - name: Install dependencies
       run: |
         echo "📦 Setting up npm registry for @acsbe packages..."
-        echo '@acsbe:registry=https://npm.pkg.github.com' >> .npmrc
         
-        # Use ACSBE_TOKEN if available (for @acsbe org packages), otherwise fall back to GH_TOKEN
-        if [ -n "${{ secrets.ACSBE_TOKEN }}" ]; then
-          echo "✅ Using ACSBE_TOKEN for @acsbe packages"
+        # Check if .npmrc exists and extract token from it
+        NPMRC_TOKEN=""
+        if [ -f ".npmrc" ]; then
+          echo "📄 Found existing .npmrc file"
+          # Extract token using sed (more portable than grep -oP)
+          NPMRC_TOKEN=$(grep '//npm.pkg.github.com/:_authToken=' .npmrc | sed 's/.*_authToken=//' | tr -d '\n' || echo "")
+          if [ -n "$NPMRC_TOKEN" ]; then
+            echo "✅ Found token in .npmrc file"
+            echo "⚠️  SECURITY WARNING: Token found in committed .npmrc file"
+            echo "   Consider using GitHub Secrets instead for better security"
+            echo "   Token length: ${#NPMRC_TOKEN}"
+          else
+            echo "ℹ️  .npmrc exists but no token found"
+          fi
+        fi
+        
+        # Create/update .npmrc with registry
+        echo '@acsbe:registry=https://npm.pkg.github.com' > .npmrc
+        
+        # Determine which token to use (priority: .npmrc > ACSBE_TOKEN > GH_TOKEN > GITHUB_TOKEN)
+        if [ -n "$NPMRC_TOKEN" ]; then
+          echo "✅ Using token from .npmrc file"
+          echo '//npm.pkg.github.com/:_authToken='$NPMRC_TOKEN >> .npmrc
+        elif [ -n "${{ secrets.ACSBE_TOKEN }}" ]; then
+          echo "✅ Using ACSBE_TOKEN secret for @acsbe packages"
           echo '//npm.pkg.github.com/:_authToken='${{ secrets.ACSBE_TOKEN }} >> .npmrc
         elif [ -n "${{ secrets.GH_TOKEN }}" ]; then
-          echo "⚠️  Using GH_TOKEN (may not have access to @acsbe packages)"
+          echo "⚠️  Using GH_TOKEN secret (may not have access to @acsbe packages)"
           echo '//npm.pkg.github.com/:_authToken='${{ secrets.GH_TOKEN }} >> .npmrc
         else
           echo "⚠️  Using GITHUB_TOKEN (may not have access to @acsbe packages)"
           echo '//npm.pkg.github.com/:_authToken='${{ secrets.GITHUB_TOKEN }} >> .npmrc
         fi
         
-        echo "📋 .npmrc contents:"
+        echo ""
+        echo "📋 .npmrc contents (token masked):"
         cat .npmrc | sed 's/_authToken=.*/_authToken=***MASKED***/'
         
         echo ""

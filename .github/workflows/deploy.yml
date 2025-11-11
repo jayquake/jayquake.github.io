@@ -49,6 +49,23 @@ jobs:
         node-version: lts/*
         cache: 'npm'
     
+    - name: Verify .npmrc for @acsbe packages
+      run: |
+        if [ -f ".npmrc" ]; then
+          echo "📄 Found .npmrc file"
+          if grep -q "@acsbe:registry" .npmrc; then
+            echo "✅ @acsbe registry configured in .npmrc"
+          fi
+          if grep -q "//npm.pkg.github.com/:_authToken=" .npmrc; then
+            echo "✅ Token found in .npmrc"
+            echo "⚠️  SECURITY: Token is in committed .npmrc file"
+          else
+            echo "⚠️  No token found in .npmrc"
+          fi
+        else
+          echo "⚠️  .npmrc file not found"
+        fi
+    
     - name: Install dependencies
       run: npm ci
     
@@ -109,6 +126,23 @@ jobs:
       with:
         node-version: lts/*
         cache: 'npm'
+    
+    - name: Verify .npmrc for @acsbe packages
+      run: |
+        if [ -f ".npmrc" ]; then
+          echo "📄 Found .npmrc file"
+          if grep -q "@acsbe:registry" .npmrc; then
+            echo "✅ @acsbe registry configured in .npmrc"
+          fi
+          if grep -q "//npm.pkg.github.com/:_authToken=" .npmrc; then
+            echo "✅ Token found in .npmrc"
+            echo "⚠️  SECURITY: Token is in committed .npmrc file"
+          else
+            echo "⚠️  No token found in .npmrc"
+          fi
+        else
+          echo "⚠️  .npmrc file not found"
+        fi
     
     - name: Install dependencies
       run: npm ci
