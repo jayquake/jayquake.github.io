@@ -10,6 +10,7 @@
     "@mui/joy": "^5.0.0-beta.48",
     "@mui/material": "^6.1.6",
     "@mui/utils": "^6.1.6",
+    "@playwright/mcp": "^0.0.46",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -27,7 +28,10 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "gh-pages": "^6.2.0"
+    "@acsbe/accessflow-sdk": "^1.0.1-dev.6",
+    "@playwright/test": "^1.56.1",
+    "gh-pages": "^6.2.0",
+    "playwright": "^1.56.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -35,7 +39,15 @@
     "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test:e2e": "cd test-suite && playwright test",
+    "test:e2e:ui": "cd test-suite && playwright test --ui",
+    "test:e2e:headed": "cd test-suite && playwright test --headed",
+    "test:e2e:debug": "cd test-suite && playwright test --debug",
+    "test:e2e:report": "cd test-suite && playwright show-report",
+    "test:e2e:search": "cd test-suite && playwright test tests/search.spec.js",
+    "test:e2e:accessibility": "cd test-suite && playwright test tests/accessibility-suite.spec.js",
+    "test:e2e:keyboard": "cd test-suite && playwright test tests/keyboard-navigation.spec.js"
   },
   "eslintConfig": {
     "extends": [

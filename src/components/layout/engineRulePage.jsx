@@ -41,6 +41,9 @@ import {
   Science as ScienceIcon,
 } from "@mui/icons-material";
 import CustomizedBreadcrumbs from "../util/ruleBreadcrumb";
+import { Link } from "react-router-dom";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 
 function EngineRulePage({ ruleData }) {
   const [copied, setCopied] = useState(false);
@@ -402,6 +405,92 @@ function EngineRulePage({ ruleData }) {
             {ruleData.advice}
           </Typography>
         </Box>
+      </Paper>
+
+      {/* View Examples Section */}
+      <Paper 
+        elevation={0} 
+        sx={{ 
+          p: 4, 
+          borderRadius: 4, 
+          textAlign: 'center', 
+          background: 'rgba(255, 255, 255, 0.4)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.6)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+        }}
+      >
+        <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold', color: '#1e293b' }}>
+          View Examples
+        </Typography>
+        <Typography variant="body2" sx={{ mb: 3, color: '#64748b' }}>
+          Explore both successful implementations and common failures for this engine rule
+        </Typography>
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} justifyContent="center" alignItems="center">
+          <Link
+            to={`/engine/${ruleData.id}_success`}
+            style={{ textDecoration: "none" }}
+          >
+            <Fab
+              color="success"
+              variant="extended"
+              size="large"
+              sx={{
+                px: 4,
+                py: 1.5,
+                background: 'rgba(76, 175, 80, 0.9)',
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
+                border: '1px solid rgba(76, 175, 80, 0.3)',
+                boxShadow: '0 8px 32px rgba(76, 175, 80, 0.3)',
+                fontWeight: "bold",
+                fontSize: '1rem',
+                minWidth: '180px',
+                "&:hover": {
+                  background: 'rgba(56, 142, 60, 0.9)',
+                  transform: 'translateY(-4px)',
+                  boxShadow: '0 12px 40px rgba(76, 175, 80, 0.4)'
+                },
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+              }}
+            >
+              <ThumbUpIcon sx={{ mr: 1 }} />
+              Success Examples
+            </Fab>
+          </Link>
+          <Link
+            to={`/engine/${ruleData.id}_failure`}
+            style={{ textDecoration: "none" }}
+          >
+            <Fab
+              color="error"
+              variant="extended"
+              size="large"
+              sx={{
+                px: 4,
+                py: 1.5,
+                background: 'rgba(244, 67, 54, 0.9)',
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
+                border: '1px solid rgba(244, 67, 54, 0.3)',
+                boxShadow: '0 8px 32px rgba(244, 67, 54, 0.3)',
+                fontWeight: "bold",
+                fontSize: '1rem',
+                minWidth: '180px',
+                "&:hover": {
+                  background: 'rgba(211, 47, 47, 0.9)',
+                  transform: 'translateY(-4px)',
+                  boxShadow: '0 12px 40px rgba(244, 67, 54, 0.4)'
+                },
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+              }}
+            >
+              <ThumbDownIcon sx={{ mr: 1 }} />
+              Failure Examples
+            </Fab>
+          </Link>
+        </Stack>
       </Paper>
 
       {/* References Section */}

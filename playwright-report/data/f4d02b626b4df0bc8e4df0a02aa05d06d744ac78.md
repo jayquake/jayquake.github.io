@@ -1,0 +1,397 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e7]:
+        - heading "QA Dashboard" [level=6] [ref=e8]
+        - text: Accessibility Testing Platform
+      - generic [ref=e10]:
+        - generic [ref=e11]:
+          - img [ref=e12]
+          - generic "Search" [ref=e14]:
+            - textbox "Search..." [active] [ref=e15]: form
+          - button [ref=e16] [cursor=pointer]:
+            - img [ref=e17]
+        - list [ref=e20]:
+          - 'link "Form Submissions Status Severity: high Criteria: forms" [ref=e21] [cursor=pointer]':
+            - /url: "#/forms/form-submissions-status"
+            - generic [ref=e22]:
+              - generic [ref=e23]: Form Submissions Status
+              - paragraph [ref=e24]:
+                - paragraph [ref=e25]:
+                  - strong [ref=e26]: "Severity:"
+                  - text: high
+                - paragraph [ref=e27]:
+                  - strong [ref=e28]: "Criteria:"
+                  - text: forms
+          - 'link "Form Duplicate IDs Severity: medium Criteria: forms" [ref=e29] [cursor=pointer]':
+            - /url: "#/forms/form-duplicate-ids"
+            - generic [ref=e30]:
+              - generic [ref=e31]: Form Duplicate IDs
+              - paragraph [ref=e32]:
+                - paragraph [ref=e33]:
+                  - strong [ref=e34]: "Severity:"
+                  - text: medium
+                - paragraph [ref=e35]:
+                  - strong [ref=e36]: "Criteria:"
+                  - text: forms
+          - 'link "Search Form Tagging Severity: medium Criteria: forms" [ref=e37] [cursor=pointer]':
+            - /url: "#/forms/search-form-tagging"
+            - generic [ref=e38]:
+              - generic [ref=e39]: Search Form Tagging
+              - paragraph [ref=e40]:
+                - paragraph [ref=e41]:
+                  - strong [ref=e42]: "Severity:"
+                  - text: medium
+                - paragraph [ref=e43]:
+                  - strong [ref=e44]: "Criteria:"
+                  - text: forms
+          - 'link "Missing Form Button Severity: medium Criteria: forms" [ref=e45] [cursor=pointer]':
+            - /url: "#/forms/missing-form-button"
+            - generic [ref=e46]:
+              - generic [ref=e47]: Missing Form Button
+              - paragraph [ref=e48]:
+                - paragraph [ref=e49]:
+                  - strong [ref=e50]: "Severity:"
+                  - text: medium
+                - paragraph [ref=e51]:
+                  - strong [ref=e52]: "Criteria:"
+                  - text: forms
+      - generic [ref=e53]:
+        - generic "Ready to test" [ref=e54]:
+          - img [ref=e55]
+          - generic [ref=e57]: Ready
+        - button "Toggle dark mode" [ref=e58] [cursor=pointer]:
+          - img [ref=e59]
+        - button "Notifications" [ref=e61] [cursor=pointer]:
+          - generic [ref=e62]:
+            - img [ref=e63]
+            - generic [ref=e65]: "3"
+        - img [ref=e67] [cursor=pointer]
+  - generic [ref=e69]:
+    - generic [ref=e70]:
+      - generic [ref=e71]:
+        - img [ref=e73]
+        - generic [ref=e75]:
+          - heading "AccessFlow" [level=6] [ref=e76]
+          - text: QA Testing
+      - button [ref=e77] [cursor=pointer]:
+        - img [ref=e78]
+    - list [ref=e80]:
+      - link "QA Dashboard" [ref=e82] [cursor=pointer]:
+        - /url: "#/"
+        - button "QA Dashboard" [ref=e83]:
+          - img [ref=e86]
+          - generic [ref=e89]: QA Dashboard
+      - link "5 Graphics" [ref=e90] [cursor=pointer]:
+        - /url: "#/graphics"
+        - button "5 Graphics" [ref=e91]:
+          - generic [ref=e93]:
+            - img [ref=e94]
+            - generic [ref=e96]: "5"
+          - generic [ref=e98]: Graphics
+      - link "11 Forms" [ref=e104] [cursor=pointer]:
+        - /url: "#/forms"
+        - button "11 Forms" [ref=e105]:
+          - generic [ref=e107]:
+            - img [ref=e108]
+            - generic [ref=e110]: "11"
+          - generic [ref=e112]: Forms
+      - link "10 Keyboard" [ref=e118] [cursor=pointer]:
+        - /url: "#/keyboard"
+        - button "10 Keyboard" [ref=e119]:
+          - generic [ref=e121]:
+            - img [ref=e122]
+            - generic [ref=e124]: "10"
+          - generic [ref=e126]: Keyboard
+      - link "12 Navigation" [ref=e132] [cursor=pointer]:
+        - /url: "#/navigation"
+        - button "12 Navigation" [ref=e133]:
+          - generic [ref=e135]:
+            - img [ref=e136]
+            - generic [ref=e138]: "12"
+          - generic [ref=e140]: Navigation
+      - link "5 Headings" [ref=e146] [cursor=pointer]:
+        - /url: "#/headings"
+        - button "5 Headings" [ref=e147]:
+          - generic [ref=e149]:
+            - img [ref=e150]
+            - generic [ref=e152]: "5"
+          - generic [ref=e154]: Headings
+      - link "13 Errors" [ref=e160] [cursor=pointer]:
+        - /url: "#/errors"
+        - button "13 Errors" [ref=e161]:
+          - generic [ref=e163]:
+            - img [ref=e164]
+            - generic [ref=e166]: "13"
+          - generic [ref=e168]: Errors
+      - link "5 Carousels" [ref=e174] [cursor=pointer]:
+        - /url: "#/carousels"
+        - button "5 Carousels" [ref=e175]:
+          - generic [ref=e177]:
+            - img [ref=e178]
+            - generic [ref=e180]: "5"
+          - generic [ref=e182]: Carousels
+      - link "5 Clickables" [ref=e188] [cursor=pointer]:
+        - /url: "#/clickables"
+        - button "5 Clickables" [ref=e189]:
+          - generic [ref=e191]:
+            - img [ref=e192]
+            - generic [ref=e194]: "5"
+          - generic [ref=e196]: Clickables
+      - link "13 Context" [ref=e202] [cursor=pointer]:
+        - /url: "#/context"
+        - button "13 Context" [ref=e203]:
+          - generic [ref=e205]:
+            - img [ref=e206]
+            - generic [ref=e209]: "13"
+          - generic [ref=e211]: Context
+      - link "3 Document" [ref=e217] [cursor=pointer]:
+        - /url: "#/document"
+        - button "3 Document" [ref=e218]:
+          - generic [ref=e220]:
+            - img [ref=e221]
+            - generic [ref=e223]: "3"
+          - generic [ref=e225]: Document
+      - link "3 Readability" [ref=e230] [cursor=pointer]:
+        - /url: "#/readability"
+        - button "3 Readability" [ref=e231]:
+          - generic [ref=e233]:
+            - img [ref=e234]
+            - generic [ref=e236]: "3"
+          - generic [ref=e238]: Readability
+      - link "5 Tables" [ref=e244] [cursor=pointer]:
+        - /url: "#/tables"
+        - button "5 Tables" [ref=e245]:
+          - generic [ref=e247]:
+            - img [ref=e248]
+            - generic [ref=e250]: "5"
+          - generic [ref=e252]: Tables
+    - list [ref=e258]:
+      - link "90 All Rules" [ref=e260] [cursor=pointer]:
+        - /url: "#/rules"
+        - button "90 All Rules" [ref=e261]:
+          - generic [ref=e263]:
+            - img [ref=e264]
+            - generic [ref=e266]: "90"
+          - generic [ref=e268]: All Rules
+      - link "Page Scanner" [ref=e273] [cursor=pointer]:
+        - /url: "#/scanner"
+        - button "Page Scanner" [ref=e274]:
+          - img [ref=e277]
+          - generic [ref=e280]: Page Scanner
+      - link "HTML Elements" [ref=e283] [cursor=pointer]:
+        - /url: "#/elements"
+        - button "HTML Elements" [ref=e284]:
+          - img [ref=e287]
+          - generic [ref=e290]: HTML Elements
+  - main [ref=e293]:
+    - generic [ref=e296]:
+      - generic [ref=e297]:
+        - img [ref=e299]
+        - heading "AccessFlow" [level=1] [ref=e301]
+        - heading "QA Testing Platform" [level=4] [ref=e302]
+        - heading "Modern accessibility testing with 90+ automated rules, interactive examples, and comprehensive WCAG 2.1 compliance guidance" [level=6] [ref=e303]
+        - generic [ref=e304]:
+          - link "Browse All Rules" [ref=e305] [cursor=pointer]:
+            - /url: "#/rules"
+            - button "Browse All Rules" [ref=e306]:
+              - img [ref=e308]
+              - text: Browse All Rules
+          - link "Start Testing" [ref=e310] [cursor=pointer]:
+            - /url: "#/scanner"
+            - button "Start Testing" [ref=e311]:
+              - img [ref=e313]
+              - text: Start Testing
+      - generic [ref=e315]:
+        - heading "Platform Overview" [level=4] [ref=e316]
+        - generic [ref=e317]:
+          - generic [ref=e319]:
+            - img [ref=e320]
+            - heading "90+" [level=2] [ref=e322]
+            - heading "Accessibility Rules" [level=6] [ref=e323]
+          - generic [ref=e325]:
+            - img [ref=e326]
+            - heading "12" [level=2] [ref=e328]
+            - heading "Test Categories" [level=6] [ref=e329]
+          - generic [ref=e331]:
+            - img [ref=e332]
+            - heading "100%" [level=2] [ref=e334]
+            - heading "WCAG 2.1 Coverage" [level=6] [ref=e335]
+          - generic [ref=e337]:
+            - img [ref=e338]
+            - heading "3" [level=2] [ref=e341]
+            - heading "Testing Tools" [level=6] [ref=e342]
+      - generic [ref=e343]:
+        - heading "Core Testing Categories" [level=3] [ref=e344]
+        - heading "Essential accessibility testing areas with comprehensive rule coverage" [level=6] [ref=e345]
+      - generic [ref=e347]:
+        - link "Graphics Comprehensive testing for graphics accessibility 12 Rules Explore Rules" [ref=e349] [cursor=pointer]:
+          - /url: "#/graphics"
+          - generic [ref=e350]:
+            - img [ref=e352]
+            - heading "Graphics" [level=5] [ref=e354]
+            - paragraph [ref=e355]: Comprehensive testing for graphics accessibility
+            - generic [ref=e357]: 12 Rules
+            - generic [ref=e358]:
+              - paragraph [ref=e359]: Explore Rules
+              - img [ref=e360]
+        - link "Forms Comprehensive testing for forms accessibility 8 Rules Explore Rules" [ref=e363] [cursor=pointer]:
+          - /url: "#/forms"
+          - generic [ref=e364]:
+            - img [ref=e366]
+            - heading "Forms" [level=5] [ref=e368]
+            - paragraph [ref=e369]: Comprehensive testing for forms accessibility
+            - generic [ref=e371]: 8 Rules
+            - generic [ref=e372]:
+              - paragraph [ref=e373]: Explore Rules
+              - img [ref=e374]
+        - link "Keyboard Comprehensive testing for keyboard accessibility 15 Rules Explore Rules" [ref=e377] [cursor=pointer]:
+          - /url: "#/keyboard"
+          - generic [ref=e378]:
+            - img [ref=e380]
+            - heading "Keyboard" [level=5] [ref=e382]
+            - paragraph [ref=e383]: Comprehensive testing for keyboard accessibility
+            - generic [ref=e385]: 15 Rules
+            - generic [ref=e386]:
+              - paragraph [ref=e387]: Explore Rules
+              - img [ref=e388]
+        - link "Navigation Comprehensive testing for navigation accessibility 7 Rules Explore Rules" [ref=e391] [cursor=pointer]:
+          - /url: "#/navigation"
+          - generic [ref=e392]:
+            - img [ref=e394]
+            - heading "Navigation" [level=5] [ref=e396]
+            - paragraph [ref=e397]: Comprehensive testing for navigation accessibility
+            - generic [ref=e399]: 7 Rules
+            - generic [ref=e400]:
+              - paragraph [ref=e401]: Explore Rules
+              - img [ref=e402]
+        - link "Headings Comprehensive testing for headings accessibility 6 Rules Explore Rules" [ref=e405] [cursor=pointer]:
+          - /url: "#/headings"
+          - generic [ref=e406]:
+            - img [ref=e408]
+            - heading "Headings" [level=5] [ref=e411]
+            - paragraph [ref=e412]: Comprehensive testing for headings accessibility
+            - generic [ref=e414]: 6 Rules
+            - generic [ref=e415]:
+              - paragraph [ref=e416]: Explore Rules
+              - img [ref=e417]
+        - link "Errors Comprehensive testing for errors accessibility 10 Rules Explore Rules" [ref=e420] [cursor=pointer]:
+          - /url: "#/errors"
+          - generic [ref=e421]:
+            - img [ref=e423]
+            - heading "Errors" [level=5] [ref=e425]
+            - paragraph [ref=e426]: Comprehensive testing for errors accessibility
+            - generic [ref=e428]: 10 Rules
+            - generic [ref=e429]:
+              - paragraph [ref=e430]: Explore Rules
+              - img [ref=e431]
+      - generic [ref=e433]:
+        - heading "Advanced Testing Categories" [level=3] [ref=e434]
+        - heading "Specialized accessibility testing for complex UI components and interactions" [level=6] [ref=e435]
+      - generic [ref=e437]:
+        - link "Carousels Advanced testing for carousels accessibility 4 Rules Explore Rules" [ref=e439] [cursor=pointer]:
+          - /url: "#/carousels"
+          - generic [ref=e440]:
+            - img [ref=e442]
+            - heading "Carousels" [level=5] [ref=e444]
+            - paragraph [ref=e445]: Advanced testing for carousels accessibility
+            - generic [ref=e447]: 4 Rules
+            - generic [ref=e448]:
+              - paragraph [ref=e449]: Explore Rules
+              - img [ref=e450]
+        - link "Clickables Advanced testing for clickables accessibility 9 Rules Explore Rules" [ref=e453] [cursor=pointer]:
+          - /url: "#/clickables"
+          - generic [ref=e454]:
+            - img [ref=e456]
+            - heading "Clickables" [level=5] [ref=e458]
+            - paragraph [ref=e459]: Advanced testing for clickables accessibility
+            - generic [ref=e461]: 9 Rules
+            - generic [ref=e462]:
+              - paragraph [ref=e463]: Explore Rules
+              - img [ref=e464]
+        - link "Context Advanced testing for context accessibility 5 Rules Explore Rules" [ref=e467] [cursor=pointer]:
+          - /url: "#/context"
+          - generic [ref=e468]:
+            - img [ref=e470]
+            - heading "Context" [level=5] [ref=e473]
+            - paragraph [ref=e474]: Advanced testing for context accessibility
+            - generic [ref=e476]: 5 Rules
+            - generic [ref=e477]:
+              - paragraph [ref=e478]: Explore Rules
+              - img [ref=e479]
+        - link "Document Advanced testing for document accessibility 3 Rules Explore Rules" [ref=e482] [cursor=pointer]:
+          - /url: "#/document"
+          - generic [ref=e483]:
+            - img [ref=e485]
+            - heading "Document" [level=5] [ref=e487]
+            - paragraph [ref=e488]: Advanced testing for document accessibility
+            - generic [ref=e490]: 3 Rules
+            - generic [ref=e491]:
+              - paragraph [ref=e492]: Explore Rules
+              - img [ref=e493]
+        - link "Readability Advanced testing for readability accessibility 7 Rules Explore Rules" [ref=e496] [cursor=pointer]:
+          - /url: "#/readability"
+          - generic [ref=e497]:
+            - img [ref=e499]
+            - heading "Readability" [level=5] [ref=e502]
+            - paragraph [ref=e503]: Advanced testing for readability accessibility
+            - generic [ref=e505]: 7 Rules
+            - generic [ref=e506]:
+              - paragraph [ref=e507]: Explore Rules
+              - img [ref=e508]
+        - link "Tables Advanced testing for tables accessibility 11 Rules Explore Rules" [ref=e511] [cursor=pointer]:
+          - /url: "#/tables"
+          - generic [ref=e512]:
+            - img [ref=e514]
+            - heading "Tables" [level=5] [ref=e516]
+            - paragraph [ref=e517]: Advanced testing for tables accessibility
+            - generic [ref=e519]: 11 Rules
+            - generic [ref=e520]:
+              - paragraph [ref=e521]: Explore Rules
+              - img [ref=e522]
+      - generic [ref=e524]:
+        - heading "Testing Tools & Utilities" [level=3] [ref=e525]
+        - heading "Powerful tools to streamline your accessibility testing workflow and enhance productivity" [level=6] [ref=e526]
+      - generic [ref=e528]:
+        - link "All Rules Browser Browse and search through all 90+ accessibility rules with comprehensive examples and guidance 90+ Rules" [ref=e530] [cursor=pointer]:
+          - /url: "#/rules"
+          - generic [ref=e531]:
+            - img [ref=e533]
+            - heading "All Rules Browser" [level=5] [ref=e535]
+            - paragraph [ref=e536]: Browse and search through all 90+ accessibility rules with comprehensive examples and guidance
+            - generic [ref=e538]: 90+ Rules
+        - link "Page Scanner Automated accessibility scanning with real-time issue detection and detailed reporting Live Testing" [ref=e540] [cursor=pointer]:
+          - /url: "#/scanner"
+          - generic [ref=e541]:
+            - img [ref=e543]
+            - heading "Page Scanner" [level=5] [ref=e545]
+            - paragraph [ref=e546]: Automated accessibility scanning with real-time issue detection and detailed reporting
+            - generic [ref=e548]: Live Testing
+        - link "HTML Elements Comprehensive guide to accessible HTML elements, attributes, and best practices Reference" [ref=e550] [cursor=pointer]:
+          - /url: "#/elements"
+          - generic [ref=e551]:
+            - img [ref=e553]
+            - heading "HTML Elements" [level=5] [ref=e555]
+            - paragraph [ref=e556]: Comprehensive guide to accessible HTML elements, attributes, and best practices
+            - generic [ref=e558]: Reference
+      - generic [ref=e559]:
+        - generic [ref=e560]:
+          - heading "Why Choose AccessFlow?" [level=3] [ref=e561]
+          - heading "The most comprehensive accessibility testing platform designed for modern web development teams" [level=6] [ref=e562]
+        - generic [ref=e563]:
+          - generic [ref=e565]:
+            - img [ref=e566]
+            - heading "Complete Coverage" [level=4] [ref=e568]
+            - paragraph [ref=e569]: 90+ rules covering all WCAG 2.1 guidelines with both success and failure examples for thorough understanding
+          - generic [ref=e571]:
+            - img [ref=e572]
+            - heading "Interactive Learning" [level=4] [ref=e575]
+            - paragraph [ref=e576]: Live code examples, interactive demos, and real-world scenarios help you master accessibility best practices
+          - generic [ref=e578]:
+            - img [ref=e579]
+            - heading "Actionable Insights" [level=4] [ref=e581]
+            - paragraph [ref=e582]: Get specific, actionable guidance with code samples and step-by-step instructions to fix issues quickly
+```
