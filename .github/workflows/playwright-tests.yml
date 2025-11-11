@@ -43,6 +43,19 @@ jobs:
         node-version: lts/*
         cache: 'npm'
     
+    - name: Install local @acsbe/accessflow-sdk tarball
+      run: |
+        echo "📦 Checking for local @acsbe/accessflow-sdk tarball..."
+        if [ -f "acsbe-accessflow-sdk-1.0.0.tgz" ]; then
+          echo "✅ Found acsbe-accessflow-sdk-1.0.0.tgz"
+          echo "📊 File size: $(ls -lh acsbe-accessflow-sdk-1.0.0.tgz | awk '{print $5}')"
+          echo "📦 Installing local tarball package..."
+          npm install ./acsbe-accessflow-sdk-1.0.0.tgz --save-dev
+          echo "✅ Local tarball installed successfully"
+        else
+          echo "⚠️  acsbe-accessflow-sdk-1.0.0.tgz not found - will try to install from registry"
+        fi
+    
     - name: Install dependencies
       run: |
         echo "📦 Checking .npmrc for @acsbe packages..."
@@ -55,11 +68,11 @@ jobs:
           echo "📋 .npmrc contents (token masked):"
           cat .npmrc | sed 's/_authToken=.*/_authToken=***MASKED***/'
           echo ""
-          echo "📦 Installing dependencies with .npmrc token..."
+          echo "📦 Installing remaining dependencies with .npmrc token..."
           npm ci
         else
           echo "⚠️  .npmrc not found or missing token - npm ci will use default auth"
-          echo "📦 Installing dependencies..."
+          echo "📦 Installing remaining dependencies..."
           npm ci
         fi
     
