@@ -49,25 +49,25 @@ jobs:
         node-version: lts/*
         cache: 'npm'
     
-    - name: Verify .npmrc for @acsbe packages
-      run: |
-        if [ -f ".npmrc" ]; then
-          echo "📄 Found .npmrc file"
-          if grep -q "@acsbe:registry" .npmrc; then
-            echo "✅ @acsbe registry configured in .npmrc"
-          fi
-          if grep -q "//npm.pkg.github.com/:_authToken=" .npmrc; then
-            echo "✅ Token found in .npmrc"
-            echo "⚠️  SECURITY: Token is in committed .npmrc file"
-          else
-            echo "⚠️  No token found in .npmrc"
-          fi
-        else
-          echo "⚠️  .npmrc file not found"
-        fi
-    
     - name: Install dependencies
-      run: npm ci
+      run: |
+        echo "📦 Checking .npmrc for @acsbe packages..."
+        
+        # Priority 1: Use .npmrc if it exists and has token
+        if [ -f ".npmrc" ] && grep -q "//npm.pkg.github.com/:_authToken=" .npmrc; then
+          echo "✅ Found .npmrc with token - using it directly"
+          echo "⚠️  SECURITY: Token is in committed .npmrc file"
+          echo ""
+          echo "📋 .npmrc contents (token masked):"
+          cat .npmrc | sed 's/_authToken=.*/_authToken=***MASKED***/'
+          echo ""
+          echo "📦 Installing dependencies with .npmrc token..."
+          npm ci
+        else
+          echo "⚠️  .npmrc not found or missing token - npm ci will use default auth"
+          echo "📦 Installing dependencies..."
+          npm ci
+        fi
     
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
@@ -127,25 +127,25 @@ jobs:
         node-version: lts/*
         cache: 'npm'
     
-    - name: Verify .npmrc for @acsbe packages
-      run: |
-        if [ -f ".npmrc" ]; then
-          echo "📄 Found .npmrc file"
-          if grep -q "@acsbe:registry" .npmrc; then
-            echo "✅ @acsbe registry configured in .npmrc"
-          fi
-          if grep -q "//npm.pkg.github.com/:_authToken=" .npmrc; then
-            echo "✅ Token found in .npmrc"
-            echo "⚠️  SECURITY: Token is in committed .npmrc file"
-          else
-            echo "⚠️  No token found in .npmrc"
-          fi
-        else
-          echo "⚠️  .npmrc file not found"
-        fi
-    
     - name: Install dependencies
-      run: npm ci
+      run: |
+        echo "📦 Checking .npmrc for @acsbe packages..."
+        
+        # Priority 1: Use .npmrc if it exists and has token
+        if [ -f ".npmrc" ] && grep -q "//npm.pkg.github.com/:_authToken=" .npmrc; then
+          echo "✅ Found .npmrc with token - using it directly"
+          echo "⚠️  SECURITY: Token is in committed .npmrc file"
+          echo ""
+          echo "📋 .npmrc contents (token masked):"
+          cat .npmrc | sed 's/_authToken=.*/_authToken=***MASKED***/'
+          echo ""
+          echo "📦 Installing dependencies with .npmrc token..."
+          npm ci
+        else
+          echo "⚠️  .npmrc not found or missing token - npm ci will use default auth"
+          echo "📦 Installing dependencies..."
+          npm ci
+        fi
     
     - name: Build application
       run: npm run build

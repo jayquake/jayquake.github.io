@@ -68,30 +68,55 @@ jobs:
       run: |
         echo "📦 Setting up npm registry for @acsbe packages..."
         
-        # Check if .npmrc exists and extract token from it
-        NPMRC_TOKEN=""
+        # Priority 1: Check if .npmrc exists and has token - use it directly
         if [ -f ".npmrc" ]; then
           echo "📄 Found existing .npmrc file"
-          # Extract token using sed (more portable than grep -oP)
-          NPMRC_TOKEN=$(grep '//npm.pkg.github.com/:_authToken=' .npmrc | sed 's/.*_authToken=//' | tr -d '\n' || echo "")
-          if [ -n "$NPMRC_TOKEN" ]; then
-            echo "✅ Found token in .npmrc file"
+          
+          # Check if it has @acsbe registry configured
+          if grep -q "@acsbe:registry" .npmrc; then
+            echo "✅ @acsbe registry already configured in .npmrc"
+          else
+            echo "ℹ️  Adding @acsbe registry to .npmrc"
+            echo '@acsbe:registry=https://npm.pkg.github.com' >> .npmrc
+          fi
+          
+          # Check if token exists
+          if grep -q "//npm.pkg.github.com/:_authToken=" .npmrc; then
+            echo "✅ Token found in .npmrc file - using it directly"
             echo "⚠️  SECURITY WARNING: Token found in committed .npmrc file"
             echo "   Consider using GitHub Secrets instead for better security"
-            echo "   Token length: ${#NPMRC_TOKEN}"
+            
+            # Extract token for verification
+            NPMRC_TOKEN=$(grep '//npm.pkg.github.com/:_authToken=' .npmrc | sed 's/.*_authToken=//' | tr -d '\n' || echo "")
+            if [ -n "$NPMRC_TOKEN" ]; then
+              echo "   Token length: ${#NPMRC_TOKEN}"
+            fi
+            
+            echo ""
+            echo "📋 Using existing .npmrc (token masked):"
+            cat .npmrc | sed 's/_authToken=.*/_authToken=***MASKED***/'
+            echo ""
+            echo "📦 Installing dependencies with .npmrc token..."
+            npm ci
+            exit 0
           else
-            echo "ℹ️  .npmrc exists but no token found"
+            echo "⚠️  .npmrc exists but no token found - will use secrets"
           fi
+        else
+          echo "ℹ️  .npmrc file not found - will create one with token from secrets"
         fi
         
-        # Create/update .npmrc with registry
-        echo '@acsbe:registry=https://npm.pkg.github.com' > .npmrc
+        # Priority 2: Use secrets if .npmrc doesn't have token
+        echo ""
+        echo "🔑 Setting up .npmrc with token from secrets..."
         
-        # Determine which token to use (priority: .npmrc > ACSBE_TOKEN > GH_TOKEN > GITHUB_TOKEN)
-        if [ -n "$NPMRC_TOKEN" ]; then
-          echo "✅ Using token from .npmrc file"
-          echo '//npm.pkg.github.com/:_authToken='$NPMRC_TOKEN >> .npmrc
-        elif [ -n "${{ secrets.ACSBE_TOKEN }}" ]; then
+        # Create/update .npmrc with registry
+        if [ ! -f ".npmrc" ] || ! grep -q "@acsbe:registry" .npmrc; then
+          echo '@acsbe:registry=https://npm.pkg.github.com' > .npmrc
+        fi
+        
+        # Determine which token to use (priority: ACSBE_TOKEN > GH_TOKEN > GITHUB_TOKEN)
+        if [ -n "${{ secrets.ACSBE_TOKEN }}" ]; then
           echo "✅ Using ACSBE_TOKEN secret for @acsbe packages"
           echo '//npm.pkg.github.com/:_authToken='${{ secrets.ACSBE_TOKEN }} >> .npmrc
         elif [ -n "${{ secrets.GH_TOKEN }}" ]; then
