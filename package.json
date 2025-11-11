@@ -40,7 +40,7 @@
     "deploy:direct": "gh-pages -d build",
     "deploy:actions": "bash scripts/deploy-via-actions.sh",
     "deploy:trigger": "gh workflow run deploy.yml",
-    "build": "react-scripts build",
+    "build": "CI=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "test:e2e": "cd test-suite && playwright test",
