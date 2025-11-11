@@ -36,7 +36,10 @@
   "scripts": {
     "start": "react-scripts start",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "bash scripts/deploy-via-actions.sh",
+    "deploy:direct": "gh-pages -d build",
+    "deploy:actions": "bash scripts/deploy-via-actions.sh",
+    "deploy:trigger": "gh workflow run deploy.yml",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
