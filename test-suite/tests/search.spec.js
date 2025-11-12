@@ -20,8 +20,6 @@ test.describe('Search Component Tests', () => {
     const sdk = new AccessFlowSDK(page);
     
     const report = await sdk.audit();
-    const r = sdk.generateReport(report);
-    console.log(r);
     const searchInput = page.locator('input[aria-label="Search"]').or(
       page.locator('input[placeholder="Search..."]')
     ).or(
