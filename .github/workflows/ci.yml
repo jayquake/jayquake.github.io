@@ -22,12 +22,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     
-    - name: Install local @acsbe/accessflow-sdk tarball
-      run: |
-        if [ -f "acsbe-accessflow-sdk-1.0.0.tgz" ]; then
-          npm install ./acsbe-accessflow-sdk-1.0.0.tgz --save-dev
-        fi
-    
+   
     - name: Install dependencies
       run: |
         # Priority 1: Use .npmrc if it exists and has token

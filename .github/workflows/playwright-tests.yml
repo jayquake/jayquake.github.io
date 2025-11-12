@@ -19,12 +19,7 @@ jobs:
         node-version: lts/*
         cache: 'npm'
     
-    - name: Install local @acsbe/accessflow-sdk tarball
-      run: |
-        if [ -f "acsbe-accessflow-sdk-1.0.0.tgz" ]; then
-          npm install ./acsbe-accessflow-sdk-1.0.0.tgz --save-dev
-        fi
-    
+
     - name: Install dependencies
       run: |
         if [ -f ".npmrc" ] && grep -q "//npm.pkg.github.com/:_authToken=" .npmrc; then
