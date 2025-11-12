@@ -4,6 +4,11 @@ on:
   push:
     branches: [ main, master ]
   workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy (defaults to triggering branch)'
+        required: false
+        type: string
 
 permissions:
   contents: read
