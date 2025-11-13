@@ -135,7 +135,6 @@
   "workbench.editor.enablePreview": false,
   "workbench.editor.closeOnFileDelete": true,
   "workbench.sideBar.location": "left",
-  "workbench.activityBar.visible": true,
   "workbench.statusBar.visible": true,
 
   // Extensions Recommendations (will be used if extensions.json exists)
