@@ -22,14 +22,37 @@ fi
 # Get the current branch
 CURRENT_BRANCH=$(git branch --show-current 2>/dev/null || git rev-parse --abbrev-ref HEAD)
 
-# Check if we're on main or master
-if [ "$CURRENT_BRANCH" != "main" ] && [ "$CURRENT_BRANCH" != "master" ]; then
-  echo "❌ Error: You must be on 'main' or 'master' branch to deploy"
-  echo "Current branch: $CURRENT_BRANCH"
-  echo ""
-  echo "To switch branches, run:"
-  echo "  git checkout main"
-  exit 1
+# Check if DEPLOY_BRANCHES environment variable is set (comma-separated list)
+# If not set, default to main and master
+ALLOWED_BRANCHES="${DEPLOY_BRANCHES:-main,master}"
+
+# Check if ALLOW_ANY_BRANCH is set to "true" to bypass branch check
+if [ "${ALLOW_ANY_BRANCH}" != "true" ]; then
+  # Check if current branch is in allowed branches list
+  ALLOWED=0
+  IFS=',' read -ra BRANCHES <<< "$ALLOWED_BRANCHES"
+  for branch in "${BRANCHES[@]}"; do
+    # Trim whitespace from branch name
+    branch=$(echo "$branch" | xargs)
+    if [ "$CURRENT_BRANCH" = "$branch" ]; then
+      ALLOWED=1
+      break
+    fi
+  done
+  
+  if [ "$ALLOWED" -eq 0 ]; then
+    echo "❌ Error: You must be on one of the allowed branches to deploy"
+    echo "Current branch: $CURRENT_BRANCH"
+    echo "Allowed branches: $ALLOWED_BRANCHES"
+    echo ""
+    echo "Options:"
+    echo "  1. Switch to an allowed branch: git checkout main"
+    echo "  2. Set ALLOW_ANY_BRANCH=true to deploy from any branch (not recommended for production)"
+    echo "  3. Set DEPLOY_BRANCHES='branch1,branch2' to allow specific branches"
+    exit 1
+  fi
+else
+  echo "⚠️  Warning: Deploying from branch '$CURRENT_BRANCH' (ALLOW_ANY_BRANCH is enabled)"
 fi
 
 # Check if there are uncommitted changes in build directory

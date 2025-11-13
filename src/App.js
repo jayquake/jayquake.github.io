@@ -245,6 +245,8 @@ export default function App() {
 
             {/* User Menu */}
             <Avatar 
+              role="button"
+              tabIndex={0}
               sx={{ 
                 width: 32, 
                 height: 32, 
@@ -257,6 +259,10 @@ export default function App() {
                 '&:hover': {
                   background: 'rgba(255,255,255,0.5)',
                   transform: 'scale(1.05)'
+                },
+                '&:focus': {
+                  outline: '2px solid rgba(102, 126, 234, 0.5)',
+                  outlineOffset: '2px'
                 }
               }}
             >
