@@ -1,0 +1,347 @@
+{
+  "React Functional Component": {
+    "prefix": "rfc",
+    "body": [
+      "import React from 'react';",
+      "",
+      "const ${1:ComponentName} = () => {",
+      "  return (",
+      "    <div>",
+      "      ${2:// Component content}",
+      "    </div>",
+      "  );",
+      "};",
+      "",
+      "export default ${1:ComponentName};"
+    ],
+    "description": "React functional component"
+  },
+  "React Functional Component with Props": {
+    "prefix": "rfcp",
+    "body": [
+      "import React from 'react';",
+      "",
+      "const ${1:ComponentName} = ({ ${2:props} }) => {",
+      "  return (",
+      "    <div>",
+      "      ${3:// Component content}",
+      "    </div>",
+      "  );",
+      "};",
+      "",
+      "export default ${1:ComponentName};"
+    ],
+    "description": "React functional component with props"
+  },
+  "React useState Hook": {
+    "prefix": "useState",
+    "body": [
+      "const [${1:state}, set${1/(.*)/${1:/capitalize}/}] = useState(${2:initialValue});"
+    ],
+    "description": "React useState hook"
+  },
+  "React useEffect Hook": {
+    "prefix": "useEffect",
+    "body": [
+      "useEffect(() => {",
+      "  ${1:// Effect code}",
+      "  ",
+      "  return () => {",
+      "    ${2:// Cleanup code}",
+      "  };",
+      "}, [${3:dependencies}]);"
+    ],
+    "description": "React useEffect hook"
+  },
+  "React useCallback Hook": {
+    "prefix": "useCallback",
+    "body": [
+      "const ${1:callback} = useCallback(() => {",
+      "  ${2:// Callback code}",
+      "}, [${3:dependencies}]);"
+    ],
+    "description": "React useCallback hook"
+  },
+  "React useContext Hook": {
+    "prefix": "useContext",
+    "body": [
+      "const ${1:context} = useContext(${2:ContextName});"
+    ],
+    "description": "React useContext hook"
+  },
+  "React Context Provider": {
+    "prefix": "context",
+    "body": [
+      "import React, { createContext, useContext, useState } from 'react';",
+      "",
+      "const ${1:ContextName} = createContext();",
+      "",
+      "export function use${1:ContextName}() {",
+      "  return useContext(${1:ContextName});",
+      "}",
+      "",
+      "export function ${1:ContextName}Provider({ children }) {",
+      "  const [${2:state}, set${2/(.*)/${2:/capitalize}/}] = useState(${3:initialValue});",
+      "",
+      "  return (",
+      "    <${1:ContextName}.Provider value={{ ${2:state}, set${2/(.*)/${2:/capitalize}/} }}>",
+      "      {children}",
+      "    </${1:ContextName}.Provider>",
+      "  );",
+      "}"
+    ],
+    "description": "React Context Provider pattern"
+  },
+  "Material-UI Component": {
+    "prefix": "mui",
+    "body": [
+      "import { ${1:Component} } from '@mui/material';"
+    ],
+    "description": "Import Material-UI component"
+  },
+  "Material-UI Icon": {
+    "prefix": "muiicon",
+    "body": [
+      "import { ${1:IconName} } from '@mui/icons-material';"
+    ],
+    "description": "Import Material-UI icon"
+  },
+  "React Router Link": {
+    "prefix": "link",
+    "body": [
+      "import { Link } from 'react-router-dom';",
+      "",
+      "<Link to=\"${1:/path}\">${2:Link Text}</Link>"
+    ],
+    "description": "React Router Link"
+  },
+  "React Router useNavigate": {
+    "prefix": "navigate",
+    "body": [
+      "import { useNavigate } from 'react-router-dom';",
+      "",
+      "const navigate = useNavigate();",
+      "navigate('${1:/path}');"
+    ],
+    "description": "React Router navigation"
+  },
+  "React Router useParams": {
+    "prefix": "params",
+    "body": [
+      "import { useParams } from 'react-router-dom';",
+      "",
+      "const { ${1:param} } = useParams();"
+    ],
+    "description": "React Router useParams"
+  },
+  "React Router useLocation": {
+    "prefix": "location",
+    "body": [
+      "import { useLocation } from 'react-router-dom';",
+      "",
+      "const location = useLocation();"
+    ],
+    "description": "React Router useLocation"
+  },
+  "MUI Container": {
+    "prefix": "container",
+    "body": [
+      "<Container maxWidth=\"${1:lg}\">",
+      "  ${2:// Content}",
+      "</Container>"
+    ],
+    "description": "Material-UI Container"
+  },
+  "MUI Grid": {
+    "prefix": "grid",
+    "body": [
+      "<Grid container spacing={${1:2}}>",
+      "  <Grid item xs={${2:12}}>",
+      "    ${3:// Content}",
+      "  </Grid>",
+      "</Grid>"
+    ],
+    "description": "Material-UI Grid"
+  },
+  "MUI Button": {
+    "prefix": "button",
+    "body": [
+      "<Button variant=\"${1:contained}\" color=\"${2:primary}\" onClick={${3:handleClick}}>",
+      "  ${4:Button Text}",
+      "</Button>"
+    ],
+    "description": "Material-UI Button"
+  },
+  "MUI Card": {
+    "prefix": "card",
+    "body": [
+      "<Card>",
+      "  <CardContent>",
+      "    ${1:// Content}",
+      "  </CardContent>",
+      "</Card>"
+    ],
+    "description": "Material-UI Card"
+  },
+  "MUI TextField": {
+    "prefix": "textfield",
+    "body": [
+      "<TextField",
+      "  label=\"${1:Label}\"",
+      "  value={${2:value}}",
+      "  onChange={(e) => ${3:setValue}(e.target.value)}",
+      "  variant=\"${4:outlined}\"",
+      "/>"
+    ],
+    "description": "Material-UI TextField"
+  },
+  "MUI Typography": {
+    "prefix": "typography",
+    "body": [
+      "<Typography variant=\"${1:h4}\" component=\"${2:div}\">",
+      "  ${3:Text content}",
+      "</Typography>"
+    ],
+    "description": "Material-UI Typography"
+  },
+  "MUI Box": {
+    "prefix": "box",
+    "body": [
+      "<Box sx={{ ${1:// styles} }}>",
+      "  ${2:// Content}",
+      "</Box>"
+    ],
+    "description": "Material-UI Box"
+  },
+  "MUI Paper": {
+    "prefix": "paper",
+    "body": [
+      "<Paper elevation={${1:2}} sx={{ p: ${2:2} }}>",
+      "  ${3:// Content}",
+      "</Paper>"
+    ],
+    "description": "Material-UI Paper"
+  },
+  "MUI Drawer": {
+    "prefix": "drawer",
+    "body": [
+      "<Drawer",
+      "  anchor=\"${1:left}\"",
+      "  open={${2:open}}",
+      "  onClose={${3:handleClose}}",
+      ">",
+      "  ${4:// Drawer content}",
+      "</Drawer>"
+    ],
+    "description": "Material-UI Drawer"
+  },
+  "MUI AppBar": {
+    "prefix": "appbar",
+    "body": [
+      "<AppBar position=\"${1:static}\">",
+      "  <Toolbar>",
+      "    ${2:// AppBar content}",
+      "  </Toolbar>",
+      "</AppBar>"
+    ],
+    "description": "Material-UI AppBar"
+  },
+  "MUI Chip": {
+    "prefix": "chip",
+    "body": [
+      "<Chip label=\"${1:Label}\" color=\"${2:primary}\" variant=\"${3:outlined}\" />"
+    ],
+    "description": "Material-UI Chip"
+  },
+  "MUI Alert": {
+    "prefix": "alert",
+    "body": [
+      "<Alert severity=\"${1:info}\">",
+      "  ${2:Alert message}",
+      "</Alert>"
+    ],
+    "description": "Material-UI Alert"
+  },
+  "MUI Snackbar": {
+    "prefix": "snackbar",
+    "body": [
+      "<Snackbar",
+      "  open={${1:open}}",
+      "  autoHideDuration={${2:6000}}",
+      "  onClose={${3:handleClose}}",
+      ">",
+      "  <Alert onClose={${3:handleClose}} severity=\"${4:success}\">",
+      "    ${5:Message}",
+      "  </Alert>",
+      "</Snackbar>"
+    ],
+    "description": "Material-UI Snackbar"
+  },
+  "MUI Tooltip": {
+    "prefix": "tooltip",
+    "body": [
+      "<Tooltip title=\"${1:Tooltip text}\">",
+      "  ${2:// Wrapped element}",
+      "</Tooltip>"
+    ],
+    "description": "Material-UI Tooltip"
+  },
+  "MUI IconButton": {
+    "prefix": "iconbutton",
+    "body": [
+      "<IconButton onClick={${1:handleClick}} color=\"${2:primary}\">",
+      "  <${3:IconName} />",
+      "</IconButton>"
+    ],
+    "description": "Material-UI IconButton"
+  },
+  "React Fragment": {
+    "prefix": "fragment",
+    "body": [
+      "<>",
+      "  ${1:// Content}",
+      "</>"
+    ],
+    "description": "React Fragment"
+  },
+  "React Error Boundary": {
+    "prefix": "errorboundary",
+    "body": [
+      "class ${1:ErrorBoundary} extends React.Component {",
+      "  constructor(props) {",
+      "    super(props);",
+      "    this.state = { hasError: false };",
+      "  }",
+      "",
+      "  static getDerivedStateFromError(error) {",
+      "    return { hasError: true };",
+      "  }",
+      "",
+      "  componentDidCatch(error, errorInfo) {",
+      "    console.error('Error caught:', error, errorInfo);",
+      "  }",
+      "",
+      "  render() {",
+      "    if (this.state.hasError) {",
+      "      return <h1>Something went wrong.</h1>;",
+      "    }",
+      "",
+      "    return this.props.children;",
+      "  }",
+      "}"
+    ],
+    "description": "React Error Boundary class component"
+  },
+  "React PropTypes": {
+    "prefix": "propTypes",
+    "body": [
+      "import PropTypes from 'prop-types';",
+      "",
+      "${1:ComponentName}.propTypes = {",
+      "  ${2:prop}: PropTypes.${3:string},",
+      "};"
+    ],
+    "description": "React PropTypes"
+  }
+}
+

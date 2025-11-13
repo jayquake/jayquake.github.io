@@ -1,0 +1,173 @@
+{
+  "Playwright Test Describe": {
+    "prefix": "test.describe",
+    "body": [
+      "test.describe('${1:Test Suite Name}', () => {",
+      "  test.beforeEach(async ({ page }) => {",
+      "    await page.goto('${2:/}');",
+      "    await page.waitForLoadState('networkidle');",
+      "  });",
+      "",
+      "  test('${3:should do something}', async ({ page }) => {",
+      "    ${4:// Test code here}",
+      "  });",
+      "});"
+    ],
+    "description": "Playwright test describe block with beforeEach"
+  },
+  "Playwright Test": {
+    "prefix": "test",
+    "body": [
+      "test('${1:test name}', async ({ page }) => {",
+      "  await page.goto('${2:/}');",
+      "  ${3:// Test code here}",
+      "});"
+    ],
+    "description": "Basic Playwright test"
+  },
+  "Playwright Locator": {
+    "prefix": "locator",
+    "body": [
+      "const ${1:element} = page.locator('${2:selector}');",
+      "await expect(${1:element}).${3:toBeVisible}();"
+    ],
+    "description": "Create a Playwright locator"
+  },
+  "Playwright Fill Input": {
+    "prefix": "fill",
+    "body": [
+      "await page.locator('${1:input selector}').fill('${2:text}');"
+    ],
+    "description": "Fill an input field"
+  },
+  "Playwright Click": {
+    "prefix": "click",
+    "body": [
+      "await page.locator('${1:button selector}').click();"
+    ],
+    "description": "Click an element"
+  },
+  "Playwright Expect": {
+    "prefix": "expect",
+    "body": [
+      "await expect(page.locator('${1:selector}')).${2:toBeVisible}();"
+    ],
+    "description": "Playwright expect assertion"
+  },
+  "Playwright Wait For": {
+    "prefix": "waitFor",
+    "body": [
+      "await page.waitForSelector('${1:selector}', { state: '${2:visible}' });"
+    ],
+    "description": "Wait for selector"
+  },
+  "Playwright Screenshot": {
+    "prefix": "screenshot",
+    "body": [
+      "await page.screenshot({ path: '${1:screenshot.png}' });"
+    ],
+    "description": "Take a screenshot"
+  },
+  "Playwright Navigation": {
+    "prefix": "goto",
+    "body": [
+      "await page.goto('${1:/}');",
+      "await page.waitForLoadState('networkidle');"
+    ],
+    "description": "Navigate to URL and wait for load"
+  },
+  "Playwright Test with AccessFlow SDK": {
+    "prefix": "test.accessflow",
+    "body": [
+      "import { AccessFlowSDK } from '@acsbe/accessflow-sdk';",
+      "",
+      "test('${1:test name}', async ({ page }) => {",
+      "  await page.goto('${2:/}');",
+      "  ",
+      "  const sdk = new AccessFlowSDK(page);",
+      "  const report = await sdk.audit();",
+      "  ",
+      "  ${3:// Test code here}",
+      "});"
+    ],
+    "description": "Playwright test with AccessFlow SDK"
+  },
+  "Playwright Test with Multiple Browsers": {
+    "prefix": "test.multi",
+    "body": [
+      "test.describe('${1:Test Suite}', () => {",
+      "  ['chromium', 'firefox', 'webkit'].forEach(browserName => {",
+      "    test(`should work in ${browserName}`, async ({ page, browserName: currentBrowser }) => {",
+      "      test.skip(currentBrowser !== browserName, `Skipping ${currentBrowser}`);",
+      "      ",
+      "      await page.goto('${2:/}');",
+      "      ${3:// Test code here}",
+      "    });",
+      "  });",
+      "});"
+    ],
+    "description": "Test across multiple browsers"
+  },
+  "Playwright API Request": {
+    "prefix": "api",
+    "body": [
+      "const response = await page.request.get('${1:/api/endpoint}');",
+      "expect(response.ok()).toBeTruthy();",
+      "const data = await response.json();"
+    ],
+    "description": "Make API request in Playwright"
+  },
+  "Playwright Keyboard Navigation": {
+    "prefix": "keyboard",
+    "body": [
+      "await page.keyboard.press('${1:Tab}');",
+      "await page.keyboard.type('${2:text}');"
+    ],
+    "description": "Keyboard interactions"
+  },
+  "Playwright Hover": {
+    "prefix": "hover",
+    "body": [
+      "await page.locator('${1:selector}').hover();"
+    ],
+    "description": "Hover over element"
+  },
+  "Playwright Select Dropdown": {
+    "prefix": "select",
+    "body": [
+      "await page.locator('${1:select selector}').selectOption('${2:value}');"
+    ],
+    "description": "Select dropdown option"
+  },
+  "Playwright Wait For Timeout": {
+    "prefix": "waitTimeout",
+    "body": [
+      "await page.waitForTimeout(${1:1000});"
+    ],
+    "description": "Wait for timeout (use sparingly)"
+  },
+  "Playwright Network Idle": {
+    "prefix": "networkidle",
+    "body": [
+      "await page.waitForLoadState('networkidle');"
+    ],
+    "description": "Wait for network to be idle"
+  },
+  "Playwright Get Text": {
+    "prefix": "text",
+    "body": [
+      "const ${1:text} = await page.locator('${2:selector}').textContent();",
+      "expect(${1:text}).toContain('${3:expected text}');"
+    ],
+    "description": "Get text content and assert"
+  },
+  "Playwright Get Attribute": {
+    "prefix": "attribute",
+    "body": [
+      "const ${1:attr} = await page.locator('${2:selector}').getAttribute('${3:attribute}');",
+      "expect(${1:attr}).toBe('${4:expected value}');"
+    ],
+    "description": "Get element attribute"
+  }
+}
+
