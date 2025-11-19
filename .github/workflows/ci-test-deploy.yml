@@ -83,10 +83,6 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
 
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
@@ -120,7 +116,7 @@ jobs:
       - name: ✅ Deployment Summary
         run: |
           echo "🎉 Deployment successful!"
-          echo "📍 URL: ${{ steps.deployment.outputs.page_url }}"
+          echo "📍 URL: https://${{ github.repository_owner }}.github.io/"
           echo "🕒 Deployed at: $(date)"
 
   accessibility-summary:
