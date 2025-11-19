@@ -6,10 +6,10 @@ This guide will help you set up automated testing and deployment with GitHub Act
 
 **One unified GitHub Actions workflow** handles everything:
 
-✅ **CI Testing** - Tests on Node.js 18.x and 20.x  
-✅ **Playwright Tests** - Comprehensive E2E tests with AccessFlow SDK audits  
-✅ **Deployment** - Automatic deployment to GitHub Pages (main/master only)  
-✅ **Accessibility Reports** - Summary of AccessFlow audit results  
+✅ **CI Testing** - Tests on Node.js 18.x and 20.x
+✅ **Playwright Tests** - Comprehensive E2E tests with AccessFlow SDK audits
+✅ **Deployment** - Automatic deployment to GitHub Pages (main/master only)
+✅ **Accessibility Reports** - Summary of AccessFlow audit results
 
 ## 🚀 Quick Setup
 
