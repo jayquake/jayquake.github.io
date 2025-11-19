@@ -81,7 +81,14 @@ jobs:
     name: Deploy to GitHub Pages
     needs: test
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    # Deploy from main, master, develop, and dev branches
+    if: |
+      github.event_name == 'push' && (
+        github.ref == 'refs/heads/main' ||
+        github.ref == 'refs/heads/master' ||
+        github.ref == 'refs/heads/develop' ||
+        startsWith(github.ref, 'refs/heads/dev/')
+      )
 
     environment:
       name: github-pages
