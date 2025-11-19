@@ -107,7 +107,7 @@ jobs:
         id: branch-path
         run: |
           BRANCH_NAME="${GITHUB_REF#refs/heads/}"
-          
+
           # Main/master deploy to root
           if [[ "$BRANCH_NAME" == "main" ]] || [[ "$BRANCH_NAME" == "master" ]]; then
             echo "path=." >> $GITHUB_OUTPUT
@@ -121,7 +121,7 @@ jobs:
             echo "public_url=/$CLEAN_BRANCH/" >> $GITHUB_OUTPUT
             echo "deploy_name=$CLEAN_BRANCH" >> $GITHUB_OUTPUT
           fi
-          
+
           echo "Branch: $BRANCH_NAME"
           echo "Deploy path: $(cat $GITHUB_OUTPUT | grep path= | cut -d= -f2)"
           echo "Public URL: $(cat $GITHUB_OUTPUT | grep public_url= | cut -d= -f2)"
@@ -147,13 +147,13 @@ jobs:
         run: |
           # Create or use existing gh-pages directory
           mkdir -p gh-pages-deploy
-          
+
           # Copy existing content if gh-pages branch exists
           if [ -d "gh-pages-content" ]; then
             cp -r gh-pages-content/* gh-pages-deploy/ || true
             rm -rf gh-pages-content
           fi
-          
+
           # Create/update branch-specific directory
           if [[ "${{ steps.branch-path.outputs.path }}" == "." ]]; then
             # Main branch: deploy to root (but preserve other branch directories)
@@ -165,7 +165,7 @@ jobs:
             rm -rf gh-pages-deploy/${{ steps.branch-path.outputs.path }}/*
             cp -r build/* gh-pages-deploy/${{ steps.branch-path.outputs.path }}/
           fi
-          
+
           # Create index file listing all branches
           cat > gh-pages-deploy/branches.html <<EOF
           <!DOCTYPE html>
