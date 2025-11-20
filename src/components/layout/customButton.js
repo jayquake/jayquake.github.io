@@ -9,7 +9,7 @@ const CustomButton = ({ to, onClick, children }) => {
 
   const handleKeyDown = (event) => {
     // Handle Enter and Space keys for keyboard accessibility
-    if (event.key === 'Enter' || event.key === ' ') {
+    if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
       handleClick();
     }
@@ -21,7 +21,7 @@ const CustomButton = ({ to, onClick, children }) => {
       onKeyDown={handleKeyDown}
       role="button"
       tabIndex={0}
-      style={{ cursor: 'pointer' }}
+      style={{ cursor: "pointer" }}
     >
       {children}
     </div>
