@@ -22,18 +22,14 @@ jobs:
     name: Test & Build
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
-
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
 
-      - name: 🔧 Setup Node.js ${{ matrix.node-version }}
+      - name: 🔧 Setup Node.js 20.x
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '20.x'
           cache: 'npm'
 
       - name: 📦 Install dependencies
@@ -57,7 +53,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report-node-${{ matrix.node-version }}
+          name: playwright-report
           path: test-suite/playwright-report/
           retention-days: 30
 
@@ -65,12 +61,12 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: test-results-node-${{ matrix.node-version }}
+          name: test-results
           path: test-suite/test-results/
           retention-days: 30
 
-      - name: 📦 Upload Build Artifacts (Node 20.x only)
-        if: matrix.node-version == '20.x' && success()
+      - name: 📦 Upload Build Artifacts
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
@@ -206,10 +202,10 @@ jobs:
     if: always()
 
     steps:
-      - name: 📥 Download Test Results (Node 20.x)
+      - name: 📥 Download Test Results
         uses: actions/download-artifact@v4
         with:
-          name: test-results-node-20.x
+          name: test-results
           path: test-results
 
       - name: 📊 Display AccessFlow Summary
@@ -230,6 +226,6 @@ jobs:
 
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 📋 Test Results Available" >> $GITHUB_STEP_SUMMARY
-          echo "- Download \`playwright-report-node-20.x\` artifact to view detailed test reports" >> $GITHUB_STEP_SUMMARY
-          echo "- Download \`test-results-node-20.x\` artifact for raw test data" >> $GITHUB_STEP_SUMMARY
+          echo "- Download \`playwright-report\` artifact to view detailed test reports" >> $GITHUB_STEP_SUMMARY
+          echo "- Download \`test-results\` artifact for raw test data" >> $GITHUB_STEP_SUMMARY
 
