@@ -7,7 +7,25 @@ const CustomButton = ({ to, onClick, children }) => {
     }
   };
 
-  return <div onClick={handleClick}>{children}</div>;
+  const handleKeyDown = (event) => {
+    // Handle Enter and Space keys for keyboard accessibility
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      handleClick();
+    }
+  };
+
+  return (
+    <div
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      role="button"
+      tabIndex={0}
+      style={{ cursor: 'pointer' }}
+    >
+      {children}
+    </div>
+  );
 };
 
 export default CustomButton;
