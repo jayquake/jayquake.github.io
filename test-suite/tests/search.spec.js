@@ -4,7 +4,7 @@ import { expect, test } from "@playwright/test";
 // Initialize AccessFlow SDK with API key from environment variable or fallback
 AccessFlowSDK.init({ apiKey: "flow-1DQ14ZIwXZxuPaSWZow0EVskZM41WHnE" });
 
-test.describe("Search Component Tests", () => {
+test.describe("Search Component Test", () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to the app before each test
     await page.goto("/");
