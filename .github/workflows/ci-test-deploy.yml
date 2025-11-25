@@ -184,7 +184,7 @@ jobs:
           user_email: 'github-actions[bot]@users.noreply.github.com'
           commit_message: 'Deploy ${{ steps.branch-path.outputs.deploy_name }} from ${{ github.sha }}'
 
-      - name: ✅ Deployment Summary (Node 20.x only)
+      - name: ✅ Deployment  Summary (Node 20.x only)
         run: |
           echo "🎉 Deployment successful!"
           if [[ "${{ steps.branch-path.outputs.path }}" == "." ]]; then
