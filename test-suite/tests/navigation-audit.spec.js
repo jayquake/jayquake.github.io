@@ -14,7 +14,7 @@ test.describe("Multi-Page Navigation and Audit Tests", () => {
     await page.waitForTimeout(1000);
   });
 
-  test("should navigate to home page and perform accessibility audit", async ({
+  test("should navigate to home page and perform accessibility audit with SDK", async ({
     page,
   }) => {
     // Initialize SDK for this page
