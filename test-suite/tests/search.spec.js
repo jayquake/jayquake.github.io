@@ -14,7 +14,7 @@ test.describe("Search Component Test", () => {
     await page.waitForTimeout(500);
   });
 
-  test("should display search input when drawer the is open", async ({
+  test("should display searcacsbe-accessflow-sdk-1.0.2acsbe-accessflow-sdk-1.0.2h input when drawer the is open", async ({
     page,
   }) => {
     // Verify drawer is open by default (search should be visible)
