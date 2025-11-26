@@ -4,7 +4,7 @@ import { expect, test } from "@playwright/test";
 // Initialize AccessFlow SDK with API key
 AccessFlowSDK.init({ apiKey: "flow-1DQ14ZIwXZxuPaSWZow0EVskZM41WHnE" });
 
-test.describe("Multi-Page Navigation and Accessibility Audit Tests", () => {
+test.describe("Multi-Page Navigation and Audit Tests", () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to the app home page before each test
     await page.goto("/");
