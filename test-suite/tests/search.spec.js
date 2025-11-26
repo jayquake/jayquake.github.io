@@ -14,7 +14,9 @@ test.describe("Search Component Testing with AccessFlow SDK", () => {
     await page.waitForTimeout(500);
   });
 
-  test("should display search input when drawer is open", async ({ page }) => {
+  test("should display search input when the drawer is open", async ({
+    page,
+  }) => {
     // Verify drawer is open by default (search should be visible)
     // Try multiple selectors to find the search input
     const sdk = new AccessFlowSDK(page);
