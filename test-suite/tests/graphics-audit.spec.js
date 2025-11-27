@@ -13,7 +13,7 @@ test.describe("Graphics Audit Tests", () => {
     await page.waitForTimeout(1000);
   });
 
-  test("should perform audits across multiple DOM states on background images page", async ({
+  test("should perform audits across multiple  states on background images page", async ({
     page,
   }) => {
     const auditResults = [];
