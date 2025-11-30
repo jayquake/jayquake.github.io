@@ -1,0 +1,231 @@
+name: CI, Test & Deploy
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+# Cancel in-progress runs on the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write  # Required for pushing to gh-pages branch
+  pages: write
+  id-token: write
+
+jobs:
+  test:
+    name: Test & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🎭 Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: 🔨 Build application
+        run: npm run build
+        env:
+          CI: true
+
+      - name: 🧪 Run Playwright Tests with AccessFlow SDK
+        run: npm run test:e2e
+        env:
+          CI: true
+          ACCESSFLOW_API_KEY: ${{ secrets.ACCESSFLOW_API_KEY }}
+
+      - name: 📊 Upload Playwright Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: test-suite/playwright-report/
+          retention-days: 30
+
+      - name: 📋 Upload Test Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: test-suite/test-results/
+          retention-days: 30
+
+      - name: 📦 Upload Build Artifacts
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: build/
+          retention-days: 7
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: test
+    runs-on: ubuntu-latest
+    # Deploy from main, master, develop, and dev branches
+    if: |
+      github.event_name == 'push' && (
+        github.ref == 'refs/heads/main' ||
+        github.ref == 'refs/heads/master' ||
+        github.ref == 'refs/heads/develop' ||
+        startsWith(github.ref, 'refs/heads/dev/')
+      )
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🎯 Determine branch path
+        id: branch-path
+        run: |
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+
+          # Main/master deploy to root
+          if [[ "$BRANCH_NAME" == "main" ]] || [[ "$BRANCH_NAME" == "master" ]]; then
+            echo "path=." >> $GITHUB_OUTPUT
+            echo "public_url=/" >> $GITHUB_OUTPUT
+            echo "deploy_name=production" >> $GITHUB_OUTPUT
+          else
+            # Other branches deploy to subdirectories
+            # Clean branch name (replace / with -)
+            CLEAN_BRANCH=$(echo "$BRANCH_NAME" | sed 's/\//-/g')
+            echo "path=$CLEAN_BRANCH" >> $GITHUB_OUTPUT
+            echo "public_url=/$CLEAN_BRANCH/" >> $GITHUB_OUTPUT
+            echo "deploy_name=$CLEAN_BRANCH" >> $GITHUB_OUTPUT
+          fi
+
+          echo "Branch: $BRANCH_NAME"
+          echo "Deploy path: $(cat $GITHUB_OUTPUT | grep path= | cut -d= -f2)"
+          echo "Public URL: $(cat $GITHUB_OUTPUT | grep public_url= | cut -d= -f2)"
+
+      - name: 🔨 Build application with branch-specific path
+        run: |
+          if [[ "${{ steps.branch-path.outputs.path }}" != "." ]]; then
+            PUBLIC_URL="${{ steps.branch-path.outputs.public_url }}" npm run build
+          else
+            npm run build
+          fi
+        env:
+          CI: true
+
+      - name: 📥 Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages-content
+        continue-on-error: true
+
+      - name: 📂 Prepare deployment directory
+        run: |
+          # Create or use existing gh-pages directory
+          mkdir -p gh-pages-deploy
+
+          # Copy existing content if gh-pages branch exists
+          if [ -d "gh-pages-content" ]; then
+            cp -r gh-pages-content/* gh-pages-deploy/ || true
+            rm -rf gh-pages-content
+          fi
+
+          # Create/update branch-specific directory
+          if [[ "${{ steps.branch-path.outputs.path }}" == "." ]]; then
+            # Main branch: deploy to root (but preserve other branch directories)
+            find gh-pages-deploy -maxdepth 1 -type f -delete
+            cp -r build/* gh-pages-deploy/
+          else
+            # Other branches: deploy to subdirectory
+            mkdir -p gh-pages-deploy/${{ steps.branch-path.outputs.path }}
+            rm -rf gh-pages-deploy/${{ steps.branch-path.outputs.path }}/*
+            cp -r build/* gh-pages-deploy/${{ steps.branch-path.outputs.path }}/
+          fi
+
+          # Create index file listing all branches
+          cat > gh-pages-deploy/branches.html <<EOF
+          <!DOCTYPE html>
+          <html><head><title>Branch Deployments</title></head>
+          <body><h1>Available Deployments</h1><ul>
+          $(find gh-pages-deploy -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sed 's/^/<li><a href="\/{}\/index.html">{}🔗<\/a><\/li>/')
+          <li><a href="/index.html">main (production) 🏠</a></li>
+          </ul></body></html>
+          EOF
+
+      - name: 🚀 Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./gh-pages-deploy
+          publish_branch: gh-pages
+          force_orphan: false
+          keep_files: false
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'Deploy ${{ steps.branch-path.outputs.deploy_name }} from ${{ github.sha }}'
+
+      - name: ✅ Deployment Summary (Node 20.x only)
+        run: |
+          echo "🎉 Deployment successful!"
+          if [[ "${{ steps.branch-path.outputs.path }}" == "." ]]; then
+            echo "📍 Production URL: https://${{ github.repository_owner }}.github.io/"
+          else
+            echo "📍 Branch URL: https://${{ github.repository_owner }}.github.io/${{ steps.branch-path.outputs.path }}/"
+          fi
+          echo "📋 All branches: https://${{ github.repository_owner }}.github.io/branches.html"
+          echo "🕒 Deployed at: $(date)"
+
+  accessibility-summary:
+    name: Accessibility Test Summary
+    needs: test
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: 📥 Download Test Results
+        uses: actions/download-artifact@v4
+        with:
+          name: test-results
+          path: test-results
+
+      - name: 📊 Display AccessFlow Summary
+        run: |
+          echo "## 🔍 Accessibility Test Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ -f "test-results/accessFlow-report-summary.json" ]; then
+            echo "✅ AccessFlow audit completed successfully!" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
+            cat test-results/accessFlow-report-summary.json >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ No AccessFlow summary found" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📋 Test Results Available" >> $GITHUB_STEP_SUMMARY
+          echo "- Download \`playwright-report\` artifact to view detailed test reports" >> $GITHUB_STEP_SUMMARY
+          echo "- Download \`test-results\` artifact for raw test data" >> $GITHUB_STEP_SUMMARY
+

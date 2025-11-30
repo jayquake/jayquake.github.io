@@ -1,0 +1,46 @@
+{
+  "pages": {
+    "http://localhost:3000/#/errors/fake-hidden-content_failure": {
+      "violations": [
+        {
+          "id": "fake-hidden-content",
+          "impact": "serious",
+          "tags": ["cat.sensory-and-visual-cues", "wcag2a", "wcag131"],
+          "description": "Ensure that content is not hidden using visual styling only",
+          "help": "Content hidden visually must also be hidden from screen readers",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/fake-hidden-content?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "fake-hidden-content",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element is visually hidden but exposed to screen readers"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div style=\"position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;\">This text is visually hidden but accessible to screen readers.</div>",
+              "target": [
+                "div[style=\"position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element is visually hidden but exposed to screen readers"
+            }
+          ]
+        }
+      ],
+      "numberOfIssuesFound": {
+        "extreme": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      "passes": [],
+      "incomplete": [],
+      "inapplicable": []
+    }
+  }
+}

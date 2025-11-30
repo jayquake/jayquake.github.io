@@ -2,9 +2,9 @@ import { AccessFlowSDK } from "@acsbe/accessflow-sdk";
 
 import { expect, test } from "@playwright/test";
 // Initialize AccessFlow SDK with API key from environment variable or fallback
-AccessFlowSDK.init({ apiKey: "flow-1lXjXhCBlPhX5aRR9eA0g1uFx0YiRTvE" });
+AccessFlowSDK.init({ apiKey: "flow-1OnrCkNQqmwEyaShAow001pAwp8osHaM" });
 
-test.describe("Search ComponentTests", () => {
+test.describe("Search Component Testing with AccessFlow SDK", () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to the app before each test
     await page.goto("/");
@@ -14,7 +14,9 @@ test.describe("Search ComponentTests", () => {
     await page.waitForTimeout(500);
   });
 
-  test("should display search input when drawer is open", async ({ page }) => {
+  test("should display search input when the drawer is open", async ({
+    page,
+  }) => {
     // Verify drawer is open by default (search should be visible)
     // Try multiple selectors to find the search input
     const sdk = new AccessFlowSDK(page);
