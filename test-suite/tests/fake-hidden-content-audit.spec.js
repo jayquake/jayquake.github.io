@@ -17,8 +17,34 @@ if (fs.existsSync(configPath)) {
 }
 
 // Load Mock Data
-const mockDataPath = path.join(__dirname, "mock-audit-data.json");
-const mockData = JSON.parse(fs.readFileSync(mockDataPath, "utf8"));
+const mockDataPath = path.join(
+  process.cwd(),
+  "test-suite",
+  "tests",
+  "mock-audit-data.json"
+);
+let mockData;
+try {
+  mockData = JSON.parse(fs.readFileSync(mockDataPath, "utf8"));
+} catch (e) {
+  // Fallback for when running from inside test-suite directory
+  const fallbackPath = path.join(
+    process.cwd(),
+    "tests",
+    "mock-audit-data.json"
+  );
+  if (fs.existsSync(fallbackPath)) {
+    mockData = JSON.parse(fs.readFileSync(fallbackPath, "utf8"));
+  } else {
+    console.warn(
+      "Could not find mock-audit-data.json at",
+      mockDataPath,
+      "or",
+      fallbackPath
+    );
+    mockData = { pages: {} };
+  }
+}
 
 test.describe("Fake Hidden Content Audit Tests", () => {
   test.beforeEach(async ({ page }) => {

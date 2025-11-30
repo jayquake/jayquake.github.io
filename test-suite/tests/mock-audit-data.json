@@ -1,49 +1,46 @@
 {
-  "ciInfo": {
-    "branchId": "refs/heads/main",
-    "branchName": "main",
-    "buildNumber": "36",
-    "buildUrl": "https://github.com/jayquake/jayquake.github.io/actions/runs/19737850507",
-    "ciName": "GitHub Actions",
-    "commitDate": "2025-11-27T13:27:22.000Z",
-    "commitHash": "2f0bf358a8991bda752747e7bd098ac28f4cf57a",
-    "commitMessage": "Remove obsolete access flow raw audit results file to streamline test results management.",
-    "defaultBranch": "unknown",
-    "repoName": "jayquake.github.io",
-    "repoUrl": "https://github.com/jayquake/jayquake.github.io",
-    "user": "Jasonqua"
-  },
   "pages": {
     "http://localhost:3000/#/errors/fake-hidden-content_failure": {
-      "numberOfIssuesFound": {
-        "extreme": 3,
-        "high": 10,
-        "medium": 19,
-        "low": 2
-      },
-      "ruleViolations": {
-        "fakeHiddenContent": {
-          "name": "Fake Hidden Content",
-          "numberOfOccurrences": 7,
-          "severity": "high",
-          "WCAGLevel": "A",
-          "description": "Visually hidden content should be excluded from assistive technology",
-          "selectors": [
-            "#root .MuiBox-root.css-zeajg6 main.MuiBox-root.css-1hynlkl .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation0.css-17zh4z7-MuiPaper-root .MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-6.css-cyqm3-MuiGrid-root > .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6.MuiGrid-grid-md-3.css-10voxkt-MuiGrid-root",
-            "#root .MuiBox-root.css-zeajg6 main.MuiBox-root.css-1hynlkl .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiBox-root.css-2w39a8 > .MuiTypography-root.MuiTypography-h3.MuiTypography-gutterBottom.css-1g3l9ny-MuiTypography-root",
-            "#root .MuiBox-root.css-zeajg6 main.MuiBox-root.css-1hynlkl .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiBox-root.css-rpc7w8 .MuiBox-root.css-17b10jg > .MuiTypography-root.MuiTypography-h3.MuiTypography-gutterBottom.css-1g3l9ny-MuiTypography-root",
-            "#root .MuiBox-root.css-zeajg6 main.MuiBox-root.css-1hynlkl .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiBox-root.css-rpc7w8 .MuiBox-root.css-17b10jg > .MuiTypography-root.MuiTypography-h6.css-1jxda6t-MuiTypography-root"
-          ],
-          "WCAGLink": "https://www.w3.org/WAI/WCAG21/Understanding/meaningful-sequence.html"
+      "violations": [
+        {
+          "id": "fake-hidden-content",
+          "impact": "serious",
+          "tags": ["cat.sensory-and-visual-cues", "wcag2a", "wcag131"],
+          "description": "Ensure that content is not hidden using visual styling only",
+          "help": "Content hidden visually must also be hidden from screen readers",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/fake-hidden-content?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "fake-hidden-content",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element is visually hidden but exposed to screen readers"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div style=\"position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;\">This text is visually hidden but accessible to screen readers.</div>",
+              "target": [
+                "div[style=\"position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element is visually hidden but exposed to screen readers"
+            }
+          ]
         }
+      ],
+      "numberOfIssuesFound": {
+        "extreme": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
       },
-      "totalNumberOfIssuesFound": {
-        "extreme": 43,
-        "high": 50,
-        "low": 6,
-        "medium": 91
-      }
+      "passes": [],
+      "incomplete": [],
+      "inapplicable": []
     }
   }
 }
-
