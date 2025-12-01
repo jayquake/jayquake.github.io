@@ -96,10 +96,7 @@ test.describe("Breadcrumb Navigation with Accessibility Audits", () => {
     // Run audit on success page
     console.log("🔍 Auditing SUCCESS page...");
     const successAudit = await sdk.audit();
-    console.log(
-      "✅ Success audit:",
-      successAudit ? "Complete" : "No report"
-    );
+    console.log("✅ Success audit:", successAudit ? "Complete" : "No report");
 
     // Locate and click the breadcrumb dropdown
     const breadcrumbSelect = page
@@ -134,10 +131,7 @@ test.describe("Breadcrumb Navigation with Accessibility Audits", () => {
     // Run audit on failure page
     console.log("🔍 Auditing FAILURE page...");
     const failureAudit = await sdk.audit();
-    console.log(
-      "✅ Failure audit:",
-      failureAudit ? "Complete" : "No report"
-    );
+    console.log("✅ Failure audit:", failureAudit ? "Complete" : "No report");
 
     // Verify both audits completed
     expect(successAudit).toBeTruthy();
@@ -208,7 +202,9 @@ test.describe("Breadcrumb Navigation with Accessibility Audits", () => {
     console.log("\n📊 Audit Results Summary:");
     auditResults.forEach((result) => {
       console.log(
-        `   • ${result.rule}: Failure ${result.failureAudit ? "✅" : "❌"}, Success ${result.successAudit ? "✅" : "❌"}`
+        `   • ${result.rule}: Failure ${
+          result.failureAudit ? "✅" : "❌"
+        }, Success ${result.successAudit ? "✅" : "❌"}`
       );
     });
 
@@ -218,4 +214,3 @@ test.describe("Breadcrumb Navigation with Accessibility Audits", () => {
     );
   });
 });
-
