@@ -117,7 +117,7 @@ test.describe("Home Page Routes Validation with SDK Audits", () => {
 
       console.log(`🖱️  Clicking on ${category.name}...`);
       await expect(categoryCard).toBeVisible({ timeout: 10000 });
-      
+
       // Navigate using goto for more reliable navigation
       await page.goto(`/#${category.path}`);
       await page.waitForLoadState("networkidle");
@@ -130,7 +130,7 @@ test.describe("Home Page Routes Validation with SDK Audits", () => {
       // Run SDK audit
       console.log(`🔍 Running SDK audit on ${category.name}...`);
       const audit = await sdk.audit();
-      
+
       auditResults.push({
         category: category.name,
         path: category.path,
@@ -299,7 +299,7 @@ test.describe("Home Page Routes Validation with SDK Audits", () => {
     console.log("📊 COMPREHENSIVE ROUTE VALIDATION & AUDIT SUMMARY");
     console.log("=".repeat(60));
     console.log(`\n🏠 Home Page: ${homeAudit ? "✅" : "❌"}`);
-    
+
     console.log("\n🎯 CORE CATEGORIES:");
     results
       .filter((r) => r.type === "core")
