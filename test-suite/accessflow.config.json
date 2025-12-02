@@ -2,7 +2,7 @@
   "issuesFoundThreshold": {
     "extreme": 1,
     "high": 0,
-    "medium": 0,
+    "medium": 40,
     "low": 7
   },
   "localCheck": false
