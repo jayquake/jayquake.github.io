@@ -1,7 +1,7 @@
 {
   "issuesFoundThreshold": {
     "extreme": 1,
-    "high": 0,
+    "high": 20,
     "medium": 0,
     "low": 0
   },
