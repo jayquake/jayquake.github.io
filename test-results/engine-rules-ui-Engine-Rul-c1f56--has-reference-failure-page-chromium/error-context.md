@@ -1,0 +1,254 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e7]:
+        - heading "Engine" [level=6] [ref=e8]
+        - text: Rule Testing
+      - generic [ref=e11]:
+        - img [ref=e12]
+        - generic "Search" [ref=e14]:
+          - textbox "Search..." [ref=e15]
+      - generic [ref=e16]:
+        - generic "Ready to test" [ref=e17]:
+          - img [ref=e18]
+          - generic [ref=e20]: Ready
+        - button "Toggle dark mode" [ref=e21] [cursor=pointer]:
+          - img [ref=e22]
+        - button "Notifications" [ref=e24] [cursor=pointer]:
+          - generic [ref=e25]:
+            - img [ref=e26]
+            - generic [ref=e28]: "3"
+        - button [ref=e29] [cursor=pointer]:
+          - img [ref=e30]
+  - generic [ref=e32]:
+    - button [ref=e34] [cursor=pointer]:
+      - img [ref=e35]
+    - list [ref=e37]:
+      - link [ref=e39] [cursor=pointer]:
+        - /url: "#/"
+        - button [ref=e40]:
+          - img [ref=e43]
+      - link [ref=e45] [cursor=pointer]:
+        - /url: "#/graphics"
+        - button [ref=e46]:
+          - img [ref=e49]
+      - link [ref=e52] [cursor=pointer]:
+        - /url: "#/forms"
+        - button [ref=e53]:
+          - img [ref=e56]
+      - link [ref=e59] [cursor=pointer]:
+        - /url: "#/keyboard"
+        - button [ref=e60]:
+          - img [ref=e63]
+      - link [ref=e66] [cursor=pointer]:
+        - /url: "#/navigation"
+        - button [ref=e67]:
+          - img [ref=e70]
+      - link [ref=e73] [cursor=pointer]:
+        - /url: "#/headings"
+        - button [ref=e74]:
+          - img [ref=e77]
+      - link [ref=e80] [cursor=pointer]:
+        - /url: "#/errors"
+        - button [ref=e81]:
+          - img [ref=e84]
+      - link [ref=e87] [cursor=pointer]:
+        - /url: "#/carousels"
+        - button [ref=e88]:
+          - img [ref=e91]
+      - link [ref=e94] [cursor=pointer]:
+        - /url: "#/clickables"
+        - button [ref=e95]:
+          - img [ref=e98]
+      - link [ref=e101] [cursor=pointer]:
+        - /url: "#/context"
+        - button [ref=e102]:
+          - img [ref=e105]
+      - link [ref=e109] [cursor=pointer]:
+        - /url: "#/document"
+        - button [ref=e110]:
+          - img [ref=e113]
+      - link [ref=e116] [cursor=pointer]:
+        - /url: "#/readability"
+        - button [ref=e117]:
+          - img [ref=e120]
+      - link [ref=e123] [cursor=pointer]:
+        - /url: "#/tables"
+        - button [ref=e124]:
+          - img [ref=e127]
+    - list [ref=e130]:
+      - link [ref=e132] [cursor=pointer]:
+        - /url: "#/rules"
+        - button [ref=e133]:
+          - img [ref=e136]
+      - link [ref=e139] [cursor=pointer]:
+        - /url: "#/engine"
+        - button [ref=e140]:
+          - img [ref=e143]
+  - main [ref=e146]:
+    - generic [ref=e148]:
+      - button "Quick actions" [ref=e149] [cursor=pointer]:
+        - img [ref=e151]
+      - menu:
+        - generic:
+          - generic: Share
+          - menuitem "Share"
+        - generic:
+          - generic: Print
+          - menuitem "Print"
+        - generic:
+          - generic: Copy All Examples
+          - menuitem "Copy All Examples"
+      - generic [ref=e156]:
+        - navigation "breadcrumb" [ref=e159]:
+          - list [ref=e160]:
+            - listitem [ref=e161]:
+              - link "Home" [ref=e162] [cursor=pointer]:
+                - /url: "#/"
+            - listitem [ref=e163]:
+              - img [ref=e164]
+            - listitem [ref=e166]:
+              - link "Engine" [ref=e167] [cursor=pointer]:
+                - /url: "#/engine"
+            - listitem [ref=e168]:
+              - img [ref=e169]
+            - listitem [ref=e171]:
+              - link "Aria Controls Has Reference" [ref=e172] [cursor=pointer]:
+                - /url: "#/engine/aria-controls-has-reference_failure"
+        - separator [ref=e173]
+        - alert [ref=e174]:
+          - img [ref=e176]
+          - generic [ref=e178]:
+            - generic [ref=e179]: Aria Controls Has Reference - Failure Examples
+            - paragraph [ref=e180]: N/A
+        - generic [ref=e181]:
+          - generic [ref=e182]:
+            - img [ref=e183]
+            - generic [ref=e185]: Needs Fix
+          - generic [ref=e186]:
+            - img [ref=e187]
+            - generic [ref=e189]: 4 Examples
+          - generic [ref=e191]: "Rule ID: N/A"
+      - generic [ref=e195]:
+        - heading "Understanding This Issue" [level=3] [ref=e196]:
+          - button "Understanding This Issue" [expanded] [ref=e197] [cursor=pointer]:
+            - generic [ref=e199]:
+              - img [ref=e200]
+              - heading "Understanding This Issue" [level=6] [ref=e202]
+            - img [ref=e204]
+        - region "Understanding This Issue" [ref=e209]:
+          - generic [ref=e210]:
+            - heading "How to Fix:" [level=6] [ref=e211]
+            - list [ref=e212]:
+              - listitem [ref=e213]:
+                - paragraph [ref=e214]: Review the HTML structure
+              - listitem [ref=e215]:
+                - paragraph [ref=e216]: Apply proper accessibility attributes
+              - listitem [ref=e217]:
+                - paragraph [ref=e218]: Test with screen readers
+      - generic [ref=e222]:
+        - generic [ref=e223]:
+          - img [ref=e224]
+          - heading "Failure Examples from Atomic Tests" [level=5] [ref=e226]
+        - paragraph [ref=e227]: The following examples demonstrate common accessibility failures from the engine's atomic test suite. Review each example to understand what makes it problematic.
+        - separator [ref=e228]
+        - region "Failure examples list" [ref=e229]:
+          - 'region "Failure Example #1" [ref=e230]':
+            - generic [ref=e231]:
+              - generic [ref=e232]:
+                - generic [ref=e233]:
+                  - img [ref=e234]
+                  - 'heading "Failure Example #1" [level=6] [ref=e236]'
+                  - generic [ref=e238]: aria controls broken reference
+                  - generic [ref=e239]:
+                    - img [ref=e240]
+                    - generic [ref=e242]: Accessibility Issue
+                - generic [ref=e243]:
+                  - button "Show code" [ref=e244] [cursor=pointer]:
+                    - img [ref=e245]
+                  - button "Copy failure example 1 code" [ref=e247] [cursor=pointer]:
+                    - img [ref=e248]
+              - generic [ref=e250]:
+                - generic [ref=e251]: "Rendered Output:"
+                - generic [ref=e252]:
+                  - tab "First Tab" [selected] [ref=e253]
+                  - tabpanel "First Tab" [ref=e254]:
+                    - paragraph [ref=e255]: Content for the first panel
+              - paragraph [ref=e256]: ❌ This example violates the N/A accessibility requirement and will cause issues for users.
+          - 'region "Failure Example #2" [ref=e257]':
+            - generic [ref=e258]:
+              - generic [ref=e259]:
+                - generic [ref=e260]:
+                  - img [ref=e261]
+                  - 'heading "Failure Example #2" [level=6] [ref=e263]'
+                  - generic [ref=e265]: aria controls no reference
+                  - generic [ref=e266]:
+                    - img [ref=e267]
+                    - generic [ref=e269]: Accessibility Issue
+                - generic [ref=e270]:
+                  - button "Show code" [ref=e271] [cursor=pointer]:
+                    - img [ref=e272]
+                  - button "Copy failure example 2 code" [ref=e274] [cursor=pointer]:
+                    - img [ref=e275]
+              - generic [ref=e277]:
+                - generic [ref=e278]: "Rendered Output:"
+                - tab "First Tab" [selected] [ref=e280]
+              - paragraph [ref=e281]: ❌ This example violates the N/A accessibility requirement and will cause issues for users.
+          - 'region "Failure Example #3" [ref=e282]':
+            - generic [ref=e283]:
+              - generic [ref=e284]:
+                - generic [ref=e285]:
+                  - img [ref=e286]
+                  - 'heading "Failure Example #3" [level=6] [ref=e288]'
+                  - generic [ref=e290]: multi aria controls broken reference
+                  - generic [ref=e291]:
+                    - img [ref=e292]
+                    - generic [ref=e294]: Accessibility Issue
+                - generic [ref=e295]:
+                  - button "Show code" [ref=e296] [cursor=pointer]:
+                    - img [ref=e297]
+                  - button "Copy failure example 3 code" [ref=e299] [cursor=pointer]:
+                    - img [ref=e300]
+              - generic [ref=e302]:
+                - generic [ref=e303]: "Rendered Output:"
+                - generic [ref=e305]:
+                  - tablist "Sample Tabs" [ref=e306]:
+                    - tab "First Tab" [selected] [ref=e307]
+                    - tab "Second Tab" [ref=e308]
+                    - tab "Third Tab" [ref=e309]
+                  - tabpanel "First Tab" [ref=e310]:
+                    - paragraph [ref=e311]: Content for the first panel
+                  - tabpanel "Second Tab" [ref=e312]:
+                    - paragraph [ref=e313]: Content for the second panel
+                  - tabpanel "Third Tab" [ref=e314]:
+                    - paragraph [ref=e315]: Content for the third panel
+              - paragraph [ref=e316]: ❌ This example violates the N/A accessibility requirement and will cause issues for users.
+          - 'region "Failure Example #4" [ref=e317]':
+            - generic [ref=e318]:
+              - generic [ref=e319]:
+                - generic [ref=e320]:
+                  - img [ref=e321]
+                  - 'heading "Failure Example #4" [level=6] [ref=e323]'
+                  - generic [ref=e325]: multi aria controls one broken reference
+                  - generic [ref=e326]:
+                    - img [ref=e327]
+                    - generic [ref=e329]: Accessibility Issue
+                - generic [ref=e330]:
+                  - button "Show code" [ref=e331] [cursor=pointer]:
+                    - img [ref=e332]
+                  - button "Copy failure example 4 code" [ref=e334] [cursor=pointer]:
+                    - img [ref=e335]
+              - generic [ref=e337]:
+                - generic [ref=e338]: "Rendered Output:"
+                - generic [ref=e339]:
+                  - tab "First Tab" [selected] [ref=e340]
+                  - tabpanel "First Tab" [ref=e341]:
+                    - paragraph [ref=e342]: Content for the first panel
+              - paragraph [ref=e343]: ❌ This example violates the N/A accessibility requirement and will cause issues for users.
+        - paragraph [ref=e345]:
+          - strong [ref=e346]: "💡 Tip:"
+          - text: Use the copy button to grab example code. Each example shows a specific way this accessibility rule can fail.
+```
