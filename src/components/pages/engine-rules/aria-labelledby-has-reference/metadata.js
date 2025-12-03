@@ -1,0 +1,13 @@
+// Generated metadata for aria-labelledby-has-reference
+// This file is auto-generated from index.ts to avoid module resolution issues
+
+export const AriaLabelledByHasReference = {
+  id: "aria-labelledby-has-reference",
+  title: "aria-labelledby should reference a valid element id",
+  description: "Since aria-labelledby relies on valid id references, screen readers can only announce the label if the target exists. If the id is missing or invalid, the label will not be conveyed, causing users to miss important context.",
+  advice: `Make sure that aria-labeledby attribute point to an existing, screen-reader-visible element on the screen with proper text content.`,
+  impact: "serious",
+  refs: [
+
+  ]
+};

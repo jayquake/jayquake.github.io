@@ -70,12 +70,12 @@ export default function App() {
   const pathnames = location.pathname.split("/").filter((x) => x);
 
   // UI State
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [testStatus, setTestStatus] = useState({ running: false, progress: 0 });
-  
+
   // Data State
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -100,7 +100,7 @@ export default function App() {
         setData(jsonData);
         setFilteredData(jsonData);
         setLoading(false);
-        
+
         // Initialize test notifications
         setNotifications([
           { id: 1, message: "Test environment ready", type: "success", time: "now" },
@@ -131,28 +131,28 @@ export default function App() {
   // Calculate current page stats for header
   const getCurrentPageInfo = () => {
     if (pathnames.length === 0) return { title: "QA Dashboard", subtitle: "Accessibility Testing Platform" };
-    
+
     const currentCriteria = pathnames[0];
     const criteriaTitle = capitalizeFirstLetter(currentCriteria);
-    
+
     if (pathnames.length === 1) {
-      const rulesInCategory = data.filter(rule => 
+      const rulesInCategory = data.filter(rule =>
         rule.criteria?.toLowerCase().includes(currentCriteria.toLowerCase())
       ).length;
-      return { 
-        title: `${criteriaTitle} Rules`, 
-        subtitle: `${rulesInCategory} testing rules available` 
+      return {
+        title: `${criteriaTitle} Rules`,
+        subtitle: `${rulesInCategory} testing rules available`
       };
     }
-    
+
     return { title: criteriaTitle, subtitle: "Rule Testing" };
   };
 
   const { title, subtitle } = getCurrentPageInfo();
 
   return (
-    <Box sx={{ 
-      display: "flex", 
+    <Box sx={{
+      display: "flex",
       minHeight: "100vh",
       background: location.pathname === '/' ? 'transparent' : 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 25%, #e2e8f0 50%, #cbd5e1 75%, #94a3b8 100%)',
       position: 'relative',
@@ -200,14 +200,12 @@ export default function App() {
           </Box>
 
           {/* Center Section - Search */}
-          {open && (
-            <Box sx={{ flexGrow: 1, maxWidth: 400, mx: 3 }}>
-              <SearchComponent
-                data={data}
-                onSearchChange={(e) => handleSearchChange(e.target.value)}
-              />
-            </Box>
-          )}
+          <Box sx={{ flexGrow: 1, maxWidth: 400, mx: 3 }}>
+            <SearchComponent
+              data={data}
+              onSearchChange={(e) => handleSearchChange(e.target.value)}
+            />
+          </Box>
 
           {/* Right Section - Actions */}
           <Box display="flex" alignItems="center" gap={1}>
@@ -244,12 +242,12 @@ export default function App() {
             </Tooltip>
 
             {/* User Menu */}
-            <Avatar 
+            <Avatar
               role="button"
               tabIndex={0}
-              sx={{ 
-                width: 32, 
-                height: 32, 
+              sx={{
+                width: 32,
+                height: 32,
                 background: 'rgba(255,255,255,0.3)',
                 backdropFilter: 'blur(20px)',
                 WebkitBackdropFilter: 'blur(20px)',
@@ -414,14 +412,14 @@ export default function App() {
               </Box>
             </Box>
           )}
-          <IconButton 
-            onClick={handleDrawerToggle} 
-            sx={{ 
+          <IconButton
+            onClick={handleDrawerToggle}
+            sx={{
               color: "#667eea",
               width: 40,
               height: 40,
               borderRadius: 2,
-              '&:hover': { 
+              '&:hover': {
                 bgcolor: 'rgba(102,126,234,0.1)',
                 transform: 'scale(1.05)'
               },
@@ -431,15 +429,15 @@ export default function App() {
             {open ? <ChevronLeftIcon /> : <MenuIcon />}
           </IconButton>
         </DrawerHeader>
-        <Box sx={{ 
-          height: '1px', 
-          background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent)', 
-          mx: 3, 
-          mb: 2 
+        <Box sx={{
+          height: '1px',
+          background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent)',
+          mx: 3,
+          mb: 2
         }} />
-        <List sx={{ 
-          px: open ? 1 : 0.25, 
-          py: 0, 
+        <List sx={{
+          px: open ? 1 : 0.25,
+          py: 0,
           flex: 1,
           transition: (theme) =>
             theme.transitions.create("padding", {
@@ -447,8 +445,8 @@ export default function App() {
               duration: theme.transitions.duration.standard,
             }),
         }}>{getMainListItems(data, open)}</List>
-        <List sx={{ 
-          px: open ? 1 : 0.25, 
+        <List sx={{
+          px: open ? 1 : 0.25,
           py: 0,
           transition: (theme) =>
             theme.transitions.create("padding", {
@@ -467,7 +465,7 @@ export default function App() {
           backgroundColor: "transparent",
           padding: location.pathname === '/' ? 0 : {
             xs: (theme) => theme.spacing(2),
-            sm: (theme) => theme.spacing(3), 
+            sm: (theme) => theme.spacing(3),
             md: (theme) => theme.spacing(4)
           },
           position: "relative",
@@ -492,7 +490,7 @@ export default function App() {
           </>
         ) : (
           // Other pages - use container with responsive maxWidth
-          <Container 
+          <Container
             maxWidth="lg"
             sx={{
               px: { xs: 2, sm: 3, md: 4 },

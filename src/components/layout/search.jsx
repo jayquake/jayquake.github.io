@@ -1,18 +1,22 @@
-import React, { useState } from "react";
-import { styled } from "@mui/material/styles";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import ClearIcon from "@mui/icons-material/Clear";
+import ScienceIcon from "@mui/icons-material/Science";
+import SearchIcon from "@mui/icons-material/Search";
 import {
+  Box,
+  Chip,
+  IconButton,
   InputBase,
   List,
   ListItem,
   ListItemText,
   Typography,
-  Box,
-  IconButton,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import ClearIcon from "@mui/icons-material/Clear";
+import { styled } from "@mui/material/styles";
+import { AnimatePresence, motion } from "framer-motion";
+import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import engineRulesData from "../../data/engine-rules-metadata.json";
 
 const StyledSearchBar = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -46,8 +50,31 @@ const SearchComponent = ({ data }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
 
-  const filteredData = data.filter((item) =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  // Combine legacy rules and engine rules
+  const combinedData = useMemo(() => {
+    const legacyRules = (data || []).map((item) => ({
+      ...item,
+      type: "legacy",
+      searchName: item.name,
+      route: `/${item.criteria}/${item.route}`,
+    }));
+
+    const engineRules = engineRulesData.map((rule) => ({
+      ...rule,
+      type: "engine",
+      searchName: rule.id,
+      route: rule.detailUrl,
+      name: rule.title,
+    }));
+
+    return [...legacyRules, ...engineRules];
+  }, [data]);
+
+  const filteredData = combinedData.filter(
+    (item) =>
+      item.searchName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.id?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.description?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const handleInputChange = (e) => {
@@ -89,23 +116,85 @@ const SearchComponent = ({ data }) => {
           >
             <List>
               {filteredData.length > 0 ? (
-                filteredData.map((item) => (
+                filteredData.slice(0, 10).map((item, index) => (
                   <ListItem
-                    key={item._id.$oid}
+                    key={
+                      item.type === "legacy"
+                        ? item._id.$oid
+                        : `engine-${item.id}-${index}`
+                    }
                     component={Link}
-                    to={`/${item.criteria}/${item.route}`}
+                    to={item.route}
                     button
+                    sx={{
+                      borderLeft:
+                        item.type === "engine"
+                          ? "4px solid #673ab7"
+                          : "4px solid #2196f3",
+                      "&:hover": {
+                        backgroundColor:
+                          item.type === "engine"
+                            ? "rgba(103, 58, 183, 0.08)"
+                            : "rgba(33, 150, 243, 0.08)",
+                      },
+                    }}
                   >
+                    <Box sx={{ display: "flex", alignItems: "center", mr: 2 }}>
+                      {item.type === "engine" ? (
+                        <ScienceIcon sx={{ color: "#673ab7", fontSize: 20 }} />
+                      ) : (
+                        <AssignmentIcon
+                          sx={{ color: "#2196f3", fontSize: 20 }}
+                        />
+                      )}
+                    </Box>
                     <ListItemText
-                      primary={item.name}
+                      primary={
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                        >
+                          <Typography variant="body1">
+                            {item.searchName}
+                          </Typography>
+                          <Chip
+                            label={item.type === "engine" ? "Engine" : "Legacy"}
+                            size="small"
+                            sx={{
+                              height: 20,
+                              fontSize: "0.7rem",
+                              backgroundColor:
+                                item.type === "engine" ? "#673ab7" : "#2196f3",
+                              color: "white",
+                              fontWeight: 600,
+                            }}
+                          />
+                        </Box>
+                      }
                       secondary={
                         <>
-                          <Typography variant="body2" color="textSecondary">
-                            <strong>Severity:</strong> {item.severity}
-                          </Typography>
-                          <Typography variant="body2" color="textSecondary">
-                            <strong>Criteria:</strong> {item.criteria}
-                          </Typography>
+                          {item.type === "legacy" ? (
+                            <>
+                              <Typography variant="body2" color="textSecondary">
+                                <strong>Severity:</strong> {item.severity}
+                              </Typography>
+                              <Typography variant="body2" color="textSecondary">
+                                <strong>Criteria:</strong> {item.criteria}
+                              </Typography>
+                            </>
+                          ) : (
+                            <>
+                              <Typography variant="body2" color="textSecondary">
+                                <strong>Impact:</strong> {item.impact}
+                              </Typography>
+                              <Typography
+                                variant="body2"
+                                color="textSecondary"
+                                noWrap
+                              >
+                                {item.description?.substring(0, 80)}...
+                              </Typography>
+                            </>
+                          )}
                         </>
                       }
                     />
@@ -120,6 +209,18 @@ const SearchComponent = ({ data }) => {
                       align: "center",
                       color: "textSecondary",
                       fontWeight: "bold",
+                    }}
+                  />
+                </ListItem>
+              )}
+              {filteredData.length > 10 && (
+                <ListItem>
+                  <ListItemText
+                    primary={`Showing 10 of ${filteredData.length} results. Refine your search for more specific results.`}
+                    primaryTypographyProps={{
+                      align: "center",
+                      color: "textSecondary",
+                      variant: "caption",
                     }}
                   />
                 </ListItem>

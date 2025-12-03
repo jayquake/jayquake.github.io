@@ -1,0 +1,84 @@
+import React from "react";
+import EngineIssueFailure from "../../../layout/engineIssueFailure";
+
+const NavigationRedundantDiscernibleTextFailure = () => {
+  return (
+    <EngineIssueFailure
+      ruleId="N/A"
+      title="Navigation Redundant Discernible Text"
+      description="N/A"
+      helpText="N/A"
+      fixSteps={[
+  "Review the HTML structure",
+  "Apply proper accessibility attributes",
+  "Test with screen readers"
+      ]}
+      htmlExamples={[
+  { filename: "nav wrong label", content: `<nav aria-label="Main Navigation">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li>
+      <a href="/about/" aria-haspopup="true" aria-expanded="false">About Us</a>
+      <ul aria-label="About Us">
+        <li><a href="/about/history">Our History</a></li>
+        <li><a href="/about/team">Our Team</a></li>
+        <li><a href="/about/mission">Our Mission</a></li>
+      </ul>
+    </li>
+    <li><a href="/services/">Services</a></li>
+    <li><a href="/contact/">Contact</a></li>
+  </ul>
+</nav>` },
+  { filename: "nav wrong labelledby", content: `<label id="mainlabel">Main Navigation</label>
+<nav aria-labelledby="mainlabel">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li>
+      <a href="/about/" aria-haspopup="true" aria-expanded="false">About Us</a>
+      <ul aria-label="About Us">
+        <li><a href="/about/history">Our History</a></li>
+        <li><a href="/about/team">Our Team</a></li>
+        <li><a href="/about/mission">Our Mission</a></li>
+      </ul>
+    </li>
+    <li><a href="/services/">Services</a></li>
+    <li><a href="/contact/">Contact</a></li>
+  </ul>
+</nav>` },
+  { filename: "role nav wrong label", content: `<div role="navigation" aria-label="Main Navigation">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li>
+      <a href="/about/" aria-haspopup="true" aria-expanded="false">About Us</a>
+      <ul aria-label="About Us">
+        <li><a href="/about/history">Our History</a></li>
+        <li><a href="/about/team">Our Team</a></li>
+        <li><a href="/about/mission">Our Mission</a></li>
+      </ul>
+    </li>
+    <li><a href="/services/">Services</a></li>
+    <li><a href="/contact/">Contact</a></li>
+  </ul>
+</div>` },
+  { filename: "role nav wrong labelledby", content: `<label id="mainlabel">Main Navigation</label>
+<div role="navigation" aria-labelledby="mainlabel">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li>
+      <a href="/about/" aria-haspopup="true" aria-expanded="false">About Us</a>
+      <ul aria-label="About Us">
+        <li><a href="/about/history">Our History</a></li>
+        <li><a href="/about/team">Our Team</a></li>
+        <li><a href="/about/mission">Our Mission</a></li>
+      </ul>
+    </li>
+    <li><a href="/services/">Services</a></li>
+    <li><a href="/contact/">Contact</a></li>
+  </ul>
+</div>` }
+      ]}
+    />
+  );
+};
+
+export default NavigationRedundantDiscernibleTextFailure;

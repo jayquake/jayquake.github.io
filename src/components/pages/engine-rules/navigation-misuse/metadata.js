@@ -1,0 +1,13 @@
+// Generated metadata for navigation-misuse
+// This file is auto-generated from index.ts to avoid module resolution issues
+
+export const NavigationMisuse = {
+  id: "navigation-misuse",
+  title: "An element without navigation links is tagged as a navigation landmark",
+  description: "Screen readers rely on accurate tagging and labeling to provide necessary context. If an element that does not contain navigation links is tagged as a navigation landmark, screen reader users may lose orientation and find the page's structure difficult to understand.",
+  advice: `Add role=presentation to the incorrect <nav> element or remove role=navigation if a different element is used.`,
+  impact: "serious",
+  refs: [
+
+  ]
+};

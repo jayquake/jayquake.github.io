@@ -1,0 +1,71 @@
+import React from "react";
+import EngineIssueFailure from "../../../layout/engineIssueFailure";
+
+const SkipLinkFirstFailure = () => {
+  return (
+    <EngineIssueFailure
+      ruleId="N/A"
+      title="Skip Link First"
+      description="N/A"
+      helpText="N/A"
+      fixSteps={[
+  "Review the HTML structure",
+  "Apply proper accessibility attributes",
+  "Test with screen readers"
+      ]}
+      htmlExamples={[
+  { filename: "a skip link after a tabbable", content: `<head>
+  <style>
+    .skip-link {
+      position: absolute;
+      left: -10000px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+    .skip-link:focus {
+      position: static;
+      width: auto;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <main id="main" tabindex="0"></main>
+  <a href="#main" class="skip-link">Skip to main content</a>
+</body>` },
+  { filename: "multi skip links with one skip link after tabbable", content: `<head>
+  <style>
+    .skip-link {
+      position: absolute;
+      left: -10000px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+    .skip-link:focus {
+      position: static;
+      width: auto;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <a href="#first" class="skip-link">Skip to main content</a>
+  <a href="#second" class="skip-link">Skip to main content</a>
+  <a href="#third" class="skip-link">Skip to main content</a>
+  <section id="first" tabindex="0"></section>
+  <section id="second" tabindex="0"></section>
+  <!-- One of the skip-links is appearing after a non-skip-link tabbable -->
+  <a href="#fourth" class="skip-link">Skip to main content</a>
+  <section id="third" tabindex="0"></section>
+  <section id="fourth" tabindex="0"></section>
+</body>` }
+      ]}
+    />
+  );
+};
+
+export default SkipLinkFirstFailure;
