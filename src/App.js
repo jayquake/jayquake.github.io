@@ -29,11 +29,10 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import SearchComponent from "./components/layout/search";
 import { getMainListItems, getSecondaryListItems } from "./listItems";
 import AppRoutes from "./routes/AppRoutes";
-
 const drawerWidth = 280;
 const collapsedDrawerWidth = 60;
 
@@ -280,24 +279,31 @@ export default function App() {
                 }}
               />
             </Tooltip>
-            {/* Engine Library Link */}
+            {/* Engine Library Link (glassy anchor) */}
             <Tooltip title="Open Engine Rules Library">
               <Button
-                variant="outlined"
+                component={Link}
+                to="/engine/library"
                 size="small"
-                onClick={() => navigate("/engine/library")}
+                variant="outlined"
                 sx={{
                   textTransform: "none",
                   borderRadius: 999,
-                  borderColor: "rgba(102,126,234,0.5)",
-                  color: "#4f46e5",
                   fontWeight: 600,
-                  px: 1.8,
+                  px: 2.2,
                   display: { xs: "none", sm: "inline-flex" },
-                  backgroundColor: "rgba(255,255,255,0.6)",
+                  borderColor: "rgba(148, 163, 184, 0.5)",
+                  color: "#1e293b",
+                  background: "rgba(255, 255, 255, 0.55)",
+                  backdropFilter: "blur(14px)",
+                  WebkitBackdropFilter: "blur(14px)",
+                  boxShadow:
+                    "0 6px 16px rgba(15,23,42,0.18), inset 0 1px 0 rgba(255,255,255,0.7)",
                   "&:hover": {
-                    borderColor: "#4f46e5",
-                    backgroundColor: "rgba(255,255,255,0.9)",
+                    borderColor: "rgba(148, 163, 184, 0.9)",
+                    background: "rgba(255, 255, 255, 0.85)",
+                    boxShadow:
+                      "0 10px 24px rgba(15,23,42,0.22), inset 0 1px 0 rgba(255,255,255,0.9)",
                   },
                 }}
                 aria-label="Engine Library"
