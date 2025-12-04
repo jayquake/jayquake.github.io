@@ -35,6 +35,7 @@ import TablesRoutes from "../components/pages/Criteria/Tables/rules/tablesRoutes
 // Additional Dynamic Routes
 import AllRulesWithRoutes from "../components/pages/Criteria/AllRulesLinks";
 import EngineRulesListing from "../components/pages/EngineRulesListing";
+import EngineLibrary from "../components/pages/Engine/EngineLibrary";
 import RulesListing from "../components/pages/RulesListing";
 import EngineRoutes from "./engineRoutes";
 
@@ -110,6 +111,7 @@ const AppRoutes = ({ navigate }) => (
 
     {/* Engine Rules */}
     <Route path="/engine" element={<EngineRulesListing />} />
+    <Route path="/engine/library" element={<EngineLibrary />} />
     {EngineRoutes()}
 
     <Route

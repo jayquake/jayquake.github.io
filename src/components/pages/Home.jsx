@@ -256,7 +256,7 @@ export default function Home({ title }) {
                       backgroundColor: "rgba(255,255,255,0.25)",
                       transform: "translateY(-2px)",
                       borderWidth: 2,
-                    },
+                      },
                     transition: "all 0.3s ease",
                   }}
                 >
@@ -313,73 +313,73 @@ export default function Home({ title }) {
           <Grid container spacing={4}>
             <Grid item xs={12} md={6}>
               <Grow in timeout={800}>
-                <Card
-                  sx={{
-                    height: "100%",
-                    cursor: "pointer",
-                    transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                    position: "relative",
-                    "&:hover": {
-                      transform: "translateY(-12px) scale(1.02)",
-                    },
+                  <Card
+                    sx={{
+                      height: "100%",
+                      cursor: "pointer",
+                      transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+                      position: "relative",
+                      "&:hover": {
+                        transform: "translateY(-12px) scale(1.02)",
+                      },
                     background: "rgba(255,255,255,0.25)",
                     backdropFilter: "blur(30px)",
                     WebkitBackdropFilter: "blur(30px)",
-                    borderRadius: 4,
+                      borderRadius: 4,
                     border: "2px solid rgba(255,255,255,0.4)",
                     boxShadow:
                       "0 20px 50px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(30,136,229,0.2)",
-                    "&::before": {
-                      content: '""',
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      right: 0,
+                      "&::before": {
+                        content: '""',
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
                       height: "6px",
                       background: "linear-gradient(90deg, #1e88e5, #1565c0)",
-                      borderRadius: "4px 4px 0 0",
-                    },
-                  }}
-                  component={Link}
+                        borderRadius: "4px 4px 0 0",
+                      },
+                    }}
+                    component={Link}
                   to="/rules"
-                  style={{ textDecoration: "none" }}
-                >
+                    style={{ textDecoration: "none" }}
+                  >
                   <CardContent sx={{ p: 5 }}>
                     <Stack spacing={3}>
                       <Box display="flex" alignItems="center" gap={2}>
-                        <Avatar
-                          sx={{
+                      <Avatar
+                        sx={{
                             width: 64,
                             height: 64,
                             background:
                               "linear-gradient(135deg, #1e88e5 0%, #1565c0 100%)",
                             boxShadow:
                               "0 12px 24px rgba(30,136,229,0.4), inset 0 2px 8px rgba(255,255,255,0.3)",
-                          }}
-                        >
+                        }}
+                      >
                           <GavelIcon sx={{ fontSize: 32, color: "white" }} />
-                        </Avatar>
+                      </Avatar>
                         <Box flex={1}>
-                          <Typography
+                      <Typography
                             variant="h4"
                             sx={{ fontWeight: 700, color: "#1e293b", mb: 0.5 }}
-                          >
+                      >
                             Legacy Rules
-                          </Typography>
-                          <Chip
+                      </Typography>
+                      <Chip
                             label="90 Rules"
                             size="small"
-                            sx={{
+                        sx={{
                               background:
                                 "linear-gradient(135deg, rgba(30,136,229,0.2) 0%, rgba(21,101,192,0.2) 100%)",
                               color: "#1e88e5",
-                              fontWeight: 700,
+                          fontWeight: 700,
                               border: "1px solid rgba(30,136,229,0.4)",
-                            }}
-                          />
-                        </Box>
+                          }}
+                        />
                       </Box>
-                      <Typography
+        </Box>
+          <Typography
                         variant="body1"
                         color="textSecondary"
                         sx={{ lineHeight: 1.8, fontSize: "1.05rem" }}
@@ -389,7 +389,7 @@ export default function Home({ title }) {
                         steps, and best practices for manual testing workflows
                       </Typography>
                       <Box>
-                        <Chip
+                      <Chip
                           icon={<CheckCircleIcon />}
                           label="Detailed Examples"
                           size="small"
@@ -414,18 +414,18 @@ export default function Home({ title }) {
                       <Button
                         variant="contained"
                         endIcon={<ArrowRightIcon />}
-                        sx={{
-                          background:
+          sx={{
+              background:
                             "linear-gradient(135deg, #1e88e5 0%, #1565c0 100%)",
                           color: "white",
                           fontWeight: 600,
                           py: 1.5,
-                          "&:hover": {
+                    "&:hover": {
                             background:
                               "linear-gradient(135deg, #1565c0 0%, #0d47a1 100%)",
                           },
-                        }}
-                      >
+                      }}
+                    >
                         Browse Legacy Rules
                       </Button>
                     </Stack>
@@ -470,50 +470,50 @@ export default function Home({ title }) {
                   <CardContent sx={{ p: 5 }}>
                     <Stack spacing={3}>
                       <Box display="flex" alignItems="center" gap={2}>
-                        <Avatar
-                          sx={{
+                    <Avatar
+                      sx={{
                             width: 64,
                             height: 64,
-                            background:
+                        background:
                               "linear-gradient(135deg, #673ab7 0%, #512da8 100%)",
-                            boxShadow:
+                        boxShadow:
                               "0 12px 24px rgba(103,58,183,0.4), inset 0 2px 8px rgba(255,255,255,0.3)",
-                          }}
-                        >
+                      }}
+                    >
                           <ScienceIcon sx={{ fontSize: 32, color: "white" }} />
-                        </Avatar>
+                    </Avatar>
                         <Box flex={1}>
-                          <Typography
+                    <Typography
                             variant="h4"
                             sx={{ fontWeight: 700, color: "#1e293b", mb: 0.5 }}
-                          >
+                    >
                             Engine Rules
-                          </Typography>
-                          <Chip
+                    </Typography>
+                    <Chip
                             label="158 Rules"
                             size="small"
-                            sx={{
-                              background:
+                      sx={{
+                        background:
                                 "linear-gradient(135deg, rgba(103,58,183,0.2) 0%, rgba(81,45,168,0.2) 100%)",
                               color: "#673ab7",
-                              fontWeight: 700,
+                        fontWeight: 700,
                               border: "1px solid rgba(103,58,183,0.4)",
-                            }}
+                      }}
                           />
                         </Box>
                       </Box>
-                      <Typography
-                        variant="body1"
-                        color="textSecondary"
+                    <Typography
+                      variant="body1"
+                      color="textSecondary"
                         sx={{ lineHeight: 1.8, fontSize: "1.05rem" }}
-                      >
+                    >
                         <strong>Automated Validation Rules</strong> - Advanced
                         accessibility engine with atomic test cases, severity
                         levels, and automated detection for continuous
                         integration
-                      </Typography>
+                    </Typography>
                       <Box>
-                        <Chip
+                    <Chip
                           icon={<CheckCircleIcon />}
                           label="Atomic Tests"
                           size="small"
@@ -538,8 +538,8 @@ export default function Home({ title }) {
                       <Button
                         variant="contained"
                         endIcon={<ArrowRightIcon />}
-                        sx={{
-                          background:
+                      sx={{
+                        background:
                             "linear-gradient(135deg, #673ab7 0%, #512da8 100%)",
                           color: "white",
                           fontWeight: 600,
