@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const DialogModalFocus: Rule = {
   id: "dialog-modal-focus",
+  metadata: {
+    category: "Lists",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "critical",
   title: "Keyboard focus should move into and lock inside active dialogs",
   description: "Dialogs that appear on pages without receiving keyboard focus immediately on interaction often leave users navigating content behind the dialog and make it difficult or impossible for keyboard and screen reader users to access the dialog itself.",

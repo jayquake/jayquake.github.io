@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const TableHeadersSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Table Headers"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "table-headers";
+  const title = `Tables should include table header tags`;
+  const description = `Screen readers can't match columns and cells without properly coded table header tags (TH). Without table headers, screen readers won't announce the table's content properly to users, leaving them unable to consume information.`;
+  const helpText = `Add a THEAD element to indicate a table heading section, and include TH elements for every column, describing the purpose of that table column.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "role table with role columnheaders", content: `<div role="table">
   <div role="row">
     <div role="columnheader">Car Model</div>
@@ -23,19 +21,19 @@ const TableHeadersSuccess = () => {
   </div>
   <div role="row">
     <div>Toyota Camry</div>
-    <div>$25,000</div>
+    <div>\$25,000</div>
     <div>120 mph</div>
     <div>2022</div>
   </div>
   <div role="row">
     <div>Honda Civic</div>
-    <div>$20,000</div>
+    <div>\$20,000</div>
     <div>110 mph</div>
     <div>2021</div>
   </div>
   <div role="row">
     <div>Ford Mustang</div>
-    <div>$35,000</div>
+    <div>\$35,000</div>
     <div>150 mph</div>
     <div>2022</div>
   </div>
@@ -49,9 +47,9 @@ const TableHeadersSuccess = () => {
   </div>
   <div role="row">
     <div role="rowheader">Price</div>
-    <div role="cell">$25,000</div>
-    <div role="cell">$20,000</div>
-    <div role="cell">$35,000</div>
+    <div role="cell">\$25,000</div>
+    <div role="cell">\$20,000</div>
+    <div role="cell">\$35,000</div>
   </div>
   <div role="row">
     <div role="rowheader">Speed</div>
@@ -75,19 +73,19 @@ const TableHeadersSuccess = () => {
   </tr>
   <tr>
     <td>Toyota Camry</td>
-    <td>$25,000</td>
+    <td>\$25,000</td>
     <td>120 mph</td>
     <td>2022</td>
   </tr>
   <tr>
     <td>Honda Civic</td>
-    <td>$20,000</td>
+    <td>\$20,000</td>
     <td>110 mph</td>
     <td>2021</td>
   </tr>
   <tr>
     <td>Ford Mustang</td>
-    <td>$35,000</td>
+    <td>\$35,000</td>
     <td>150 mph</td>
     <td>2022</td>
   </tr>
@@ -101,9 +99,9 @@ const TableHeadersSuccess = () => {
   </tr>
   <tr>
     <th scope="row">Price</th>
-    <td>$25,000</td>
-    <td>$20,000</td>
-    <td>$35,000</td>
+    <td>\$25,000</td>
+    <td>\$20,000</td>
+    <td>\$35,000</td>
   </tr>
   <tr>
     <th scope="row">Speed</th>
@@ -118,7 +116,16 @@ const TableHeadersSuccess = () => {
     <td>2022</td>
   </tr>
 </table>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const VisibilityMismatchFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Visibility Mismatch"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "visibility-mismatch";
+  const title = `Visible content should not be hidden from assistive technology`;
+  const description = `If content remains visible on the screen but assigned aria-hidden="true", it will be excluded from the accessibility tree. As a result, screen reader users will not have access to the same information as sighted users.`;
+  const helpText = `Remove aria-hidden="true" from visible elements. Make sure that the attribute is only used to hide redundant or inactive content.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "display block aria hidden", content: `<div aria-hidden="true">This is hidden from sr</div>` },
   { filename: "div aria hidden with child and grand child", content: `<div id="test" aria-hidden="true">
   This is hidden from sr
@@ -25,6 +23,9 @@ const VisibilityMismatchFailure = () => {
   { filename: "div aria hidden with child", content: `<div id="test" aria-hidden="true">
   This is hidden from sr
   <div id="child">child</div>
+</div>` },
+  { filename: "div with aria hidden with nested out of flow visible children", content: `<div id="test" aria-hidden="true">
+  <div style="position: fixed" id="child">child</div>
 </div>` },
   { filename: "hidden dimensions aria hidden", content: `<div style="width: 0; height: 0; overflow: visible" aria-hidden="true">This is hidden from sr</div>` },
   { filename: "img with alt", content: `<img
@@ -46,7 +47,16 @@ const VisibilityMismatchFailure = () => {
     ></path></svg
 ></i>` },
   { filename: "visibility visible aria hidden", content: `<div style="visibility: visible" aria-hidden="true">This is hidden content</div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

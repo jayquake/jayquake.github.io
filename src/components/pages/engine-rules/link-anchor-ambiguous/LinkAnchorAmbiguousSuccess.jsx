@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const LinkAnchorAmbiguousSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Link Anchor Ambiguous"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "link-anchor-ambiguous";
+  const title = `Ambiguous links should have additional descriptions for screen readers.`;
+  const description = `Ambiguous links like "Learn More", "Shop Now" and "Start Here" are often used as a call to action. However, screen-reader users, while using link navigation, do not interact with content above or below the link and therefore don\\\\`;
+  const helpText = `Add a screen-reader only text which gives additional context to the destination of the link. You can use the \\`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "link navigation", content: `<!-- Navigation links should not be audited at all here -->
 <a href="/homepage" aria-label="this link leads to the homepage">click here</a>` },
   { filename: "link with ambiguous content and good aria label", content: `<a href="#faq" aria-label="this link leads to the FAQ section">click here</a>
@@ -32,7 +30,16 @@ const LinkAnchorAmbiguousSuccess = () => {
   { filename: "link with non ambiguous short content", content: `<a href="#plans">go to see plans</a>
 
 <section id="plans"></section>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

@@ -3,6 +3,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const AriaLabelledByHasReference: Rule = {
   id: "aria-labelledby-has-reference",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.1",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "aria-labelledby should reference a valid element id",
   description: "Since aria-labelledby relies on valid id references, screen readers can only announce the label if the target exists. If the id is missing or invalid, the label will not be conveyed, causing users to miss important context.",

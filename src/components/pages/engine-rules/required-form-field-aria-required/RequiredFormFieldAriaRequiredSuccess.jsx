@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const RequiredFormFieldAriaRequiredSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Required Form Field Aria Required"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "required-form-field-aria-required";
+  const title = `Mandatory form fields should indicate that they are required`;
+  const description = `If a field is marked as required only through visual cues, but lacks the required attribute or aria-required="true", screen readers will not announce it as mandatory. As a result, users may experience unnecessary delays or confusion when trying to submit the form.`;
+  const helpText = `Add required or aria-required="true" to required input fields.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "native required form field aria required true", content: `<form>
   <label for="email">Email *</label>
   <input id="email" type="email" style="border: red 1px solid" aria-required="true">
@@ -45,7 +43,16 @@ const RequiredFormFieldAriaRequiredSuccess = () => {
     style="border: red 1px solid"></div>
     <button type="submit">Submit</button>
 </form>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

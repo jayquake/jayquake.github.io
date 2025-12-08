@@ -4,6 +4,12 @@ import { CompliantComponentMainContent, PerceivableComponentMainContent } from "
 
 export const RegionMainContentMismatch: Rule = {
   id: "region-main-content-mismatch",
+  metadata: {
+    category: "Landmarks",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "All of the main content on the page is contained in the main landmark",
   description: "The main landmark represents the primary content of a page. It should include only content unique to that page and must remain separate from repeated elements, such as navigation, header, or footer.",

@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const NavigationSubmenuRegionFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Navigation Submenu Region"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "navigation-submenu-region";
+  const title = `Tagging submenus is recommended`;
+  const description = `Complex menu structures often contain multiple groups of links that can feel like undifferentiated page content to screen reader users. Assigning role="region" with a label makes each submenu a distinct, named section, clarifying its relationship to the trigger and improving orientation.`;
+  const helpText = `Assign role="region" to each menu panel so screen reader users can distinguish submenus from surrounding page content. Adding a label (e.g., with aria-labelledby) helps users quickly identify each panel within a complex menu structure.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "navigation nested submenu no role", content: `<style>
     button {
         display: none;
@@ -55,7 +53,16 @@ const NavigationSubmenuRegionFailure = () => {
     </li>
   </ul>
 </nav>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

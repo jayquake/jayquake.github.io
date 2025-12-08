@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const BreadcrumbsNavFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Breadcrumbs Nav"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "breadcrumbs-in-nav";
+  const title = `Breadcrumbs navigation should be tagged properly`;
+  const description = `Breadcrumb navigation regions are essential for user orientation. If not appropriately tagged, screen reader users will not know that such an option exists on the page and will face more difficulties browsing around.`;
+  const helpText = `Add a role=navigation or code the breadcrumbs using the HTML NAV tag. This will indicate to screen readers that it is a navigation region. Lastly, add an aria-label=Breadcrumbs attribute so screen readers can announce that to users.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "breadcrumbs not nav", content: `<style>
     .breadcrumb {
         background-color: #f5f5f5;
@@ -96,7 +94,16 @@ const BreadcrumbsNavFailure = () => {
     <li class="breadcrumb-item active" aria-current="page">Data</li>
   </ol>
 </nav>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

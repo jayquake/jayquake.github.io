@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const CheckboxMisuseSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Checkbox Misuse"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "checkbox-misuse";
+  const title = `Only elements that function as checkbox controls should receive role="checkbox"`;
+  const description = `Setting role="checkbox" on elements that do not function as checkbox controls can mislead screen reader users by announcing them as selectable options in a group, causing unreliable navigation and interaction.`;
+  const helpText = `Remove role="checkbox" from the failing element.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "label as a custom checkbox", content: `<div class="checkbox-wrapper-44">
   <label id="test-subject" class="toggleButton" role="checkbox" aria-checked="false" tabindex="0">
     <input type="checkbox" />
@@ -233,7 +231,16 @@ const CheckboxMisuseSuccess = () => {
     }
   }
 </style>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

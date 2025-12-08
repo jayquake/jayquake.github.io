@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const NavigationMismatchFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Navigation Mismatch"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "navigation-mismatch";
+  const title = `A list of navigation links is not contained in a navigation landmark`;
+  const description = `Screen readers rely on accurate tagging and labeling to provide necessary context. If a navigation region is not tagged as a navigation landmark, screen reader users may lose orientation and find the page's structure difficult to understand.`;
+  const helpText = `Add role=navigation to the custom navigation region, or use a HTML <nav> element.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "hotmobile co il main nav", content: `<style>
   [data-id="0"]::after {
     block-size: 32px;
@@ -10113,7 +10111,16 @@ const NavigationMismatchFailure = () => {
     <!---->
   </div>
 </header>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

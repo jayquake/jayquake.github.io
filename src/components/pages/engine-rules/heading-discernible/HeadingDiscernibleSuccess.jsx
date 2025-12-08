@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const HeadingDiscernibleSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Heading Discernible"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "heading-discernible";
+  const title = `Headings should not be empty`;
+  const description = `Empty heading elements break the document outline, making navigation by headings less effective for screen reader users and causing confusion due to the disrupted page hierarchy.`;
+  const helpText = `Remove empty HTML heading elements or assign aria-hidden="true" to make sure that they are ignored by screen readers.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "heading with complex content", content: `<h2 data-heading-level="manual" class="sc-dmyCSP fhJXZs sc-fYrVWQ kOOKzb">
   <button type="button" aria-controls="radix-:r4:" aria-expanded="false" data-state="closed" class="sc-GkLId ixespc">
     <span>Add alt text to inserted email images</span>
@@ -31,7 +29,16 @@ const HeadingDiscernibleSuccess = () => {
   { filename: "heading with labelled svg", content: `<h3><svg aria-label="SVG Heading alt text"></svg></h3>` },
   { filename: "role heading with content  no aria level", content: `<div role="heading">Accessible Heading</div>` },
   { filename: "role heading with content", content: `<div role="heading" aria-level="1">Some text content</div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

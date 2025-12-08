@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const CheckboxMismatchFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Checkbox Mismatch"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "checkbox-mismatch";
+  const title = `Custom checkbox controls should be tagged for assistive technology`;
+  const description = `Screen readers have built-in mechanisms to handle checkbox components. By default, screen reades don't support custom checkboxes and using them without exposing the appropriate role may prevent screen reader users from interacting as expected with the component.`;
+  const helpText = `Assign role="checkbox" to the custom checkbox element.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "custom checkbox no role", content: `<div class="checkbox-wrapper-44">
   <label class="toggleButton" tabindex="0" aria-checked="false">
     <input type="checkbox" />
@@ -235,7 +233,16 @@ const CheckboxMismatchFailure = () => {
     }
   }
 </style>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

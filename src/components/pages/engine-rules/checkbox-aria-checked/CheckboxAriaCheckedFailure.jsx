@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const CheckboxAriaCheckedFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Checkbox Aria Checked"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "checkbox-aria-checked";
+  const title = `Checked state of custom checkbox controls should be exposed to assistive technology`;
+  const description = `If custom checkbox controls lack a defined checked state, screen reader users cannot determine which option is selected, resulting in confusion and loss of functionality.`;
+  const helpText = `Assign \\\\`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "custom checkbox no aria checked", content: `<div class="checkbox-wrapper-44">
   <label class="toggleButton" role="checkbox" tabindex="0">
     <input type="checkbox" />
@@ -235,7 +233,16 @@ const CheckboxAriaCheckedFailure = () => {
     }
   }
 </style>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

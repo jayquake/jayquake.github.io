@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const BackgroundImageDiscernibleImageSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Background Image Discernible Image"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "background-image-discernible-image";
+  const title = `Non decorative Background images should be tagged and labeled`;
+  const description = `Background image alternative text should be labeled as image for screen reader.`;
+  const helpText = `Add role='img' to the first discernible sr-only element in the background image.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "background image with first child discernible sr only that has role img", content: `<style>
   .background-image-element {
     background-image: url("path/to/your/image.jpg");
@@ -78,7 +76,16 @@ const BackgroundImageDiscernibleImageSuccess = () => {
 </style>
 
 <div class="background-image-element">Hello</div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

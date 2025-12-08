@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const RadioMisuseSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Radio Misuse"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "radio-misuse";
+  const title = `Only elements that function as radio controls should receive role="radio"`;
+  const description = `Setting role="radio" on elements that do not function as radio controls can mislead screen reader users by announcing them as selectable options in a group, causing unreliable navigation and interaction.`;
+  const helpText = `Remove role="radio" from the failing element.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "label as a custom radio", content: `<div class="radio-wrapper-44">
   <label id="test-subject" class="toggleButton" role="radio" aria-checked="false" tabindex="0">
     <input type="radio" />
@@ -233,7 +231,16 @@ const RadioMisuseSuccess = () => {
     }
   }
 </style>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

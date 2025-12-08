@@ -4,6 +4,12 @@ import { CompliantComponentCheckbox, PerceivableComponentCheckbox } from "@acsbe
 
 export const CheckboxAriaChecked: Rule = {
   id: "checkbox-aria-checked",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Checked state of custom checkbox controls should be exposed to assistive technology",
   description: "If custom checkbox controls lack a defined checked state, screen reader users cannot determine which option is selected, resulting in confusion and loss of functionality.",

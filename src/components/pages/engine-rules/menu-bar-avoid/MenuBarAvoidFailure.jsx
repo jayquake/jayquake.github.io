@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const MenuBarAvoidFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Menu Bar Avoid"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "menu-bar-avoid";
+  const title = `Avoid using role="menubar" for web navigation links`;
+  const description = `In most cases, using role=menubar on navigation elements within a web page can negatively impact screen reader users, especially those using JAWS. The attribute should be used for menu types that function like those found in desktop applications.`;
+  const helpText = `Remove role="menu" from the failing element.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "div role menubar containing div role menubar", content: `<div id="test-subject1" role="menubar" aria-label="Main navigation">
   <div role="menuitem" aria-haspopup="true" tabindex="0" aria-expanded="false" id="fileMenuButton" onclick="toggleMenu('fileMenu')">File</div>
   <div id="fileMenu" role="menubar" aria-labelledby="fileMenuButton">
@@ -42,7 +40,16 @@ const MenuBarAvoidFailure = () => {
   <div role="menuitem" aria-haspopup="true" tabindex="0" aria-expanded="false">File</div>
   <div role="menuitem" aria-haspopup="true" tabindex="0" aria-expanded="false">Edit</div>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

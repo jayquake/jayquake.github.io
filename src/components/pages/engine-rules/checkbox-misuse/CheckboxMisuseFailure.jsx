@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const CheckboxMisuseFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Checkbox Misuse"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "checkbox-misuse";
+  const title = `Only elements that function as checkbox controls should receive role="checkbox"`;
+  const description = `Setting role="checkbox" on elements that do not function as checkbox controls can mislead screen reader users by announcing them as selectable options in a group, causing unreliable navigation and interaction.`;
+  const helpText = `Remove role="checkbox" from the failing element.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "incorrect element with role checkbox", content: `<div class="checkbox-wrapper-44">
   <label class="toggleButton" tabindex="0">
     <input hidden />
@@ -235,7 +233,16 @@ const CheckboxMisuseFailure = () => {
     }
   }
 </style>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

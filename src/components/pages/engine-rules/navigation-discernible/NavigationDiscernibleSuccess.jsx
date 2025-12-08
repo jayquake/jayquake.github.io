@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const NavigationDiscernibleSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Navigation Discernible"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "navigation-discernible";
+  const title = `Navigation regions should have unique labels when there are multiple navigation regions`;
+  const description = `When multiple navigation regions exist on a page, each navigation element should have a unique label so that each region can be differentiated by screen reader users.`;
+  const helpText = `Provide a unique label for each navigation region using either the aria-label or aria-labelledby attribute.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "nav correct label", content: `<nav aria-label="Main Menu">
   <ul>
     <li><a href="/">Home</a></li>
@@ -171,7 +169,16 @@ const NavigationDiscernibleSuccess = () => {
     <li><a href="/contact/">Contact</a></li>
   </ul>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

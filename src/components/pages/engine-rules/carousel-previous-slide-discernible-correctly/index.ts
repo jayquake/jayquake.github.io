@@ -7,6 +7,12 @@ const EXPECTED_CONTROL_WORDS = ["previous", "back"] as const;
 
 export const CarouselPreviousSlideDiscernibleCorrectly: Rule = {
   id: "carousel-previous-slide-discernible-correctly",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Carousel Previous pagination control should have an accurate and descriptive label",
   description: "If the Previous control (often marked up using an arrow symbol) in a carousel is not given a descriptive label, screen reader users may not understand that the control activates the previous slide or set of slides in the carousel.",

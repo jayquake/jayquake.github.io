@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const SkipLinkFirstSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Skip Link First"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "skip-link-first";
+  const title = `Skip links should be the first elements on a page`;
+  const description = `Skip links should be placed at the very beginning of the page so they are encountered first by keyboard and screen reader users. This lets users quickly bypass repeated navigation and move directly to important regions such as the main content, navigation, or footer.`;
+  const helpText = `Place skip links at the very start of the page HTML.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "multi skip links before tabbables", content: `<head>
   <style>
     .skip-link {
@@ -61,7 +59,16 @@ const SkipLinkFirstSuccess = () => {
   <a href="#main" class="skip-link">Skip to main content</a>
   <main id="main"></main>
 </body>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const LinkNavigationDiscernibleSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Link Navigation Discernible"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "link-navigation-discernible";
+  const title = `Link navigation discernible text`;
+  const description = `Links need discernible text that tells visitors where the link takes them.`;
+  const helpText = `Add discernible text to the button`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "hidden link no content", content: `<a href="path/to/page" style="width: 100px; height: 100px" hidden></a>` },
   { filename: "link no content with aria label", content: `<!-- Issue with @acsbe/classifier detection -->
 <a href="path/to/page" style="width: 100px; height: 100px" aria-label="describe the button"></a>` },
@@ -40,7 +38,16 @@ const LinkNavigationDiscernibleSuccess = () => {
   { filename: "link with content", content: `<a href="path/to/page">Some text content</a>` },
   { filename: "link with desernable content and aria label", content: `<a target="_blank" aria-label="Home" class="btn-new silent compensate-left e16fm13v0 e1of9yu15 css-6x6bk e1figufi0" href="/home"><span class="silent css-17qgsod e1of9yu11">Home</span></a>` },
   { filename: "link wtih image content and aria label", content: `<a href="path/to/page" aria-label="describe the button"><img src="path/to/graphic/cotnent" /></a>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const HeadingMisuseFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Heading Misuse"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "heading-misuse";
+  const title = `Only elements that function as headings should be tagged as heading`;
+  const description = `Accurate tagging allows screen readers to present content in a logical structure. Misidentifying an element as a heading disrupts navigation, creating confusion about the importance of content and page hierarchy.`;
+  const helpText = `Remove ARIA heading attributes from the failing element, or if the element is marked up using a native HTML tag, update the role according to the function of the element.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "font size too small", content: `<!DOCTYPE html>
 <html lang="en">
   <body>
@@ -77,7 +75,16 @@ const HeadingMisuseFailure = () => {
     <h1>This heading text is intentionally longer than sixty characters to test the limit.</h1>
   </body>
 </html>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const RegionMainContentMisuseSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Region Main Content Misuse"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "region-main-content-misuse";
+  const title = `An element without main content is tagged as a main landmark`;
+  const description = `Incorrectly tagging the main landmark may cause screen reader users to misunderstand where the primary content begins or ends, leading to confusion and inefficient navigation.`;
+  const helpText = `If the failing element is a custom main landmark, remove role="main". If the failing element is coded using a HTML <main> tag, change the tag to a <div> or an element with a suitable role.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "main landmark by role main", content: `<!DOCTYPE html>
 <html>
   <body>
@@ -33,7 +31,16 @@ const RegionMainContentMisuseSuccess = () => {
     <footer>Footer content</footer>
   </body>
 </html>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

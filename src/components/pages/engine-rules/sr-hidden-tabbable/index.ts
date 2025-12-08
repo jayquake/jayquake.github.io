@@ -4,6 +4,12 @@ import { PerceivableTraitTabbable, CompliantTraitVisible } from "@acsbe/core-eng
 
 export const SRHiddenTabbable: Rule = {
   id: "sr-hidden-tabbable",
+  metadata: {
+    category: "Tabs",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Elements hidden from screen-reader must not contain tabbable elements.",
   description: "although the elements are hidden from assistive technologies, users can still navigate to any focusable child elements using the keyboard, but their content is inaccessible to people who use assistive technologies.",

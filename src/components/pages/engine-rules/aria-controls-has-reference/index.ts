@@ -3,6 +3,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const AriaControlsHasReference: Rule = {
   id: "aria-controls-has-reference",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.1",
+    wcagLevel: "A",
+  },
   impact: "minor",
   title: "aria-controls should reference a valid element id",
   description: "The element’s aria-controls points to an id that does not exist, or is not valid, breaking the link between the controlling element and the content it manages.",

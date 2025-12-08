@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const TabListMismatchSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Tab List Mismatch"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "tab-list-mismatch";
+  const title = `Tablists should be tagged for assistive technology`;
+  const description = `A tablist without role="tablist" is not announced as a group of related tabs, which prevents screen reader users from recognizing the structure and purpose of the component. This makes it harder to navigate between tabs and understand that the controls belong to a single set.`;
+  const helpText = `Apply role="tablist" to the container element that directly holds the tabs.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "tab list role tablist", content: `<div class="tabs">
   <h3 id="tablist-1">Danish Composers</h3>
   <div role="tablist" aria-labelledby="tablist-1" class="automatic">
@@ -131,7 +129,16 @@ const TabListMismatchSuccess = () => {
     margin: 0;
   }
 </style>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

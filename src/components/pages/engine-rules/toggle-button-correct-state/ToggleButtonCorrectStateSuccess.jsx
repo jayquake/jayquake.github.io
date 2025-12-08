@@ -2,21 +2,28 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const ToggleButtonCorrectStateSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Toggle Button Correct State"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "toggle-button-correct-state";
+  const title = `The state of toggle buttons should be accurate`;
+  const description = `If the exposed state of a toggle button is not accurate, screen reader users may not know whether it is active or inactive, leading to confusion and unintended actions.`;
+  const helpText = `Make sure the value of aria-pressed represents the visible state of the control.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "button toggle class context  aria pressed", content: `<button class="active" aria-pressed="true">ksmdfsd</button>` },
   { filename: "button toggle context  aria pressed", content: `<button aria-pressed="false">Off</button>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

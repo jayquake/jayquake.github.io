@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const HeadingOrderFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Heading Order"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "heading-order";
+  const title = `Heading levels should follow a logical hierarchy`;
+  const description = `Incorrect heading hierarchy can create a misleading page outline, disrupt navigation by heading shortcuts, and cause confusion about the structure and importance of content. Skipping levels or using them inconsistently makes it harder for screen reader users and others who rely on structured navigation to understand the page.`;
+  const helpText = `Use heading levels in a meaningful, hierarchical order that reflects the structure of the content. Start with a single <h1> for the main page title, then use <h2> for primary sections, <h3> for subsections, and so on. Best practice avoids skipping levels (for example, jumping from <h1> to <h3>) to maintain a logical sequence and ensure a clear, consistent outline for all users.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "first heading h2", content: `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -105,7 +103,16 @@ const HeadingOrderFailure = () => {
     <h6>Regular H6 Heading</h6>
   </body>
 </html>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const VisibilityMismatchSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Visibility Mismatch"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "visibility-mismatch";
+  const title = `Visible content should not be hidden from assistive technology`;
+  const description = `If content remains visible on the screen but assigned aria-hidden="true", it will be excluded from the accessibility tree. As a result, screen reader users will not have access to the same information as sighted users.`;
+  const helpText = `Remove aria-hidden="true" from visible elements. Make sure that the attribute is only used to hide redundant or inactive content.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "display none aria hidden", content: `<div style="display: none" aria-hidden="true">This is hidden content</div>` },
   { filename: "display none parent", content: `<div style="display: none">
   <div>This is hidden content</div>
@@ -37,7 +35,16 @@ const VisibilityMismatchSuccess = () => {
   { filename: "visibility hidden aria hidden", content: `<div style="visibility: hidden" aria-hidden="true">This is hidden content</div>` },
   { filename: "visibility hidden", content: `<div style="visibility: hidden">This is hidden content</div>` },
   { filename: "visible text", content: `<div>This content is visible</div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

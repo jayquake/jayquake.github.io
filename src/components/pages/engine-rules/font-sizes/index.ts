@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const FontSizes: Rule = {
   id: "font-sizes",
+  metadata: {
+    category: "Lists",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "AA",
+  },
   impact: "moderate",
   title: "Text should be scalable to 200% without loss of content or functionality",
   description: "When text is scaled to 200%, content may be clipped, overlap, or overflow its container if styles like fixed heights, fixed widths, hidden overflow, or absolute positioning prevent proper reflow.",

@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const LinkMailtoWarningSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Link Mailto Warning"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "link-mailto-warning";
+  const title = `Warning a user when a link triggers a mail application is recommended`;
+  const description = `It's good practice to warn users about the expected behavior when activating a link triggers a mail application.`;
+  const helpText = `Add a visibly hidden text element that contains 'Opens mail application'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "link mailto acsb sr element", content: `<a href="mailto:someone@example.com" id="email-link">
   Send email
   <span data-acsb-sr-only="true" class="acsb-sr-only" style="position: absolute !important; width: 1px !important; height: 1px !important; padding: 0px !important; overflow: hidden !important; clip: rect(0px, 0px, 0px, 0px) !important; border: 0px !important"> | Opens Email</span>
@@ -59,7 +57,16 @@ const LinkMailtoWarningSuccess = () => {
   <a href="mailto:someone@example.com" id="email-link" aria-labelledby="email-desc">Send email</a>
   <span id="email-desc" class="sr-only">This link launches email application.</span>
 </p>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const LinkCurrentPageFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Link Current Page"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "link-current-page";
+  const title = `Visual indication that a link's destination is the current page should be announced by screen readers`;
+  const description = `Visual cues are often used by sighted users to indicate which link represents the current page within a set of links. This information should be made available to screen reader users by assigning aria-current='page' to the link.`;
+  const helpText = `Add aria-current="page" to the  link within a list of navigation links whose destination matches the page the user is currently navigating.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "a tag aria current is not page", content: `<a class="current" href="http://127.0.0.1:9000/rules/link-current-page/atomic-tests/fail/a-tag-aria-current-is-not-page.html" aria-current="true">current</a>` },
   { filename: "a tag no aria current page", content: `<a class="current" href="http://127.0.0.1:9000/rules/link-current-page/atomic-tests/fail/a-tag-no-aria-current-page.html">current</a>` },
   { filename: "breadcrumb no aria current page", content: `<nav aria-label="Breadcrumb" class="breadcrumb">
@@ -43,7 +41,16 @@ const LinkCurrentPageFailure = () => {
     <li><a href="/">Contact</a></li>
   </ul>
 </nav>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

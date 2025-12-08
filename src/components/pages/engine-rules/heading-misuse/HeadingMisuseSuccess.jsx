@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const HeadingMisuseSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Heading Misuse"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "heading-misuse";
+  const title = `Only elements that function as headings should be tagged as heading`;
+  const description = `Accurate tagging allows screen readers to present content in a logical structure. Misidentifying an element as a heading disrupts navigation, creating confusion about the importance of content and page hierarchy.`;
+  const helpText = `Remove ARIA heading attributes from the failing element, or if the element is marked up using a native HTML tag, update the role according to the function of the element.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "exact length heading", content: `<!DOCTYPE html>
 <html lang="en">
   <body>
@@ -161,7 +159,16 @@ const HeadingMisuseSuccess = () => {
     <div role="heading" aria-level="2" class="larger-line-height">Heading with Larger Line Height</div>
   </body>
 </html>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

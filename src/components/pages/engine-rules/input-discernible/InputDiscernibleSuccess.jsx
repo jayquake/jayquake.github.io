@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const InputDiscernibleSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Input Discernible"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "input-discernible";
+  const title = `Inputs must include a descriptive label`;
+  const description = `Screen readers rely on correctly coded and associated labels to announce the purpose of a form field. If a label isn't properly associated with its input field, screen reader users won't know the expected input.`;
+  const helpText = `Provide a <label> element and associate it with the <input> using the for and id attributes. Alternatively, you can assign an aria-label attribute directly to the <input> element.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "input with aria label", content: `<input type="text" id="username" aria-label="Username" />` },
   { filename: "input with for attr for element", content: `<label for="username">Username</label>
 <input type="text" name="username" id="username">` },
@@ -43,7 +41,16 @@ const InputDiscernibleSuccess = () => {
 <textarea name="username" id="username"></textarea>` },
   { filename: "textarea with label element", content: `<label id="username">Username</label>
 <textarea aria-labelledby="username"></textarea>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

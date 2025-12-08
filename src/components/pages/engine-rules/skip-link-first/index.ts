@@ -4,6 +4,12 @@ import { PerceivableTraitTabbable, PerceivableComponentSkipLink } from "@acsbe/c
 
 export const SkipLinkFirst: Rule = {
   id: "skip-link-first",
+  metadata: {
+    category: "Landmarks",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "moderate",
   title: "Skip links should be the first elements on a page",
   description: "Skip links should be placed at the very beginning of the page so they are encountered first by keyboard and screen reader users. This lets users quickly bypass repeated navigation and move directly to important regions such as the main content, navigation, or footer.",

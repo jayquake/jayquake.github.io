@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const RadioMismatchFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Radio Mismatch"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "radio-mismatch";
+  const title = `Custom radio controls should be tagged for assistive technology`;
+  const description = `Screen readers have built-in mechanisms to handle radio components. By default, assistive technology does not support custom radio controls and using them without exposing the appropriate role may prevent screen reader users from interacting as expected with the component.`;
+  const helpText = `Assign role="radio" to the custom radio control.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "custom radio no role", content: `<div class="radio-wrapper-44">
   <label class="toggleButton" tabindex="0" aria-checked="false">
     <input type="radio" />
@@ -235,7 +233,16 @@ const RadioMismatchFailure = () => {
     }
   }
 </style>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

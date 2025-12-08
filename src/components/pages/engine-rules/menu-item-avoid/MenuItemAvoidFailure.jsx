@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const MenuItemAvoidFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Menu Item Avoid"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "menu-item-avoid";
+  const title = `Avoid using role="menuitem" for web navigation links`;
+  const description = `In most cases, using ARIA menu roles within a web page can negatively impact screen reader users, especially those using JAWS. role="menuitem" should be used for menu items in menu types that function like those found in desktop applications.`;
+  const helpText = `Use standard lists with links and buttons (or custom buttons with role="button") and remove role="menuitem".`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "multiple navs containing menu items", content: `<nav>
   <ul>
     <li><a href="#">Home</a></li>
@@ -84,7 +82,16 @@ const MenuItemAvoidFailure = () => {
     <li><a href="#">Contact</a></li>
   </ul>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

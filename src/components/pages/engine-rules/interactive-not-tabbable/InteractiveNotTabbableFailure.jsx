@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const InteractiveNotTabbableFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Interactive Not Tabbable"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "interactive-not-tabbable";
+  const title = `Interactive elements should be keyboard navigable`;
+  const description = `Interactive elements should be keyboard navigable. If a custom interactive element is not keyboard navigable, keyboard users will not be able to interact with it.`;
+  const helpText = `Add tabindex="0" to the custom interactive element.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "custom checkbox not tabbable", content: `<div class="checkbox-wrapper-44">
   <label class="toggleButton" role="checkbox" aria-checked="false">
     <input type="checkbox" />
@@ -605,7 +603,16 @@ const InteractiveNotTabbableFailure = () => {
   { filename: "semantic interactive element negative tabindex", content: `<button role="button" tabindex="-1">
   <span>Regular Button</span>
 </button>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

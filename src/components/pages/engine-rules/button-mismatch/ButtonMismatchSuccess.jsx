@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const ButtonMismatchSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Button Mismatch"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "button-mismatch";
+  const title = `Buttons should be tagged for assistive technology`;
+  const description = `If interactive elements cannot be identified as buttons, screen reader users may not realize the element is actionable, which can stop them from submitting forms, opening dialogs, or performing other intended actions.`;
+  const helpText = `Add role="button" to the custom navigation region, or use a HTML <button> element.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "button as menu item", content: `<!-- Example taken from https://www.erstegroup.com/de/karriere/schuelerinnen -->
 <nav
   role="navigation"
@@ -633,7 +631,16 @@ const ButtonMismatchSuccess = () => {
 
 <span class="heading" role="heading" aria-level=" " tabindex="0">Atomic test</span>` },
   { filename: "link href hash", content: `<a href="#anchor"></a>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

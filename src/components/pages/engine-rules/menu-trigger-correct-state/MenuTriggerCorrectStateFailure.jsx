@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const MenuTriggerCorrectStateFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Menu Trigger Correct State"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "menu-trigger-correct-state";
+  const title = `Menu open/close states should be indicated to assistive technology`;
+  const description = `Screen readers require properly coded states for interactive elements. Menus can be expanded or collapsed, and their state should be indicated to screen readers. Otherwise, users will lose orientation and get confused while browsing the menu.`;
+  const helpText = `When a button is a menu trigger, you should connected it to the menu it toggles using the "aria-controls" attribute on the button, where the value is the "id" of the menu. Use the the "aria-expanded" attribute to indicate whether the menu controlled by a menu-trigger button is expanded or collapsed (if it is visible or not). Set the value to dynamically to "true" when the menu is visible and "false" when it is not. Note: the aria-expanded attribute must be placed on the link or button menu items only. Otherwise, they won't work.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "wrong aria expanded 2 submenu controller", content: `<style>
   #submenu {
     display: block;
@@ -54,7 +52,16 @@ const MenuTriggerCorrectStateFailure = () => {
     <li><a href="#">Contact</a></li>
   </ul>
 </nav>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

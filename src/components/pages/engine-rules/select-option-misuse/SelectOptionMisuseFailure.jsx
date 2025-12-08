@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const SelectOptionMisuseFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Select Option Misuse"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "select-option-misuse";
+  const title = `Only elements that function as select options should be tagged as option`;
+  const description = `Assigning role="option" outside the required listbox structure causes screen readers to ignore the role, leaving users without the intended semantics of the original element. This can obscure key information and make the content harder for users to interpret.`;
+  const helpText = `Remove role="option" from the failing element.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "accordion item header", content: `<div class="accordion">
   <div class="accordion-item">
     <div class="accordion-header">Header 1</div>
@@ -97,7 +95,16 @@ const SelectOptionMisuseFailure = () => {
     <div>Subitem 4</div>
   </div>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

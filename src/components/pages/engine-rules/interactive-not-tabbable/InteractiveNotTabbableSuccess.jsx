@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const InteractiveNotTabbableSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Interactive Not Tabbable"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "interactive-not-tabbable";
+  const title = `Interactive elements should be keyboard navigable`;
+  const description = `Interactive elements should be keyboard navigable. If a custom interactive element is not keyboard navigable, keyboard users will not be able to interact with it.`;
+  const helpText = `Add tabindex="0" to the custom interactive element.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "div as a custom checkbox", content: `<div class="checkbox-wrapper-1" tabindex="0" role="checkbox" aria-checked="false">
   <input id="example-1" class="substituted" type="checkbox" aria-hidden="true" />
   <label class="pointer" for="example-1" tabindex="0">Checkbox</label>
@@ -181,7 +179,16 @@ const InteractiveNotTabbableSuccess = () => {
   <option>Option 3</option>
 </select>` },
   { filename: "text area element without tabindex", content: `<textarea placeholder="comment.."></textarea>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

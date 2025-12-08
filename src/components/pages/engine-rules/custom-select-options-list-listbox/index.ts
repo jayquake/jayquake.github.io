@@ -4,6 +4,12 @@ import { PerceivableComponentComboboxSelect, PerceivableComponentSelectOptions }
 
 export const CustomSelectOptionsListListbox: Rule = {
   id: "custom-select-options-list-listbox",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Custom select options lists should be tagged for assistive technology",
   description: "Native select elements automatically expose their option lists to screen readers, but custom implementations must be explicitly defined. Without exposing the correct roles and nesting them in line with established markup and accessibility standards, screen reader users may not be able to make a selection.",

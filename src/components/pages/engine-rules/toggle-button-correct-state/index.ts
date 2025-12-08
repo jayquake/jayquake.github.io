@@ -4,6 +4,12 @@ import { PassCondition } from "../interfaces";
 
 export const ToggleButtonCorrectState: Rule = {
   id: "toggle-button-correct-state",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   associatedDetectors: [CompliantComponentToggleButton, PerceivableComponentToggleButton],
   impact: "serious",
   title: "The state of toggle buttons should be accurate",

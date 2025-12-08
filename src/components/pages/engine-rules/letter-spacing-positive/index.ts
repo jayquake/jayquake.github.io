@@ -4,6 +4,12 @@ import { PerceivableTraitDirectText, PerceivableTraitVisible } from "@acsbe/core
 
 export const LetterSpacingPositive: Rule = {
   id: "letter-spacing-positive",
+  metadata: {
+    category: "Lists",
+    profile: "Vision Impaired",
+    wcagVersion: "2.1",
+    wcagLevel: "AA",
+  },
   impact: "critical",
   title: "Letter spacing should scale to at least 0.12 times the font size without loss of content or functionality",
   description: "When letter spacing is increased to 0.12 times the font size, text may be clipped, overlap, or overflow its container if styles like fixed widths, fixed heights, hidden overflow, or forced no-wrap prevent proper reflow.",

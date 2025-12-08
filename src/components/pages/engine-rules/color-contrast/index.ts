@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const ColorContrast: Rule = {
   id: "color-contrast",
+  metadata: {
+    category: "Graphics",
+    profile: "Vision Impaired",
+    wcagVersion: "2.1",
+    wcagLevel: "AA",
+  },
   impact: "serious",
   title: "The color contrast ratio between text and its background should provide a readable experience",
   description:

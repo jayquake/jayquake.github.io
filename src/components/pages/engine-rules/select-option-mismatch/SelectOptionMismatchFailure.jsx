@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const SelectOptionMismatchFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Select Option Mismatch"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "select-option-mismatch";
+  const title = `Custom select options should be tagged for assistive technology`;
+  const description = `Native select elements automatically expose each option to screen readers, however roles for custom components must be explicitly defined. If custom option elements are not given the correct ARIA role and nested according to markup and accessibility guidelines, assistive technology may not recognize or interact with them.`;
+  const helpText = `Assign role="option" to each custom select option.\\\\nEnsure that each option is directly contained in an element with role="listbox"`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "accordion", content: `<div class="custom-select">
   <button class="select-box">Select an option</button>
   <div class="accordion">
@@ -85,7 +83,16 @@ const SelectOptionMismatchFailure = () => {
         </div>
     </div>
 </form>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

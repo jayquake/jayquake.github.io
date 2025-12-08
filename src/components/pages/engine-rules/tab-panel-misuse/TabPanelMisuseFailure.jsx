@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const TabPanelMisuseFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Tab Panel Misuse"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "tab-panel-misuse";
+  const title = `Only elements that function as tab panels should receive role="tabpanel"`;
+  const description = `Applying role="tabpanel" to an element without a corresponding tab misleads screen reader users by announcing it as tab content, even though no controlling tab exists.`;
+  const helpText = `Remove role="tabpanel" from the failing element.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "skip link role tabpanel", content: `<div>
   <nav>
     <div>
@@ -29,7 +27,16 @@ const TabPanelMisuseFailure = () => {
     <p>some text in here</p>
   </nav>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

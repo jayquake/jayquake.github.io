@@ -4,6 +4,12 @@ import { CompliantComponentFooter } from "@acsbe/core-engine-classifier";
 
 export const RegionFooter: Rule = {
   id: "region-footer",
+  metadata: {
+    category: "General",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Footer region should be correctly marked up",
   description: "Ensure that the footer region is correctly marked up.",

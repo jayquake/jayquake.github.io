@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const VisibleTextPartOfAccessibleNameSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Visible Text Part Of Accessible Name"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "visible-text-part-of-accessible-name";
+  const title = `Aria labels should not override or replace visible text`;
+  const description = `Aria labels should describe elements that don't have proper text, like icons and field labels. It should not be used to override element texts. Screen reader users need to receive the exact text as visually on the screen, with more context if it is ambiguous. An exception applies to landmarks such as nav or other landmarks: here, ARIA labels can provide additional context or clarification.`;
+  const helpText = `Remove the aria-label. If you need to add context for screen reader users only because of the ambiguity of the text, use the screen-reader-only technique.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "anchor aria describedby incl text", content: `<!-- NOTE: according to ACT, aria-describedby attribute is not applicable and should pass https://www.w3.org/WAI/standards-guidelines/act/rules/2ee8b8/proposed/#applicability -->
 <p id="description">this is a test, and some description</p>
 <a href="#" aria-describedby="description">this is a test</a>` },
@@ -201,7 +199,7 @@ const VisibleTextPartOfAccessibleNameSuccess = () => {
           width: 78.4453px;
         "
       >
-        from $129.00
+        from \$129.00
       </span>
     </div>
   </div>
@@ -221,8 +219,7 @@ const VisibleTextPartOfAccessibleNameSuccess = () => {
   { filename: "button visible text is non text content", content: `<!-- TODO: currently skipped because we don't have ability to detect non-text content (only if text is ambigous which is not suitable here) -->
 <!-- This button has visible text that does not need to be contained within the accessible name, because the “x” text node is non-text content. Note: this would need to meet SC 1.1.1 Non text content. -->
 <button aria-label="anything">X</button>` },
-  { filename: "button visible text is rendered as icon", content: `<!-- TODO: waits for https://github.com/acsbe/core-engine-classifier/pull/463 -->
-<!-- This button element has the text “search” rendered as an magnifying glass icon by the font. Because the text is rendered as non-text content, the text does not need to be contained within the accessible name. -->
+  { filename: "button visible text is rendered as icon", content: `<!-- This button element has the text “search” rendered as an magnifying glass icon by the font. Because the text is rendered as non-text content, the text does not need to be contained within the accessible name. -->
 <link href="../assets/material-icons/icon.css" rel="stylesheet" />
 <style>
   button {
@@ -325,7 +322,16 @@ const VisibleTextPartOfAccessibleNameSuccess = () => {
   { filename: "text field", content: `<!-- This email text field does not need to have its visible text match the accessible name. The content of a textfield shows its value instead of its label; it does not support name from content. The label is usually adjacent to the textfield instead. -->
 <div>E-mail</div>
 <input type="email" aria-label="E-mail" value="Contact" />` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

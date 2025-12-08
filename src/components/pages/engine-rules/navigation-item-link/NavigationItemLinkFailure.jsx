@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const NavigationItemLinkFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Navigation Item Link"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "navigation-item-link";
+  const title = `All leaf nodes in a navigation tree should contain a link element.`;
+  const description = `Navigation items, whether their functionality is provided using JS (custom behavior), should always have a child that is a link and not as a clickable LI element with text.`;
+  const helpText = `Always include a link under navigation items and avoid using text elements even if functionality is provided using JS.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "nav div items", content: `<nav>
   <ul>
     <li id="test-subject-1"><div id="test-subject1" onclick="navigateToPage('home.html');">Home</div></li>
@@ -70,7 +68,16 @@ const NavigationItemLinkFailure = () => {
     <div id="test-subject-3" role="listitem" onclick="navigateToPage('contact.html');">Contact</div>
   </ul>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

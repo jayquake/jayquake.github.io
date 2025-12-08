@@ -4,6 +4,12 @@ import { CompliantComponentHeading, PerceivableComponentHeading } from "@acsbe/c
 
 export const HeadingMismatch: Rule = {
   id: "heading-mismatch",
+  metadata: {
+    category: "Lists",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Headings should be tagged for assistive technology",
   description: "Text that visually functions as a heading for sighted users should also be tagged as a heading for screen reader users.",

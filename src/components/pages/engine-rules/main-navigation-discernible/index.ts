@@ -4,6 +4,12 @@ import { PassCondition } from "../interfaces";
 
 export const MainNavigationDiscernible: Rule = {
   id: "main-navigation-discernible",
+  metadata: {
+    category: "General",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Main navigation should be labelled properly",
   description: "Main navigation elements should have text available for screen readers explaining that it is the main navigation.",

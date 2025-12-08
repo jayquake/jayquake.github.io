@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const CheckboxAriaCheckedSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Checkbox Aria Checked"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "checkbox-aria-checked";
+  const title = `Checked state of custom checkbox controls should be exposed to assistive technology`;
+  const description = `If custom checkbox controls lack a defined checked state, screen reader users cannot determine which option is selected, resulting in confusion and loss of functionality.`;
+  const helpText = `Assign \\\\`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "div as a custom checkbox", content: `<div class="checkbox-wrapper-1" tabindex="0" role="checkbox" aria-checked="false">
   <input id="example-1" class="substituted" type="checkbox" aria-hidden="true" />
   <label class="pointer" for="example-1">Checkbox</label>
@@ -387,7 +385,16 @@ const CheckboxAriaCheckedSuccess = () => {
     }
   }
 </style>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

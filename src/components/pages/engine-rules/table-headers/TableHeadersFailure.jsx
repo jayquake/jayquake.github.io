@@ -2,35 +2,33 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const TableHeadersFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Table Headers"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "table-headers";
+  const title = `Tables should include table header tags`;
+  const description = `Screen readers can't match columns and cells without properly coded table header tags (TH). Without table headers, screen readers won't announce the table's content properly to users, leaving them unable to consume information.`;
+  const helpText = `Add a THEAD element to indicate a table heading section, and include TH elements for every column, describing the purpose of that table column.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "multi role table without headers", content: `<div id="test-subject1" role="table">
     <div role="rowgroup">
         <div role="row">
             <div role="cell">Toyota Camry</div>
-            <div role="cell">$25,000</div>
+            <div role="cell">\$25,000</div>
             <div role="cell">120 mph</div>
             <div role="cell">2022</div>
         </div>
         <div role="row">
             <div role="cell">Honda Civic</div>
-            <div role="cell">$20,000</div>
+            <div role="cell">\$20,000</div>
             <div role="cell">110 mph</div>
             <div role="cell">2021</div>
         </div>
         <div role="row">
             <div role="cell">Ford Mustang</div>
-            <div role="cell">$35,000</div>
+            <div role="cell">\$35,000</div>
             <div role="cell">150 mph</div>
             <div role="cell">2022</div>
         </div>
@@ -40,19 +38,19 @@ const TableHeadersFailure = () => {
     <div role="rowgroup">
         <div role="row">
             <div role="cell">Toyota Camry</div>
-            <div role="cell">$25,000</div>
+            <div role="cell">\$25,000</div>
             <div role="cell">120 mph</div>
             <div role="cell">2022</div>
         </div>
         <div role="row">
             <div role="cell">Honda Civic</div>
-            <div role="cell">$20,000</div>
+            <div role="cell">\$20,000</div>
             <div role="cell">110 mph</div>
             <div role="cell">2021</div>
         </div>
         <div role="row">
             <div role="cell">Ford Mustang</div>
-            <div role="cell">$35,000</div>
+            <div role="cell">\$35,000</div>
             <div role="cell">150 mph</div>
             <div role="cell">2022</div>
         </div>
@@ -70,19 +68,19 @@ const TableHeadersFailure = () => {
     <tbody>
         <tr>
             <td>Toyota Camry</td>
-            <td>$25,000</td>
+            <td>\$25,000</td>
             <td>120 mph</td>
             <td>2022</td>
         </tr>
         <tr>
             <td>Honda Civic</td>
-            <td>$20,000</td>
+            <td>\$20,000</td>
             <td>110 mph</td>
             <td>2021</td>
         </tr>
         <tr>
             <td>Ford Mustang</td>
-            <td>$35,000</td>
+            <td>\$35,000</td>
             <td>150 mph</td>
             <td>2022</td>
         </tr>
@@ -101,19 +99,19 @@ const TableHeadersFailure = () => {
     <tbody>
     <tr>
         <td>Toyota Camry</td>
-        <td>$25,000</td>
+        <td>\$25,000</td>
         <td>120 mph</td>
         <td>2022</td>
     </tr>
     <tr>
         <td>Honda Civic</td>
-        <td>$20,000</td>
+        <td>\$20,000</td>
         <td>110 mph</td>
         <td>2021</td>
     </tr>
     <tr>
         <td>Ford Mustang</td>
-        <td>$35,000</td>
+        <td>\$35,000</td>
         <td>150 mph</td>
         <td>2022</td>
     </tr>
@@ -123,19 +121,19 @@ const TableHeadersFailure = () => {
     <div role="rowgroup">
         <div role="row">
             <div role="cell">Toyota Camry</div>
-            <div role="cell">$25,000</div>
+            <div role="cell">\$25,000</div>
             <div role="cell">120 mph</div>
             <div role="cell">2022</div>
         </div>
         <div role="row">
             <div role="cell">Honda Civic</div>
-            <div role="cell">$20,000</div>
+            <div role="cell">\$20,000</div>
             <div role="cell">110 mph</div>
             <div role="cell">2021</div>
         </div>
         <div role="row">
             <div role="cell">Ford Mustang</div>
-            <div role="cell">$35,000</div>
+            <div role="cell">\$35,000</div>
             <div role="cell">150 mph</div>
             <div role="cell">2022</div>
         </div>
@@ -145,19 +143,19 @@ const TableHeadersFailure = () => {
   <div role="rowgroup">
     <div role="row">
       <div role="cell">Toyota Camry</div>
-      <div role="cell">$25,000</div>
+      <div role="cell">\$25,000</div>
       <div role="cell">120 mph</div>
       <div role="cell">2022</div>
     </div>
     <div role="row">
       <div role="cell">Honda Civic</div>
-      <div role="cell">$20,000</div>
+      <div role="cell">\$20,000</div>
       <div role="cell">110 mph</div>
       <div role="cell">2021</div>
     </div>
     <div role="row">
       <div role="cell">Ford Mustang</div>
-      <div role="cell">$35,000</div>
+      <div role="cell">\$35,000</div>
       <div role="cell">150 mph</div>
       <div role="cell">2022</div>
     </div>
@@ -172,19 +170,19 @@ const TableHeadersFailure = () => {
   </div>
   <div role="row">
     <div>Toyota Camry</div>
-    <div>$25,000</div>
+    <div>\$25,000</div>
     <div>120 mph</div>
     <div>2022</div>
   </div>
   <div role="row">
     <div>Honda Civic</div>
-    <div>$20,000</div>
+    <div>\$20,000</div>
     <div>110 mph</div>
     <div>2021</div>
   </div>
   <div role="row">
     <div>Ford Mustang</div>
-    <div>$35,000</div>
+    <div>\$35,000</div>
     <div>150 mph</div>
     <div>2022</div>
   </div>
@@ -201,19 +199,19 @@ const TableHeadersFailure = () => {
     <tbody>
     <tr>
         <td>Toyota Camry</td>
-        <td>$25,000</td>
+        <td>\$25,000</td>
         <td>120 mph</td>
         <td>2022</td>
     </tr>
     <tr>
         <td>Honda Civic</td>
-        <td>$20,000</td>
+        <td>\$20,000</td>
         <td>110 mph</td>
         <td>2021</td>
     </tr>
     <tr>
         <td>Ford Mustang</td>
-        <td>$35,000</td>
+        <td>\$35,000</td>
         <td>150 mph</td>
         <td>2022</td>
     </tr>
@@ -222,19 +220,19 @@ const TableHeadersFailure = () => {
 <div id="test-subject2" role="table">
     <div role="row">
         <div>Toyota Camry</div>
-        <div>$25,000</div>
+        <div>\$25,000</div>
         <div>120 mph</div>
         <div>2022</div>
     </div>
     <div role="row">
         <div>Honda Civic</div>
-        <div>$20,000</div>
+        <div>\$20,000</div>
         <div>110 mph</div>
         <div>2021</div>
     </div>
     <div role="row">
         <div>Ford Mustang</div>
-        <div>$35,000</div>
+        <div>\$35,000</div>
         <div>150 mph</div>
         <div>2022</div>
     </div>
@@ -251,19 +249,19 @@ const TableHeadersFailure = () => {
     <tbody>
         <tr>
             <td>Toyota Camry</td>
-            <td>$25,000</td>
+            <td>\$25,000</td>
             <td>120 mph</td>
             <td>2022</td>
         </tr>
         <tr>
             <td>Honda Civic</td>
-            <td>$20,000</td>
+            <td>\$20,000</td>
             <td>110 mph</td>
             <td>2021</td>
         </tr>
         <tr>
             <td>Ford Mustang</td>
-            <td>$35,000</td>
+            <td>\$35,000</td>
             <td>150 mph</td>
             <td>2022</td>
         </tr>
@@ -278,19 +276,19 @@ const TableHeadersFailure = () => {
   </tr>
   <tr>
     <td>Toyota Camry</td>
-    <td>$25,000</td>
+    <td>\$25,000</td>
     <td>120 mph</td>
     <td>2022</td>
   </tr>
   <tr>
     <td>Honda Civic</td>
-    <td>$20,000</td>
+    <td>\$20,000</td>
     <td>110 mph</td>
     <td>2021</td>
   </tr>
   <tr>
     <td>Ford Mustang</td>
-    <td>$35,000</td>
+    <td>\$35,000</td>
     <td>150 mph</td>
     <td>2022</td>
   </tr>
@@ -307,25 +305,34 @@ const TableHeadersFailure = () => {
   <tbody>
     <tr>
       <td>Toyota Camry</td>
-      <td>$25,000</td>
+      <td>\$25,000</td>
       <td>120 mph</td>
       <td>2022</td>
     </tr>
     <tr>
       <td>Honda Civic</td>
-      <td>$20,000</td>
+      <td>\$20,000</td>
       <td>110 mph</td>
       <td>2021</td>
     </tr>
     <tr>
       <td>Ford Mustang</td>
-      <td>$35,000</td>
+      <td>\$35,000</td>
       <td>150 mph</td>
       <td>2022</td>
     </tr>
   </tbody>
 </table>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const CarouselRedundantDiscernibleTextSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Carousel Redundant Discernible Text"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "carousel-redundant-discernible-text";
+  const title = `Carousels should be labelled properly without redundancy`;
+  const description = `Unlabeled carousel areas are difficult for screen reader users because content gets hidden and shown unexpectedly. However, when labelled, the label should not be redundant.`;
+  const helpText = `When using the "aria-label" or "aria-labelledby" element to describe the contents of the carouse, do not use the word "carousel" in it, as it is redundant when used with the "role" and "aria-roledescription" attributes. Using all three of these attributes, assistive technology users will understand that this is a carousel region and what it contains.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "972creative carousels with discernible text", content: `<div class="content  has_slider" style="min-height: 886px;">
     <div class="content_inner  ">
         <div class="q_slider">
@@ -2203,7 +2201,16 @@ const CarouselRedundantDiscernibleTextSuccess = () => {
         </div>
     </div>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

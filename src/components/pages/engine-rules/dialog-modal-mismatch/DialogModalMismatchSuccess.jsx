@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const DialogModalMismatchSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Dialog Modal Mismatch"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "dialog-modal-mismatch";
+  const title = `Modal dialogs should be tagged for assistive technology`;
+  const description = `Content behind active modal dialogs should not be navigable, otherwise screen reader users may still encounter hidden or unrelated content, disrupting the intended workflow and making it harder to focus on the dialog’s purpose.`;
+  const helpText = `Add aria-modal="true" alongside role="dialog" to indicate to screen readers that the dialog is modal and that content outside of it should be treated as inactive. Screen readers will recognize this and adjust their behavior to keep the user’s focus inside the dialog, providing a clearer and more predictable experience.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "dialog not open display block", content: `<style>
   dialog {
     display: block;
@@ -434,7 +432,16 @@ const DialogModalMismatchSuccess = () => {
     </div>
   </div>
 </body>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

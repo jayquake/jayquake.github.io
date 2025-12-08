@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const MenuTriggerMisuseSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Menu Trigger Misuse"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "menu-trigger-misuse";
+  const title = `Menu trigger buttons/links that aren't perceived as menu trigger should lose the \\`;
+  const description = `Using menu trigger attributes for buttons/links that aren't menu triggers can confuse screen readers and other assistive technologies. This can lead to a poor user experience for people with disabilities.`;
+  const helpText = `Remove the \\`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "bootstrap dropdown menu", content: `<div class="bd-example m-0 border-0">
   <div class="dropdown">
     <li>
@@ -280,7 +278,16 @@ const MenuTriggerMisuseSuccess = () => {
     <kbd aria-hidden="true" class="css-pniafb">⌘K</kbd>
   </button>
 </li>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

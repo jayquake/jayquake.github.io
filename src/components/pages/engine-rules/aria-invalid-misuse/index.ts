@@ -4,6 +4,12 @@ import { PerceivableTraitFormFieldInteracted } from "@acsbe/core-engine-classifi
 
 export const AriaInvalidMisuse: Rule = {
   id: "aria-invalid-misuse",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.2",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Fields must indicate validation errors to assistive technology",
   description: "Screen reader users rely on properly coded field validation status and associated validation messages. Otherwise, users would have to browse around and try to pick up clues on the page as to why their submission attempt did not work.",

@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const VisibleTextPartOfAccessibleNameFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Visible Text Part Of Accessible Name"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "visible-text-part-of-accessible-name";
+  const title = `Aria labels should not override or replace visible text`;
+  const description = `Aria labels should describe elements that don't have proper text, like icons and field labels. It should not be used to override element texts. Screen reader users need to receive the exact text as visually on the screen, with more context if it is ambiguous. An exception applies to landmarks such as nav or other landmarks: here, ARIA labels can provide additional context or clarification.`;
+  const helpText = `Remove the aria-label. If you need to add context for screen reader users only because of the ambiguity of the text, use the screen-reader-only technique.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "anchor aria label incl text", content: `<a href="#" aria-label="this is a test, and some clarification">this is Gazorpazorp" </a>` },
   { filename: "anchor aria labelledby incl text", content: `<label id="l1">this is a test, and some clarification</label>
 <a href="#" aria-labelledby="l1">this is Gazorpazorp</a>` },
@@ -55,7 +53,16 @@ const VisibleTextPartOfAccessibleNameFailure = () => {
 <input id="searchbox" type="search" aria-label="Find" />` },
   { filename: "switch visible text is different from aria label", content: `<label for="id-switch-1">Hello world</label>
 <input id="id-switch-1" type="checkbox" role="switch" aria-label="hello" />` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

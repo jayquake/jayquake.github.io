@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const AriaControlsHasReferenceFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Aria Controls Has Reference"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "aria-controls-has-reference";
+  const title = `aria-controls should reference a valid element id`;
+  const description = `The element’s aria-controls points to an id that does not exist, or is not valid, breaking the link between the controlling element and the content it manages.`;
+  const helpText = `Make the value of aria-controls exactly match an existing, unique id of an element on the page. Remove or update the attribute if the target element is missing or no longer relevant.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "aria controls broken reference", content: `<span
     role="tab"
     aria-selected="true"
@@ -91,7 +89,16 @@ First Tab
 <div id="panel-1" role="tabpanel" tabindex="0" aria-labelledby="tab-1">
     <p>Content for the first panel</p>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

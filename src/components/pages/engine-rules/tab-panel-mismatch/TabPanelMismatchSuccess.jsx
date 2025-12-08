@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const TabPanelMismatchSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Tab Panel Mismatch"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "tab-panel-mismatch";
+  const title = `Tab panels should be tagged for assistive technology`;
+  const description = `The role="tabpanel" identifies an element as the content region of a tab interface. Without this role, panels are exposed only by their native role (such as a generic div or a named section) and screen reader users may not perceive them as part of the tab structure.`;
+  const helpText = `Apply role="tabpanel" to each container that is exposed when selecting a tab.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "tab panels role tabpanel", content: `<div class="tabs">
   <h3 id="tablist-1">Danish Composers</h3>
   <div role="tablist" aria-labelledby="tablist-1" class="automatic">
@@ -131,7 +129,16 @@ const TabPanelMismatchSuccess = () => {
     margin: 0;
   }
 </style>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

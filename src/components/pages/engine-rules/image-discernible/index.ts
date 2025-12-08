@@ -4,6 +4,12 @@ import { CompliantComponentImage, PerceivableTraitDiscernibleText } from "@acsbe
 
 export const ImageDiscernible: Rule = {
   id: "image-discernible",
+  metadata: {
+    category: "Graphics",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "critical",
   title: "Functional image should have a text alternative",
   description: "Images require a text alternative when the image conveys meaningful content or serves a functional purpose. If the image is decorative, it must be hidden from assistive technology.",

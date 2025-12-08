@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const DialogModalFocusFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Dialog Modal Focus"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "dialog-modal-focus";
+  const title = `Keyboard focus should move into and lock inside active dialogs`;
+  const description = `Dialogs that appear on pages without receiving keyboard focus immediately on interaction often leave users navigating content behind the dialog and make it difficult or impossible for keyboard and screen reader users to access the dialog itself.`;
+  const helpText = `When a dialog opens, use JavaScript to place keyboard focus on the first interactive element within the dialog. If static content, such as lists, tables, or paragraphs, appears before any interactive elements and it needs to be perceived in order to easily understand the content, tabindex="-1" can be added to a static element at the start of the content to initially focus that element.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "dialog without autofocus", content: `<html>
   <head>
     <style>
@@ -43,7 +41,16 @@ const DialogModalFocusFailure = () => {
     </div>
   </body>
 </html>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

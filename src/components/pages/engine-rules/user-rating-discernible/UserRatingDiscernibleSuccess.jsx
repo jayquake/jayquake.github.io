@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const UserRatingDiscernibleSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="User Rating Discernible"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "user-rating-discernible";
+  const title = `User ratings should be tagged and labeled for assistive technology`;
+  const description = `When a static star rating is presented using unlabeled icons, screen readers cannot interpret the symbols as meaningful content. Assigning a role and text alternative ensures the rating value is conveyed clearly, allowing non-visual users to understand the information.`;
+  const helpText = `Assign role="img" with an aria-label such as “4 out of 5 stars,” either directly on a single image or SVG, or on a container that holds the star elements.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "airbnb ratings with aria label", content: `<span id="test-subject" aria-label="Rating 4.92 out of 5; 52 reviews"
     class="s15vsdt atm_9s_1txwivl atm_h_1h6ojuz atm_c8_km0zk7 atm_g3_18khvle atm_fr_1m9t47k atm_9s_1txwivl_ajy7l8 atm_h_1h6ojuz_ajy7l8 atm_h0_evh4rp_ajy7l8 atm_7l_5devkh_ajy7l8 atm_7l_1mi2a3h_1pmwrue atm_7l_17zsnog_1dij5us  dir dir-ltr"
     role="img">
@@ -63,32 +61,32 @@ const UserRatingDiscernibleSuccess = () => {
   { filename: "imdb ratings with inner visible text", content: `<div id="test-subject" data-testid="hero-rating-bar__aggregate-rating__score" class="sc-bde20123-2 cdQqzc">
   <span class="sc-bde20123-1 cMEQkK">8.2</span><span>/<!-- -->10</span>
 </div>` },
-  { filename: "ratemeds ratings with title", content: `<span id="test-subject" title="4.97" class="star-rating" data-reactid=".121rf7r60fi.0.1.0.1.$728969.1"><span
-        class="stars" data-reactid=".121rf7r60fi.0.1.0.1.$728969.1.0"><svg width="18" height="18" viewBox="0 0 18 18"
-            fill="none" class="selected" data-reactid=".121rf7r60fi.0.1.0.1.$728969.1.0.0">
+  { filename: "ratemeds ratings with title", content: `<span id="test-subject" title="4.97" class="star-rating" data-reactid=".121rf7r60fi.0.1.0.1.\$728969.1"><span
+        class="stars" data-reactid=".121rf7r60fi.0.1.0.1.\$728969.1.0"><svg width="18" height="18" viewBox="0 0 18 18"
+            fill="none" class="selected" data-reactid=".121rf7r60fi.0.1.0.1.\$728969.1.0.0">
             <path
                 d="M9.7361 1.45801L11.5721 5.17901C11.6921 5.42101 11.9231 5.58901 12.1901 5.62801L16.2961 6.22501C16.9691 6.32301 17.2381 7.15001 16.7511 7.62501L13.7801 10.52C13.5871 10.709 13.4981 10.98 13.5441 11.247L14.2451 15.336C14.3601 16.007 13.6561 16.518 13.0541 16.201L9.3821 14.27C9.1431 14.144 8.8571 14.144 8.6181 14.27L4.9461 16.201C4.3441 16.518 3.6401 16.006 3.7551 15.336L4.4561 11.247C4.5021 10.981 4.4131 10.709 4.2201 10.52L1.2491 7.62401C0.762101 7.14901 1.0311 6.32201 1.7041 6.22401L5.8101 5.62701C6.0771 5.58801 6.3081 5.42001 6.4281 5.17801L8.2641 1.45701C8.5651 0.847009 9.4351 0.847009 9.7361 1.45801Z"
-                fill="#FA7D00" data-reactid=".121rf7r60fi.0.1.0.1.$728969.1.0.0.0"></path>
+                fill="#FA7D00" data-reactid=".121rf7r60fi.0.1.0.1.\$728969.1.0.0.0"></path>
         </svg><svg width="18" height="18" viewBox="0 0 18 18" fill="none" class="selected"
-            data-reactid=".121rf7r60fi.0.1.0.1.$728969.1.0.1">
+            data-reactid=".121rf7r60fi.0.1.0.1.\$728969.1.0.1">
             <path
                 d="M9.7361 1.45801L11.5721 5.17901C11.6921 5.42101 11.9231 5.58901 12.1901 5.62801L16.2961 6.22501C16.9691 6.32301 17.2381 7.15001 16.7511 7.62501L13.7801 10.52C13.5871 10.709 13.4981 10.98 13.5441 11.247L14.2451 15.336C14.3601 16.007 13.6561 16.518 13.0541 16.201L9.3821 14.27C9.1431 14.144 8.8571 14.144 8.6181 14.27L4.9461 16.201C4.3441 16.518 3.6401 16.006 3.7551 15.336L4.4561 11.247C4.5021 10.981 4.4131 10.709 4.2201 10.52L1.2491 7.62401C0.762101 7.14901 1.0311 6.32201 1.7041 6.22401L5.8101 5.62701C6.0771 5.58801 6.3081 5.42001 6.4281 5.17801L8.2641 1.45701C8.5651 0.847009 9.4351 0.847009 9.7361 1.45801Z"
-                fill="#FA7D00" data-reactid=".121rf7r60fi.0.1.0.1.$728969.1.0.1.0"></path>
+                fill="#FA7D00" data-reactid=".121rf7r60fi.0.1.0.1.\$728969.1.0.1.0"></path>
         </svg><svg width="18" height="18" viewBox="0 0 18 18" fill="none" class="selected"
-            data-reactid=".121rf7r60fi.0.1.0.1.$728969.1.0.2">
+            data-reactid=".121rf7r60fi.0.1.0.1.\$728969.1.0.2">
             <path
                 d="M9.7361 1.45801L11.5721 5.17901C11.6921 5.42101 11.9231 5.58901 12.1901 5.62801L16.2961 6.22501C16.9691 6.32301 17.2381 7.15001 16.7511 7.62501L13.7801 10.52C13.5871 10.709 13.4981 10.98 13.5441 11.247L14.2451 15.336C14.3601 16.007 13.6561 16.518 13.0541 16.201L9.3821 14.27C9.1431 14.144 8.8571 14.144 8.6181 14.27L4.9461 16.201C4.3441 16.518 3.6401 16.006 3.7551 15.336L4.4561 11.247C4.5021 10.981 4.4131 10.709 4.2201 10.52L1.2491 7.62401C0.762101 7.14901 1.0311 6.32201 1.7041 6.22401L5.8101 5.62701C6.0771 5.58801 6.3081 5.42001 6.4281 5.17801L8.2641 1.45701C8.5651 0.847009 9.4351 0.847009 9.7361 1.45801Z"
-                fill="#FA7D00" data-reactid=".121rf7r60fi.0.1.0.1.$728969.1.0.2.0"></path>
+                fill="#FA7D00" data-reactid=".121rf7r60fi.0.1.0.1.\$728969.1.0.2.0"></path>
         </svg><svg width="18" height="18" viewBox="0 0 18 18" fill="none" class="selected"
-            data-reactid=".121rf7r60fi.0.1.0.1.$728969.1.0.3">
+            data-reactid=".121rf7r60fi.0.1.0.1.\$728969.1.0.3">
             <path
                 d="M9.7361 1.45801L11.5721 5.17901C11.6921 5.42101 11.9231 5.58901 12.1901 5.62801L16.2961 6.22501C16.9691 6.32301 17.2381 7.15001 16.7511 7.62501L13.7801 10.52C13.5871 10.709 13.4981 10.98 13.5441 11.247L14.2451 15.336C14.3601 16.007 13.6561 16.518 13.0541 16.201L9.3821 14.27C9.1431 14.144 8.8571 14.144 8.6181 14.27L4.9461 16.201C4.3441 16.518 3.6401 16.006 3.7551 15.336L4.4561 11.247C4.5021 10.981 4.4131 10.709 4.2201 10.52L1.2491 7.62401C0.762101 7.14901 1.0311 6.32201 1.7041 6.22401L5.8101 5.62701C6.0771 5.58801 6.3081 5.42001 6.4281 5.17801L8.2641 1.45701C8.5651 0.847009 9.4351 0.847009 9.7361 1.45801Z"
-                fill="#FA7D00" data-reactid=".121rf7r60fi.0.1.0.1.$728969.1.0.3.0"></path>
+                fill="#FA7D00" data-reactid=".121rf7r60fi.0.1.0.1.\$728969.1.0.3.0"></path>
         </svg><svg width="18" height="18" viewBox="0 0 18 18" fill="none" class="selected"
-            data-reactid=".121rf7r60fi.0.1.0.1.$728969.1.0.4">
+            data-reactid=".121rf7r60fi.0.1.0.1.\$728969.1.0.4">
             <path
                 d="M9.7361 1.45801L11.5721 5.17901C11.6921 5.42101 11.9231 5.58901 12.1901 5.62801L16.2961 6.22501C16.9691 6.32301 17.2381 7.15001 16.7511 7.62501L13.7801 10.52C13.5871 10.709 13.4981 10.98 13.5441 11.247L14.2451 15.336C14.3601 16.007 13.6561 16.518 13.0541 16.201L9.3821 14.27C9.1431 14.144 8.8571 14.144 8.6181 14.27L4.9461 16.201C4.3441 16.518 3.6401 16.006 3.7551 15.336L4.4561 11.247C4.5021 10.981 4.4131 10.709 4.2201 10.52L1.2491 7.62401C0.762101 7.14901 1.0311 6.32201 1.7041 6.22401L5.8101 5.62701C6.0771 5.58801 6.3081 5.42001 6.4281 5.17801L8.2641 1.45701C8.5651 0.847009 9.4351 0.847009 9.7361 1.45801Z"
-                fill="#FA7D00" data-reactid=".121rf7r60fi.0.1.0.1.$728969.1.0.4.0"></path>
+                fill="#FA7D00" data-reactid=".121rf7r60fi.0.1.0.1.\$728969.1.0.4.0"></path>
         </svg></span></span>` },
   { filename: "rentalcars ratings with inner visible text", content: `<style>
     .SM_5e6eb992 {
@@ -173,7 +171,16 @@ const UserRatingDiscernibleSuccess = () => {
             class="fixed-size-text__09f24__bUCrM fixed-size-text--small__09f24__Bc2oE y-css-wfbtsu"><span class=""><span
                     itemprop="reviewCount">41</span></span></span></div>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

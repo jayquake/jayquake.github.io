@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const CarouselDiscernibleFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Carousel Discernible"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "carousel-discernible";
+  const title = `Carousels should have a descriptive label`;
+  const description = `Carousels need a label so assistive technology announces them with a clear name, such as “Featured products carousel”. This ensures screen reader users know the widget’s purpose and can differentiate it from other carousels on the page.`;
+  const helpText = `Provide a clear label for the carousel using aria-labelledby to reference a visible heading or assign aria-label to the carousel container.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "972creative carousels", content: `<div class="content has_slider" style="min-height: 886px">
   <div class="content_inner">
     <div class="q_slider">
@@ -630,7 +628,16 @@ const CarouselDiscernibleFailure = () => {
     <li class="slide">slide 3</li>
   </ul>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

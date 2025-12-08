@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const CaptchaAccessibleProviderFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Captcha Accessible Provider"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "captcha-accessible-provider";
+  const title = `Non-standard Captcha challenges must be replaced with an Accessible Provider (such as Google Recaptcha)`;
+  const description = `Non-standard Captcha mechanisms are inaccessible by design. Captchas are explicitly meant to be challenging to answer in order to trick bots. Non-standard Captchas prevent screen reader users from submitting the website's forms.`;
+  const helpText = `Replace all non-standard Captcha fields with Google Recaptcha (or other Accessible Provider) which is fully accessible for screen readers and assistive technology by default. Learn more about Google Recaptcha here: https://www.google.com/recaptcha/about/`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "form custom captcha", content: `<form class="_widgetForm_1f3oo_26" novalidate="">
   <div id="test-subject" class="_captchaWidgetContainer_1f3oo_22"><img class="_captchaImage_rrn3u_9"
                                                                        src="/dist/web/assets/captcha-rn1S3orp.jpg"
@@ -34,7 +32,16 @@ const CaptchaAccessibleProviderFailure = () => {
     </button>
   </div>
 </form>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

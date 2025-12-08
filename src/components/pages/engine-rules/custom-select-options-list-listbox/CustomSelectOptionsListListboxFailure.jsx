@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const CustomSelectOptionsListListboxFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Custom Select Options List Listbox"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "custom-select-options-list-listbox";
+  const title = `Custom select options lists should be tagged for assistive technology`;
+  const description = `Native select elements automatically expose their option lists to screen readers, but custom implementations must be explicitly defined. Without exposing the correct roles and nesting them in line with established markup and accessibility standards, screen reader users may not be able to make a selection.`;
+  const helpText = `Assign role="listbox" to the container element that directly holds the list options.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "no role", content: `<form>
     <div class="custom-select">
         <div class="select-selected" onclick="showMenu()">Select an option</div>
@@ -24,7 +22,16 @@ const CustomSelectOptionsListListboxFailure = () => {
         </div>
     </div>
 </form>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

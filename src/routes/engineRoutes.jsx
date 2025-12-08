@@ -54,6 +54,9 @@ import CarouselAriaLiveFailure from "../components/pages/engine-rules/carousel-a
 import { CarouselDiscernible } from "../components/pages/engine-rules/carousel-discernible/metadata.js";
 import CarouselDiscernibleSuccess from "../components/pages/engine-rules/carousel-discernible/CarouselDiscernibleSuccess";
 import CarouselDiscernibleFailure from "../components/pages/engine-rules/carousel-discernible/CarouselDiscernibleFailure";
+import { CarouselDraggingMovements } from "../components/pages/engine-rules/carousel-dragging-movements/metadata.js";
+import CarouselDraggingMovementsSuccess from "../components/pages/engine-rules/carousel-dragging-movements/CarouselDraggingMovementsSuccess";
+import CarouselDraggingMovementsFailure from "../components/pages/engine-rules/carousel-dragging-movements/CarouselDraggingMovementsFailure";
 import { CarouselMismatch } from "../components/pages/engine-rules/carousel-mismatch/metadata.js";
 import CarouselMismatchSuccess from "../components/pages/engine-rules/carousel-mismatch/CarouselMismatchSuccess";
 import CarouselMismatchFailure from "../components/pages/engine-rules/carousel-mismatch/CarouselMismatchFailure";
@@ -309,6 +312,9 @@ import NoExtraInformationInTitleFailure from "../components/pages/engine-rules/n
 import { NoRoleApplication } from "../components/pages/engine-rules/no-role-application/metadata.js";
 import NoRoleApplicationSuccess from "../components/pages/engine-rules/no-role-application/NoRoleApplicationSuccess";
 import NoRoleApplicationFailure from "../components/pages/engine-rules/no-role-application/NoRoleApplicationFailure";
+import { NoUiSliderSinglePointer } from "../components/pages/engine-rules/no-ui-slider-single-pointer/metadata.js";
+import NoUiSliderSinglePointerSuccess from "../components/pages/engine-rules/no-ui-slider-single-pointer/NoUiSliderSinglePointerSuccess";
+import NoUiSliderSinglePointerFailure from "../components/pages/engine-rules/no-ui-slider-single-pointer/NoUiSliderSinglePointerFailure";
 import { PageMetaDescription } from "../components/pages/engine-rules/page-meta-description/metadata.js";
 import PageMetaDescriptionSuccess from "../components/pages/engine-rules/page-meta-description/PageMetaDescriptionSuccess";
 import PageMetaDescriptionFailure from "../components/pages/engine-rules/page-meta-description/PageMetaDescriptionFailure";
@@ -390,6 +396,9 @@ import SkipLinkExistsFailure from "../components/pages/engine-rules/skip-link-ex
 import { SkipLinkFirst } from "../components/pages/engine-rules/skip-link-first/metadata.js";
 import SkipLinkFirstSuccess from "../components/pages/engine-rules/skip-link-first/SkipLinkFirstSuccess";
 import SkipLinkFirstFailure from "../components/pages/engine-rules/skip-link-first/SkipLinkFirstFailure";
+import { SliderDraggingMovements } from "../components/pages/engine-rules/slider-dragging-movements/metadata.js";
+import SliderDraggingMovementsSuccess from "../components/pages/engine-rules/slider-dragging-movements/SliderDraggingMovementsSuccess";
+import SliderDraggingMovementsFailure from "../components/pages/engine-rules/slider-dragging-movements/SliderDraggingMovementsFailure";
 import { SRHiddenTabbable } from "../components/pages/engine-rules/sr-hidden-tabbable/metadata.js";
 import SrHiddenTabbableSuccess from "../components/pages/engine-rules/sr-hidden-tabbable/SrHiddenTabbableSuccess";
 import SrHiddenTabbableFailure from "../components/pages/engine-rules/sr-hidden-tabbable/SrHiddenTabbableFailure";
@@ -677,6 +686,18 @@ const EngineRoutes = () => (
     <Route
       path="/engine/carousel-discernible_failure"
       element={<CarouselDiscernibleFailure />}
+    />
+    <Route
+      path="/engine/carousel-dragging-movements"
+      element={<EngineRulePage ruleData={CarouselDraggingMovements} />}
+    />
+    <Route
+      path="/engine/carousel-dragging-movements_success"
+      element={<CarouselDraggingMovementsSuccess />}
+    />
+    <Route
+      path="/engine/carousel-dragging-movements_failure"
+      element={<CarouselDraggingMovementsFailure />}
     />
     <Route
       path="/engine/carousel-mismatch"
@@ -1699,6 +1720,18 @@ const EngineRoutes = () => (
       element={<NoRoleApplicationFailure />}
     />
     <Route
+      path="/engine/no-ui-slider-single-pointer"
+      element={<EngineRulePage ruleData={NoUiSliderSinglePointer} />}
+    />
+    <Route
+      path="/engine/no-ui-slider-single-pointer_success"
+      element={<NoUiSliderSinglePointerSuccess />}
+    />
+    <Route
+      path="/engine/no-ui-slider-single-pointer_failure"
+      element={<NoUiSliderSinglePointerFailure />}
+    />
+    <Route
       path="/engine/page-meta-description"
       element={<EngineRulePage ruleData={PageMetaDescription} />}
     />
@@ -2021,6 +2054,18 @@ const EngineRoutes = () => (
     <Route
       path="/engine/skip-link-first_failure"
       element={<SkipLinkFirstFailure />}
+    />
+    <Route
+      path="/engine/slider-dragging-movements"
+      element={<EngineRulePage ruleData={SliderDraggingMovements} />}
+    />
+    <Route
+      path="/engine/slider-dragging-movements_success"
+      element={<SliderDraggingMovementsSuccess />}
+    />
+    <Route
+      path="/engine/slider-dragging-movements_failure"
+      element={<SliderDraggingMovementsFailure />}
     />
     <Route
       path="/engine/sr-hidden-tabbable"

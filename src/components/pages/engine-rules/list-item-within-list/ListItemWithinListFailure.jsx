@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const ListItemWithinListFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="List Item Within List"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "list-item-within-list";
+  const title = `List items should not exist outside of a list element`;
+  const description = `When list items are not contained in a list element, screen readers will not announce them as list items, preventing users from understanding the content as part of a structured list.`;
+  const helpText = `Enclose the list items in an <ol>, <ul>, or an element with role="list".`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "li outside list parent", content: `<html>
   <head> </head>
   <body>
@@ -30,7 +28,16 @@ const ListItemWithinListFailure = () => {
     </div>
   </body>
 </html>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

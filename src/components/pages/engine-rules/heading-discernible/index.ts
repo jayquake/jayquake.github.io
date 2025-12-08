@@ -4,6 +4,12 @@ import { PerceivableTraitDiscernibleText, CompliantComponentHeading } from "@acs
 
 export const HeadingDiscernible: Rule = {
   id: "heading-discernible",
+  metadata: {
+    category: "Landmarks",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "critical",
   title: "Headings should not be empty",
   description: "Empty heading elements break the document outline, making navigation by headings less effective for screen reader users and causing confusion due to the disrupted page hierarchy.",

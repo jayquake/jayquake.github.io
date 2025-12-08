@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const FocusNotObscuredFooterFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Focus Not Obscured Footer"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "focus-not-obscured-footer";
+  const title = `Focused elements should not be obscured by a sticky footer`;
+  const description = `A sticky footer remains anchored to the bottom of the screen while the rest of the page content can be scrolled. If it is not offset from interactive elements, it can overlap and obscure the item in focus.`;
+  const helpText = `When a page has a sticky footer, make sure that any element receiving focus is not fully covered by the footer. One way to achieve this is by using the CSS property scroll-padding-bottom.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "footer ancestor position fixed with padding", content: `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -2008,7 +2006,16 @@ const FocusNotObscuredFooterFailure = () => {
     </div>
   </body>
 </html>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const MainNavigationMismatchFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Main Navigation Mismatch"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "main-navigation-mismatch";
+  const title = `Main navigation should have role navigation`;
+  const description = `Main navigation elements should have role navigation to ensure that screen readers can identify them as navigation regions.`;
+  const helpText = `Add role=navigation to the main navigation elements`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "accessiBe main menu without role navigation", content: `<header class="header" data-element="header" style="align-items: center; animation-duration: 0.001s; block-size: 65px; display: flex; height: 65px; justify-content: space-between; perspective-origin: 748.5px 32.5px; transform-origin: 748.5px 32.5px">
   <div
     class="wrapper wrapper-large flex flex-nowrap"
@@ -8044,7 +8042,16 @@ const MainNavigationMismatchFailure = () => {
     -webkit-text-stroke-color: rgb(10, 37, 64);
   }
 </style>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

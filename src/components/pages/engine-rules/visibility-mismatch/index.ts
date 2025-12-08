@@ -1,4 +1,4 @@
-import { PerceivableTraitVisible, CompliantTraitVisible, PerceivableComponentGraphic } from "@acsbe/core-engine-classifier";
+import { PerceivableTraitVisible, CompliantTraitVisible, PerceivableComponentGraphic, CompliantTraitExplicitlyHidden } from "@acsbe/core-engine-classifier";
 import type EngineClassifier from "@acsbe/core-engine-classifier";
 import type { SvgOrHtmlElement } from "@acsbe/core-engine-classifier";
 import type { Rule } from "~/rules/interfaces";
@@ -6,11 +6,17 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const VisibilityMismatch: Rule = {
   id: "visibility-mismatch",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Visible content should not be hidden from assistive technology",
   description: 'If content remains visible on the screen but assigned aria-hidden="true", it will be excluded from the accessibility tree. As a result, screen reader users will not have access to the same information as sighted users.',
   advice: 'Remove aria-hidden="true" from visible elements. Make sure that the attribute is only used to hide redundant or inactive content.',
-  associatedDetectors: [PerceivableTraitVisible, CompliantTraitVisible, PerceivableComponentGraphic],
+  associatedDetectors: [PerceivableTraitVisible, CompliantTraitVisible, PerceivableComponentGraphic, CompliantTraitExplicitlyHidden],
   refs: [
     {
       type: "Non-Standard",
@@ -50,6 +56,23 @@ export const VisibilityMismatch: Rule = {
       }
 
       response.failedNodes.push(element);
+    }
+
+    /**
+     * Check for elements that are explicitly hidden but have visible descendants, they should also fail so we remove the aria-hidden attribute from them
+     */
+    const compliantHiddenElements = classifier.getMatched([CompliantTraitExplicitlyHidden]);
+    for (const element of compliantHiddenElements) {
+      /**
+       * If the element is already marked as failed, skip it to prevent duplicates
+       */
+      if (response.failedNodes.includes(element)) {
+        continue;
+      }
+      const hasVisibleDescendants = classifier.getMatched([PerceivableTraitVisible], element).length > 0;
+      if (hasVisibleDescendants) {
+        response.failedNodes.push(element);
+      }
     }
   },
 };

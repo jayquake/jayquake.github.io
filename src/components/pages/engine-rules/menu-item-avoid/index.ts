@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const MenuItemAvoid: Rule = {
   id: "menu-item-avoid",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: 'Avoid using role="menuitem" for web navigation links',
   description: 'In most cases, using ARIA menu roles within a web page can negatively impact screen reader users, especially those using JAWS. role="menuitem" should be used for menu items in menu types that function like those found in desktop applications.',

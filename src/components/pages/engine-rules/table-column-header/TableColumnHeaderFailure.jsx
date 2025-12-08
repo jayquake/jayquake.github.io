@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const TableColumnHeaderFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Table Column Header"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "table-column-header";
+  const title = `Table column headers should be tagged for assistive technology`;
+  const description = `If a column header is not marked up with the correct role or scope, screen reader users cannot determine which header applies to each cell.`;
+  const helpText = `Use <th scope="col"> or assign role="columnheader" when building custom tables. Make sure each data cell is programmatically associated with the correct header so relationships are clear to assistive technology.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "table native tds styled as headers no thead or tbody", content: `<style>
   .test-subject {
     font-weight: bold;
@@ -105,7 +103,16 @@ const TableColumnHeaderFailure = () => {
     <div role="cell">Row 2, Cell 2</div>
   </div>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

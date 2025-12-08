@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const MenuTriggerMismatchFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Menu Trigger Mismatch"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "menu-trigger-mismatch";
+  const title = `Menu trigger buttons/links should be tagged properly`;
+  const description = `Menu trigger buttons/links should have \\`;
+  const helpText = `Use the \\`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "button within nav with aria expanded without aria haspopup without aria controls", content: `<nav>
   <ul>
     <li>
@@ -177,7 +175,16 @@ const MenuTriggerMismatchFailure = () => {
     </li>
   </ul>
 </nav>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

@@ -12,6 +12,12 @@ export const textContainsWordOrString = (text: string, key: Parameters<typeof te
 
 export const FormContextChangeWarning: Rule = {
   id: "form-context-change-warning",
+  metadata: {
+    category: "Forms",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "critical",
   title: "Interacting with form controls should not cause a change in context unless a user is notified beforehand",
   description: "Interacting with form controls shouldn't automatically submit a form or cause any other change in context without notifying the user in advance. Form controls that cause a context change on input can disorient a user, since the behavior is not expected.",

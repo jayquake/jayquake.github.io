@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const TableMisuseFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Table Misuse"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "table-misuse";
+  const title = `Only elements that function as data tables should be tagged as table`;
+  const description = `When a layout table is marked up with HTML elements like <table> or <tr>, or assigned table ARIA roles, screen readers announce a data table structure with rows, columns, and headers, even though the table is only used for page layout.`;
+  const helpText = `Avoid using table markup or roles for visual layout. Use CSS for page structure, and if a table must be used for layout, remove semantic roles by adding role="presentation" or role="none".`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "books", content: `<div class="mobile-container" style="background-color: rgb(204, 204, 204); block-size: 2112px; height: 2112px; inline-size: 1998px; padding-block: 8px; padding: 8px; padding-inline: 8px; perspective-origin: 1007px 1064px; transform-origin: 1007px 1064px; width: 1998px">
   <center class="top-ad" style="block-size: 18px; height: 18px; inline-size: 1998px; perspective-origin: 999px 9px; transform-origin: 999px 9px; width: 1998px">
     <a
@@ -12649,7 +12647,16 @@ const TableMisuseFailure = () => {
     -webkit-text-stroke-color: rgb(64, 109, 151);
   }
 </style>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

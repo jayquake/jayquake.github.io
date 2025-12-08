@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const NavigationMisuseSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Navigation Misuse"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "navigation-misuse";
+  const title = `An element without navigation links is tagged as a navigation landmark`;
+  const description = `Screen readers rely on accurate tagging and labeling to provide necessary context. If an element that does not contain navigation links is tagged as a navigation landmark, screen reader users may lose orientation and find the page's structure difficult to understand.`;
+  const helpText = `Add role=presentation to the incorrect <nav> element or remove role=navigation if a different element is used.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "accessiBe main menu nav", content: `<header class="header" data-element="header" style="align-items: center; animation-duration: 0.001s; block-size: 65px; display: flex; height: 65px; justify-content: space-between; perspective-origin: 748.5px 32.5px; transform-origin: 748.5px 32.5px">
   <div
     class="wrapper wrapper-large flex flex-nowrap"
@@ -8324,7 +8322,7 @@ const NavigationMisuseSuccess = () => {
             width: 1px;
           "
           >BSN SPORTS</span
-        ><!--$--><svg
+        ><!--\$--><svg
           fill="currentColor"
           viewBox="0 0 90 84"
           xmlns="http://www.w3.org/2000/svg"
@@ -9067,7 +9065,16 @@ const NavigationMisuseSuccess = () => {
     </ul>
   </div>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

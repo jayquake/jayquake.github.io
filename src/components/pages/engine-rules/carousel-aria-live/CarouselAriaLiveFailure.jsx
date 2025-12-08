@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const CarouselAriaLiveFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Carousel Aria Live"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "carousel-aria-live";
+  const title = `Carousels should not be tagged as live regions`;
+  const description = `When carousels are tagged as live regions, screen readers will interrupt reading and announce every slide change, even when the user isn't interacting with the carousel or is in another section entirely.`;
+  const helpText = `Remove the aria-live attribute and any live region roles, such as role="alert", from the carousel and its content.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "amazon carousel children with aria live polite", content: `<link rel="stylesheet" href="../assets/amazon/114aqksR8ML._RC_01ZTHTZObnL.css,51HKuoT0uoL.css,31YWy-MCUtL.css,110sHTq30-L.css,01qDClimA1L.css,01pOTCa2wPL.css,41o-WhG5CBL.css,11RZUC4PXkL.css,01gkb7U1dSL.css,110chLTQxpL.css,010+HAxVU6L.css,01L-64jduML.css,014QJx7nWqL.css,21zhsp4bfZL.css,01u0BGXGQsL.css" />
 <link rel="stylesheet" href="../assets/amazon/41VAhLVyESL._RC_71mHZZ71ElL.css,51shTLj5k1L.css,21smgiAUuUL.css,01FcI3FsaiL.css,21qgXjgc2rL.css,3138zRsJyFL.css,2175gv0crxL.css,419+zHfURDL.css,11yq21oaguL.css,31vfzIZi8IL.css,01w1OmfEMzL.css,21KQnzhmfTL.css,412rFfWkapL.css_.css" />
 <link rel="stylesheet" href="../assets/amazon/71bJhjK-p4L.css" />
@@ -244,13 +242,13 @@ const CarouselAriaLiveFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎8.95‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎8.95‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">8<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">95</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">8<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">95</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎18.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎18.00‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎18.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎18.00‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 162,803</span></div>
@@ -278,13 +276,13 @@ const CarouselAriaLiveFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎12.57‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎12.57‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">12<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">57</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">12<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">57</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎19.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎19.99‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎19.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎19.99‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 16,212</span></div>
@@ -312,13 +310,13 @@ const CarouselAriaLiveFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎10.05‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎10.05‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">10<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">05</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">10<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">05</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎19.00‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎19.00‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 263,566</span></div>
@@ -344,13 +342,13 @@ const CarouselAriaLiveFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎15.61‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎15.61‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">15<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">61</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">15<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">61</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎21.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎21.99‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎21.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎21.99‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 98,869</span></div>
@@ -378,13 +376,13 @@ const CarouselAriaLiveFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎13.90‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎13.90‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">13<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">90</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">13<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">90</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎19.00‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎19.00‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 34,759</span></div>
@@ -410,13 +408,13 @@ const CarouselAriaLiveFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎9.08‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎9.08‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">9<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">08</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">9<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">08</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎17.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎17.99‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎17.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎17.99‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 344,154</span></div>
@@ -703,13 +701,13 @@ const CarouselAriaLiveFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎8.95‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎8.95‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">8<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">95</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">8<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">95</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎18.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎18.00‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎18.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎18.00‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 162,803</span></div>
@@ -737,13 +735,13 @@ const CarouselAriaLiveFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎12.57‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎12.57‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">12<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">57</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">12<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">57</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎19.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎19.99‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎19.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎19.99‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 16,212</span></div>
@@ -771,13 +769,13 @@ const CarouselAriaLiveFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎10.05‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎10.05‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">10<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">05</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">10<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">05</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎19.00‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎19.00‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 263,566</span></div>
@@ -803,13 +801,13 @@ const CarouselAriaLiveFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎15.61‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎15.61‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">15<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">61</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">15<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">61</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎21.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎21.99‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎21.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎21.99‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 98,869</span></div>
@@ -837,13 +835,13 @@ const CarouselAriaLiveFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎13.90‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎13.90‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">13<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">90</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">13<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">90</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎19.00‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎19.00‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 34,759</span></div>
@@ -869,13 +867,13 @@ const CarouselAriaLiveFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎9.08‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎9.08‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">9<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">08</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">9<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">08</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎17.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎17.99‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎17.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎17.99‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 344,154</span></div>
@@ -1162,13 +1160,13 @@ const CarouselAriaLiveFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎8.95‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎8.95‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">8<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">95</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">8<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">95</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎18.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎18.00‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎18.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎18.00‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 162,803</span></div>
@@ -1196,13 +1194,13 @@ const CarouselAriaLiveFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎12.57‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎12.57‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">12<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">57</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">12<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">57</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎19.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎19.99‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎19.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎19.99‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 16,212</span></div>
@@ -1230,13 +1228,13 @@ const CarouselAriaLiveFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎10.05‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎10.05‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">10<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">05</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">10<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">05</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎19.00‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎19.00‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 263,566</span></div>
@@ -1262,13 +1260,13 @@ const CarouselAriaLiveFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎15.61‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎15.61‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">15<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">61</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">15<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">61</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎21.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎21.99‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎21.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎21.99‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 98,869</span></div>
@@ -1296,13 +1294,13 @@ const CarouselAriaLiveFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎13.90‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎13.90‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">13<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">90</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">13<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">90</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎19.00‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎19.00‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 34,759</span></div>
@@ -1328,13 +1326,13 @@ const CarouselAriaLiveFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎9.08‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎9.08‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">9<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">08</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">9<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">08</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎17.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎17.99‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎17.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎17.99‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 344,154</span></div>
@@ -1391,7 +1389,16 @@ const CarouselAriaLiveFailure = () => {
     </div>
   </div>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

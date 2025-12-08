@@ -4,6 +4,12 @@ import { CompliantComponentHeading, PerceivableComponentHeading } from "@acsbe/c
 
 export const HeadingMisuse: Rule = {
   id: "heading-misuse",
+  metadata: {
+    category: "Landmarks",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Only elements that function as headings should be tagged as heading",
   description: "Accurate tagging allows screen readers to present content in a logical structure. Misidentifying an element as a heading disrupts navigation, creating confusion about the importance of content and page hierarchy.",

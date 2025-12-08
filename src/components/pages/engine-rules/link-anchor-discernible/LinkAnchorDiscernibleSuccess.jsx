@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const LinkAnchorDiscernibleSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Link Anchor Discernible"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "link-anchor-discernible";
+  const title = `Anchor links discernible text`;
+  const description = `Anchors links need discernible text that tells visitors where the link takes them.`;
+  const helpText = `Add discernible text to the anchor`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "anchor no related element", content: `<!-- Without related element it won't be audited at all-->
 <a href="#sec123">=></a>` },
   { filename: "anchor svg icon labelled", content: `<style>
@@ -44,7 +42,16 @@ const LinkAnchorDiscernibleSuccess = () => {
 </section>` },
   { filename: "hidden link no content", content: `<!-- Hidden element won't be audited at all-->
 <a href="path/to/page" style="width:100px;height:100px;" hidden></a>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

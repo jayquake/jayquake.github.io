@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const NavigationItemLink: Rule = {
   id: "navigation-item-link",
+  metadata: {
+    category: "Landmarks",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "All leaf nodes in a navigation tree should contain a link element.",
   description: "Navigation items, whether their functionality is provided using JS (custom behavior), should always have a child that is a link and not as a clickable LI element with text.",

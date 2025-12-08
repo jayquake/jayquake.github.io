@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const MenuTriggerMismatchSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Menu Trigger Mismatch"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "menu-trigger-mismatch";
+  const title = `Menu trigger buttons/links should be tagged properly`;
+  const description = `Menu trigger buttons/links should have \\`;
+  const helpText = `Use the \\`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "anchor within nav with aria haspopup with aria controls with aria expanded", content: `<style>
   #sub-menu {
     display: none;
@@ -90,7 +88,16 @@ const MenuTriggerMismatchSuccess = () => {
     <li><a href="#">About</a></li>
   </ul>
 </nav>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

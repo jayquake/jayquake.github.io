@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const NavigationDiscernible: Rule = {
   id: "navigation-discernible",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Navigation regions should have unique labels when there are multiple navigation regions",
   description: "When multiple navigation regions exist on a page, each navigation element should have a unique label so that each region can be differentiated by screen reader users.",

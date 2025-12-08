@@ -4,6 +4,12 @@ import { PassCondition } from "../interfaces";
 
 export const LinkContext: Rule = {
   id: "link-context",
+  metadata: {
+    category: "General",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Links should indicate their functionality and destination to assistive technology",
   description: "Visual cues on pages provide context to links or hint functionality to users with sight, even if the links aren't fully descriptive. Screen reader users need to know where a link will take them based on the anchor text without additional context.",

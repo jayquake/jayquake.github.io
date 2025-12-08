@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const IconDiscernibleSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Icon Discernible"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "icon-discernible";
+  const title = `Icons should be labeled or excluded from assistive technology`;
+  const description = `Icons used as decorative or complementary elements, like icons or illustrations that do not provide additional information, will often add unnecessary clutter to a screen reader user's browsing experience.`;
+  const helpText = `If the icon provides additional context or necessary information, provide an aria-label or a screen-reader-only text describing the functionality. If the element is used for decorative or complementary purposes, exclude it from assistive technology using role=presentation.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "font awesome icon aria label", content: `<head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 
 </head>
@@ -48,7 +46,16 @@ const IconDiscernibleSuccess = () => {
   { filename: "svg role presentation", content: `<svg role="presentation" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 100 100">
     <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
 </svg>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

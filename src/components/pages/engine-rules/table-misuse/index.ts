@@ -4,6 +4,12 @@ import { CompliantComponentTable, PerceivableComponentTable } from "@acsbe/core-
 
 export const TableMisuse: Rule = {
   id: "table-misuse",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Only elements that function as data tables should be tagged as table",
   description: "When a layout table is marked up with HTML elements like <table> or <tr>, or assigned table ARIA roles, screen readers announce a data table structure with rows, columns, and headers, even though the table is only used for page layout.",

@@ -4,6 +4,12 @@ import { PassCondition } from "../interfaces";
 
 export const TabListMisuse: Rule = {
   id: "tab-list-misuse",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   associatedDetectors: [CompliantComponentTabList, PerceivableComponentTabList],
   impact: "serious",
   title: 'Only elements that function as tablists should receive role="tablist"',

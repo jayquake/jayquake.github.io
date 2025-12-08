@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const ArticleMisuseFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Article Misuse"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "article-misuse";
+  const title = `Only elements that function as articles should be tagged as article regions`;
+  const description = `Coding elements that aren't full-featured text articles using the article HTML tag causes screen readers to announce incorrect information about the purpose and structure of the content.`;
+  const helpText = `Assign role="presentation" to the failing element or use a different HTML tag that is more appropriate for the function of the element.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "article header short content", content: `<article>
   <header>
     <h1>The Benefits of Semantic HTML</h1>
@@ -74,7 +72,16 @@ const ArticleMisuseFailure = () => {
     nostrum? Reprehenderit doloremque, molestias excepturi porro, facere voluptatem quibusdam commodi exercitationem
     laborum corrupti laboriosam culpa!</p>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

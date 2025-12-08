@@ -4,6 +4,12 @@ import { PassCondition } from "../interfaces";
 
 export const NavigationSubmenuRegion: Rule = {
   id: "navigation-submenu-region",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Tagging submenus is recommended",
   description: 'Complex menu structures often contain multiple groups of links that can feel like undifferentiated page content to screen reader users. Assigning role="region" with a label makes each submenu a distinct, named section, clarifying its relationship to the trigger and improving orientation.',

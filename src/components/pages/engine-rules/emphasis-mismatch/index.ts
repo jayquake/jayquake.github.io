@@ -4,6 +4,12 @@ import { PassCondition } from "../interfaces";
 
 export const EmphasisMismatch: Rule = {
   id: "emphasis-mismatch",
+  metadata: {
+    category: "General",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   associatedDetectors: [CompliantComponentEmphasis, PerceivableComponentEmphasis, CompliantTraitGeneric],
   impact: "serious",
   title: "Emphasis should be tagged properly for assistive technology",

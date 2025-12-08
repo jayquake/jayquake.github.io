@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const LinkAnchorDiscernibleFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Link Anchor Discernible"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "link-anchor-discernible";
+  const title = `Anchor links discernible text`;
+  const description = `Anchors links need discernible text that tells visitors where the link takes them.`;
+  const helpText = `Add discernible text to the anchor`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "anchor no content", content: `<a href="#sec123"></a>
 
 <section id="sec123">
@@ -37,7 +35,16 @@ const LinkAnchorDiscernibleFailure = () => {
     <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
   </svg>
 </a>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

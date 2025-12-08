@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const RegionFooterMisuseFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Region Footer Misuse"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "region-footer-misuse";
+  const title = `Footer region should be correctly marked up`;
+  const description = `Ensure that the footer region is correctly marked up.`;
+  const helpText = `Add a <footer> element to define the footer of the document.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "content info not footer", content: `<!DOCTYPE html>
 <html>
   <head>
@@ -156,7 +154,16 @@ const RegionFooterMisuseFailure = () => {
     <footer>Product list</footer>
   </body>
 </html>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

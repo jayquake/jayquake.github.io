@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const TabListMisuseSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Tab List Misuse"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "tab-list-misuse";
+  const title = `Only elements that function as tablists should receive role="tablist"`;
+  const description = `Applying role="tablist" to an element without tabs misleads screen reader users by suggesting a group of tabs that does not exist.`;
+  const helpText = `Remove role="tablist" from the failing element.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "tab list role tablist", content: `<div class="tabs">
   <h3 id="tablist-1">Danish Composers</h3>
   <div role="tablist" aria-labelledby="tablist-1" class="automatic">
@@ -131,7 +129,16 @@ const TabListMisuseSuccess = () => {
     margin: 0;
   }
 </style>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const VisibleTextPartOfAccessibleName: Rule = {
   id: "visible-text-part-of-accessible-name",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.1",
+    wcagLevel: "A",
+  },
   impact: "critical",
   title: "Aria labels should not override or replace visible text",
   description:
@@ -94,6 +100,8 @@ export const VisibleTextPartOfAccessibleName: Rule = {
         /**
          * if the visibleText is rendered as a non-text content such as icon, it shouldn't be contained within the ariaLabelText
          * @see https://www.w3.org/WAI/standards-guidelines/act/rules/2ee8b8/proposed/#test-cases - Passed Example 6
+         *
+         * related e2e test: @see file://./atomic-tests/pass/button-visible-text-is-rendered-as-icon.html
          */
         response.passedNodes.push(el);
         continue;

@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const FocusNotObscuredHeaderSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Focus Not Obscured Header"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "focus-not-obscured-header";
+  const title = `Focused elements should not be obscured by a sticky header`;
+  const description = `A sticky header remains anchored to the top of the screen while the rest of the page content can be scrolled. If it is not offset from interactive elements, it can overlap and obscure the item in focus.`;
+  const helpText = `When a page has a sticky header, make sure that any element receiving focus is not fully covered by the header. One way to achieve this is by using the CSS property scroll-padding-top.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "fixed header with scrollable parent with scroll padding top greater than header height", content: `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -1309,7 +1307,16 @@ const FocusNotObscuredHeaderSuccess = () => {
     </div>
   </body>
 </html>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

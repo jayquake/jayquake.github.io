@@ -4,6 +4,12 @@ import { PerceivableTraitDirectText, PerceivableTraitVisible } from "@acsbe/core
 
 export const TextSpacingLineHeight: Rule = {
   id: "text-spacing-line-height",
+  metadata: {
+    category: "Lists",
+    profile: "Vision Impaired",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "critical",
   title: "Line height should scale to at least 1.5 times the font size without loss of content or functionality",
   description: "When line height is increased to 1.5 times the font size, text may be clipped, overlap, or overflow its container if styles like fixed heights, fixed widths, hidden overflow, or absolute positioning prevent proper reflow",

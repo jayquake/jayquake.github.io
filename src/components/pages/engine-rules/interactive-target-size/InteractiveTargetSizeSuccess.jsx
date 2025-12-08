@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const InteractiveTargetSizeSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Interactive Target Size"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "interactive-target-size";
+  const title = `Targets for interactive elements should meet a minimum size (at least 24 by 24 CSS pixels) or have enough spacing around them`;
+  const description = `Interactive elements, such as buttons and links, should have a minimum size of 24 by 24 CSS pixels or have enough spacing to avoid accidental activation of adjacent elements. This is crucial for users with motor impairments or those using the website in unstable environments, like on a bus.`;
+  const helpText = `Make sure all interactive targets meet the minimum size of 24 by 24 CSS pixels. If resizing is not possible, provide spacing with a diameter of at least 24 CSS pixels around smaller targets to ensure they don't intersect with adjacent controls.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "16 by 16 css pixels button with enough space around it next to big button", content: `<style>
   .interactive-small {
     margin-top: 4px;
@@ -1529,7 +1527,16 @@ const InteractiveTargetSizeSuccess = () => {
 <button class="interactive interactive-small" style="width: 20px; height: 20px"></button>
 <div></div>
 <button class="interactive interactive-big" style="width: 24px; height: 24px"></button>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

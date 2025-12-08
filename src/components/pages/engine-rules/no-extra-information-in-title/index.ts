@@ -4,6 +4,12 @@ import { CompliantTraitVisible } from "@acsbe/core-engine-classifier";
 
 export const NoExtraInformationInTitle: Rule = {
   id: "no-extra-information-in-title",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "General Guidelines",
+    wcagLevel: "N/A",
+  },
   impact: "minor",
   title: "The title attribute should not be the only method used of providing information",
   description: "The title attribute is announced inconsistently across screen readers and browsers, making it unreliable for labeling interactive controls. Because many users may never hear the content, reliance on the attribute risks loss of information. Instead, it should be used to provide extra help text in addition to a valid label.",

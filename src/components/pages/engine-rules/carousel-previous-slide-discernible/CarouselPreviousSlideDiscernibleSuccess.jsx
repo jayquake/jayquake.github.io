@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const CarouselPreviousSlideDiscernibleSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Carousel Previous Slide Discernible"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "carousel-previous-slide-discernible";
+  const title = `Carousel navigation previous arrows should be labelled for assistive technology`;
+  const description = `Carousel arrow buttons are essential for operating carousels. By design, carousels are difficult for assistive technology to handle. If the navigation arrows aren't accessible, carousels may be impossible for blind users to operate.`;
+  const helpText = `When using arrow button to change the carousel slide to the previous in order, include an "aria-label" or a screen-reader-only text noting this button will show the previous slide.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "carousel controls correctly labelled", content: `<div id="test-subject" class="carousel" role="region" aria-roledescription="carousel" aria-label="News feed">
     <button class="control" aria-label="previous slide">&lt;</button>
     <ul class="carousel__slides-container">
@@ -178,7 +176,16 @@ const CarouselPreviousSlideDiscernibleSuccess = () => {
         </div>
     </div>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

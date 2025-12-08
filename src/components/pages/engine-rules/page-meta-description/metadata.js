@@ -3,11 +3,11 @@
 
 export const PageMetaDescription = {
   id: "page-meta-description",
-  title: "Page has a meta description",
-  description: "Page has a meta description",
+  title: `Page has a meta description`,
+  description: `Page has a meta description`,
   advice: `Add meta description to the page`,
   impact: "minor",
   refs: [
-
+    { type: "Non-Standard", link: "https://www.w3.org/WAI/EO/wiki/Metadata_Guidelines" }
   ]
 };

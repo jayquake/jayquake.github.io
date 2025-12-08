@@ -24,6 +24,12 @@ function hasValidScrollPaddingTop(element: SvgOrHtmlElement, header: SvgOrHtmlEl
 
 export const FocusNotObscuredHeader: Rule = {
   id: "focus-not-obscured-header",
+  metadata: {
+    category: "Lists",
+    profile: "Motor Impaired",
+    wcagVersion: "2.2",
+    wcagLevel: "AA",
+  },
   impact: "serious",
   title: "Focused elements should not be obscured by a sticky header",
   description: "A sticky header remains anchored to the top of the screen while the rest of the page content can be scrolled. If it is not offset from interactive elements, it can overlap and obscure the item in focus.",

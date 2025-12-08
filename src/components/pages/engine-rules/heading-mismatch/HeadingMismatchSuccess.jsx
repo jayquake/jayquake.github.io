@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const HeadingMismatchSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Heading Mismatch"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "heading-mismatch";
+  const title = `Headings should be tagged for assistive technology`;
+  const description = `Text that visually functions as a heading for sighted users should also be tagged as a heading for screen reader users.`;
+  const helpText = `If you specifically coded headings without native HTML tags (like h1, h2, etc.) for SEO reasons or otherwise, use role="heading" and aria-level="1/2/3/4/5/6" (the appropriate heading level) to make sure that screen readers announce them as headings. For example, role="heading" aria-level="3" will be treated by screen readers as a h3 heading. Alternatively, you can directly code those elements as native HTML headings.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "h1 sr only", content: `<style>
     body {
         font-size: 16px;
@@ -153,7 +151,16 @@ const HeadingMismatchSuccess = () => {
     <p>Regular body text</p>
   </body>
 </html>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

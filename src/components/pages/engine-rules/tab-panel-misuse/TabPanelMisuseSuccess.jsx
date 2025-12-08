@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const TabPanelMisuseSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Tab Panel Misuse"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "tab-panel-misuse";
+  const title = `Only elements that function as tab panels should receive role="tabpanel"`;
+  const description = `Applying role="tabpanel" to an element without a corresponding tab misleads screen reader users by announcing it as tab content, even though no controlling tab exists.`;
+  const helpText = `Remove role="tabpanel" from the failing element.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "tab panels role tabpanel", content: `<div class="tabs">
   <h3 id="tablist-1">Danish Composers</h3>
   <div role="tablist" aria-labelledby="tablist-1" class="automatic">
@@ -131,7 +129,16 @@ const TabPanelMisuseSuccess = () => {
     margin: 0;
   }
 </style>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

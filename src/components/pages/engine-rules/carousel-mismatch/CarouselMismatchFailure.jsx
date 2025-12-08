@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const CarouselMismatchFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Carousel Mismatch"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "carousel-mismatch";
+  const title = `Carousels should be tagged for assistive technology`;
+  const description = `The carousel container should have a role so assistive technology treats it as a distinct section. Using role="region" with a label exposes the carousel as a named region, allowing screen reader users to recognize the purpose of the component and navigate to it efficiently.`;
+  const helpText = `Assign role="region" to the carousel container. Make sure to provide a descriptive label using aria-label or aria-labelledby.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "972creative carousels", content: `<link rel="stylesheet" href="../assets/972creative/090cfb33e36341d6b593c3d64994a463.css" data-minify="1">
 <link href="../assets/972creative/widget.css" rel="stylesheet">
 <link rel="stylesheet" href="../assets/972creative/font-awesome.min.css" media="all">
@@ -855,13 +853,13 @@ const CarouselMismatchFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎8.95‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎8.95‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">8<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">95</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">8<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">95</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎18.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎18.00‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎18.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎18.00‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 162,803</span></div>
@@ -889,13 +887,13 @@ const CarouselMismatchFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎12.57‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎12.57‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">12<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">57</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">12<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">57</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎19.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎19.99‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎19.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎19.99‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 16,212</span></div>
@@ -923,13 +921,13 @@ const CarouselMismatchFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎10.05‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎10.05‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">10<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">05</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">10<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">05</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎19.00‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎19.00‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 263,566</span></div>
@@ -955,13 +953,13 @@ const CarouselMismatchFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎15.61‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎15.61‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">15<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">61</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">15<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">61</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎21.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎21.99‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎21.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎21.99‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 98,869</span></div>
@@ -989,13 +987,13 @@ const CarouselMismatchFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎13.90‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎13.90‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">13<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">90</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">13<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">90</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎19.00‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎19.00‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 34,759</span></div>
@@ -1021,13 +1019,13 @@ const CarouselMismatchFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎9.08‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎9.08‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">9<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">08</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">9<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">08</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎17.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎17.99‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎17.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎17.99‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 344,154</span></div>
@@ -1314,13 +1312,13 @@ const CarouselMismatchFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎8.95‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎8.95‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">8<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">95</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">8<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">95</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎18.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎18.00‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎18.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎18.00‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 162,803</span></div>
@@ -1348,13 +1346,13 @@ const CarouselMismatchFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎12.57‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎12.57‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">12<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">57</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">12<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">57</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎19.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎19.99‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎19.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎19.99‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 16,212</span></div>
@@ -1382,13 +1380,13 @@ const CarouselMismatchFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎10.05‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎10.05‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">10<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">05</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">10<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">05</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎19.00‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎19.00‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 263,566</span></div>
@@ -1414,13 +1412,13 @@ const CarouselMismatchFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎15.61‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎15.61‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">15<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">61</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">15<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">61</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎21.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎21.99‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎21.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎21.99‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 98,869</span></div>
@@ -1448,13 +1446,13 @@ const CarouselMismatchFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎13.90‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎13.90‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">13<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">90</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">13<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">90</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎19.00‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎19.00‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 34,759</span></div>
@@ -1480,13 +1478,13 @@ const CarouselMismatchFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎9.08‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎9.08‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">9<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">08</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">9<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">08</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎17.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎17.99‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎17.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎17.99‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 344,154</span></div>
@@ -1773,13 +1771,13 @@ const CarouselMismatchFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎8.95‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎8.95‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">8<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">95</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">8<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">95</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎18.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎18.00‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎18.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎18.00‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 162,803</span></div>
@@ -1807,13 +1805,13 @@ const CarouselMismatchFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎12.57‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎12.57‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">12<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">57</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">12<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">57</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎19.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎19.99‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎19.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎19.99‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 16,212</span></div>
@@ -1841,13 +1839,13 @@ const CarouselMismatchFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎10.05‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎10.05‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">10<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">05</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">10<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">05</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎19.00‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎19.00‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 263,566</span></div>
@@ -1873,13 +1871,13 @@ const CarouselMismatchFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎15.61‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎15.61‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">15<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">61</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">15<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">61</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎21.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎21.99‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎21.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎21.99‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 98,869</span></div>
@@ -1907,13 +1905,13 @@ const CarouselMismatchFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎13.90‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎13.90‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">13<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">90</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">13<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">90</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎19.00‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎19.00‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎19.00‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 34,759</span></div>
@@ -1939,13 +1937,13 @@ const CarouselMismatchFailure = () => {
                         <div class="a-section a-spacing-micro acsProductBlockV1__binding"><span class="_carousel_style_binding-value__2d_fB acsProductBlockV1__binding-value" dir="ltr">Paperback</span></div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__price" dir="ltr">
                           <span class="a-price acsProductBlockV1__price--buying _carousel_style_price-buying__dYIzO" data-a-size="l" data-a-color="base"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎9.08‎</span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎9.08‎</span
                           ><span aria-hidden="true" dir="ltr"
-                          ><span class="a-price-symbol" dir="rtl">$</span>‎<span class="a-price-whole">9<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">08</span></span
+                          ><span class="a-price-symbol" dir="rtl">\$</span>‎<span class="a-price-whole">9<span class="a-price-decimal" dir="ltr">.</span>‎</span><span class="a-price-fraction">08</span></span
                           ></span
                           >‏
                           <span class="a-price a-text-price acsProductBlockV1__price--strikethrough _carousel_style_price-strikethrough__1utX6" data-a-size="s" data-a-strike="true"
-                          ><span class="a-offscreen"><span dir="rtl">$</span>‎17.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">$</span>‎17.99‎</span></span
+                          ><span class="a-offscreen"><span dir="rtl">\$</span>‎17.99‎</span><span aria-hidden="true" dir="ltr"><span dir="rtl">\$</span>‎17.99‎</span></span
                           >‏
                         </div>
                         <div class="a-section a-spacing-micro acsProductBlockV1__review" dir="ltr"><i class="a-icon a-icon-star-medium a-star-medium-4-5"></i><span class="a-color-secondary acsProductBlockV1__rating__review-count"> 344,154</span></div>
@@ -2002,7 +2000,16 @@ const CarouselMismatchFailure = () => {
     </div>
   </div>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

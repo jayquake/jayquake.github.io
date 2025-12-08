@@ -3,6 +3,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const DuplicateId: Rule = {
   id: "duplicate-id",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "minor",
   title: "The id attribute should have a unique value",
   description: "The id attribute is a unique identifier in the DOM, and using the same value more than once creates ambiguity. This can cause styles and scripts to behave unpredictably, and may also disrupt label or ARIA references that depend on unique IDs.",

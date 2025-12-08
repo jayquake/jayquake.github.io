@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const MenuAvoidSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Menu Avoid"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "menu-avoid";
+  const title = `Avoid using role="menu" for web navigation links`;
+  const description = `In most cases, using role=menu on navigation elements within a web page can negatively impact screen reader users, especially those using JAWS. The attribute should be used for menu types that function like those found in desktop applications.`;
+  const helpText = `Remove role="menu" from the failing element.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "nav containing no menu items", content: `<nav>
     <ul>
       <li><a href="/">Home</a></li>
@@ -30,7 +28,16 @@ const MenuAvoidSuccess = () => {
       <li><a href="/contact/">Contact</a></li>
     </ul>
 </nav>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

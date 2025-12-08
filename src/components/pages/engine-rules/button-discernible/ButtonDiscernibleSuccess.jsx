@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const ButtonDiscernibleSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Button Discernible"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "button-discernible";
+  const title = `Buttons should have a label`;
+  const description = `Buttons that do not contain visible text should be assigned labels that informs screen reader users of their purpose.`;
+  const helpText = `Add an aria-label or aria-labelledby attribute to the button.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "button for other element", content: `<label for="my-button">Clickable Download Link</label>
 <button id="my-button"></button>` },
   { filename: "button labled by other element", content: `<label id="my-label">Clickable Download Link</label>
@@ -366,9 +364,9 @@ const ButtonDiscernibleSuccess = () => {
       data-acsb-hidden="false"
       data-acsb-validation-uuid="aoh0thx6r5ij"
       data-acsb-field-visible="true"
-      aria-label="$45Add to cartPrice per unit"
-      placeholder="$45Add to cartPrice per unit"
-      data-acsb-tooltip="$45Add to cartPrice per unit"
+      aria-label="\$45Add to cartPrice per unit"
+      placeholder="\$45Add to cartPrice per unit"
+      data-acsb-tooltip="\$45Add to cartPrice per unit"
       style="
         animation-duration: 0.001s;
         block-size: 21.5px;
@@ -475,7 +473,16 @@ const ButtonDiscernibleSuccess = () => {
   </div>
 </div>
 <style></style>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

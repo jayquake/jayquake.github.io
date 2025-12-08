@@ -4,6 +4,12 @@ import { PassCondition } from "../interfaces";
 
 export const NavigationMismatch: Rule = {
   id: "navigation-mismatch",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   associatedDetectors: [CompliantComponentNavigation, PerceivableComponentNavigation],
   impact: "serious",
   title: "A list of navigation links is not contained in a navigation landmark",

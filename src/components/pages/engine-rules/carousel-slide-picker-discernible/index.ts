@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const CarouselSlidePickerDiscernible: Rule = {
   id: "carousel-slide-picker-discernible",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Carousel pagination tabs should have accurate and descriptive labels",
   description: "If carousel pagination tabs are not given meaningful labels, screen reader users are unable to determine which slide or set of slides will be displayed when a tab is activated.",

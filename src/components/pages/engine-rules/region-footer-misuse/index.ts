@@ -4,6 +4,12 @@ import { PerceivableComponentFooter, CompliantComponentFooter } from "@acsbe/cor
 
 export const RegionFooterMisuse: Rule = {
   id: "region-footer-misuse",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Footer region should be correctly marked up",
   description: "Ensure that the footer region is correctly marked up.",

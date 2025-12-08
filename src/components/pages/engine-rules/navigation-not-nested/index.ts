@@ -4,6 +4,12 @@ import { CompliantComponentNavigation } from "@acsbe/core-engine-classifier";
 
 export const NavigationNotNested: Rule = {
   id: "navigation-not-nested",
+  metadata: {
+    category: "Landmarks",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "moderate",
   title: "Avoid using nested navigation structure",
   description: "Complex navigation components can be difficult for screen readers to handle. This is especially true if submenus or other complex structures exist. Nesting navigation regions makes it harder for screen reader users to understand a page's structure and disrupts orientation.",

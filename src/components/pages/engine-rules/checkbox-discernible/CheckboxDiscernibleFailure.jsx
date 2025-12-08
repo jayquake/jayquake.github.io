@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const CheckboxDiscernibleFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Checkbox Discernible"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "checkbox-discernible";
+  const title = `Checkbox controls should have a label`;
+  const description = `Screen readers rely on properly coded and associated labels to announce the purpose of a form field. A checkbox control without an identifiable label may prevent screen reader users from completing the form.`;
+  const helpText = `Assign a label to each checkbox control using <label for> with a matching id (or by wrapping the <label> around the control), or using ARIA attributes such as aria-label or aria-labelledby.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "button role checkbox no label", content: `<button role="checkbox" style="width: 15px; height: 15px; border: solid 1px blue"></button>` },
   { filename: "custom checkbox no label", content: `<div class="checkbox-wrapper-1" tabindex="0" role="checkbox" aria-checked="false" style="display: inline-block">
   <input class="substituted" type="checkbox" aria-hidden="true" />
@@ -107,7 +105,16 @@ const CheckboxDiscernibleFailure = () => {
     cursor: pointer;
   }
 </style>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

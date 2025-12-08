@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const CarouselSlidePickerDiscernibleFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Carousel Slide Picker Discernible"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "carousel-slide-picker-discernible";
+  const title = `Carousel pagination tabs should have accurate and descriptive labels`;
+  const description = `If carousel pagination tabs are not given meaningful labels, screen reader users are unable to determine which slide or set of slides will be displayed when a tab is activated.`;
+  const helpText = `Provide each pagination tab with an accurate, descriptive label using aria-label or aria-labelledby. For single-slide navigation, use labels like “Slide 1,” “Slide 2,” etc. For grouped slides such as product cards, describe the range of items (e.g., “Products 1 to 4,” “Products 5 to 8”) and include category context when useful.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "carousel slide picker not labelled", content: `<div id="test-subject" class="carousel" role="region" aria-roledescription="carousel" aria-label="News feed">
     <ul class="carousel__slides-container">
         <li class="slide">slide 1</li>
@@ -167,7 +165,16 @@ const CarouselSlidePickerDiscernibleFailure = () => {
         </div>
     </div>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

@@ -3,6 +3,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const HtmlLang: Rule = {
   id: "html-lang",
+  metadata: {
+    category: "Metadata",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Default page language should be defined",
   description: "Specifying a default page language ensures screen readers apply the correct pronunciation rules, voices, and braille output. Without it, screen readers may guess the language incorrectly, causing mispronunciations, confusion, and reduced comprehension for users.",

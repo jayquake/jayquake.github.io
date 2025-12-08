@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const BackgroundImageDiscernibleImageFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Background Image Discernible Image"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "background-image-discernible-image";
+  const title = `Non decorative Background images should be tagged and labeled`;
+  const description = `Background image alternative text should be labeled as image for screen reader.`;
+  const helpText = `Add role='img' to the first discernible sr-only element in the background image.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "background image with first child discernible sr only that doesnt have role img", content: `<style>
   .background-image-element {
     background-image: url("path/to/your/image.jpg");
@@ -39,7 +37,16 @@ const BackgroundImageDiscernibleImageFailure = () => {
   <h1>Welcome to Our Website</h1>
   <p>Discover our range of services and products tailored for you.</p>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

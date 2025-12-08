@@ -42,6 +42,7 @@ import {
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import engineLegacyMapping from "../../data/engine-legacy-mapping";
 import CustomizedBreadcrumbs from "../util/ruleBreadcrumb";
 
 function EngineRulePage({ ruleData }) {
@@ -271,6 +272,7 @@ function EngineRulePage({ ruleData }) {
   const wcagRefs = ruleData.refs?.filter((r) => r.type === "WCAG") || [];
   const otherRefs = ruleData.refs?.filter((r) => r.type !== "WCAG") || [];
   const formattedTitle = formatRuleTitle(ruleData.id);
+  const relatedLegacyRules = engineLegacyMapping[ruleData.id] || [];
 
   const speedDialActions = [
     { icon: <ShareIcon />, name: "Share", action: handleShare },
@@ -379,6 +381,55 @@ function EngineRulePage({ ruleData }) {
               engine with comprehensive testing coverage.
             </Typography>
           </Alert>
+
+          {/* Related legacy rules (if mapping exists) */}
+          {relatedLegacyRules.length > 0 && (
+            <Box
+              sx={{
+                mb: 3,
+                p: 2.5,
+                borderRadius: 3,
+                background: "rgba(248, 250, 252, 0.8)",
+                border: "1px solid rgba(148, 163, 184, 0.35)",
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                gap: 1.5,
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: 600, color: "#475569", mr: 1 }}
+              >
+                Related legacy rule{relatedLegacyRules.length > 1 ? "s" : ""}:
+              </Typography>
+              {relatedLegacyRules.map((legacy) => (
+                <Chip
+                  key={legacy.path}
+                  component={Link}
+                  to={legacy.path}
+                  clickable
+                  label={legacy.label}
+                  icon={<AccessibleTwoToneIcon sx={{ fontSize: 18 }} />}
+                  sx={{
+                    fontWeight: 600,
+                    borderRadius: 999,
+                    px: 0.5,
+                    background: "rgba(255,255,255,0.9)",
+                    border: "1px solid rgba(148,163,184,0.5)",
+                    color: "#1e293b",
+                    "& .MuiChip-icon": {
+                      color: "#2563eb",
+                    },
+                    "&:hover": {
+                      background: "rgba(255,255,255,1)",
+                      boxShadow: "0 4px 12px rgba(15,23,42,0.18)",
+                    },
+                  }}
+                />
+              ))}
+            </Box>
+          )}
 
           <Grid container spacing={4}>
             <Grid item xs={12}>

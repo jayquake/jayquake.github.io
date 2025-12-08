@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const NavigationSubmenuDiscernibleSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Navigation Submenu Discernible"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "navigation-submenu-discernible";
+  const title = `Labeling submenus is recommended`;
+  const description = `Complex menu structures that include nested submenus can unintentionally cause screen reader users to lose orientation. This can be mitigated by applying a unique label to each submenu to provide additional context for assistive technology.`;
+  const helpText = `Add an aria-label to each submenu region. Screen readers will announce the label to users when they navigate into the submenu.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "nav no ul menus", content: `<nav>
     <div>
       <button id="sub-menu-button" aria-expanded="false">About</button>
@@ -553,7 +551,7 @@ const NavigationSubmenuDiscernibleSuccess = () => {
       this.fillerTextSentences = [];
 
       this.fillerTextSentences.push(
-        'The content on this page is associated with the <a href="$linkURL">$linkName</a> link for <a href="$siteURL">$siteName</a>.'
+        'The content on this page is associated with the <a href="\$linkURL">\$linkName</a> link for <a href="\$siteURL">\$siteName</a>.'
       );
     }
 
@@ -562,10 +560,10 @@ const NavigationSubmenuDiscernibleSuccess = () => {
       this.fillerTextSentences.forEach(
         (s) =>
           (content += s
-            .replace('$siteName', this.siteName)
-            .replace('$siteURL', this.siteURL)
-            .replace('$linkName', linkName)
-            .replace('$linkURL', linkURL))
+            .replace('\$siteName', this.siteName)
+            .replace('\$siteURL', this.siteURL)
+            .replace('\$linkName', linkName)
+            .replace('\$linkURL', linkURL))
       );
       return content;
     }
@@ -1275,7 +1273,16 @@ const NavigationSubmenuDiscernibleSuccess = () => {
     }
   });
 </script>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

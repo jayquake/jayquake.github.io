@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const TableNotNestedSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Table Not Nested"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "table-not-nested";
+  const title = `Tables should not be nested`;
+  const description = `Nested tables are often misinterpreted by screen readers, making it hard for users to follow the intended structure and meaning of the data.`;
+  const helpText = `Avoid nesting tables. Use separate tables with clear headings, and if tables are used for layout, assign  role="presentation" or role="none" to each table element.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "table not nested multi", content: `<table>
   <th>Countries</th>
   <tr>
@@ -42,7 +40,16 @@ const TableNotNestedSuccess = () => {
     <td>Shanghai</td>
   </tr>
 </table>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

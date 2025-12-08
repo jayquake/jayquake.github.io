@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const MenuBarAvoidSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Menu Bar Avoid"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "menu-bar-avoid";
+  const title = `Avoid using role="menubar" for web navigation links`;
+  const description = `In most cases, using role=menubar on navigation elements within a web page can negatively impact screen reader users, especially those using JAWS. The attribute should be used for menu types that function like those found in desktop applications.`;
+  const helpText = `Remove role="menu" from the failing element.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "nav containing no menu bars", content: `<nav>
     <ul>
       <li><a href="/">Home</a></li>
@@ -30,7 +28,16 @@ const MenuBarAvoidSuccess = () => {
       <li><a href="/contact/">Contact</a></li>
     </ul>
 </nav>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

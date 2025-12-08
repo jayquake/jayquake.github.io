@@ -3,6 +3,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const PageMetaDescription: Rule = {
   id: "page-meta-description",
+  metadata: {
+    category: "General",
+    profile: "Cognitive Disability",
+    wcagVersion: "General Guidelines",
+    wcagLevel: "N/A",
+  },
   impact: "minor",
   title: "Page has a meta description",
   description: "Page has a meta description",

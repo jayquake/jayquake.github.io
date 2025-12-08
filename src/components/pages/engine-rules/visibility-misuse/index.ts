@@ -6,6 +6,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const VisibilityMisuse: Rule = {
   id: "visibility-misuse",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Visibly hidden content should not be exposed to assistive technology",
   description: "When elements are visually hidden but still exposed to assistive technology, screen reader users may encounter content that should not be available in the current interface. This can obscure the current state of the page and lead to confusion about what information or controls are available.",
@@ -35,7 +41,13 @@ export const VisibilityMisuse: Rule = {
     const hiddenElements = classifier.getMatched([PerceivableTraitRenderable, PerceivableTraitHidden]);
 
     for (const hiddenElement of hiddenElements) {
-      if (classifier.assert(hiddenElement, PerceivableTraitScreenReaderOnly) || classifier.getParent(hiddenElement, PerceivableTraitScreenReaderOnly)) {
+      if (!classifier.assert(hiddenElement, CompliantTraitVisible)) {
+        response.passedNodes.push(hiddenElement);
+        continue;
+      }
+
+      // if the element or any of its ancestors or descendants are screen reader only, then it is inapplicable for this rule because it's purposfully hidden from sighted users but available to screen reader users
+      if (classifier.getMatchedInclusive([PerceivableTraitScreenReaderOnly], hiddenElement).length > 0 || classifier.getParent(hiddenElement, PerceivableTraitScreenReaderOnly)) {
         response.inapplicableNodes.push(hiddenElement);
         continue;
       }
@@ -48,11 +60,6 @@ export const VisibilityMisuse: Rule = {
 
       if (isPartOfSrVisibleText(hiddenElement, classifier)) {
         response.inapplicableNodes.push(hiddenElement);
-        continue;
-      }
-
-      if (!classifier.assert(hiddenElement, CompliantTraitVisible)) {
-        response.passedNodes.push(hiddenElement);
         continue;
       }
 

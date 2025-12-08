@@ -4,6 +4,12 @@ import { PerceivableTraitFormFieldInteracted } from "@acsbe/core-engine-classifi
 
 export const AriaInvalidMismatch: Rule = {
   id: "aria-invalid-mismatch",
+  metadata: {
+    category: "Forms",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Form fields should indicate validation errors to assistive technology",
   description: "Screen reader users rely on properly coded field validation status and associated errormessages. Otherwise, users have to browse around and search the page for clues as to why their submission attempt didn't work.",

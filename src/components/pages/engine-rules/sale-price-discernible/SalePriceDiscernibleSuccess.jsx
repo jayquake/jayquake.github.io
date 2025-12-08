@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const SalePriceDiscernibleSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Sale Price Discernible"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "sale-price-discernible";
+  const title = `Original and discounted prices should be indicated to assistive technology`;
+  const description = `Discounted prices often appear next to the original and distinguished with visual cues like strikethroughs or color changes. Both prices must also be conveyed by screen readers in a way that enables users to differentiate between the values, ensuring they can understand when a discount is applied.`;
+  const helpText = `Add visually hidden text that explicitly identifies each value as the original price or the discounted price.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "del element with aria labelledby", content: `<style>
   .sr-only {
     position: absolute;
@@ -29,10 +27,10 @@ const SalePriceDiscernibleSuccess = () => {
 <div>
   Price:
   <del aria-labelledby="old-price"
-    >$200
+    >\$200
     <span id="old-price" class="sr-only">old price</span>
   </del>
-  <span>$100</span>
+  <span>\$100</span>
 </div>` },
   { filename: "del element with sr only sibling", content: `<style>
   .sr-only {
@@ -49,8 +47,8 @@ const SalePriceDiscernibleSuccess = () => {
 <div>
   Price:
   <span class="sr-only">old price</span>
-  <del>$200</del>
-  <span>$100</span>
+  <del>\$200</del>
+  <span>\$100</span>
 </div>` },
   { filename: "line through and aria label", content: `<style>
   .product {
@@ -76,8 +74,8 @@ const SalePriceDiscernibleSuccess = () => {
 <div>
   <div class="product">
     <div class="price">
-      <span class="price-regular" aria-label="was">$100</span>
-      <span class="price-sale">$90</span>
+      <span class="price-regular" aria-label="was">\$100</span>
+      <span class="price-sale">\$90</span>
     </div>
   </div>
 </div>` },
@@ -117,13 +115,13 @@ const SalePriceDiscernibleSuccess = () => {
     <div class="price">
       <span class="price-regular">
         <span class="sr-only">original price</span>
-        $100
+        \$100
       </span>
-      <span class="price-sale">$90</span>
+      <span class="price-sale">\$90</span>
     </div>
   </div>
 </div>` },
-  { filename: "no indication of old price", content: `<div>Price: <span class="red">$200</span> <span>$100</span></div>` },
+  { filename: "no indication of old price", content: `<div>Price: <span class="red">\$200</span> <span>\$100</span></div>` },
   { filename: "s element with aria describedby", content: `<style>
   .sr-only {
     position: absolute;
@@ -137,16 +135,25 @@ const SalePriceDiscernibleSuccess = () => {
   }
 </style>
 <div>Price:
-    <s aria-describedby="original-price">$200</s>
+    <s aria-describedby="original-price">\$200</s>
     <span id="original-price" class="sr-only">Original price</span>
-    <span>$100</span>
+    <span>\$100</span>
 </div>` },
   { filename: "strike element with aria label", content: `<div>
   Price:
-  <strike aria-label="was">$200</strike>
-  <span>$100</span>
+  <strike aria-label="was">\$200</strike>
+  <span>\$100</span>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

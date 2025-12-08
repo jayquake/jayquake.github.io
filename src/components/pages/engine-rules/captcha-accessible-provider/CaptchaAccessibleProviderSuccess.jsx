@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const CaptchaAccessibleProviderSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Captcha Accessible Provider"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "captcha-accessible-provider";
+  const title = `Non-standard Captcha challenges must be replaced with an Accessible Provider (such as Google Recaptcha)`;
+  const description = `Non-standard Captcha mechanisms are inaccessible by design. Captchas are explicitly meant to be challenging to answer in order to trick bots. Non-standard Captchas prevent screen reader users from submitting the website's forms.`;
+  const helpText = `Replace all non-standard Captcha fields with Google Recaptcha (or other Accessible Provider) which is fully accessible for screen readers and assistive technology by default. Learn more about Google Recaptcha here: https://www.google.com/recaptcha/about/`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "form cloudflare turnstile", content: `<form class="_widgetForm_1f3oo_26" novalidate="">
   <ul class="_list_1jhf1_1">
     <li class="_listItem_1jhf1_12"><a
@@ -192,7 +190,16 @@ const CaptchaAccessibleProviderSuccess = () => {
   <textarea class="mt-2 w-80" id="comment-area" name="comment" rows="4" placeholder="Hello world"></textarea>
   <button class="mt-2" type="submit">Submit</button>
 </form>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

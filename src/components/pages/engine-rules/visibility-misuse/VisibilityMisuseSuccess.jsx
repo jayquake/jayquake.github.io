@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const VisibilityMisuseSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Visibility Misuse"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "visibility-misuse";
+  const title = `Visibly hidden content should not be exposed to assistive technology`;
+  const description = `When elements are visually hidden but still exposed to assistive technology, screen reader users may encounter content that should not be available in the current interface. This can obscure the current state of the page and lead to confusion about what information or controls are available.`;
+  const helpText = `Use aria-hidden="true" to remove elements from the accessibility tree when they should not be exposed to assistive technology. Consider using CSS techniques, such as display:none or visibility:hidden when the content should be hidden from all users.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "div clipped content", content: `<!-- The element is inapplicable because it is detected as SR-Only -->
 
 <div style="clip: rect(1px, 1px, 1px, 1px); position: absolute;">Hidden text</div>` },
@@ -24,6 +22,25 @@ const VisibilityMisuseSuccess = () => {
 
 <div style="position: absolute; left: -9999px">Visually hidden</div>` },
   { filename: "element with display none", content: `<div style="display: none">Some invisible content</div>` },
+  { filename: "element with nested sr only element", content: `<html>
+  <head>
+    <style>
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div><span class="sr-only">is being skipped</span></div>
+  </body>
+</html>` },
   { filename: "element with sr only content", content: `<html>
   <head>
     <style>
@@ -113,7 +130,16 @@ const VisibilityMisuseSuccess = () => {
     <div style="opacity: 0" aria-hidden="true">Some invisible content</div>
   </body>
 </html>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

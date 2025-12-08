@@ -4,6 +4,12 @@ import { PerceivableComponentMainNavigation } from "@acsbe/core-engine-classifie
 
 export const RegionMainNavigation: Rule = {
   id: "region-main-navigation",
+  metadata: {
+    category: "General",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Main navigation region should be correctly marked up",
   description: "Ensure that the main navigation region is correctly marked up.",

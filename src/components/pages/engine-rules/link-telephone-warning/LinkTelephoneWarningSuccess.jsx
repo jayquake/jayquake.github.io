@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const LinkTelephoneWarningSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Link Telephone Warning"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "link-telephone-warning";
+  const title = `Warning a user when a link triggers a phone application is recommended`;
+  const description = `It's good practice to warn users about the expected behavior when activating a link triggers a phone application.`;
+  const helpText = `Add a visibly hidden text element that contains 'Opens phone application'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "link tel sr element", content: `<style>
   .sr-only {
     position: absolute;
@@ -58,7 +56,16 @@ const LinkTelephoneWarningSuccess = () => {
   { filename: "remediated link tel", content: `<html lang="de">
   <a href="tel:0000000001">Call<span data-acsb-sr-only="true" class="acsb-sr-only" style="position: absolute !important; width: 1px !important; height: 1px !important; padding: 0px !important; overflow: hidden !important; clip: rect(0px, 0px, 0px, 0px) !important; border: 0px !important"> | Öffnet Telefon</span></a>
 </html>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

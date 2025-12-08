@@ -4,6 +4,12 @@ import { CompliantComponentButton, CompliantComponentLink, PerceivableTraitDisce
 
 export const SVGDiscernible: Rule = {
   id: "svg-discernible",
+  metadata: {
+    category: "General",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "critical",
   title: "SVG discernible",
   description: "All SVGs that are not used in the context of button icons must have discernible text.",

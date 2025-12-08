@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const NavigationSubmenuDiscernibleFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Navigation Submenu Discernible"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "navigation-submenu-discernible";
+  const title = `Labeling submenus is recommended`;
+  const description = `Complex menu structures that include nested submenus can unintentionally cause screen reader users to lose orientation. This can be mitigated by applying a unique label to each submenu to provide additional context for assistive technology.`;
+  const helpText = `Add an aria-label to each submenu region. Screen readers will announce the label to users when they navigate into the submenu.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "navigation nested submenu no label", content: `<style>
     button {
         display: none;
@@ -55,7 +53,16 @@ const NavigationSubmenuDiscernibleFailure = () => {
     </li>
   </ul>
 </nav>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

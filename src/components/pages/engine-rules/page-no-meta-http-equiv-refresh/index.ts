@@ -3,6 +3,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const PageNoMetaHttpEquivRefresh: Rule = {
   id: "page-no-meta-http-equiv-refresh",
+  metadata: {
+    category: "Metadata",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "AA",
+  },
   impact: "serious",
   title: "Pages should not contain <meta> elements with http-equiv='refresh' attribute",
   description:

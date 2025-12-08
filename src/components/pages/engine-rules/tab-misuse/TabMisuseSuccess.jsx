@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const TabMisuseSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Tab Misuse"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "tab-misuse";
+  const title = `Only elements that function as tabs should receive role="tab"`;
+  const description = `Applying role="tab" to an element that is not part of a functioning tab interface misleads screen reader users by presenting it as a tab without a corresponding panel.`;
+  const helpText = `Remove role="tab" from the failing element.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "tabs role tab", content: `<div class="tabs">
   <h3 id="tablist-1">Danish Composers</h3>
   <div role="tablist" aria-labelledby="tablist-1" class="automatic">
@@ -131,7 +129,16 @@ const TabMisuseSuccess = () => {
     margin: 0;
   }
 </style>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

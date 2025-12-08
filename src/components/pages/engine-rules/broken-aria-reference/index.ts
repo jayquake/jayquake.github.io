@@ -3,6 +3,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const BrokenAriaReference: Rule = {
   id: "broken-aria-references",
+  metadata: {
+    category: "General",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Aria describedby/labelledby must point to a valid, existing element ID",
   description: "Screen readers rely on the HTML to provide explicit references between elements in order to parse the content and announce it to screen readers correctly. If the HTML includes broken ARIA references, screen reader users may not be able to browse properly.",

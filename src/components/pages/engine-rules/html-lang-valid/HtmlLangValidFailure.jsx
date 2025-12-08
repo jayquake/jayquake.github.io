@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const HtmlLangValidFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Html Lang Valid"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "html-lang-valid";
+  const title = `HTML lang attribute should have a valid value`;
+  const description = `A valid ISO language value in the HTML lang attribute ensures that screen readers use the correct pronunciation rules, browsers apply proper spell-checking and translation, and search engines index the content in the appropriate language. Without it, assistive technologies may misinterpret the text and create a confusing experience.`;
+  const helpText = `Make sure that the lang attribute on the HTML element is assigned  a valid ISO language code that matches the default language of the page.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "page no lang attribute", content: `<!DOCTYPE html>
 <html>
 <head>
@@ -53,7 +51,16 @@ const HtmlLangValidFailure = () => {
 
 </body>
 </html>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

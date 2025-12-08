@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const IframeDiscernibleFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Iframe Discernible"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "iframe-discernible";
+  const title = `Iframe needs a label`;
+  const description = `An iframe needs a label that describes its purpose to screen reader users.`;
+  const helpText = `Assign an aria-label to the iframe element.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "iframe empty title svg", content: `<!-- skipped till https://github.com/acsbe/core-engine-classifier/pull/245 is merged and released -->
 <svg width="100%" height="500" xmlns="http://www.w3.org/2000/svg">
   <foreignObject x="10" y="10" width="500" height="450">
@@ -48,7 +46,16 @@ const IframeDiscernibleFailure = () => {
 
 </iframe>` },
   { filename: "iframe src example", content: `<iframe src="https://example.com" width="600" height="400"></iframe>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

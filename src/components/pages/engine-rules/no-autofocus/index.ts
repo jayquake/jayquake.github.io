@@ -3,6 +3,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const NoAutofocus: Rule = {
   id: "no-autofocus",
+  metadata: {
+    category: "Interactive Content",
+    profile: "Motor Impaired",
+    wcagVersion: "General Guidelines",
+    wcagLevel: "N/A",
+  },
   impact: "serious",
   title: "Avoid using autofocus",
   description: "Make sure that no element has an autofocus attribute.",

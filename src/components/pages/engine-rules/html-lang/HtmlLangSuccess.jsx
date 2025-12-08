@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const HtmlLangSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Html Lang"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "html-lang";
+  const title = `Default page language should be defined`;
+  const description = `Specifying a default page language ensures screen readers apply the correct pronunciation rules, voices, and braille output. Without it, screen readers may guess the language incorrectly, causing mispronunciations, confusion, and reduced comprehension for users.`;
+  const helpText = `Define the default language for the page by assigning a lang attribute to the html element.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "page with lang attribute", content: `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,7 +33,16 @@ const HtmlLangSuccess = () => {
     <h1>Page with lang set from JS API</h1>
 </body>
 </html>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const ArticleMisuse: Rule = {
   id: "article-misuse",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "minor",
   title: "Only elements that function as articles should be tagged as article regions",
   description: "Coding elements that aren't full-featured text articles using the article HTML tag causes screen readers to announce incorrect information about the purpose and structure of the content.",

@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const MainNavigationMismatchSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Main Navigation Mismatch"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "main-navigation-mismatch";
+  const title = `Main navigation should have role navigation`;
+  const description = `Main navigation elements should have role navigation to ensure that screen readers can identify them as navigation regions.`;
+  const helpText = `Add role=navigation to the main navigation elements`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "accessiBe main menu nav with role navigation", content: `<header class="header" data-element="header" style="align-items: center; animation-duration: 0.001s; block-size: 65px; display: flex; height: 65px; justify-content: space-between; perspective-origin: 748.5px 32.5px; transform-origin: 748.5px 32.5px">
   <div
     class="wrapper wrapper-large flex flex-nowrap"
@@ -24106,7 +24104,16 @@ const MainNavigationMismatchSuccess = () => {
     -webkit-text-stroke-color: rgb(10, 37, 64);
   }
 </style>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

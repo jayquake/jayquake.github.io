@@ -131,6 +131,12 @@ function isUndersized(element: SvgOrHtmlElement, classifier: EngineClassifier): 
 
 export const InteractiveTargetSize: Rule = {
   id: "interactive-target-size",
+  metadata: {
+    category: "Forms",
+    profile: "Motor Impaired",
+    wcagVersion: "2.2",
+    wcagLevel: "AA",
+  },
   impact: "serious",
   title: "Targets for interactive elements should meet a minimum size (at least 24 by 24 CSS pixels) or have enough spacing around them",
   description: "Interactive elements, such as buttons and links, should have a minimum size of 24 by 24 CSS pixels or have enough spacing to avoid accidental activation of adjacent elements. This is crucial for users with motor impairments or those using the website in unstable environments, like on a bus.",

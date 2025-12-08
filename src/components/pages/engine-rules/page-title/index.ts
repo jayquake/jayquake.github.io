@@ -3,6 +3,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const PageTitle: Rule = {
   id: "page-title",
+  metadata: {
+    category: "Tabs",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "minor",
   title: "Page should have a title",
   description: "Screen readers rely heavily on page titles to announce the purpose of a page. If titles aren’t descriptive, users with low or no vision may not understand the context until they start navigating the page.",

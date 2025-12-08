@@ -4,6 +4,12 @@ import { PassCondition } from "../../rules/interfaces";
 
 export const ListItemWithinList: Rule = {
   id: "list-item-within-list",
+  metadata: {
+    category: "Lists",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "List items should not exist outside of a list element",
   description: "When list items are not contained in a list element, screen readers will not announce them as list items, preventing users from understanding the content as part of a structured list.",

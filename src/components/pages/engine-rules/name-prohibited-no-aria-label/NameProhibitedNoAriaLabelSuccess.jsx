@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const NameProhibitedNoAriaLabelSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Name Prohibited No Aria Label"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "name-prohibited-no-aria-label";
+  const title = `aria-label should be used with compatible roles`;
+  const description = `Using aria-label on elements that do not support the attribute can lead to the label being ignored, leaving users without the intended information.`;
+  const helpText = `Use a visually hidden element to provide the name or description instead of an aria-label.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "alert", content: `<div role="alert" aria-label="alert label">This is an alert message</div>` },
   { filename: "application", content: `<div role="application" aria-label="application label">An application interface</div>` },
   { filename: "article", content: `<div role="article" aria-label="article label">An article of content</div>` },
@@ -35,7 +33,16 @@ const NameProhibitedNoAriaLabelSuccess = () => {
   { filename: "term no label", content: `<div role="term">a term</div>` },
   { filename: "time no label", content: `<div role="time">a time-related text</div>` },
   { filename: "time with label hidden", content: `<div role="time" aria-label="time label" hidden>a time-related text</div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

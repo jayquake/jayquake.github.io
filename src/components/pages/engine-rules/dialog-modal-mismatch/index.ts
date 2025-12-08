@@ -4,6 +4,12 @@ import { PerceivableComponentDialogModal, CompliantComponentDialogModal } from "
 
 export const DialogModalMismatch: Rule = {
   id: "dialog-modal-mismatch",
+  metadata: {
+    category: "Lists",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "critical",
   title: "Modal dialogs should be tagged for assistive technology",
   description: "Content behind active modal dialogs should not be navigable, otherwise screen reader users may still encounter hidden or unrelated content, disrupting the intended workflow and making it harder to focus on the dialog’s purpose.",

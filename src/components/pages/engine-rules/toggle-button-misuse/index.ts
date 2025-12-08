@@ -4,6 +4,12 @@ import { PassCondition } from "../interfaces";
 
 export const ToggleButtonMisuse: Rule = {
   id: "toggle-button-misuse",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   associatedDetectors: [CompliantComponentToggleButton, PerceivableComponentToggleButton],
   impact: "minor",
   title: "Only elements that function as toggle buttons should be assigned the aria-pressed attribute",

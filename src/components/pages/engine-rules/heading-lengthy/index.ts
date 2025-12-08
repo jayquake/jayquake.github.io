@@ -4,6 +4,12 @@ import { CompliantComponentHeading } from "@acsbe/core-engine-classifier";
 
 export const HeadingLengthy: Rule = {
   id: "heading-lengthy",
+  metadata: {
+    category: "General",
+    profile: "Cognitive Disability",
+    wcagVersion: "General Guidelines",
+    wcagLevel: "N/A",
+  },
   impact: "serious",
   title: "Heading should be concise",
   description: "The main heading of the document should be concise and descriptive. It should not be too lengthy (less than 160 chars).",

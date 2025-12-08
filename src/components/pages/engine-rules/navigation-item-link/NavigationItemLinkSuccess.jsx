@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const NavigationItemLinkSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Navigation Item Link"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "navigation-item-link";
+  const title = `All leaf nodes in a navigation tree should contain a link element.`;
+  const description = `Navigation items, whether their functionality is provided using JS (custom behavior), should always have a child that is a link and not as a clickable LI element with text.`;
+  const helpText = `Always include a link under navigation items and avoid using text elements even if functionality is provided using JS.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "nav anchor list", content: `<nav>
   <ul>
     <li id="test-subject-1"><a href="#">Home</a></li>
@@ -74,7 +72,16 @@ const NavigationItemLinkSuccess = () => {
     <div id="test-subject-4" role="listitem"><a href="#">Contact</a></div>
   </div>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const ButtonDiscernibleFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Button Discernible"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "button-discernible";
+  const title = `Buttons should have a label`;
+  const description = `Buttons that do not contain visible text should be assigned labels that informs screen reader users of their purpose.`;
+  const helpText = `Add an aria-label or aria-labelledby attribute to the button.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "button aria hidden child with text", content: `<button>
   <span aria-hidden="true">Clickable Download Link</span>
 </button>` },
@@ -350,9 +348,9 @@ const ButtonDiscernibleFailure = () => {
       data-acsb-hidden="false"
       data-acsb-validation-uuid="aoh0thx6r5ij"
       data-acsb-field-visible="true"
-      aria-label="$45Add to cartPrice per unit"
-      placeholder="$45Add to cartPrice per unit"
-      data-acsb-tooltip="$45Add to cartPrice per unit"
+      aria-label="\$45Add to cartPrice per unit"
+      placeholder="\$45Add to cartPrice per unit"
+      data-acsb-tooltip="\$45Add to cartPrice per unit"
       style="
         animation-duration: 0.001s;
         block-size: 21.5px;
@@ -461,7 +459,16 @@ const ButtonDiscernibleFailure = () => {
   { filename: "role button with hidden text", content: `<div role="button">
     <span aria-hidden="true">Clickable Download Link</span>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

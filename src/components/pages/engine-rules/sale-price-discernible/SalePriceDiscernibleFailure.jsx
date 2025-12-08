@@ -2,19 +2,17 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const SalePriceDiscernibleFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Sale Price Discernible"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "sale-price-discernible";
+  const title = `Original and discounted prices should be indicated to assistive technology`;
+  const description = `Discounted prices often appear next to the original and distinguished with visual cues like strikethroughs or color changes. Both prices must also be conveyed by screen readers in a way that enables users to differentiate between the values, ensuring they can understand when a discount is applied.`;
+  const helpText = `Add visually hidden text that explicitly identifies each value as the original price or the discounted price.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
-  { filename: "del element only", content: `<div>Price: <del>$200</del> <span>$100</span></div>` },
+  ];
+  const htmlExamples = [
+  { filename: "del element only", content: `<div>Price: <del>\$200</del> <span>\$100</span></div>` },
   { filename: "line through without sr text", content: `<style>
   .product {
     display: flex;
@@ -38,12 +36,12 @@ const SalePriceDiscernibleFailure = () => {
 <div>
   <div class="product">
     <div class="price">
-      <span class="price-regular">$100</span>
-      <span class="price-sale">$90</span>
+      <span class="price-regular">\$100</span>
+      <span class="price-sale">\$90</span>
     </div>
   </div>
 </div>` },
-  { filename: "s element only", content: `<div>Price: <s>$200</s> <span>$100</span></div>` },
+  { filename: "s element only", content: `<div>Price: <s>\$200</s> <span>\$100</span></div>` },
   { filename: "sr only text not indicate old price", content: `<style>
   .sr-only {
     position: absolute;
@@ -61,10 +59,19 @@ const SalePriceDiscernibleFailure = () => {
   }
 </style>
 <div id="price">
-  Price: <span class="line-through"><span class="sr-only" aria-label="some label">tada</span>$200</span> <span>$100</span>
+  Price: <span class="line-through"><span class="sr-only" aria-label="some label">tada</span>\$200</span> <span>\$100</span>
 </div>` },
-  { filename: "strike element only", content: `<div>Price: <strike>$200</strike> <span>$100</span></div>` }
-      ]}
+  { filename: "strike element only", content: `<div>Price: <strike>\$200</strike> <span>\$100</span></div>` }
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

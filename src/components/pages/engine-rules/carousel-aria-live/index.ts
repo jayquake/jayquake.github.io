@@ -5,6 +5,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const CarouselAriaLive: Rule = {
   id: "carousel-aria-live",
+  metadata: {
+    category: "Lists",
+    profile: "Blind",
+    wcagVersion: "General Guidelines",
+    wcagLevel: "N/A",
+  },
   impact: "critical",
   title: "Carousels should not be tagged as live regions",
   description: "When carousels are tagged as live regions, screen readers will interrupt reading and announce every slide change, even when the user isn't interacting with the carousel or is in another section entirely.",

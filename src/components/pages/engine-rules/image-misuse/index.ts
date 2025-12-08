@@ -4,6 +4,12 @@ import { PassCondition } from "../interfaces";
 
 export const ImageMisuse: Rule = {
   id: "image-misuse",
+  metadata: {
+    category: "Graphics",
+    profile: "Blind",
+    wcagVersion: "General Guidelines",
+    wcagLevel: "N/A",
+  },
   associatedDetectors: [PerceivableComponentImage, CompliantComponentImage, PerceivableTraitScreenReaderOnly],
   impact: "serious",
   title: 'An element that does not function as an image should be assigned role="img"',

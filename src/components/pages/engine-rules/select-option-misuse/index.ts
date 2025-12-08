@@ -4,6 +4,12 @@ import { CompliantComponentSelectOption, PerceivableComponentSelectOption } from
 
 export const SelectOptionMisuse: Rule = {
   id: "select-option-misuse",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Only elements that function as select options should be tagged as option",
   description: 'Assigning role="option" outside the required listbox structure causes screen readers to ignore the role, leaving users without the intended semantics of the original element. This can obscure key information and make the content harder for users to interpret.',

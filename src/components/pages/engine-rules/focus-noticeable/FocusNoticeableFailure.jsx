@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const FocusNoticeableFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Focus Noticeable"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "focus-noticeable";
+  const title = `Focusable elements should have a visible focus indicator`;
+  const description = `All focusable elements must have a visible focus indicator when they receive keyboard focus.`;
+  const helpText = `Add a CSS outline or other visual indicator to focusable elements to ensure the currently focused element can be visibly distinguished.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "anchor with overridden outline", content: `<style>
   #test-subject:focus {
     outline: none;
@@ -40,7 +38,16 @@ const FocusNoticeableFailure = () => {
 </style>
 <input id="test-subject" placeholder="test input" />
 <label for="test-subject">test label</label>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

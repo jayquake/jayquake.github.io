@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const PageNoMetaHttpEquivRefreshFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Page No Meta Http Equiv Refresh"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "page-no-meta-http-equiv-refresh";
+  const title = `Pages should not contain <meta> elements with http-equiv='refresh' attribute`;
+  const description = `<meta> elements with http-equiv='refresh' should be avoided as they can negatively impact accessibility and user experience. The <meta> element with http-equiv='refresh' specifies a delay in seconds before the page reloads or redirects to a provided URL. This can be disorienting for users, especially for those who rely on screen readers because the page content changes without any user interaction.`;
+  const helpText = `Remove <meta> elements with http-equiv="refresh" and use server-side redirects or JavaScript for page refreshes or redirects.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "page with meta with http equiv refresh with url", content: `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -48,7 +46,16 @@ const PageNoMetaHttpEquivRefreshFailure = () => {
     <p>Content of the page</p>
   </body>
 </html>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

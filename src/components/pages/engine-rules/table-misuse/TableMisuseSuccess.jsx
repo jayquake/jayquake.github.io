@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const TableMisuseSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Table Misuse"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "table-misuse";
+  const title = `Only elements that function as data tables should be tagged as table`;
+  const description = `When a layout table is marked up with HTML elements like <table> or <tr>, or assigned table ARIA roles, screen readers announce a data table structure with rows, columns, and headers, even though the table is only used for page layout.`;
+  const helpText = `Avoid using table markup or roles for visual layout. Use CSS for page structure, and if a table must be used for layout, remove semantic roles by adding role="presentation" or role="none".`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "complex data table with lists", content: `<style>
     table {
         display: table;
@@ -63,7 +61,7 @@ const TableMisuseSuccess = () => {
                     </li>
                 </ul>
             </td>
-            <td>$10 - $20</td>
+            <td>\$10 - \$20</td>
         </tr>
         <tr>
             <td>Burger</td>
@@ -90,7 +88,7 @@ const TableMisuseSuccess = () => {
                     </li>
                 </ul>
             </td>
-            <td>$5 - $15</td>
+            <td>\$5 - \$15</td>
         </tr>
     </tbody>
 </table>` },
@@ -308,7 +306,16 @@ const TableMisuseSuccess = () => {
         </tr>
     </tbody>
 </table>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

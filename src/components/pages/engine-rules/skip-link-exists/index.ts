@@ -4,6 +4,12 @@ import { PerceivableComponentSkipLink } from "@acsbe/core-engine-classifier";
 
 export const SkipLinkExists: Rule = {
   id: "skip-link-exists",
+  metadata: {
+    category: "Landmarks",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "moderate",
   title: "Skip links are the preferred technique for bypassing repeated content",
   description: "Skip links let keyboard and screen reader users bypass repetitive navigation and jump directly to important sections such as main content, navigation, or footer. This improves efficiency, reduces keystrokes, and makes pages easier to use for those relying on assistive technology.",

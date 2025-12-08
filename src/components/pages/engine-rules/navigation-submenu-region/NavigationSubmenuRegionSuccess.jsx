@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const NavigationSubmenuRegionSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Navigation Submenu Region"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "navigation-submenu-region";
+  const title = `Tagging submenus is recommended`;
+  const description = `Complex menu structures often contain multiple groups of links that can feel like undifferentiated page content to screen reader users. Assigning role="region" with a label makes each submenu a distinct, named section, clarifying its relationship to the trigger and improving orientation.`;
+  const helpText = `Assign role="region" to each menu panel so screen reader users can distinguish submenus from surrounding page content. Adding a label (e.g., with aria-labelledby) helps users quickly identify each panel within a complex menu structure.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "nav no ul menus", content: `<nav>
     <div>
       <button id="sub-menu-button" aria-expanded="false">About</button>
@@ -553,7 +551,7 @@ const NavigationSubmenuRegionSuccess = () => {
       this.fillerTextSentences = [];
 
       this.fillerTextSentences.push(
-        'The content on this page is associated with the <a href="$linkURL">$linkName</a> link for <a href="$siteURL">$siteName</a>.'
+        'The content on this page is associated with the <a href="\$linkURL">\$linkName</a> link for <a href="\$siteURL">\$siteName</a>.'
       );
     }
 
@@ -562,10 +560,10 @@ const NavigationSubmenuRegionSuccess = () => {
       this.fillerTextSentences.forEach(
         (s) =>
           (content += s
-            .replace('$siteName', this.siteName)
-            .replace('$siteURL', this.siteURL)
-            .replace('$linkName', linkName)
-            .replace('$linkURL', linkURL))
+            .replace('\$siteName', this.siteName)
+            .replace('\$siteURL', this.siteURL)
+            .replace('\$linkName', linkName)
+            .replace('\$linkURL', linkURL))
       );
       return content;
     }
@@ -1275,7 +1273,16 @@ const NavigationSubmenuRegionSuccess = () => {
     }
   });
 </script>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

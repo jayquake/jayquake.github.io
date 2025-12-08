@@ -5,6 +5,12 @@ import { textContainsWords } from "@acsbe/core-engine-dictionary";
 
 export const LinkNewWindowWarning: Rule = {
   id: "link-new-window-warning",
+  metadata: {
+    category: "Lists",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "minor",
   title: "Warning a user when a link triggers a new browser window is recommended",
   description: "It's good practice to warn users about the expected behavior when activating a link triggers a new window.",

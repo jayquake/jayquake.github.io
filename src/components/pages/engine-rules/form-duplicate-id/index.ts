@@ -5,6 +5,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const FormDuplicateId: Rule = {
   id: "form-duplicate-id",
+  metadata: {
+    category: "General",
+    profile: "Cognitive Disability",
+    wcagVersion: "General Guidelines",
+    wcagLevel: "N/A",
+  },
   impact: "moderate",
   title: "Forms and form fields must have unique ID attributes",
   description: "Screen readers rely on ID attributes to be unique in order to announce to the users the correct content. If IDs are not unique, screen readers won't know which element is the correct one.",

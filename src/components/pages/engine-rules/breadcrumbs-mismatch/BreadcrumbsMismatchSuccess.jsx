@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const BreadcrumbsMismatchSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Breadcrumbs Mismatch"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "breadcrumbs-mismatch";
+  const title = `Breadcrumb navigation region should have a label`;
+  const description = `A breadcrumb region presents a trail of links showing the user’s current page in relation to higher-level pages on a site. Without a label, it may be announced by screen reades simply as "navigation", making it hard to distinguish from other navigation regions on the page.`;
+  const helpText = `Add an aria-label=Breadcrumbs attribute so screen readers can announce that to users.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "breadcrumbs nav labeled", content: `<style>
     .breadcrumbs {
         display: flex;
@@ -166,7 +164,16 @@ const BreadcrumbsMismatchSuccess = () => {
 </div>` },
   { filename: "div no breadcrumbs", content: `<div>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

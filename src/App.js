@@ -28,7 +28,7 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import SearchComponent from "./components/layout/search";
 import { getMainListItems, getSecondaryListItems } from "./listItems";
@@ -591,8 +591,9 @@ export default function App() {
         component="main"
         sx={{
           flexGrow: 1,
-          height: "100vh",
-          overflow: "auto",
+          minHeight: "100vh",
+          height: "auto",
+          overflow: "visible",
           backgroundColor: "transparent",
           padding:
             location.pathname === "/"
@@ -604,6 +605,7 @@ export default function App() {
                 },
           position: "relative",
           zIndex: 1,
+          paddingBottom: (theme) => theme.spacing(8),
         }}
       >
         <Toolbar />

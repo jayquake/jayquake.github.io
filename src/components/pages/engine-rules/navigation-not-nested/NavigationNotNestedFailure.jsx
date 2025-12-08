@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const NavigationNotNestedFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Navigation Not Nested"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "navigation-not-nested";
+  const title = `Avoid using nested navigation structure`;
+  const description = `Complex navigation components can be difficult for screen readers to handle. This is especially true if submenus or other complex structures exist. Nesting navigation regions makes it harder for screen reader users to understand a page's structure and disrupts orientation.`;
+  const helpText = `If the failing element is a custom navigation region, remove role="navigation". If the failing element is coded using a HTML <nav> tag, apply role="presentation" or a role that is suitable for the function of the element.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "nav nested nav multi", content: `<nav id="not-nested-nav">
   <ul>
     <li><a href="/">Home</a></li>
@@ -113,7 +111,16 @@ const NavigationNotNestedFailure = () => {
     <li><a href="/contact/">Contact</a></li>
   </ul>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

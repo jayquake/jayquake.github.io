@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const SvgDiscernibleSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Svg Discernible"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "svg-discernible";
+  const title = `SVG discernible`;
+  const description = `All SVGs that are not used in the context of button icons must have discernible text.`;
+  const helpText = `Add a text alternative to the SVG.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "svg display none", content: `<!-- issue with @acsbe/core-engine-classifier -->
 <svg alt="Image description" style="width:100px;height:100px;display: none;" >
     <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
@@ -71,7 +69,16 @@ const SvgDiscernibleSuccess = () => {
         </div>
     </foreignObject>
 </svg>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

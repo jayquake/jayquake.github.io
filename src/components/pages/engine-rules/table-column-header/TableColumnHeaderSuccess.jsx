@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const TableColumnHeaderSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Table Column Header"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "table-column-header";
+  const title = `Table column headers should be tagged for assistive technology`;
+  const description = `If a column header is not marked up with the correct role or scope, screen reader users cannot determine which header applies to each cell.`;
+  const helpText = `Use <th scope="col"> or assign role="columnheader" when building custom tables. Make sure each data cell is programmatically associated with the correct header so relationships are clear to assistive technology.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "table headers native th", content: `<table>
   <thead>
     <tr role="row">
@@ -73,7 +71,16 @@ const TableColumnHeaderSuccess = () => {
     <div role="cell">Row 2, Cell 2</div>
   </div>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const RadioAriaCheckedFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Radio Aria Checked"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "radio-aria-checked";
+  const title = `Checked state of custom radio controls should be indicated to assistive technology`;
+  const description = `If custom radio controls lack a defined checked state, screen reader users can't determine which option is selected, resulting in confusion and loss of functionality.`;
+  const helpText = `Assign \\\\`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "custom radio no aria checked", content: `<div class="radio-wrapper-44">
   <label class="toggleButton" role="radio" tabindex="0">
     <input type="radio" />
@@ -235,7 +233,16 @@ const RadioAriaCheckedFailure = () => {
     }
   }
 </style>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

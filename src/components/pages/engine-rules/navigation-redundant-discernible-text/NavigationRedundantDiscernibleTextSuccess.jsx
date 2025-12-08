@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const NavigationRedundantDiscernibleTextSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Navigation Redundant Discernible Text"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "navigation-redundant-discernible-text";
+  const title = `Navigation elements should have a label that doesn't contain the word navigation`;
+  const description = `Screen readers announce when a user encounters a navigation region, which is why including the word 'navigation' in a label is redundant.`;
+  const helpText = `Remove the word 'navigation' from assigned labels.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "nav no aria label", content: `<nav>
   <ul>
     <li><a href="/">Home</a></li>
@@ -169,7 +167,16 @@ const NavigationRedundantDiscernibleTextSuccess = () => {
     <li><a href="/contact/">Contact</a></li>
   </ul>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const CustomSelectOptionsListListboxSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Custom Select Options List Listbox"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "custom-select-options-list-listbox";
+  const title = `Custom select options lists should be tagged for assistive technology`;
+  const description = `Native select elements automatically expose their option lists to screen readers, but custom implementations must be explicitly defined. Without exposing the correct roles and nesting them in line with established markup and accessibility standards, screen reader users may not be able to make a selection.`;
+  const helpText = `Assign role="listbox" to the container element that directly holds the list options.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "role listbox", content: `<form>
     <div class="custom-select">
         <div role="combobox" class="select-selected" onclick="showMenu()">Select an option</div>
@@ -31,7 +29,16 @@ const CustomSelectOptionsListListboxSuccess = () => {
         <option value="option3">Option 3</option>
     </select>
 </form>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

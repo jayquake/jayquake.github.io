@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const LinkHomepageWarningSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Link Homepage Warning"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "link-homepage-warning";
+  const title = `Links that redirect to the homepage shouldn't do so without warning the user`;
+  const description = `Standalone redirection links to the homepage can unexpectedly shift the user's context by redirecting them to the homepage. They should therefore display a clear warning so that the user is informed before proceeding`;
+  const helpText = `Include a clear warning that will be visible for screen-readers, indicating that clicking the link will redirect the user to the homepage`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "coralogix schedule demo link", content: `<a class="button-solid-reversed" href="#marketoModalForm-demo">Schedule Demo</a>` },
   { filename: "link homepage acsb sr element", content: `<a href="/" id="homepage-link">
   Redirect to home page
@@ -72,7 +70,16 @@ const LinkHomepageWarningSuccess = () => {
   <a href="/cats" id="homepage-link" aria-describedby="homepage-desc">Homepage</a>
 </p>
 <p id="homepage-desc">Redirecting to the homepage</p>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

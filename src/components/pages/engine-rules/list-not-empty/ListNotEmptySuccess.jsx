@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const ListNotEmptySuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="List Not Empty"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "list-not-empty";
+  const title = `Lists should contain at least one list item`;
+  const description = `An empty list will still be announced by screen readers, which may confuse users, leaving them unsure if the list is empty or an issue prevents the screen reader from announcing the list items.`;
+  const helpText = `Remove the empty HTML list elements (<ul>/<ol>) or assign aria-hidden="true" to make sure they are ignored by screen readers.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "empty lists with aria hidden true", content: `<html>
   <head> </head>
   <body>
@@ -149,7 +147,7 @@ const ListNotEmptySuccess = () => {
                 "
               ></a>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               id="comp-lpuk887h__item1"
               class="HcOXKn c9GqVL QxJLC3 lq2cno YQcXTT comp-lpuk887h wixui-rich-text"
@@ -288,7 +286,7 @@ const ListNotEmptySuccess = () => {
                 >
               </h2>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               class="comp-lpuk4ees FubTgk"
               id="comp-lpuk4ees__item1"
@@ -404,11 +402,11 @@ const ListNotEmptySuccess = () => {
                 ></a
               >
             </div>
-            <!--/$-->
+            <!--/\$-->
           </div>
         </div>
       </div>
-      <!--/$-->
+      <!--/\$-->
     </div>
     <div role="listitem" class="T7n0L6" style="block-size: 345px; height: 345px; inline-size: 304px; margin-block: 6px; margin: 6px; margin-inline: 6px; min-block-size: auto; min-height: auto; min-inline-size: auto; min-width: auto; perspective-origin: 152px 172.5px; transform-origin: 152px 172.5px; width: 304px">
       <div
@@ -531,7 +529,7 @@ const ListNotEmptySuccess = () => {
                 "
               ></a>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               id="comp-lpuk887h__item-lpukhni6"
               class="HcOXKn c9GqVL QxJLC3 lq2cno YQcXTT comp-lpuk887h wixui-rich-text"
@@ -670,7 +668,7 @@ const ListNotEmptySuccess = () => {
                 >
               </h2>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               class="comp-lpuk4ees FubTgk"
               id="comp-lpuk4ees__item-lpukhni6"
@@ -786,11 +784,11 @@ const ListNotEmptySuccess = () => {
                 ></a
               >
             </div>
-            <!--/$-->
+            <!--/\$-->
           </div>
         </div>
       </div>
-      <!--/$-->
+      <!--/\$-->
     </div>
     <div role="listitem" class="T7n0L6" style="block-size: 345px; height: 345px; inline-size: 304px; margin-block: 6px; margin: 6px; margin-inline: 6px; min-block-size: auto; min-height: auto; min-inline-size: auto; min-width: auto; perspective-origin: 152px 172.5px; transform-origin: 152px 172.5px; width: 304px">
       <div
@@ -913,7 +911,7 @@ const ListNotEmptySuccess = () => {
                 "
               ></a>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               id="comp-lpuk887h__item-lpul5fsm"
               class="HcOXKn c9GqVL QxJLC3 lq2cno YQcXTT comp-lpuk887h wixui-rich-text"
@@ -1075,7 +1073,7 @@ const ListNotEmptySuccess = () => {
                 &nbsp;
               </h2>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               class="comp-lpuk4ees FubTgk"
               id="comp-lpuk4ees__item-lpul5fsm"
@@ -1191,11 +1189,11 @@ const ListNotEmptySuccess = () => {
                 ></a
               >
             </div>
-            <!--/$-->
+            <!--/\$-->
           </div>
         </div>
       </div>
-      <!--/$-->
+      <!--/\$-->
     </div>
     <div role="listitem" class="T7n0L6" style="block-size: 328px; height: 328px; inline-size: 304px; margin-block: 6px; margin: 6px; margin-inline: 6px; min-block-size: auto; min-height: auto; min-inline-size: auto; min-width: auto; perspective-origin: 152px 164px; transform-origin: 152px 164px; width: 304px">
       <div
@@ -1301,7 +1299,7 @@ const ListNotEmptySuccess = () => {
                 "
               ></a>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               id="comp-lpuk887h__item-lpul92ub"
               class="HcOXKn c9GqVL QxJLC3 lq2cno YQcXTT comp-lpuk887h wixui-rich-text"
@@ -1444,7 +1442,7 @@ const ListNotEmptySuccess = () => {
                 >
               </h2>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               class="comp-lpuk4ees FubTgk"
               id="comp-lpuk4ees__item-lpul92ub"
@@ -1560,11 +1558,11 @@ const ListNotEmptySuccess = () => {
                 ></a
               >
             </div>
-            <!--/$-->
+            <!--/\$-->
           </div>
         </div>
       </div>
-      <!--/$-->
+      <!--/\$-->
     </div>
     <div role="listitem" class="T7n0L6" style="block-size: 311px; height: 311px; inline-size: 304px; margin-block: 6px; margin: 6px; margin-inline: 6px; min-block-size: auto; min-height: auto; min-inline-size: auto; min-width: auto; perspective-origin: 152px 155.5px; transform-origin: 152px 155.5px; width: 304px">
       <div
@@ -1653,7 +1651,7 @@ const ListNotEmptySuccess = () => {
                 width: 295px;
               "
             ></div>
-            <!--/$-->
+            <!--/\$-->
             <div
               id="comp-lpuk887h__item-lpulp3r6"
               class="HcOXKn c9GqVL QxJLC3 lq2cno YQcXTT comp-lpuk887h wixui-rich-text"
@@ -1792,7 +1790,7 @@ const ListNotEmptySuccess = () => {
                 >
               </h2>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               class="comp-lpuk4ees FubTgk"
               id="comp-lpuk4ees__item-lpulp3r6"
@@ -1901,11 +1899,11 @@ const ListNotEmptySuccess = () => {
                 >
               </div>
             </div>
-            <!--/$-->
+            <!--/\$-->
           </div>
         </div>
       </div>
-      <!--/$-->
+      <!--/\$-->
     </div>
     <div role="listitem" class="T7n0L6" style="block-size: 311px; height: 311px; inline-size: 304px; margin-block: 6px; margin: 6px; margin-inline: 6px; min-block-size: auto; min-height: auto; min-inline-size: auto; min-width: auto; perspective-origin: 152px 155.5px; transform-origin: 152px 155.5px; width: 304px">
       <div
@@ -2028,7 +2026,7 @@ const ListNotEmptySuccess = () => {
                 "
               ></a>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               id="comp-lpuk887h__item-lpum573h"
               class="HcOXKn c9GqVL QxJLC3 lq2cno YQcXTT comp-lpuk887h wixui-rich-text"
@@ -2167,7 +2165,7 @@ const ListNotEmptySuccess = () => {
                 >
               </h2>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               class="comp-lpuk4ees FubTgk"
               id="comp-lpuk4ees__item-lpum573h"
@@ -2283,11 +2281,11 @@ const ListNotEmptySuccess = () => {
                 ></a
               >
             </div>
-            <!--/$-->
+            <!--/\$-->
           </div>
         </div>
       </div>
-      <!--/$-->
+      <!--/\$-->
     </div>
   </div>
   <div class="cGWabE" style="block-size: 2040px; display: flex; flex-direction: column; height: 2040px; inline-size: 316px; min-block-size: auto; min-height: auto; min-inline-size: auto; min-width: auto; perspective-origin: 158px 1020px; transform-origin: 158px 1020px; width: 316px">
@@ -2395,7 +2393,7 @@ const ListNotEmptySuccess = () => {
                 "
               ></a>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               id="comp-lpuk887h__item-j9r9uz7e"
               class="HcOXKn c9GqVL QxJLC3 lq2cno YQcXTT comp-lpuk887h wixui-rich-text"
@@ -2538,7 +2536,7 @@ const ListNotEmptySuccess = () => {
                 >
               </h2>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               class="comp-lpuk4ees FubTgk"
               id="comp-lpuk4ees__item-j9r9uz7e"
@@ -2654,11 +2652,11 @@ const ListNotEmptySuccess = () => {
                 ></a
               >
             </div>
-            <!--/$-->
+            <!--/\$-->
           </div>
         </div>
       </div>
-      <!--/$-->
+      <!--/\$-->
     </div>
     <div role="listitem" class="T7n0L6" style="block-size: 345px; height: 345px; inline-size: 304px; margin-block: 6px; margin: 6px; margin-inline: 6px; min-block-size: auto; min-height: auto; min-inline-size: auto; min-width: auto; perspective-origin: 152px 172.5px; transform-origin: 152px 172.5px; width: 304px">
       <div
@@ -2781,7 +2779,7 @@ const ListNotEmptySuccess = () => {
                 "
               ></a>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               id="comp-lpuk887h__item-lpukhpkb"
               class="HcOXKn c9GqVL QxJLC3 lq2cno YQcXTT comp-lpuk887h wixui-rich-text"
@@ -2946,7 +2944,7 @@ const ListNotEmptySuccess = () => {
                 &nbsp;
               </h2>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               class="comp-lpuk4ees FubTgk"
               id="comp-lpuk4ees__item-lpukhpkb"
@@ -3062,11 +3060,11 @@ const ListNotEmptySuccess = () => {
                 ></a
               >
             </div>
-            <!--/$-->
+            <!--/\$-->
           </div>
         </div>
       </div>
-      <!--/$-->
+      <!--/\$-->
     </div>
     <div role="listitem" class="T7n0L6" style="block-size: 345px; height: 345px; inline-size: 304px; margin-block: 6px; margin: 6px; margin-inline: 6px; min-block-size: auto; min-height: auto; min-inline-size: auto; min-width: auto; perspective-origin: 152px 172.5px; transform-origin: 152px 172.5px; width: 304px">
       <div
@@ -3189,7 +3187,7 @@ const ListNotEmptySuccess = () => {
                 "
               ></a>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               id="comp-lpuk887h__item-lpul5gcv"
               class="HcOXKn c9GqVL QxJLC3 lq2cno YQcXTT comp-lpuk887h wixui-rich-text"
@@ -3332,7 +3330,7 @@ const ListNotEmptySuccess = () => {
                 >
               </h2>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               class="comp-lpuk4ees FubTgk"
               id="comp-lpuk4ees__item-lpul5gcv"
@@ -3448,11 +3446,11 @@ const ListNotEmptySuccess = () => {
                 ></a
               >
             </div>
-            <!--/$-->
+            <!--/\$-->
           </div>
         </div>
       </div>
-      <!--/$-->
+      <!--/\$-->
     </div>
     <div role="listitem" class="T7n0L6" style="block-size: 328px; height: 328px; inline-size: 304px; margin-block: 6px; margin: 6px; margin-inline: 6px; min-block-size: auto; min-height: auto; min-inline-size: auto; min-width: auto; perspective-origin: 152px 164px; transform-origin: 152px 164px; width: 304px">
       <div
@@ -3558,7 +3556,7 @@ const ListNotEmptySuccess = () => {
                 "
               ></a>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               id="comp-lpuk887h__item-lpul93ac"
               class="HcOXKn c9GqVL QxJLC3 lq2cno YQcXTT comp-lpuk887h wixui-rich-text"
@@ -3719,7 +3717,7 @@ const ListNotEmptySuccess = () => {
                 &nbsp;
               </h2>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               class="comp-lpuk4ees FubTgk"
               id="comp-lpuk4ees__item-lpul93ac"
@@ -3835,11 +3833,11 @@ const ListNotEmptySuccess = () => {
                 ></a
               >
             </div>
-            <!--/$-->
+            <!--/\$-->
           </div>
         </div>
       </div>
-      <!--/$-->
+      <!--/\$-->
     </div>
     <div role="listitem" class="T7n0L6" style="block-size: 328px; height: 328px; inline-size: 304px; margin-block: 6px; margin: 6px; margin-inline: 6px; min-block-size: auto; min-height: auto; min-inline-size: auto; min-width: auto; perspective-origin: 152px 164px; transform-origin: 152px 164px; width: 304px">
       <div
@@ -3945,7 +3943,7 @@ const ListNotEmptySuccess = () => {
                 "
               ></a>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               id="comp-lpuk887h__item-lpulp46j"
               class="HcOXKn c9GqVL QxJLC3 lq2cno YQcXTT comp-lpuk887h wixui-rich-text"
@@ -4085,7 +4083,7 @@ const ListNotEmptySuccess = () => {
                 >
               </h2>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               class="comp-lpuk4ees FubTgk"
               id="comp-lpuk4ees__item-lpulp46j"
@@ -4201,11 +4199,11 @@ const ListNotEmptySuccess = () => {
                 ></a
               >
             </div>
-            <!--/$-->
+            <!--/\$-->
           </div>
         </div>
       </div>
-      <!--/$-->
+      <!--/\$-->
     </div>
   </div>
   <div class="cGWabE" style="block-size: 2040px; display: flex; flex-direction: column; height: 2040px; inline-size: 316px; min-block-size: auto; min-height: auto; min-inline-size: auto; min-width: auto; perspective-origin: 158px 1020px; transform-origin: 158px 1020px; width: 316px">
@@ -4313,7 +4311,7 @@ const ListNotEmptySuccess = () => {
                 "
               ></a>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               id="comp-lpuk887h__item-j9r9uxns"
               class="HcOXKn c9GqVL QxJLC3 lq2cno YQcXTT comp-lpuk887h wixui-rich-text"
@@ -4452,7 +4450,7 @@ const ListNotEmptySuccess = () => {
                 >
               </h2>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               class="comp-lpuk4ees FubTgk"
               id="comp-lpuk4ees__item-j9r9uxns"
@@ -4568,11 +4566,11 @@ const ListNotEmptySuccess = () => {
                 ></a
               >
             </div>
-            <!--/$-->
+            <!--/\$-->
           </div>
         </div>
       </div>
-      <!--/$-->
+      <!--/\$-->
     </div>
     <div role="listitem" class="T7n0L6" style="block-size: 345px; height: 345px; inline-size: 304px; margin-block: 6px; margin: 6px; margin-inline: 6px; min-block-size: auto; min-height: auto; min-inline-size: auto; min-width: auto; perspective-origin: 152px 172.5px; transform-origin: 152px 172.5px; width: 304px">
       <div
@@ -4695,7 +4693,7 @@ const ListNotEmptySuccess = () => {
                 "
               ></a>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               id="comp-lpuk887h__item-lpukhq3s"
               class="HcOXKn c9GqVL QxJLC3 lq2cno YQcXTT comp-lpuk887h wixui-rich-text"
@@ -4860,7 +4858,7 @@ const ListNotEmptySuccess = () => {
                 &nbsp;
               </h2>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               class="comp-lpuk4ees FubTgk"
               id="comp-lpuk4ees__item-lpukhq3s"
@@ -4976,11 +4974,11 @@ const ListNotEmptySuccess = () => {
                 ></a
               >
             </div>
-            <!--/$-->
+            <!--/\$-->
           </div>
         </div>
       </div>
-      <!--/$-->
+      <!--/\$-->
     </div>
     <div role="listitem" class="T7n0L6" style="block-size: 345px; height: 345px; inline-size: 304px; margin-block: 6px; margin: 6px; margin-inline: 6px; min-block-size: auto; min-height: auto; min-inline-size: auto; min-width: auto; perspective-origin: 152px 172.5px; transform-origin: 152px 172.5px; width: 304px">
       <div
@@ -5071,7 +5069,7 @@ const ListNotEmptySuccess = () => {
             >
               <div data-testid="linkElement" class="j7pOnl" style="block-size: 97px; box-sizing: border-box; height: 97px; inline-size: 295px; overflow-block: hidden; overflow-inline: hidden; overflow: hidden; perspective-origin: 147.5px 48.5px; transform-origin: 147.5px 48.5px; transition: 0.4s ease-in-out, visibility; width: 295px"></div>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               id="comp-lpuk887h__item-lpul5gu0"
               class="HcOXKn c9GqVL QxJLC3 lq2cno YQcXTT comp-lpuk887h wixui-rich-text"
@@ -5233,7 +5231,7 @@ const ListNotEmptySuccess = () => {
                 &nbsp;
               </h2>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               class="comp-lpuk4ees FubTgk"
               id="comp-lpuk4ees__item-lpul5gu0"
@@ -5342,11 +5340,11 @@ const ListNotEmptySuccess = () => {
                 >
               </div>
             </div>
-            <!--/$-->
+            <!--/\$-->
           </div>
         </div>
       </div>
-      <!--/$-->
+      <!--/\$-->
     </div>
     <div role="listitem" class="T7n0L6" style="block-size: 328px; height: 328px; inline-size: 304px; margin-block: 6px; margin: 6px; margin-inline: 6px; min-block-size: auto; min-height: auto; min-inline-size: auto; min-width: auto; perspective-origin: 152px 164px; transform-origin: 152px 164px; width: 304px">
       <div
@@ -5452,7 +5450,7 @@ const ListNotEmptySuccess = () => {
                 "
               ></a>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               id="comp-lpuk887h__item-lpul93nf"
               class="HcOXKn c9GqVL QxJLC3 lq2cno YQcXTT comp-lpuk887h wixui-rich-text"
@@ -5595,7 +5593,7 @@ const ListNotEmptySuccess = () => {
                 >
               </h2>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               class="comp-lpuk4ees FubTgk"
               id="comp-lpuk4ees__item-lpul93nf"
@@ -5711,11 +5709,11 @@ const ListNotEmptySuccess = () => {
                 ></a
               >
             </div>
-            <!--/$-->
+            <!--/\$-->
           </div>
         </div>
       </div>
-      <!--/$-->
+      <!--/\$-->
     </div>
     <div role="listitem" class="T7n0L6" style="block-size: 328px; height: 328px; inline-size: 304px; margin-block: 6px; margin: 6px; margin-inline: 6px; min-block-size: auto; min-height: auto; min-inline-size: auto; min-width: auto; perspective-origin: 152px 164px; transform-origin: 152px 164px; width: 304px">
       <div
@@ -5821,7 +5819,7 @@ const ListNotEmptySuccess = () => {
                 "
               ></a>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               id="comp-lpuk887h__item-lpulp4jh"
               class="HcOXKn c9GqVL QxJLC3 lq2cno YQcXTT comp-lpuk887h wixui-rich-text"
@@ -5961,7 +5959,7 @@ const ListNotEmptySuccess = () => {
                 >
               </h2>
             </div>
-            <!--/$-->
+            <!--/\$-->
             <div
               class="comp-lpuk4ees FubTgk"
               id="comp-lpuk4ees__item-lpulp4jh"
@@ -6077,11 +6075,11 @@ const ListNotEmptySuccess = () => {
                 ></a
               >
             </div>
-            <!--/$-->
+            <!--/\$-->
           </div>
         </div>
       </div>
-      <!--/$-->
+      <!--/\$-->
     </div>
   </div>
 </div>` },
@@ -6094,7 +6092,16 @@ const ListNotEmptySuccess = () => {
   </div>
   </body>
 </html>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

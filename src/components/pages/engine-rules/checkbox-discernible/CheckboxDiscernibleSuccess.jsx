@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const CheckboxDiscernibleSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Checkbox Discernible"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "checkbox-discernible";
+  const title = `Checkbox controls should have a label`;
+  const description = `Screen readers rely on properly coded and associated labels to announce the purpose of a form field. A checkbox control without an identifiable label may prevent screen reader users from completing the form.`;
+  const helpText = `Assign a label to each checkbox control using <label for> with a matching id (or by wrapping the <label> around the control), or using ARIA attributes such as aria-label or aria-labelledby.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "button role checkbox with label", content: `<button role="checkbox" style="width: 15px; height: 15px; border: solid 1px blue">Toggle</button>` },
   { filename: "div as a custom checkbox with aria label", content: `<div class="checkbox-wrapper-1" tabindex="0" role="checkbox" aria-checked="false" aria-label="I agree to the terms" style="display: inline-block">
   <input class="substituted" type="checkbox" aria-hidden="true" />
@@ -728,7 +726,16 @@ const CheckboxDiscernibleSuccess = () => {
     }
   }
 </style>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

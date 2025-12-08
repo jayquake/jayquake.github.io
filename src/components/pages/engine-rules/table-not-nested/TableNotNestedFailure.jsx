@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const TableNotNestedFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Table Not Nested"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "table-not-nested";
+  const title = `Tables should not be nested`;
+  const description = `Nested tables are often misinterpreted by screen readers, making it hard for users to follow the intended structure and meaning of the data.`;
+  const helpText = `Avoid nesting tables. Use separate tables with clear headings, and if tables are used for layout, assign  role="presentation" or role="none" to each table element.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "multi table nested in table", content: `<table id="not-nested-table">
   <th>Table #2</th>
   <tr>
@@ -127,7 +125,16 @@ const TableNotNestedFailure = () => {
     </td>
   </tr>
 </table>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

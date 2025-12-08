@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const TableRowHeaderFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Table Row Header"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "table-row-header";
+  const title = `Table row headers should be tagged for assistive technology`;
+  const description = `If a table row header is not marked up with the correct role or scope, screen reader users cannot determine which header applies to each cell.`;
+  const helpText = `Use <th scope="row"> or assign role="rowheader" when building custom tables. Make sure each data cell is programmatically associated with the correct header so relationships are clear to assistive technology.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "table roles styled row headers with role cell", content: `<style>
   .test-subject {
     background-color: aqua;
@@ -96,7 +94,16 @@ const TableRowHeaderFailure = () => {
     <td>Row 3, Cell 1</td>
   </tr>
 </table>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

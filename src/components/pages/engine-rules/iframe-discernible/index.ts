@@ -4,6 +4,12 @@ import { CompliantComponentIframe, PerceivableTraitDiscernibleText } from "@acsb
 
 export const IframeDiscernible: Rule = {
   id: "iframe-discernible",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "critical",
   title: "Iframe needs a label",
   description: "An iframe needs a label that describes its purpose to screen reader users.",

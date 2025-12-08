@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const RedundantDiscernibleContent: Rule = {
   id: "redundant-discernible-content",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.1",
+    wcagLevel: "A",
+  },
   impact: "minor",
   title: "Assigned label should not be redundant",
   description: "Providing the same text as the visible label in an aria-label is redundant and risky, as content may change over time or be translated into other languages, which may result in the label no longer matching the element.",

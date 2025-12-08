@@ -4,6 +4,12 @@ import { PerceivableTraitDiscernibleText, CompliantComponentRadioButton } from "
 
 export const RadioDiscernible: Rule = {
   id: "radio-discernible",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Radio controls should have a label",
   description: "Screen readers rely on properly coded and associated labels to announce the purpose of a form field. A radio control without an identifiable label may prevent screen reader users from completing the form.",

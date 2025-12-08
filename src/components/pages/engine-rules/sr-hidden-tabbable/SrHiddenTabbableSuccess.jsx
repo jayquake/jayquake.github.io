@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const SrHiddenTabbableSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Sr Hidden Tabbable"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "sr-hidden-tabbable";
+  const title = `Elements hidden from screen-reader must not contain tabbable elements.`;
+  const description = `although the elements are hidden from assistive technologies, users can still navigate to any focusable child elements using the keyboard, but their content is inaccessible to people who use assistive technologies.`;
+  const helpText = `Remove the tabindex attribute from the non-interactive element or set it to -1. This will prevent the element from being focused on by keyboard users.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "button hidden", content: `<button hidden>Not tabbable button</button>` },
   { filename: "form role none", content: `<form role="none">
   <label for="fname">First Name:</label><br />
@@ -54,7 +52,16 @@ const SrHiddenTabbableSuccess = () => {
 
   <input type="submit" value="Submit" tabindex="-1" />
 </form>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

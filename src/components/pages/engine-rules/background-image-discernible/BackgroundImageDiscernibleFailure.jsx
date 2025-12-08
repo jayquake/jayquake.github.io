@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const BackgroundImageDiscernibleFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Background Image Discernible"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "background-image-discernible";
+  const title = `Non decorative Background images should be tagged and labeled`;
+  const description = `Background images should receive alternative text just like regular images do unless used as decorative elements and do not provide any information or additional context to the users.`;
+  const helpText = `Use the screen-reader-only technique combined with the role=img and aria-label attributes to indicate to screen readers that there's an image and the description for that image. Make sure to include the embedded text of the image alongside the objects that comprise it in the aria-label description.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "background image without discernible elements", content: `<style>
   .background-image-element {
     background-image: url("path/to/your/image.jpg");
@@ -62,7 +60,16 @@ const BackgroundImageDiscernibleFailure = () => {
   <h1>Welcome to Our Website</h1>
   <p>Discover our range of services and products tailored for you.</p>
 </div>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

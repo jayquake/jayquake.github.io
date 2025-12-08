@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const RegionFooterSingleFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Region Footer Single"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "region-footer-single";
+  const title = `Each page should include at most one global contentinfo landmark (footer)`;
+  const description = `Each page should normally include only one contentinfo landmark (usually the site footer) to keep landmark navigation simple and predictable. Additional contentinfo landmarks are permitted when clearly justified, but they must each have a unique accessible label.`;
+  const helpText = `Make sure each page has only one top-level contentinfo landmark for the global footer. For additional footer-like blocks, nest them inside sectioning elements, or use role="region" with a label instead of contentinfo.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "footer and content info", content: `<footer>
   <p>&copy; 2024 My Website. All rights reserved.</p>
   <nav aria-label="Footer navigation">
@@ -80,7 +78,16 @@ const RegionFooterSingleFailure = () => {
   </nav>
   <p>Contact us: <a href="mailto:info@mywebsite.com">info@mywebsite.com</a></p>
 </footer>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

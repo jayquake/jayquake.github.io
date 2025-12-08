@@ -4,6 +4,12 @@ import { PassCondition } from "../interfaces";
 
 export const MainNavigationMismatch: Rule = {
   id: "main-navigation-mismatch",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Main navigation should have role navigation",
   description: "Main navigation elements should have role navigation to ensure that screen readers can identify them as navigation regions.",

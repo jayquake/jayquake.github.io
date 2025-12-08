@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const RadioMismatchSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Radio Mismatch"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "radio-mismatch";
+  const title = `Custom radio controls should be tagged for assistive technology`;
+  const description = `Screen readers have built-in mechanisms to handle radio components. By default, assistive technology does not support custom radio controls and using them without exposing the appropriate role may prevent screen reader users from interacting as expected with the component.`;
+  const helpText = `Assign role="radio" to the custom radio control.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "div as a custom radio", content: `<div class="radio-wrapper-1" tabindex="0" role="radio" aria-checked="false">
   <input id="example-1" class="substituted" type="radio" aria-hidden="true" />
   <label class="pointer" for="example-1">radio</label>
@@ -324,7 +322,16 @@ const RadioMismatchSuccess = () => {
     }
   }
 </style>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

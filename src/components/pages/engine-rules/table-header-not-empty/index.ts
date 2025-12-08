@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const TableHeaderNotEmpty: Rule = {
   id: "table-header-not-empty",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Table header cells should not be empty",
   description: "If a table header cell is empty, screen reader users may only hear a generic label such as “column 3” or nothing at all. This makes it harder to understand what each column or row represents.",

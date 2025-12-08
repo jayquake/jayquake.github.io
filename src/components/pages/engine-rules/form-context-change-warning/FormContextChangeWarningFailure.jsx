@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const FormContextChangeWarningFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Form Context Change Warning"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "form-context-change-warning";
+  const title = `Interacting with form controls should not cause a change in context unless a user is notified beforehand`;
+  const description = `Interacting with form controls shouldn't automatically submit a form or cause any other change in context without notifying the user in advance. Form controls that cause a context change on input can disorient a user, since the behavior is not expected.`;
+  const helpText = `Make sure that forms can be manually submitted via a submit button, or provide instructions that notify users of the expected behavior before they interact with the control.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "button outside div role form  associated to it but its not native form", content: `<div role="form" id="test"></div>
 
 <button type="submit" form="test">hi</button>` },
@@ -74,7 +72,16 @@ const FormContextChangeWarningFailure = () => {
   <input type="text" />
   <input type="password" />
 </form>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

@@ -7,6 +7,12 @@ const EXPECTED_CONTROL_WORDS = ["next", "forward"] as const;
 
 export const CarouselNextSlideDiscernibleCorrectly: Rule = {
   id: "carousel-next-slide-discernible-correctly",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Carousel Next pagination control should have an accurate and descriptive label",
   description: "If the Next control (often marked up using an arrow symbol) in a carousel is not given a descriptive label, screen reader users may not understand that the control activates the next slide or set of slides in the carousel.",

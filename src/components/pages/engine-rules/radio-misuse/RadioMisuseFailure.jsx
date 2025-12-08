@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const RadioMisuseFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Radio Misuse"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "radio-misuse";
+  const title = `Only elements that function as radio controls should receive role="radio"`;
+  const description = `Setting role="radio" on elements that do not function as radio controls can mislead screen reader users by announcing them as selectable options in a group, causing unreliable navigation and interaction.`;
+  const helpText = `Remove role="radio" from the failing element.`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "incorrect element with role radio", content: `<div class="radio-wrapper-44">
   <label class="toggleButton" tabindex="0">
     <input hidden />
@@ -235,7 +233,16 @@ const RadioMisuseFailure = () => {
     }
   }
 </style>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

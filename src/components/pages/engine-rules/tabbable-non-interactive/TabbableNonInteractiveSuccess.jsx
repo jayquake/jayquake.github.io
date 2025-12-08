@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const TabbableNonInteractiveSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Tabbable Non Interactive"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "tabbable-non-interactive";
+  const title = `Non-interactive elements should not be keyboard navigable`;
+  const description = `Allowing static content to receive keyboard focus creates unnecessary stops in the tab order, forcing users to tab through elements that provide no action and making keyboard navigation less intuitive.`;
+  const helpText = `Remove the tabindex attribute from the static element.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "input element without tabindex", content: `<body style="height: 100vh; width: 100vw">
   <input style="width: 150px; height: 100px" type="text" placeholder="enter your name" />
 </body>` },
@@ -30,7 +28,16 @@ const TabbableNonInteractiveSuccess = () => {
   <option>Option 3</option>
 </select>` },
   { filename: "text area element without tabindex", content: `<textarea placeholder="comment.."></textarea>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

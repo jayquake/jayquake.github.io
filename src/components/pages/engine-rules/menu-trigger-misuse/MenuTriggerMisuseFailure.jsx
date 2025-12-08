@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const MenuTriggerMisuseFailure = () => {
-  return (
-    <EngineIssueFailure
-      ruleId="N/A"
-      title="Menu Trigger Misuse"
-      description="N/A"
-      helpText="N/A"
-      fixSteps={[
+  const ruleId = "menu-trigger-misuse";
+  const title = `Menu trigger buttons/links that aren't perceived as menu trigger should lose the \\`;
+  const description = `Using menu trigger attributes for buttons/links that aren't menu triggers can confuse screen readers and other assistive technologies. This can lead to a poor user experience for people with disabilities.`;
+  const helpText = `Remove the \\`;
+  const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
   "Test with screen readers"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "koffeekult not menu trigger li aria expanded false", content: `<li id="test-subject" class="site-nav__item site-nav__expanded-item site-nav--has-dropdown site-nav--is-megamenu" aria-haspopup="true" aria-expanded="false">
   <a href="/collections/coffee" class="site-nav__link site-nav__link--underline site-nav__link--has-dropdown"> Coffee </a>
   <div class="site-nav__dropdown megamenu text-left">
@@ -184,7 +182,16 @@ const MenuTriggerMisuseFailure = () => {
   <li><a href="/mars-cars">Mars Cars</a></li>
   <li><a href="/contact">Contact</a></li>
 </ul>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };

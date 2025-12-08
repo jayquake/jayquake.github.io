@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const RegionFooterSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Region Footer"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "region-footer";
+  const title = `Footer region should be correctly marked up`;
+  const description = `Ensure that the footer region is correctly marked up.`;
+  const helpText = `Add a footer element or use role=contentInfo to define the footer of the document.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "content info and label", content: `<div role="contentinfo" aria-label="footer">
   <p>&copy; 2024 My Website. All rights reserved.</p>
   <nav aria-label="Footer navigation">
@@ -43,7 +41,16 @@ const RegionFooterSuccess = () => {
     </ul>
   </div>
 </footer>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

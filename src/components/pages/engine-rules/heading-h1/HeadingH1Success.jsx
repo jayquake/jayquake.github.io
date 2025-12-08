@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const HeadingH1Success = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="Heading H1"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "heading-h1";
+  const title = `Each page should have a main heading`;
+  const description = `There should be one h1 heading element that defines the subject of the main content on the page.`;
+  const helpText = `Add a h1 element at the start of the main content on the page.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "single aria level 1", content: `<div role="heading" aria-level="1">Heading element</div>` },
   { filename: "single h1 single aria level 1", content: `<h1>Test</h1>
 <div role="heading" aria-level="1">Heading element</div>` },
@@ -37,7 +35,16 @@ const HeadingH1Success = () => {
 <h1 class="sr-only">Heading element</h1>` },
   { filename: "single h1", content: `<h1>Heading element</h1>` },
   { filename: "single h2 aria level 1", content: `<h2 aria-level="1">Heading element</h2>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };

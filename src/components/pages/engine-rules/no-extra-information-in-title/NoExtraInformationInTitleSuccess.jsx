@@ -2,18 +2,16 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const NoExtraInformationInTitleSuccess = () => {
-  return (
-    <EngineIssueSuccess
-      ruleId="N/A"
-      title="No Extra Information In Title"
-      description="N/A"
-      helpText="N/A"
-      bestPractices={[
+  const ruleId = "no-extra-information-in-title";
+  const title = `The title attribute should not be the only method used of providing information`;
+  const description = `The title attribute is announced inconsistently across screen readers and browsers, making it unreliable for labeling interactive controls. Because many users may never hear the content, reliance on the attribute risks loss of information. Instead, it should be used to provide extra help text in addition to a valid label.`;
+  const helpText = `Make sure that the title attribute is not the only means of providing a label by assigning an aria-label or aria-labelledby attribute to the interactive control.`;
+  const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
-      ]}
-      htmlExamples={[
+  ];
+  const htmlExamples = [
   { filename: "i srVisibleText contains the title", content: `<i title="Search"><span class="anything">Search 123</span></i>` },
   { filename: "img with alt contains the title", content: `<html>
   <head> </head>
@@ -99,7 +97,16 @@ const NoExtraInformationInTitleSuccess = () => {
     </div>
   </body>
 </html>` }
-      ]}
+  ];
+
+  return (
+    <EngineIssueSuccess
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      bestPractices={bestPractices}
+      htmlExamples={htmlExamples}
     />
   );
 };
