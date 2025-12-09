@@ -28,7 +28,9 @@ const timingResults = {
   totalNavigationTime: 0,
 };
 
-test.describe(`Navigation Timing Tests (SDK ${ENABLE_SDK_AUDIT ? "ENABLED" : "DISABLED"})`, () => {
+test.describe(`Navigation Timing Tests (SDK ${
+  ENABLE_SDK_AUDIT ? "ENABLED" : "DISABLED"
+})`, () => {
   test.beforeEach(async ({ page }) => {
     const startTime = performance.now();
 
@@ -45,9 +47,15 @@ test.describe(`Navigation Timing Tests (SDK ${ENABLE_SDK_AUDIT ? "ENABLED" : "DI
     console.log("\n" + "=".repeat(70));
     console.log("📊 TIMING SUMMARY");
     console.log("=".repeat(70));
-    console.log(`SDK Audits: ${timingResults.sdkEnabled ? "✅ ENABLED" : "❌ DISABLED"}`);
-    console.log(`Total Navigation Time: ${formatTime(timingResults.totalNavigationTime)}`);
-    console.log(`Total Audit Time: ${formatTime(timingResults.totalAuditTime)}`);
+    console.log(
+      `SDK Audits: ${timingResults.sdkEnabled ? "✅ ENABLED" : "❌ DISABLED"}`
+    );
+    console.log(
+      `Total Navigation Time: ${formatTime(timingResults.totalNavigationTime)}`
+    );
+    console.log(
+      `Total Audit Time: ${formatTime(timingResults.totalAuditTime)}`
+    );
     console.log(`Total Combined Time: ${formatTime(timingResults.totalTime)}`);
     console.log("=".repeat(70));
 
@@ -56,18 +64,18 @@ test.describe(`Navigation Timing Tests (SDK ${ENABLE_SDK_AUDIT ? "ENABLED" : "DI
       console.log("-".repeat(70));
       console.log(
         "Page".padEnd(20) +
-        "Navigation".padEnd(15) +
-        "Audit".padEnd(15) +
-        "Total".padEnd(15)
+          "Navigation".padEnd(15) +
+          "Audit".padEnd(15) +
+          "Total".padEnd(15)
       );
       console.log("-".repeat(70));
 
       timingResults.pages.forEach((p) => {
         console.log(
           p.path.padEnd(20) +
-          formatTime(p.navigationTime).padEnd(15) +
-          formatTime(p.auditTime).padEnd(15) +
-          formatTime(p.totalTime).padEnd(15)
+            formatTime(p.navigationTime).padEnd(15) +
+            formatTime(p.auditTime).padEnd(15) +
+            formatTime(p.totalTime).padEnd(15)
         );
       });
       console.log("-".repeat(70));
@@ -76,7 +84,12 @@ test.describe(`Navigation Timing Tests (SDK ${ENABLE_SDK_AUDIT ? "ENABLED" : "DI
   });
 
   test("should measure home page load and audit time", async ({ page }) => {
-    const pageMetrics = { path: "/", navigationTime: 0, auditTime: 0, totalTime: 0 };
+    const pageMetrics = {
+      path: "/",
+      navigationTime: 0,
+      auditTime: 0,
+      totalTime: 0,
+    };
     const testStart = performance.now();
 
     // Measure navigation
@@ -107,7 +120,9 @@ test.describe(`Navigation Timing Tests (SDK ${ENABLE_SDK_AUDIT ? "ENABLED" : "DI
     console.log(`   Total: ${formatTime(pageMetrics.totalTime)}`);
   });
 
-  test("should measure navigation through core categories with timing", async ({ page }) => {
+  test("should measure navigation through core categories with timing", async ({
+    page,
+  }) => {
     const categories = [
       { name: "Graphics", path: "/graphics" },
       { name: "Forms", path: "/forms" },
@@ -117,14 +132,16 @@ test.describe(`Navigation Timing Tests (SDK ${ENABLE_SDK_AUDIT ? "ENABLED" : "DI
       { name: "Errors", path: "/errors" },
     ];
 
-    console.log(`\n📊 CORE CATEGORIES TIMING (SDK ${ENABLE_SDK_AUDIT ? "ON" : "OFF"}):\n`);
+    console.log(
+      `\n📊 CORE CATEGORIES TIMING (SDK ${ENABLE_SDK_AUDIT ? "ON" : "OFF"}):\n`
+    );
 
     for (const category of categories) {
       const pageMetrics = {
         path: category.path,
         navigationTime: 0,
         auditTime: 0,
-        totalTime: 0
+        totalTime: 0,
       };
       const testStart = performance.now();
 
@@ -152,14 +169,16 @@ test.describe(`Navigation Timing Tests (SDK ${ENABLE_SDK_AUDIT ? "ENABLED" : "DI
 
       console.log(
         `   ${category.name.padEnd(12)} | ` +
-        `Nav: ${formatTime(pageMetrics.navigationTime).padEnd(8)} | ` +
-        `Audit: ${formatTime(pageMetrics.auditTime).padEnd(8)} | ` +
-        `Total: ${formatTime(pageMetrics.totalTime)}`
+          `Nav: ${formatTime(pageMetrics.navigationTime).padEnd(8)} | ` +
+          `Audit: ${formatTime(pageMetrics.auditTime).padEnd(8)} | ` +
+          `Total: ${formatTime(pageMetrics.totalTime)}`
       );
     }
   });
 
-  test("should measure navigation through advanced categories with timing", async ({ page }) => {
+  test("should measure navigation through advanced categories with timing", async ({
+    page,
+  }) => {
     const advancedCategories = [
       { name: "Carousels", path: "/carousels" },
       { name: "Clickables", path: "/clickables" },
@@ -169,14 +188,18 @@ test.describe(`Navigation Timing Tests (SDK ${ENABLE_SDK_AUDIT ? "ENABLED" : "DI
       { name: "Tables", path: "/tables" },
     ];
 
-    console.log(`\n📊 ADVANCED CATEGORIES TIMING (SDK ${ENABLE_SDK_AUDIT ? "ON" : "OFF"}):\n`);
+    console.log(
+      `\n📊 ADVANCED CATEGORIES TIMING (SDK ${
+        ENABLE_SDK_AUDIT ? "ON" : "OFF"
+      }):\n`
+    );
 
     for (const category of advancedCategories) {
       const pageMetrics = {
         path: category.path,
         navigationTime: 0,
         auditTime: 0,
-        totalTime: 0
+        totalTime: 0,
       };
       const testStart = performance.now();
 
@@ -204,9 +227,9 @@ test.describe(`Navigation Timing Tests (SDK ${ENABLE_SDK_AUDIT ? "ENABLED" : "DI
 
       console.log(
         `   ${category.name.padEnd(12)} | ` +
-        `Nav: ${formatTime(pageMetrics.navigationTime).padEnd(8)} | ` +
-        `Audit: ${formatTime(pageMetrics.auditTime).padEnd(8)} | ` +
-        `Total: ${formatTime(pageMetrics.totalTime)}`
+          `Nav: ${formatTime(pageMetrics.navigationTime).padEnd(8)} | ` +
+          `Audit: ${formatTime(pageMetrics.auditTime).padEnd(8)} | ` +
+          `Total: ${formatTime(pageMetrics.totalTime)}`
       );
     }
   });
@@ -231,7 +254,9 @@ test.describe(`Navigation Timing Tests (SDK ${ENABLE_SDK_AUDIT ? "ENABLED" : "DI
       "/tables",
     ];
 
-    console.log(`\n📊 COMPREHENSIVE TIMING TEST (SDK ${ENABLE_SDK_AUDIT ? "ON" : "OFF"}):`);
+    console.log(
+      `\n📊 COMPREHENSIVE TIMING TEST (SDK ${ENABLE_SDK_AUDIT ? "ON" : "OFF"}):`
+    );
     console.log("=".repeat(60));
 
     const comprehensiveResults = {
@@ -262,26 +287,45 @@ test.describe(`Navigation Timing Tests (SDK ${ENABLE_SDK_AUDIT ? "ENABLED" : "DI
       comprehensiveResults.pageCount++;
 
       console.log(
-        `   ${path.padEnd(15)} | Nav: ${formatTime(navTime).padEnd(8)} | Audit: ${formatTime(auditTime)}`
+        `   ${path.padEnd(15)} | Nav: ${formatTime(navTime).padEnd(
+          8
+        )} | Audit: ${formatTime(auditTime)}`
       );
     }
 
-    comprehensiveResults.avgNavTime = comprehensiveResults.totalNavTime / comprehensiveResults.pageCount;
-    comprehensiveResults.avgAuditTime = comprehensiveResults.totalAuditTime / comprehensiveResults.pageCount;
+    comprehensiveResults.avgNavTime =
+      comprehensiveResults.totalNavTime / comprehensiveResults.pageCount;
+    comprehensiveResults.avgAuditTime =
+      comprehensiveResults.totalAuditTime / comprehensiveResults.pageCount;
 
     console.log("=".repeat(60));
     console.log(`\n📈 COMPREHENSIVE RESULTS:`);
     console.log(`   Pages Tested: ${comprehensiveResults.pageCount}`);
     console.log(`   SDK Audits: ${ENABLE_SDK_AUDIT ? "ENABLED" : "DISABLED"}`);
-    console.log(`   Total Navigation Time: ${formatTime(comprehensiveResults.totalNavTime)}`);
-    console.log(`   Total Audit Time: ${formatTime(comprehensiveResults.totalAuditTime)}`);
-    console.log(`   Average Nav Time/Page: ${formatTime(comprehensiveResults.avgNavTime)}`);
-    console.log(`   Average Audit Time/Page: ${formatTime(comprehensiveResults.avgAuditTime)}`);
-    console.log(`   Total Time: ${formatTime(comprehensiveResults.totalNavTime + comprehensiveResults.totalAuditTime)}`);
+    console.log(
+      `   Total Navigation Time: ${formatTime(
+        comprehensiveResults.totalNavTime
+      )}`
+    );
+    console.log(
+      `   Total Audit Time: ${formatTime(comprehensiveResults.totalAuditTime)}`
+    );
+    console.log(
+      `   Average Nav Time/Page: ${formatTime(comprehensiveResults.avgNavTime)}`
+    );
+    console.log(
+      `   Average Audit Time/Page: ${formatTime(
+        comprehensiveResults.avgAuditTime
+      )}`
+    );
+    console.log(
+      `   Total Time: ${formatTime(
+        comprehensiveResults.totalNavTime + comprehensiveResults.totalAuditTime
+      )}`
+    );
     console.log("=".repeat(60));
 
     // Assertions
     expect(comprehensiveResults.pageCount).toBe(14);
   });
 });
-

@@ -109,7 +109,6 @@ test.describe("Breadcrumb Navigation with Accessibility Audits", () => {
     // console.log("✅ Success audit:", successAudit ? "Complete" : "No report");
     console.log("✅ Success audit skipped (SDK disabled)");
 
-
     // Locate and click the breadcrumb dropdown
     const breadcrumbSelect = page
       .locator('[role="combobox"]')
@@ -152,7 +151,9 @@ test.describe("Breadcrumb Navigation with Accessibility Audits", () => {
     // expect(successAudit).toBeTruthy();
     // expect(failureAudit).toBeTruthy();
 
-    console.log("\n📊 Reverse navigation successful! (Audits skipped - SDK disabled)");
+    console.log(
+      "\n📊 Reverse navigation successful! (Audits skipped - SDK disabled)"
+    );
   });
 
   test("should audit multiple rule pages via breadcrumb navigation", async ({
@@ -206,7 +207,6 @@ test.describe("Breadcrumb Navigation with Accessibility Audits", () => {
           // TODO: Temporarily commented out SDK
           // const successAudit = await sdk.audit();
           const successAudit = true; // Mock for testing navigation
-
 
           auditResults.push({
             rule: rule.name,

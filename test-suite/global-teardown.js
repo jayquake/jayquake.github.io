@@ -9,9 +9,8 @@ async function globalTeardown() {
   // Call the SDK's teardown
   // TODO: Temporarily commented out SDK
   // await accessFlowSdkGlobalTeardown();
-  
-  console.log('Global teardown completed (SDK disabled)');
+
+  console.log("Global teardown completed (SDK disabled)");
 }
 
 module.exports = globalTeardown;
-

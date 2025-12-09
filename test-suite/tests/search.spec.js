@@ -26,7 +26,7 @@ test.describe("Search Component Testing with AccessFlow SDK", () => {
 
     // const report = await sdk.audit();
     console.log("Audit skipped (SDK disabled)");
-    
+
     const searchInput = page
       .locator('input[aria-label="Search"]')
       .or(page.locator('input[placeholder="Search..."]'))
