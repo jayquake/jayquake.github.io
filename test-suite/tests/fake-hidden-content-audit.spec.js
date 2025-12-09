@@ -1,12 +1,10 @@
-// TODO: Temporarily commented out SDK
-// import { AccessFlowSDK } from "@acsbe/accessflow-sdk";
+import { AccessFlowSDK } from "@acsbe/accessflow-sdk";
 import { expect, test } from "@playwright/test";
 import fs from "fs";
 import path from "path";
 
 // Initialize AccessFlow SDK with API key
-// TODO: Temporarily commented out SDK
-// AccessFlowSDK.init({ apiKey: "flow-1OnrCkNQqmwEyaShAow001pAwp8osHaM" });
+AccessFlowSDK.init({ apiKey: "flow-11cNLXGuMCEfUaTgSVw0sUR32ZZvGBn3" });
 
 // Read AccessFlow config
 const configPath = path.join(process.cwd(), "accessflow.config.json");
@@ -61,35 +59,13 @@ test.describe("Fake Hidden Content Audit Tests", () => {
     page,
   }) => {
     const auditResults = [];
-    // TODO: Temporarily commented out SDK
-    // const sdk = new AccessFlowSDK(page);
+    const sdk = new AccessFlowSDK(page);
 
     // Helper to perform audit and store result
     const performAudit = async (context) => {
-      console.log(`Starting audit for context: ${context} (SDK disabled)`);
+      console.log(`Starting audit for context: ${context}`);
 
-      let report;
-
-      // Mocking logic for failure page since real audit is empty in this environment
-      if (context === "Initial Failure Page") {
-        // Extract the report from mock data
-        // We iterate keys to find the failure page entry
-        const failureUrlKey = Object.keys(mockData.pages).find((k) =>
-          k.includes("fake-hidden-content_failure")
-        );
-        if (failureUrlKey) {
-          report = mockData.pages[failureUrlKey];
-          console.log(`Using mock data for ${context}`);
-        } else {
-          // TODO: Temporarily commented out SDK
-          // report = await sdk.audit();
-          console.log(`Audit skipped (SDK disabled) for ${context}`);
-        }
-      } else {
-        // TODO: Temporarily commented out SDK
-        // report = await sdk.audit();
-        console.log(`Audit skipped (SDK disabled) for ${context}`);
-      }
+      const report = await sdk.audit();
 
       auditResults.push({ context, report });
 

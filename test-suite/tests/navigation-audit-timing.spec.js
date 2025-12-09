@@ -1,16 +1,13 @@
-// TODO: Temporarily commented out SDK
-// import { AccessFlowSDK } from "@acsbe/accessflow-sdk";
+import { AccessFlowSDK } from "@acsbe/accessflow-sdk";
 import { expect, test } from "@playwright/test";
 
 // Toggle this to run with or without SDK audits
-// TODO: Temporarily disabled SDK
-const ENABLE_SDK_AUDIT = false;
+const ENABLE_SDK_AUDIT = true;
 
 // Initialize AccessFlow SDK with API key (only if enabled)
-// TODO: Temporarily commented out SDK
-// if (ENABLE_SDK_AUDIT) {
-//   AccessFlowSDK.init({ apiKey: "flow-1OnrCkNQqmwEyaShAow001pAwp8osHaM" });
-// }
+if (ENABLE_SDK_AUDIT) {
+  AccessFlowSDK.init({ apiKey: "flow-11cNLXGuMCEfUaTgSVw0sUR32ZZvGBn3" });
+}
 
 // Helper function to format time
 const formatTime = (ms) => {

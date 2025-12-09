@@ -1,10 +1,8 @@
-// TODO: Temporarily commented out SDK
-// import { AccessFlowSDK } from "@acsbe/accessflow-sdk";
+import { AccessFlowSDK } from "@acsbe/accessflow-sdk";
 import { expect, test } from "@playwright/test";
 
 // Initialize AccessFlow SDK with API key
-// TODO: Temporarily commented out SDK
-// AccessFlowSDK.init({ apiKey: "flow-1OnrCkNQqmwEyaShAow001pAwp8osHaM" });
+AccessFlowSDK.init({ apiKey: "flow-11cNLXGuMCEfUaTgSVw0sUR32ZZvGBn3" });
 
 test.describe("Graphics Audit Tests", () => {
   test.beforeEach(async ({ page }) => {
@@ -19,23 +17,16 @@ test.describe("Graphics Audit Tests", () => {
     page,
   }) => {
     const auditResults = [];
-    // TODO: Temporarily commented out SDK
-    // const sdk = new AccessFlowSDK(page);
+    const sdk = new AccessFlowSDK(page);
 
     // Helper to perform audit and store result
     const performAudit = async (context) => {
       console.log(`Starting audit for context: ${context}`);
-      // TODO: Temporarily commented out SDK
-      // const report = await sdk.audit();
-      // auditResults.push({ context, report });
-      // expect(report).toBeTruthy();
-
-      // Track that audit was attempted (even if SDK disabled)
-      auditResults.push({ context, report: null });
-      console.log(`Audit skipped (SDK disabled) for ${context}`);
-    };
-
-    // 1. Navigate to Graphics page
+      const report = await sdk.audit();
+      auditResults.push({ context, report });
+      expect(report).toBeTruthy();
+      console.log(`Audit completed for ${context}`);
+    }; // 1. Navigate to Graphics page
     const graphicsLink = page.locator('a[href="#/graphics"]').first();
     await expect(graphicsLink).toBeVisible();
     await graphicsLink.click();
