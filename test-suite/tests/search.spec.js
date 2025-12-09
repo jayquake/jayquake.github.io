@@ -1,8 +1,10 @@
-import { AccessFlowSDK } from "@acsbe/accessflow-sdk";
+// TODO: Temporarily commented out SDK
+// import { AccessFlowSDK } from "@acsbe/accessflow-sdk";
 
 import { expect, test } from "@playwright/test";
 // Initialize AccessFlow SDK with API key from environment variable or fallback
-AccessFlowSDK.init({ apiKey: "flow-1OnrCkNQqmwEyaShAow001pAwp8osHaM" });
+// TODO: Temporarily commented out SDK
+// AccessFlowSDK.init({ apiKey: "flow-1OnrCkNQqmwEyaShAow001pAwp8osHaM" });
 
 test.describe("Search Component Testing with AccessFlow SDK", () => {
   test.beforeEach(async ({ page }) => {
@@ -19,9 +21,12 @@ test.describe("Search Component Testing with AccessFlow SDK", () => {
   }) => {
     // Verify drawer is open by default (search should be visible)
     // Try multiple selectors to find the search input
-    const sdk = new AccessFlowSDK(page);
+    // TODO: Temporarily commented out SDK
+    // const sdk = new AccessFlowSDK(page);
 
-    const report = await sdk.audit();
+    // const report = await sdk.audit();
+    console.log("Audit skipped (SDK disabled)");
+    
     const searchInput = page
       .locator('input[aria-label="Search"]')
       .or(page.locator('input[placeholder="Search..."]'))

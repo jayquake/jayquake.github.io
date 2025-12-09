@@ -1,0 +1,242 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e7]:
+        - heading "Graphics" [level=6] [ref=e8]
+        - text: Rule Testing
+      - generic [ref=e11]:
+        - img [ref=e12]
+        - generic "Search" [ref=e14]:
+          - textbox "Search..." [ref=e15]
+      - generic [ref=e16]:
+        - generic "Ready to test" [ref=e17]:
+          - img [ref=e18]
+          - generic [ref=e20]: Ready
+        - link "Engine Library" [ref=e21] [cursor=pointer]:
+          - /url: "#/engine/library"
+        - button "Toggle dark mode" [ref=e22] [cursor=pointer]:
+          - img [ref=e23]
+        - button "Notifications" [ref=e25] [cursor=pointer]:
+          - generic [ref=e26]:
+            - img [ref=e27]
+            - generic [ref=e29]: "3"
+        - button [ref=e30] [cursor=pointer]:
+          - img [ref=e31]
+  - generic [ref=e33]:
+    - button [ref=e35] [cursor=pointer]:
+      - img [ref=e36]
+    - list [ref=e38]:
+      - link [ref=e40] [cursor=pointer]:
+        - /url: "#/"
+        - button [ref=e41]:
+          - img [ref=e44]
+      - link [ref=e46] [cursor=pointer]:
+        - /url: "#/graphics"
+        - button [ref=e47]:
+          - img [ref=e50]
+      - link [ref=e53] [cursor=pointer]:
+        - /url: "#/forms"
+        - button [ref=e54]:
+          - img [ref=e57]
+      - link [ref=e60] [cursor=pointer]:
+        - /url: "#/keyboard"
+        - button [ref=e61]:
+          - img [ref=e64]
+      - link [ref=e67] [cursor=pointer]:
+        - /url: "#/navigation"
+        - button [ref=e68]:
+          - img [ref=e71]
+      - link [ref=e74] [cursor=pointer]:
+        - /url: "#/headings"
+        - button [ref=e75]:
+          - img [ref=e78]
+      - link [ref=e81] [cursor=pointer]:
+        - /url: "#/errors"
+        - button [ref=e82]:
+          - img [ref=e85]
+      - link [ref=e88] [cursor=pointer]:
+        - /url: "#/carousels"
+        - button [ref=e89]:
+          - img [ref=e92]
+      - link [ref=e95] [cursor=pointer]:
+        - /url: "#/clickables"
+        - button [ref=e96]:
+          - img [ref=e99]
+      - link [ref=e102] [cursor=pointer]:
+        - /url: "#/context"
+        - button [ref=e103]:
+          - img [ref=e106]
+      - link [ref=e110] [cursor=pointer]:
+        - /url: "#/document"
+        - button [ref=e111]:
+          - img [ref=e114]
+      - link [ref=e117] [cursor=pointer]:
+        - /url: "#/readability"
+        - button [ref=e118]:
+          - img [ref=e121]
+      - link [ref=e124] [cursor=pointer]:
+        - /url: "#/tables"
+        - button [ref=e125]:
+          - img [ref=e128]
+    - list [ref=e131]:
+      - link [ref=e133] [cursor=pointer]:
+        - /url: "#/rules"
+        - button [ref=e134]:
+          - img [ref=e137]
+      - link [ref=e140] [cursor=pointer]:
+        - /url: "#/engine"
+        - button [ref=e141]:
+          - img [ref=e144]
+  - main [ref=e147]:
+    - generic [ref=e149]:
+      - generic [ref=e153]:
+        - navigation "breadcrumb" [ref=e156]:
+          - list [ref=e157]:
+            - listitem [ref=e158]:
+              - link "Home" [ref=e159] [cursor=pointer]:
+                - /url: "#/"
+            - listitem [ref=e160]:
+              - img [ref=e161]
+            - listitem [ref=e163]:
+              - link "Graphics" [ref=e164] [cursor=pointer]:
+                - /url: "#/graphics"
+            - listitem [ref=e165]:
+              - img [ref=e166]
+            - listitem [ref=e168]:
+              - link "Alt Text" [ref=e169] [cursor=pointer]:
+                - /url: "#/graphics/alt-text"
+            - listitem [ref=e170]:
+              - img [ref=e171]
+            - listitem [ref=e173]:
+              - generic [ref=e174]:
+                - combobox [ref=e175] [cursor=pointer]: Failure
+                - textbox: failure
+                - img
+                - group
+        - separator [ref=e176]
+        - alert [ref=e177]:
+          - img [ref=e179]
+          - generic [ref=e181]:
+            - generic [ref=e182]: Accessibility Failure Detected
+            - paragraph [ref=e183]: "Graphics: Alt Text - Failure"
+        - generic [ref=e184]:
+          - generic [ref=e185]:
+            - img [ref=e186]
+            - generic [ref=e188]: Needs Fix
+          - generic [ref=e189]:
+            - img [ref=e190]
+            - generic [ref=e192]: 6 Examples
+      - heading "Understanding This Issue" [level=3] [ref=e197]:
+        - button "Understanding This Issue" [ref=e198] [cursor=pointer]:
+          - generic [ref=e200]:
+            - img [ref=e201]
+            - heading "Understanding This Issue" [level=6] [ref=e203]
+          - img [ref=e205]
+      - generic [ref=e210]:
+        - generic [ref=e211]:
+          - img [ref=e212]
+          - heading "Failure Examples" [level=5] [ref=e214]
+        - paragraph [ref=e215]: The following examples demonstrate common accessibility failures. Review each example to understand what makes it problematic.
+        - separator [ref=e216]
+        - region "Failure examples list" [ref=e217]:
+          - 'region "Failure Example #1" [ref=e218]':
+            - generic [ref=e219]:
+              - generic [ref=e220]:
+                - generic [ref=e221]:
+                  - img [ref=e222]
+                  - 'heading "Failure Example #1" [level=6] [ref=e224]'
+                  - generic [ref=e225]:
+                    - img [ref=e226]
+                    - generic [ref=e228]: Accessibility Issue
+                - button "Copy failure example 1 code" [ref=e229] [cursor=pointer]:
+                  - img [ref=e230]
+              - paragraph [ref=e234]:
+                - strong [ref=e235]: "Issue:"
+                - text: Empty alt attribute on informational image
+          - 'region "Failure Example #2" [ref=e236]':
+            - generic [ref=e237]:
+              - generic [ref=e238]:
+                - generic [ref=e239]:
+                  - img [ref=e240]
+                  - 'heading "Failure Example #2" [level=6] [ref=e242]'
+                  - generic [ref=e243]:
+                    - img [ref=e244]
+                    - generic [ref=e246]: Accessibility Issue
+                - button "Copy failure example 2 code" [ref=e247] [cursor=pointer]:
+                  - img [ref=e248]
+              - generic [ref=e251]:
+                - img "image1234"
+                - paragraph [ref=e252]:
+                  - strong [ref=e253]: "Issue:"
+                  - text: Non-descriptive alt text (filename-like)
+          - 'region "Failure Example #3" [ref=e254]':
+            - generic [ref=e255]:
+              - generic [ref=e256]:
+                - generic [ref=e257]:
+                  - img [ref=e258]
+                  - 'heading "Failure Example #3" [level=6] [ref=e260]'
+                  - generic [ref=e261]:
+                    - img [ref=e262]
+                    - generic [ref=e264]: Accessibility Issue
+                - button "Copy failure example 3 code" [ref=e265] [cursor=pointer]:
+                  - img [ref=e266]
+              - generic [ref=e269]:
+                - img
+                - paragraph [ref=e270]:
+                  - strong [ref=e271]: "Issue:"
+                  - text: Missing alt attribute entirely
+          - 'region "Failure Example #4" [ref=e272]':
+            - generic [ref=e273]:
+              - generic [ref=e274]:
+                - generic [ref=e275]:
+                  - img [ref=e276]
+                  - 'heading "Failure Example #4" [level=6] [ref=e278]'
+                  - generic [ref=e279]:
+                    - img [ref=e280]
+                    - generic [ref=e282]: Accessibility Issue
+                - button "Copy failure example 4 code" [ref=e283] [cursor=pointer]:
+                  - img [ref=e284]
+              - generic [ref=e287]:
+                - img
+                - paragraph [ref=e288]:
+                  - strong [ref=e289]: "Issue:"
+                  - text: Alt text contains only whitespace
+          - 'region "Failure Example #5" [ref=e290]':
+            - generic [ref=e291]:
+              - generic [ref=e292]:
+                - generic [ref=e293]:
+                  - img [ref=e294]
+                  - 'heading "Failure Example #5" [level=6] [ref=e296]'
+                  - generic [ref=e297]:
+                    - img [ref=e298]
+                    - generic [ref=e300]: Accessibility Issue
+                - button "Copy failure example 5 code" [ref=e301] [cursor=pointer]:
+                  - img [ref=e302]
+              - generic [ref=e305]:
+                - img "file_upload"
+                - paragraph [ref=e306]:
+                  - strong [ref=e307]: "Issue:"
+                  - text: Technical filename used as alt text
+          - 'region "Failure Example #6" [ref=e308]':
+            - generic [ref=e309]:
+              - generic [ref=e310]:
+                - generic [ref=e311]:
+                  - img [ref=e312]
+                  - 'heading "Failure Example #6" [level=6] [ref=e314]'
+                  - generic [ref=e315]:
+                    - img [ref=e316]
+                    - generic [ref=e318]: Accessibility Issue
+                - button "Copy failure example 6 code" [ref=e319] [cursor=pointer]:
+                  - img [ref=e320]
+              - generic [ref=e323]:
+                - img
+                - paragraph [ref=e324]:
+                  - strong [ref=e325]: "Issue:"
+                  - text: No alt attribute for functional image
+        - paragraph [ref=e327]:
+          - strong [ref=e328]: "💡 Tip:"
+          - text: Use the copy button to grab example code. Each example shows a specific way this accessibility rule can fail.
+```
