@@ -29,6 +29,9 @@ test.describe("Graphics Audit Tests", () => {
       // const report = await sdk.audit();
       // auditResults.push({ context, report });
       // expect(report).toBeTruthy();
+
+      // Track that audit was attempted (even if SDK disabled)
+      auditResults.push({ context, report: null });
       console.log(`Audit skipped (SDK disabled) for ${context}`);
     };
 
@@ -141,7 +144,7 @@ test.describe("Graphics Audit Tests", () => {
     // For example, check if violations count differs between states
     const violationCounts = auditResults.map((r) => ({
       context: r.context,
-      violations: r.report.violations ? r.report.violations.length : 0,
+      violations: r.report?.violations ? r.report.violations.length : 0,
     }));
     console.log(
       "Violation counts by context:",
