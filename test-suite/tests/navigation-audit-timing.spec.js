@@ -120,6 +120,9 @@ test.describe(`Navigation Timing Tests (SDK ${
   test("should measure navigation through core categories with timing", async ({
     page,
   }) => {
+    // Increase timeout for multi-page audits (6 pages × ~5s each = ~30s + buffer)
+    test.setTimeout(90000);
+
     const categories = [
       { name: "Graphics", path: "/graphics" },
       { name: "Forms", path: "/forms" },
@@ -176,6 +179,9 @@ test.describe(`Navigation Timing Tests (SDK ${
   test("should measure navigation through advanced categories with timing", async ({
     page,
   }) => {
+    // Increase timeout for multi-page audits (6 pages × ~5s each = ~30s + buffer)
+    test.setTimeout(90000);
+
     const advancedCategories = [
       { name: "Carousels", path: "/carousels" },
       { name: "Clickables", path: "/clickables" },
