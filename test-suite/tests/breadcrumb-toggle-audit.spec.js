@@ -2,7 +2,7 @@ import { AccessFlowSDK } from "@acsbe/accessflow-sdk";
 import { expect, test } from "@playwright/test";
 
 // Initialize AccessFlow SDK with API key
-AccessFlowSDK.init({ apiKey: "flow-11cNLXGuMCEfUaTgSVw0sUR32ZZvGBn3" });
+AccessFlowSDK.init({ apiKey: "flow-1cBqGNBfU5ZOUaT6OeQ000y8A4nRbXEXNR" });
 
 test.describe("Breadcrumb Navigation with Accessibility Audits", () => {
   test("should navigate from failure to success page using breadcrumb dropdown and audit both", async ({
