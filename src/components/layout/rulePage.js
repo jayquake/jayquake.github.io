@@ -173,7 +173,19 @@ function ModernItemPage({ ruleData }) {
       }))
     : [];
 
-  const relatedEngineRules = [...legacyRules, ...newRules];
+  // Deduplicate related engine rules by normalized label (remove "(Engine rule)" suffix for comparison)
+  const allRules = [...legacyRules, ...newRules];
+  const seen = new Set();
+  const relatedEngineRules = allRules.filter((rule) => {
+    const normalizedLabel = rule.label
+      .replace(/\s*\(Engine rule\)\s*/gi, "")
+      .toLowerCase();
+    if (seen.has(normalizedLabel)) {
+      return false;
+    }
+    seen.add(normalizedLabel);
+    return true;
+  });
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>

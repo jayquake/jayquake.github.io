@@ -31,6 +31,7 @@ import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import SearchComponent from "./components/layout/search";
+import engineRulesData from "./data/engine-rules-metadata.json";
 import { getMainListItems, getSecondaryListItems } from "./listItems";
 import AppRoutes from "./routes/AppRoutes";
 const drawerWidth = 280;
@@ -171,6 +172,14 @@ export default function App() {
 
     const currentCriteria = pathnames[0];
     const criteriaTitle = capitalizeFirstLetter(currentCriteria);
+
+    // Special case for engine rules
+    if (currentCriteria === "engine" && pathnames.length === 1) {
+      return {
+        title: "Engine Rules",
+        subtitle: `${engineRulesData.length} testing rules available`,
+      };
+    }
 
     if (pathnames.length === 1) {
       const rulesInCategory = data.filter((rule) =>

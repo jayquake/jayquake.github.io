@@ -1,10 +1,54 @@
 {
   "recommendations": [
+    // Testing & E2E
     "ms-playwright.playwright",
+
+    // Code Quality & Formatting
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
+    "ms-vscode.vscode-typescript-next",
+
+    // React & JSX
+    "dsznajder.es7-react-js-snippets",
+    "formulahendry.auto-rename-tag",
+
+    // Material-UI Support
+    "vscodeshift.mui-snippets",
+
+    // Styling
     "bradlc.vscode-tailwindcss",
-    "ms-vscode.vscode-typescript-next"
+
+    // GitHub & CI/CD
+    "github.vscode-pull-request-github",
+    "github.copilot",
+    "github.actions",
+
+    // Git
+    "eamodio.gitlens",
+
+    // Import Management
+    "steoates.autoimport",
+    "wix.vscode-import-cost",
+
+    // Path Intelligence
+    "christian-kohler.path-intellisense",
+
+    // Error Highlighting
+    "usernamehw.errorlens",
+
+    // Markdown (for documentation)
+    "yzhang.markdown-all-in-one",
+    "davidanson.vscode-markdownlint",
+
+    // JSON
+    "zainchen.json",
+
+    // Accessibility
+    "deque-systems.vscode-axe-linter",
+
+    // Code Navigation & Testing
+    "ms-vscode.vscode-json",
+    "orta.vscode-jest"
   ]
 }
 

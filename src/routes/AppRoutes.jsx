@@ -15,7 +15,7 @@ import Headings from "../components/pages/Criteria/Headings/Headings";
 import Keyboard from "../components/pages/Criteria/Keyboard/Keyboard";
 import Navigation from "../components/pages/Criteria/Navigation/Navigation";
 import Readability from "../components/pages/Criteria/Readability/Readability";
-import Tables from "../components/pages/Criteria/Tables/Tables";
+import Tables from "../components/pages/Criteria/Tables/tables";
 
 // Modularized Routes for Each Criteria
 import ItemPage from "../components/layout/rulePage";
