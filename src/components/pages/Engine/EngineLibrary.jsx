@@ -25,6 +25,7 @@ import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import engineRulesData from "../../../data/engine-rules-metadata.json";
 import legacyEngineMapping from "../../../data/legacy-engine-mapping";
+import legacyRulesData from "../../../data/legacy-rules.json";
 /**
  * EngineLibrary
  *
@@ -44,6 +45,28 @@ const EngineLibrary = () => {
     return Object.values(legacyEngineMapping).some((legacyRules) =>
       legacyRules.some((legacyRule) => legacyRule.id === ruleId)
     );
+  };
+
+  // Helper function to get the legacy rule path for an engine rule
+  const getLegacyRulePath = (ruleId) => {
+    // Find the legacy shortCode that maps to this engine rule
+    for (const [legacyShortCode, engineRules] of Object.entries(
+      legacyEngineMapping
+    )) {
+      const matchingRule = engineRules.find(
+        (engineRule) => engineRule.id === ruleId
+      );
+      if (matchingRule) {
+        // Find the legacy rule with this shortCode
+        const legacyRule = legacyRulesData.find(
+          (rule) => rule.shortCode === legacyShortCode
+        );
+        if (legacyRule && legacyRule.criteria && legacyRule.route) {
+          return `/${legacyRule.criteria}/${legacyRule.route}`;
+        }
+      }
+    }
+    return null;
   };
 
   // Get unique WCAG levels
@@ -581,20 +604,44 @@ const EngineLibrary = () => {
                         )}
 
                         {/* Legacy Rule Indicator */}
-                        {hasLegacy && (
-                          <Chip
-                            label="Has Legacy Equivalent"
-                            size="small"
-                            sx={{
-                              height: 20,
-                              fontSize: "0.65rem",
-                              backgroundColor: "rgba(245, 158, 11, 0.1)",
-                              color: "#d97706",
-                              fontWeight: 600,
-                              mb: 1,
-                            }}
-                          />
-                        )}
+                        {hasLegacy &&
+                          (() => {
+                            const legacyPath = getLegacyRulePath(rule.id);
+                            return legacyPath ? (
+                              <Chip
+                                component={Link}
+                                to={legacyPath}
+                                clickable
+                                label="Has Legacy Equivalent"
+                                size="small"
+                                sx={{
+                                  height: 20,
+                                  fontSize: "0.65rem",
+                                  backgroundColor: "rgba(245, 158, 11, 0.1)",
+                                  color: "#d97706",
+                                  fontWeight: 600,
+                                  mb: 1,
+                                  cursor: "pointer",
+                                  "&:hover": {
+                                    backgroundColor: "rgba(245, 158, 11, 0.2)",
+                                  },
+                                }}
+                              />
+                            ) : (
+                              <Chip
+                                label="Has Legacy Equivalent"
+                                size="small"
+                                sx={{
+                                  height: 20,
+                                  fontSize: "0.65rem",
+                                  backgroundColor: "rgba(245, 158, 11, 0.1)",
+                                  color: "#d97706",
+                                  fontWeight: 600,
+                                  mb: 1,
+                                }}
+                              />
+                            );
+                          })()}
                       </CardContent>
 
                       <CardActions

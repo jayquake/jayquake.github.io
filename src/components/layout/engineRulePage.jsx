@@ -3,7 +3,6 @@ import {
   CheckCircle as CheckCircleIcon,
   Code as CodeIcon,
   ContentCopy as ContentCopyIcon,
-  Description as DescriptionIcon,
   Gavel as GavelIcon,
   Info as InfoIcon,
   KeyboardArrowUp as KeyboardArrowUpIcon,
@@ -43,6 +42,8 @@ import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import engineLegacyMapping from "../../data/engine-legacy-mapping";
+import legacyEngineMapping from "../../data/legacy-engine-mapping";
+import legacyRulesData from "../../data/legacy-rules.json";
 import CustomizedBreadcrumbs from "../util/ruleBreadcrumb";
 
 function EngineRulePage({ ruleData }) {
@@ -274,6 +275,33 @@ function EngineRulePage({ ruleData }) {
   const formattedTitle = formatRuleTitle(ruleData.id);
   const relatedLegacyRules = engineLegacyMapping[ruleData.id] || [];
 
+  // Find if this engine rule has a legacy equivalent (reverse lookup)
+  const getLegacyEquivalent = () => {
+    for (const [legacyShortCode, engineRules] of Object.entries(
+      legacyEngineMapping
+    )) {
+      const matchingRule = engineRules.find(
+        (engineRule) => engineRule.id === ruleData.id
+      );
+      if (matchingRule) {
+        // Find the legacy rule with this shortCode
+        const legacyRule = legacyRulesData.find(
+          (rule) => rule.shortCode === legacyShortCode
+        );
+        if (legacyRule && legacyRule.criteria && legacyRule.route) {
+          return {
+            path: `/${legacyRule.criteria}/${legacyRule.route}`,
+            name: legacyRule.name,
+            shortCode: legacyShortCode,
+          };
+        }
+      }
+    }
+    return null;
+  };
+
+  const legacyEquivalent = getLegacyEquivalent();
+
   const speedDialActions = [
     { icon: <ShareIcon />, name: "Share", action: handleShare },
     { icon: <PrintIcon />, name: "Print", action: handlePrint },
@@ -382,6 +410,50 @@ function EngineRulePage({ ruleData }) {
             </Typography>
           </Alert>
 
+          {/* Legacy Rule Equivalent Indicator */}
+          {legacyEquivalent && (
+            <Alert
+              severity="warning"
+              sx={{
+                mb: 3,
+                background: "rgba(245, 158, 11, 0.1)",
+                backdropFilter: "blur(15px)",
+                WebkitBackdropFilter: "blur(15px)",
+                border: "1px solid rgba(245, 158, 11, 0.3)",
+                borderRadius: 3,
+                boxShadow: "0 4px 16px rgba(245, 158, 11, 0.1)",
+              }}
+              icon={<AccessibleTwoToneIcon />}
+            >
+              <AlertTitle sx={{ fontWeight: "bold", color: "#d97706" }}>
+                Legacy Rule Equivalent
+              </AlertTitle>
+              <Typography variant="body1" sx={{ color: "#92400e", mb: 1.5 }}>
+                This engine rule replaces the legacy rule:{" "}
+                <strong>{legacyEquivalent.name}</strong>
+              </Typography>
+              <Button
+                component={Link}
+                to={legacyEquivalent.path}
+                variant="outlined"
+                size="small"
+                startIcon={<OpenInNewIcon />}
+                sx={{
+                  textTransform: "none",
+                  borderColor: "#d97706",
+                  color: "#d97706",
+                  fontWeight: 600,
+                  "&:hover": {
+                    borderColor: "#b45309",
+                    backgroundColor: "rgba(245, 158, 11, 0.1)",
+                  },
+                }}
+              >
+                View Legacy Rule
+              </Button>
+            </Alert>
+          )}
+
           {/* Related legacy rules (if mapping exists) */}
           {relatedLegacyRules.length > 0 && (
             <Box
@@ -431,65 +503,53 @@ function EngineRulePage({ ruleData }) {
             </Box>
           )}
 
-          <Grid container spacing={4}>
+          <Grid container spacing={3} alignItems="flex-start">
             <Grid item xs={12}>
-              {/* Main Title - Formatted from ID */}
+              {/* Main Title - Use actual title from data */}
               <Typography
-                variant="h2"
+                variant="h3"
                 fontWeight="bold"
                 gutterBottom
                 sx={{
-                  mb: 2,
+                  mb: 1.5,
                   background:
                     "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
                   textShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                {formattedTitle}
-              </Typography>
-
-              {/* Rule ID Badge */}
-              <Box sx={{ mb: 3 }}>
-                <Chip
-                  label={`Rule ID: ${ruleData.id}`}
-                  sx={{
-                    fontWeight: "bold",
-                    fontSize: "0.9rem",
-                    background: "rgba(103, 58, 183, 0.1)",
-                    color: "#673ab7",
-                    border: "1px solid rgba(103, 58, 183, 0.3)",
-                    fontFamily: "monospace",
-                  }}
-                />
-              </Box>
-
-              {/* Rule Title from data */}
-              <Typography
-                variant="h5"
-                sx={{
-                  mb: 3,
-                  color: "#475569",
-                  fontWeight: 500,
-                  lineHeight: 1.4,
+                  lineHeight: 1.2,
                 }}
               >
                 {ruleData.title}
               </Typography>
 
-              {/* Enhanced Status Chips */}
-              <Stack
-                direction="row"
-                spacing={2}
-                flexWrap="wrap"
-                sx={{ gap: 1 }}
+              {/* Rule ID and Description */}
+              <Box
+                sx={{
+                  mb: 3,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1.5,
+                  flexWrap: "wrap",
+                }}
               >
+                <Chip
+                  label={ruleData.id}
+                  sx={{
+                    fontWeight: "bold",
+                    fontSize: "0.85rem",
+                    background: "rgba(103, 58, 183, 0.1)",
+                    color: "#673ab7",
+                    border: "1px solid rgba(103, 58, 183, 0.3)",
+                    fontFamily: "monospace",
+                    height: 28,
+                  }}
+                />
                 <Chip
                   icon={<ScienceIcon />}
                   label="Engine Rule"
+                  size="small"
                   sx={{
                     fontWeight: "bold",
                     background: "rgba(103, 58, 183, 0.2)",
@@ -499,8 +559,32 @@ function EngineRulePage({ ruleData }) {
                     color: "#673ab7",
                     boxShadow: "0 2px 8px rgba(103, 58, 183, 0.2)",
                     "& .MuiChip-icon": { color: "#673ab7" },
+                    height: 28,
                   }}
                 />
+              </Box>
+
+              {/* Description Preview */}
+              <Typography
+                variant="body1"
+                sx={{
+                  mb: 3,
+                  color: "#64748b",
+                  fontWeight: 400,
+                  lineHeight: 1.6,
+                  fontSize: "1rem",
+                }}
+              >
+                {ruleData.description}
+              </Typography>
+
+              {/* Key Information Chips - Most Important First */}
+              <Stack
+                direction="row"
+                spacing={2}
+                flexWrap="wrap"
+                sx={{ gap: 1.5 }}
+              >
                 <Chip
                   icon={<GavelIcon sx={{ color: severityColors.iconColor }} />}
                   label={`Impact: ${
@@ -509,6 +593,7 @@ function EngineRulePage({ ruleData }) {
                   }`}
                   sx={{
                     fontWeight: "bold",
+                    fontSize: "0.95rem",
                     background: `rgba(${
                       severityColors.textColor === "#d32f2f"
                         ? "211, 47, 47"
@@ -523,14 +608,19 @@ function EngineRulePage({ ruleData }) {
                     color: severityColors.textColor,
                     border: `1px solid ${severityColors.borderColor}40`,
                     boxShadow: `0 2px 8px ${severityColors.borderColor}30`,
+                    height: 36,
                   }}
                 />
                 {wcagRefs.length > 0 && (
                   <Chip
                     icon={<AccessibleTwoToneIcon />}
-                    label={`WCAG Compliant (${wcagRefs.length} criteria)`}
+                    label={`WCAG: ${wcagRefs
+                      .map((r) => r.level)
+                      .filter((v, i, a) => a.indexOf(v) === i)
+                      .join(", ")} (${wcagRefs.length} criteria)`}
                     sx={{
                       fontWeight: "bold",
+                      fontSize: "0.95rem",
                       background: "rgba(25, 118, 210, 0.2)",
                       backdropFilter: "blur(10px)",
                       WebkitBackdropFilter: "blur(10px)",
@@ -538,6 +628,7 @@ function EngineRulePage({ ruleData }) {
                       color: "#1976d2",
                       boxShadow: "0 2px 8px rgba(25, 118, 210, 0.2)",
                       "& .MuiChip-icon": { color: "#1976d2" },
+                      height: 36,
                     }}
                   />
                 )}
@@ -547,45 +638,107 @@ function EngineRulePage({ ruleData }) {
         </Paper>
       </Slide>
 
-      {/* Rule Description Section */}
-      <Fade in timeout={800}>
-        <Paper
-          elevation={0}
-          sx={{
-            mb: 3,
-            p: 4,
-            borderRadius: 4,
-            background: "rgba(255, 255, 255, 0.4)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-            border: "1px solid rgba(255, 255, 255, 0.6)",
-            boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
-          }}
-        >
-          <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 3 }}>
-            <DescriptionIcon color="primary" fontSize="large" />
-            <Typography variant="h5" fontWeight="bold" color="primary">
-              Description
-            </Typography>
-          </Stack>
-          <Typography
-            variant="body1"
+      {/* WCAG Criteria Section - Show prominently if available */}
+      {wcagRefs.length > 0 && (
+        <Fade in timeout={800}>
+          <Paper
+            elevation={0}
             sx={{
-              lineHeight: 1.8,
-              fontSize: "1.1rem",
-              color: "#374151",
-              background: "rgba(248, 250, 252, 0.8)",
-              p: 3,
-              borderRadius: 2,
-              border: "1px solid rgba(203, 213, 225, 0.5)",
+              mb: 3,
+              p: 4,
+              borderRadius: 4,
+              background: "rgba(255, 255, 255, 0.4)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              border: "1px solid rgba(255, 255, 255, 0.6)",
+              boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
             }}
           >
-            {ruleData.description}
-          </Typography>
-        </Paper>
-      </Fade>
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={2}
+              sx={{ mb: 3 }}
+            >
+              <AccessibleTwoToneIcon color="primary" fontSize="large" />
+              <Typography variant="h5" fontWeight="bold" color="primary">
+                WCAG Compliance
+              </Typography>
+            </Stack>
+            <Grid container spacing={2}>
+              {wcagRefs.map((ref, index) => (
+                <Grid item xs={12} sm={6} md={4} key={index}>
+                  <Card
+                    sx={{
+                      p: 2,
+                      background:
+                        ref.level === "A"
+                          ? "rgba(76, 175, 80, 0.1)"
+                          : ref.level === "AA"
+                          ? "rgba(33, 150, 243, 0.1)"
+                          : "rgba(156, 39, 176, 0.1)",
+                      border: `2px solid ${
+                        ref.level === "A"
+                          ? "rgba(76, 175, 80, 0.3)"
+                          : ref.level === "AA"
+                          ? "rgba(33, 150, 243, 0.3)"
+                          : "rgba(156, 39, 176, 0.3)"
+                      }`,
+                      borderRadius: 2,
+                    }}
+                  >
+                    <Stack
+                      direction="row"
+                      alignItems="center"
+                      spacing={1}
+                      sx={{ mb: 1 }}
+                    >
+                      <Chip
+                        label={ref.level}
+                        size="small"
+                        sx={{
+                          backgroundColor:
+                            ref.level === "A"
+                              ? "#4caf50"
+                              : ref.level === "AA"
+                              ? "#2196f3"
+                              : "#9c27b0",
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                      />
+                      <Typography
+                        variant="h6"
+                        fontWeight="bold"
+                        sx={{ color: "#1e293b" }}
+                      >
+                        {ref.id}
+                      </Typography>
+                    </Stack>
+                    <Button
+                      href={ref.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      variant="outlined"
+                      size="small"
+                      startIcon={<OpenInNewIcon />}
+                      fullWidth
+                      sx={{
+                        textTransform: "none",
+                        mt: 1,
+                      }}
+                    >
+                      View Guideline
+                    </Button>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </Paper>
+        </Fade>
+      )}
 
-      {/* Advice Section */}
+      {/* Implementation Advice Section - Most Important */}
       <Fade in timeout={1000}>
         <Paper
           elevation={0}
@@ -663,104 +816,6 @@ function EngineRulePage({ ruleData }) {
           sx={{
             p: 4,
             borderRadius: 4,
-            textAlign: "center",
-            background: "rgba(255, 255, 255, 0.4)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-            border: "1px solid rgba(255, 255, 255, 0.6)",
-            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <Typography
-            variant="h6"
-            sx={{ mb: 3, fontWeight: "bold", color: "#1e293b" }}
-          >
-            View Examples
-          </Typography>
-          <Typography variant="body2" sx={{ mb: 3, color: "#64748b" }}>
-            Explore both successful implementations and common failures for this
-            engine rule
-          </Typography>
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            spacing={3}
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Link
-              to={`/engine/${ruleData.id}_success`}
-              style={{ textDecoration: "none" }}
-            >
-              <Fab
-                color="success"
-                variant="extended"
-                size="large"
-                sx={{
-                  px: 4,
-                  py: 1.5,
-                  background: "rgba(76, 175, 80, 0.9)",
-                  backdropFilter: "blur(20px)",
-                  WebkitBackdropFilter: "blur(20px)",
-                  border: "1px solid rgba(76, 175, 80, 0.3)",
-                  boxShadow: "0 8px 32px rgba(76, 175, 80, 0.3)",
-                  fontWeight: "bold",
-                  fontSize: "1rem",
-                  minWidth: "180px",
-                  "&:hover": {
-                    background: "rgba(56, 142, 60, 0.9)",
-                    transform: "translateY(-4px)",
-                    boxShadow: "0 12px 40px rgba(76, 175, 80, 0.4)",
-                  },
-                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                }}
-              >
-                <ThumbUpIcon sx={{ mr: 1 }} />
-                Success Examples
-              </Fab>
-            </Link>
-            <Link
-              to={`/engine/${ruleData.id}_failure`}
-              style={{ textDecoration: "none" }}
-            >
-              <Fab
-                color="error"
-                variant="extended"
-                size="large"
-                sx={{
-                  px: 4,
-                  py: 1.5,
-                  background: "rgba(244, 67, 54, 0.9)",
-                  backdropFilter: "blur(20px)",
-                  WebkitBackdropFilter: "blur(20px)",
-                  border: "1px solid rgba(244, 67, 54, 0.3)",
-                  boxShadow: "0 8px 32px rgba(244, 67, 54, 0.3)",
-                  fontWeight: "bold",
-                  fontSize: "1rem",
-                  minWidth: "180px",
-                  "&:hover": {
-                    background: "rgba(211, 47, 47, 0.9)",
-                    transform: "translateY(-4px)",
-                    boxShadow: "0 12px 40px rgba(244, 67, 54, 0.4)",
-                  },
-                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                }}
-              >
-                <ThumbDownIcon sx={{ mr: 1 }} />
-                Failure Examples
-              </Fab>
-            </Link>
-          </Stack>
-        </Paper>
-      </Zoom>
-
-      {/* References Section */}
-      <Fade in timeout={1400}>
-        <Paper
-          elevation={0}
-          sx={{
-            mb: 3,
-            p: 4,
-            borderRadius: 4,
             background: "rgba(255, 255, 255, 0.4)",
             backdropFilter: "blur(20px)",
             WebkitBackdropFilter: "blur(20px)",
@@ -769,150 +824,206 @@ function EngineRulePage({ ruleData }) {
           }}
         >
           <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 3 }}>
-            <LinkIcon color="primary" fontSize="large" />
-            <Typography variant="h5" fontWeight="bold" color="primary">
-              References & Documentation
-            </Typography>
-          </Stack>
-
-          {/* WCAG References */}
-          {wcagRefs.length > 0 && (
-            <Box sx={{ mb: 4 }}>
-              <Typography
-                variant="h6"
-                sx={{ mb: 2, color: "#1976d2", fontWeight: "bold" }}
-              >
-                WCAG Guidelines
-              </Typography>
-              <Grid container spacing={2}>
-                {wcagRefs.map((ref, index) => (
-                  <Grid item xs={12} md={6} key={index}>
-                    <Card
-                      sx={{
-                        p: 3,
-                        background:
-                          "linear-gradient(135deg, rgba(25, 118, 210, 0.1) 0%, rgba(21, 101, 192, 0.1) 100%)",
-                        border: "2px solid rgba(25, 118, 210, 0.2)",
-                        borderRadius: 3,
-                        boxShadow: "0 4px 16px rgba(25, 118, 210, 0.1)",
-                        transition: "all 0.3s ease",
-                        "&:hover": {
-                          transform: "translateY(-4px)",
-                          boxShadow: "0 8px 32px rgba(25, 118, 210, 0.2)",
-                        },
-                      }}
-                    >
-                      <Stack
-                        direction="row"
-                        alignItems="center"
-                        spacing={2}
-                        sx={{ mb: 2 }}
-                      >
-                        <Chip
-                          label="WCAG"
-                          size="small"
-                          sx={{
-                            backgroundColor: "#1976d2",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                        />
-                        <Typography
-                          variant="h6"
-                          fontWeight="bold"
-                          color="#1565c0"
-                        >
-                          {ref.id} - Level {ref.level}
-                        </Typography>
-                      </Stack>
-                      <Button
-                        href={ref.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        variant="contained"
-                        fullWidth
-                        startIcon={<OpenInNewIcon />}
-                        sx={{
-                          textTransform: "none",
-                          backgroundColor: "#1976d2",
-                          "&:hover": { backgroundColor: "#1565c0" },
-                        }}
-                      >
-                        View WCAG Guideline
-                      </Button>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            </Box>
-          )}
-
-          {/* Other References */}
-          {otherRefs.length > 0 && (
+            <CheckCircleIcon color="primary" fontSize="large" />
             <Box>
               <Typography
-                variant="h6"
-                sx={{ mb: 2, color: "#7c3aed", fontWeight: "bold" }}
+                variant="h5"
+                sx={{ fontWeight: "bold", color: "#1e293b", mb: 0.5 }}
               >
+                View Examples
+              </Typography>
+              <Typography variant="body2" sx={{ color: "#64748b" }}>
+                Explore successful implementations and common failures
+              </Typography>
+            </Box>
+          </Stack>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6}>
+              <Link
+                to={`/engine/${ruleData.id}_success`}
+                style={{ textDecoration: "none" }}
+              >
+                <Card
+                  sx={{
+                    p: 3,
+                    textAlign: "center",
+                    background:
+                      "linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(56, 142, 60, 0.1) 100%)",
+                    border: "2px solid rgba(76, 175, 80, 0.3)",
+                    borderRadius: 3,
+                    cursor: "pointer",
+                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                    "&:hover": {
+                      transform: "translateY(-4px)",
+                      boxShadow: "0 8px 24px rgba(76, 175, 80, 0.3)",
+                      borderColor: "rgba(76, 175, 80, 0.5)",
+                    },
+                  }}
+                >
+                  <ThumbUpIcon
+                    sx={{
+                      fontSize: 48,
+                      color: "#4caf50",
+                      mb: 2,
+                    }}
+                  />
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: "bold",
+                      color: "#2e7d32",
+                      mb: 1,
+                    }}
+                  >
+                    Success Examples
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{ color: "#64748b", fontSize: "0.9rem" }}
+                  >
+                    See how to implement this rule correctly
+                  </Typography>
+                </Card>
+              </Link>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Link
+                to={`/engine/${ruleData.id}_failure`}
+                style={{ textDecoration: "none" }}
+              >
+                <Card
+                  sx={{
+                    p: 3,
+                    textAlign: "center",
+                    background:
+                      "linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(211, 47, 47, 0.1) 100%)",
+                    border: "2px solid rgba(244, 67, 54, 0.3)",
+                    borderRadius: 3,
+                    cursor: "pointer",
+                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                    "&:hover": {
+                      transform: "translateY(-4px)",
+                      boxShadow: "0 8px 24px rgba(244, 67, 54, 0.3)",
+                      borderColor: "rgba(244, 67, 54, 0.5)",
+                    },
+                  }}
+                >
+                  <ThumbDownIcon
+                    sx={{
+                      fontSize: 48,
+                      color: "#f44336",
+                      mb: 2,
+                    }}
+                  />
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: "bold",
+                      color: "#c62828",
+                      mb: 1,
+                    }}
+                  >
+                    Failure Examples
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{ color: "#64748b", fontSize: "0.9rem" }}
+                  >
+                    Learn from common mistakes and how to fix them
+                  </Typography>
+                </Card>
+              </Link>
+            </Grid>
+          </Grid>
+        </Paper>
+      </Zoom>
+
+      {/* Additional References Section */}
+      {otherRefs.length > 0 && (
+        <Fade in timeout={1400}>
+          <Paper
+            elevation={0}
+            sx={{
+              mb: 3,
+              p: 4,
+              borderRadius: 4,
+              background: "rgba(255, 255, 255, 0.4)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              border: "1px solid rgba(255, 255, 255, 0.6)",
+              boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
+            }}
+          >
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={2}
+              sx={{ mb: 3 }}
+            >
+              <LinkIcon color="primary" fontSize="large" />
+              <Typography variant="h5" fontWeight="bold" color="primary">
                 Additional Resources
               </Typography>
-              <Grid container spacing={2}>
-                {otherRefs.map((ref, index) => (
-                  <Grid item xs={12} md={6} key={index}>
-                    <Card
+            </Stack>
+            <Grid container spacing={2}>
+              {otherRefs.map((ref, index) => (
+                <Grid item xs={12} sm={6} md={4} key={index}>
+                  <Card
+                    sx={{
+                      p: 2.5,
+                      background: "rgba(124, 58, 237, 0.1)",
+                      border: "2px solid rgba(124, 58, 237, 0.2)",
+                      borderRadius: 2,
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "translateY(-2px)",
+                        boxShadow: "0 4px 12px rgba(124, 58, 237, 0.2)",
+                      },
+                    }}
+                  >
+                    <Stack
+                      direction="row"
+                      alignItems="center"
+                      spacing={1}
+                      sx={{ mb: 1.5 }}
+                    >
+                      <Chip
+                        label={ref.type}
+                        size="small"
+                        sx={{
+                          backgroundColor: "#7c3aed",
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                      />
+                    </Stack>
+                    <Button
+                      href={ref.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      variant="outlined"
+                      size="small"
+                      startIcon={<OpenInNewIcon />}
+                      fullWidth
                       sx={{
-                        p: 3,
-                        background:
-                          "linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(109, 40, 217, 0.1) 100%)",
-                        border: "2px solid rgba(124, 58, 237, 0.2)",
-                        borderRadius: 3,
-                        boxShadow: "0 4px 16px rgba(124, 58, 237, 0.1)",
-                        transition: "all 0.3s ease",
+                        textTransform: "none",
+                        borderColor: "#7c3aed",
+                        color: "#7c3aed",
                         "&:hover": {
-                          transform: "translateY(-4px)",
-                          boxShadow: "0 8px 32px rgba(124, 58, 237, 0.2)",
+                          borderColor: "#6d28d9",
+                          backgroundColor: "rgba(124, 58, 237, 0.1)",
                         },
                       }}
                     >
-                      <Stack
-                        direction="row"
-                        alignItems="center"
-                        spacing={2}
-                        sx={{ mb: 2 }}
-                      >
-                        <Chip
-                          label={ref.type}
-                          size="small"
-                          sx={{
-                            backgroundColor: "#7c3aed",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                        />
-                      </Stack>
-                      <Button
-                        href={ref.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        variant="contained"
-                        fullWidth
-                        startIcon={<OpenInNewIcon />}
-                        sx={{
-                          textTransform: "none",
-                          backgroundColor: "#7c3aed",
-                          "&:hover": { backgroundColor: "#6d28d9" },
-                        }}
-                      >
-                        View Resource
-                      </Button>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            </Box>
-          )}
-        </Paper>
-      </Fade>
+                      View Resource
+                    </Button>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </Paper>
+        </Fade>
+      )}
 
       {/* Summary Footer */}
       <Slide in direction="up" timeout={1600}>

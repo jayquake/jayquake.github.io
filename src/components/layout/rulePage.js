@@ -1,4 +1,5 @@
 import {
+  CheckCircle as CheckCircleIcon,
   Code as CodeIcon,
   ContentPaste as ContentPasteIcon,
   Description as DescriptionIcon,
@@ -22,11 +23,9 @@ import {
   Box,
   Button,
   Card,
-  CardContent,
   Chip,
   Container,
   Divider,
-  Fab,
   Grid,
   IconButton,
   Paper,
@@ -277,52 +276,58 @@ function ModernItemPage({ ruleData }) {
           </Box>
         )}
 
-        <Grid container spacing={3} alignItems="center">
+        <Grid container spacing={3} alignItems="flex-start">
           <Grid item xs={12}>
+            {/* Main Title */}
             <Typography
               variant="h3"
               fontWeight="bold"
               gutterBottom
               sx={{
+                mb: 1.5,
                 background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
                 textShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                lineHeight: 1.2,
               }}
             >
               {ruleData.name}
             </Typography>
+
+            {/* Short Description */}
             <Typography
-              variant="h6"
-              sx={{ mb: 2, color: "#475569", fontWeight: 400 }}
+              variant="body1"
+              sx={{
+                mb: 3,
+                color: "#64748b",
+                fontWeight: 400,
+                lineHeight: 1.6,
+                fontSize: "1rem",
+              }}
             >
               {ruleData.shortDescription}
             </Typography>
 
-            {/* Enhanced Chips Section */}
-            <Stack direction="row" spacing={2} flexWrap="wrap" sx={{ gap: 1 }}>
-              <Chip
-                icon={<LocalLibraryTwoToneIcon />}
-                label={`Criteria: ${ruleData.criteria}`}
-                sx={{
-                  fontWeight: "bold",
-                  background: "rgba(255, 193, 7, 0.2)",
-                  backdropFilter: "blur(10px)",
-                  WebkitBackdropFilter: "blur(10px)",
-                  border: "1px solid rgba(255, 193, 7, 0.4)",
-                  color: "#f57c00",
-                  boxShadow: "0 2px 8px rgba(255, 193, 7, 0.2)",
-                  "& .MuiChip-icon": { color: "#f57c00" },
-                }}
-              />
+            {/* Enhanced Chips Section - Most Important First */}
+            <Stack
+              direction="row"
+              spacing={2}
+              flexWrap="wrap"
+              sx={{ gap: 1.5, mb: 3 }}
+            >
               <Chip
                 icon={
                   <GavelTwoToneIcon sx={{ color: severityColors.iconColor }} />
                 }
-                label={`Severity: ${ruleData.severity}`}
+                label={`Severity: ${
+                  ruleData.severity.charAt(0).toUpperCase() +
+                  ruleData.severity.slice(1)
+                }`}
                 sx={{
                   fontWeight: "bold",
+                  fontSize: "0.95rem",
                   background: `rgba(${
                     severityColors.textColor === "#d32f2f"
                       ? "211, 47, 47"
@@ -337,6 +342,7 @@ function ModernItemPage({ ruleData }) {
                   color: severityColors.textColor,
                   border: `1px solid ${severityColors.borderColor}40`,
                   boxShadow: `0 2px 8px ${severityColors.borderColor}30`,
+                  height: 36,
                 }}
               />
               <Chip
@@ -344,6 +350,7 @@ function ModernItemPage({ ruleData }) {
                 label={`WCAG: ${ruleData.WCAGLevel}`}
                 sx={{
                   fontWeight: "bold",
+                  fontSize: "0.95rem",
                   background: "rgba(25, 118, 210, 0.2)",
                   backdropFilter: "blur(10px)",
                   WebkitBackdropFilter: "blur(10px)",
@@ -351,6 +358,26 @@ function ModernItemPage({ ruleData }) {
                   color: "#1976d2",
                   boxShadow: "0 2px 8px rgba(25, 118, 210, 0.2)",
                   "& .MuiChip-icon": { color: "#1976d2" },
+                  height: 36,
+                }}
+              />
+              <Chip
+                icon={<LocalLibraryTwoToneIcon />}
+                label={`Criteria: ${
+                  ruleData.criteria.charAt(0).toUpperCase() +
+                  ruleData.criteria.slice(1)
+                }`}
+                sx={{
+                  fontWeight: "bold",
+                  fontSize: "0.95rem",
+                  background: "rgba(255, 193, 7, 0.2)",
+                  backdropFilter: "blur(10px)",
+                  WebkitBackdropFilter: "blur(10px)",
+                  border: "1px solid rgba(255, 193, 7, 0.4)",
+                  color: "#f57c00",
+                  boxShadow: "0 2px 8px rgba(255, 193, 7, 0.2)",
+                  "& .MuiChip-icon": { color: "#f57c00" },
+                  height: 36,
                 }}
               />
             </Stack>
@@ -358,152 +385,178 @@ function ModernItemPage({ ruleData }) {
         </Grid>
       </Paper>
 
-      {/* Rule Details Section */}
-      <Accordion
-        expanded={expandedSections.details}
-        onChange={() => handleSectionToggle("details")}
+      {/* Rule Description Section - Prominently Displayed */}
+      <Paper
+        elevation={0}
         sx={{
-          mb: 2,
+          mb: 3,
+          p: 4,
+          borderRadius: 4,
           background: "rgba(255, 255, 255, 0.4)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
           border: "1px solid rgba(255, 255, 255, 0.6)",
-          borderRadius: 3,
           boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
-          "&:before": { display: "none" },
         }}
       >
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <DescriptionIcon color="primary" />
-            <Typography variant="h6">Rule Description</Typography>
-          </Stack>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography variant="body1" sx={{ lineHeight: 1.7 }}>
-            {ruleData.issueDescription}
+        <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 3 }}>
+          <DescriptionIcon color="primary" fontSize="large" />
+          <Typography variant="h5" fontWeight="bold" color="primary">
+            Rule Description
           </Typography>
-        </AccordionDetails>
-      </Accordion>
+        </Stack>
+        <Typography
+          variant="body1"
+          sx={{
+            lineHeight: 1.8,
+            fontSize: "1.1rem",
+            color: "#374151",
+            background: "rgba(248, 250, 252, 0.8)",
+            p: 3,
+            borderRadius: 2,
+            border: "1px solid rgba(203, 213, 225, 0.5)",
+          }}
+        >
+          {ruleData.issueDescription}
+        </Typography>
+      </Paper>
 
-      {/* WCAG Documentation Section */}
-      <Accordion
-        expanded={expandedSections.documentation}
-        onChange={() => handleSectionToggle("documentation")}
-        sx={{
-          mb: 2,
-          background: "rgba(255, 255, 255, 0.4)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
-          border: "1px solid rgba(255, 255, 255, 0.6)",
-          borderRadius: 3,
-          boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
-          "&:before": { display: "none" },
-        }}
-      >
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <LinkIcon color="primary" />
-            <Typography variant="h6">WCAG Documentation</Typography>
+      {/* WCAG Documentation Section - Prominently Displayed */}
+      {ruleData.issueWCAGLink && (
+        <Paper
+          elevation={0}
+          sx={{
+            mb: 3,
+            p: 4,
+            borderRadius: 4,
+            background: "rgba(255, 255, 255, 0.4)",
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+            border: "1px solid rgba(255, 255, 255, 0.6)",
+            boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
+          }}
+        >
+          <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 3 }}>
+            <LinkIcon color="primary" fontSize="large" />
+            <Typography variant="h5" fontWeight="bold" color="primary">
+              WCAG Documentation
+            </Typography>
           </Stack>
-        </AccordionSummary>
-        <AccordionDetails>
           <Card
             sx={{
-              p: 2,
-              background: "rgba(255, 255, 255, 0.6)",
-              backdropFilter: "blur(15px)",
-              WebkitBackdropFilter: "blur(15px)",
-              border: "1px solid rgba(255, 255, 255, 0.7)",
+              p: 3,
+              background:
+                "linear-gradient(135deg, rgba(25, 118, 210, 0.1) 0%, rgba(21, 101, 192, 0.1) 100%)",
+              border: "2px solid rgba(25, 118, 210, 0.2)",
               borderRadius: 3,
-              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
+              boxShadow: "0 4px 16px rgba(25, 118, 210, 0.1)",
             }}
           >
-            <CardContent>
-              <Stack direction="row" alignItems="center" spacing={2}>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ fontWeight: "bold" }}
-                >
-                  Official WCAG Reference:
-                </Typography>
-                <Button
-                  href={ruleData.issueWCAGLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  variant="outlined"
-                  startIcon={<OpenInNewIcon />}
-                  sx={{ textTransform: "none" }}
-                >
-                  View WCAG Guidelines
-                </Button>
-              </Stack>
+            <Stack spacing={2}>
+              <Typography
+                variant="body1"
+                sx={{ fontWeight: 600, color: "#475569" }}
+              >
+                Official WCAG Reference:
+              </Typography>
+              <Button
+                href={ruleData.issueWCAGLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="contained"
+                startIcon={<OpenInNewIcon />}
+                sx={{
+                  textTransform: "none",
+                  backgroundColor: "#1976d2",
+                  fontWeight: 600,
+                  "&:hover": { backgroundColor: "#1565c0" },
+                }}
+              >
+                View WCAG Guidelines
+              </Button>
               <Typography
                 variant="body2"
-                sx={{ mt: 2, wordBreak: "break-all", fontFamily: "monospace" }}
+                sx={{
+                  mt: 1,
+                  wordBreak: "break-all",
+                  fontFamily: "monospace",
+                  color: "#64748b",
+                  fontSize: "0.85rem",
+                }}
               >
                 {ruleData.issueWCAGLink}
               </Typography>
-            </CardContent>
+            </Stack>
           </Card>
-        </AccordionDetails>
-      </Accordion>
+        </Paper>
+      )}
 
-      {/* Issue Resolution Section */}
-      <Accordion
-        expanded={expandedSections.resolution}
-        onChange={() => handleSectionToggle("resolution")}
+      {/* Issue Resolution Section - Prominently Displayed */}
+      <Paper
+        elevation={0}
         sx={{
-          mb: 2,
+          mb: 3,
+          p: 4,
+          borderRadius: 4,
           background: "rgba(255, 255, 255, 0.4)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
           border: "1px solid rgba(255, 255, 255, 0.6)",
-          borderRadius: 3,
           boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
-          "&:before": { display: "none" },
         }}
       >
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <CodeIcon color="primary" />
-            <Typography variant="h6">Issue Resolution</Typography>
-          </Stack>
-        </AccordionSummary>
-        <AccordionDetails>
+        <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 3 }}>
+          <CodeIcon color="primary" fontSize="large" />
+          <Typography variant="h5" fontWeight="bold" color="primary">
+            Issue Resolution
+          </Typography>
+        </Stack>
+        <Box
+          sx={{
+            background:
+              "linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(34, 197, 94, 0.1) 100%)",
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+            borderRadius: 3,
+            p: 3,
+            position: "relative",
+            border: "2px solid rgba(34, 197, 94, 0.2)",
+            boxShadow: "0 4px 16px rgba(34, 197, 94, 0.1)",
+          }}
+        >
+          <Tooltip title={copied ? "Copied!" : "Copy resolution code"}>
+            <IconButton
+              onClick={() =>
+                navigator.clipboard.writeText(ruleData.issueResolution)
+              }
+              sx={{
+                position: "absolute",
+                top: 12,
+                right: 12,
+                color: "#059669",
+                backgroundColor: "rgba(255,255,255,0.9)",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                "&:hover": {
+                  backgroundColor: "rgba(255,255,255,1)",
+                  transform: "scale(1.05)",
+                },
+                transition: "all 0.2s ease",
+              }}
+              size="small"
+            >
+              <ContentPasteIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
           <Box
             sx={{
               background: "rgba(30, 30, 30, 0.95)",
-              backdropFilter: "blur(20px)",
-              WebkitBackdropFilter: "blur(20px)",
-              borderRadius: 3,
-              p: 3,
-              position: "relative",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
+              borderRadius: 2,
+              p: 2,
               maxHeight: "400px",
               overflow: "auto",
-              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
             }}
           >
-            <Tooltip title={copied ? "Copied!" : "Copy resolution code"}>
-              <IconButton
-                onClick={() =>
-                  navigator.clipboard.writeText(ruleData.issueResolution)
-                }
-                sx={{
-                  position: "absolute",
-                  top: 8,
-                  right: 8,
-                  color: "white",
-                  backgroundColor: "rgba(255,255,255,0.1)",
-                  "&:hover": { backgroundColor: "rgba(255,255,255,0.2)" },
-                }}
-                size="small"
-              >
-                <ContentPasteIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
             <pre
               style={{
                 margin: 0,
@@ -518,102 +571,134 @@ function ModernItemPage({ ruleData }) {
               />
             </pre>
           </Box>
-        </AccordionDetails>
-      </Accordion>
+        </Box>
+      </Paper>
 
-      {/* Action Buttons Section */}
+      {/* View Examples Section - Modern Card Design */}
       <Paper
         elevation={0}
         sx={{
           p: 4,
           borderRadius: 4,
-          textAlign: "center",
           background: "rgba(255, 255, 255, 0.4)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
           border: "1px solid rgba(255, 255, 255, 0.6)",
-          boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+          boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
         }}
       >
-        <Typography
-          variant="h6"
-          sx={{ mb: 3, fontWeight: "bold", color: "#1e293b" }}
-        >
-          View Examples
-        </Typography>
-        <Typography variant="body2" sx={{ mb: 3, color: "#64748b" }}>
-          Explore both successful implementations and common failures for this
-          accessibility rule
-        </Typography>
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          spacing={3}
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Link
-            to={`/${ruleData.criteria}/${ruleData.route}_success`}
-            style={{ textDecoration: "none" }}
-          >
-            <Fab
-              color="success"
-              variant="extended"
-              size="large"
-              sx={{
-                px: 4,
-                py: 1.5,
-                background: "rgba(76, 175, 80, 0.9)",
-                backdropFilter: "blur(20px)",
-                WebkitBackdropFilter: "blur(20px)",
-                border: "1px solid rgba(76, 175, 80, 0.3)",
-                boxShadow: "0 8px 32px rgba(76, 175, 80, 0.3)",
-                fontWeight: "bold",
-                fontSize: "1rem",
-                minWidth: "180px",
-                "&:hover": {
-                  background: "rgba(56, 142, 60, 0.9)",
-                  transform: "translateY(-4px)",
-                  boxShadow: "0 12px 40px rgba(76, 175, 80, 0.4)",
-                },
-                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-              }}
+        <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 3 }}>
+          <CheckCircleIcon color="primary" fontSize="large" />
+          <Box>
+            <Typography
+              variant="h5"
+              sx={{ fontWeight: "bold", color: "#1e293b", mb: 0.5 }}
             >
-              <ThumbUpAltIcon sx={{ mr: 1 }} />
-              Success Examples
-            </Fab>
-          </Link>
-          <Link
-            to={`/${ruleData.criteria}/${ruleData.route}_failure`}
-            style={{ textDecoration: "none" }}
-          >
-            <Fab
-              color="error"
-              variant="extended"
-              size="large"
-              sx={{
-                px: 4,
-                py: 1.5,
-                background: "rgba(244, 67, 54, 0.9)",
-                backdropFilter: "blur(20px)",
-                WebkitBackdropFilter: "blur(20px)",
-                border: "1px solid rgba(244, 67, 54, 0.3)",
-                boxShadow: "0 8px 32px rgba(244, 67, 54, 0.3)",
-                fontWeight: "bold",
-                fontSize: "1rem",
-                minWidth: "180px",
-                "&:hover": {
-                  background: "rgba(211, 47, 47, 0.9)",
-                  transform: "translateY(-4px)",
-                  boxShadow: "0 12px 40px rgba(244, 67, 54, 0.4)",
-                },
-                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-              }}
-            >
-              <ThumbDownAltIcon sx={{ mr: 1 }} />
-              Failure Examples
-            </Fab>
-          </Link>
+              View Examples
+            </Typography>
+            <Typography variant="body2" sx={{ color: "#64748b" }}>
+              Explore successful implementations and common failures
+            </Typography>
+          </Box>
         </Stack>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6}>
+            <Link
+              to={`/${ruleData.criteria}/${ruleData.route}_success`}
+              style={{ textDecoration: "none" }}
+            >
+              <Card
+                sx={{
+                  p: 3,
+                  textAlign: "center",
+                  background:
+                    "linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(56, 142, 60, 0.1) 100%)",
+                  border: "2px solid rgba(76, 175, 80, 0.3)",
+                  borderRadius: 3,
+                  cursor: "pointer",
+                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                  "&:hover": {
+                    transform: "translateY(-4px)",
+                    boxShadow: "0 8px 24px rgba(76, 175, 80, 0.3)",
+                    borderColor: "rgba(76, 175, 80, 0.5)",
+                  },
+                }}
+              >
+                <ThumbUpAltIcon
+                  sx={{
+                    fontSize: 48,
+                    color: "#4caf50",
+                    mb: 2,
+                  }}
+                />
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: "bold",
+                    color: "#2e7d32",
+                    mb: 1,
+                  }}
+                >
+                  Success Examples
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{ color: "#64748b", fontSize: "0.9rem" }}
+                >
+                  See how to implement this rule correctly
+                </Typography>
+              </Card>
+            </Link>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Link
+              to={`/${ruleData.criteria}/${ruleData.route}_failure`}
+              style={{ textDecoration: "none" }}
+            >
+              <Card
+                sx={{
+                  p: 3,
+                  textAlign: "center",
+                  background:
+                    "linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(211, 47, 47, 0.1) 100%)",
+                  border: "2px solid rgba(244, 67, 54, 0.3)",
+                  borderRadius: 3,
+                  cursor: "pointer",
+                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                  "&:hover": {
+                    transform: "translateY(-4px)",
+                    boxShadow: "0 8px 24px rgba(244, 67, 54, 0.3)",
+                    borderColor: "rgba(244, 67, 54, 0.5)",
+                  },
+                }}
+              >
+                <ThumbDownAltIcon
+                  sx={{
+                    fontSize: 48,
+                    color: "#f44336",
+                    mb: 2,
+                  }}
+                />
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: "bold",
+                    color: "#c62828",
+                    mb: 1,
+                  }}
+                >
+                  Failure Examples
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{ color: "#64748b", fontSize: "0.9rem" }}
+                >
+                  Learn from common mistakes and how to fix them
+                </Typography>
+              </Card>
+            </Link>
+          </Grid>
+        </Grid>
       </Paper>
 
       {/* Rule Release JSON Section */}
