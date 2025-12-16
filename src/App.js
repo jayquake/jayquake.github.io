@@ -239,9 +239,16 @@ export default function App() {
     >
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <Toolbar sx={{ justifyContent: "space-between", pr: 2 }}>
+        <Toolbar sx={{
+          pr: 2,
+          display: "grid",
+          gridTemplateColumns: "auto minmax(200px, 400px) auto",
+          gap: 3,
+          alignItems: "center",
+          width: "100%"
+        }}>
           {/* Left Section */}
-          <Box display="flex" alignItems="center">
+          <Box display="flex" alignItems="center" sx={{ justifySelf: "start" }}>
             <Box>
               <Typography
                 variant="h6"
@@ -260,7 +267,11 @@ export default function App() {
           </Box>
 
           {/* Center Section - Search */}
-          <Box sx={{ flexGrow: 1, maxWidth: 400, mx: 3 }}>
+          <Box sx={{
+            width: "100%",
+            maxWidth: 400,
+            justifySelf: "center"
+          }}>
             <SearchComponent
               data={data}
               onSearchChange={(e) => handleSearchChange(e.target.value)}
@@ -268,7 +279,7 @@ export default function App() {
           </Box>
 
           {/* Right Section - Actions */}
-          <Box display="flex" alignItems="center" gap={1.5}>
+          <Box display="flex" alignItems="center" gap={1.5} sx={{ justifySelf: "end" }}>
             {/* Test Status Indicator */}
             <Tooltip
               title={testStatus.running ? "Tests running..." : "Ready to test"}
