@@ -33,6 +33,12 @@ module.exports = defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
+    {
+      name: 'chromium-custom-output',
+      use: { ...devices['Desktop Chrome'] },
+      outputDir: './custom-test-output',
+      testMatch: /custom-output-dir\.spec\.js/,
+    },
 
 
     /* Test against mobile viewports. */

@@ -169,6 +169,7 @@ const CustomizedBreadcrumbs = ({ selectedOption, handleOptionChange }) => {
             <Select
               value={lastPart}
               onChange={(event) => handleOptionSelection(event.target.value)}
+              aria-label="Select variant type"
               size="small"
               sx={{
                 marginLeft: "12px",

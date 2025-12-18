@@ -7429,9 +7429,9 @@
     "medium": 34
   },
   "configuredThresholds": {
-    "extreme": 1,
-    "high": 0,
-    "medium": 0,
-    "low": 7
+    "extreme": 900,
+    "high": 190,
+    "medium": 200,
+    "low": 300
   }
 }

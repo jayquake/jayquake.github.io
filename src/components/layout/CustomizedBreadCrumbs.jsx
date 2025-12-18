@@ -20,17 +20,17 @@ const CustomizedBreadcrumbs = ({ selectedOption, handleOptionChange }) => {
   const navigate = useNavigate();
   const pathnames = location.pathname.split("/").filter((x) => x);
 
-  const selectedOptionFromURL = pathnames.find((pathname) => 
+  const selectedOptionFromURL = pathnames.find((pathname) =>
     pathname.includes("failure") || pathname.includes("success")
   );
-  
-  const optionType = selectedOptionFromURL 
+
+  const optionType = selectedOptionFromURL
     ? (selectedOptionFromURL.includes("failure") ? "Failure" : "Success")
     : null;
 
   const initialSelectedOption = optionType || selectedOption || "failure";
-  const value = (initialSelectedOption && typeof initialSelectedOption === 'string') 
-    ? initialSelectedOption.trim().replace(/^\[|\]$/g, "") 
+  const value = (initialSelectedOption && typeof initialSelectedOption === 'string')
+    ? initialSelectedOption.trim().replace(/^\[|\]$/g, "")
     : "failure";
   const parts = value.split("_");
   const lastPart = parts[parts.length - 1];
@@ -45,9 +45,9 @@ const CustomizedBreadcrumbs = ({ selectedOption, handleOptionChange }) => {
 
   return (
     <Grid container item xs={12}>
-      <Paper 
-        elevation={0} 
-        sx={{ 
+      <Paper
+        elevation={0}
+        sx={{
           padding: "12px 20px !important",
           background: 'rgba(255, 255, 255, 0.4) !important',
           backgroundColor: 'rgba(255, 255, 255, 0.4) !important',
@@ -117,7 +117,8 @@ const CustomizedBreadcrumbs = ({ selectedOption, handleOptionChange }) => {
           <Select
             value={lastPart}
             onChange={(event) => handleOptionSelection(event.target.value)}
-            sx={{ 
+            aria-label="Select variant type"
+            sx={{
               marginLeft: "8px",
               background: 'rgba(255, 255, 255, 0.5) !important',
               backdropFilter: 'blur(10px) !important',

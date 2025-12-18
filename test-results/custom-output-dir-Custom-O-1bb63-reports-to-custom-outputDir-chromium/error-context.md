@@ -1,0 +1,180 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e7]:
+        - heading "QA Dashboard" [level=6] [ref=e8]
+        - text: Accessibility Testing Platform
+      - generic [ref=e11]:
+        - img [ref=e12]
+        - generic "Search" [ref=e14]:
+          - textbox "Search..." [ref=e15]
+      - generic [ref=e16]:
+        - generic "Ready to test" [ref=e17]:
+          - img [ref=e18]
+          - generic [ref=e20]: Ready
+        - link "Engine Library" [ref=e21] [cursor=pointer]:
+          - /url: "#/engine/library"
+          - text: Engine Library
+        - button "Toggle dark mode" [ref=e22] [cursor=pointer]:
+          - img [ref=e23]
+        - button "Notifications" [ref=e25] [cursor=pointer]:
+          - generic [ref=e26]:
+            - img [ref=e27]
+            - generic [ref=e29]: "3"
+        - button [ref=e30] [cursor=pointer]:
+          - img [ref=e31]
+  - generic [ref=e33]:
+    - button [ref=e35] [cursor=pointer]:
+      - img [ref=e36]
+    - list [ref=e38]:
+      - link [ref=e40] [cursor=pointer]:
+        - /url: "#/"
+        - button [ref=e41]:
+          - img [ref=e44]
+      - link [ref=e46] [cursor=pointer]:
+        - /url: "#/graphics"
+        - button [ref=e47]:
+          - img [ref=e50]
+      - link [ref=e53] [cursor=pointer]:
+        - /url: "#/forms"
+        - button [ref=e54]:
+          - img [ref=e57]
+      - link [ref=e60] [cursor=pointer]:
+        - /url: "#/keyboard"
+        - button [ref=e61]:
+          - img [ref=e64]
+      - link [ref=e67] [cursor=pointer]:
+        - /url: "#/navigation"
+        - button [ref=e68]:
+          - img [ref=e71]
+      - link [ref=e74] [cursor=pointer]:
+        - /url: "#/headings"
+        - button [ref=e75]:
+          - img [ref=e78]
+      - link [ref=e81] [cursor=pointer]:
+        - /url: "#/errors"
+        - button [ref=e82]:
+          - img [ref=e85]
+      - link [ref=e88] [cursor=pointer]:
+        - /url: "#/carousels"
+        - button [ref=e89]:
+          - img [ref=e92]
+      - link [ref=e95] [cursor=pointer]:
+        - /url: "#/clickables"
+        - button [ref=e96]:
+          - img [ref=e99]
+      - link [ref=e102] [cursor=pointer]:
+        - /url: "#/context"
+        - button [ref=e103]:
+          - img [ref=e106]
+      - link [ref=e110] [cursor=pointer]:
+        - /url: "#/document"
+        - button [ref=e111]:
+          - img [ref=e114]
+      - link [ref=e117] [cursor=pointer]:
+        - /url: "#/readability"
+        - button [ref=e118]:
+          - img [ref=e121]
+      - link [ref=e124] [cursor=pointer]:
+        - /url: "#/tables"
+        - button [ref=e125]:
+          - img [ref=e128]
+    - list [ref=e131]:
+      - link [ref=e133] [cursor=pointer]:
+        - /url: "#/rules"
+        - button [ref=e134]:
+          - img [ref=e137]
+      - link [ref=e140] [cursor=pointer]:
+        - /url: "#/engine"
+        - button [ref=e141]:
+          - img [ref=e144]
+  - main [ref=e147]:
+    - generic [ref=e150]:
+      - generic [ref=e151]:
+        - img [ref=e153]
+        - heading "AccessFlow" [level=1] [ref=e155]
+        - heading "QA Testing Platform" [level=4] [ref=e156]
+        - heading "Modern accessibility testing with 248+ rules (90 Legacy + 158 Engine), interactive examples, and comprehensive WCAG 2.1 compliance guidance" [level=6] [ref=e157]
+        - generic [ref=e158]:
+          - link "Start Testing" [ref=e159] [cursor=pointer]:
+            - /url: "#/scanner"
+            - button "Start Testing" [ref=e160]:
+              - img [ref=e162]
+              - text: Start Testing
+          - paragraph [ref=e164]: or
+          - link "Browse Rules" [ref=e165] [cursor=pointer]:
+            - /url: "#/rules"
+            - button "Browse Rules" [ref=e166]
+      - generic [ref=e167]:
+        - heading "Browse Accessibility Rules" [level=3] [ref=e168]
+        - heading "Choose between our comprehensive rule libraries tailored to your testing needs" [level=6] [ref=e169]
+      - generic [ref=e171]:
+        - link "Legacy Rules 90 Rules Manual QA Testing Rules - Comprehensive accessibility guidelines with detailed examples, fix steps, and best practices for manual testing workflows Detailed Examples WCAG References 12 Categories Browse Legacy Rules" [ref=e173] [cursor=pointer]:
+          - /url: "#/rules"
+          - generic [ref=e175]:
+            - generic [ref=e176]:
+              - img [ref=e178]
+              - generic [ref=e180]:
+                - heading "Legacy Rules" [level=4] [ref=e181]
+                - generic [ref=e183]: 90 Rules
+            - paragraph [ref=e184]:
+              - strong [ref=e185]: Manual QA Testing Rules
+              - text: "- Comprehensive accessibility guidelines with detailed examples, fix steps, and best practices for manual testing workflows"
+            - generic [ref=e186]:
+              - generic [ref=e187]:
+                - img [ref=e188]
+                - generic [ref=e190]: Detailed Examples
+              - generic [ref=e191]:
+                - img [ref=e192]
+                - generic [ref=e194]: WCAG References
+              - generic [ref=e195]:
+                - img [ref=e196]
+                - generic [ref=e198]: 12 Categories
+            - button "Browse Legacy Rules" [ref=e199]:
+              - text: Browse Legacy Rules
+              - img [ref=e201]
+        - link "Engine Rules 158 Rules Automated Validation Rules - Advanced accessibility engine with atomic test cases, severity levels, and automated detection for continuous integration Atomic Tests CI/CD Ready Impact Levels Browse Engine Rules" [ref=e204] [cursor=pointer]:
+          - /url: "#/engine"
+          - generic [ref=e206]:
+            - generic [ref=e207]:
+              - img [ref=e209]
+              - generic [ref=e211]:
+                - heading "Engine Rules" [level=4] [ref=e212]
+                - generic [ref=e214]: 158 Rules
+            - paragraph [ref=e215]:
+              - strong [ref=e216]: Automated Validation Rules
+              - text: "- Advanced accessibility engine with atomic test cases, severity levels, and automated detection for continuous integration"
+            - generic [ref=e217]:
+              - generic [ref=e218]:
+                - img [ref=e219]
+                - generic [ref=e221]: Atomic Tests
+              - generic [ref=e222]:
+                - img [ref=e223]
+                - generic [ref=e225]: CI/CD Ready
+              - generic [ref=e226]:
+                - img [ref=e227]
+                - generic [ref=e229]: Impact Levels
+            - button "Browse Engine Rules" [ref=e230]:
+              - text: Browse Engine Rules
+              - img [ref=e232]
+      - generic [ref=e234]:
+        - generic [ref=e235]:
+          - heading "Why Choose AccessFlow?" [level=3] [ref=e236]
+          - heading "The most comprehensive accessibility testing platform designed for modern web development teams" [level=6] [ref=e237]
+        - generic [ref=e238]:
+          - generic [ref=e240]:
+            - img [ref=e241]
+            - heading "Complete Coverage" [level=4] [ref=e243]
+            - paragraph [ref=e244]: 248+ rules (90 Legacy + 158 Engine) covering all WCAG 2.1 guidelines with both success and failure examples for thorough understanding
+          - generic [ref=e246]:
+            - img [ref=e247]
+            - heading "Interactive Learning" [level=4] [ref=e250]
+            - paragraph [ref=e251]: Live code examples, interactive demos, and real-world scenarios help you master accessibility best practices
+          - generic [ref=e253]:
+            - img [ref=e254]
+            - heading "Actionable Insights" [level=4] [ref=e256]
+            - paragraph [ref=e257]: Get specific, actionable guidance with code samples and step-by-step instructions to fix issues quickly
+```

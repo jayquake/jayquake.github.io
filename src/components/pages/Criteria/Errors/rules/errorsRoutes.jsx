@@ -24,6 +24,8 @@ import TitleMisuseSuccess from "./Success/Title-misuseSuccess";
 import TitleMisuseFailure from "./Failures/Title-misuseFailure";
 import RedundantAriaLabelsSuccess from "./Success/Redundant-aria-labelsSuccess";
 import RedundantAriaLabelsFailure from "./Failures/Redundant-aria-labelsFailure";
+import BrokenAriaLabelsSuccess from "./Success/Broken-aria-labelsSuccess";
+import BrokenAriaLabelsFailure from "./Failures/Broken-aria-labelsFailure";
 const ErrorsRoutes = () => (
   <>
     <Route path="errors/aria-label-misuse_success" element={<AriaLabelMissuseSuccess />} />
@@ -49,10 +51,12 @@ const ErrorsRoutes = () => (
     <Route path="errors/title-misuse_success" element={<TitleMisuseSuccess />} />
     <Route path="errors/title-misuse_failure" element={<TitleMisuseFailure />} />
     <Route path="errors/redundant-aria-labels_success" element={<RedundantAriaLabelsSuccess />} />
-    <Route path="errors/redundant-aria-labels_failure" element={<RedundantAriaLabelsFailure />} />  
-    
-    
-    
+    <Route path="errors/redundant-aria-labels_failure" element={<RedundantAriaLabelsFailure />} />
+    <Route path="errors/broken-aria-labels_success" element={<BrokenAriaLabelsSuccess />} />
+    <Route path="errors/broken-aria-labels_failure" element={<BrokenAriaLabelsFailure />} />
+
+
+
   </>
 );
 
