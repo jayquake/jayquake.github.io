@@ -3,12 +3,13 @@
   "tasks": [
     {
       "label": "npm: start",
-      "type": "shell",
-      "command": "npm start",
+      "type": "npm",
+      "script": "start",
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
-        "panel": "dedicated"
+        "panel": "dedicated",
+        "focus": false
       },
       "isBackground": true,
       "runOptions": {
@@ -17,17 +18,31 @@
     },
     {
       "label": "npm: build",
-      "type": "shell",
-      "command": "npm run build",
+      "type": "npm",
+      "script": "build",
+      "problemMatcher": ["$tsc"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "npm: test",
+      "type": "npm",
+      "script": "test",
       "problemMatcher": [],
       "presentation": {
-        "reveal": "always"
+        "reveal": "always",
+        "panel": "dedicated"
       }
     },
     {
       "label": "Playwright: Run All Tests",
       "type": "shell",
       "command": "npm run test:e2e",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
@@ -42,17 +57,9 @@
       "label": "Playwright: Run Tests (UI Mode)",
       "type": "shell",
       "command": "npm run test:e2e:ui",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
+      "options": {
+        "cwd": "${workspaceFolder}"
       },
-      "group": "test"
-    },
-    {
-      "label": "Playwright: Run Tests (Headed)",
-      "type": "shell",
-      "command": "npm run test:e2e:headed",
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
@@ -64,76 +71,80 @@
       "label": "Playwright: Show Report",
       "type": "shell",
       "command": "npm run test:e2e:report",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
         "panel": "dedicated"
-      },
-      "group": "test"
-    },
-    {
-      "label": "Playwright: Run Search Tests",
-      "type": "shell",
-      "command": "npm run test:e2e:search",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      },
-      "group": "test"
-    },
-    {
-      "label": "Playwright: Run Accessibility Tests",
-      "type": "shell",
-      "command": "npm run test:e2e:accessibility",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      },
-      "group": "test"
-    },
-    {
-      "label": "Playwright: Run Keyboard Tests",
-      "type": "shell",
-      "command": "npm run test:e2e:keyboard",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      },
-      "group": "test"
+      }
     },
     {
       "label": "Deploy: Build and Deploy",
       "type": "shell",
       "command": "npm run deploy",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always"
+      "options": {
+        "cwd": "${workspaceFolder}"
       },
-      "group": "build"
-    },
-    {
-      "label": "Install Dependencies",
-      "type": "shell",
-      "command": "npm install",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always"
-      }
-    },
-    {
-      "label": "Run React Tests",
-      "type": "shell",
-      "command": "npm test",
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
         "panel": "dedicated"
       },
-      "group": "test"
+      "group": "build"
+    },
+    {
+      "label": "Generate: Rule Components",
+      "type": "shell",
+      "command": "node scripts/generate-rule-components-v2.js",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Generate: Engine Routes",
+      "type": "shell",
+      "command": "node scripts/generate-engine-routes.js",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Extract: Rule Metadata",
+      "type": "shell",
+      "command": "node scripts/extract-rule-metadata.js",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Aggregate: Rule Metadata",
+      "type": "shell",
+      "command": "node scripts/aggregate-rule-metadata.js",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
     }
   ]
 }
-

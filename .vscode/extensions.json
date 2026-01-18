@@ -1,9 +1,6 @@
 {
   "recommendations": [
-    // Testing & E2E
-    "ms-playwright.playwright",
-
-    // Code Quality & Formatting
+    // Essential Extensions
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
     "ms-vscode.vscode-typescript-next",
@@ -11,44 +8,42 @@
     // React & JSX
     "dsznajder.es7-react-js-snippets",
     "formulahendry.auto-rename-tag",
-
-    // Material-UI Support
-    "vscodeshift.mui-snippets",
-
-    // Styling
     "bradlc.vscode-tailwindcss",
 
-    // GitHub & CI/CD
-    "github.vscode-pull-request-github",
-    "github.copilot",
-    "github.actions",
-
-    // Git
+    // Git & Version Control
     "eamodio.gitlens",
+    "mhutchie.git-graph",
 
-    // Import Management
-    "steoates.autoimport",
-    "wix.vscode-import-cost",
-
-    // Path Intelligence
+    // Code Quality & Formatting
+    "streetsidesoftware.code-spell-checker",
+    "usernamehw.errorlens",
     "christian-kohler.path-intellisense",
 
-    // Error Highlighting
-    "usernamehw.errorlens",
+    // Testing
+    "ms-playwright.playwright",
 
-    // Markdown (for documentation)
-    "yzhang.markdown-all-in-one",
-    "davidanson.vscode-markdownlint",
-
-    // JSON
-    "zainchen.json",
-
-    // Accessibility
-    "deque-systems.vscode-axe-linter",
-
-    // Code Navigation & Testing
+    // Productivity
     "ms-vscode.vscode-json",
-    "orta.vscode-jest"
-  ]
-}
+    "redhat.vscode-yaml",
+    "ms-vscode.vscode-markdown",
+    "yzhang.markdown-all-in-one",
 
+    // UI & Theme
+    "pkief.material-icon-theme",
+    "zhuangtongfa.material-theme",
+    "zhuangtongfa.one-dark-pro",
+    "11yt.vibrancy-continued",
+    "kuscamara.darcula",
+
+    // Debugging & Development
+    "ms-vscode.vscode-json",
+    "ms-vscode.js-debug",
+
+    // Additional Helpers
+    "formulahendry.auto-close-tag",
+    "christian-kohler.npm-intellisense",
+    "eg2.vscode-npm-script",
+    "ms-vscode.vscode-typescript-next"
+  ],
+  "unwantedRecommendations": []
+}

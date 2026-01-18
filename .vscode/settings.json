@@ -1,81 +1,121 @@
 {
   // Editor Settings
-  "editor.fontSize": 14,
-  "editor.lineHeight": 1.5,
-  "editor.fontFamily": "'JetBrains Mono', 'Fira Code', 'Consolas', 'Courier New', monospace",
-  "editor.fontLigatures": true,
-  "editor.tabSize": 2,
-  "editor.insertSpaces": true,
-  "editor.detectIndentation": false,
-  "editor.wordWrap": "on",
-  "editor.rulers": [80, 120],
-  "editor.minimap.enabled": true,
-  "editor.minimap.maxColumn": 120,
-  "editor.suggestSelection": "first",
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit",
+    "source.fixAll.eslint": "explicit",
     "source.organizeImports": "explicit"
   },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "editor.rulers": [80, 120],
+  "editor.wordWrap": "on",
+  "editor.minimap.enabled": true,
   "editor.bracketPairColorization.enabled": true,
   "editor.guides.bracketPairs": true,
-  "editor.guides.highlightActiveIndentation": true,
-  "editor.stickyScroll.enabled": true,
-  "editor.smoothScrolling": true,
-  "editor.cursorBlinking": "smooth",
-  "editor.cursorSmoothCaretAnimation": "on",
-  "editor.renderWhitespace": "selection",
-  "editor.trimAutoWhitespace": true,
-  "editor.trimFinalNewlines": true,
-  "editor.insertFinalNewline": true,
+  "editor.suggestSelection": "first",
+  "editor.snippetSuggestions": "top",
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": true
+  },
 
-  // File Explorer Settings
-  "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 1000,
+  // File Settings
+  "files.autoSave": "onFocusChange",
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
   "files.exclude": {
     "**/.git": true,
     "**/.DS_Store": true,
-    "**/node_modules": false,
-    "**/dist": true,
+    "**/node_modules": true,
     "**/build": true,
-    "**/test-results": true,
-    "**/playwright-report": true,
-    "**/playwright/.cache": true
+    "**/.pnp": true,
+    "**/.pnp.js": true
   },
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,
     "**/node_modules/**": true,
-    "**/dist/**": true,
     "**/build/**": true,
-    "**/test-results/**": true,
-    "**/playwright-report/**": true,
-    "**/playwright/.cache/**": true
+    "**/.pnp/**": true
   },
 
   // Search Settings
   "search.exclude": {
     "**/node_modules": true,
-    "**/dist": true,
     "**/build": true,
-    "**/.git": true,
-    "**/package-lock.json": true,
-    "**/test-results": true,
+    "**/coverage": true,
+    "**/.pnp": true,
+    "**/.pnp.js": true,
     "**/playwright-report": true,
-    "**/playwright/.cache": true
+    "**/test-results": true
   },
-  "search.useIgnoreFiles": true,
-  "search.smartCase": true,
 
-  // Terminal Settings
-  "terminal.integrated.fontSize": 13,
-  "terminal.integrated.fontFamily": "'JetBrains Mono', 'Fira Code', monospace",
-  "terminal.integrated.cursorBlinking": true,
-  "terminal.integrated.cursorStyle": "line",
-  "terminal.integrated.smoothScrolling": true,
+  // Language Specific Settings
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.wordWrap": "on"
+  },
+
+  // ESLint Settings
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "eslint.workingDirectories": ["."],
+
+  // TypeScript Settings
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.suggest.autoImports": true,
+  "typescript.inlayHints.parameterNames.enabled": "all",
+  "typescript.inlayHints.variableTypes.enabled": true,
+  "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+
+  // React/JSX Settings
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact",
+    "typescript": "typescriptreact"
+  },
+  "emmet.triggerExpansionOnTab": true,
 
   // Git Settings
   "git.enableSmartCommit": true,
@@ -83,218 +123,419 @@
   "git.autofetch": true,
   "git.ignoreLimitWarning": true,
 
-  // IntelliSense & Autocomplete
-  "editor.quickSuggestions": {
-    "other": true,
-    "comments": false,
-    "strings": true
-  },
-  "editor.suggestOnTriggerCharacters": true,
-  "editor.acceptSuggestionOnCommitCharacter": true,
-  "editor.acceptSuggestionOnEnter": "on",
-  "editor.tabCompletion": "on",
-  "editor.snippetSuggestions": "top",
+  // Terminal Settings
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.fontSize": 13,
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.cursorStyle": "line",
 
-  // Language Specific Settings
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.tabSize": 2,
-    "editor.formatOnSave": true
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.tabSize": 2,
-    "editor.formatOnSave": true
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.tabSize": 2
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.tabSize": 2
-  },
-  "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.tabSize": 2
-  },
-  "[markdown]": {
-    "editor.wordWrap": "on",
-    "editor.quickSuggestions": {
-      "other": false,
-      "comments": false,
-      "strings": false
-    }
-  },
+  // Workspace Trust
+  "security.workspace.trust.untrustedFiles": "open",
 
-  // Performance & UI
-  "workbench.startupEditor": "newUntitledFile",
-  "workbench.editor.enablePreview": false,
-  "workbench.editor.closeOnFileDelete": true,
-  "workbench.sideBar.location": "left",
-  "workbench.statusBar.visible": true,
+  // Performance
+  "files.maxMemoryForLargeFilesMB": 4096,
 
-  // Extensions Recommendations (will be used if extensions.json exists)
-  "extensions.ignoreRecommendations": false,
-
-  // Accessibility
-  "editor.accessibilitySupport": "auto",
-
-  // Playwright Test Settings
+  // Playwright Settings
   "playwright.reuseBrowser": false,
   "playwright.showTrace": false,
-  "playwright.env": {
-    "DEBUG": "pw:api"
-  },
-  "playwright.testIdAttribute": "data-testid",
 
-  // Test File Settings
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.tabSize": 2
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.tabSize": 2
-  },
-  "files.associations": {
-    "*.spec.js": "javascript",
-    "*.spec.ts": "typescript",
-    "*.test.js": "javascript",
-    "*.test.ts": "typescript",
-    "playwright.config.js": "javascript",
-    "playwright.config.ts": "typescript",
-    "*.jsx": "javascriptreact"
+  // Prettier Settings (if you have a .prettierrc file, these can be overridden)
+  "prettier.requireConfig": false,
+  "prettier.useEditorConfig": false,
+
+  // Path Intellisense
+  "path-intellisense.mappings": {
+    "@": "${workspaceFolder}/src",
+    "components": "${workspaceFolder}/src/components",
+    "utils": "${workspaceFolder}/src/components/util",
+    "routes": "${workspaceFolder}/src/routes",
+    "data": "${workspaceFolder}/src/data"
   },
 
-  // React/JSX Specific Settings
-  "emmet.includeLanguages": {
-    "javascript": "javascriptreact"
-  },
-  "emmet.triggerExpansionOnTab": true,
-  "javascript.updateImportsOnFileMove.enabled": "always",
-  "javascript.suggest.autoImports": true,
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  "typescript.suggest.autoImports": true,
+  // Auto Import
   "javascript.preferences.importModuleSpecifier": "relative",
   "typescript.preferences.importModuleSpecifier": "relative",
 
+  // Breadcrumbs
+  "breadcrumbs.enabled": true,
+  "breadcrumbs.filePath": "on",
+  "breadcrumbs.symbolPath": "on",
 
-  // WebStorm-like Theme
-  "workbench.colorTheme": "Default Dark+",
+  // Theme Settings - WebStorm Modern UI
+  "workbench.colorTheme": "One Dark Pro Darker",
+  "workbench.iconTheme": "material-icon-theme",
+
+  // Vibrancy Extension Settings (optional - can disable for WebStorm look)
+  "vibrancy.type": "dark",
+  "vibrancy.opacity": 1.0,
+  "vibrancy.theme": "auto",
+  "vibrancy.performanceMode": false,
   "workbench.colorCustomizations": {
-    "editor.background": "#2B2B2B",
-    "editor.foreground": "#A9B7C6",
-    "sideBar.background": "#3C3F41",
-    "sideBar.foreground": "#BBBBBB",
-    "activityBar.background": "#3C3F41",
-    "activityBar.foreground": "#BBBBBB",
-    "statusBar.background": "#3C3F41",
-    "statusBar.foreground": "#BBBBBB",
-    "panel.background": "#2B2B2B",
-    "panel.foreground": "#A9B7C6",
+    // WebStorm Darcula-inspired colors
+    // Activity Bar - WebStorm style
+    "activityBar.background": "#3c3f41",
+    "activityBar.foreground": "#bbbbbb",
+    "activityBarBadge.background": "#4e9a06",
+    "activityBarBadge.foreground": "#ffffff",
+    "activityBar.activeBorder": "#4e9a06",
+    "activityBar.inactiveForeground": "#808080",
+
+    // Status Bar - WebStorm style
+    "statusBar.background": "#3c3f41",
+    "statusBar.foreground": "#bbbbbb",
+    "statusBar.noFolderBackground": "#3c3f41",
+    "statusBar.debuggingBackground": "#cc7832",
+    "statusBar.border": "#515658",
+    "statusBarItem.prominentBackground": "#4e9a06",
+    "statusBarItem.prominentHoverBackground": "#6b9a06",
+
+    // Title Bar - WebStorm style
+    "titleBar.activeBackground": "#3c3f41",
+    "titleBar.activeForeground": "#bbbbbb",
+    "titleBar.inactiveBackground": "#2b2b2b",
+    "titleBar.inactiveForeground": "#808080",
+    "titleBar.border": "#515658",
+
+    // Sidebar - WebStorm style
+    "sideBar.background": "#3c3f41",
+    "sideBar.foreground": "#bbbbbb",
+    "sideBarTitle.foreground": "#ffffff",
+    "sideBar.border": "#515658",
+    "sideBarSectionHeader.background": "#46494a",
+    "sideBarSectionHeader.foreground": "#bbbbbb",
+
+    // Editor - WebStorm Darcula style
+    "editor.background": "#2b2b2b",
+    "editor.foreground": "#a9b7c6",
     "editorLineNumber.foreground": "#606366",
-    "editorLineNumber.activeForeground": "#A9B7C6",
-    "editorCursor.foreground": "#FFFFFF",
+    "editorLineNumber.activeForeground": "#a9b7c6",
+    "editorIndentGuide.background": "#3c3f41",
+    "editorIndentGuide.activeBackground": "#515658",
     "editor.selectionBackground": "#214283",
-    "editor.selectionHighlightBackground": "#214283",
+    "editor.selectionHighlightBackground": "#21428340",
     "editor.wordHighlightBackground": "#575757",
-    "editor.wordHighlightStrongBackground": "#575757",
-    "editor.findMatchBackground": "#32593D",
-    "editor.findMatchHighlightBackground": "#32593D",
-    "editorBracketMatch.background": "#575757",
-    "editorBracketMatch.border": "#575757",
-    "editorIndentGuide.activeBackground": "#606366",
-    "editorIndentGuide.background": "#3C3F41",
-    "editorWhitespace.foreground": "#3C3F41",
-    "editorGutter.background": "#2B2B2B",
+    "editor.wordHighlightStrongBackground": "#57575780",
+    "editorCursor.foreground": "#a9b7c6",
+    "editorWhitespace.foreground": "#3c3f41",
     "editorLineHighlight.background": "#323232",
-    "editorLineHighlight.border": "#323232",
-    "input.background": "#3C3F41",
-    "input.foreground": "#A9B7C6",
-    "input.border": "#606366",
+    "editorGutter.background": "#313335",
+    "editorGutter.modifiedBackground": "#4e9a06",
+    "editorGutter.addedBackground": "#629755",
+    "editorGutter.deletedBackground": "#cc7832",
+    "editorBracketMatch.background": "#214283",
+    "editorBracketMatch.border": "#4e9a06",
+
+    // Tabs - WebStorm style
+    "tab.activeBackground": "#2b2b2b",
+    "tab.inactiveBackground": "#3c3f41",
+    "tab.activeForeground": "#a9b7c6",
+    "tab.inactiveForeground": "#808080",
+    "tab.border": "#515658",
+    "tab.activeBorder": "#4e9a06",
+    "tab.activeBorderTop": "#4e9a06",
+    "tab.hoverBackground": "#46494a",
+    "tab.unfocusedActiveForeground": "#808080",
+    "tab.unfocusedInactiveForeground": "#606366",
+
+    // Panel - WebStorm style
+    "panel.background": "#2b2b2b",
+    "panel.border": "#515658",
+    "panelTitle.activeForeground": "#a9b7c6",
+    "panelTitle.inactiveForeground": "#808080",
+    "panelInput.border": "#515658",
+
+    // Terminal - WebStorm style
+    "terminal.background": "#2b2b2b",
+    "terminal.foreground": "#a9b7c6",
+    "terminalCursor.background": "#2b2b2b",
+    "terminalCursor.foreground": "#a9b7c6",
+    "terminal.border": "#515658",
+    "terminal.selectionBackground": "#214283",
+
+    // Peek view - WebStorm style
+    "peekView.border": "#4e9a06",
+    "peekViewEditor.background": "#2b2b2b",
+    "peekViewResult.background": "#3c3f41",
+    "peekViewTitle.background": "#2b2b2b",
+    "peekViewTitleLabel.foreground": "#a9b7c6",
+    "peekViewEditorGutter.background": "#2b2b2b",
+
+    // Lists - WebStorm style
     "list.activeSelectionBackground": "#214283",
-    "list.activeSelectionForeground": "#FFFFFF",
-    "list.inactiveSelectionBackground": "#3C3F41",
-    "list.hoverBackground": "#3C3F41",
-    "scrollbarSlider.background": "#606366",
-    "scrollbarSlider.hoverBackground": "#808080",
-    "scrollbarSlider.activeBackground": "#A0A0A0"
+    "list.activeSelectionForeground": "#ffffff",
+    "list.inactiveSelectionBackground": "#46494a",
+    "list.hoverBackground": "#46494a",
+    "list.focusBackground": "#214283",
+    "list.focusForeground": "#ffffff",
+    "list.highlightForeground": "#4e9a06",
+
+    // Input fields - WebStorm style
+    "input.background": "#3c3f41",
+    "input.foreground": "#a9b7c6",
+    "input.border": "#515658",
+    "inputOption.activeBorder": "#4e9a06",
+    "inputOption.hoverBackground": "#46494a",
+    "inputValidation.infoBackground": "#4e9a0640",
+    "inputValidation.infoBorder": "#4e9a06",
+    "inputValidation.warningBackground": "#cc783240",
+    "inputValidation.warningBorder": "#cc7832",
+    "inputValidation.errorBackground": "#cc783240",
+    "inputValidation.errorBorder": "#cc7832",
+
+    // Dropdowns - WebStorm style
+    "dropdown.background": "#3c3f41",
+    "dropdown.foreground": "#a9b7c6",
+    "dropdown.border": "#515658",
+    "dropdown.listBackground": "#3c3f41",
+
+    // Buttons - WebStorm style
+    "button.background": "#4e9a06",
+    "button.foreground": "#ffffff",
+    "button.hoverBackground": "#6b9a06",
+    "button.border": "#4e9a06",
+    "button.secondaryBackground": "#3c3f41",
+    "button.secondaryForeground": "#a9b7c6",
+    "button.secondaryHoverBackground": "#46494a",
+
+    // Badges - WebStorm style
+    "badge.background": "#4e9a06",
+    "badge.foreground": "#ffffff",
+
+    // Scrollbars - WebStorm style
+    "scrollbarSlider.background": "#515658",
+    "scrollbarSlider.hoverBackground": "#606366",
+    "scrollbarSlider.activeBackground": "#6b6d6f",
+
+    // Progress bar - WebStorm style
+    "progressBar.background": "#4e9a06",
+
+    // Editor widgets - WebStorm style
+    "editorWidget.background": "#3c3f41",
+    "editorWidget.border": "#515658",
+    "editorWidget.foreground": "#a9b7c6",
+    "editorSuggestWidget.background": "#3c3f41",
+    "editorSuggestWidget.border": "#515658",
+    "editorSuggestWidget.foreground": "#a9b7c6",
+    "editorSuggestWidget.highlightForeground": "#4e9a06",
+    "editorSuggestWidget.selectedBackground": "#214283",
+    "editorSuggestWidget.focusHighlightForeground": "#4e9a06",
+
+    // Diff editor - WebStorm style
+    "diffEditor.insertedTextBackground": "#62975540",
+    "diffEditor.removedTextBackground": "#cc783240",
+    "diffEditor.insertedLineBackground": "#62975520",
+    "diffEditor.removedLineBackground": "#cc783220",
+    "diffEditor.border": "#515658",
+
+    // Merge editor - WebStorm style
+    "merge.currentHeaderBackground": "#214283",
+    "merge.incomingHeaderBackground": "#62975540",
+    "merge.commonHeaderBackground": "#3c3f41",
+    "merge.border": "#515658",
+
+    // Git decorations - WebStorm style
+    "gitDecoration.modifiedResourceForeground": "#cc7832",
+    "gitDecoration.deletedResourceForeground": "#cc7832",
+    "gitDecoration.untrackedResourceForeground": "#629755",
+    "gitDecoration.ignoredResourceForeground": "#808080",
+    "gitDecoration.conflictingResourceForeground": "#cc7832",
+    "gitDecoration.stageModifiedResourceForeground": "#4e9a06",
+    "gitDecoration.stageDeletedResourceForeground": "#cc7832",
+
+    // Breadcrumbs - WebStorm style
+    "breadcrumb.foreground": "#808080",
+    "breadcrumb.activeSelectionForeground": "#a9b7c6",
+    "breadcrumb.focusForeground": "#4e9a06",
+    "breadcrumbPicker.background": "#3c3f41",
+
+    // Notification - WebStorm style
+    "notificationCenter.border": "#515658",
+    "notificationCenterHeader.background": "#3c3f41",
+    "notificationToast.border": "#515658",
+    "notifications.background": "#3c3f41",
+    "notifications.border": "#515658",
+    "notifications.foreground": "#a9b7c6",
+    "notificationLink.foreground": "#4e9a06",
+
+    // Quick picker - WebStorm style
+    "quickInput.background": "#3c3f41",
+    "quickInput.foreground": "#a9b7c6",
+    "quickInputList.focusBackground": "#214283",
+    "quickInputList.focusForeground": "#ffffff",
+
+    // Menu - WebStorm style
+    "menu.background": "#3c3f41",
+    "menu.foreground": "#a9b7c6",
+    "menu.selectionBackground": "#214283",
+    "menu.selectionForeground": "#ffffff",
+    "menu.separatorBackground": "#515658",
+    "menubar.selectionBackground": "#46494a",
+    "menubar.selectionForeground": "#a9b7c6"
   },
+  // WebStorm-inspired UI Settings
+  "workbench.tree.indent": 12,
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.showTabs": "multiple",
+  "workbench.editor.tabSizing": "fit",
+  "workbench.editor.tabCloseButton": "right",
+  "workbench.startupEditor": "welcomePage",
+  "workbench.statusBar.visible": true,
+  "workbench.sideBar.location": "left",
+  "workbench.panel.defaultLocation": "bottom",
+  "workbench.editor.splitInGroupLayout": "vertical",
+  "workbench.editor.highlightModifiedTabs": true,
+  "workbench.editor.labelFormat": "short",
+  "workbench.list.smoothScrolling": true,
+  "workbench.tree.renderIndentGuides": "always",
+  "editor.semanticHighlighting.enabled": true,
   "editor.tokenColorCustomizations": {
     "textMateRules": [
       {
-        "scope": "comment",
+        "scope": ["comment", "punctuation.definition.comment"],
         "settings": {
-          "foreground": "#808080",
-          "fontStyle": "italic"
+          "fontStyle": "italic",
+          "foreground": "#808080"
         }
       },
       {
-        "scope": "string",
+        "scope": ["string", "string.quoted"],
         "settings": {
-          "foreground": "#6A8759"
+          "foreground": "#6a8759"
         }
       },
       {
-        "scope": "constant.numeric",
+        "scope": ["constant.numeric", "constant.language"],
         "settings": {
-          "foreground": "#6897BB"
+          "foreground": "#6897bb"
         }
       },
       {
-        "scope": "keyword",
+        "scope": ["keyword", "storage.type", "storage.modifier"],
         "settings": {
-          "foreground": "#CC7832",
-          "fontStyle": "bold"
+          "foreground": "#cc7832"
         }
       },
       {
-        "scope": "storage.type",
+        "scope": ["entity.name.function", "entity.name.method"],
         "settings": {
-          "foreground": "#CC7832"
+          "foreground": "#ffc66d"
         }
       },
       {
-        "scope": "entity.name.function",
+        "scope": ["entity.name.class", "entity.name.type"],
         "settings": {
-          "foreground": "#FFC66D"
+          "foreground": "#ffc66d"
         }
       },
       {
-        "scope": "entity.name.class",
+        "scope": ["variable", "variable.other"],
         "settings": {
-          "foreground": "#FFC66D"
+          "foreground": "#a9b7c6"
         }
       },
       {
-        "scope": "variable.other.property",
+        "scope": ["entity.name.tag"],
         "settings": {
-          "foreground": "#9876AA"
+          "foreground": "#e8bf6a"
         }
       },
       {
-        "scope": "variable",
+        "scope": ["entity.other.attribute-name"],
         "settings": {
-          "foreground": "#A9B7C6"
+          "foreground": "#bababa"
         }
       },
       {
-        "scope": "entity.name.tag",
+        "scope": ["support.function", "support.type"],
         "settings": {
-          "foreground": "#E8BF6A"
+          "foreground": "#ffc66d"
         }
       },
       {
-        "scope": "entity.other.attribute-name",
+        "scope": ["constant.character.escape"],
         "settings": {
-          "foreground": "#BBB529"
+          "foreground": "#cc7832"
+        }
+      },
+      {
+        "scope": ["punctuation"],
+        "settings": {
+          "foreground": "#a9b7c6"
+        }
+      },
+      {
+        "scope": ["meta.brace"],
+        "settings": {
+          "foreground": "#a9b7c6"
+        }
+      },
+      {
+        "scope": ["storage.type.function"],
+        "settings": {
+          "foreground": "#ffc66d"
+        }
+      },
+      {
+        "scope": ["entity.name.namespace"],
+        "settings": {
+          "foreground": "#ffc66d"
         }
       }
     ]
-  }
+  },
+  "editor.semanticTokenColorCustomizations": {
+    "enabled": true,
+    "rules": {
+      "function": {
+        "foreground": "#ffc66d"
+      },
+      "method": {
+        "foreground": "#ffc66d"
+      },
+      "class": {
+        "foreground": "#ffc66d"
+      },
+      "interface": {
+        "foreground": "#ffc66d"
+      },
+      "typeParameter": {
+        "foreground": "#ffc66d"
+      },
+      "enum": {
+        "foreground": "#ffc66d"
+      },
+      "variable": {
+        "foreground": "#a9b7c6"
+      },
+      "property": {
+        "foreground": "#a9b7c6"
+      },
+      "parameter": {
+        "foreground": "#a9b7c6"
+      },
+      "namespace": {
+        "foreground": "#ffc66d"
+      },
+      "type": {
+        "foreground": "#ffc66d"
+      },
+      "comment": {
+        "foreground": "#808080",
+        "fontStyle": "italic"
+      },
+      "string": {
+        "foreground": "#6a8759"
+      },
+      "keyword": {
+        "foreground": "#cc7832"
+      },
+      "number": {
+        "foreground": "#6897bb"
+      }
+    }
+  },
+  "workbench.editor.tabActionLocation": "right",
+  "circleci.filters.branchFilter": "allBranches",
+  "circleci.persistedProjectSelection": ["gh/acsbe/accessFlow"],
+  "circleci.filters.myPipelinesOnly": true
 }
-

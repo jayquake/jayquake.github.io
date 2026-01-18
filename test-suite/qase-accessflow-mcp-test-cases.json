@@ -1,0 +1,770 @@
+{
+  "suites": [
+    {
+      "id": 6000,
+      "title": "MCP-AccessFlow: Get Most Urgent Issues",
+      "description": "Validation of the **getMostUrgentIssues** MCP tool that retrieves the most urgent accessibility issues ordered by severity (extreme > high > medium > low), then by site occurrences, then by page occurrences. This suite tests: API response structure, severity ordering, issue metadata accuracy, pagination/limits, error handling, and data integrity.",
+      "preconditions": "AccessFlow MCP server is configured and accessible. At least one accessibility audit has been performed with issues detected.",
+      "suites": [],
+      "cases": [
+        {
+          "id": 6001,
+          "title": "MCP-GetIssues: API Returns Valid JSON Structure",
+          "description": "Validate that getMostUrgentIssues returns a properly structured JSON response with expected fields.",
+          "preconditions": "MCP server is running and accessible.",
+          "postconditions": "Response contains valid JSON structure with expected fields.",
+          "priority": "keep-manual",
+          "severity": "high",
+          "type": "api",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Invoke getMostUrgentIssues MCP Tool**\n1. Call the getMostUrgentIssues function via MCP.\n2. Wait for response.\n3. Capture response payload.",
+              "expected_result": "✔ Function executes without errors and returns a response."
+            },
+            {
+              "position": 2,
+              "action": "**Validate Response Structure**\n1. Verify response is valid JSON.\n2. Check for required top-level fields (e.g., issues array, metadata).\n3. Confirm no malformed data structures.",
+              "expected_result": "✔ Response is valid JSON with expected structure."
+            },
+            {
+              "position": 3,
+              "action": "**Verify Issue Object Schema**\n1. Inspect first issue in response array.\n2. Validate presence of required fields (displayName, severity, siteOccurrences, pageOccurrences).\n3. Confirm data types match expected schema.",
+              "expected_result": "✔ Each issue object contains all required fields with correct data types."
+            }
+          ]
+        },
+        {
+          "id": 6002,
+          "title": "MCP-GetIssues: Issues Ordered by Severity (Extreme > High > Medium > Low)",
+          "description": "Validate that issues are correctly ordered by severity level, with extreme severity issues appearing first.",
+          "preconditions": "Multiple issues exist with different severity levels (extreme, high, medium, low).",
+          "postconditions": "Issues are returned in correct severity order.",
+          "priority": "keep-manual",
+          "severity": "high",
+          "type": "api",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Retrieve Issues List**\n1. Call getMostUrgentIssues.\n2. Extract all issues from response.\n3. Map severity values for each issue.",
+              "expected_result": "✔ Issues list retrieved successfully."
+            },
+            {
+              "position": 2,
+              "action": "**Verify Severity Ordering**\n1. Check first issue has severity 'extreme' (if extreme issues exist).\n2. Verify no lower severity issues appear before higher severity ones.\n3. Confirm ordering: extreme → high → medium → low.",
+              "expected_result": "✔ Issues are ordered correctly by severity priority."
+            },
+            {
+              "position": 3,
+              "action": "**Validate Secondary Sorting**\n1. For issues with same severity, verify they are sorted by site occurrences (descending).\n2. For issues with same severity and site occurrences, verify page occurrences sorting (descending).",
+              "expected_result": "✔ Secondary sorting criteria (site/page occurrences) applied correctly."
+            }
+          ]
+        },
+        {
+          "id": 6003,
+          "title": "MCP-GetIssues: Issue Display Names Are Unique and Descriptive",
+          "description": "Validate that each issue has a unique display name that accurately describes the accessibility problem.",
+          "preconditions": "Multiple issues exist in the system.",
+          "postconditions": "All issues have unique, descriptive display names.",
+          "priority": "keep-manual",
+          "severity": "medium",
+          "type": "api",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Extract Display Names**\n1. Call getMostUrgentIssues.\n2. Extract displayName field from each issue.\n3. Store all display names in a list.",
+              "expected_result": "✔ Display names extracted successfully."
+            },
+            {
+              "position": 2,
+              "action": "**Verify Uniqueness**\n1. Check for duplicate display names.\n2. Confirm each issue has a distinct identifier.\n3. Validate display names follow expected format (e.g., 'Issue-Type-identifier').",
+              "expected_result": "✔ All display names are unique and follow expected naming convention."
+            },
+            {
+              "position": 3,
+              "action": "**Validate Descriptive Content**\n1. Read each display name.\n2. Confirm names describe the accessibility issue clearly.\n3. Verify names are human-readable and meaningful.",
+              "expected_result": "✔ Display names are descriptive and clearly identify the issue type."
+            }
+          ]
+        },
+        {
+          "id": 6004,
+          "title": "MCP-GetIssues: Site and Page Occurrence Counts Are Accurate",
+          "description": "Validate that siteOccurrences and pageOccurrences fields accurately reflect the number of sites and pages affected by each issue.",
+          "preconditions": "Issues with known occurrence counts exist in the system.",
+          "postconditions": "Occurrence counts match actual audit data.",
+          "priority": "keep-manual",
+          "severity": "medium",
+          "type": "api",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Retrieve Issues with Occurrence Data**\n1. Call getMostUrgentIssues.\n2. Extract siteOccurrences and pageOccurrences for each issue.\n3. Verify fields are numeric values.",
+              "expected_result": "✔ Occurrence counts retrieved and are numeric."
+            },
+            {
+              "position": 2,
+              "action": "**Validate Site Occurrences Accuracy**\n1. Cross-reference siteOccurrences with actual audit data.\n2. Confirm count matches number of unique sites where issue appears.\n3. Verify count is non-negative integer.",
+              "expected_result": "✔ Site occurrence counts are accurate and match audit data."
+            },
+            {
+              "position": 3,
+              "action": "**Validate Page Occurrences Accuracy**\n1. Cross-reference pageOccurrences with actual audit data.\n2. Confirm count matches number of unique pages where issue appears.\n3. Verify pageOccurrences >= siteOccurrences (logical constraint).",
+              "expected_result": "✔ Page occurrence counts are accurate and logically consistent."
+            }
+          ]
+        },
+        {
+          "id": 6005,
+          "title": "MCP-GetIssues: Response Handles Empty Results Gracefully",
+          "description": "Validate that when no issues exist, the API returns an appropriate empty response without errors.",
+          "preconditions": "No accessibility issues exist in the system (or all issues have been resolved).",
+          "postconditions": "Empty response returned without errors.",
+          "priority": "keep-manual",
+          "severity": "low",
+          "type": "api",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Invoke API with No Issues**\n1. Ensure system has no active issues (or use test environment with no issues).\n2. Call getMostUrgentIssues.\n3. Capture response.",
+              "expected_result": "✔ API call completes without errors."
+            },
+            {
+              "position": 2,
+              "action": "**Validate Empty Response Structure**\n1. Verify response is valid JSON.\n2. Check if issues array is empty or null.\n3. Confirm response structure is consistent with non-empty responses.",
+              "expected_result": "✔ Response contains empty array or appropriate null value, maintaining consistent structure."
+            },
+            {
+              "position": 3,
+              "action": "**Verify No Error Messages**\n1. Check response for error fields.\n2. Confirm no exception messages.\n3. Validate response indicates successful execution.",
+              "expected_result": "✔ No error messages present; response indicates successful empty result."
+            }
+          ]
+        },
+        {
+          "id": 6006,
+          "title": "MCP-GetIssues: Response Performance and Timeout Handling",
+          "description": "Validate that the API responds within acceptable time limits and handles large datasets efficiently.",
+          "preconditions": "System contains a large number of issues (100+ issues).",
+          "postconditions": "Response returned within acceptable time limits.",
+          "priority": "keep-manual",
+          "severity": "medium",
+          "type": "performance",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Measure Response Time**\n1. Record timestamp before API call.\n2. Call getMostUrgentIssues.\n3. Record timestamp after response received.\n4. Calculate elapsed time.",
+              "expected_result": "✔ Response time measured successfully."
+            },
+            {
+              "position": 2,
+              "action": "**Validate Performance Threshold**\n1. Compare response time to acceptable threshold (e.g., < 5 seconds).\n2. Verify response completes without timeout errors.\n3. Confirm no partial data returned.",
+              "expected_result": "✔ Response completes within acceptable time limit (< 5 seconds)."
+            },
+            {
+              "position": 3,
+              "action": "**Verify Data Completeness**\n1. Check that all expected issues are included in response.\n2. Confirm no truncation or pagination issues.\n3. Validate response contains complete dataset.",
+              "expected_result": "✔ Complete dataset returned without truncation or missing data."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6100,
+      "title": "MCP-AccessFlow: Get Issue Remediation",
+      "description": "Validation of the **getIssueRemediation** MCP tool that retrieves detailed remediation guidance for a specific accessibility issue by its display name. This suite tests: issue lookup accuracy, remediation content structure, code examples, WCAG references, step-by-step guidance, error handling for invalid issues, and content completeness.",
+      "preconditions": "AccessFlow MCP server is configured. At least one accessibility issue exists with remediation metadata available.",
+      "suites": [],
+      "cases": [
+        {
+          "id": 6101,
+          "title": "MCP-Remediation: Retrieves Remediation for Valid Issue Display Name",
+          "description": "Validate that getIssueRemediation successfully retrieves remediation guidance when provided with a valid issue display name.",
+          "preconditions": "At least one issue exists with a known display name (e.g., 'Decorative-Content-6d277a13ba').",
+          "postconditions": "Remediation data returned for the specified issue.",
+          "priority": "keep-manual",
+          "severity": "high",
+          "type": "api",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Obtain Valid Issue Display Name**\n1. Call getMostUrgentIssues to get list of issues.\n2. Extract displayName from first issue.\n3. Store display name for remediation lookup.",
+              "expected_result": "✔ Valid issue display name obtained (e.g., 'Decorative-Content-6d277a13ba')."
+            },
+            {
+              "position": 2,
+              "action": "**Invoke getIssueRemediation**\n1. Call getIssueRemediation with the valid display name.\n2. Wait for response.\n3. Capture remediation data.",
+              "expected_result": "✔ API call completes successfully and returns remediation data."
+            },
+            {
+              "position": 3,
+              "action": "**Validate Response Contains Remediation Content**\n1. Verify response is not empty.\n2. Check for remediation guidance fields.\n3. Confirm issue display name matches requested issue.",
+              "expected_result": "✔ Remediation content returned and matches requested issue."
+            }
+          ]
+        },
+        {
+          "id": 6102,
+          "title": "MCP-Remediation: Response Contains Complete Remediation Structure",
+          "description": "Validate that the remediation response includes all expected fields: description, code examples, WCAG references, step-by-step guidance, and severity information.",
+          "preconditions": "Issue with complete remediation metadata exists.",
+          "postconditions": "Response contains all expected remediation fields.",
+          "priority": "keep-manual",
+          "severity": "high",
+          "type": "api",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Retrieve Remediation Data**\n1. Call getIssueRemediation with valid issue display name.\n2. Parse response JSON.\n3. Inspect top-level structure.",
+              "expected_result": "✔ Remediation response retrieved and parsed successfully."
+            },
+            {
+              "position": 2,
+              "action": "**Verify Required Fields Present**\n1. Check for description/overview field.\n2. Verify code examples or snippets exist.\n3. Confirm WCAG references are included.\n4. Validate step-by-step guidance is present.",
+              "expected_result": "✔ All required remediation fields are present in response."
+            },
+            {
+              "position": 3,
+              "action": "**Validate Field Content Quality**\n1. Read description text - confirm it's informative.\n2. Check code examples are properly formatted.\n3. Verify WCAG references are valid links or identifiers.\n4. Confirm guidance steps are actionable.",
+              "expected_result": "✔ All remediation fields contain meaningful, actionable content."
+            }
+          ]
+        },
+        {
+          "id": 6103,
+          "title": "MCP-Remediation: Code Examples Are Accurate and Complete",
+          "description": "Validate that code examples in remediation guidance show correct before/after code snippets with proper syntax highlighting indicators.",
+          "preconditions": "Issue contains code remediation examples.",
+          "postconditions": "Code examples are accurate and complete.",
+          "priority": "keep-manual",
+          "severity": "high",
+          "type": "api",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Extract Code Examples**\n1. Retrieve remediation for issue with code examples.\n2. Locate code example sections.\n3. Extract original and suggested code blocks.",
+              "expected_result": "✔ Code examples extracted from remediation response."
+            },
+            {
+              "position": 2,
+              "action": "**Validate Original Code Accuracy**\n1. Compare original code example to actual issue source.\n2. Verify code matches the problematic implementation.\n3. Confirm syntax is correct and complete.",
+              "expected_result": "✔ Original code example accurately represents the issue."
+            },
+            {
+              "position": 3,
+              "action": "**Validate Suggested Fix Accuracy**\n1. Review suggested code fix.\n2. Verify fix addresses the accessibility issue.\n3. Confirm fix includes required attributes (e.g., aria-labels, alt text).\n4. Check that fix is syntactically correct.",
+              "expected_result": "✔ Suggested code fix is accurate and resolves the accessibility issue."
+            }
+          ]
+        },
+        {
+          "id": 6104,
+          "title": "MCP-Remediation: WCAG References Are Valid and Accessible",
+          "description": "Validate that WCAG references in remediation guidance point to valid, accessible documentation resources.",
+          "preconditions": "Issue contains WCAG references in remediation data.",
+          "postconditions": "WCAG references are valid and accessible.",
+          "priority": "keep-manual",
+          "severity": "medium",
+          "type": "api",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Extract WCAG References**\n1. Retrieve remediation for issue with WCAG references.\n2. Locate WCAG reference fields.\n3. Extract URLs or identifiers.",
+              "expected_result": "✔ WCAG references extracted from remediation response."
+            },
+            {
+              "position": 2,
+              "action": "**Validate WCAG Reference Format**\n1. Check reference format (e.g., 'WCAG 2.1.1', 'https://www.w3.org/WAI/WCAG21/...').\n2. Verify references follow expected naming convention.\n3. Confirm references are properly formatted.",
+              "expected_result": "✔ WCAG references follow expected format and naming convention."
+            },
+            {
+              "position": 3,
+              "action": "**Verify WCAG Links Are Accessible**\n1. For URL-based references, attempt to access the link.\n2. Confirm link returns valid content (HTTP 200).\n3. Verify content is relevant to the accessibility issue.",
+              "expected_result": "✔ WCAG links are accessible and point to relevant documentation."
+            }
+          ]
+        },
+        {
+          "id": 6105,
+          "title": "MCP-Remediation: Error Handling for Invalid Issue Display Name",
+          "description": "Validate that getIssueRemediation returns appropriate error response when provided with an invalid or non-existent issue display name.",
+          "preconditions": "MCP server is accessible.",
+          "postconditions": "Appropriate error response returned for invalid input.",
+          "priority": "keep-manual",
+          "severity": "medium",
+          "type": "api",
+          "behavior": "negative",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Invoke with Invalid Display Name**\n1. Call getIssueRemediation with non-existent display name (e.g., 'Invalid-Issue-12345').\n2. Capture response.\n3. Note any error indicators.",
+              "expected_result": "✔ API call completes (does not hang or crash)."
+            },
+            {
+              "position": 2,
+              "action": "**Validate Error Response Structure**\n1. Check response for error fields or status codes.\n2. Verify error message is descriptive.\n3. Confirm error indicates issue not found or invalid input.",
+              "expected_result": "✔ Error response clearly indicates issue not found or invalid display name."
+            },
+            {
+              "position": 3,
+              "action": "**Verify No Partial Data Returned**\n1. Confirm response does not contain partial remediation data.\n2. Verify no null or empty remediation objects.\n3. Check that error is consistent and predictable.",
+              "expected_result": "✔ Error response is clear and does not return partial or misleading data."
+            }
+          ]
+        },
+        {
+          "id": 6106,
+          "title": "MCP-Remediation: Step-by-Step Guidance Is Actionable",
+          "description": "Validate that remediation guidance includes clear, actionable steps that developers can follow to fix the accessibility issue.",
+          "preconditions": "Issue contains step-by-step remediation guidance.",
+          "postconditions": "Guidance steps are clear and actionable.",
+          "priority": "keep-manual",
+          "severity": "medium",
+          "type": "api",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Extract Step-by-Step Guidance**\n1. Retrieve remediation for issue with step-by-step guidance.\n2. Locate steps or instructions section.\n3. Extract individual steps.",
+              "expected_result": "✔ Step-by-step guidance extracted from remediation response."
+            },
+            {
+              "position": 2,
+              "action": "**Validate Steps Are Sequential**\n1. Verify steps are numbered or ordered logically.\n2. Confirm steps build upon each other.\n3. Check that steps follow a logical progression.",
+              "expected_result": "✔ Steps are properly ordered and follow logical sequence."
+            },
+            {
+              "position": 3,
+              "action": "**Verify Steps Are Actionable**\n1. Read each step individually.\n2. Confirm each step has a clear action (e.g., 'Add aria-label attribute', 'Update alt text').\n3. Verify steps are specific enough to implement.\n4. Check that steps include necessary context or code snippets.",
+              "expected_result": "✔ All steps are actionable, specific, and include necessary implementation details."
+            }
+          ]
+        },
+        {
+          "id": 6107,
+          "title": "MCP-Remediation: Response Performance for Large Remediation Content",
+          "description": "Validate that getIssueRemediation responds efficiently even when remediation content includes extensive code examples and detailed guidance.",
+          "preconditions": "Issue exists with extensive remediation content (large code blocks, multiple examples).",
+          "postconditions": "Response returned within acceptable time limits.",
+          "priority": "keep-manual",
+          "severity": "low",
+          "type": "performance",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Measure Response Time**\n1. Record timestamp before API call.\n2. Call getIssueRemediation for issue with extensive content.\n3. Record timestamp after response received.\n4. Calculate elapsed time.",
+              "expected_result": "✔ Response time measured successfully."
+            },
+            {
+              "position": 2,
+              "action": "**Validate Performance Threshold**\n1. Compare response time to acceptable threshold (e.g., < 3 seconds).\n2. Verify response completes without timeout.\n3. Confirm all content is included (no truncation).",
+              "expected_result": "✔ Response completes within acceptable time limit (< 3 seconds)."
+            },
+            {
+              "position": 3,
+              "action": "**Verify Content Completeness**\n1. Check that all remediation sections are present.\n2. Verify code examples are complete (not truncated).\n3. Confirm all guidance steps are included.",
+              "expected_result": "✔ Complete remediation content returned without truncation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6200,
+      "title": "MCP-AccessFlow: Resolve Issue",
+      "description": "Validation of the **resolveIssue** MCP tool that marks an accessibility issue as resolved in accessFlow by its display name. This suite tests: successful issue resolution, issue state updates, error handling for invalid issues, idempotency (resolving already-resolved issues), and verification of resolution status.",
+      "preconditions": "AccessFlow MCP server is configured. At least one active (unresolved) accessibility issue exists.",
+      "suites": [],
+      "cases": [
+        {
+          "id": 6201,
+          "title": "MCP-Resolve: Successfully Resolves Valid Active Issue",
+          "description": "Validate that resolveIssue successfully marks an active issue as resolved when provided with a valid issue display name.",
+          "preconditions": "At least one active (unresolved) issue exists with a known display name.",
+          "postconditions": "Issue is marked as resolved in the system.",
+          "priority": "keep-manual",
+          "severity": "high",
+          "type": "api",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Obtain Active Issue Display Name**\n1. Call getMostUrgentIssues to get list of active issues.\n2. Extract displayName from first unresolved issue.\n3. Store display name for resolution.\n4. Verify issue is currently active/unresolved.",
+              "expected_result": "✔ Valid active issue display name obtained and confirmed as unresolved."
+            },
+            {
+              "position": 2,
+              "action": "**Invoke resolveIssue**\n1. Call resolveIssue with the valid display name.\n2. Wait for response.\n3. Capture resolution confirmation.",
+              "expected_result": "✔ API call completes successfully and returns confirmation."
+            },
+            {
+              "position": 3,
+              "action": "**Verify Issue Resolution Status**\n1. Call getMostUrgentIssues again.\n2. Verify the resolved issue no longer appears in urgent issues list (or appears with resolved status).\n3. Confirm issue state has changed to resolved.",
+              "expected_result": "✔ Issue is marked as resolved and no longer appears in active urgent issues."
+            }
+          ]
+        },
+        {
+          "id": 6202,
+          "title": "MCP-Resolve: Response Confirms Successful Resolution",
+          "description": "Validate that resolveIssue returns a clear confirmation response indicating the issue was successfully resolved.",
+          "preconditions": "Active issue exists with valid display name.",
+          "postconditions": "Clear confirmation response received.",
+          "priority": "keep-manual",
+          "severity": "medium",
+          "type": "api",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Invoke resolveIssue**\n1. Call resolveIssue with valid active issue display name.\n2. Capture response payload.\n3. Parse response JSON.",
+              "expected_result": "✔ Resolution request completed and response captured."
+            },
+            {
+              "position": 2,
+              "action": "**Validate Success Indicators**\n1. Check response for success status or confirmation message.\n2. Verify response includes issue display name.\n3. Confirm response indicates resolution was successful.",
+              "expected_result": "✔ Response contains clear success indicators and confirmation."
+            },
+            {
+              "position": 3,
+              "action": "**Verify Response Structure**\n1. Check response format is consistent.\n2. Verify response includes relevant metadata (timestamp, issue identifier).\n3. Confirm response is well-structured JSON.",
+              "expected_result": "✔ Response has consistent structure with relevant metadata."
+            }
+          ]
+        },
+        {
+          "id": 6203,
+          "title": "MCP-Resolve: Error Handling for Invalid Issue Display Name",
+          "description": "Validate that resolveIssue returns appropriate error response when provided with an invalid or non-existent issue display name.",
+          "preconditions": "MCP server is accessible.",
+          "postconditions": "Appropriate error response returned for invalid input.",
+          "priority": "keep-manual",
+          "severity": "medium",
+          "type": "api",
+          "behavior": "negative",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Invoke with Invalid Display Name**\n1. Call resolveIssue with non-existent display name (e.g., 'Invalid-Issue-12345').\n2. Capture response.\n3. Note any error indicators.",
+              "expected_result": "✔ API call completes (does not hang or crash)."
+            },
+            {
+              "position": 2,
+              "action": "**Validate Error Response Structure**\n1. Check response for error fields or status codes.\n2. Verify error message is descriptive.\n3. Confirm error indicates issue not found or invalid input.",
+              "expected_result": "✔ Error response clearly indicates issue not found or invalid display name."
+            },
+            {
+              "position": 3,
+              "action": "**Verify No False Success**\n1. Confirm response does not indicate successful resolution.\n2. Verify no success status returned for invalid issue.\n3. Check that error is consistent and predictable.",
+              "expected_result": "✔ Error response is clear and does not indicate false success."
+            }
+          ]
+        },
+        {
+          "id": 6204,
+          "title": "MCP-Resolve: Idempotency - Resolving Already-Resolved Issue",
+          "description": "Validate that resolveIssue handles idempotency correctly when attempting to resolve an issue that is already resolved.",
+          "preconditions": "At least one issue exists that is already marked as resolved.",
+          "postconditions": "Idempotent operation completes without errors.",
+          "priority": "keep-manual",
+          "severity": "low",
+          "type": "api",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Identify Already-Resolved Issue**\n1. Obtain display name of an issue that is already resolved.\n2. Verify current resolution status.\n3. Store display name for idempotency test.",
+              "expected_result": "✔ Already-resolved issue identified and status confirmed."
+            },
+            {
+              "position": 2,
+              "action": "**Attempt to Resolve Again**\n1. Call resolveIssue with the already-resolved issue display name.\n2. Capture response.\n3. Note behavior (success, warning, or error).",
+              "expected_result": "✔ API call completes without errors."
+            },
+            {
+              "position": 3,
+              "action": "**Validate Idempotent Behavior**\n1. Check response indicates issue is already resolved (or confirms resolution again).\n2. Verify no duplicate resolution records created.\n3. Confirm issue status remains resolved.\n4. Verify system state is unchanged.",
+              "expected_result": "✔ Operation is idempotent - no errors, no duplicate records, status unchanged."
+            }
+          ]
+        },
+        {
+          "id": 6205,
+          "title": "MCP-Resolve: Issue Removed from Urgent Issues List After Resolution",
+          "description": "Validate that after resolving an issue, it no longer appears in the getMostUrgentIssues response (or appears with resolved status).",
+          "preconditions": "Active issue exists that can be resolved.",
+          "postconditions": "Resolved issue no longer appears in urgent issues list.",
+          "priority": "keep-manual",
+          "severity": "high",
+          "type": "api",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Capture Initial Urgent Issues List**\n1. Call getMostUrgentIssues before resolution.\n2. Extract list of issue display names.\n3. Identify target issue in the list.\n4. Record initial count of issues.",
+              "expected_result": "✔ Initial urgent issues list captured with target issue present."
+            },
+            {
+              "position": 2,
+              "action": "**Resolve Target Issue**\n1. Call resolveIssue with target issue display name.\n2. Wait for confirmation.\n3. Verify resolution was successful.",
+              "expected_result": "✔ Target issue successfully resolved."
+            },
+            {
+              "position": 3,
+              "action": "**Verify Issue Removed from Urgent List**\n1. Call getMostUrgentIssues again after resolution.\n2. Extract updated list of issue display names.\n3. Verify target issue no longer appears (or appears with resolved status).\n4. Confirm issue count decreased by 1 (if applicable).",
+              "expected_result": "✔ Resolved issue no longer appears in urgent issues list (or marked as resolved)."
+            }
+          ]
+        },
+        {
+          "id": 6206,
+          "title": "MCP-Resolve: Resolution Persists Across API Calls",
+          "description": "Validate that issue resolution persists and is maintained across multiple API calls and system restarts.",
+          "preconditions": "Active issue exists that can be resolved.",
+          "postconditions": "Resolution status persists across API calls.",
+          "priority": "keep-manual",
+          "severity": "medium",
+          "type": "api",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Resolve Issue**\n1. Call resolveIssue with valid active issue display name.\n2. Verify resolution confirmation received.\n3. Record issue display name and resolution timestamp.",
+              "expected_result": "✔ Issue resolved successfully."
+            },
+            {
+              "position": 2,
+              "action": "**Verify Persistence - Immediate Check**\n1. Wait 1-2 seconds after resolution.\n2. Call getMostUrgentIssues.\n3. Verify resolved issue does not appear in urgent list.\n4. Confirm resolution status maintained.",
+              "expected_result": "✔ Resolution persists immediately after resolution call."
+            },
+            {
+              "position": 3,
+              "action": "**Verify Persistence - Delayed Check**\n1. Wait 30-60 seconds after resolution.\n2. Call getMostUrgentIssues again.\n3. Verify resolved issue still does not appear.\n4. Confirm resolution status has not reverted.",
+              "expected_result": "✔ Resolution persists over time and does not revert."
+            }
+          ]
+        },
+        {
+          "id": 6207,
+          "title": "MCP-Resolve: Response Performance and Timeout Handling",
+          "description": "Validate that resolveIssue responds within acceptable time limits and handles timeouts gracefully.",
+          "preconditions": "Active issue exists with valid display name.",
+          "postconditions": "Resolution completes within acceptable time limits.",
+          "priority": "keep-manual",
+          "severity": "low",
+          "type": "performance",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Measure Resolution Time**\n1. Record timestamp before resolveIssue call.\n2. Call resolveIssue with valid issue display name.\n3. Record timestamp after response received.\n4. Calculate elapsed time.",
+              "expected_result": "✔ Resolution time measured successfully."
+            },
+            {
+              "position": 2,
+              "action": "**Validate Performance Threshold**\n1. Compare response time to acceptable threshold (e.g., < 3 seconds).\n2. Verify response completes without timeout errors.\n3. Confirm resolution was actually processed.",
+              "expected_result": "✔ Resolution completes within acceptable time limit (< 3 seconds)."
+            },
+            {
+              "position": 3,
+              "action": "**Verify Resolution Was Applied**\n1. Call getMostUrgentIssues after resolution.\n2. Verify issue no longer appears in urgent list.\n3. Confirm resolution was not lost due to timeout.",
+              "expected_result": "✔ Resolution was successfully applied and persisted despite performance constraints."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6300,
+      "title": "MCP-AccessFlow: Integration and Workflow Tests",
+      "description": "Validation of **end-to-end workflows** combining multiple AccessFlow MCP tools. This suite tests: complete issue discovery-to-resolution workflows, data consistency across tools, error recovery, and multi-tool integration scenarios.",
+      "preconditions": "AccessFlow MCP server is configured. Multiple accessibility issues exist with varying severity levels and remediation data.",
+      "suites": [],
+      "cases": [
+        {
+          "id": 6301,
+          "title": "MCP-Integration: Complete Workflow - Discover, Remediate, Resolve",
+          "description": "Validate end-to-end workflow: retrieve urgent issues, get remediation for an issue, resolve the issue, and verify resolution.",
+          "preconditions": "Multiple active issues exist with remediation data available.",
+          "postconditions": "Complete workflow executed successfully from discovery to resolution.",
+          "priority": "keep-manual",
+          "severity": "high",
+          "type": "integration",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Discover Urgent Issues**\n1. Call getMostUrgentIssues.\n2. Extract first issue display name from response.\n3. Verify issue is active and has remediation data available.\n4. Record initial issue count.",
+              "expected_result": "✔ Urgent issues retrieved and target issue identified."
+            },
+            {
+              "position": 2,
+              "action": "**Get Remediation Guidance**\n1. Call getIssueRemediation with target issue display name.\n2. Verify remediation content is returned.\n3. Review remediation guidance (description, code examples, WCAG references).\n4. Confirm remediation is actionable.",
+              "expected_result": "✔ Remediation guidance retrieved and validated."
+            },
+            {
+              "position": 3,
+              "action": "**Resolve Issue**\n1. Call resolveIssue with target issue display name.\n2. Verify resolution confirmation received.\n3. Wait for resolution to be processed.",
+              "expected_result": "✔ Issue resolved successfully."
+            },
+            {
+              "position": 4,
+              "action": "**Verify Resolution**\n1. Call getMostUrgentIssues again.\n2. Verify resolved issue no longer appears in urgent list.\n3. Confirm issue count decreased.\n4. Validate workflow completed end-to-end.",
+              "expected_result": "✔ Issue resolution verified - workflow completed successfully."
+            }
+          ]
+        },
+        {
+          "id": 6302,
+          "title": "MCP-Integration: Data Consistency Across Tools",
+          "description": "Validate that issue data (display names, severity, occurrences) remains consistent across getMostUrgentIssues and getIssueRemediation calls.",
+          "preconditions": "Multiple issues exist with known metadata.",
+          "postconditions": "Data consistency verified across all MCP tools.",
+          "priority": "keep-manual",
+          "severity": "medium",
+          "type": "integration",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Capture Issue Data from getMostUrgentIssues**\n1. Call getMostUrgentIssues.\n2. Extract display name, severity, siteOccurrences, and pageOccurrences for first issue.\n3. Store all metadata for comparison.",
+              "expected_result": "✔ Issue metadata captured from getMostUrgentIssues."
+            },
+            {
+              "position": 2,
+              "action": "**Retrieve Same Issue via getIssueRemediation**\n1. Call getIssueRemediation with the captured display name.\n2. Extract issue metadata from remediation response.\n3. Store remediation metadata for comparison.",
+              "expected_result": "✔ Issue metadata captured from getIssueRemediation."
+            },
+            {
+              "position": 3,
+              "action": "**Compare Data Consistency**\n1. Compare display names - should match exactly.\n2. Compare severity values - should match.\n3. Compare occurrence counts - should match (if included in remediation).\n4. Verify no discrepancies in core issue data.",
+              "expected_result": "✔ All issue metadata is consistent across both API calls."
+            }
+          ]
+        },
+        {
+          "id": 6303,
+          "title": "MCP-Integration: Batch Resolution Workflow",
+          "description": "Validate workflow for resolving multiple issues in sequence, verifying each resolution and tracking progress.",
+          "preconditions": "Multiple active issues exist (at least 3-5 issues).",
+          "postconditions": "Multiple issues resolved successfully in batch.",
+          "priority": "keep-manual",
+          "severity": "medium",
+          "type": "integration",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Get Initial Issue List**\n1. Call getMostUrgentIssues.\n2. Extract display names for first 3-5 issues.\n3. Record initial issue count.\n4. Store list of issues to resolve.",
+              "expected_result": "✔ Initial issue list captured with target issues identified."
+            },
+            {
+              "position": 2,
+              "action": "**Resolve Issues Sequentially**\n1. For each issue in the list:\n   - Call resolveIssue with issue display name.\n   - Verify resolution confirmation.\n   - Wait 1-2 seconds between resolutions.\n2. Track successful resolutions.\n3. Record any failures.",
+              "expected_result": "✔ All issues resolved successfully in sequence."
+            },
+            {
+              "position": 3,
+              "action": "**Verify Batch Resolution**\n1. Call getMostUrgentIssues after all resolutions.\n2. Verify all resolved issues no longer appear in urgent list.\n3. Confirm issue count decreased by number of resolved issues.\n4. Validate no issues were missed or incorrectly resolved.",
+              "expected_result": "✔ All issues in batch successfully resolved and verified."
+            }
+          ]
+        },
+        {
+          "id": 6304,
+          "title": "MCP-Integration: Error Recovery - Invalid Issue in Workflow",
+          "description": "Validate that workflows handle errors gracefully when encountering invalid issues, allowing continuation with valid issues.",
+          "preconditions": "Multiple active issues exist. At least one valid issue available.",
+          "postconditions": "Workflow continues successfully after encountering invalid issue.",
+          "priority": "keep-manual",
+          "severity": "medium",
+          "type": "integration",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Prepare Mixed Issue List**\n1. Call getMostUrgentIssues to get valid issues.\n2. Extract display name from first valid issue.\n3. Create invalid display name (e.g., 'Invalid-Issue-99999').\n4. Prepare workflow with both valid and invalid issues.",
+              "expected_result": "✔ Mixed issue list prepared with valid and invalid display names."
+            },
+            {
+              "position": 2,
+              "action": "**Execute Workflow with Error**\n1. Attempt to get remediation for invalid issue - expect error.\n2. Verify error is handled gracefully (no crash).\n3. Continue workflow with valid issue.\n4. Get remediation for valid issue - should succeed.",
+              "expected_result": "✔ Error handled gracefully and workflow continues with valid issue."
+            },
+            {
+              "position": 3,
+              "action": "**Complete Workflow Successfully**\n1. Resolve the valid issue.\n2. Verify resolution was successful.\n3. Confirm workflow completed despite initial error.\n4. Validate system state is correct.",
+              "expected_result": "✔ Workflow completed successfully after error recovery."
+            }
+          ]
+        },
+        {
+          "id": 6305,
+          "title": "MCP-Integration: Concurrent Tool Usage",
+          "description": "Validate that multiple MCP tools can be used concurrently without conflicts or data corruption.",
+          "preconditions": "Multiple active issues exist. System supports concurrent API calls.",
+          "postconditions": "Concurrent tool usage completes without conflicts.",
+          "priority": "keep-manual",
+          "severity": "low",
+          "type": "integration",
+          "behavior": "positive",
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "**Initiate Concurrent Calls**\n1. Simultaneously call getMostUrgentIssues.\n2. Simultaneously call getIssueRemediation for different issues.\n3. Track all API calls and responses.\n4. Record any errors or conflicts.",
+              "expected_result": "✔ All concurrent API calls initiated successfully."
+            },
+            {
+              "position": 2,
+              "action": "**Validate Response Integrity**\n1. Verify all responses are received.\n2. Check that responses are not corrupted or mixed.\n3. Confirm each response matches its corresponding request.\n4. Verify no data loss or conflicts occurred.",
+              "expected_result": "✔ All responses received correctly without corruption or conflicts."
+            },
+            {
+              "position": 3,
+              "action": "**Verify System State**\n1. Call getMostUrgentIssues after concurrent operations.\n2. Verify issue list is consistent and accurate.\n3. Confirm no duplicate or missing issues.\n4. Validate system state is correct.",
+              "expected_result": "✔ System state is correct and consistent after concurrent operations."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
