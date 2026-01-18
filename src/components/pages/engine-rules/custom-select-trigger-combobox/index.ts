@@ -4,6 +4,12 @@ import { PerceivableComponentComboboxSelect, PerceivableTraitClickable } from "@
 
 export const CustomSelectTriggerCombobox: Rule = {
   id: "custom-select-trigger-combobox",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Custom select triggers should be tagged for assistive technology",
   description:

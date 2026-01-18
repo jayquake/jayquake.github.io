@@ -4,6 +4,12 @@ import { CompliantComponentFigure, PerceivableTraitDiscernibleText } from "@acsb
 
 export const FigureDiscernible: Rule = {
   id: "figure-discernible",
+  metadata: {
+    category: "General",
+    profile: "Cognitive Disability",
+    wcagVersion: "General Guidelines",
+    wcagLevel: "N/A",
+  },
   impact: "minor",
   title: "Figure elements should receive text description or lose figure role",
   description: "Figure elements are often incorrectly used to display images on the screen. Incorrectly using the figure tag, without providing a proper figcaption, adds unnecessary clutter to the screen reader user's experience.",

@@ -4,6 +4,12 @@ import { PassCondition } from "../interfaces";
 
 export const TabMisuse: Rule = {
   id: "tab-misuse",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   associatedDetectors: [CompliantComponentTab, PerceivableComponentTab],
   impact: "serious",
   title: 'Only elements that function as tabs should receive role="tab"',

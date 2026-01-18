@@ -4,6 +4,12 @@ import { PerceivableTraitTabbable, CompliantTraitInteractable } from "@acsbe/cor
 
 export const TabbableNonInteractive: Rule = {
   id: "tabbable-non-interactive",
+  metadata: {
+    category: "Tabs",
+    profile: "Motor Impaired",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Non-interactive elements should not be keyboard navigable",
   description: "Allowing static content to receive keyboard focus creates unnecessary stops in the tab order, forcing users to tab through elements that provide no action and making keyboard navigation less intuitive.",

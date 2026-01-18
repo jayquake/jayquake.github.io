@@ -3,6 +3,12 @@ import { PassCondition } from "~/rules/interfaces";
 import { CompliantComponentNavigation, PerceivableComponentBreadcrumb } from "@acsbe/core-engine-classifier";
 export const BreadcrumbsNav: Rule = {
   id: "breadcrumbs-in-nav",
+  metadata: {
+    category: "General",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Breadcrumbs navigation should be tagged properly",
   description: "Breadcrumb navigation regions are essential for user orientation. If not appropriately tagged, screen reader users will not know that such an option exists on the page and will face more difficulties browsing around.",

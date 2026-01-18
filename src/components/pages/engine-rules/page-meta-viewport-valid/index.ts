@@ -27,6 +27,12 @@ function isContentMetaViewportValid(content: string): boolean {
 
 export const PageMetaViewportValid: Rule = {
   id: "page-meta-viewport-valid",
+  metadata: {
+    category: "Metadata",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "AA",
+  },
   impact: "critical",
   title: "Meta viewport should allow content scaling",
   description: "The meta viewport should allow scalability, typically with width=device-width, initial-scale=1, so text can be resized up to 200% without loss of functionality. Using user-scalable=no or maximum-scale=1 prevents users from enlarging content, making it difficult for people with low vision to read or interact.",

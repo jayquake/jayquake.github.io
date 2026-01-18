@@ -4,6 +4,12 @@ import { CompliantComponentTableRowHeader, PerceivableComponentTableRowHeader } 
 
 export const TableRowHeader: Rule = {
   id: "table-row-header",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "critical",
   title: "Table row headers should be tagged for assistive technology",
   description: "If a table row header is not marked up with the correct role or scope, screen reader users cannot determine which header applies to each cell.",

@@ -4,6 +4,12 @@ import { CompliantComponentArea, PerceivableTraitTabbable } from "@acsbe/core-en
 
 export const MapAreaDiscernible: Rule = {
   id: "map-area-discernible",
+  metadata: {
+    category: "Graphics",
+    profile: "Blind",
+    wcagVersion: "General Guidelines",
+    wcagLevel: "N/A",
+  },
   impact: "serious",
   title: "Each area element within an image map should have a text alternative",
   description: "Providing a text alternative for each area element inside a map element ensures that the content is announced by screen readers, enabling users to understand and navigate the content.",

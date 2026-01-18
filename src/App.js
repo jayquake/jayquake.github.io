@@ -1,26 +1,39 @@
-import React, { useState, useEffect } from "react";
-import { styled } from "@mui/material/styles";
 import {
-  Container, IconButton, Typography, CssBaseline, Drawer, Box, Toolbar,
-  List, Divider, AppBar as MuiAppBar, Badge, Chip, Switch, FormControlLabel,
-  Tooltip, Avatar, Menu, MenuItem, Alert, Snackbar
-} from "@mui/material";
-import {
-  Menu as MenuIcon,
-  ChevronLeft as ChevronLeftIcon,
-  Notifications as NotificationsIcon,
-  Assessment as TestIcon,
   Accessibility as AccessibilityIcon,
-  Speed as SpeedIcon,
+  BugReport as BugIcon,
+  ChevronLeft as ChevronLeftIcon,
   DarkMode as DarkModeIcon,
   LightMode as LightModeIcon,
-  BugReport as BugIcon
+  Menu as MenuIcon,
+  Notifications as NotificationsIcon,
+  Speed as SpeedIcon,
+  Assessment as TestIcon,
 } from "@mui/icons-material";
-import { getMainListItems, getSecondaryListItems } from "./listItems";
-import { useNavigate, useLocation } from "react-router-dom";
+import {
+  Avatar,
+  Badge,
+  Box,
+  Button,
+  Chip,
+  Container,
+  CssBaseline,
+  Drawer,
+  IconButton,
+  List,
+  Menu,
+  MenuItem,
+  AppBar as MuiAppBar,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import SearchComponent from "./components/layout/search";
+import engineRulesData from "./data/engine-rules-metadata.json";
+import { getMainListItems, getSecondaryListItems } from "./listItems";
 import AppRoutes from "./routes/AppRoutes";
-
 const drawerWidth = 280;
 const collapsedDrawerWidth = 60;
 
@@ -70,12 +83,12 @@ export default function App() {
   const pathnames = location.pathname.split("/").filter((x) => x);
 
   // UI State
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [testStatus, setTestStatus] = useState({ running: false, progress: 0 });
-  
+
   // Data State
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -100,19 +113,39 @@ export default function App() {
         setData(jsonData);
         setFilteredData(jsonData);
         setLoading(false);
-        
+
         // Initialize test notifications
         setNotifications([
-          { id: 1, message: "Test environment ready", type: "success", time: "now" },
-          { id: 2, message: `${jsonData.length} rules loaded successfully`, type: "info", time: "1m ago" },
-          { id: 3, message: "QA dashboard updated", type: "info", time: "2m ago" }
+          {
+            id: 1,
+            message: "Test environment ready",
+            type: "success",
+            time: "now",
+          },
+          {
+            id: 2,
+            message: `${jsonData.length} rules loaded successfully`,
+            type: "info",
+            time: "1m ago",
+          },
+          {
+            id: 3,
+            message: "QA dashboard updated",
+            type: "info",
+            time: "2m ago",
+          },
         ]);
       })
       .catch((error) => {
         setError(error.message);
         setLoading(false);
         setNotifications([
-          { id: 1, message: `Error loading rules: ${error.message}`, type: "error", time: "now" }
+          {
+            id: 1,
+            message: `Error loading rules: ${error.message}`,
+            type: "error",
+            time: "now",
+          },
         ]);
       });
   }, []);
@@ -120,111 +153,183 @@ export default function App() {
   // Handle search query
   const handleSearchChange = (query) => {
     const lowerCaseQuery = query.toLowerCase();
-    const filtered = data.filter((item) =>
-      item.name?.toLowerCase().includes(lowerCaseQuery) ||
-      item.criteria?.toLowerCase().includes(lowerCaseQuery) ||
-      item.shortDescription?.toLowerCase().includes(lowerCaseQuery)
+    const filtered = data.filter(
+      (item) =>
+        item.name?.toLowerCase().includes(lowerCaseQuery) ||
+        item.criteria?.toLowerCase().includes(lowerCaseQuery) ||
+        item.shortDescription?.toLowerCase().includes(lowerCaseQuery)
     );
     setFilteredData(filtered);
   };
 
   // Calculate current page stats for header
   const getCurrentPageInfo = () => {
-    if (pathnames.length === 0) return { title: "QA Dashboard", subtitle: "Accessibility Testing Platform" };
-    
+    if (pathnames.length === 0)
+      return {
+        title: "QA Dashboard",
+        subtitle: "Accessibility Testing Platform",
+      };
+
     const currentCriteria = pathnames[0];
     const criteriaTitle = capitalizeFirstLetter(currentCriteria);
-    
-    if (pathnames.length === 1) {
-      const rulesInCategory = data.filter(rule => 
-        rule.criteria?.toLowerCase().includes(currentCriteria.toLowerCase())
-      ).length;
-      return { 
-        title: `${criteriaTitle} Rules`, 
-        subtitle: `${rulesInCategory} testing rules available` 
+
+    // Special case for engine rules
+    if (currentCriteria === "engine" && pathnames.length === 1) {
+      return {
+        title: "Engine Rules",
+        subtitle: `${engineRulesData.length} testing rules available`,
       };
     }
-    
+
+    if (pathnames.length === 1) {
+      const rulesInCategory = data.filter((rule) =>
+        rule.criteria?.toLowerCase().includes(currentCriteria.toLowerCase())
+      ).length;
+      return {
+        title: `${criteriaTitle} Rules`,
+        subtitle: `${rulesInCategory} testing rules available`,
+      };
+    }
+
     return { title: criteriaTitle, subtitle: "Rule Testing" };
   };
 
   const { title, subtitle } = getCurrentPageInfo();
 
   return (
-    <Box sx={{ 
-      display: "flex", 
-      minHeight: "100vh",
-      background: location.pathname === '/' ? 'transparent' : 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 25%, #e2e8f0 50%, #cbd5e1 75%, #94a3b8 100%)',
-      position: 'relative',
-      overflow: 'hidden',
-      ...(location.pathname !== '/' && {
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'radial-gradient(circle at 25% 15%, rgba(167, 139, 250, 0.12) 0%, transparent 45%), radial-gradient(circle at 75% 85%, rgba(59, 130, 246, 0.08) 0%, transparent 45%), radial-gradient(circle at 50% 50%, rgba(102, 126, 234, 0.05) 0%, transparent 60%)',
-          backdropFilter: 'blur(2px)'
-        },
-        '&::after': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'conic-gradient(from 180deg at 50% 50%, rgba(255,255,255,0.1) 0deg, transparent 120deg, rgba(255,255,255,0.05) 240deg, transparent 360deg)',
-          animation: 'rotate 60s linear infinite',
-          '@keyframes rotate': {
-            '0%': { transform: 'rotate(0deg)' },
-            '100%': { transform: 'rotate(360deg)' }
-          }
-        }
-      })
-    }}>
+    <Box
+      sx={{
+        display: "flex",
+        minHeight: "100vh",
+        background:
+          location.pathname === "/"
+            ? "transparent"
+            : "linear-gradient(135deg, #f8fafc 0%, #f1f5f9 25%, #e2e8f0 50%, #cbd5e1 75%, #94a3b8 100%)",
+        position: "relative",
+        overflow: "hidden",
+        ...(location.pathname !== "/" && {
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background:
+              "radial-gradient(circle at 25% 15%, rgba(167, 139, 250, 0.12) 0%, transparent 45%), radial-gradient(circle at 75% 85%, rgba(59, 130, 246, 0.08) 0%, transparent 45%), radial-gradient(circle at 50% 50%, rgba(102, 126, 234, 0.05) 0%, transparent 60%)",
+            backdropFilter: "blur(2px)",
+          },
+          "&::after": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background:
+              "conic-gradient(from 180deg at 50% 50%, rgba(255,255,255,0.1) 0deg, transparent 120deg, rgba(255,255,255,0.05) 240deg, transparent 360deg)",
+            animation: "rotate 60s linear infinite",
+            "@keyframes rotate": {
+              "0%": { transform: "rotate(0deg)" },
+              "100%": { transform: "rotate(360deg)" },
+            },
+          },
+        }),
+      }}
+    >
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <Toolbar sx={{ justifyContent: "space-between", pr: 2 }}>
+        <Toolbar sx={{
+          pr: 2,
+          display: "grid",
+          gridTemplateColumns: "auto minmax(200px, 400px) auto",
+          gap: 3,
+          alignItems: "center",
+          width: "100%"
+        }}>
           {/* Left Section */}
-          <Box display="flex" alignItems="center">
+          <Box display="flex" alignItems="center" sx={{ justifySelf: "start" }}>
             <Box>
-              <Typography variant="h6" noWrap sx={{ fontWeight: 600, lineHeight: 1.2 }}>
+              <Typography
+                variant="h6"
+                noWrap
+                sx={{ fontWeight: 600, lineHeight: 1.2 }}
+              >
                 {title}
               </Typography>
-              <Typography variant="caption" sx={{ opacity: 0.8, fontSize: '0.75rem' }}>
+              <Typography
+                variant="caption"
+                sx={{ opacity: 0.8, fontSize: "0.75rem" }}
+              >
                 {subtitle}
               </Typography>
             </Box>
           </Box>
 
           {/* Center Section - Search */}
-          {open && (
-            <Box sx={{ flexGrow: 1, maxWidth: 400, mx: 3 }}>
-              <SearchComponent
-                data={data}
-                onSearchChange={(e) => handleSearchChange(e.target.value)}
-              />
-            </Box>
-          )}
+          <Box sx={{
+            width: "100%",
+            maxWidth: 400,
+            justifySelf: "center"
+          }}>
+            <SearchComponent
+              data={data}
+              onSearchChange={(e) => handleSearchChange(e.target.value)}
+            />
+          </Box>
 
           {/* Right Section - Actions */}
-          <Box display="flex" alignItems="center" gap={1}>
+          <Box display="flex" alignItems="center" gap={1.5} sx={{ justifySelf: "end" }}>
             {/* Test Status Indicator */}
-            <Tooltip title={testStatus.running ? "Tests running..." : "Ready to test"}>
+            <Tooltip
+              title={testStatus.running ? "Tests running..." : "Ready to test"}
+            >
               <Chip
                 icon={<SpeedIcon />}
                 label={testStatus.running ? "Testing..." : "Ready"}
                 size="small"
                 color={testStatus.running ? "warning" : "success"}
                 sx={{
-                  bgcolor: testStatus.running ? 'rgba(255,193,7,0.2)' : 'rgba(76,175,80,0.2)',
-                  color: 'white',
+                  bgcolor: testStatus.running
+                    ? "rgba(255,193,7,0.2)"
+                    : "rgba(76,175,80,0.2)",
+                  color: "white",
                   fontWeight: 600,
-                  display: { xs: 'none', sm: 'flex' }
+                  display: { xs: "none", sm: "flex" },
                 }}
               />
+            </Tooltip>
+            {/* Engine Library Link (glassy anchor) */}
+            <Tooltip title="Open Engine Rules Library">
+              <Button
+                component={Link}
+                to="/engine/library"
+                size="small"
+                variant="outlined"
+                sx={{
+                  textTransform: "none",
+                  borderRadius: 999,
+                  fontWeight: 600,
+                  px: 2.2,
+                  display: { xs: "none", sm: "inline-flex" },
+                  borderColor: "rgba(148, 163, 184, 0.5)",
+                  color: "#1e293b",
+                  background: "rgba(255, 255, 255, 0.55)",
+                  backdropFilter: "blur(14px)",
+                  WebkitBackdropFilter: "blur(14px)",
+                  boxShadow:
+                    "0 6px 16px rgba(15,23,42,0.18), inset 0 1px 0 rgba(255,255,255,0.7)",
+                  "&:hover": {
+                    borderColor: "rgba(148, 163, 184, 0.9)",
+                    background: "rgba(255, 255, 255, 0.85)",
+                    boxShadow:
+                      "0 10px 24px rgba(15,23,42,0.22), inset 0 1px 0 rgba(255,255,255,0.9)",
+                  },
+                }}
+                aria-label="Engine Library"
+              >
+                Engine Library
+              </Button>
             </Tooltip>
 
             {/* Theme Toggle */}
@@ -244,29 +349,29 @@ export default function App() {
             </Tooltip>
 
             {/* User Menu */}
-            <Avatar 
+            <Avatar
               role="button"
               tabIndex={0}
-              sx={{ 
-                width: 32, 
-                height: 32, 
-                background: 'rgba(255,255,255,0.3)',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-                border: '1px solid rgba(255,255,255,0.6)',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  background: 'rgba(255,255,255,0.5)',
-                  transform: 'scale(1.05)'
+              sx={{
+                width: 32,
+                height: 32,
+                background: "rgba(255,255,255,0.3)",
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
+                border: "1px solid rgba(255,255,255,0.6)",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+                "&:hover": {
+                  background: "rgba(255,255,255,0.5)",
+                  transform: "scale(1.05)",
                 },
-                '&:focus': {
-                  outline: '2px solid rgba(102, 126, 234, 0.5)',
-                  outlineOffset: '2px'
-                }
+                "&:focus": {
+                  outline: "2px solid rgba(102, 126, 234, 0.5)",
+                  outlineOffset: "2px",
+                },
               }}
             >
-              <AccessibilityIcon fontSize="small" sx={{ color: '#667eea' }} />
+              <AccessibilityIcon fontSize="small" sx={{ color: "#667eea" }} />
             </Avatar>
           </Box>
         </Toolbar>
@@ -281,27 +386,35 @@ export default function App() {
               mt: 1.5,
               minWidth: 300,
               maxHeight: 400,
-              background: 'rgba(255, 255, 255, 0.4)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255, 255, 255, 0.6)',
-              boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-              borderRadius: '12px',
-              '& .MuiMenuItem-root': {
-                flexDirection: 'column',
-                alignItems: 'flex-start',
-                whiteSpace: 'normal',
+              background: "rgba(255, 255, 255, 0.4)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              border: "1px solid rgba(255, 255, 255, 0.6)",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+              borderRadius: "12px",
+              "& .MuiMenuItem-root": {
+                flexDirection: "column",
+                alignItems: "flex-start",
+                whiteSpace: "normal",
                 py: 1.5,
-                borderRadius: '8px',
-                margin: '4px 8px',
-                '&:hover': {
-                  background: 'rgba(255, 255, 255, 0.6)'
-                }
-              }
-            }
+                borderRadius: "8px",
+                margin: "4px 8px",
+                "&:hover": {
+                  background: "rgba(255, 255, 255, 0.6)",
+                },
+              },
+            },
           }}
         >
-          <Box sx={{ px: 2, py: 1, borderBottom: 1, borderColor: 'divider', width: '100%' }}>
+          <Box
+            sx={{
+              px: 2,
+              py: 1,
+              borderBottom: 1,
+              borderColor: "divider",
+              width: "100%",
+            }}
+          >
             <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
               Test Notifications
             </Typography>
@@ -309,12 +422,21 @@ export default function App() {
           {notifications.map((notification) => (
             <MenuItem key={notification.id} onClick={handleMenuClose}>
               <Box display="flex" alignItems="flex-start" width="100%">
-                {notification.type === 'error' ? (
-                  <BugIcon color="error" sx={{ mr: 1, mt: 0.5, fontSize: 18 }} />
-                ) : notification.type === 'success' ? (
-                  <SpeedIcon color="success" sx={{ mr: 1, mt: 0.5, fontSize: 18 }} />
+                {notification.type === "error" ? (
+                  <BugIcon
+                    color="error"
+                    sx={{ mr: 1, mt: 0.5, fontSize: 18 }}
+                  />
+                ) : notification.type === "success" ? (
+                  <SpeedIcon
+                    color="success"
+                    sx={{ mr: 1, mt: 0.5, fontSize: 18 }}
+                  />
                 ) : (
-                  <TestIcon color="info" sx={{ mr: 1, mt: 0.5, fontSize: 18 }} />
+                  <TestIcon
+                    color="info"
+                    sx={{ mr: 1, mt: 0.5, fontSize: 18 }}
+                  />
                 )}
                 <Box flex={1}>
                   <Typography variant="body2" sx={{ fontWeight: 500 }}>
@@ -358,23 +480,23 @@ export default function App() {
                 easing: theme.transitions.easing.easeInOut,
                 duration: theme.transitions.duration.standard,
               }),
-            '&::-webkit-scrollbar': {
-              width: 8
+            "&::-webkit-scrollbar": {
+              width: 8,
             },
-            '&::-webkit-scrollbar-track': {
-              background: 'rgba(255, 255, 255, 0.1)',
-              backdropFilter: 'blur(10px)',
-              borderRadius: '4px'
+            "&::-webkit-scrollbar-track": {
+              background: "rgba(255, 255, 255, 0.1)",
+              backdropFilter: "blur(10px)",
+              borderRadius: "4px",
             },
-            '&::-webkit-scrollbar-thumb': {
-              background: 'rgba(255, 255, 255, 0.3)',
-              backdropFilter: 'blur(10px)',
-              borderRadius: '4px',
-              border: '1px solid rgba(255, 255, 255, 0.5)',
-              '&:hover': {
-                background: 'rgba(255, 255, 255, 0.5)'
-              }
-            }
+            "&::-webkit-scrollbar-thumb": {
+              background: "rgba(255, 255, 255, 0.3)",
+              backdropFilter: "blur(10px)",
+              borderRadius: "4px",
+              border: "1px solid rgba(255, 255, 255, 0.5)",
+              "&:hover": {
+                background: "rgba(255, 255, 255, 0.5)",
+              },
+            },
           },
         }}
       >
@@ -390,100 +512,146 @@ export default function App() {
                   backdropFilter: "blur(20px)",
                   WebkitBackdropFilter: "blur(20px)",
                   border: "2px solid rgba(255, 255, 255, 0.6)",
-                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                  position: 'relative',
-                  '&::before': {
+                  boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+                  position: "relative",
+                  "&::before": {
                     content: '""',
-                    position: 'absolute',
+                    position: "absolute",
                     inset: 0,
-                    borderRadius: '50%',
-                    background: 'linear-gradient(45deg, rgba(102,126,234,0.3) 30%, rgba(167,139,250,0.3) 90%)',
-                    zIndex: -1
-                  }
+                    borderRadius: "50%",
+                    background:
+                      "linear-gradient(45deg, rgba(102,126,234,0.3) 30%, rgba(167,139,250,0.3) 90%)",
+                    zIndex: -1,
+                  },
                 }}
               >
-                <AccessibilityIcon sx={{ fontSize: 20, color: '#667eea' }} />
+                <AccessibilityIcon sx={{ fontSize: 20, color: "#667eea" }} />
               </Avatar>
               <Box>
-                <Typography variant="subtitle1" sx={{ fontWeight: 700, color: "#2c3e50", lineHeight: 1.2, fontSize: '1rem' }}>
+                <Typography
+                  variant="subtitle1"
+                  sx={{
+                    fontWeight: 700,
+                    color: "#2c3e50",
+                    lineHeight: 1.2,
+                    fontSize: "1rem",
+                  }}
+                >
                   AccessFlow
                 </Typography>
-                <Typography variant="caption" sx={{ color: "#8b9dc3", fontSize: '0.75rem', fontWeight: 500 }}>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: "#8b9dc3",
+                    fontSize: "0.75rem",
+                    fontWeight: 500,
+                  }}
+                >
                   QA Testing
                 </Typography>
               </Box>
             </Box>
           )}
-          <IconButton 
-            onClick={handleDrawerToggle} 
-            sx={{ 
+          <IconButton
+            onClick={handleDrawerToggle}
+            sx={{
               color: "#667eea",
               width: 40,
               height: 40,
               borderRadius: 2,
-              '&:hover': { 
-                bgcolor: 'rgba(102,126,234,0.1)',
-                transform: 'scale(1.05)'
+              "&:hover": {
+                bgcolor: "rgba(102,126,234,0.1)",
+                transform: "scale(1.05)",
               },
-              transition: 'all 0.2s ease'
+              transition: "all 0.2s ease",
             }}
           >
             {open ? <ChevronLeftIcon /> : <MenuIcon />}
           </IconButton>
         </DrawerHeader>
-        <Box sx={{ 
-          height: '1px', 
-          background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent)', 
-          mx: 3, 
-          mb: 2 
-        }} />
-        <List sx={{ 
-          px: open ? 1 : 0.25, 
-          py: 0, 
-          flex: 1,
-          transition: (theme) =>
-            theme.transitions.create("padding", {
-              easing: theme.transitions.easing.easeInOut,
-              duration: theme.transitions.duration.standard,
-            }),
-        }}>{getMainListItems(data, open)}</List>
-        <List sx={{ 
-          px: open ? 1 : 0.25, 
-          py: 0,
-          transition: (theme) =>
-            theme.transitions.create("padding", {
-              easing: theme.transitions.easing.easeInOut,
-              duration: theme.transitions.duration.standard,
-            }),
-        }}>{getSecondaryListItems(data, open)}</List>
+        <Box
+          sx={{
+            height: "1px",
+            background:
+              "linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent)",
+            mx: 3,
+            mb: 2,
+          }}
+        />
+        <List
+          sx={{
+            px: open ? 1 : 0.25,
+            py: 0,
+            flex: 1,
+            transition: (theme) =>
+              theme.transitions.create("padding", {
+                easing: theme.transitions.easing.easeInOut,
+                duration: theme.transitions.duration.standard,
+              }),
+          }}
+        >
+          {getMainListItems(data, open)}
+        </List>
+        <List
+          sx={{
+            px: open ? 1 : 0.25,
+            py: 0,
+            transition: (theme) =>
+              theme.transitions.create("padding", {
+                easing: theme.transitions.easing.easeInOut,
+                duration: theme.transitions.duration.standard,
+              }),
+          }}
+        >
+          {getSecondaryListItems(data, open)}
+        </List>
       </Drawer>
 
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          height: "100vh",
-          overflow: "auto",
+          minHeight: "100vh",
+          height: "auto",
+          overflow: "visible",
           backgroundColor: "transparent",
-          padding: location.pathname === '/' ? 0 : {
-            xs: (theme) => theme.spacing(2),
-            sm: (theme) => theme.spacing(3), 
-            md: (theme) => theme.spacing(4)
-          },
+          padding:
+            location.pathname === "/"
+              ? 0
+              : {
+                  xs: (theme) => theme.spacing(2),
+                  sm: (theme) => theme.spacing(3),
+                  md: (theme) => theme.spacing(4),
+                },
           position: "relative",
           zIndex: 1,
+          paddingBottom: (theme) => theme.spacing(8),
         }}
       >
         <Toolbar />
-        {location.pathname === '/' ? (
+        {location.pathname === "/" ? (
           // Home page - no container wrapper, let Home manage its own spacing
           <>
             {loading ? (
-              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  minHeight: "50vh",
+                }}
+              >
                 <Typography>Loading...</Typography>
               </Box>
             ) : error ? (
-              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  minHeight: "50vh",
+                }}
+              >
                 <Typography color="error">Error: {error}</Typography>
               </Box>
             ) : (
@@ -492,11 +660,11 @@ export default function App() {
           </>
         ) : (
           // Other pages - use container with responsive maxWidth
-          <Container 
+          <Container
             maxWidth="lg"
             sx={{
               px: { xs: 2, sm: 3, md: 4 },
-              py: { xs: 1, sm: 2 }
+              py: { xs: 1, sm: 2 },
             }}
           >
             {loading ? (

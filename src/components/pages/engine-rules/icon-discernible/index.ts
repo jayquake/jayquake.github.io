@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const IconDiscernible: Rule = {
   id: "icon-discernible",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "moderate",
   title: "Icons should be labeled or excluded from assistive technology",
   description: "Icons used as decorative or complementary elements, like icons or illustrations that do not provide additional information, will often add unnecessary clutter to a screen reader user's browsing experience.",

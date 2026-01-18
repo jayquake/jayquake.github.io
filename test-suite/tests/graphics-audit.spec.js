@@ -2,7 +2,7 @@ import { AccessFlowSDK } from "@acsbe/accessflow-sdk";
 import { expect, test } from "@playwright/test";
 
 // Initialize AccessFlow SDK with API key
-AccessFlowSDK.init({ apiKey: "flow-1OnrCkNQqmwEyaShAow001pAwp8osHaM" });
+AccessFlowSDK.init({ apiKey: "flow-1kWinHti5fxwgaT6eOg000mgSC3uR8SbUc" });
 
 test.describe("Graphics Audit Tests", () => {
   test.beforeEach(async ({ page }) => {
@@ -26,9 +26,7 @@ test.describe("Graphics Audit Tests", () => {
       auditResults.push({ context, report });
       expect(report).toBeTruthy();
       console.log(`Audit completed for ${context}`);
-    };
-
-    // 1. Navigate to Graphics page
+    }; // 1. Navigate to Graphics page
     const graphicsLink = page.locator('a[href="#/graphics"]').first();
     await expect(graphicsLink).toBeVisible();
     await graphicsLink.click();
@@ -137,7 +135,7 @@ test.describe("Graphics Audit Tests", () => {
     // For example, check if violations count differs between states
     const violationCounts = auditResults.map((r) => ({
       context: r.context,
-      violations: r.report.violations ? r.report.violations.length : 0,
+      violations: r.report?.violations ? r.report.violations.length : 0,
     }));
     console.log(
       "Violation counts by context:",

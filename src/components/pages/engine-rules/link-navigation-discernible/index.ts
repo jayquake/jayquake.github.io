@@ -4,6 +4,12 @@ import { PerceivableTraitDiscernibleText, PerceivableComponentLinkNavigation, Co
 
 export const LinkNavigationDiscernible: Rule = {
   id: "link-navigation-discernible",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "critical",
   title: "Link navigation discernible text",
   description: "Links need discernible text that tells visitors where the link takes them.",

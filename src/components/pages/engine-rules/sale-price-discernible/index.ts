@@ -8,6 +8,12 @@ import { textContainsWord } from "@acsbe/core-engine-dictionary";
 
 export const SalePriceDiscernible: Rule = {
   id: "sale-price-discernible",
+  metadata: {
+    category: "Lists",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Original and discounted prices should be indicated to assistive technology",
   description: "Discounted prices often appear next to the original and distinguished with visual cues like strikethroughs or color changes. Both prices must also be conveyed by screen readers in a way that enables users to differentiate between the values, ensuring they can understand when a discount is applied.",

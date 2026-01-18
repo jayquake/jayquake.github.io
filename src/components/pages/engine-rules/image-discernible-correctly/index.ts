@@ -52,6 +52,12 @@ function isRelatedTextIncorrect(relatedText: string): boolean {
 
 export const ImageDiscernibleCorrectly: Rule = {
   id: "image-discernible-correctly",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "critical",
   title: "Functional image should have an informative and accurate text alternative",
   description: "Text alternatives must provide accurate descriptions of the image. Incorrect text alternatives, such as filenames or other placeholder values, may cause screen reader users to either miss essential information or hear unnecessary content that disrupts navigation.",

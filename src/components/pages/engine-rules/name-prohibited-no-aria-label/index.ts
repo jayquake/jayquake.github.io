@@ -16,6 +16,12 @@ import { PassCondition } from "~/rules/interfaces";
  */
 export const NameProhibitedNoAriaLabel: Rule = {
   id: "name-prohibited-no-aria-label",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "General Guidelines",
+    wcagLevel: "N/A",
+  },
   impact: "moderate",
   title: "aria-label should be used with compatible roles",
   description: "Using aria-label on elements that do not support the attribute can lead to the label being ignored, leaving users without the intended information.",

@@ -2,7 +2,13 @@ import type { Rule } from "~/rules/interfaces";
 import { PassCondition } from "~/rules/interfaces";
 
 export const PageTitleValid: Rule = {
-  id: "page-title",
+  id: "page-title-valid",
+  metadata: {
+    category: "Metadata",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "minor",
   title: "Page title should be descriptive",
   description: "Providing a descriptive title helps users understand the content of the page.",

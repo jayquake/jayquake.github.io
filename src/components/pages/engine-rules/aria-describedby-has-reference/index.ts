@@ -3,6 +3,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const AriaDescribedByHasReference: Rule = {
   id: "aria-describedby-has-reference",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "aria-describedby should reference a valid element id",
   description: "The element’s aria-describedby attribute points to an id that does not exist or is not valid, preventing assistive technologies from announcing the intended description and causing users to miss important context.",

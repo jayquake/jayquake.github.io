@@ -1,5 +1,6 @@
 // global-teardown.js
-const accessFlowSdkGlobalTeardown = require('@acsbe/accessflow-sdk/dist/src/playwright/global-teardown').default;
+const accessFlowSdkGlobalTeardown =
+  require("@acsbe/accessflow-sdk/dist/src/playwright/global-teardown").default;
 
 async function globalTeardown() {
   // Your custom teardown logic, if any
@@ -7,7 +8,8 @@ async function globalTeardown() {
 
   // Call the SDK's teardown
   await accessFlowSdkGlobalTeardown();
+
+  console.log("Global teardown completed");
 }
 
 module.exports = globalTeardown;
-

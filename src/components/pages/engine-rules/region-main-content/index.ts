@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const RegionMainContent: Rule = {
   id: "region-main-content",
+  metadata: {
+    category: "Landmarks",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "moderate",
   title: "Each web page that uses landmark regions should have a main landmark",
   description: "A main landmark (e.g., <main>) lets screen reader users quickly skip past repeated elements and jump straight to the primary content, improving navigation and orientation.",

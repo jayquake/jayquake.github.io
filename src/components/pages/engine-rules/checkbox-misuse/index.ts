@@ -4,6 +4,12 @@ import { CompliantComponentCheckbox, PerceivableComponentCheckbox } from "@acsbe
 
 export const CheckboxMisuse: Rule = {
   id: "checkbox-misuse",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: 'Only elements that function as checkbox controls should receive role="checkbox"',
   description: 'Setting role="checkbox" on elements that do not function as checkbox controls can mislead screen reader users by announcing them as selectable options in a group, causing unreliable navigation and interaction.',

@@ -4,6 +4,12 @@ import { PassCondition } from "../interfaces";
 
 export const NavigationSubmenuDiscernible: Rule = {
   id: "navigation-submenu-discernible",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Labeling submenus is recommended",
   description: "Complex menu structures that include nested submenus can unintentionally cause screen reader users to lose orientation. This can be mitigated by applying a unique label to each submenu to provide additional context for assistive technology.",

@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const FormSubmitButtonMismatch: Rule = {
   id: "form-submit-button-mismatch",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "moderate",
   title: 'Form submission controls should have type="submit"',
   description: 'Adding type="submit" to a control that submits a form ensures that screen readers users expect a change of context when they activate the control.',

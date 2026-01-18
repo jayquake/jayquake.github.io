@@ -2,7 +2,7 @@ import { AccessFlowSDK } from "@acsbe/accessflow-sdk";
 
 import { expect, test } from "@playwright/test";
 // Initialize AccessFlow SDK with API key from environment variable or fallback
-AccessFlowSDK.init({ apiKey: "flow-1OnrCkNQqmwEyaShAow001pAwp8osHaM" });
+AccessFlowSDK.init({ apiKey: "flow-1kWinHti5fxwgaT6eOg000mgSC3uR8SbUc" });
 
 test.describe("Search Component Testing with AccessFlow SDK", () => {
   test.beforeEach(async ({ page }) => {
@@ -22,6 +22,8 @@ test.describe("Search Component Testing with AccessFlow SDK", () => {
     const sdk = new AccessFlowSDK(page);
 
     const report = await sdk.audit();
+    console.log("Audit completed:", report ? "Success" : "No report");
+
     const searchInput = page
       .locator('input[aria-label="Search"]')
       .or(page.locator('input[placeholder="Search..."]'))

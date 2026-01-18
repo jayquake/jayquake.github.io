@@ -4,6 +4,12 @@ import { PassCondition } from "../interfaces";
 
 export const MenuTriggerMisuse: Rule = {
   id: "menu-trigger-misuse",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Menu trigger buttons/links that aren't perceived as menu trigger should lose the `aria-haspopup` attribute and the `aria-expanded` attribute",
   description: "Using menu trigger attributes for buttons/links that aren't menu triggers can confuse screen readers and other assistive technologies. This can lead to a poor user experience for people with disabilities.",

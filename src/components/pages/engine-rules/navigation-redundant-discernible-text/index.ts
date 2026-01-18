@@ -5,6 +5,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const NavigationRedundantDiscernibleText: Rule = {
   id: "navigation-redundant-discernible-text",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Navigation elements should have a label that doesn't contain the word navigation",
   description: "Screen readers announce when a user encounters a navigation region, which is why including the word 'navigation' in a label is redundant.",

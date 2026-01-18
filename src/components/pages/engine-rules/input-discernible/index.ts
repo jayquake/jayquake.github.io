@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const InputDiscernible: Rule = {
   id: "input-discernible",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "critical",
   title: "Inputs must include a descriptive label",
   description: "Screen readers rely on correctly coded and associated labels to announce the purpose of a form field. If a label isn't properly associated with its input field, screen reader users won't know the expected input.",

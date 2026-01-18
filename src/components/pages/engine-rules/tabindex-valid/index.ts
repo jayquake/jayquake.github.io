@@ -7,6 +7,12 @@ import { PassCondition } from "~/rules/interfaces";
  */
 export const TabindexValid: Rule = {
   id: "tabindex-valid",
+  metadata: {
+    category: "Tabs",
+    profile: "Motor Impaired",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "The tabindex attribute should be assigned a valid value",
   description: "Invalid tabindex values are ignored by browsers, while positive values override the natural focus order. Applying the tabindex attribute incorrectly can break the expected navigation flow for keyboard users.",

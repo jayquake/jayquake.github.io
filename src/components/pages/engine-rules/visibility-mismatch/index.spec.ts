@@ -4,16 +4,20 @@ import validationMethodArguments from "../../../test/unit/helpers/validation-met
 
 describe("VisibilityMismatch Rule Validation", () => {
   let validateMethodArguments: ValidationMethodArguments;
+  let classifier: ValidationMethodArguments["classifier"];
+  let response: ValidationMethodArguments["response"];
 
   beforeEach(() => {
     validateMethodArguments = validationMethodArguments();
     document.body.innerHTML = ""; // Reset document.body before each test
+
+    classifier = validateMethodArguments.classifier;
+    response = validateMethodArguments.response;
+    jest.spyOn(classifier, "getMatched").mockReturnValue([]);
   });
 
   it("should add compliant visible element to passed nodes", async () => {
-    const { classifier, response } = validateMethodArguments;
     const element = document.createElement("div");
-
     jest.spyOn(classifier, "getMatched").mockReturnValue([element]);
     jest.spyOn(classifier, "assert").mockReturnValue(true);
 
@@ -22,7 +26,6 @@ describe("VisibilityMismatch Rule Validation", () => {
   });
 
   it("should add non-explicitly hidden element with no visible text and is graphic to passed nodes", async () => {
-    const { classifier, response } = validateMethodArguments;
     const element = document.createElement("div");
 
     jest.spyOn(classifier, "getMatched").mockReturnValue([element]);
@@ -38,7 +41,6 @@ describe("VisibilityMismatch Rule Validation", () => {
   });
 
   it("should add explicitly hidden element with no visible content to inapplicable nodes", async () => {
-    const { classifier, response } = validateMethodArguments;
     const element = document.createElement("div");
 
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([element]);
@@ -61,7 +63,6 @@ describe("VisibilityMismatch Rule Validation", () => {
   });
 
   it("should add explicitly hidden element with visible text to failed nodes", async () => {
-    const { classifier, response } = validateMethodArguments;
     const element = document.createElement("div");
 
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([element]);
@@ -84,7 +85,6 @@ describe("VisibilityMismatch Rule Validation", () => {
   });
 
   it("should add explicitly hidden element with background image to failed nodes", async () => {
-    const { classifier, response } = validateMethodArguments;
     const element = document.createElement("div");
     element.setAttribute("aria-hidden", "true");
 
@@ -108,13 +108,11 @@ describe("VisibilityMismatch Rule Validation", () => {
   });
 
   it("should explicitly hidden element that is a graphic to failed nodes", async () => {
-    const { classifier, response } = validateMethodArguments;
     const element = document.createElement("div");
     element.setAttribute("aria-hidden", "true");
 
     jest.spyOn(classifier, "getMatched").mockReturnValue([element]);
-    jest.spyOn(classifier, "getMatched").mockReturnValue([element]);
-    jest.spyOn(classifier, "assert").mockReturnValueOnce(false);
+    jest.spyOn(classifier, "assert").mockReturnValueOnce(false).mockReturnValueOnce(true);
     jest.spyOn(classifier, "getOperations").mockReturnValue({
       visibilityInfo: {
         isExplicitlyHiddenFromScreenReader: true,
@@ -133,7 +131,6 @@ describe("VisibilityMismatch Rule Validation", () => {
   });
 
   it("should explicitly hidden element that contains a graphic to failed nodes", async () => {
-    const { classifier, response } = validateMethodArguments;
     const element = document.createElement("div");
     element.setAttribute("aria-hidden", "true");
 

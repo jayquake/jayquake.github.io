@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const RequiredFormFieldAriaRequired: Rule = {
   id: "required-form-field-aria-required",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Mandatory form fields should indicate that they are required",
   description: 'If a field is marked as required only through visual cues, but lacks the required attribute or aria-required="true", screen readers will not announce it as mandatory. As a result, users may experience unnecessary delays or confusion when trying to submit the form.',

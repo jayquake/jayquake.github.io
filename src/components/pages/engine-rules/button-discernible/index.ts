@@ -4,6 +4,12 @@ import { PerceivableTraitDiscernibleText, CompliantTraitVisible, CompliantCompon
 
 export const ButtonDiscernible: Rule = {
   id: "button-discernible",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.1",
+    wcagLevel: "A",
+  },
   impact: "critical",
   title: "Buttons should have a label",
   description: "Buttons that do not contain visible text should be assigned labels that informs screen reader users of their purpose.",

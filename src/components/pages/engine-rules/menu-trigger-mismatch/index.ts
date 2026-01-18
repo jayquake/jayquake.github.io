@@ -4,6 +4,12 @@ import { PassCondition } from "../interfaces";
 
 export const MenuTriggerMismatch: Rule = {
   id: "menu-trigger-mismatch",
+  metadata: {
+    category: "General",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Menu trigger buttons/links should be tagged properly",
   description: "Menu trigger buttons/links should have `aria-haspopup=true` or `aria-haspopup=menu` attribute",

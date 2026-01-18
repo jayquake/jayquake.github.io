@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const TabbableVisible: Rule = {
   id: "tabbable-visible",
+  metadata: {
+    category: "Tabs",
+    profile: "Vision Impaired",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "critical",
   title: "Use tabindex attribute correctly to manage docus for custom interactive elements",
   description: "When interactive elements remain focusable while they are visually hidden, keyboard users may encounter controls that they cannot see and that should not be available in the current interface.",

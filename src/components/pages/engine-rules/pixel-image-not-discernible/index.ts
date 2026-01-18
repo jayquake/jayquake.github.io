@@ -4,6 +4,12 @@ import { CompliantComponentImage, PerceivableTraitScreenReaderOnly } from "@acsb
 
 export const PixelImageNotDiscernible: Rule = {
   id: "pixel-image-not-discernible",
+  metadata: {
+    category: "Graphics",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "moderate",
   title: "Pixels should be hidden from assistive technology",
   description: "Visually hidden pixel images (often used for analytics or marketing purposes) should not be announced by screen readers.",

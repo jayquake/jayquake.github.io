@@ -4,6 +4,12 @@ import { PassCondition } from "../interfaces";
 
 export const LinkNavigationAmbiguous: Rule = {
   id: "link-navigation-ambiguous",
+  metadata: {
+    category: "Lists",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Ambiguous links should include additional screen-reader description",
   description: 'Ambiguous links like "Learn More", "Shop Now" and "Start Here" are often used as a call to action. However, screen-reader users, while using link navigation, do not interact with content above or below the link and therefore don\'t have the same context as to what they will learn more about.',

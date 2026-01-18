@@ -4,6 +4,12 @@ import { PassCondition } from "../interfaces";
 
 export const ToggleButtonMismatch: Rule = {
   id: "toggle-button-mismatch",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   associatedDetectors: [CompliantComponentToggleButton, PerceivableComponentToggleButton],
   impact: "serious",
   title: "Toggle buttons should expose their state to assistive technology",

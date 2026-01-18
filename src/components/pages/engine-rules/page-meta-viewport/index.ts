@@ -3,6 +3,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const PageMetaViewport: Rule = {
   id: "had-meta-viewport",
+  metadata: {
+    category: "Metadata",
+    profile: "Vision Impaired",
+    wcagVersion: "General Guidelines",
+    wcagLevel: "N/A",
+  },
   impact: "minor",
   title: "Page has a meta viewport",
   description: "Providing a meta viewport to control layout and scaling on mobile devices",

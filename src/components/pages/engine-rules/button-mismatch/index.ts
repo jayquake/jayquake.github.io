@@ -4,6 +4,12 @@ import { PerceivableComponentButton, CompliantComponentButton, CompliantTraitVis
 
 export const ButtonMismatch: Rule = {
   id: "button-mismatch",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "critical",
   title: "Buttons should be tagged for assistive technology",
   description: "If interactive elements cannot be identified as buttons, screen reader users may not realize the element is actionable, which can stop them from submitting forms, opening dialogs, or performing other intended actions.",

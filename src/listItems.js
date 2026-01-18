@@ -1,30 +1,30 @@
-import * as React from "react";
-import { Box } from "@mui/material";
 import {
-  ViewCarousel as ViewCarouselIcon,
+  Animation as AnimationIcon,
+  Article as ArticleIcon,
   TouchApp as ClickableIcon,
   Psychology as ContextIcon,
-  Article as ArticleIcon,
+  Dashboard as DashboardIcon,
+  Science as EngineIcon,
   Error as ErrorIcon,
   BorderColor as FormIcon,
-  Animation as AnimationIcon,
   AccountTree as HeadingIcon,
   Keyboard as KeyboardIcon,
   Navigation as NavigationIcon,
   AutoStories as ReadabilityIcon,
-  TableChart as TableIcon,
   Assignment as RulesIcon,
-  Scanner as ScannerIcon,
-  Html as HtmlIcon,
-  Dashboard as DashboardIcon
+  TableChart as TableIcon,
+  ViewCarousel as ViewCarouselIcon,
 } from "@mui/icons-material";
+import { Box } from "@mui/material";
+import * as React from "react";
 import CustomNavLink from "./components/layout/customNavLink";
 
 // Helper function to count rules by criteria
 const getRuleCount = (data, criteria) => {
   if (!data || !Array.isArray(data)) return 0;
-  return data.filter(rule => 
-    rule.criteria && rule.criteria.toLowerCase() === criteria.toLowerCase()
+  return data.filter(
+    (rule) =>
+      rule.criteria && rule.criteria.toLowerCase() === criteria.toLowerCase()
   ).length;
 };
 
@@ -32,10 +32,10 @@ export const getMainListItems = (data = [], isOpen = true) => (
   <React.Fragment>
     {/* QA Dashboard */}
     <Box sx={{ mb: isOpen ? 2 : 1 }}>
-      <CustomNavLink 
-        to="/" 
-        label="QA Dashboard" 
-        icon={DashboardIcon} 
+      <CustomNavLink
+        to="/"
+        label="QA Dashboard"
+        icon={DashboardIcon}
         category="Dashboard"
         isTestable={false}
         hasSuccess={false}
@@ -45,10 +45,10 @@ export const getMainListItems = (data = [], isOpen = true) => (
     </Box>
 
     {/* All Testing Criteria */}
-    <CustomNavLink 
-      to="/graphics" 
-      label="Graphics" 
-      icon={AnimationIcon} 
+    <CustomNavLink
+      to="/graphics"
+      label="Graphics"
+      icon={AnimationIcon}
       ruleCount={getRuleCount(data, "graphics")}
       category="Graphics"
       hasSuccess={true}
@@ -56,10 +56,10 @@ export const getMainListItems = (data = [], isOpen = true) => (
       isTestable={true}
       isDrawerOpen={isOpen}
     />
-    <CustomNavLink 
-      to="/forms" 
-      label="Forms" 
-      icon={FormIcon} 
+    <CustomNavLink
+      to="/forms"
+      label="Forms"
+      icon={FormIcon}
       ruleCount={getRuleCount(data, "forms")}
       category="Forms"
       hasSuccess={true}
@@ -67,10 +67,10 @@ export const getMainListItems = (data = [], isOpen = true) => (
       isTestable={true}
       isDrawerOpen={isOpen}
     />
-    <CustomNavLink 
-      to="/keyboard" 
-      label="Keyboard" 
-      icon={KeyboardIcon} 
+    <CustomNavLink
+      to="/keyboard"
+      label="Keyboard"
+      icon={KeyboardIcon}
       ruleCount={getRuleCount(data, "keyboard")}
       category="Keyboard"
       hasSuccess={true}
@@ -78,10 +78,10 @@ export const getMainListItems = (data = [], isOpen = true) => (
       isTestable={true}
       isDrawerOpen={isOpen}
     />
-    <CustomNavLink 
-      to="/navigation" 
-      label="Navigation" 
-      icon={NavigationIcon} 
+    <CustomNavLink
+      to="/navigation"
+      label="Navigation"
+      icon={NavigationIcon}
       ruleCount={getRuleCount(data, "navigation")}
       category="Navigation"
       hasSuccess={true}
@@ -89,10 +89,10 @@ export const getMainListItems = (data = [], isOpen = true) => (
       isTestable={true}
       isDrawerOpen={isOpen}
     />
-    <CustomNavLink 
-      to="/headings" 
-      label="Headings" 
-      icon={HeadingIcon} 
+    <CustomNavLink
+      to="/headings"
+      label="Headings"
+      icon={HeadingIcon}
       ruleCount={getRuleCount(data, "headings")}
       category="Headings"
       hasSuccess={true}
@@ -100,10 +100,10 @@ export const getMainListItems = (data = [], isOpen = true) => (
       isTestable={true}
       isDrawerOpen={isOpen}
     />
-    <CustomNavLink 
-      to="/errors" 
-      label="Errors" 
-      icon={ErrorIcon} 
+    <CustomNavLink
+      to="/errors"
+      label="Errors"
+      icon={ErrorIcon}
       ruleCount={getRuleCount(data, "errors")}
       category="Errors"
       hasSuccess={true}
@@ -111,10 +111,10 @@ export const getMainListItems = (data = [], isOpen = true) => (
       isTestable={true}
       isDrawerOpen={isOpen}
     />
-    <CustomNavLink 
-      to="/carousels" 
-      label="Carousels" 
-      icon={ViewCarouselIcon} 
+    <CustomNavLink
+      to="/carousels"
+      label="Carousels"
+      icon={ViewCarouselIcon}
       ruleCount={getRuleCount(data, "carousels")}
       category="Carousels"
       hasSuccess={true}
@@ -122,10 +122,10 @@ export const getMainListItems = (data = [], isOpen = true) => (
       isTestable={true}
       isDrawerOpen={isOpen}
     />
-    <CustomNavLink 
-      to="/clickables" 
-      label="Clickables" 
-      icon={ClickableIcon} 
+    <CustomNavLink
+      to="/clickables"
+      label="Clickables"
+      icon={ClickableIcon}
       ruleCount={getRuleCount(data, "clickables")}
       category="Clickables"
       hasSuccess={true}
@@ -133,10 +133,10 @@ export const getMainListItems = (data = [], isOpen = true) => (
       isTestable={true}
       isDrawerOpen={isOpen}
     />
-    <CustomNavLink 
-      to="/context" 
-      label="Context" 
-      icon={ContextIcon} 
+    <CustomNavLink
+      to="/context"
+      label="Context"
+      icon={ContextIcon}
       ruleCount={getRuleCount(data, "context")}
       category="Context"
       hasSuccess={true}
@@ -144,10 +144,10 @@ export const getMainListItems = (data = [], isOpen = true) => (
       isTestable={true}
       isDrawerOpen={isOpen}
     />
-    <CustomNavLink 
-      to="/document" 
-      label="Document" 
-      icon={ArticleIcon} 
+    <CustomNavLink
+      to="/document"
+      label="Document"
+      icon={ArticleIcon}
       ruleCount={getRuleCount(data, "document")}
       category="Document"
       hasSuccess={true}
@@ -155,10 +155,10 @@ export const getMainListItems = (data = [], isOpen = true) => (
       isTestable={true}
       isDrawerOpen={isOpen}
     />
-    <CustomNavLink 
-      to="/readability" 
-      label="Readability" 
-      icon={ReadabilityIcon} 
+    <CustomNavLink
+      to="/readability"
+      label="Readability"
+      icon={ReadabilityIcon}
       ruleCount={getRuleCount(data, "readability")}
       category="Readability"
       hasSuccess={true}
@@ -166,10 +166,10 @@ export const getMainListItems = (data = [], isOpen = true) => (
       isTestable={true}
       isDrawerOpen={isOpen}
     />
-    <CustomNavLink 
-      to="/tables" 
-      label="Tables" 
-      icon={TableIcon} 
+    <CustomNavLink
+      to="/tables"
+      label="Tables"
+      icon={TableIcon}
       ruleCount={getRuleCount(data, "tables")}
       category="Tables"
       hasSuccess={true}
@@ -183,48 +183,41 @@ export const getMainListItems = (data = [], isOpen = true) => (
 export const getSecondaryListItems = (data = [], isOpen = true) => (
   <React.Fragment>
     {/* Divider */}
-    <Box sx={{ 
-      height: '1px', 
-      backgroundColor: 'rgba(102, 126, 234, 0.15)', 
-      mx: isOpen ? 2.5 : 1, 
-      my: isOpen ? 2.5 : 1.5,
-      transition: (theme) =>
-        theme.transitions.create(["margin"], {
-          easing: theme.transitions.easing.easeInOut,
-          duration: theme.transitions.duration.standard,
-        }),
-    }} />
-    
-    {/* Tools & Actions */}
-    <CustomNavLink 
-      to="/rules" 
-      label="All Rules" 
-      icon={RulesIcon} 
-      ruleCount={data.length}
+    <Box
+      sx={{
+        height: "1px",
+        backgroundColor: "rgba(102, 126, 234, 0.15)",
+        mx: isOpen ? 2.5 : 1,
+        my: isOpen ? 2.5 : 1.5,
+        transition: (theme) =>
+          theme.transitions.create(["margin"], {
+            easing: theme.transitions.easing.easeInOut,
+            duration: theme.transitions.duration.standard,
+          }),
+      }}
+    />
+
+    {/* Rules Libraries */}
+    <CustomNavLink
+      to="/rules"
+      label="Legacy Rules"
+      icon={RulesIcon}
+      ruleCount={90}
       category="Rules"
       hasSuccess={true}
       hasFailure={true}
       isTestable={false}
       isDrawerOpen={isOpen}
     />
-    <CustomNavLink 
-      to="/scanner" 
-      label="Page Scanner" 
-      icon={ScannerIcon} 
-      category="Tools"
-      hasSuccess={false}
-      hasFailure={false}
-      isTestable={true}
-      isDrawerOpen={isOpen}
-    />
-    <CustomNavLink 
-      to="/elements" 
-      label="HTML Elements" 
-      icon={HtmlIcon} 
-      category="Tools"
-      hasSuccess={false}
-      hasFailure={false}
-      isTestable={true}
+    <CustomNavLink
+      to="/engine"
+      label="Engine Rules"
+      icon={EngineIcon}
+      ruleCount={158}
+      category="Rules"
+      hasSuccess={true}
+      hasFailure={true}
+      isTestable={false}
       isDrawerOpen={isOpen}
     />
   </React.Fragment>

@@ -4,6 +4,12 @@ import { CompliantComponentMainContent, PerceivableComponentMainContent } from "
 
 export const RegionMainContentMisuse: Rule = {
   id: "region-main-content-misuse",
+  metadata: {
+    category: "Landmarks",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "An element without main content is tagged as a main landmark",
   description: "Incorrectly tagging the main landmark may cause screen reader users to misunderstand where the primary content begins or ends, leading to confusion and inefficient navigation.",

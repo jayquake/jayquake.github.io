@@ -1,45 +1,31 @@
 import React from "react";
-import IssueFailure from "../../../layout/issueFailure";
+import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const AltMisuseFailure = () => {
-  const description = "Examples that incorrectly apply the alt attribute to non-image elements, such as div. This misuse can lead to invalid markup and confuse assistive technologies.";
-
-  const helpText = "Only certain replaced elements (e.g., img) support the alt attribute. For non-image elements, use visible text, aria-label, or other semantics as appropriate.";
-
+  const ruleId = "alt-misuse";
+  const title = `Elements other than image (Tag: IMG) should not have alt attribute`;
+  const description = `The alt attribute is used to provide a text alternative for images. It is not meant to be used on elements other than images and therefore will not be read using screen-readers.`;
+  const helpText = `Use a screen-reader-only element to add the accessibility description of the element that was misusing the alt attribute and remove the alt attribute.`;
   const fixSteps = [
-    "Remove alt attributes from non-image elements (div, span, etc).",
-    "If the element conveys text, put the text content directly inside it.",
-    "If you need an accessible name for a non-image control, use aria-label or a proper HTML element.",
-    "Use <img alt=\"...\"> for images; use empty alt for decorative images."
+  "Review the HTML structure",
+  "Apply proper accessibility attributes",
+  "Test with screen readers"
+  ];
+  const htmlExamples = [
+  { filename: "div with alt", content: `<div alt="this div is remarkable, you should know this"></div>` },
+  { filename: "div with role img and alt", content: `<div role-="image" alt="this div is remarkable, you should know this"></div>` }
   ];
 
-  const content = (
-    <div>
-      <div className="list-item">
-        <pre>
-{`<!-- Incorrect: alt on a div -->
-<div alt="this div is remarkable, you should know this"></div>`}
-        </pre>
-      </div>
-      <div className="list-item">
-        <pre>
-{`<!-- Incorrect: alt on a span -->
-<span alt="fancy label"></span>`}
-        </pre>
-      </div>
-    </div>
-  );
-
   return (
-    <IssueFailure 
-      itemContent={content}
-      itemDescription={description}
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
       helpText={helpText}
       fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
     />
   );
 };
 
 export default AltMisuseFailure;
-
-

@@ -4,6 +4,12 @@ import { PassCondition } from "../interfaces";
 
 export const ImageMismatch: Rule = {
   id: "image-mismatch",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   associatedDetectors: [PerceivableComponentImage, CompliantComponentImage],
   impact: "serious",
   title: "Images should be tagged for assistive technology",

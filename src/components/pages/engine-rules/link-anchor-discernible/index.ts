@@ -4,6 +4,12 @@ import { PerceivableTraitDiscernibleText, CompliantTraitVisible, PerceivableComp
 
 export const LinkAnchorDiscernible: Rule = {
   id: "link-anchor-discernible",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "critical",
   title: "Anchor links discernible text",
   description: "Anchors links need discernible text that tells visitors where the link takes them.",

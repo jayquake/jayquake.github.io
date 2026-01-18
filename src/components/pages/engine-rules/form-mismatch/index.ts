@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const FormMismatch: Rule = {
   id: "form-mismatch",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "moderate",
   title: "A container of input elements should be tagged as a form",
   description: 'Input elements should be enclosed in a <form> element or an element with role="form" so that browsers and assistive technologies identify and expose the fields as part of a form.\'',

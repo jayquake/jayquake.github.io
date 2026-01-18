@@ -4,6 +4,12 @@ import { PerceivableTraitDirectText, PerceivableTraitVisible } from "@acsbe/core
 
 export const TextSpacingWordSpacing: Rule = {
   id: "text-spacing-word-spacing",
+  metadata: {
+    category: "Lists",
+    profile: "Vision Impaired",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "critical",
   title: "Text spacing - word spacing",
   description: "Word spacing to at least 0.16 times the font size",

@@ -4,6 +4,12 @@ import { CompliantComponentFooter } from "@acsbe/core-engine-classifier";
 
 export const RegionFooterSingle: Rule = {
   id: "region-footer-single",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Each page should include at most one global contentinfo landmark (footer)",
   description: "Each page should normally include only one contentinfo landmark (usually the site footer) to keep landmark navigation simple and predictable. Additional contentinfo landmarks are permitted when clearly justified, but they must each have a unique accessible label.",

@@ -3,6 +3,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const HtmlLangValid: Rule = {
   id: "html-lang-valid",
+  metadata: {
+    category: "Metadata",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "minor",
   title: "HTML lang attribute should have a valid value",
   description:

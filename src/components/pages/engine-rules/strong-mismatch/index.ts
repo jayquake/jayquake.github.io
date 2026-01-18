@@ -4,6 +4,12 @@ import { PassCondition } from "../interfaces";
 
 export const StrongMismatch: Rule = {
   id: "strong-mismatch",
+  metadata: {
+    category: "General",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   associatedDetectors: [CompliantComponentStrong, PerceivableComponentStrong, CompliantTraitGeneric],
   impact: "serious",
   title: "Strong should be tagged properly for assistive technology",

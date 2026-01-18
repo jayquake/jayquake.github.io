@@ -1,16 +1,13 @@
 import {
   Accessibility as AccessibilityIcon,
   KeyboardArrowRight as ArrowRightIcon,
-  Assessment as AssessmentIcon,
   AutoFixHigh as AutoFixIcon,
   CheckCircle as CheckCircleIcon,
-  Dashboard as DashboardIcon,
   GavelTwoTone as GavelIcon,
   Psychology as PsychologyIcon,
+  Science as ScienceIcon,
   Security as SecurityIcon,
   Speed as SpeedIcon,
-  TrendingUp as TrendingUpIcon,
-  VerifiedUserTwoTone as VerifiedIcon,
 } from "@mui/icons-material";
 import {
   Avatar,
@@ -23,109 +20,16 @@ import {
   Grid,
   Grow,
   Paper,
+  Stack,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 export default function Home({ title }) {
-  const [statsLoaded, setStatsLoaded] = useState(false);
-
   useEffect(() => {
     document.title = title;
-    // Simulate loading animation
-    setTimeout(() => setStatsLoaded(true), 500);
   }, [title]);
-
-  const coreCategories = [
-    {
-      name: "Graphics",
-      path: "/graphics",
-      color: "#4caf50",
-      icon: AccessibilityIcon,
-      count: 12,
-    },
-    {
-      name: "Forms",
-      path: "/forms",
-      color: "#2196f3",
-      icon: AssessmentIcon,
-      count: 8,
-    },
-    {
-      name: "Keyboard",
-      path: "/keyboard",
-      color: "#ff9800",
-      icon: SecurityIcon,
-      count: 15,
-    },
-    {
-      name: "Navigation",
-      path: "/navigation",
-      color: "#9c27b0",
-      icon: DashboardIcon,
-      count: 7,
-    },
-    {
-      name: "Headings",
-      path: "/headings",
-      color: "#f44336",
-      icon: PsychologyIcon,
-      count: 6,
-    },
-    {
-      name: "Errors",
-      path: "/errors",
-      color: "#607d8b",
-      icon: AutoFixIcon,
-      count: 10,
-    },
-  ];
-
-  const advancedCategories = [
-    {
-      name: "Carousels",
-      path: "/carousels",
-      color: "#ff5722",
-      icon: CheckCircleIcon,
-      count: 4,
-    },
-    {
-      name: "Clickables",
-      path: "/clickables",
-      color: "#e91e63",
-      icon: GavelIcon,
-      count: 9,
-    },
-    {
-      name: "Context",
-      path: "/context",
-      color: "#00bcd4",
-      icon: PsychologyIcon,
-      count: 5,
-    },
-    {
-      name: "Document",
-      path: "/document",
-      color: "#795748",
-      icon: AssessmentIcon,
-      count: 3,
-    },
-    {
-      name: "Readability",
-      path: "/readability",
-      color: "#8bc34a",
-      icon: VerifiedIcon,
-      count: 7,
-    },
-    {
-      name: "Tables",
-      path: "/tables",
-      color: "#3f51b5",
-      icon: DashboardIcon,
-      count: 11,
-    },
-  ];
 
   return (
     <Box
@@ -258,25 +162,26 @@ export default function Home({ title }) {
                 textShadow: "0 2px 4px rgba(0,0,0,0.2)",
               }}
             >
-              Modern accessibility testing with 90+ automated rules, interactive
-              examples, and comprehensive WCAG 2.1 compliance guidance
+              Modern accessibility testing with 248+ rules (90 Legacy + 158
+              Engine), interactive examples, and comprehensive WCAG 2.1
+              compliance guidance
             </Typography>
 
             {/* Quick Action Buttons */}
             <Box
               display="flex"
               justifyContent="center"
-              gap={4}
+              gap={3}
               flexWrap="wrap"
               sx={{ mt: 2 }}
             >
-              <Link to="/rules" style={{ textDecoration: "none" }}>
+              <Link to="/scanner" style={{ textDecoration: "none" }}>
                 <Button
                   variant="contained"
                   size="large"
-                  startIcon={<GavelIcon />}
+                  startIcon={<SpeedIcon />}
                   sx={{
-                    px: 8,
+                    px: 6,
                     py: 2,
                     background: "rgba(255,255,255,0.25)",
                     backdropFilter: "blur(25px)",
@@ -315,259 +220,54 @@ export default function Home({ title }) {
                     transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
                   }}
                 >
-                  Browse All Rules
+                  Start Testing
                 </Button>
               </Link>
-              <Link to="/scanner" style={{ textDecoration: "none" }}>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "rgba(255,255,255,0.7)",
+                  alignSelf: "center",
+                  fontWeight: 500,
+                  fontSize: "1rem",
+                }}
+              >
+                or
+              </Typography>
+              <Link to="/rules" style={{ textDecoration: "none" }}>
                 <Button
                   variant="outlined"
                   size="large"
-                  startIcon={<SpeedIcon />}
                   sx={{
-                    px: 8,
+                    px: 4,
                     py: 2,
                     borderColor: "rgba(255,255,255,0.6)",
                     background: "rgba(255,255,255,0.15)",
                     backdropFilter: "blur(25px)",
                     WebkitBackdropFilter: "blur(25px)",
                     color: "white",
-                    fontWeight: 700,
-                    fontSize: "1.1rem",
+                    fontWeight: 600,
+                    fontSize: "1rem",
                     borderRadius: 4,
                     borderWidth: 2,
-                    boxShadow:
-                      "0 12px 32px rgba(0, 0, 0, 0.1), inset 0 1px 4px rgba(255, 255, 255, 0.15)",
                     textTransform: "none",
-                    position: "relative",
-                    overflow: "hidden",
-                    "&::before": {
-                      content: '""',
-                      position: "absolute",
-                      top: 0,
-                      left: "-100%",
-                      width: "100%",
-                      height: "100%",
-                      background:
-                        "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
-                      transition: "left 0.6s ease",
-                    },
                     "&:hover": {
                       borderColor: "rgba(255,255,255,0.9)",
                       backgroundColor: "rgba(255,255,255,0.25)",
-                      transform: "translateY(-3px) scale(1.02)",
-                      boxShadow:
-                        "0 20px 40px rgba(0, 0, 0, 0.15), inset 0 1px 4px rgba(255, 255, 255, 0.25)",
+                      transform: "translateY(-2px)",
                       borderWidth: 2,
-                      "&::before": {
-                        left: "100%",
                       },
-                    },
-                    transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+                    transition: "all 0.3s ease",
                   }}
                 >
-                  Start Testing
+                  Browse Rules
                 </Button>
               </Link>
             </Box>
           </Box>
         </Fade>
 
-        {/* Stats Overview */}
-        <Grow in={statsLoaded} timeout={1000}>
-          <Paper
-            elevation={0}
-            sx={{
-              p: 6,
-              mb: 6,
-              borderRadius: 6,
-              maxWidth: "65%",
-              ml: "auto",
-              mr: "10%",
-              background: "rgba(255,255,255,0.25)",
-              backdropFilter: "blur(30px)",
-              WebkitBackdropFilter: "blur(30px)",
-              border: "2px solid rgba(255,255,255,0.4)",
-              borderTop: "3px solid rgba(255,255,255,0.7)",
-              boxShadow:
-                "0 20px 60px rgba(0, 0, 0, 0.15), inset 0 2px 8px rgba(255, 255, 255, 0.2)",
-              position: "relative",
-              "&::before": {
-                content: '""',
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                background:
-                  "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)",
-                borderRadius: 6,
-                pointerEvents: "none",
-              },
-            }}
-          >
-            <Typography
-              variant="h4"
-              gutterBottom
-              sx={{
-                fontWeight: 700,
-                textAlign: "center",
-                mb: 6,
-                background: "linear-gradient(135deg, #1e293b 0%, #475569 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              Platform Overview
-            </Typography>
-            <Grid container spacing={6}>
-              <Grid item xs={12} sm={6} md={3}>
-                <Box
-                  textAlign="center"
-                  sx={{
-                    p: 3,
-                    borderRadius: 4,
-                    background: "rgba(255,255,255,0.15)",
-                    backdropFilter: "blur(15px)",
-                    WebkitBackdropFilter: "blur(15px)",
-                    border: "1px solid rgba(76, 175, 80, 0.3)",
-                    transition: "all 0.3s ease",
-                    "&:hover": {
-                      transform: "translateY(-5px)",
-                      background: "rgba(255,255,255,0.25)",
-                      boxShadow: "0 15px 35px rgba(76, 175, 80, 0.2)",
-                    },
-                  }}
-                >
-                  <TrendingUpIcon
-                    sx={{ fontSize: 64, color: "#4caf50", mb: 2 }}
-                  />
-                  <Typography
-                    variant="h2"
-                    sx={{ fontWeight: 800, color: "#4caf50", mb: 1 }}
-                  >
-                    90+
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    color="textPrimary"
-                    sx={{ fontWeight: 600 }}
-                  >
-                    Accessibility Rules
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Box
-                  textAlign="center"
-                  sx={{
-                    p: 3,
-                    borderRadius: 4,
-                    background: "rgba(255,255,255,0.15)",
-                    backdropFilter: "blur(15px)",
-                    WebkitBackdropFilter: "blur(15px)",
-                    border: "1px solid rgba(33, 150, 243, 0.3)",
-                    transition: "all 0.3s ease",
-                    "&:hover": {
-                      transform: "translateY(-5px)",
-                      background: "rgba(255,255,255,0.25)",
-                      boxShadow: "0 15px 35px rgba(33, 150, 243, 0.2)",
-                    },
-                  }}
-                >
-                  <SpeedIcon sx={{ fontSize: 64, color: "#2196f3", mb: 2 }} />
-                  <Typography
-                    variant="h2"
-                    sx={{ fontWeight: 800, color: "#2196f3", mb: 1 }}
-                  >
-                    12
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    color="textPrimary"
-                    sx={{ fontWeight: 600 }}
-                  >
-                    Test Categories
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Box
-                  textAlign="center"
-                  sx={{
-                    p: 3,
-                    borderRadius: 4,
-                    background: "rgba(255,255,255,0.15)",
-                    backdropFilter: "blur(15px)",
-                    WebkitBackdropFilter: "blur(15px)",
-                    border: "1px solid rgba(255, 152, 0, 0.3)",
-                    transition: "all 0.3s ease",
-                    "&:hover": {
-                      transform: "translateY(-5px)",
-                      background: "rgba(255,255,255,0.25)",
-                      boxShadow: "0 15px 35px rgba(255, 152, 0, 0.2)",
-                    },
-                  }}
-                >
-                  <CheckCircleIcon
-                    sx={{ fontSize: 64, color: "#ff9800", mb: 2 }}
-                  />
-                  <Typography
-                    variant="h2"
-                    sx={{ fontWeight: 800, color: "#ff9800", mb: 1 }}
-                  >
-                    100%
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    color="textPrimary"
-                    sx={{ fontWeight: 600 }}
-                  >
-                    WCAG 2.1 Coverage
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Box
-                  textAlign="center"
-                  sx={{
-                    p: 3,
-                    borderRadius: 4,
-                    background: "rgba(255,255,255,0.15)",
-                    backdropFilter: "blur(15px)",
-                    WebkitBackdropFilter: "blur(15px)",
-                    border: "1px solid rgba(156, 39, 176, 0.3)",
-                    transition: "all 0.3s ease",
-                    "&:hover": {
-                      transform: "translateY(-5px)",
-                      background: "rgba(255,255,255,0.25)",
-                      boxShadow: "0 15px 35px rgba(156, 39, 176, 0.2)",
-                    },
-                  }}
-                >
-                  <VerifiedIcon
-                    sx={{ fontSize: 64, color: "#9c27b0", mb: 2 }}
-                  />
-                  <Typography
-                    variant="h2"
-                    sx={{ fontWeight: 800, color: "#9c27b0", mb: 1 }}
-                  >
-                    3
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    color="textPrimary"
-                    sx={{ fontWeight: 600 }}
-                  >
-                    Testing Tools
-                  </Typography>
-                </Box>
-              </Grid>
-            </Grid>
-          </Paper>
-        </Grow>
-
-        {/* Core Testing Categories */}
+        {/* Browse Rules Section */}
         <Box
           sx={{
             textAlign: "center",
@@ -592,183 +292,27 @@ export default function Home({ title }) {
               textShadow: "0 2px 8px rgba(0,0,0,0.2)",
             }}
           >
-            Core Testing Categories
+            Browse Accessibility Rules
           </Typography>
           <Typography
             variant="h6"
             sx={{
               color: "rgba(255,255,255,0.85)",
-              maxWidth: 700,
+              maxWidth: 800,
               mx: "auto",
               lineHeight: 1.7,
               textShadow: "0 1px 4px rgba(0,0,0,0.3)",
             }}
           >
-            Essential accessibility testing areas with comprehensive rule
-            coverage
+            Choose between our comprehensive rule libraries tailored to your
+            testing needs
           </Typography>
         </Box>
 
-        <Box sx={{ maxWidth: "65%", ml: "auto", mr: "10%" }}>
-          <Grid container spacing={4} sx={{ mb: 8 }}>
-            {coreCategories.map((category, index) => (
-              <Grid item xs={12} sm={6} lg={4} key={category.name}>
-                <Grow in timeout={1000 + index * 150}>
-                  <Card
-                    sx={{
-                      height: "100%",
-                      cursor: "pointer",
-                      transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                      position: "relative",
-                      "&:hover": {
-                        transform: "translateY(-12px) scale(1.02)",
-                        "& .card-icon": {
-                          transform: "scale(1.15) rotate(5deg)",
-                        },
-                        "& .arrow-icon": {
-                          transform: "translateX(8px)",
-                        },
-                      },
-                      background: "rgba(255,255,255,0.2)",
-                      backdropFilter: "blur(25px)",
-                      WebkitBackdropFilter: "blur(25px)",
-                      borderRadius: 4,
-                      border: "2px solid rgba(255,255,255,0.3)",
-                      boxShadow: `0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 24px ${category.color}20`,
-                      "&::before": {
-                        content: '""',
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        height: "4px",
-                        background: `linear-gradient(90deg, ${category.color}, ${category.color}CC)`,
-                        borderRadius: "4px 4px 0 0",
-                      },
-                    }}
-                    component={Link}
-                    to={category.path}
-                    style={{ textDecoration: "none" }}
-                  >
-                    <CardContent sx={{ p: 4, textAlign: "center" }}>
-                      <Avatar
-                        className="card-icon"
-                        sx={{
-                          width: 72,
-                          height: 72,
-                          mx: "auto",
-                          mb: 3,
-                          background: `linear-gradient(135deg, ${category.color} 0%, ${category.color}DD 100%)`,
-                          boxShadow: `0 12px 24px ${category.color}40, inset 0 2px 8px rgba(255,255,255,0.3)`,
-                          transition: "all 0.3s ease",
-                        }}
-                      >
-                        <category.icon sx={{ fontSize: 36, color: "white" }} />
-                      </Avatar>
-                      <Typography
-                        variant="h5"
-                        gutterBottom
-                        sx={{ fontWeight: 700, mb: 1, color: "#1e293b" }}
-                      >
-                        {category.name}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        sx={{ mb: 3, lineHeight: 1.6 }}
-                      >
-                        Comprehensive testing for {category.name.toLowerCase()}{" "}
-                        accessibility
-                      </Typography>
-                      <Chip
-                        label={`${category.count} Rules`}
-                        size="medium"
-                        sx={{
-                          background: `linear-gradient(135deg, ${category.color}20 0%, ${category.color}30 100%)`,
-                          color: category.color,
-                          fontWeight: 700,
-                          mb: 3,
-                          border: `1px solid ${category.color}40`,
-                          backdropFilter: "blur(8px)",
-                        }}
-                      />
-                      <Box
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                      >
-                        <Typography
-                          variant="body2"
-                          color="textSecondary"
-                          sx={{ fontWeight: 600 }}
-                        >
-                          Explore Rules
-                        </Typography>
-                        <ArrowRightIcon
-                          className="arrow-icon"
-                          sx={{
-                            ml: 1,
-                            fontSize: 24,
-                            color: category.color,
-                            transition: "transform 0.3s ease",
-                          }}
-                        />
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </Grow>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-
-        {/* Advanced Categories */}
-        <Box
-          sx={{
-            textAlign: "center",
-            mb: 6,
-            mt: 8,
-            maxWidth: "65%",
-            ml: "auto",
-            mr: "10%",
-          }}
-        >
-          <Typography
-            variant="h3"
-            gutterBottom
-            sx={{
-              fontWeight: 800,
-              mb: 2,
-              background:
-                "linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.8) 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-              textShadow: "0 2px 8px rgba(0,0,0,0.2)",
-            }}
-          >
-            Advanced Testing Categories
-          </Typography>
-          <Typography
-            variant="h6"
-            sx={{
-              color: "rgba(255,255,255,0.85)",
-              maxWidth: 700,
-              mx: "auto",
-              lineHeight: 1.7,
-              textShadow: "0 1px 4px rgba(0,0,0,0.3)",
-            }}
-          >
-            Specialized accessibility testing for complex UI components and
-            interactions
-          </Typography>
-        </Box>
-
-        <Box sx={{ maxWidth: "65%", ml: "auto", mr: "10%" }}>
+        <Box sx={{ mb: 10, maxWidth: "65%", ml: "auto", mr: "10%" }}>
           <Grid container spacing={4}>
-            {advancedCategories.map((category, index) => (
-              <Grid item xs={12} sm={6} lg={4} key={category.name}>
-                <Grow in timeout={1500 + index * 150}>
+            <Grid item xs={12} md={6}>
+              <Grow in timeout={800}>
                   <Card
                     sx={{
                       height: "100%",
@@ -777,237 +321,121 @@ export default function Home({ title }) {
                       position: "relative",
                       "&:hover": {
                         transform: "translateY(-12px) scale(1.02)",
-                        "& .card-icon": {
-                          transform: "scale(1.15) rotate(-5deg)",
-                        },
-                        "& .arrow-icon": {
-                          transform: "translateX(8px)",
-                        },
                       },
-                      background: "rgba(255,255,255,0.2)",
-                      backdropFilter: "blur(25px)",
-                      WebkitBackdropFilter: "blur(25px)",
+                    background: "rgba(255,255,255,0.25)",
+                    backdropFilter: "blur(30px)",
+                    WebkitBackdropFilter: "blur(30px)",
                       borderRadius: 4,
-                      border: "2px solid rgba(255,255,255,0.3)",
-                      boxShadow: `0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 24px ${category.color}20`,
+                    border: "2px solid rgba(255,255,255,0.4)",
+                    boxShadow:
+                      "0 20px 50px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(30,136,229,0.2)",
                       "&::before": {
                         content: '""',
                         position: "absolute",
                         top: 0,
                         left: 0,
                         right: 0,
-                        height: "4px",
-                        background: `linear-gradient(90deg, ${category.color}, ${category.color}CC)`,
+                      height: "6px",
+                      background: "linear-gradient(90deg, #1e88e5, #1565c0)",
                         borderRadius: "4px 4px 0 0",
                       },
                     }}
                     component={Link}
-                    to={category.path}
+                  to="/rules"
                     style={{ textDecoration: "none" }}
                   >
-                    <CardContent sx={{ p: 4, textAlign: "center" }}>
+                  <CardContent sx={{ p: 5 }}>
+                    <Stack spacing={3}>
+                      <Box display="flex" alignItems="center" gap={2}>
                       <Avatar
-                        className="card-icon"
                         sx={{
-                          width: 72,
-                          height: 72,
-                          mx: "auto",
-                          mb: 3,
-                          background: `linear-gradient(135deg, ${category.color} 0%, ${category.color}DD 100%)`,
-                          boxShadow: `0 12px 24px ${category.color}40, inset 0 2px 8px rgba(255,255,255,0.3)`,
-                          transition: "all 0.3s ease",
+                            width: 64,
+                            height: 64,
+                            background:
+                              "linear-gradient(135deg, #1e88e5 0%, #1565c0 100%)",
+                            boxShadow:
+                              "0 12px 24px rgba(30,136,229,0.4), inset 0 2px 8px rgba(255,255,255,0.3)",
                         }}
                       >
-                        <category.icon sx={{ fontSize: 36, color: "white" }} />
+                          <GavelIcon sx={{ fontSize: 32, color: "white" }} />
                       </Avatar>
+                        <Box flex={1}>
                       <Typography
-                        variant="h5"
-                        gutterBottom
-                        sx={{ fontWeight: 700, mb: 1, color: "#1e293b" }}
+                            variant="h4"
+                            sx={{ fontWeight: 700, color: "#1e293b", mb: 0.5 }}
                       >
-                        {category.name}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        sx={{ mb: 3, lineHeight: 1.6 }}
-                      >
-                        Advanced testing for {category.name.toLowerCase()}{" "}
-                        accessibility
+                            Legacy Rules
                       </Typography>
                       <Chip
-                        label={`${category.count} Rules`}
-                        size="medium"
+                            label="90 Rules"
+                            size="small"
                         sx={{
-                          background: `linear-gradient(135deg, ${category.color}20 0%, ${category.color}30 100%)`,
-                          color: category.color,
+                              background:
+                                "linear-gradient(135deg, rgba(30,136,229,0.2) 0%, rgba(21,101,192,0.2) 100%)",
+                              color: "#1e88e5",
                           fontWeight: 700,
-                          mb: 3,
-                          border: `1px solid ${category.color}40`,
-                          backdropFilter: "blur(8px)",
-                        }}
-                      />
-                      <Box
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                      >
-                        <Typography
-                          variant="body2"
-                          color="textSecondary"
-                          sx={{ fontWeight: 600 }}
-                        >
-                          Explore Rules
-                        </Typography>
-                        <ArrowRightIcon
-                          className="arrow-icon"
-                          sx={{
-                            ml: 1,
-                            fontSize: 24,
-                            color: category.color,
-                            transition: "transform 0.3s ease",
+                              border: "1px solid rgba(30,136,229,0.4)",
                           }}
                         />
                       </Box>
-                    </CardContent>
-                  </Card>
-                </Grow>
-              </Grid>
-            ))}
-          </Grid>
         </Box>
-
-        {/* Quick Tools Section */}
-        <Box
+          <Typography
+                        variant="body1"
+                        color="textSecondary"
+                        sx={{ lineHeight: 1.8, fontSize: "1.05rem" }}
+                      >
+                        <strong>Manual QA Testing Rules</strong> - Comprehensive
+                        accessibility guidelines with detailed examples, fix
+                        steps, and best practices for manual testing workflows
+                      </Typography>
+                      <Box>
+                      <Chip
+                          icon={<CheckCircleIcon />}
+                          label="Detailed Examples"
+                          size="small"
+                          variant="outlined"
+                          sx={{ mr: 1, mb: 1 }}
+                        />
+                        <Chip
+                          icon={<CheckCircleIcon />}
+                          label="WCAG References"
+                          size="small"
+                          variant="outlined"
+                          sx={{ mr: 1, mb: 1 }}
+                        />
+                        <Chip
+                          icon={<CheckCircleIcon />}
+                          label="12 Categories"
+                          size="small"
+                          variant="outlined"
+                          sx={{ mb: 1 }}
+                        />
+                      </Box>
+                      <Button
+                        variant="contained"
+                        endIcon={<ArrowRightIcon />}
           sx={{
-            textAlign: "center",
-            mb: 6,
-            mt: 8,
-            maxWidth: "65%",
-            ml: "auto",
-            mr: "10%",
-          }}
-        >
-          <Typography
-            variant="h3"
-            gutterBottom
-            sx={{
-              fontWeight: 800,
-              mb: 2,
               background:
-                "linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.8) 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-              textShadow: "0 2px 8px rgba(0,0,0,0.2)",
-            }}
-          >
-            Testing Tools & Utilities
-          </Typography>
-          <Typography
-            variant="h6"
-            sx={{
-              color: "rgba(255,255,255,0.85)",
-              maxWidth: 700,
-              mx: "auto",
-              lineHeight: 1.7,
-              textShadow: "0 1px 4px rgba(0,0,0,0.3)",
-            }}
-          >
-            Powerful tools to streamline your accessibility testing workflow and
-            enhance productivity
-          </Typography>
-        </Box>
-
-        <Box sx={{ mb: 6, maxWidth: "65%", ml: "auto", mr: "10%" }}>
-          <Grid container spacing={4} justifyContent="center">
-            <Grid item xs={12} lg={4}>
-              <Grow in timeout={1200}>
-                <Card
-                  sx={{
-                    height: "100%",
-                    cursor: "pointer",
-                    transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                    position: "relative",
+                            "linear-gradient(135deg, #1e88e5 0%, #1565c0 100%)",
+                          color: "white",
+                          fontWeight: 600,
+                          py: 1.5,
                     "&:hover": {
-                      transform: "translateY(-12px) scale(1.02)",
-                      "& .tool-icon": {
-                        transform: "scale(1.15) rotate(-8deg)",
-                      },
-                    },
-                    background: "rgba(255,255,255,0.2)",
-                    backdropFilter: "blur(25px)",
-                    WebkitBackdropFilter: "blur(25px)",
-                    borderRadius: 4,
-                    border: "2px solid rgba(255,255,255,0.3)",
-                    boxShadow:
-                      "0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 24px rgba(102,126,234,0.2)",
-                    "&::before": {
-                      content: '""',
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: "4px",
-                      background: "linear-gradient(90deg, #667eea, #764ba2)",
-                      borderRadius: "4px 4px 0 0",
-                    },
-                  }}
-                  component={Link}
-                  to="/rules"
-                  style={{ textDecoration: "none" }}
-                >
-                  <CardContent sx={{ p: 4, textAlign: "center" }}>
-                    <Avatar
-                      className="tool-icon"
-                      sx={{
-                        width: 72,
-                        height: 72,
-                        mx: "auto",
-                        mb: 3,
-                        background:
-                          "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                        boxShadow:
-                          "0 12px 24px rgba(102,126,234,0.4), inset 0 2px 8px rgba(255,255,255,0.3)",
-                        transition: "all 0.3s ease",
+                            background:
+                              "linear-gradient(135deg, #1565c0 0%, #0d47a1 100%)",
+                          },
                       }}
                     >
-                      <GavelIcon sx={{ fontSize: 36, color: "white" }} />
-                    </Avatar>
-                    <Typography
-                      variant="h5"
-                      gutterBottom
-                      sx={{ fontWeight: 700, mb: 2, color: "#1e293b" }}
-                    >
-                      All Rules Browser
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      color="textSecondary"
-                      sx={{ mb: 3, lineHeight: 1.6 }}
-                    >
-                      Browse and search through all 90+ accessibility rules with
-                      comprehensive examples and guidance
-                    </Typography>
-                    <Chip
-                      label="90+ Rules"
-                      size="medium"
-                      sx={{
-                        background:
-                          "linear-gradient(135deg, rgba(102,126,234,0.2) 0%, rgba(118,75,162,0.2) 100%)",
-                        color: "#667eea",
-                        fontWeight: 700,
-                        border: "1px solid rgba(102,126,234,0.4)",
-                        backdropFilter: "blur(8px)",
-                      }}
-                    />
+                        Browse Legacy Rules
+                      </Button>
+                    </Stack>
                   </CardContent>
                 </Card>
               </Grow>
             </Grid>
 
-            <Grid item xs={12} lg={4}>
-              <Grow in timeout={1400}>
+            <Grid item xs={12} md={6}>
+              <Grow in timeout={1000}>
                 <Card
                   sx={{
                     height: "100%",
@@ -1016,161 +444,115 @@ export default function Home({ title }) {
                     position: "relative",
                     "&:hover": {
                       transform: "translateY(-12px) scale(1.02)",
-                      "& .tool-icon": {
-                        transform: "scale(1.15) rotate(-8deg)",
-                      },
                     },
-                    background: "rgba(255,255,255,0.2)",
-                    backdropFilter: "blur(25px)",
-                    WebkitBackdropFilter: "blur(25px)",
+                    background: "rgba(255,255,255,0.25)",
+                    backdropFilter: "blur(30px)",
+                    WebkitBackdropFilter: "blur(30px)",
                     borderRadius: 4,
-                    border: "2px solid rgba(255,255,255,0.3)",
+                    border: "2px solid rgba(255,255,255,0.4)",
                     boxShadow:
-                      "0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 24px rgba(33,150,243,0.2)",
+                      "0 20px 50px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(103,58,183,0.2)",
                     "&::before": {
                       content: '""',
                       position: "absolute",
                       top: 0,
                       left: 0,
                       right: 0,
-                      height: "4px",
-                      background: "linear-gradient(90deg, #2196f3, #21CBF3)",
+                      height: "6px",
+                      background: "linear-gradient(90deg, #673ab7, #512da8)",
                       borderRadius: "4px 4px 0 0",
                     },
                   }}
                   component={Link}
-                  to="/scanner"
+                  to="/engine"
                   style={{ textDecoration: "none" }}
                 >
-                  <CardContent sx={{ p: 4, textAlign: "center" }}>
+                  <CardContent sx={{ p: 5 }}>
+                    <Stack spacing={3}>
+                      <Box display="flex" alignItems="center" gap={2}>
                     <Avatar
-                      className="tool-icon"
                       sx={{
-                        width: 72,
-                        height: 72,
-                        mx: "auto",
-                        mb: 3,
+                            width: 64,
+                            height: 64,
                         background:
-                          "linear-gradient(135deg, #2196f3 0%, #21CBF3 100%)",
+                              "linear-gradient(135deg, #673ab7 0%, #512da8 100%)",
                         boxShadow:
-                          "0 12px 24px rgba(33,150,243,0.4), inset 0 2px 8px rgba(255,255,255,0.3)",
-                        transition: "all 0.3s ease",
+                              "0 12px 24px rgba(103,58,183,0.4), inset 0 2px 8px rgba(255,255,255,0.3)",
                       }}
                     >
-                      <SpeedIcon sx={{ fontSize: 36, color: "white" }} />
+                          <ScienceIcon sx={{ fontSize: 32, color: "white" }} />
                     </Avatar>
+                        <Box flex={1}>
                     <Typography
-                      variant="h5"
-                      gutterBottom
-                      sx={{ fontWeight: 700, mb: 2, color: "#1e293b" }}
+                            variant="h4"
+                            sx={{ fontWeight: 700, color: "#1e293b", mb: 0.5 }}
                     >
-                      Page Scanner
+                            Engine Rules
                     </Typography>
+                    <Chip
+                            label="158 Rules"
+                            size="small"
+                      sx={{
+                        background:
+                                "linear-gradient(135deg, rgba(103,58,183,0.2) 0%, rgba(81,45,168,0.2) 100%)",
+                              color: "#673ab7",
+                        fontWeight: 700,
+                              border: "1px solid rgba(103,58,183,0.4)",
+                      }}
+                          />
+                        </Box>
+                      </Box>
                     <Typography
                       variant="body1"
                       color="textSecondary"
-                      sx={{ mb: 3, lineHeight: 1.6 }}
+                        sx={{ lineHeight: 1.8, fontSize: "1.05rem" }}
                     >
-                      Automated accessibility scanning with real-time issue
-                      detection and detailed reporting
+                        <strong>Automated Validation Rules</strong> - Advanced
+                        accessibility engine with atomic test cases, severity
+                        levels, and automated detection for continuous
+                        integration
                     </Typography>
+                      <Box>
                     <Chip
-                      label="Live Testing"
-                      size="medium"
+                          icon={<CheckCircleIcon />}
+                          label="Atomic Tests"
+                          size="small"
+                          variant="outlined"
+                          sx={{ mr: 1, mb: 1 }}
+                        />
+                        <Chip
+                          icon={<CheckCircleIcon />}
+                          label="CI/CD Ready"
+                          size="small"
+                          variant="outlined"
+                          sx={{ mr: 1, mb: 1 }}
+                        />
+                        <Chip
+                          icon={<CheckCircleIcon />}
+                          label="Impact Levels"
+                          size="small"
+                          variant="outlined"
+                          sx={{ mb: 1 }}
+                        />
+                      </Box>
+                      <Button
+                        variant="contained"
+                        endIcon={<ArrowRightIcon />}
                       sx={{
                         background:
-                          "linear-gradient(135deg, rgba(33,150,243,0.2) 0%, rgba(33,203,243,0.2) 100%)",
-                        color: "#2196f3",
-                        fontWeight: 700,
-                        border: "1px solid rgba(33,150,243,0.4)",
-                        backdropFilter: "blur(8px)",
-                      }}
-                    />
-                  </CardContent>
-                </Card>
-              </Grow>
-            </Grid>
-
-            <Grid item xs={12} lg={4}>
-              <Grow in timeout={1600}>
-                <Card
-                  sx={{
-                    height: "100%",
-                    cursor: "pointer",
-                    transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                    position: "relative",
-                    "&:hover": {
-                      transform: "translateY(-12px) scale(1.02)",
-                      "& .tool-icon": {
-                        transform: "scale(1.15) rotate(-8deg)",
-                      },
-                    },
-                    background: "rgba(255,255,255,0.2)",
-                    backdropFilter: "blur(25px)",
-                    WebkitBackdropFilter: "blur(25px)",
-                    borderRadius: 4,
-                    border: "2px solid rgba(255,255,255,0.3)",
-                    boxShadow:
-                      "0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 24px rgba(117,117,117,0.2)",
-                    "&::before": {
-                      content: '""',
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: "4px",
-                      background: "linear-gradient(90deg, #757575, #9E9E9E)",
-                      borderRadius: "4px 4px 0 0",
-                    },
-                  }}
-                  component={Link}
-                  to="/elements"
-                  style={{ textDecoration: "none" }}
-                >
-                  <CardContent sx={{ p: 4, textAlign: "center" }}>
-                    <Avatar
-                      className="tool-icon"
-                      sx={{
-                        width: 72,
-                        height: 72,
-                        mx: "auto",
-                        mb: 3,
-                        background:
-                          "linear-gradient(135deg, #757575 0%, #9E9E9E 100%)",
-                        boxShadow:
-                          "0 12px 24px rgba(117,117,117,0.4), inset 0 2px 8px rgba(255,255,255,0.3)",
-                        transition: "all 0.3s ease",
-                      }}
-                    >
-                      <AssessmentIcon sx={{ fontSize: 36, color: "white" }} />
-                    </Avatar>
-                    <Typography
-                      variant="h5"
-                      gutterBottom
-                      sx={{ fontWeight: 700, mb: 2, color: "#1e293b" }}
-                    >
-                      HTML Elements
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      color="textSecondary"
-                      sx={{ mb: 3, lineHeight: 1.6 }}
-                    >
-                      Comprehensive guide to accessible HTML elements,
-                      attributes, and best practices
-                    </Typography>
-                    <Chip
-                      label="Reference"
-                      size="medium"
-                      sx={{
-                        background:
-                          "linear-gradient(135deg, rgba(117,117,117,0.2) 0%, rgba(158,158,158,0.2) 100%)",
-                        color: "#757575",
-                        fontWeight: 700,
-                        border: "1px solid rgba(117,117,117,0.4)",
-                        backdropFilter: "blur(8px)",
-                      }}
-                    />
+                            "linear-gradient(135deg, #673ab7 0%, #512da8 100%)",
+                          color: "white",
+                          fontWeight: 600,
+                          py: 1.5,
+                          "&:hover": {
+                            background:
+                              "linear-gradient(135deg, #512da8 0%, #311b92 100%)",
+                          },
+                        }}
+                      >
+                        Browse Engine Rules
+                      </Button>
+                    </Stack>
                   </CardContent>
                 </Card>
               </Grow>
@@ -1178,7 +560,7 @@ export default function Home({ title }) {
           </Grid>
         </Box>
 
-        {/* Feature Highlights */}
+        {/* Feature Highlights - Why Choose AccessFlow */}
         <Box sx={{ mt: 8, maxWidth: "65%", ml: "auto", mr: "10%" }}>
           <Box sx={{ textAlign: "center", mb: 6 }}>
             <Typography
@@ -1267,8 +649,9 @@ export default function Home({ title }) {
                     color="textSecondary"
                     sx={{ lineHeight: 1.8, fontSize: "1.1rem" }}
                   >
-                    90+ rules covering all WCAG 2.1 guidelines with both success
-                    and failure examples for thorough understanding
+                    248+ rules (90 Legacy + 158 Engine) covering all WCAG 2.1
+                    guidelines with both success and failure examples for
+                    thorough understanding
                   </Typography>
                 </Paper>
               </Grow>

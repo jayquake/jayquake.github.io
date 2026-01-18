@@ -4,6 +4,12 @@ import { CompliantTraitInteractable, PerceivableTraitClickable, PerceivableTrait
 
 export const InteractiveNotTabbable: Rule = {
   id: "interactive-not-tabbable",
+  metadata: {
+    category: "Lists",
+    profile: "Motor Impaired",
+    wcagVersion: "General Guidelines",
+    wcagLevel: "N/A",
+  },
   impact: "serious",
   title: "Interactive elements should be keyboard navigable",
   description: "Interactive elements should be keyboard navigable. If a custom interactive element is not keyboard navigable, keyboard users will not be able to interact with it.",

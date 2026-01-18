@@ -21,6 +21,12 @@ import { PassCondition } from "../interfaces";
  */
 export const TableNotNested: Rule = {
   id: "table-not-nested",
+  metadata: {
+    category: "Tables",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Tables should not be nested",
   description: "Nested tables are often misinterpreted by screen readers, making it hard for users to follow the intended structure and meaning of the data.",

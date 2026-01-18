@@ -3,6 +3,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const HeadingH1: Rule = {
   id: "heading-h1",
+  metadata: {
+    category: "Lists",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Each page should have a main heading",
   description: "There should be one h1 heading element that defines the subject of the main content on the page.",

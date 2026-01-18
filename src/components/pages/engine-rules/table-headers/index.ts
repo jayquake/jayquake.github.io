@@ -4,6 +4,12 @@ import { CompliantComponentTable, CompliantComponentTableColumnHeader, Compliant
 
 export const TableHeaders: Rule = {
   id: "table-headers",
+  metadata: {
+    category: "General",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Tables should include table header tags",
   description: "Screen readers can't match columns and cells without properly coded table header tags (TH). Without table headers, screen readers won't announce the table's content properly to users, leaving them unable to consume information.",

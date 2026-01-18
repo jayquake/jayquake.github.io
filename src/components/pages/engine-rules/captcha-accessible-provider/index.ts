@@ -4,6 +4,12 @@ import { PerceivableComponentCaptcha } from "@acsbe/core-engine-classifier";
 
 export const CaptchaAccessibleProvider: Rule = {
   id: "captcha-accessible-provider",
+  metadata: {
+    category: "General",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "critical",
   title: "Non-standard Captcha challenges must be replaced with an Accessible Provider (such as Google Recaptcha)",
   description: "Non-standard Captcha mechanisms are inaccessible by design. Captchas are explicitly meant to be challenging to answer in order to trick bots. Non-standard Captchas prevent screen reader users from submitting the website's forms.",

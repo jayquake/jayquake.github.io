@@ -4,6 +4,12 @@ import { PassCondition } from "../interfaces";
 
 export const TabPanelMisuse: Rule = {
   id: "tab-panel-misuse",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   associatedDetectors: [CompliantComponentTabPanel, PerceivableComponentTabPanel],
   impact: "serious",
   title: 'Only elements that function as tab panels should receive role="tabpanel"',

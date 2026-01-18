@@ -5,6 +5,12 @@ import { textContainsWords } from "@acsbe/core-engine-dictionary";
 
 export const LinkImageWarning: Rule = {
   id: "link-image-warning",
+  metadata: {
+    category: "Graphics",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "moderate",
   title: "Links that open an image shouldn't do so without warning the user",
   description: "Standalone image links can unexpectedly shift the user's context by redirecting them to an image. They should therefore display a clear warning so that the user is informed before proceeding",

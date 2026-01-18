@@ -157,3 +157,6 @@ export * from "./main-navigation-mismatch";
 export * from "./toggle-button-mismatch";
 export * from "./toggle-button-correct-state";
 export * from "./toggle-button-misuse";
+export * from "./no-ui-slider-single-pointer";
+export * from "./carousel-dragging-movements";
+export * from "./slider-dragging-movements";

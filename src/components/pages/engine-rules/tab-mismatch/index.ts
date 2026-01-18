@@ -4,6 +4,12 @@ import { PassCondition } from "../interfaces";
 
 export const TabMismatch: Rule = {
   id: "tab-mismatch",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   associatedDetectors: [CompliantComponentTab, PerceivableComponentTab],
   impact: "serious",
   title: "Tab controls should be tagged for assistive technology",

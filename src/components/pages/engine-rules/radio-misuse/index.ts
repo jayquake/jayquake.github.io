@@ -4,6 +4,12 @@ import { CompliantComponentRadioButton, PerceivableComponentRadioButton } from "
 
 export const RadioMisuse: Rule = {
   id: "radio-misuse",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: 'Only elements that function as radio controls should receive role="radio"',
   description: 'Setting role="radio" on elements that do not function as radio controls can mislead screen reader users by announcing them as selectable options in a group, causing unreliable navigation and interaction.',

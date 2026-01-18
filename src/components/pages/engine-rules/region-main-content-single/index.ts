@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const RegionMainContentSingle: Rule = {
   id: "region-main-content-single",
+  metadata: {
+    category: "Tabs",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "moderate",
   title: "Each page should include at most one main landmark",
   description: "A page typically presents one central subject, so a single main landmark establishes the boundaries of the primary content for screen reader users. Multiple main landmarks create uncertainty about the scope, leading to confusion and difficulty navigating the page.",

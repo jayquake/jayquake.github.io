@@ -4,6 +4,12 @@ import { CompliantTraitVisible, PerceivableComponentBackgroundImage, Perceivable
 
 export const BackgroundImageDiscernible: Rule = {
   id: "background-image-discernible",
+  metadata: {
+    category: "Graphics",
+    profile: "Blind",
+    wcagVersion: "2.1",
+    wcagLevel: "A",
+  },
   impact: "moderate",
   title: "Non decorative Background images should be tagged and labeled",
   description: "Background images should receive alternative text just like regular images do unless used as decorative elements and do not provide any information or additional context to the users.",

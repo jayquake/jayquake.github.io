@@ -1,10 +1,49 @@
 {
   "recommendations": [
-    "ms-playwright.playwright",
+    // Essential Extensions
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
-    "bradlc.vscode-tailwindcss",
-    "ms-vscode.vscode-typescript-next"
-  ]
-}
+    "ms-vscode.vscode-typescript-next",
 
+    // React & JSX
+    "dsznajder.es7-react-js-snippets",
+    "formulahendry.auto-rename-tag",
+    "bradlc.vscode-tailwindcss",
+
+    // Git & Version Control
+    "eamodio.gitlens",
+    "mhutchie.git-graph",
+
+    // Code Quality & Formatting
+    "streetsidesoftware.code-spell-checker",
+    "usernamehw.errorlens",
+    "christian-kohler.path-intellisense",
+
+    // Testing
+    "ms-playwright.playwright",
+
+    // Productivity
+    "ms-vscode.vscode-json",
+    "redhat.vscode-yaml",
+    "ms-vscode.vscode-markdown",
+    "yzhang.markdown-all-in-one",
+
+    // UI & Theme
+    "pkief.material-icon-theme",
+    "zhuangtongfa.material-theme",
+    "zhuangtongfa.one-dark-pro",
+    "11yt.vibrancy-continued",
+    "kuscamara.darcula",
+
+    // Debugging & Development
+    "ms-vscode.vscode-json",
+    "ms-vscode.js-debug",
+
+    // Additional Helpers
+    "formulahendry.auto-close-tag",
+    "christian-kohler.npm-intellisense",
+    "eg2.vscode-npm-script",
+    "ms-vscode.vscode-typescript-next"
+  ],
+  "unwantedRecommendations": []
+}

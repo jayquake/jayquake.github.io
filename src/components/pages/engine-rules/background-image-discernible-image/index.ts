@@ -4,6 +4,12 @@ import { PerceivableComponentBackgroundImage, PerceivableTraitDiscernibleText, P
 
 export const BackgroundImageDiscernibleImage: Rule = {
   id: "background-image-discernible-image",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "moderate",
   title: "Non decorative Background images should be tagged and labeled",
   description: "Background image alternative text should be labeled as image for screen reader.",

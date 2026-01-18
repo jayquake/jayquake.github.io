@@ -5,6 +5,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const CarouselRedundantDiscernibleText: Rule = {
   id: "carousel-redundant-discernible-text",
+  metadata: {
+    category: "General",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Carousels should be labelled properly without redundancy",
   description: "Unlabeled carousel areas are difficult for screen reader users because content gets hidden and shown unexpectedly. However, when labelled, the label should not be redundant.",

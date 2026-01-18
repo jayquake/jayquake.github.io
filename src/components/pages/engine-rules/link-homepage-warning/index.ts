@@ -5,6 +5,12 @@ import { textContainsWords } from "@acsbe/core-engine-dictionary";
 
 export const LinkHomepageWarning: Rule = {
   id: "link-homepage-warning",
+  metadata: {
+    category: "Lists",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "moderate",
   title: "Links that redirect to the homepage shouldn't do so without warning the user",
   description: "Standalone redirection links to the homepage can unexpectedly shift the user's context by redirecting them to the homepage. They should therefore display a clear warning so that the user is informed before proceeding",

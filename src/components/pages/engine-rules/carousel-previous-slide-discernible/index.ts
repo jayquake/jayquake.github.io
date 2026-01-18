@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const CarouselPreviousSlideDiscernible: Rule = {
   id: "carousel-previous-slide-discernible",
+  metadata: {
+    category: "General",
+    profile: "Cognitive Disability",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Carousel navigation previous arrows should be labelled for assistive technology",
   description: "Carousel arrow buttons are essential for operating carousels. By design, carousels are difficult for assistive technology to handle. If the navigation arrows aren't accessible, carousels may be impossible for blind users to operate.",

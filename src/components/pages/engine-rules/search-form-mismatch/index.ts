@@ -3,6 +3,12 @@ import { PassCondition } from "~/rules/interfaces";
 import { PerceivableComponentSearchForm, CompliantComponentSearch } from "@acsbe/core-engine-classifier";
 export const SearchFormMismatch: Rule = {
   id: "search-form-mismatch",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "A search form should be tagged as a search landmark",
   description: "Screen reader users rely on landmarks to quickly access important regions of a page. Defining a form as a search landmark ensures that users can quickly recognize and navigate to the search form.",

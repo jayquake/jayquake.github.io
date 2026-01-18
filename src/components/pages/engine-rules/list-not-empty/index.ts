@@ -41,6 +41,12 @@ function hasListItems(list: SvgOrHtmlElement, classifier: EngineClassifier): boo
 
 export const ListNotEmpty: Rule = {
   id: "list-not-empty",
+  metadata: {
+    category: "Lists",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "minor",
   title: "Lists should contain at least one list item",
   description: "An empty list will still be announced by screen readers, which may confuse users, leaving them unsure if the list is empty or an issue prevents the screen reader from announcing the list items.",

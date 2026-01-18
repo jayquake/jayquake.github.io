@@ -4,6 +4,12 @@ import { PassCondition } from "../interfaces";
 
 export const NavigationMisuse: Rule = {
   id: "navigation-misuse",
+  metadata: {
+    category: "Forms",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   associatedDetectors: [CompliantComponentNavigation, PerceivableComponentNavigation, PerceivableComponentBreadcrumb, PerceivableComponentMainNavigation],
   impact: "serious",
   title: "An element without navigation links is tagged as a navigation landmark",

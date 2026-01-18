@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const MenuTriggerClickable: Rule = {
   id: "menu-trigger-clickable",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "ARIA relationship and state attributes should only be applied to elements with appropriate roles",
   description: "Interactive elements that trigger additional content should only have relationship and state ARIA attributes, such as aria-expanded and aria-controls, if they have interactive roles, such as button, tab, combobox and in rarer cases, link.",

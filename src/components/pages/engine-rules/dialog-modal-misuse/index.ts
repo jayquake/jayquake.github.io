@@ -4,6 +4,12 @@ import { PerceivableComponentDialogModal, CompliantComponentDialogModal } from "
 
 export const DialogModalMisuse: Rule = {
   id: "dialog-modal-misuse",
+  metadata: {
+    category: "Lists",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Only elements that function as dialogs should be tagged as dialog",
   description: "Marking up elements as dialogs without actual dialog behavior causes screen readers to announce a dialog, misleading users into expecting modal interaction and restricted reading order that do not occur.",

@@ -24,6 +24,12 @@ function hasValidScrollPaddingBottom(element: SvgOrHtmlElement, footer: SvgOrHtm
 
 export const FocusNotObscuredFooter: Rule = {
   id: "focus-not-obscured-footer",
+  metadata: {
+    category: "Landmarks",
+    profile: "Motor Impaired",
+    wcagVersion: "2.2",
+    wcagLevel: "AA",
+  },
   impact: "serious",
   title: "Focused elements should not be obscured by a sticky footer",
   description: "A sticky footer remains anchored to the bottom of the screen while the rest of the page content can be scrolled. If it is not offset from interactive elements, it can overlap and obscure the item in focus.",

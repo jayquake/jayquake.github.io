@@ -3,6 +3,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const MarqueeDeprecated: Rule = {
   id: "marquee-deprecated",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "minor",
   title: "<marquee> elements are deprecated",
   description: "<marquee> elements are obsolete and should not be used. They are not part of any HTML or WAI-ARIA specification. They are not responsive or supported by any browsers.",

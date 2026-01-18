@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const MenuTriggerCorrectState: Rule = {
   id: "menu-trigger-correct-state",
+  metadata: {
+    category: "Landmarks",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "serious",
   title: "Menu open/close states should be indicated to assistive technology",
   description: "Screen readers require properly coded states for interactive elements. Menus can be expanded or collapsed, and their state should be indicated to screen readers. Otherwise, users will lose orientation and get confused while browsing the menu.",

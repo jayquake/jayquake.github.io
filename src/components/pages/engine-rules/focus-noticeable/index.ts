@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const FocusNoticeable: Rule = {
   id: "focus-noticeable",
+  metadata: {
+    category: "Lists",
+    profile: "Vision Impaired",
+    wcagVersion: "2.0",
+    wcagLevel: "AA",
+  },
   isBackendOnly: true,
   impact: "serious",
   title: "Focusable elements should have a visible focus indicator",

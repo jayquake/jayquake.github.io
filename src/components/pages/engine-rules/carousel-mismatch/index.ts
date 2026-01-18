@@ -4,6 +4,12 @@ import { PassCondition } from "~/rules/interfaces";
 
 export const CarouselMismatch: Rule = {
   id: "carousel-mismatch",
+  metadata: {
+    category: "ARIA",
+    profile: "Blind",
+    wcagVersion: "2.0",
+    wcagLevel: "A",
+  },
   impact: "moderate",
   title: "Carousels should be tagged for assistive technology",
   description: 'The carousel container should have a role so assistive technology treats it as a distinct section. Using role="region" with a label exposes the carousel as a named region, allowing screen reader users to recognize the purpose of the component and navigate to it efficiently.',
