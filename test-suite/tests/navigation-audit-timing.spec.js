@@ -6,7 +6,7 @@ const ENABLE_SDK_AUDIT = true;
 
 // Initialize AccessFlow SDK with API key (only if enabled)
 if (ENABLE_SDK_AUDIT) {
-  AccessFlowSDK.init({ apiKey: "flow-1kWinHti5fxwgaT6eOg000mgSC3uR8SbUc" });
+  AccessFlowSDK.init({ apiKey: "flow-12WW4qDgPGn2EaWy8AA000cYNOpGV0FMKx" });
 }
 
 // Helper function to format time
