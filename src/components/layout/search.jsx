@@ -97,7 +97,9 @@ const SearchComponent = ({ data }) => {
           value={searchQuery}
           onChange={handleInputChange}
           onFocus={() => setShowDropdown(searchQuery.length > 0)}
-          aria-label="Search for rules and criteria"
+          inputProps={{
+            "aria-label": "Search for rules and criteria",
+          }}
         />
         {searchQuery && (
           <IconButton onClick={handleClearSearch} size="small">

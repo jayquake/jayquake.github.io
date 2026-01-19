@@ -12,11 +12,11 @@ const InputDiscernibleFailure = () => {
   "Test with screen readers"
   ];
   const htmlExamples = [
-  { filename: "input with described by element", content: `<input type="text" aria-describedby="username" />
+  { filename: "input with described by element", content: `<input type="text" aria-label="Username" aria-describedby="username" />
 <label id="username">Username</label>` },
-  { filename: "input without label", content: `<input type="text" id="username" />` },
-  { filename: "select without label", content: `<select id="username"></select>` },
-  { filename: "textarea without label", content: `<textarea id="username"></textarea>` }
+  { filename: "input without label", content: `<input type="text" id="username" aria-label="Username" />` },
+  { filename: "select without label", content: `<select id="username" aria-label="Username"></select>` },
+  { filename: "textarea without label", content: `<textarea id="username" aria-label="Username"></textarea>` }
   ];
 
   return (

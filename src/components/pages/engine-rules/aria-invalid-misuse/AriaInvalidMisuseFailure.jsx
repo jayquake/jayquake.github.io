@@ -12,13 +12,13 @@ const AriaInvalidMisuseFailure = () => {
   "Test with screen readers"
   ];
   const htmlExamples = [
-  { filename: "input with aria invalid grammar", content: `<input aria-invalid="grammar" aria-describedby="description" />
+  { filename: "input with aria invalid grammar", content: `<input aria-label="Input field" aria-invalid="grammar" aria-describedby="description" />
 <div id="description">Some description</div>` },
-  { filename: "input with aria invalid spelling", content: `<input aria-invalid="spelling" aria-describedby="description" />
+  { filename: "input with aria invalid spelling", content: `<input aria-label="Input field" aria-invalid="spelling" aria-describedby="description" />
 <div id="description">Some description</div>` },
-  { filename: "input with aria invalid true", content: `<input aria-invalid="true" aria-describedby="description" />
+  { filename: "input with aria invalid true", content: `<input aria-label="Input field" aria-invalid="true" aria-describedby="description" />
 <div id="description">Some description</div>` },
-  { filename: "input with empty aria invalid", content: `<input aria-invalid aria-describedby="description" />
+  { filename: "input with empty aria invalid", content: `<input aria-label="Input field" aria-invalid aria-describedby="description" />
 <div id="description">Some description</div>` }
   ];
 

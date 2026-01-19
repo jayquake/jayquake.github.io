@@ -1,6 +1,6 @@
 {
   "issuesFoundThreshold": {
-    "extreme": 90,
+    "extreme": 10,
     "high": 190,
     "medium": 200,
     "low": 300

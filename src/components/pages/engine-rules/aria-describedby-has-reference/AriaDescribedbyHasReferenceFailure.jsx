@@ -12,10 +12,10 @@ const AriaDescribedbyHasReferenceFailure = () => {
   "Test with screen readers"
   ];
   const htmlExamples = [
-  { filename: "input with aria describedby but no matching element id", content: `<input aria-describedby="description" />
+  { filename: "input with aria describedby but no matching element id", content: `<input aria-label="Input field" aria-describedby="description" />
 <div id="description-bad-id">Some description</div>` },
-  { filename: "input with aria describedby but no matching element", content: `<input aria-describedby="description" />` },
-  { filename: "input with valid aria describedby and invalid aria labelledby", content: `<input aria-labelledby="label" aria-describedby="description" />
+  { filename: "input with aria describedby but no matching element", content: `<input aria-label="Input field" aria-describedby="description" />` },
+  { filename: "input with valid aria describedby and invalid aria labelledby", content: `<input aria-label="Input field" aria-labelledby="label" aria-describedby="description" />
 <div id="description-bad">Some description</div>` }
   ];
 

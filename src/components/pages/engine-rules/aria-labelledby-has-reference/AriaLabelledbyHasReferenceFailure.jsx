@@ -12,12 +12,12 @@ const AriaLabelledbyHasReferenceFailure = () => {
   "Test with screen readers"
   ];
   const htmlExamples = [
-  { filename: "input with aria labelledby but no matching element id", content: `<input aria-labelledby="label" />
+  { filename: "input with aria labelledby but no matching element id", content: `<input aria-label="Input field" aria-labelledby="label" />
 <div id="label-bad-id">Some label</div>` },
-  { filename: "input with aria labelledby but no matching element", content: `<input aria-labelledby="label" />` },
-  { filename: "multiple inputs with labelledby but no fitting element", content: `<input id="labelled-by" aria-labelledby="labelled-2" />
+  { filename: "input with aria labelledby but no matching element", content: `<input aria-label="Input field" aria-labelledby="label" />` },
+  { filename: "multiple inputs with labelledby but no fitting element", content: `<input id="labelled-by" aria-label="First input" aria-labelledby="labelled-2" />
 <div id="label-bad-id-1">Some label</div>
-<input id="labelled-by-2" aria-labelledby="label" />
+<input id="labelled-by-2" aria-label="Second input" aria-labelledby="label" />
 <div id="label-bad-id">Some label</div>` }
   ];
 
