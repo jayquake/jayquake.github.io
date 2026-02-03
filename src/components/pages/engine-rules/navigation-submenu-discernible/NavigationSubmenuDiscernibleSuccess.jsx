@@ -16,12 +16,12 @@ const NavigationSubmenuDiscernibleSuccess = () => {
     <div>
       <button id="sub-menu-button" aria-expanded="false">About</button>
       <div id="sub-menu" aria-label="About Menu">
-        <div><a href="#">Home</a></div>
-        <div><a href="#">About</a></div>
+        <div><button type="button">Home</button></div>
+        <div><button type="button">About</button></div>
       </div>
     </div>
     <div>
-      <a href="#">Contact</a>
+      <button type="button">Contact</button>
     </div>
 </nav>` },
   { filename: "navigation nested submenu aria label", content: `<style>
@@ -34,20 +34,20 @@ const NavigationSubmenuDiscernibleSuccess = () => {
 <nav>
   <ul>
     <li>
-      <a href="#">About</a>
+      <button type="button">About</button>
       <ul id="sub-menu" aria-label="About Menu">
-        <li><a href="#">Home</a></li>
+        <li><button type="button">Home</button></li>
         <li>
-          <a href="#">About</a>
+          <button type="button">About</button>
           <ul id="nested-sub-menu" aria-label="About Submenu">
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">Location</a></li>
+            <li><button type="button">Contact</button></li>
+            <li><button type="button">Location</button></li>
           </ul>
         </li>
       </ul>
     </li>
     <li>
-      <a href="#">Contact</a>
+      <button type="button">Contact</button>
     </li>
   </ul>
 </nav>` },
@@ -56,19 +56,19 @@ const NavigationSubmenuDiscernibleSuccess = () => {
     <li>
       <button id="sub-menu-button" aria-expanded="false">About</button>
       <ul id="sub-menu" aria-label="About Menu">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
+        <li><button type="button">Home</button></li>
+        <li><button type="button">About</button></li>
       </ul>
     </li>
     <li>
-      <a href="#">Contact</a>
+      <button type="button">Contact</button>
     </li>
   </ul>
 </nav>` },
   { filename: "simple nav without sub menu", content: `<nav>
   <ul id="menu">
-    <li><a href="#">Home</a></li>
-    <li><a href="#">About</a></li>
+    <li><button type="button">Home</button></li>
+    <li><button type="button">About</button></li>
   </ul>
 </nav>` },
   { filename: "wai nav menu bar", content: `<style>
@@ -285,15 +285,15 @@ const NavigationSubmenuDiscernibleSuccess = () => {
         role="list"
         aria-label="Mythical University">
       <li role="none">
-        <a role="menuitem" href="#home">
+        <button type="button" role="menuitem">
           Home
-        </a>
+        </button>
       </li>
       <li role="none">
-        <a role="menuitem"
+        <button type="button" role="menuitem"
            aria-haspopup="true"
            aria-expanded="false"
-           href="#about">
+           >
           About
           <svg xmlns="http://www.w3.org/2000/svg"
                class="down"
@@ -302,23 +302,23 @@ const NavigationSubmenuDiscernibleSuccess = () => {
                viewBox="0 0 12 9">
             <polygon points="1 0, 11 0, 6 8"></polygon>
           </svg>
-        </a>
+        </button>
         <ul role="region" aria-label="About">
           <li role="none">
-            <a role="menuitem" href="#overview">
+            <button type="button" role="menuitem">
               Overview
-            </a>
+            </button>
           </li>
           <li role="none">
-            <a role="menuitem" href="#administration">
+            <button type="button" role="menuitem">
               Administration
-            </a>
+            </button>
           </li>
           <li role="none">
-            <a role="menuitem"
+            <button type="button" role="menuitem"
                aria-haspopup="true"
                aria-expanded="false"
-               href="#facts">
+               >
               Facts
               <svg xmlns="http://www.w3.org/2000/svg"
                    class="right"
@@ -327,30 +327,30 @@ const NavigationSubmenuDiscernibleSuccess = () => {
                    viewBox="0 0 9 12">
                 <polygon points="0 1, 0 11, 8 6"></polygon>
               </svg>
-            </a>
+            </button>
             <ul role="region" aria-label="Facts">
               <li role="none">
-                <a role="menuitem" href="#history">
+                <button type="button" role="menuitem">
                   History
-                </a>
+                </button>
               </li>
               <li role="none">
-                <a role="menuitem" href="#current-statistics">
+                <button type="button" role="menuitem">
                   Current Statistics
-                </a>
+                </button>
               </li>
               <li role="none">
-                <a role="menuitem" href="#awards">
+                <button type="button" role="menuitem">
                   Awards
-                </a>
+                </button>
               </li>
             </ul>
           </li>
           <li role="none">
-            <a role="menuitem"
+            <button type="button" role="menuitem"
                aria-haspopup="true"
                aria-expanded="false"
-               href="#campus-tours">
+               >
               Campus Tours
               <svg xmlns="http://www.w3.org/2000/svg"
                    class="right"
@@ -359,32 +359,32 @@ const NavigationSubmenuDiscernibleSuccess = () => {
                    viewBox="0 0 9 12">
                 <polygon points="0 1, 0 11, 8 6"></polygon>
               </svg>
-            </a>
+            </button>
             <ul role="region" aria-label="Campus Tours">
               <li role="none">
-                <a role="menuitem" href="#for-prospective-students">
+                <button type="button" role="menuitem">
                   For prospective students
-                </a>
+                </button>
               </li>
               <li role="none">
-                <a role="menuitem" href="#for-alumni">
+                <button type="button" role="menuitem">
                   For alumni
-                </a>
+                </button>
               </li>
               <li role="none">
-                <a role="menuitem" href="#for-visitors">
+                <button type="button" role="menuitem">
                   For visitors
-                </a>
+                </button>
               </li>
             </ul>
           </li>
         </ul>
       </li>
       <li role="none">
-        <a role="menuitem"
+        <button type="button" role="menuitem"
            aria-haspopup="true"
            aria-expanded="false"
-           href="#admissions">
+           >
           Admissions
           <svg xmlns="http://www.w3.org/2000/svg"
                class="down"
@@ -393,18 +393,18 @@ const NavigationSubmenuDiscernibleSuccess = () => {
                viewBox="0 0 12 9">
             <polygon points="1 0, 11 0, 6 8"></polygon>
           </svg>
-        </a>
+        </button>
         <ul id="admissions-submenu" role="region" aria-label="Admissions">
           <li role="none">
-            <a role="menuitem" href="#apply">
+            <button type="button" role="menuitem">
               Apply
-            </a>
+            </button>
           </li>
           <li role="none">
-            <a role="menuitem"
+            <button type="button" role="menuitem"
                aria-haspopup="true"
                aria-expanded="false"
-               href="#tuition">
+               >
               Tuition
               <svg xmlns="http://www.w3.org/2000/svg"
                    class="right"
@@ -413,53 +413,53 @@ const NavigationSubmenuDiscernibleSuccess = () => {
                    viewBox="0 0 9 12">
                 <polygon points="0 1, 0 11, 8 6"></polygon>
               </svg>
-            </a>
+            </button>
             <ul role="region" aria-label="Tuition">
               <li role="none">
-                <a role="menuitem" href="#undergraduate">
+                <button type="button" role="menuitem">
                   Undergraduate
-                </a>
+                </button>
               </li>
               <li role="none">
-                <a role="menuitem" href="#graduate">
+                <button type="button" role="menuitem">
                   Graduate
-                </a>
+                </button>
               </li>
               <li role="none">
-                <a role="menuitem" href="#professional-schools">
+                <button type="button" role="menuitem">
                   Professional Schools
-                </a>
+                </button>
               </li>
             </ul>
           </li>
           <li role="none">
-            <a role="menuitem" href="#sign-up">
+            <button type="button" role="menuitem">
               Sign Up
-            </a>
+            </button>
           </li>
           <li role="separator"></li>
           <li role="none">
-            <a role="menuitem" href="#visit">
+            <button type="button" role="menuitem">
               Visit
-            </a>
+            </button>
           </li>
           <li role="none">
-            <a role="menuitem" href="#photo-tour">
+            <button type="button" role="menuitem">
               Photo Tour
-            </a>
+            </button>
           </li>
           <li role="none">
-            <a role="menuitem" href="#connect">
+            <button type="button" role="menuitem">
               Connect
-            </a>
+            </button>
           </li>
         </ul>
       </li>
       <li role="none">
-        <a role="menuitem"
+        <button type="button" role="menuitem"
            aria-haspopup="true"
            aria-expanded="false"
-           href="#academics">
+           >
           Academics
           <svg xmlns="http://www.w3.org/2000/svg"
                class="down"
@@ -468,50 +468,50 @@ const NavigationSubmenuDiscernibleSuccess = () => {
                viewBox="0 0 12 9">
             <polygon points="1 0, 11 0, 6 8"></polygon>
           </svg>
-        </a>
+        </button>
         <ul role="region"
             id="sub-menu-academics"
             aria-label="Academics">
           <li role="none">
-            <a role="menuitem" href="#colleges-and-schools">
+            <button type="button" role="menuitem">
               Colleges & Schools
-            </a>
+            </button>
           </li>
           <li role="none">
-            <a role="menuitem" href="#programs-of-study">
+            <button type="button" role="menuitem">
               Programs of Study
-            </a>
+            </button>
           </li>
           <li role="none">
-            <a role="menuitem" href="#honors-programs">
+            <button type="button" role="menuitem">
               Honors Programs
-            </a>
+            </button>
           </li>
           <li role="none">
-            <a role="menuitem" href="#online-courses">
+            <button type="button" role="menuitem">
               Online Courses
-            </a>
+            </button>
           </li>
           <li role="separator"></li>
           <li role="none">
-            <a role="menuitem" href="#course-explorer">
+            <button type="button" role="menuitem">
               Course Explorer
-            </a>
+            </button>
           </li>
           <li role="none">
-            <a role="menuitem" href="#register-for-class">
+            <button type="button" role="menuitem">
               Register for Class
-            </a>
+            </button>
           </li>
           <li role="none">
-            <a role="menuitem" href="#academic-calendar">
+            <button type="button" role="menuitem">
               Academic Calendar
-            </a>
+            </button>
           </li>
           <li role="none">
-            <a role="menuitem" href="#tanscripts">
+            <button type="button" role="menuitem">
               Transcripts
-            </a>
+            </button>
           </li>
         </ul>
       </li>

@@ -2,9 +2,9 @@ import { AccessFlowSDK } from "@acsbe/accessflow-sdk";
 import { expect, test } from "@playwright/test";
 
 // Initialize AccessFlow SDK with API key
-AccessFlowSDK.init({ apiKey: "flow-12WW4qDgPGn2EaWy8AA000cYNOpGV0FMKx" });
+AccessFlowSDK.init({ apiKey: "flow-1p9MTqpaRWDeNaYHUDw000broP1y1U9tQ1" });
 
-test.describe("Breadcrumb Navigation with Accessibility Audits", () => {
+test.describe("Breadcrumbs with Accessibility Audits", () => {
   test("should navigate from failure to success page using breadcrumb dropdown and audit both", async ({
     page,
   }) => {
@@ -24,7 +24,7 @@ test.describe("Breadcrumb Navigation with Accessibility Audits", () => {
     const failureReport = await sdk.audit();
     console.log(
       "✅ Failure page audit completed:",
-      failureReport ? "Success" : "No report"
+      failureReport ? "Success" : "No report",
     );
 
     // Locate the breadcrumb dropdown (Select component with MenuItem values)
@@ -66,7 +66,7 @@ test.describe("Breadcrumb Navigation with Accessibility Audits", () => {
     const successReport = await sdk.audit();
     console.log(
       "✅ Success page audit completed:",
-      successReport ? "Success" : "No report"
+      successReport ? "Success" : "No report",
     );
 
     // Verify both audits were completed
@@ -204,13 +204,13 @@ test.describe("Breadcrumb Navigation with Accessibility Audits", () => {
       console.log(
         `   • ${result.rule}: Failure ${
           result.failureAudit ? "✅" : "❌"
-        }, Success ${result.successAudit ? "✅" : "❌"}`
+        }, Success ${result.successAudit ? "✅" : "❌"}`,
       );
     });
 
     expect(auditResults.length).toBeGreaterThan(0);
     expect(auditResults.every((r) => r.failureAudit && r.successAudit)).toBe(
-      true
+      true,
     );
   });
 });

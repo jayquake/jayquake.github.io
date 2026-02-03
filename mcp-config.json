@@ -1,5 +1,17 @@
 {
   "mcpServers": {
+    "flow-mcp": {
+      "command": "npx",
+      "args": ["-y", "accessflow-mcp-server@beta"],
+      "env": {
+        "API_KEY": "flow-1c7rgqDeaEDQGaXpB2Q000V1tNudK7xKjU",
+        "DOMAIN": "jayquake.github.io",
+        "ENVIRONMENT": "https://mcp-flow--accessflow--test.acsb-test.com/",
+        "NON_PROD_USER_NAME": "test",
+        "NON_PROD_PASSWORD": "acsb123"
+      },
+      "type": "stdio"
+    },
     "playwright": {
       "command": "npx",
       "args": [
