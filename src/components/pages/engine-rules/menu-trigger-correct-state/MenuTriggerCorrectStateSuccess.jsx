@@ -19,17 +19,17 @@ const MenuTriggerCorrectStateSuccess = () => {
 </style>
 <nav>
   <ul>
-    <li><a href="#">Home</a></li>
-    <li><a href="#">About</a></li>
+    <li><button type="button">Home</button></li>
+    <li><button type="button">About</button></li>
     <li>
-      <a href="#" aria-haspopup="true" aria-expanded="false" aria-controls="submenu">Services</a>
+      <button type="button" aria-haspopup="true" aria-expanded="false" aria-controls="submenu">Services</button>
       <ul id="submenu" aria-hidden="true">
-        <li><a href="#">Web Design</a></li>
-        <li><a href="#">Graphic Design</a></li>
-        <li><a href="#">SEO</a></li>
+        <li><button type="button">Web Design</button></li>
+        <li><button type="button">Graphic Design</button></li>
+        <li><button type="button">SEO</button></li>
       </ul>
     </li>
-    <li><a href="#">Contact</a></li>
+    <li><button type="button">Contact</button></li>
   </ul>
 </nav>` },
   { filename: "aria expanded true submenu controller", content: `<style>
@@ -39,17 +39,17 @@ const MenuTriggerCorrectStateSuccess = () => {
 </style>
 <nav>
   <ul>
-    <li><a href="#">Home</a></li>
-    <li><a href="#">About</a></li>
+    <li><button type="button">Home</button></li>
+    <li><button type="button">About</button></li>
     <li>
-      <a href="#" aria-haspopup="true" aria-expanded="true" aria-controls="submenu">Services</a>
+      <button type="button" aria-haspopup="true" aria-expanded="true" aria-controls="submenu">Services</button>
       <ul id="submenu" aria-hidden="false">
-        <li><a href="#">Web Design</a></li>
-        <li><a href="#">Graphic Design</a></li>
-        <li><a href="#">SEO</a></li>
+        <li><button type="button">Web Design</button></li>
+        <li><button type="button">Graphic Design</button></li>
+        <li><button type="button">SEO</button></li>
       </ul>
     </li>
-    <li><a href="#">Contact</a></li>
+    <li><button type="button">Contact</button></li>
   </ul>
 </nav>` },
   { filename: "no aria controls submenu controller", content: `<style>
@@ -59,17 +59,17 @@ const MenuTriggerCorrectStateSuccess = () => {
 </style>
 <nav>
   <ul>
-    <li><a href="#">Home</a></li>
-    <li><a href="#">About</a></li>
+    <li><button type="button">Home</button></li>
+    <li><button type="button">About</button></li>
     <li>
-      <a href="#" aria-haspopup="true" aria-expanded="false">Services</a>
+      <button type="button" aria-haspopup="true" aria-expanded="false">Services</button>
       <ul id="submenu" aria-hidden="true">
-        <li><a href="#">Web Design</a></li>
-        <li><a href="#">Graphic Design</a></li>
-        <li><a href="#">SEO</a></li>
+        <li><button type="button">Web Design</button></li>
+        <li><button type="button">Graphic Design</button></li>
+        <li><button type="button">SEO</button></li>
       </ul>
     </li>
-    <li><a href="#">Contact</a></li>
+    <li><button type="button">Contact</button></li>
   </ul>
 </nav>` },
   { filename: "no aria expanded submenu controller", content: `<style>
@@ -79,17 +79,17 @@ const MenuTriggerCorrectStateSuccess = () => {
 </style>
 <nav>
   <ul>
-    <li><a href="#">Home</a></li>
-    <li><a href="#">About</a></li>
+    <li><button type="button">Home</button></li>
+    <li><button type="button">About</button></li>
     <li>
-      <a href="#" aria-haspopup="true" aria-controls="submenu">Services</a>
+      <button type="button" aria-haspopup="true" aria-controls="submenu">Services</button>
       <ul id="submenu" aria-hidden="true">
-        <li><a href="#">Web Design</a></li>
-        <li><a href="#">Graphic Design</a></li>
-        <li><a href="#">SEO</a></li>
+        <li><button type="button">Web Design</button></li>
+        <li><button type="button">Graphic Design</button></li>
+        <li><button type="button">SEO</button></li>
       </ul>
     </li>
-    <li><a href="#">Contact</a></li>
+    <li><button type="button">Contact</button></li>
   </ul>
 </nav>` },
   { filename: "no aria haspopup submenu controller", content: `<style>
@@ -99,17 +99,17 @@ const MenuTriggerCorrectStateSuccess = () => {
 </style>
 <nav>
   <ul>
-    <li><a href="#">Home</a></li>
-    <li><a href="#">About</a></li>
+    <li><button type="button">Home</button></li>
+    <li><button type="button">About</button></li>
     <li>
-      <a href="#" aria-expanded="false" aria-controls="submenu">Services</a>
+      <button type="button" aria-expanded="false" aria-controls="submenu">Services</button>
       <ul id="submenu" aria-hidden="true">
-        <li><a href="#">Web Design</a></li>
-        <li><a href="#">Graphic Design</a></li>
-        <li><a href="#">SEO</a></li>
+        <li><button type="button">Web Design</button></li>
+        <li><button type="button">Graphic Design</button></li>
+        <li><button type="button">SEO</button></li>
       </ul>
     </li>
-    <li><a href="#">Contact</a></li>
+    <li><button type="button">Contact</button></li>
   </ul>
 </nav>` },
   { filename: "wrong aria haspopup submenu controller", content: `<style>
@@ -119,17 +119,17 @@ const MenuTriggerCorrectStateSuccess = () => {
 </style>
 <nav>
   <ul>
-    <li><a href="#">Home</a></li>
-    <li><a href="#">About</a></li>
+    <li><button type="button">Home</button></li>
+    <li><button type="button">About</button></li>
     <li>
-      <a href="#" aria-haspopup="false" aria-expanded="false" aria-controls="submenu">Services</a>
+      <button type="button" aria-haspopup="false" aria-expanded="false" aria-controls="submenu">Services</button>
       <ul id="submenu" aria-hidden="true">
-        <li><a href="#">Web Design</a></li>
-        <li><a href="#">Graphic Design</a></li>
-        <li><a href="#">SEO</a></li>
+        <li><button type="button">Web Design</button></li>
+        <li><button type="button">Graphic Design</button></li>
+        <li><button type="button">SEO</button></li>
       </ul>
     </li>
-    <li><a href="#">Contact</a></li>
+    <li><button type="button">Contact</button></li>
   </ul>
 </nav>` }
   ];
