@@ -2,7 +2,7 @@ import { AccessFlowSDK } from "@acsbe/accessflow-sdk";
 import { expect, test } from "@playwright/test";
 
 // Initialize AccessFlow SDK with API key
-AccessFlowSDK.init({ apiKey: "flow-12WW4qDgPGn2EaWy8AA000cYNOpGV0FMKx" });
+AccessFlowSDK.init({ apiKey: "flow-1p9MTqpaRWDeNaYHUDw000broP1y1U9tQ1" });
 
 test.describe("Graphics Audit Tests", () => {
   test.beforeEach(async ({ page }) => {
