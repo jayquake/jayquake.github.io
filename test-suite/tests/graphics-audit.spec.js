@@ -4,7 +4,7 @@ import { expect, test } from "@playwright/test";
 // Initialize AccessFlow SDK with API key
 AccessFlowSDK.init({ apiKey: "flow-1p9MTqpaRWDeNaYHUDw000broP1y1U9tQ1" });
 
-test.describe("Graphics Audit Tests", () => {
+test.describe("Graphics Audit Tests with SDK", () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to the app home page before each test
     await page.goto("/");
@@ -35,7 +35,7 @@ test.describe("Graphics Audit Tests", () => {
 
     // 2. Navigate to Background Images details
     const backgroundImagesLink = page.locator(
-      'a[href="#/graphics/background-images"]'
+      'a[href="#/graphics/background-images"]',
     );
     await expect(backgroundImagesLink).toBeVisible();
     await backgroundImagesLink.dispatchEvent("click");
@@ -44,7 +44,7 @@ test.describe("Graphics Audit Tests", () => {
 
     // 3. Navigate to Failure Examples
     const failureLink = page.locator(
-      'a[href="#/graphics/background-images_failure"]'
+      'a[href="#/graphics/background-images_failure"]',
     );
     await expect(failureLink).toBeVisible();
     await failureLink.dispatchEvent("click");
@@ -112,7 +112,7 @@ test.describe("Graphics Audit Tests", () => {
     await page.waitForTimeout(500);
 
     const successLink = page.locator(
-      'a[href="#/graphics/background-images_success"]'
+      'a[href="#/graphics/background-images_success"]',
     );
     if (await successLink.isVisible()) {
       await successLink.dispatchEvent("click");
@@ -139,7 +139,7 @@ test.describe("Graphics Audit Tests", () => {
     }));
     console.log(
       "Violation counts by context:",
-      JSON.stringify(violationCounts, null, 2)
+      JSON.stringify(violationCounts, null, 2),
     );
   });
 });
