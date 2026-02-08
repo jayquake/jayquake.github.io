@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 
 // Initialize AccessFlow SDK with API key
-AccessFlowSDK.init({ apiKey: "flow-1p9MTqpaRWDeNaYHUDw000broP1y1U9tQ1" });
+AccessFlowSDK.init({ apiKey: "flow-1COlSKAvc4tNWaYhdGw000xsUZ9huvEZvu" });
 
 // Read AccessFlow config
 const configPath = path.join(process.cwd(), "accessflow.config.json");
