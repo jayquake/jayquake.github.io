@@ -5,7 +5,7 @@ import path from "path";
 
 // Initialize AccessFlow SDK with API key
 AccessFlowSDK.init({
-  apiKey: "flow-1p9MTqpaRWDeNaYHUDw000broP1y1U9tQ1",
+  apiKey: "flow-1AGHjOCaB9GYyaYtf6Q000Y1KygFymF5R4",
 });
 
 test.describe("Custom OutputDir Support", () => {
