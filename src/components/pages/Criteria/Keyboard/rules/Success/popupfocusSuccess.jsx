@@ -33,7 +33,7 @@ export default function PopupFocus() {
               <Divider sx={{ mb: 2 }}></Divider>
 
               <Grid item xs={12}>
-                <Stack direction="row" spacing={1}></Stack>
+                <Stack direction="row" spacing={1} aria-hidden="true"></Stack>
               </Grid>
             </Paper>
           </Grid>

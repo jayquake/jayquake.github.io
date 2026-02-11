@@ -442,6 +442,7 @@ const IssueFailure = ({ itemContent, itemDescription, helpText, fixSteps }) => {
           <Container sx={{ mb: 4 }}>
             <Paper
               elevation={0}
+              aria-hidden={!helpText && (!fixSteps || fixSteps.length === 0)}
               sx={{
                 p: 4,
                 borderRadius: 4,
