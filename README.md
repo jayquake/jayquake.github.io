@@ -1,70 +1,167 @@
-# Getting Started with Create React App
+# Accessibility Rule Testing
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React application with multi-language AccessFlow SDK test lanes (JS, Python, Java).
 
-## Available Scripts
+## Prerequisites
 
-In the project directory, you can run:
+- **Node.js 20.x** and npm
+- **Python 3.12+** (for the Python test lane)
+- **Java 17+** and Maven (for the Java test lane)
+- An `ACCESSFLOW_API_KEY` environment variable (required by all test lanes)
 
-### `npm start`
+## Quick Start
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+npm install
+npm start          # http://localhost:3000
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## SDK Artifacts
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Language | Artifact Path | Type |
+|----------|--------------|------|
+| JS       | `nodeSDK/acsbe-accessflow-sdk.tgz` | npm tarball |
+| Python   | `pythonSdk/accessflow_sdk-1.0.1-py3-none-any.whl` | Python wheel |
+| Java     | `javaSdk/accessflow-sdk.jar` | JAR |
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Test Lanes
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+All three lanes run Playwright-driven behavior tests against the React app at `http://localhost:3000`.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### JS Lane (existing + extended)
 
-### `npm run eject`
+```bash
+# Install dependencies (includes the local SDK tgz)
+npm ci
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# Install Playwright browsers
+npx playwright install --with-deps chromium
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Run all E2E tests
+npm run test:e2e
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+# Run only the SDK behavior spec
+cd test-suite && npx playwright test tests/sdk-behavior.spec.js
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+# Other helpful commands
+npm run test:e2e:ui       # Interactive UI mode
+npm run test:e2e:headed   # Headed browser
+npm run test:e2e:debug    # Debug mode
+npm run test:e2e:report   # Open HTML report
+```
 
-## Learn More
+**Environment variables:**
+```bash
+export ACCESSFLOW_API_KEY="your-key-here"
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Python Lane
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+# Create and activate a virtual environment
+cd python-tests
+python -m venv .venv
+source .venv/bin/activate      # macOS/Linux
+# .venv\Scripts\activate       # Windows
 
-### Code Splitting
+# Install dependencies (installs the local wheel automatically)
+pip install -r requirements.txt
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+# Install Playwright browsers
+python -m playwright install --with-deps chromium
 
-### Analyzing the Bundle Size
+# Make sure the app is running in another terminal:
+#   cd .. && npm start
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# Run the tests
+pytest
 
-### Making a Progressive Web App
+# Run with verbose output and JUnit XML
+pytest -v --junitxml=test-results/results.xml
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+**Environment variables:**
+```bash
+export ACCESSFLOW_API_KEY="your-key-here"
+```
 
-### Advanced Configuration
+> The Python test suite will auto-start the React dev server if it is not
+> already running. You need Node.js available on `PATH` for this to work.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Java Lane
 
-### Deployment
+```bash
+cd java-tests
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+# Resolve dependencies and install Playwright browsers
+mvn compile
+mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install --with-deps chromium"
 
-### `npm run build` fails to minify
+# Make sure the app is running in another terminal:
+#   cd .. && npm start
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Run the tests
+mvn test
+```
+
+**Environment variables:**
+```bash
+export ACCESSFLOW_API_KEY="your-key-here"
+```
+
+---
+
+## CI / GitHub Actions
+
+The workflow (`.github/workflows/ci-test-deploy.yml`) runs three parallel test jobs:
+
+| Job | Runtime | SDK |
+|-----|---------|-----|
+| `test-js` | Node 20.x | `nodeSDK/acsbe-accessflow-sdk.tgz` |
+| `test-python` | Python 3.12 | `pythonSdk/accessflow_sdk-1.0.1-py3-none-any.whl` |
+| `test-java` | Java 17 (Temurin) | `javaSdk/accessflow-sdk.jar` |
+
+All jobs use the `ACCESSFLOW_API_KEY` secret and upload test artifacts on completion.
+
+Deploy to GitHub Pages runs after all three lanes pass.
+
+---
+
+## Project Structure
+
+```
+.
+├── nodeSDK/                    # JS SDK artifact
+├── pythonSdk/                  # Python SDK artifact
+├── javaSdk/                    # Java SDK artifact
+├── test-suite/                 # JS Playwright tests
+│   ├── playwright.config.js
+│   ├── global-teardown.js
+│   ├── accessflow.config.json
+│   └── tests/
+│       ├── sdk-behavior.spec.js   # SDK behavior tests (JS)
+│       ├── search.spec.js
+│       └── ...
+├── python-tests/               # Python Playwright tests
+│   ├── requirements.txt
+│   ├── pytest.ini
+│   ├── conftest.py
+│   ├── accessflow.config.json
+│   └── tests/
+│       └── test_accessflow_sdk_behavior.py
+├── java-tests/                 # Java Playwright tests
+│   ├── pom.xml
+│   └── src/test/
+│       ├── java/com/accessflow/
+│       │   └── AccessFlowSDKBehaviorTest.java
+│       └── resources/
+│           └── accessflow.config.json
+├── src/                        # React application source
+├── package.json
+└── .github/workflows/
+    └── ci-test-deploy.yml
+```
