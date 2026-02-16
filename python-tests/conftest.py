@@ -65,12 +65,7 @@ def _finalize_accessflow_reports():
 @pytest.fixture
 def sdk(page):
     """Provide an AccessFlow SDK instance bound to the current Playwright page."""
-    api_key = (
-        os.environ.get("ACCESSFLOW_SDK_API_KEY")
-        or os.environ.get("AF_Python_Package_Key")
-        or os.environ.get("ACCESSFLOW_API_KEY")
-        or DEFAULT_API_TOKEN
-    )
+    api_key = os.environ.get("AF_Python_Package_Key", DEFAULT_API_TOKEN)
     sdk_instance = AccessFlowSDK(page, config={"apiToken": api_key})
 
     original_audit = sdk_instance.audit
