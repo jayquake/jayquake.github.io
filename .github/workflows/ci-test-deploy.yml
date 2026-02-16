@@ -50,7 +50,7 @@ jobs:
         run: npm run test:e2e
         env:
           CI: true
-          ACCESSFLOW_API_KEY: ${{ secrets.ACCESSFLOW_API_KEY }}
+          AF_Node_Package_Key: ${{ secrets.AF_Node_Package_Key }}
 
       - name: Upload Playwright Report
         uses: actions/upload-artifact@v4
