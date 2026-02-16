@@ -126,7 +126,9 @@ jobs:
 
       - name: Run Python Playwright Tests
         working-directory: python-tests
-        run: pytest --junitxml=test-results/results.xml
+        run: |
+          mkdir -p test-results
+          pytest --junitxml=test-results/results.xml -v
         env:
           CI: true
           AF_Python_Package_Key: ${{ secrets.AF_Python_Package_Key }}
