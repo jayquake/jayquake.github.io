@@ -8,7 +8,14 @@ Test structure mirrors the JS lane (search.spec.js, graphics-audit.spec.js)
 so all three language lanes validate equivalent behavior.
 """
 
+import json
+from pathlib import Path
+
 import pytest
+
+
+REPORTS_DIR = Path(__file__).resolve().parents[1] / "test-results"
+LOCAL_REPORT_PATH = REPORTS_DIR / "accessflow-local-report.json"
 
 
 # ==========================================================================
@@ -19,10 +26,9 @@ import pytest
 class TestSDKInitialization:
     """Verify the SDK initializes and binds to a Playwright page."""
 
-    def test_init_succeeds_with_valid_key(self, _init_accessflow_sdk):
-        """SDK.init() should complete without raising when given a valid key."""
-        # Reaching this point means the session-scoped init fixture succeeded.
-        pass
+    def test_sdk_constructor_succeeds_with_valid_key(self, sdk):
+        """AccessFlowSDK(page, config) should initialize without raising."""
+        assert sdk is not None
 
     def test_instance_binds_to_page(self, sdk):
         """AccessFlowSDK(page) should return a truthy, usable instance."""
@@ -59,6 +65,18 @@ class TestAuditHomePage:
             report = sdk.audit()
         except Exception as exc:
             pytest.fail(f"sdk.audit() raised an unexpected exception: {exc}")
+
+    def test_generates_local_report_file(self, sdk):
+        """Generate and persist a local JSON report artifact."""
+        audits = sdk.audit()
+        report = sdk.generate_report(audits)
+
+        REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+        LOCAL_REPORT_PATH.write_text(json.dumps(report, indent=2), encoding="utf-8")
+
+        assert LOCAL_REPORT_PATH.exists()
+        assert LOCAL_REPORT_PATH.stat().st_size > 0
+        assert isinstance(report, dict)
 
 
 # ==========================================================================
