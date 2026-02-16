@@ -130,3 +130,74 @@ class TestAuditAfterNavigation:
 
         assert report_home is not None
         assert report_graphics is not None
+
+
+# ==========================================================================
+# Full App Validation — Multi-Page Audit with Report Generation
+# ==========================================================================
+
+
+class TestFullAppValidation:
+    """Audit multiple app routes and produce a consolidated local report."""
+
+    ROUTES = [
+        "/",
+        "/#/graphics",
+        "/#/graphics/alt-text",
+        "/#/forms",
+        "/#/keyboard",
+        "/#/navigation",
+        "/#/headings",
+        "/#/errors",
+    ]
+
+    FULL_REPORT_PATH = REPORTS_DIR / "accessflow-full-app-report.json"
+
+    def test_audit_all_routes_and_generate_report(self, page, sdk):
+        """Navigate every core route, audit each, then write a full report."""
+        route_reports = []
+
+        for route in self.ROUTES:
+            page.goto(route)
+            page.wait_for_load_state("networkidle")
+            page.wait_for_timeout(500)
+
+            audits = sdk.audit()
+            report = sdk.generate_report(audits)
+
+            route_reports.append({
+                "route": route,
+                "audits": audits,
+                "report": report,
+            })
+
+        # ---- assertions on every route ----
+        for entry in route_reports:
+            assert entry["audits"] is not None, (
+                f"audit() returned None for {entry['route']}"
+            )
+            assert isinstance(entry["report"], dict), (
+                f"generate_report() did not return a dict for {entry['route']}"
+            )
+
+        # ---- write consolidated report artifact ----
+        consolidated = {
+            "totalRoutes": len(route_reports),
+            "routes": [
+                {
+                    "route": e["route"],
+                    "numberOfIssuesFound": e["report"].get("numberOfIssuesFound", {}),
+                    "ruleViolationCount": len(e["report"].get("ruleViolations", {})),
+                }
+                for e in route_reports
+            ],
+        }
+
+        REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+        self.FULL_REPORT_PATH.write_text(
+            json.dumps(consolidated, indent=2), encoding="utf-8"
+        )
+
+        assert self.FULL_REPORT_PATH.exists()
+        assert self.FULL_REPORT_PATH.stat().st_size > 0
+        assert consolidated["totalRoutes"] == len(self.ROUTES)
