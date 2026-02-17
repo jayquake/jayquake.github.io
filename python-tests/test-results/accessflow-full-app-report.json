@@ -1,0 +1,85 @@
+{
+  "totalRoutes": 8,
+  "routes": [
+    {
+      "route": "/",
+      "numberOfIssuesFound": {
+        "extreme": 2,
+        "high": 13,
+        "medium": 8,
+        "low": 3
+      },
+      "ruleViolationCount": 13
+    },
+    {
+      "route": "/#/graphics",
+      "numberOfIssuesFound": {
+        "extreme": 9,
+        "high": 13,
+        "medium": 4,
+        "low": 2
+      },
+      "ruleViolationCount": 14
+    },
+    {
+      "route": "/#/graphics/alt-text",
+      "numberOfIssuesFound": {
+        "extreme": 4,
+        "high": 15,
+        "medium": 3,
+        "low": 1
+      },
+      "ruleViolationCount": 15
+    },
+    {
+      "route": "/#/forms",
+      "numberOfIssuesFound": {
+        "extreme": 8,
+        "high": 13,
+        "medium": 3,
+        "low": 3
+      },
+      "ruleViolationCount": 13
+    },
+    {
+      "route": "/#/keyboard",
+      "numberOfIssuesFound": {
+        "extreme": 8,
+        "high": 13,
+        "medium": 3,
+        "low": 3
+      },
+      "ruleViolationCount": 13
+    },
+    {
+      "route": "/#/navigation",
+      "numberOfIssuesFound": {
+        "extreme": 8,
+        "high": 13,
+        "medium": 4,
+        "low": 3
+      },
+      "ruleViolationCount": 13
+    },
+    {
+      "route": "/#/headings",
+      "numberOfIssuesFound": {
+        "extreme": 8,
+        "high": 13,
+        "medium": 3,
+        "low": 2
+      },
+      "ruleViolationCount": 13
+    },
+    {
+      "route": "/#/errors",
+      "numberOfIssuesFound": {
+        "extreme": 8,
+        "high": 13,
+        "medium": 4,
+        "low": 4
+      },
+      "ruleViolationCount": 13
+    }
+  ]
+}

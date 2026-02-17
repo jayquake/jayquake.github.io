@@ -4,6 +4,7 @@ Shared fixtures and session-level setup for Python AccessFlow SDK tests.
 
 import os
 import subprocess
+import sys
 import time
 import urllib.request
 import urllib.error
@@ -28,12 +29,20 @@ def _ensure_app_server():
         return
 
     project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    
+    # On Windows, use npm.cmd instead of npm or use shell=True
+    if sys.platform == "win32":
+        npm_cmd = "npm.cmd"
+    else:
+        npm_cmd = "npm"
+    
     proc = subprocess.Popen(
-        ["npm", "start"],
+        [npm_cmd, "start"],
         cwd=project_root,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         env={**os.environ, "BROWSER": "none"},
+        shell=(sys.platform == "win32"),
     )
 
     # Poll until the server responds (up to 60 s)

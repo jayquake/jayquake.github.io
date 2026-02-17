@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Created-By: Maven JAR Plugin 3.3.0
+Build-Jdk-Spec: 25
+Specification-Title: AccessFlow SDK
+Specification-Version: 1.0
+Implementation-Title: AccessFlow SDK
+Implementation-Version: 1.0.1
+

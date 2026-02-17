@@ -42,7 +42,7 @@
 
         <!-- AccessFlow Java SDK (local JAR) -->
         <dependency>
-            <groupId>com.accessflow</groupId>
+            <groupId>com.acsbe</groupId>
             <artifactId>accessflow-sdk</artifactId>
             <version>1.0.1</version>
             <scope>system</scope>

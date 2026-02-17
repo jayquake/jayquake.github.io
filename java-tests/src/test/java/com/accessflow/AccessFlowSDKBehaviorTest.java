@@ -1,5 +1,6 @@
 package com.accessflow;
 
+import com.acsbe.accessflow.AccessFlowSDK;
 import com.microsoft.playwright.*;
 import org.junit.jupiter.api.*;
 
@@ -31,11 +32,7 @@ public class AccessFlowSDKBehaviorTest {
     @BeforeAll
     static void setupAll() {
         String apiKey = System.getenv("ACCESSFLOW_API_KEY");
-        assertNotNull(apiKey, "ACCESSFLOW_API_KEY environment variable is required");
-        assertFalse(apiKey.isBlank(), "ACCESSFLOW_API_KEY must not be blank");
-
-        // Initialize the AccessFlow SDK (session-level, mirrors JS/Python init)
-        AccessFlowSDK.init(apiKey);
+        // API key validation is done per-test when SDK instance is created
 
         playwright = Playwright.create();
         browser = playwright.chromium().launch(
@@ -70,7 +67,7 @@ public class AccessFlowSDKBehaviorTest {
 
     private void navigateAndWait(String path) {
         page.navigate(BASE_URL + path);
-        page.waitForLoadState(LoadState.NETWORKIDLE);
+        page.waitForLoadState(com.microsoft.playwright.options.LoadState.NETWORKIDLE);
         page.waitForTimeout(500);
     }
 

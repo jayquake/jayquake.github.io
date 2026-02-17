@@ -1,0 +1,412 @@
+{
+  "numberOfIssuesFound": {
+    "extreme": 2,
+    "high": 13,
+    "medium": 8,
+    "low": 3
+  },
+  "ruleViolations": {
+    "letterSpacing": {
+      "name": "Letter Spacing",
+      "numberOfOccurrences": 1,
+      "severity": "low",
+      "WCAGLevel": "AA",
+      "description": "Letter spacing should scale to at least 0.12 times the font size without loss of content or functionality",
+      "selectors": [
+        "#root .MuiBox-root.css-zeajg6 main.MuiBox-root.css-j10tz6 .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiBox-root.css-6drund > .MuiTypography-root.MuiTypography-h1.css-10g3fzb-MuiTypography-root"
+      ],
+      "WCAGLink": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=144%2C211%2C1412#text-spacing",
+      "suggestedFix": {
+        "HTML": "<h1 class=\"MuiTypography-root MuiTypography-h1 css-10g3fzb-MuiTypography-root\"></h1>",
+        "suggestionLabel": "",
+        "suggestionType": ""
+      },
+      "selectorData": [
+        {
+          "HTML": "<h1 class=\"MuiTypography-root MuiTypography-h1 css-10g3fzb-MuiTypography-root\"></h1>",
+          "selector": "#root .MuiBox-root.css-zeajg6 main.MuiBox-root.css-j10tz6 .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiBox-root.css-6drund > .MuiTypography-root.MuiTypography-h1.css-10g3fzb-MuiTypography-root",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        }
+      ]
+    },
+    "colorContrast": {
+      "name": "Color Contrast",
+      "numberOfOccurrences": 7,
+      "severity": "medium",
+      "WCAGLevel": "AA",
+      "description": "The color contrast ratio between text and its background should provide a readable experience",
+      "selectors": [
+        "#root .MuiBox-root.css-zeajg6 header.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionFixed.mui-fixed.css-ydr4ll-MuiPaper-root-MuiAppBar-root .MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular.css-1fv9w1b-MuiToolbar-root .MuiBox-root.css-1stskcp .MuiChip-root.MuiChip-filled.MuiChip-sizeSmall.MuiChip-colorSuccess.MuiChip-filledSuccess.css-lxjraa-MuiChip-root > .MuiChip-label.MuiChip-labelSmall.css-eccknh-MuiChip-label",
+        "#root .MuiBox-root.css-zeajg6 main.MuiBox-root.css-j10tz6 .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiBox-root.css-6drund > .MuiTypography-root.MuiTypography-h4.css-1r4xg7b-MuiTypography-root",
+        "#root .MuiBox-root.css-zeajg6 main.MuiBox-root.css-j10tz6 .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiBox-root.css-6drund > .MuiTypography-root.MuiTypography-h6.css-szgyso-MuiTypography-root",
+        "#root .MuiBox-root.css-zeajg6 main.MuiBox-root.css-j10tz6 .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiBox-root.css-6drund .MuiBox-root.css-1kvea7o > .MuiTypography-root.MuiTypography-body2.css-nkel3r-MuiTypography-root",
+        "#root .MuiBox-root.css-zeajg6 main.MuiBox-root.css-j10tz6 .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiBox-root.css-6drund .MuiBox-root.css-1kvea7o a > button.MuiButtonBase-root.MuiButton-root.MuiButton-outlined.MuiButton-outlinedPrimary.MuiButton-sizeLarge.MuiButton-outlinedSizeLarge.MuiButton-colorPrimary.MuiButton-root.MuiButton-outlined.MuiButton-outlinedPrimary.MuiButton-sizeLarge.MuiButton-outlinedSizeLarge.MuiButton-colorPrimary.css-blyz9r-MuiButtonBase-root-MuiButton-root",
+        "#root .MuiBox-root.css-zeajg6 main.MuiBox-root.css-j10tz6 .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiBox-root.css-2w39a8 > .MuiTypography-root.MuiTypography-h6.css-1jxda6t-MuiTypography-root",
+        "#root .MuiBox-root.css-zeajg6 main.MuiBox-root.css-j10tz6 .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiBox-root.css-rpc7w8 .MuiBox-root.css-17b10jg > .MuiTypography-root.MuiTypography-h6.css-1jxda6t-MuiTypography-root"
+      ],
+      "WCAGLink": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=144%2C1412%2C211%2C143#contrast-minimum",
+      "suggestedFix": {
+        "HTML": "<span class=\"MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label\"></span>",
+        "suggestionLabel": "",
+        "suggestionType": ""
+      },
+      "selectorData": [
+        {
+          "HTML": "<span class=\"MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label\"></span>",
+          "selector": "#root .MuiBox-root.css-zeajg6 header.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionFixed.mui-fixed.css-ydr4ll-MuiPaper-root-MuiAppBar-root .MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular.css-1fv9w1b-MuiToolbar-root .MuiBox-root.css-1stskcp .MuiChip-root.MuiChip-filled.MuiChip-sizeSmall.MuiChip-colorSuccess.MuiChip-filledSuccess.css-lxjraa-MuiChip-root > .MuiChip-label.MuiChip-labelSmall.css-eccknh-MuiChip-label",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        },
+        {
+          "HTML": "<h4 class=\"MuiTypography-root MuiTypography-h4 css-1r4xg7b-MuiTypography-root\"></h4>",
+          "selector": "#root .MuiBox-root.css-zeajg6 main.MuiBox-root.css-j10tz6 .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiBox-root.css-6drund > .MuiTypography-root.MuiTypography-h4.css-1r4xg7b-MuiTypography-root",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        },
+        {
+          "HTML": "<h6 class=\"MuiTypography-root MuiTypography-h6 css-szgyso-MuiTypography-root\"></h6>",
+          "selector": "#root .MuiBox-root.css-zeajg6 main.MuiBox-root.css-j10tz6 .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiBox-root.css-6drund > .MuiTypography-root.MuiTypography-h6.css-szgyso-MuiTypography-root",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        },
+        {
+          "HTML": "<p class=\"MuiTypography-root MuiTypography-body2 css-nkel3r-MuiTypography-root\"></p>",
+          "selector": "#root .MuiBox-root.css-zeajg6 main.MuiBox-root.css-j10tz6 .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiBox-root.css-6drund .MuiBox-root.css-1kvea7o > .MuiTypography-root.MuiTypography-body2.css-nkel3r-MuiTypography-root",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        },
+        {
+          "HTML": "<button class=\"MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary css-blyz9r-MuiButtonBase-root-MuiButton-root\" tabindex=\"0\" type=\"button\"></button>",
+          "selector": "#root .MuiBox-root.css-zeajg6 main.MuiBox-root.css-j10tz6 .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiBox-root.css-6drund .MuiBox-root.css-1kvea7o a > button.MuiButtonBase-root.MuiButton-root.MuiButton-outlined.MuiButton-outlinedPrimary.MuiButton-sizeLarge.MuiButton-outlinedSizeLarge.MuiButton-colorPrimary.MuiButton-root.MuiButton-outlined.MuiButton-outlinedPrimary.MuiButton-sizeLarge.MuiButton-outlinedSizeLarge.MuiButton-colorPrimary.css-blyz9r-MuiButtonBase-root-MuiButton-root",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        },
+        {
+          "HTML": "<h6 class=\"MuiTypography-root MuiTypography-h6 css-1jxda6t-MuiTypography-root\"></h6>",
+          "selector": "#root .MuiBox-root.css-zeajg6 main.MuiBox-root.css-j10tz6 .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiBox-root.css-2w39a8 > .MuiTypography-root.MuiTypography-h6.css-1jxda6t-MuiTypography-root",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        },
+        {
+          "HTML": "<h6 class=\"MuiTypography-root MuiTypography-h6 css-1jxda6t-MuiTypography-root\"></h6>",
+          "selector": "#root .MuiBox-root.css-zeajg6 main.MuiBox-root.css-j10tz6 .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiBox-root.css-rpc7w8 .MuiBox-root.css-17b10jg > .MuiTypography-root.MuiTypography-h6.css-1jxda6t-MuiTypography-root",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        }
+      ]
+    },
+    "emptyLinks": {
+      "name": "Empty Links",
+      "numberOfOccurrences": 3,
+      "severity": "high",
+      "WCAGLevel": "A",
+      "description": "Empty links should indicate their location or excluded from assistive technology",
+      "selectors": [
+        "#root .MuiBox-root.css-zeajg6 .MuiDrawer-root.MuiDrawer-anchorLeft.MuiDrawer-docked.css-nfwk3x-MuiDrawer-docked .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-1lwhjos-MuiPaper-root-MuiDrawer-paper .MuiList-root.MuiList-padding.css-1pulipw-MuiList-root .MuiBox-root.css-19idom > a.active",
+        "#root .MuiBox-root.css-zeajg6 .MuiDrawer-root.MuiDrawer-anchorLeft.MuiDrawer-docked.css-nfwk3x-MuiDrawer-docked .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-1lwhjos-MuiPaper-root-MuiDrawer-paper .MuiList-root.MuiList-padding.css-1pulipw-MuiList-root > a",
+        "#root .MuiBox-root.css-zeajg6 .MuiDrawer-root.MuiDrawer-anchorLeft.MuiDrawer-docked.css-nfwk3x-MuiDrawer-docked .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-1lwhjos-MuiPaper-root-MuiDrawer-paper .MuiList-root.MuiList-padding.css-16oavo-MuiList-root > a"
+      ],
+      "WCAGLink": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=211%2C412#name-role-value",
+      "suggestedFix": {
+        "HTML": "<a aria-current=\"page\" class=\"active\" href=\"#/\" style=\"text-decoration: none; width: 100%;\"></a>",
+        "suggestionLabel": "",
+        "suggestionType": ""
+      },
+      "selectorData": [
+        {
+          "HTML": "<a aria-current=\"page\" class=\"active\" href=\"#/\" style=\"text-decoration: none; width: 100%;\"></a>",
+          "selector": "#root .MuiBox-root.css-zeajg6 .MuiDrawer-root.MuiDrawer-anchorLeft.MuiDrawer-docked.css-nfwk3x-MuiDrawer-docked .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-1lwhjos-MuiPaper-root-MuiDrawer-paper .MuiList-root.MuiList-padding.css-1pulipw-MuiList-root .MuiBox-root.css-19idom > a.active",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        },
+        {
+          "HTML": "<a class href=\"#/graphics\" style=\"text-decoration: none; width: 100%;\"></a>",
+          "selector": "#root .MuiBox-root.css-zeajg6 .MuiDrawer-root.MuiDrawer-anchorLeft.MuiDrawer-docked.css-nfwk3x-MuiDrawer-docked .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-1lwhjos-MuiPaper-root-MuiDrawer-paper .MuiList-root.MuiList-padding.css-1pulipw-MuiList-root > a",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        },
+        {
+          "HTML": "<a class href=\"#/rules\" style=\"text-decoration: none; width: 100%;\"></a>",
+          "selector": "#root .MuiBox-root.css-zeajg6 .MuiDrawer-root.MuiDrawer-anchorLeft.MuiDrawer-docked.css-nfwk3x-MuiDrawer-docked .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-1lwhjos-MuiPaper-root-MuiDrawer-paper .MuiList-root.MuiList-padding.css-16oavo-MuiList-root > a",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        }
+      ]
+    },
+    "linkContext": {
+      "name": "Link Context",
+      "numberOfOccurrences": 3,
+      "severity": "high",
+      "WCAGLevel": "A",
+      "description": "Links should indicate their functionality and destination to assistive technology",
+      "selectors": [
+        "#root .MuiBox-root.css-zeajg6 .MuiDrawer-root.MuiDrawer-anchorLeft.MuiDrawer-docked.css-nfwk3x-MuiDrawer-docked .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-1lwhjos-MuiPaper-root-MuiDrawer-paper .MuiList-root.MuiList-padding.css-1pulipw-MuiList-root .MuiBox-root.css-19idom > a.active",
+        "#root .MuiBox-root.css-zeajg6 .MuiDrawer-root.MuiDrawer-anchorLeft.MuiDrawer-docked.css-nfwk3x-MuiDrawer-docked .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-1lwhjos-MuiPaper-root-MuiDrawer-paper .MuiList-root.MuiList-padding.css-1pulipw-MuiList-root > a",
+        "#root .MuiBox-root.css-zeajg6 .MuiDrawer-root.MuiDrawer-anchorLeft.MuiDrawer-docked.css-nfwk3x-MuiDrawer-docked .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-1lwhjos-MuiPaper-root-MuiDrawer-paper .MuiList-root.MuiList-padding.css-16oavo-MuiList-root > a"
+      ],
+      "WCAGLink": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=211#link-purpose-in-context",
+      "suggestedFix": {
+        "HTML": "<a aria-current=\"page\" class=\"active\" href=\"#/\" style=\"text-decoration: none; width: 100%;\"></a>",
+        "suggestionLabel": "carouselSlidePicker",
+        "suggestionType": "link"
+      },
+      "selectorData": [
+        {
+          "HTML": "<a aria-current=\"page\" class=\"active\" href=\"#/\" style=\"text-decoration: none; width: 100%;\"></a>",
+          "selector": "#root .MuiBox-root.css-zeajg6 .MuiDrawer-root.MuiDrawer-anchorLeft.MuiDrawer-docked.css-nfwk3x-MuiDrawer-docked .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-1lwhjos-MuiPaper-root-MuiDrawer-paper .MuiList-root.MuiList-padding.css-1pulipw-MuiList-root .MuiBox-root.css-19idom > a.active",
+          "suggestionLabel": "carouselSlidePicker",
+          "suggestionType": "link"
+        },
+        {
+          "HTML": "<a class href=\"#/graphics\" style=\"text-decoration: none; width: 100%;\"></a>",
+          "selector": "#root .MuiBox-root.css-zeajg6 .MuiDrawer-root.MuiDrawer-anchorLeft.MuiDrawer-docked.css-nfwk3x-MuiDrawer-docked .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-1lwhjos-MuiPaper-root-MuiDrawer-paper .MuiList-root.MuiList-padding.css-1pulipw-MuiList-root > a",
+          "suggestionLabel": "",
+          "suggestionType": "link"
+        },
+        {
+          "HTML": "<a class href=\"#/rules\" style=\"text-decoration: none; width: 100%;\"></a>",
+          "selector": "#root .MuiBox-root.css-zeajg6 .MuiDrawer-root.MuiDrawer-anchorLeft.MuiDrawer-docked.css-nfwk3x-MuiDrawer-docked .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-1lwhjos-MuiPaper-root-MuiDrawer-paper .MuiList-root.MuiList-padding.css-16oavo-MuiList-root > a",
+          "suggestionLabel": "",
+          "suggestionType": "link"
+        }
+      ]
+    },
+    "pageTitle": {
+      "name": "Page Title",
+      "numberOfOccurrences": 1,
+      "severity": "extreme",
+      "WCAGLevel": "A",
+      "description": "The HEAD element should include a descriptive page title ",
+      "selectors": [
+        "head > title"
+      ],
+      "WCAGLink": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=211%2C412%2C242#page-titled",
+      "suggestedFix": {
+        "HTML": "<title></title>",
+        "suggestionLabel": "",
+        "suggestionType": ""
+      },
+      "selectorData": [
+        {
+          "HTML": "<title></title>",
+          "selector": "head > title",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        }
+      ]
+    },
+    "untaggedHeadings": {
+      "name": "Untagged Headings",
+      "numberOfOccurrences": 2,
+      "severity": "high",
+      "WCAGLevel": "A",
+      "description": "Headings should be tagged for assistive technology",
+      "selectors": [
+        "main.MuiBox-root.css-j10tz6 .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiBox-root.css-5r8d1s .MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-4.css-4z7gnm-MuiGrid-root .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-6.css-1fyyp8j-MuiGrid-root a.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.MuiCard-root.css-11385en-MuiPaper-root-MuiCard-root .MuiCardContent-root.css-1kyl3ri-MuiCardContent-root .MuiStack-root.css-v2woy3-MuiStack-root .MuiTypography-root.MuiTypography-body1.css-1rhnf4j-MuiTypography-root > strong",
+        "main.MuiBox-root.css-j10tz6 .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiBox-root.css-5r8d1s .MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-4.css-4z7gnm-MuiGrid-root .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-6.css-1fyyp8j-MuiGrid-root a.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.MuiCard-root.css-1s2tyv5-MuiPaper-root-MuiCard-root .MuiCardContent-root.css-1kyl3ri-MuiCardContent-root .MuiStack-root.css-v2woy3-MuiStack-root .MuiTypography-root.MuiTypography-body1.css-1rhnf4j-MuiTypography-root > strong"
+      ],
+      "WCAGLink": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=131#info-and-relationships",
+      "suggestedFix": {
+        "HTML": "<strong ></strong>",
+        "suggestionLabel": "",
+        "suggestionType": ""
+      },
+      "selectorData": [
+        {
+          "HTML": "<strong ></strong>",
+          "selector": "main.MuiBox-root.css-j10tz6 .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiBox-root.css-5r8d1s .MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-4.css-4z7gnm-MuiGrid-root .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-6.css-1fyyp8j-MuiGrid-root a.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.MuiCard-root.css-11385en-MuiPaper-root-MuiCard-root .MuiCardContent-root.css-1kyl3ri-MuiCardContent-root .MuiStack-root.css-v2woy3-MuiStack-root .MuiTypography-root.MuiTypography-body1.css-1rhnf4j-MuiTypography-root > strong",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        },
+        {
+          "HTML": "<strong ></strong>",
+          "selector": "main.MuiBox-root.css-j10tz6 .MuiBox-root.css-13j8ga5 .MuiBox-root.css-o3artc .MuiBox-root.css-5r8d1s .MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-4.css-4z7gnm-MuiGrid-root .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-6.css-1fyyp8j-MuiGrid-root a.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.MuiCard-root.css-1s2tyv5-MuiPaper-root-MuiCard-root .MuiCardContent-root.css-1kyl3ri-MuiCardContent-root .MuiStack-root.css-v2woy3-MuiStack-root .MuiTypography-root.MuiTypography-body1.css-1rhnf4j-MuiTypography-root > strong",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        }
+      ]
+    },
+    "noticeableFocus": {
+      "name": "Noticeable Focus",
+      "numberOfOccurrences": 1,
+      "severity": "high",
+      "WCAGLevel": "AA",
+      "description": "Focused elements should not be obscured by a sticky header",
+      "selectors": [
+        "a[href], button, [tabindex]"
+      ],
+      "WCAGLink": "https://www.w3.org/WAI/WCAG21/quickref/#focus-visible",
+      "suggestedFix": {
+        "HTML": "<a class=\"MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary css-ovlcy2-MuiButtonBase-root-MuiButton-root\" tabindex=\"0\" aria-label=\"Engine Library\" data-mui-internal-clone-element=\"true\" href=\"#/engine/library\"></a>",
+        "suggestionLabel": "",
+        "suggestionType": ""
+      },
+      "selectorData": [
+        {
+          "HTML": "<a class=\"MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary css-ovlcy2-MuiButtonBase-root-MuiButton-root\" tabindex=\"0\" aria-label=\"Engine Library\" data-mui-internal-clone-element=\"true\" href=\"#/engine/library\"></a>",
+          "selector": "a[href], button, [tabindex]",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        }
+      ]
+    },
+    "footerLandmark": {
+      "name": "Footer Landmark",
+      "numberOfOccurrences": 1,
+      "severity": "high",
+      "WCAGLevel": "A",
+      "description": "Footer region should be correctly marked up",
+      "selectors": [
+        "body > footer"
+      ],
+      "WCAGLink": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=131#info-and-relationships",
+      "suggestedFix": {
+        "HTML": "<footer></footer>",
+        "suggestionLabel": "footer",
+        "suggestionType": "landmark"
+      },
+      "selectorData": [
+        {
+          "HTML": "<footer></footer>",
+          "selector": "body > footer",
+          "suggestionLabel": "footer",
+          "suggestionType": "landmark"
+        }
+      ]
+    },
+    "incorrectMainLandmark": {
+      "name": "Incorrect Main Landmark",
+      "numberOfOccurrences": 1,
+      "severity": "high",
+      "WCAGLevel": "A",
+      "description": "An element without main content is tagged as a main landmark",
+      "selectors": [
+        "body > main"
+      ],
+      "WCAGLink": "-",
+      "suggestedFix": {
+        "HTML": "<main></main>",
+        "suggestionLabel": "",
+        "suggestionType": ""
+      },
+      "selectorData": [
+        {
+          "HTML": "<main></main>",
+          "selector": "body > main",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        }
+      ]
+    },
+    "ariaLabelMisuse": {
+      "name": "Aria Label Misuse",
+      "numberOfOccurrences": 2,
+      "severity": "high",
+      "description": "aria-label should be used with compatible roles",
+      "selectors": [
+        "#root .MuiBox-root.css-zeajg6 header.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionFixed.mui-fixed.css-ydr4ll-MuiPaper-root-MuiAppBar-root .MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular.css-1fv9w1b-MuiToolbar-root .MuiBox-root.css-1stskcp > .MuiChip-root.MuiChip-filled.MuiChip-sizeSmall.MuiChip-colorSuccess.MuiChip-filledSuccess.css-lxjraa-MuiChip-root",
+        "#root .MuiBox-root.css-zeajg6 header.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionFixed.mui-fixed.css-ydr4ll-MuiPaper-root-MuiAppBar-root .MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular.css-1fv9w1b-MuiToolbar-root .MuiBox-root.css-1stskcp > a.MuiButtonBase-root.MuiButton-root.MuiButton-outlined.MuiButton-outlinedPrimary.MuiButton-sizeSmall.MuiButton-outlinedSizeSmall.MuiButton-colorPrimary.MuiButton-root.MuiButton-outlined.MuiButton-outlinedPrimary.MuiButton-sizeSmall.MuiButton-outlinedSizeSmall.MuiButton-colorPrimary.css-ovlcy2-MuiButtonBase-root-MuiButton-root"
+      ],
+      "WCAGLink": "-",
+      "suggestedFix": {
+        "HTML": "<div class=\"MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-lxjraa-MuiChip-root\" aria-label=\"Ready to test\" data-mui-internal-clone-element=\"true\"></div>",
+        "suggestionLabel": "",
+        "suggestionType": ""
+      },
+      "selectorData": [
+        {
+          "HTML": "<div class=\"MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-lxjraa-MuiChip-root\" aria-label=\"Ready to test\" data-mui-internal-clone-element=\"true\"></div>",
+          "selector": "#root .MuiBox-root.css-zeajg6 header.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionFixed.mui-fixed.css-ydr4ll-MuiPaper-root-MuiAppBar-root .MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular.css-1fv9w1b-MuiToolbar-root .MuiBox-root.css-1stskcp > .MuiChip-root.MuiChip-filled.MuiChip-sizeSmall.MuiChip-colorSuccess.MuiChip-filledSuccess.css-lxjraa-MuiChip-root",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        },
+        {
+          "HTML": "<a class=\"MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary css-ovlcy2-MuiButtonBase-root-MuiButton-root\" tabindex=\"0\" aria-label=\"Engine Library\" data-mui-internal-clone-element=\"true\" href=\"#/engine/library\"></a>",
+          "selector": "#root .MuiBox-root.css-zeajg6 header.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionFixed.mui-fixed.css-ydr4ll-MuiPaper-root-MuiAppBar-root .MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular.css-1fv9w1b-MuiToolbar-root .MuiBox-root.css-1stskcp > a.MuiButtonBase-root.MuiButton-root.MuiButton-outlined.MuiButton-outlinedPrimary.MuiButton-sizeSmall.MuiButton-outlinedSizeSmall.MuiButton-colorPrimary.MuiButton-root.MuiButton-outlined.MuiButton-outlinedPrimary.MuiButton-sizeSmall.MuiButton-outlinedSizeSmall.MuiButton-colorPrimary.css-ovlcy2-MuiButtonBase-root-MuiButton-root",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        }
+      ]
+    },
+    "brokenAriaLabels": {
+      "name": "Broken Aria Labels",
+      "numberOfOccurrences": 1,
+      "severity": "extreme",
+      "WCAGLevel": "A",
+      "description": "Aria labels should not override or replace visible text",
+      "selectors": [
+        "#root .MuiBox-root.css-zeajg6 header.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionFixed.mui-fixed.css-ydr4ll-MuiPaper-root-MuiAppBar-root .MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular.css-1fv9w1b-MuiToolbar-root .MuiBox-root.css-1stskcp > button.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-colorInherit.MuiIconButton-sizeMedium.css-h7cjts-MuiButtonBase-root-MuiIconButton-root"
+      ],
+      "WCAGLink": "https://www.w3.org/WAI/WCAG21/Understanding/label-in-name.html",
+      "suggestedFix": {
+        "HTML": "<button class=\"MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeMedium css-h7cjts-MuiButtonBase-root-MuiIconButton-root\" tabindex=\"0\" type=\"button\" aria-label=\"Notifications\" data-mui-internal-clone-element=\"true\"></button>",
+        "suggestionLabel": "",
+        "suggestionType": ""
+      },
+      "selectorData": [
+        {
+          "HTML": "<button class=\"MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeMedium css-h7cjts-MuiButtonBase-root-MuiIconButton-root\" tabindex=\"0\" type=\"button\" aria-label=\"Notifications\" data-mui-internal-clone-element=\"true\"></button>",
+          "selector": "#root .MuiBox-root.css-zeajg6 header.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionFixed.mui-fixed.css-ydr4ll-MuiPaper-root-MuiAppBar-root .MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular.css-1fv9w1b-MuiToolbar-root .MuiBox-root.css-1stskcp > button.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-colorInherit.MuiIconButton-sizeMedium.css-h7cjts-MuiButtonBase-root-MuiIconButton-root",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        }
+      ]
+    },
+    "emptyList": {
+      "name": "Empty List",
+      "numberOfOccurrences": 2,
+      "severity": "low",
+      "description": "Lists without items or with a single item should lose the list role",
+      "selectors": [
+        "#root .MuiBox-root.css-zeajg6 .MuiDrawer-root.MuiDrawer-anchorLeft.MuiDrawer-docked.css-nfwk3x-MuiDrawer-docked .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-1lwhjos-MuiPaper-root-MuiDrawer-paper > .MuiList-root.MuiList-padding.css-1pulipw-MuiList-root",
+        "#root .MuiBox-root.css-zeajg6 .MuiDrawer-root.MuiDrawer-anchorLeft.MuiDrawer-docked.css-nfwk3x-MuiDrawer-docked .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-1lwhjos-MuiPaper-root-MuiDrawer-paper > .MuiList-root.MuiList-padding.css-16oavo-MuiList-root"
+      ],
+      "WCAGLink": "-",
+      "suggestedFix": {
+        "HTML": "<ul class=\"MuiList-root MuiList-padding css-1pulipw-MuiList-root\"></ul>",
+        "suggestionLabel": "",
+        "suggestionType": ""
+      },
+      "selectorData": [
+        {
+          "HTML": "<ul class=\"MuiList-root MuiList-padding css-1pulipw-MuiList-root\"></ul>",
+          "selector": "#root .MuiBox-root.css-zeajg6 .MuiDrawer-root.MuiDrawer-anchorLeft.MuiDrawer-docked.css-nfwk3x-MuiDrawer-docked .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-1lwhjos-MuiPaper-root-MuiDrawer-paper > .MuiList-root.MuiList-padding.css-1pulipw-MuiList-root",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        },
+        {
+          "HTML": "<ul class=\"MuiList-root MuiList-padding css-16oavo-MuiList-root\"></ul>",
+          "selector": "#root .MuiBox-root.css-zeajg6 .MuiDrawer-root.MuiDrawer-anchorLeft.MuiDrawer-docked.css-nfwk3x-MuiDrawer-docked .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-1lwhjos-MuiPaper-root-MuiDrawer-paper > .MuiList-root.MuiList-padding.css-16oavo-MuiList-root",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        }
+      ]
+    },
+    "searchFormTagging": {
+      "name": "Search Form Tagging",
+      "numberOfOccurrences": 1,
+      "severity": "medium",
+      "WCAGLevel": "A",
+      "description": "A search form should be tagged as a search landmark",
+      "selectors": [
+        "#root .MuiBox-root.css-zeajg6 header.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionFixed.mui-fixed.css-ydr4ll-MuiPaper-root-MuiAppBar-root .MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular.css-1fv9w1b-MuiToolbar-root .MuiBox-root.css-1qqciv0 .MuiBox-root.css-1jke4yk .MuiBox-root.css-1aheadh > .MuiInputBase-root.MuiInputBase-colorPrimary.css-siwgbk-MuiInputBase-root"
+      ],
+      "WCAGLink": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=131#info-and-relationships",
+      "suggestedFix": {
+        "HTML": "<div class=\"MuiInputBase-root MuiInputBase-colorPrimary css-siwgbk-MuiInputBase-root\"></div>",
+        "suggestionLabel": "",
+        "suggestionType": ""
+      },
+      "selectorData": [
+        {
+          "HTML": "<div class=\"MuiInputBase-root MuiInputBase-colorPrimary css-siwgbk-MuiInputBase-root\"></div>",
+          "selector": "#root .MuiBox-root.css-zeajg6 header.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionFixed.mui-fixed.css-ydr4ll-MuiPaper-root-MuiAppBar-root .MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular.css-1fv9w1b-MuiToolbar-root .MuiBox-root.css-1qqciv0 .MuiBox-root.css-1jke4yk .MuiBox-root.css-1aheadh > .MuiInputBase-root.MuiInputBase-colorPrimary.css-siwgbk-MuiInputBase-root",
+          "suggestionLabel": "",
+          "suggestionType": ""
+        }
+      ]
+    }
+  },
+  "url": "http://localhost:3000/"
+}
