@@ -331,11 +331,11 @@ jobs:
           echo "Deployed at: $(date)"
 
   # =====================================================================
-  # Accessibility Summary (from JS lane results)
+  # Accessibility Summary (from ALL SDK lanes)
   # =====================================================================
   accessibility-summary:
-    name: Accessibility Test Summary
-    needs: test-js
+    name: Accessibility Test Summary (All SDKs)
+    needs: [test-js, test-python, test-java]
     runs-on: ubuntu-latest
     if: always()
 
@@ -344,27 +344,83 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: js-test-results
-          path: test-results
+          path: js-results
+        continue-on-error: true
 
-      - name: Display AccessFlow Summary
+      - name: Download Python Test Results
+        uses: actions/download-artifact@v4
+        with:
+          name: python-test-results
+          path: python-results
+        continue-on-error: true
+
+      - name: Download Java Test Results
+        uses: actions/download-artifact@v4
+        with:
+          name: java-test-results
+          path: java-results
+        continue-on-error: true
+
+      - name: Display Comprehensive AccessFlow Summary
         run: |
-          echo "## Accessibility Test Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## 🔍 Accessibility Test Summary (All SDKs)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
-          if [ -f "test-results/accessFlow-report-summary.json" ]; then
-            echo "AccessFlow audit completed successfully!" >> $GITHUB_STEP_SUMMARY
+          # ========== JS/Node SDK Results ==========
+          echo "### 📦 Node/JS SDK Results" >> $GITHUB_STEP_SUMMARY
+          if [ -f "js-results/accessFlow-report-summary.json" ]; then
+            echo "✅ **AccessFlow audit completed**" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
-            cat test-results/accessFlow-report-summary.json >> $GITHUB_STEP_SUMMARY
+            cat js-results/accessFlow-report-summary.json >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           else
-            echo "No AccessFlow summary found" >> $GITHUB_STEP_SUMMARY
+            echo "❌ No AccessFlow summary found" >> $GITHUB_STEP_SUMMARY
           fi
-
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### Test Results Available" >> $GITHUB_STEP_SUMMARY
-          echo "- Download \`js-playwright-report\` artifact for detailed JS test reports" >> $GITHUB_STEP_SUMMARY
-          echo "- Download \`js-test-results\` artifact for raw JS test data" >> $GITHUB_STEP_SUMMARY
-          echo "- Download \`python-test-results\` artifact for Python test data" >> $GITHUB_STEP_SUMMARY
-          echo "- Download \`java-test-results\` artifact for Java test data" >> $GITHUB_STEP_SUMMARY
+
+          # ========== Python SDK Results ==========
+          echo "### 🐍 Python SDK Results" >> $GITHUB_STEP_SUMMARY
+          if [ -f "python-results/accessflow-full-app-report.json" ]; then
+            echo "✅ **AccessFlow audit completed**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
+            cat python-results/accessflow-full-app-report.json >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          elif [ -f "python-results/accessflow-local-report.json" ]; then
+            echo "✅ **AccessFlow audit completed**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
+            cat python-results/accessflow-local-report.json >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ No AccessFlow summary found" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # ========== Java SDK Results ==========
+          echo "### ☕ Java SDK Results" >> $GITHUB_STEP_SUMMARY
+          if [ -f "java-results/accessflow-report-summary.json" ]; then
+            echo "✅ **AccessFlow audit completed**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
+            cat java-results/accessflow-report-summary.json >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ No AccessFlow summary found (teardown may need configuration)" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # ========== Test Artifacts ==========
+          echo "### 📂 Test Artifacts Available" >> $GITHUB_STEP_SUMMARY
+          echo "- 📦 \`js-playwright-report\` - Detailed JS Playwright HTML report" >> $GITHUB_STEP_SUMMARY
+          echo "- 📦 \`js-test-results\` - JS test data + AccessFlow reports" >> $GITHUB_STEP_SUMMARY
+          echo "- 📦 \`python-test-results\` - Python test data + AccessFlow reports" >> $GITHUB_STEP_SUMMARY
+          echo "- 📦 \`java-test-results\` - Java test data + AccessFlow reports" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "*Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')*" >> $GITHUB_STEP_SUMMARY

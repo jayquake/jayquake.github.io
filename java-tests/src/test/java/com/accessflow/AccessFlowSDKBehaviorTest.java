@@ -1,8 +1,11 @@
 package com.accessflow;
 
 import com.acsbe.accessflow.AccessFlowSDK;
+import com.acsbe.accessflow.AccessFlowTeardown;
 import com.microsoft.playwright.*;
 import org.junit.jupiter.api.*;
+
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,6 +62,9 @@ public class AccessFlowSDKBehaviorTest {
     static void teardownAll() {
         if (browser != null) browser.close();
         if (playwright != null) playwright.close();
+        
+        // Finalize and upload AccessFlow reports
+        AccessFlowTeardown.finalizeReports();
     }
 
     // ------------------------------------------------------------------
@@ -101,8 +107,12 @@ public class AccessFlowSDKBehaviorTest {
     void testAuditHomePage() {
         navigateAndWait("/");
         AccessFlowSDK sdk = new AccessFlowSDK(page);
-        Object report = sdk.audit();
-        assertNotNull(report, "Audit report should not be null");
+        Map<String, Object> audits = sdk.audit();
+        
+        // Record audit for aggregation
+        AccessFlowTeardown.recordAudit(page.url(), audits);
+        
+        assertNotNull(audits, "Audit report should not be null");
     }
 
     @Test
@@ -111,7 +121,12 @@ public class AccessFlowSDKBehaviorTest {
     void testAuditDoesNotThrow() {
         navigateAndWait("/");
         AccessFlowSDK sdk = new AccessFlowSDK(page);
-        assertDoesNotThrow(sdk::audit, "sdk.audit() should not throw on a well-formed page");
+        assertDoesNotThrow(() -> {
+            Map<String, Object> audits = sdk.audit();
+            // Record audit for aggregation
+            AccessFlowTeardown.recordAudit(page.url(), audits);
+            return audits;
+        }, "sdk.audit() should not throw on a well-formed page");
     }
 
     // ------------------------------------------------------------------
@@ -124,8 +139,12 @@ public class AccessFlowSDKBehaviorTest {
     void testAuditGraphicsRoute() {
         navigateAndWait("/#/graphics/alt-text");
         AccessFlowSDK sdk = new AccessFlowSDK(page);
-        Object report = sdk.audit();
-        assertNotNull(report, "Audit report for graphics route should not be null");
+        Map<String, Object> audits = sdk.audit();
+        
+        // Record audit for aggregation
+        AccessFlowTeardown.recordAudit(page.url(), audits);
+        
+        assertNotNull(audits, "Audit report for graphics route should not be null");
     }
 
     @Test
@@ -134,8 +153,13 @@ public class AccessFlowSDKBehaviorTest {
     void testMultipleAuditsStable() {
         navigateAndWait("/#/graphics/alt-text");
         AccessFlowSDK sdk = new AccessFlowSDK(page);
-        Object reportA = sdk.audit();
-        Object reportB = sdk.audit();
+        Map<String, Object> reportA = sdk.audit();
+        Map<String, Object> reportB = sdk.audit();
+        
+        // Record both audits for aggregation
+        AccessFlowTeardown.recordAudit(page.url(), reportA);
+        AccessFlowTeardown.recordAudit(page.url(), reportB);
+        
         assertNotNull(reportA, "First audit should return a report");
         assertNotNull(reportB, "Second audit should return a report");
     }
@@ -151,13 +175,21 @@ public class AccessFlowSDKBehaviorTest {
         // First route
         navigateAndWait("/");
         AccessFlowSDK sdk = new AccessFlowSDK(page);
-        Object reportHome = sdk.audit();
+        Map<String, Object> reportHome = sdk.audit();
+        
+        // Record audit for aggregation
+        AccessFlowTeardown.recordAudit(page.url(), reportHome);
+        
         assertNotNull(reportHome, "Home audit should produce a report");
 
         // Second route
         navigateAndWait("/#/graphics/alt-text");
         AccessFlowSDK sdkGraphics = new AccessFlowSDK(page);
-        Object reportGraphics = sdkGraphics.audit();
+        Map<String, Object> reportGraphics = sdkGraphics.audit();
+        
+        // Record audit for aggregation
+        AccessFlowTeardown.recordAudit(page.url(), reportGraphics);
+        
         assertNotNull(reportGraphics, "Graphics audit should produce a report");
     }
 }
