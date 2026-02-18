@@ -6,15 +6,17 @@ import os
 import subprocess
 import sys
 import time
-import urllib.request
 import urllib.error
+import urllib.request
 
 import pytest
+from dotenv import load_dotenv
 from accessflow_sdk import AccessFlowSDK, finalize_reports, record_audit
 
+# Load .env from python-tests/ for local testing (AF_Python_Package_Key)
+load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
 BASE_URL = "http://localhost:3000"
-DEFAULT_API_TOKEN = "flow-1iqGS8DggNOeZaZLO2w000BuHpUZhYUOrL"
 
 
 # ---------------------------------------------------------------------------
@@ -29,13 +31,13 @@ def _ensure_app_server():
         return
 
     project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-    
+
     # On Windows, use npm.cmd instead of npm or use shell=True
     if sys.platform == "win32":
         npm_cmd = "npm.cmd"
     else:
         npm_cmd = "npm"
-    
+
     proc = subprocess.Popen(
         [npm_cmd, "start"],
         cwd=project_root,
@@ -74,7 +76,12 @@ def _finalize_accessflow_reports():
 @pytest.fixture
 def sdk(page):
     """Provide an AccessFlow SDK instance bound to the current Playwright page."""
-    api_key = os.environ.get("AF_Python_Package_Key", DEFAULT_API_TOKEN)
+    api_key = os.environ.get("AF_Python_Package_Key")
+    if not api_key:
+        pytest.skip(
+            "AF_Python_Package_Key not set. For local testing, create python-tests/.env with:\n"
+            "  AF_Python_Package_Key=flow-your-key-here"
+        )
     sdk_instance = AccessFlowSDK(page, config={"apiToken": api_key})
 
     original_audit = sdk_instance.audit

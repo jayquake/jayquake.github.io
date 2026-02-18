@@ -1,5 +1,6 @@
 pytest>=7.0
 pytest-playwright>=0.4
 playwright>=1.40
+python-dotenv>=1.0
 # Install the local AccessFlow Python SDK wheel
 ../pythonSdk/accessflow_sdk-1.0.1-py3-none-any.whl
