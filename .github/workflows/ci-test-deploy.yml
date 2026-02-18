@@ -132,7 +132,7 @@ jobs:
           pytest --junitxml=test-results/results.xml -v
         env:
           CI: true
-          AF_Python_Package_Key: ${{ secrets.AF_Python_Package_Key }}
+          PYTHON_ACCESSFLOW_SDK_TOKEN: ${{ secrets.PYTHON_ACCESSFLOW_SDK_TOKEN }}
 
       - name: Upload Python Test Results
         uses: actions/upload-artifact@v4

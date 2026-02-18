@@ -13,7 +13,7 @@ import pytest
 from dotenv import load_dotenv
 from accessflow_sdk import AccessFlowSDK, finalize_reports, record_audit
 
-# Load .env from python-tests/ for local testing (AF_Python_Package_Key)
+# Load .env from python-tests/ for local testing (PYTHON_ACCESSFLOW_SDK_TOKEN)
 load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
 BASE_URL = "http://localhost:3000"
@@ -76,10 +76,15 @@ def _finalize_accessflow_reports():
 @pytest.fixture
 def sdk(page):
     """Provide an AccessFlow SDK instance bound to the current Playwright page."""
-    api_key = os.environ.get("AF_Python_Package_Key")
+    api_key = (
+        os.environ.get("PYTHON_ACCESSFLOW_SDK_TOKEN")
+        or os.environ.get("AF_Python_Package_Key")
+    )
     if not api_key:
         pytest.skip(
-            "AF_Python_Package_Key not set. For local testing, create python-tests/.env with:\n"
+            "PYTHON_ACCESSFLOW_SDK_TOKEN not set. For local testing, create python-tests/.env with:\n"
+            "  PYTHON_ACCESSFLOW_SDK_TOKEN=flow-your-key-here\n"
+            "Legacy fallback also works:\n"
             "  AF_Python_Package_Key=flow-your-key-here"
         )
     sdk_instance = AccessFlowSDK(page, api_key=api_key)
