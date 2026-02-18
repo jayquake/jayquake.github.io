@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * AccessFlow Java SDK — Behavior Tests
  *
  * Playwright-driven tests that exercise the Java SDK against the live React
- * app at http://localhost:3000, using a real ACCESSFLOW_API_KEY.
+ * app at http://localhost:3000, using a real ACCESSFLOW_SDK_API_KEY.
  *
  * Test structure mirrors the Python and JS lanes so all three language lanes
  * validate equivalent behavior.
@@ -34,7 +34,7 @@ public class AccessFlowSDKBehaviorTest {
 
     @BeforeAll
     static void setupAll() {
-        String apiKey = System.getenv("ACCESSFLOW_API_KEY");
+        String apiKey = System.getenv("ACCESSFLOW_SDK_API_KEY");
         // API key validation is done per-test when SDK instance is created
 
         playwright = Playwright.create();

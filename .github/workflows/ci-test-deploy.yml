@@ -195,7 +195,7 @@ jobs:
         run: mvn test -B
         env:
           CI: true
-          ACCESSFLOW_API_KEY: ${{ secrets.ACCESSFLOW_API_KEY }}
+          JAVA_ACCESSFLOW_SDK_TOKEN: ${{ secrets.JAVA_ACCESSFLOW_SDK_TOKEN }}
 
       - name: Upload Java Test Results
         uses: actions/upload-artifact@v4

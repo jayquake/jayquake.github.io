@@ -59,7 +59,7 @@
                 <version>3.2.5</version>
                 <configuration>
                     <environmentVariables>
-                        <ACCESSFLOW_API_KEY>${env.ACCESSFLOW_API_KEY}</ACCESSFLOW_API_KEY>
+                        <ACCESSFLOW_SDK_API_KEY>${env.JAVA_ACCESSFLOW_SDK_TOKEN}</ACCESSFLOW_SDK_API_KEY>
                     </environmentVariables>
                 </configuration>
             </plugin>
