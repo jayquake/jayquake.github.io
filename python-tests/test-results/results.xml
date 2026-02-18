@@ -1,0 +1,2431 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="8" skipped="0" tests="10" time="31.272" timestamp="2026-02-18T16:31:26.559765+02:00" hostname="Jason-Quaicoo"><testcase classname="tests.test_accessflow_sdk_behavior.TestSDKInitialization" name="test_sdk_constructor_succeeds_with_valid_key[chromium]" time="11.042" /><testcase classname="tests.test_accessflow_sdk_behavior.TestSDKInitialization" name="test_instance_binds_to_page[chromium]" time="0.066" /><testcase classname="tests.test_accessflow_sdk_behavior.TestAuditHomePage" name="test_audit_returns_report[chromium]" time="2.770"><failure message="ValueError: AccessFlowSDK: API key verification failed. &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;">self = &lt;urllib.request.HTTPSHandler object at 0x1101c7b60&gt;
+http_class = &lt;class 'http.client.HTTPSConnection'&gt;
+req = &lt;urllib.request.Request object at 0x1101df570&gt;
+http_conn_args = {'context': &lt;ssl.SSLContext object at 0x1101675c0&gt;}
+host = 'accessflow.accessibe.com'
+h = &lt;http.client.HTTPSConnection object at 0x11022ba10&gt;
+headers = {'Connection': 'close', 'Host': 'accessflow.accessibe.com', 'User-Agent': 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)', 'X-Api-Key': 'flow-15nMmXZGqbnCraZW2qw000UW6JjhhwimCE'}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+&gt;               h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1319: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1338: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1384: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1333: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1093: in _send_output
+    self.send(msg)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1037: in send
+    self.connect()
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1479: in connect
+    self.sock = self._context.wrap_socket(self.sock,
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:455: in wrap_socket
+    return self.sslsocket_class._create(
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:1076: in _create
+    self.do_handshake()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ssl.SSLSocket [closed] fd=-1, family=30, type=1, proto=0&gt;, block = False
+
+    @_sslcopydoc
+    def do_handshake(self, block=False):
+        self._check_connected()
+        timeout = self.gettimeout()
+        try:
+            if timeout == 0.0 and block:
+                self.settimeout(None)
+&gt;           self._sslobj.do_handshake()
+E           ssl.SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:1372: SSLCertVerificationError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x1107ea990&gt;
+
+    def _verify_api_key(self) -&gt; None:
+        """
+        Verify the API key with the AccessFlow server.
+        Raises an exception if the key is invalid.
+        Only verifies once per SDK instance (cached).
+        """
+        # Return early if already verified
+        if self._api_key_verified:
+            return
+    
+        if not self.api_key:
+            raise ValueError(
+                "AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY "
+                "in your environment or pass api_key to the constructor."
+            )
+    
+        # Get base URL and auth from generated config (injected during build from sdk.config.ts)
+        try:
+            from . import sdk_config
+            base_url = sdk_config.BASE_URL
+            auth_string = sdk_config.DEV_AUTH
+            auth_header = 'Basic ' + base64.b64encode(auth_string.encode()).decode() if auth_string else None
+        except ImportError:
+            # Fallback if config not generated (development mode)
+            base_url = os.environ.get('ACCESSFLOW_BASE_URL', 'https://accessflow.accessibe.com')
+            auth_header = None
+    
+        # Skip verification if base URL is not available
+        if not base_url:
+            return
+    
+        verify_url = f"{base_url}/api/v6/sdk/verify-sdk-api-key"
+    
+        # Enforce HTTPS to protect API key in transit
+        self._enforce_https(verify_url)
+    
+        try:
+            # Create request without data (no body, just like Node.js fetch)
+            request = urllib.request.Request(verify_url)
+            request.get_method = lambda: 'POST'
+    
+            # Add User-Agent to avoid Cloudflare bot detection (error 1010)
+            request.add_header('User-Agent', 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)')
+    
+            # Add headers exactly as Node.js does
+            # Note: urllib normalizes header names, but servers should be case-insensitive
+            request.add_header('x-api-key', self.api_key)
+            if auth_header:
+                request.add_header('Authorization', auth_header)
+    
+&gt;           with urllib.request.urlopen(request, timeout=10) as response:
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:222: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:189: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:489: in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:506: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:466: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1367: in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;urllib.request.HTTPSHandler object at 0x1101c7b60&gt;
+http_class = &lt;class 'http.client.HTTPSConnection'&gt;
+req = &lt;urllib.request.Request object at 0x1101df570&gt;
+http_conn_args = {'context': &lt;ssl.SSLContext object at 0x1101675c0&gt;}
+host = 'accessflow.accessibe.com'
+h = &lt;http.client.HTTPSConnection object at 0x11022ba10&gt;
+headers = {'Connection': 'close', 'Host': 'accessflow.accessibe.com', 'User-Agent': 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)', 'X-Api-Key': 'flow-15nMmXZGqbnCraZW2qw000UW6JjhhwimCE'}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+                h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+            except OSError as err: # timeout error
+&gt;               raise URLError(err)
+E               urllib.error.URLError: &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1322: URLError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;tests.test_accessflow_sdk_behavior.TestAuditHomePage object at 0x1101e2350&gt;
+sdk = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x1107ea990&gt;
+
+    def test_audit_returns_report(self, sdk):
+        """sdk.audit() should return a non-None report object."""
+&gt;       report = sdk.audit()
+                 ^^^^^^^^^^^
+
+python-tests/tests/test_accessflow_sdk_behavior.py:54: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+python-tests/conftest.py:90: in _audit_with_recording
+    audits = original_audit()
+             ^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:242: in audit
+    self._verify_api_key()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x1107ea990&gt;
+
+    def _verify_api_key(self) -&gt; None:
+        """
+        Verify the API key with the AccessFlow server.
+        Raises an exception if the key is invalid.
+        Only verifies once per SDK instance (cached).
+        """
+        # Return early if already verified
+        if self._api_key_verified:
+            return
+    
+        if not self.api_key:
+            raise ValueError(
+                "AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY "
+                "in your environment or pass api_key to the constructor."
+            )
+    
+        # Get base URL and auth from generated config (injected during build from sdk.config.ts)
+        try:
+            from . import sdk_config
+            base_url = sdk_config.BASE_URL
+            auth_string = sdk_config.DEV_AUTH
+            auth_header = 'Basic ' + base64.b64encode(auth_string.encode()).decode() if auth_string else None
+        except ImportError:
+            # Fallback if config not generated (development mode)
+            base_url = os.environ.get('ACCESSFLOW_BASE_URL', 'https://accessflow.accessibe.com')
+            auth_header = None
+    
+        # Skip verification if base URL is not available
+        if not base_url:
+            return
+    
+        verify_url = f"{base_url}/api/v6/sdk/verify-sdk-api-key"
+    
+        # Enforce HTTPS to protect API key in transit
+        self._enforce_https(verify_url)
+    
+        try:
+            # Create request without data (no body, just like Node.js fetch)
+            request = urllib.request.Request(verify_url)
+            request.get_method = lambda: 'POST'
+    
+            # Add User-Agent to avoid Cloudflare bot detection (error 1010)
+            request.add_header('User-Agent', 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)')
+    
+            # Add headers exactly as Node.js does
+            # Note: urllib normalizes header names, but servers should be case-insensitive
+            request.add_header('x-api-key', self.api_key)
+            if auth_header:
+                request.add_header('Authorization', auth_header)
+    
+            with urllib.request.urlopen(request, timeout=10) as response:
+                # We only care that the request succeeded (status 200)
+                # No need to read the response body
+                pass
+            self._api_key_verified = True  # Cache successful verification
+        except urllib.error.HTTPError as e:
+            error_text = e.read().decode('utf-8', errors='ignore')
+            raise ValueError(f"AccessFlowSDK: invalid API key. HTTP {e.code}: {error_text[:100]}")
+        except Exception as e:
+&gt;           raise ValueError(f"AccessFlowSDK: API key verification failed. {str(e)}")
+E           ValueError: AccessFlowSDK: API key verification failed. &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:231: ValueError</failure></testcase><testcase classname="tests.test_accessflow_sdk_behavior.TestAuditHomePage" name="test_report_is_dict_like[chromium]" time="2.224"><failure message="ValueError: AccessFlowSDK: API key verification failed. &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;">self = &lt;urllib.request.HTTPSHandler object at 0x1101c7b60&gt;
+http_class = &lt;class 'http.client.HTTPSConnection'&gt;
+req = &lt;urllib.request.Request object at 0x1158e0270&gt;
+http_conn_args = {'context': &lt;ssl.SSLContext object at 0x1101675c0&gt;}
+host = 'accessflow.accessibe.com'
+h = &lt;http.client.HTTPSConnection object at 0x1158c4690&gt;
+headers = {'Connection': 'close', 'Host': 'accessflow.accessibe.com', 'User-Agent': 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)', 'X-Api-Key': 'flow-15nMmXZGqbnCraZW2qw000UW6JjhhwimCE'}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+&gt;               h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1319: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1338: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1384: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1333: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1093: in _send_output
+    self.send(msg)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1037: in send
+    self.connect()
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1479: in connect
+    self.sock = self._context.wrap_socket(self.sock,
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:455: in wrap_socket
+    return self.sslsocket_class._create(
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:1076: in _create
+    self.do_handshake()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ssl.SSLSocket [closed] fd=-1, family=30, type=1, proto=0&gt;, block = False
+
+    @_sslcopydoc
+    def do_handshake(self, block=False):
+        self._check_connected()
+        timeout = self.gettimeout()
+        try:
+            if timeout == 0.0 and block:
+                self.settimeout(None)
+&gt;           self._sslobj.do_handshake()
+E           ssl.SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:1372: SSLCertVerificationError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x1158363f0&gt;
+
+    def _verify_api_key(self) -&gt; None:
+        """
+        Verify the API key with the AccessFlow server.
+        Raises an exception if the key is invalid.
+        Only verifies once per SDK instance (cached).
+        """
+        # Return early if already verified
+        if self._api_key_verified:
+            return
+    
+        if not self.api_key:
+            raise ValueError(
+                "AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY "
+                "in your environment or pass api_key to the constructor."
+            )
+    
+        # Get base URL and auth from generated config (injected during build from sdk.config.ts)
+        try:
+            from . import sdk_config
+            base_url = sdk_config.BASE_URL
+            auth_string = sdk_config.DEV_AUTH
+            auth_header = 'Basic ' + base64.b64encode(auth_string.encode()).decode() if auth_string else None
+        except ImportError:
+            # Fallback if config not generated (development mode)
+            base_url = os.environ.get('ACCESSFLOW_BASE_URL', 'https://accessflow.accessibe.com')
+            auth_header = None
+    
+        # Skip verification if base URL is not available
+        if not base_url:
+            return
+    
+        verify_url = f"{base_url}/api/v6/sdk/verify-sdk-api-key"
+    
+        # Enforce HTTPS to protect API key in transit
+        self._enforce_https(verify_url)
+    
+        try:
+            # Create request without data (no body, just like Node.js fetch)
+            request = urllib.request.Request(verify_url)
+            request.get_method = lambda: 'POST'
+    
+            # Add User-Agent to avoid Cloudflare bot detection (error 1010)
+            request.add_header('User-Agent', 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)')
+    
+            # Add headers exactly as Node.js does
+            # Note: urllib normalizes header names, but servers should be case-insensitive
+            request.add_header('x-api-key', self.api_key)
+            if auth_header:
+                request.add_header('Authorization', auth_header)
+    
+&gt;           with urllib.request.urlopen(request, timeout=10) as response:
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:222: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:189: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:489: in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:506: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:466: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1367: in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;urllib.request.HTTPSHandler object at 0x1101c7b60&gt;
+http_class = &lt;class 'http.client.HTTPSConnection'&gt;
+req = &lt;urllib.request.Request object at 0x1158e0270&gt;
+http_conn_args = {'context': &lt;ssl.SSLContext object at 0x1101675c0&gt;}
+host = 'accessflow.accessibe.com'
+h = &lt;http.client.HTTPSConnection object at 0x1158c4690&gt;
+headers = {'Connection': 'close', 'Host': 'accessflow.accessibe.com', 'User-Agent': 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)', 'X-Api-Key': 'flow-15nMmXZGqbnCraZW2qw000UW6JjhhwimCE'}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+                h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+            except OSError as err: # timeout error
+&gt;               raise URLError(err)
+E               urllib.error.URLError: &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1322: URLError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;tests.test_accessflow_sdk_behavior.TestAuditHomePage object at 0x1101e20d0&gt;
+sdk = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x1158363f0&gt;
+
+    def test_report_is_dict_like(self, sdk):
+        """The audit report should be a dict (or dict-like) with content."""
+&gt;       report = sdk.audit()
+                 ^^^^^^^^^^^
+
+python-tests/tests/test_accessflow_sdk_behavior.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+python-tests/conftest.py:90: in _audit_with_recording
+    audits = original_audit()
+             ^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:242: in audit
+    self._verify_api_key()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x1158363f0&gt;
+
+    def _verify_api_key(self) -&gt; None:
+        """
+        Verify the API key with the AccessFlow server.
+        Raises an exception if the key is invalid.
+        Only verifies once per SDK instance (cached).
+        """
+        # Return early if already verified
+        if self._api_key_verified:
+            return
+    
+        if not self.api_key:
+            raise ValueError(
+                "AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY "
+                "in your environment or pass api_key to the constructor."
+            )
+    
+        # Get base URL and auth from generated config (injected during build from sdk.config.ts)
+        try:
+            from . import sdk_config
+            base_url = sdk_config.BASE_URL
+            auth_string = sdk_config.DEV_AUTH
+            auth_header = 'Basic ' + base64.b64encode(auth_string.encode()).decode() if auth_string else None
+        except ImportError:
+            # Fallback if config not generated (development mode)
+            base_url = os.environ.get('ACCESSFLOW_BASE_URL', 'https://accessflow.accessibe.com')
+            auth_header = None
+    
+        # Skip verification if base URL is not available
+        if not base_url:
+            return
+    
+        verify_url = f"{base_url}/api/v6/sdk/verify-sdk-api-key"
+    
+        # Enforce HTTPS to protect API key in transit
+        self._enforce_https(verify_url)
+    
+        try:
+            # Create request without data (no body, just like Node.js fetch)
+            request = urllib.request.Request(verify_url)
+            request.get_method = lambda: 'POST'
+    
+            # Add User-Agent to avoid Cloudflare bot detection (error 1010)
+            request.add_header('User-Agent', 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)')
+    
+            # Add headers exactly as Node.js does
+            # Note: urllib normalizes header names, but servers should be case-insensitive
+            request.add_header('x-api-key', self.api_key)
+            if auth_header:
+                request.add_header('Authorization', auth_header)
+    
+            with urllib.request.urlopen(request, timeout=10) as response:
+                # We only care that the request succeeded (status 200)
+                # No need to read the response body
+                pass
+            self._api_key_verified = True  # Cache successful verification
+        except urllib.error.HTTPError as e:
+            error_text = e.read().decode('utf-8', errors='ignore')
+            raise ValueError(f"AccessFlowSDK: invalid API key. HTTP {e.code}: {error_text[:100]}")
+        except Exception as e:
+&gt;           raise ValueError(f"AccessFlowSDK: API key verification failed. {str(e)}")
+E           ValueError: AccessFlowSDK: API key verification failed. &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:231: ValueError</failure></testcase><testcase classname="tests.test_accessflow_sdk_behavior.TestAuditHomePage" name="test_audit_completes_without_error[chromium]" time="2.213"><failure message="Failed: sdk.audit() raised an unexpected exception: AccessFlowSDK: API key verification failed. &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;">self = &lt;urllib.request.HTTPSHandler object at 0x1101c7b60&gt;
+http_class = &lt;class 'http.client.HTTPSConnection'&gt;
+req = &lt;urllib.request.Request object at 0x11026cd50&gt;
+http_conn_args = {'context': &lt;ssl.SSLContext object at 0x1101675c0&gt;}
+host = 'accessflow.accessibe.com'
+h = &lt;http.client.HTTPSConnection object at 0x1107e8410&gt;
+headers = {'Connection': 'close', 'Host': 'accessflow.accessibe.com', 'User-Agent': 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)', 'X-Api-Key': 'flow-15nMmXZGqbnCraZW2qw000UW6JjhhwimCE'}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+&gt;               h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1319: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1338: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1384: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1333: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1093: in _send_output
+    self.send(msg)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1037: in send
+    self.connect()
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1479: in connect
+    self.sock = self._context.wrap_socket(self.sock,
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:455: in wrap_socket
+    return self.sslsocket_class._create(
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:1076: in _create
+    self.do_handshake()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ssl.SSLSocket [closed] fd=-1, family=30, type=1, proto=0&gt;, block = False
+
+    @_sslcopydoc
+    def do_handshake(self, block=False):
+        self._check_connected()
+        timeout = self.gettimeout()
+        try:
+            if timeout == 0.0 and block:
+                self.settimeout(None)
+&gt;           self._sslobj.do_handshake()
+E           ssl.SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:1372: SSLCertVerificationError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x115837100&gt;
+
+    def _verify_api_key(self) -&gt; None:
+        """
+        Verify the API key with the AccessFlow server.
+        Raises an exception if the key is invalid.
+        Only verifies once per SDK instance (cached).
+        """
+        # Return early if already verified
+        if self._api_key_verified:
+            return
+    
+        if not self.api_key:
+            raise ValueError(
+                "AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY "
+                "in your environment or pass api_key to the constructor."
+            )
+    
+        # Get base URL and auth from generated config (injected during build from sdk.config.ts)
+        try:
+            from . import sdk_config
+            base_url = sdk_config.BASE_URL
+            auth_string = sdk_config.DEV_AUTH
+            auth_header = 'Basic ' + base64.b64encode(auth_string.encode()).decode() if auth_string else None
+        except ImportError:
+            # Fallback if config not generated (development mode)
+            base_url = os.environ.get('ACCESSFLOW_BASE_URL', 'https://accessflow.accessibe.com')
+            auth_header = None
+    
+        # Skip verification if base URL is not available
+        if not base_url:
+            return
+    
+        verify_url = f"{base_url}/api/v6/sdk/verify-sdk-api-key"
+    
+        # Enforce HTTPS to protect API key in transit
+        self._enforce_https(verify_url)
+    
+        try:
+            # Create request without data (no body, just like Node.js fetch)
+            request = urllib.request.Request(verify_url)
+            request.get_method = lambda: 'POST'
+    
+            # Add User-Agent to avoid Cloudflare bot detection (error 1010)
+            request.add_header('User-Agent', 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)')
+    
+            # Add headers exactly as Node.js does
+            # Note: urllib normalizes header names, but servers should be case-insensitive
+            request.add_header('x-api-key', self.api_key)
+            if auth_header:
+                request.add_header('Authorization', auth_header)
+    
+&gt;           with urllib.request.urlopen(request, timeout=10) as response:
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:222: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:189: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:489: in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:506: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:466: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1367: in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;urllib.request.HTTPSHandler object at 0x1101c7b60&gt;
+http_class = &lt;class 'http.client.HTTPSConnection'&gt;
+req = &lt;urllib.request.Request object at 0x11026cd50&gt;
+http_conn_args = {'context': &lt;ssl.SSLContext object at 0x1101675c0&gt;}
+host = 'accessflow.accessibe.com'
+h = &lt;http.client.HTTPSConnection object at 0x1107e8410&gt;
+headers = {'Connection': 'close', 'Host': 'accessflow.accessibe.com', 'User-Agent': 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)', 'X-Api-Key': 'flow-15nMmXZGqbnCraZW2qw000UW6JjhhwimCE'}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+                h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+            except OSError as err: # timeout error
+&gt;               raise URLError(err)
+E               urllib.error.URLError: &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1322: URLError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;tests.test_accessflow_sdk_behavior.TestAuditHomePage object at 0x11018a650&gt;
+sdk = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x115837100&gt;
+
+    def test_audit_completes_without_error(self, sdk):
+        """The audit call should not raise on a well-formed page."""
+        try:
+&gt;           report = sdk.audit()
+                     ^^^^^^^^^^^
+
+python-tests/tests/test_accessflow_sdk_behavior.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+python-tests/conftest.py:90: in _audit_with_recording
+    audits = original_audit()
+             ^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:242: in audit
+    self._verify_api_key()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x115837100&gt;
+
+    def _verify_api_key(self) -&gt; None:
+        """
+        Verify the API key with the AccessFlow server.
+        Raises an exception if the key is invalid.
+        Only verifies once per SDK instance (cached).
+        """
+        # Return early if already verified
+        if self._api_key_verified:
+            return
+    
+        if not self.api_key:
+            raise ValueError(
+                "AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY "
+                "in your environment or pass api_key to the constructor."
+            )
+    
+        # Get base URL and auth from generated config (injected during build from sdk.config.ts)
+        try:
+            from . import sdk_config
+            base_url = sdk_config.BASE_URL
+            auth_string = sdk_config.DEV_AUTH
+            auth_header = 'Basic ' + base64.b64encode(auth_string.encode()).decode() if auth_string else None
+        except ImportError:
+            # Fallback if config not generated (development mode)
+            base_url = os.environ.get('ACCESSFLOW_BASE_URL', 'https://accessflow.accessibe.com')
+            auth_header = None
+    
+        # Skip verification if base URL is not available
+        if not base_url:
+            return
+    
+        verify_url = f"{base_url}/api/v6/sdk/verify-sdk-api-key"
+    
+        # Enforce HTTPS to protect API key in transit
+        self._enforce_https(verify_url)
+    
+        try:
+            # Create request without data (no body, just like Node.js fetch)
+            request = urllib.request.Request(verify_url)
+            request.get_method = lambda: 'POST'
+    
+            # Add User-Agent to avoid Cloudflare bot detection (error 1010)
+            request.add_header('User-Agent', 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)')
+    
+            # Add headers exactly as Node.js does
+            # Note: urllib normalizes header names, but servers should be case-insensitive
+            request.add_header('x-api-key', self.api_key)
+            if auth_header:
+                request.add_header('Authorization', auth_header)
+    
+            with urllib.request.urlopen(request, timeout=10) as response:
+                # We only care that the request succeeded (status 200)
+                # No need to read the response body
+                pass
+            self._api_key_verified = True  # Cache successful verification
+        except urllib.error.HTTPError as e:
+            error_text = e.read().decode('utf-8', errors='ignore')
+            raise ValueError(f"AccessFlowSDK: invalid API key. HTTP {e.code}: {error_text[:100]}")
+        except Exception as e:
+&gt;           raise ValueError(f"AccessFlowSDK: API key verification failed. {str(e)}")
+E           ValueError: AccessFlowSDK: API key verification failed. &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:231: ValueError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;tests.test_accessflow_sdk_behavior.TestAuditHomePage object at 0x11018a650&gt;
+sdk = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x115837100&gt;
+
+    def test_audit_completes_without_error(self, sdk):
+        """The audit call should not raise on a well-formed page."""
+        try:
+            report = sdk.audit()
+        except Exception as exc:
+&gt;           pytest.fail(f"sdk.audit() raised an unexpected exception: {exc}")
+E           Failed: sdk.audit() raised an unexpected exception: AccessFlowSDK: API key verification failed. &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;
+
+python-tests/tests/test_accessflow_sdk_behavior.py:67: Failed</failure></testcase><testcase classname="tests.test_accessflow_sdk_behavior.TestAuditHomePage" name="test_generates_local_report_file[chromium]" time="2.365"><failure message="ValueError: AccessFlowSDK: API key verification failed. &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;">self = &lt;urllib.request.HTTPSHandler object at 0x1101c7b60&gt;
+http_class = &lt;class 'http.client.HTTPSConnection'&gt;
+req = &lt;urllib.request.Request object at 0x11026d950&gt;
+http_conn_args = {'context': &lt;ssl.SSLContext object at 0x1101675c0&gt;}
+host = 'accessflow.accessibe.com'
+h = &lt;http.client.HTTPSConnection object at 0x11581c3e0&gt;
+headers = {'Connection': 'close', 'Host': 'accessflow.accessibe.com', 'User-Agent': 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)', 'X-Api-Key': 'flow-15nMmXZGqbnCraZW2qw000UW6JjhhwimCE'}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+&gt;               h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1319: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1338: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1384: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1333: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1093: in _send_output
+    self.send(msg)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1037: in send
+    self.connect()
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1479: in connect
+    self.sock = self._context.wrap_socket(self.sock,
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:455: in wrap_socket
+    return self.sslsocket_class._create(
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:1076: in _create
+    self.do_handshake()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ssl.SSLSocket [closed] fd=-1, family=30, type=1, proto=0&gt;, block = False
+
+    @_sslcopydoc
+    def do_handshake(self, block=False):
+        self._check_connected()
+        timeout = self.gettimeout()
+        try:
+            if timeout == 0.0 and block:
+                self.settimeout(None)
+&gt;           self._sslobj.do_handshake()
+E           ssl.SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:1372: SSLCertVerificationError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x115af0b90&gt;
+
+    def _verify_api_key(self) -&gt; None:
+        """
+        Verify the API key with the AccessFlow server.
+        Raises an exception if the key is invalid.
+        Only verifies once per SDK instance (cached).
+        """
+        # Return early if already verified
+        if self._api_key_verified:
+            return
+    
+        if not self.api_key:
+            raise ValueError(
+                "AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY "
+                "in your environment or pass api_key to the constructor."
+            )
+    
+        # Get base URL and auth from generated config (injected during build from sdk.config.ts)
+        try:
+            from . import sdk_config
+            base_url = sdk_config.BASE_URL
+            auth_string = sdk_config.DEV_AUTH
+            auth_header = 'Basic ' + base64.b64encode(auth_string.encode()).decode() if auth_string else None
+        except ImportError:
+            # Fallback if config not generated (development mode)
+            base_url = os.environ.get('ACCESSFLOW_BASE_URL', 'https://accessflow.accessibe.com')
+            auth_header = None
+    
+        # Skip verification if base URL is not available
+        if not base_url:
+            return
+    
+        verify_url = f"{base_url}/api/v6/sdk/verify-sdk-api-key"
+    
+        # Enforce HTTPS to protect API key in transit
+        self._enforce_https(verify_url)
+    
+        try:
+            # Create request without data (no body, just like Node.js fetch)
+            request = urllib.request.Request(verify_url)
+            request.get_method = lambda: 'POST'
+    
+            # Add User-Agent to avoid Cloudflare bot detection (error 1010)
+            request.add_header('User-Agent', 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)')
+    
+            # Add headers exactly as Node.js does
+            # Note: urllib normalizes header names, but servers should be case-insensitive
+            request.add_header('x-api-key', self.api_key)
+            if auth_header:
+                request.add_header('Authorization', auth_header)
+    
+&gt;           with urllib.request.urlopen(request, timeout=10) as response:
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:222: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:189: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:489: in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:506: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:466: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1367: in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;urllib.request.HTTPSHandler object at 0x1101c7b60&gt;
+http_class = &lt;class 'http.client.HTTPSConnection'&gt;
+req = &lt;urllib.request.Request object at 0x11026d950&gt;
+http_conn_args = {'context': &lt;ssl.SSLContext object at 0x1101675c0&gt;}
+host = 'accessflow.accessibe.com'
+h = &lt;http.client.HTTPSConnection object at 0x11581c3e0&gt;
+headers = {'Connection': 'close', 'Host': 'accessflow.accessibe.com', 'User-Agent': 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)', 'X-Api-Key': 'flow-15nMmXZGqbnCraZW2qw000UW6JjhhwimCE'}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+                h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+            except OSError as err: # timeout error
+&gt;               raise URLError(err)
+E               urllib.error.URLError: &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1322: URLError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;tests.test_accessflow_sdk_behavior.TestAuditHomePage object at 0x11018a520&gt;
+sdk = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x115af0b90&gt;
+
+    def test_generates_local_report_file(self, sdk):
+        """Generate and persist a local JSON report artifact."""
+&gt;       audits = sdk.audit()
+                 ^^^^^^^^^^^
+
+python-tests/tests/test_accessflow_sdk_behavior.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+python-tests/conftest.py:90: in _audit_with_recording
+    audits = original_audit()
+             ^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:242: in audit
+    self._verify_api_key()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x115af0b90&gt;
+
+    def _verify_api_key(self) -&gt; None:
+        """
+        Verify the API key with the AccessFlow server.
+        Raises an exception if the key is invalid.
+        Only verifies once per SDK instance (cached).
+        """
+        # Return early if already verified
+        if self._api_key_verified:
+            return
+    
+        if not self.api_key:
+            raise ValueError(
+                "AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY "
+                "in your environment or pass api_key to the constructor."
+            )
+    
+        # Get base URL and auth from generated config (injected during build from sdk.config.ts)
+        try:
+            from . import sdk_config
+            base_url = sdk_config.BASE_URL
+            auth_string = sdk_config.DEV_AUTH
+            auth_header = 'Basic ' + base64.b64encode(auth_string.encode()).decode() if auth_string else None
+        except ImportError:
+            # Fallback if config not generated (development mode)
+            base_url = os.environ.get('ACCESSFLOW_BASE_URL', 'https://accessflow.accessibe.com')
+            auth_header = None
+    
+        # Skip verification if base URL is not available
+        if not base_url:
+            return
+    
+        verify_url = f"{base_url}/api/v6/sdk/verify-sdk-api-key"
+    
+        # Enforce HTTPS to protect API key in transit
+        self._enforce_https(verify_url)
+    
+        try:
+            # Create request without data (no body, just like Node.js fetch)
+            request = urllib.request.Request(verify_url)
+            request.get_method = lambda: 'POST'
+    
+            # Add User-Agent to avoid Cloudflare bot detection (error 1010)
+            request.add_header('User-Agent', 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)')
+    
+            # Add headers exactly as Node.js does
+            # Note: urllib normalizes header names, but servers should be case-insensitive
+            request.add_header('x-api-key', self.api_key)
+            if auth_header:
+                request.add_header('Authorization', auth_header)
+    
+            with urllib.request.urlopen(request, timeout=10) as response:
+                # We only care that the request succeeded (status 200)
+                # No need to read the response body
+                pass
+            self._api_key_verified = True  # Cache successful verification
+        except urllib.error.HTTPError as e:
+            error_text = e.read().decode('utf-8', errors='ignore')
+            raise ValueError(f"AccessFlowSDK: invalid API key. HTTP {e.code}: {error_text[:100]}")
+        except Exception as e:
+&gt;           raise ValueError(f"AccessFlowSDK: API key verification failed. {str(e)}")
+E           ValueError: AccessFlowSDK: API key verification failed. &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:231: ValueError</failure></testcase><testcase classname="tests.test_accessflow_sdk_behavior.TestAuditSpecificRoute" name="test_audit_on_graphics_route[chromium]" time="2.279"><failure message="ValueError: AccessFlowSDK: API key verification failed. &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;">self = &lt;urllib.request.HTTPSHandler object at 0x1101c7b60&gt;
+http_class = &lt;class 'http.client.HTTPSConnection'&gt;
+req = &lt;urllib.request.Request object at 0x110234d70&gt;
+http_conn_args = {'context': &lt;ssl.SSLContext object at 0x1101675c0&gt;}
+host = 'accessflow.accessibe.com'
+h = &lt;http.client.HTTPSConnection object at 0x115834640&gt;
+headers = {'Connection': 'close', 'Host': 'accessflow.accessibe.com', 'User-Agent': 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)', 'X-Api-Key': 'flow-15nMmXZGqbnCraZW2qw000UW6JjhhwimCE'}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+&gt;               h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1319: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1338: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1384: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1333: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1093: in _send_output
+    self.send(msg)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1037: in send
+    self.connect()
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1479: in connect
+    self.sock = self._context.wrap_socket(self.sock,
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:455: in wrap_socket
+    return self.sslsocket_class._create(
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:1076: in _create
+    self.do_handshake()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ssl.SSLSocket [closed] fd=-1, family=30, type=1, proto=0&gt;, block = False
+
+    @_sslcopydoc
+    def do_handshake(self, block=False):
+        self._check_connected()
+        timeout = self.gettimeout()
+        try:
+            if timeout == 0.0 and block:
+                self.settimeout(None)
+&gt;           self._sslobj.do_handshake()
+E           ssl.SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:1372: SSLCertVerificationError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x1158e1480&gt;
+
+    def _verify_api_key(self) -&gt; None:
+        """
+        Verify the API key with the AccessFlow server.
+        Raises an exception if the key is invalid.
+        Only verifies once per SDK instance (cached).
+        """
+        # Return early if already verified
+        if self._api_key_verified:
+            return
+    
+        if not self.api_key:
+            raise ValueError(
+                "AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY "
+                "in your environment or pass api_key to the constructor."
+            )
+    
+        # Get base URL and auth from generated config (injected during build from sdk.config.ts)
+        try:
+            from . import sdk_config
+            base_url = sdk_config.BASE_URL
+            auth_string = sdk_config.DEV_AUTH
+            auth_header = 'Basic ' + base64.b64encode(auth_string.encode()).decode() if auth_string else None
+        except ImportError:
+            # Fallback if config not generated (development mode)
+            base_url = os.environ.get('ACCESSFLOW_BASE_URL', 'https://accessflow.accessibe.com')
+            auth_header = None
+    
+        # Skip verification if base URL is not available
+        if not base_url:
+            return
+    
+        verify_url = f"{base_url}/api/v6/sdk/verify-sdk-api-key"
+    
+        # Enforce HTTPS to protect API key in transit
+        self._enforce_https(verify_url)
+    
+        try:
+            # Create request without data (no body, just like Node.js fetch)
+            request = urllib.request.Request(verify_url)
+            request.get_method = lambda: 'POST'
+    
+            # Add User-Agent to avoid Cloudflare bot detection (error 1010)
+            request.add_header('User-Agent', 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)')
+    
+            # Add headers exactly as Node.js does
+            # Note: urllib normalizes header names, but servers should be case-insensitive
+            request.add_header('x-api-key', self.api_key)
+            if auth_header:
+                request.add_header('Authorization', auth_header)
+    
+&gt;           with urllib.request.urlopen(request, timeout=10) as response:
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:222: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:189: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:489: in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:506: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:466: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1367: in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;urllib.request.HTTPSHandler object at 0x1101c7b60&gt;
+http_class = &lt;class 'http.client.HTTPSConnection'&gt;
+req = &lt;urllib.request.Request object at 0x110234d70&gt;
+http_conn_args = {'context': &lt;ssl.SSLContext object at 0x1101675c0&gt;}
+host = 'accessflow.accessibe.com'
+h = &lt;http.client.HTTPSConnection object at 0x115834640&gt;
+headers = {'Connection': 'close', 'Host': 'accessflow.accessibe.com', 'User-Agent': 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)', 'X-Api-Key': 'flow-15nMmXZGqbnCraZW2qw000UW6JjhhwimCE'}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+                h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+            except OSError as err: # timeout error
+&gt;               raise URLError(err)
+E               urllib.error.URLError: &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1322: URLError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;tests.test_accessflow_sdk_behavior.TestAuditSpecificRoute object at 0x1101e2490&gt;
+sdk = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x1158e1480&gt;
+
+    def test_audit_on_graphics_route(self, sdk):
+        """Audit should return a report for the graphics/alt-text route."""
+&gt;       report = sdk.audit()
+                 ^^^^^^^^^^^
+
+python-tests/tests/test_accessflow_sdk_behavior.py:98: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+python-tests/conftest.py:90: in _audit_with_recording
+    audits = original_audit()
+             ^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:242: in audit
+    self._verify_api_key()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x1158e1480&gt;
+
+    def _verify_api_key(self) -&gt; None:
+        """
+        Verify the API key with the AccessFlow server.
+        Raises an exception if the key is invalid.
+        Only verifies once per SDK instance (cached).
+        """
+        # Return early if already verified
+        if self._api_key_verified:
+            return
+    
+        if not self.api_key:
+            raise ValueError(
+                "AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY "
+                "in your environment or pass api_key to the constructor."
+            )
+    
+        # Get base URL and auth from generated config (injected during build from sdk.config.ts)
+        try:
+            from . import sdk_config
+            base_url = sdk_config.BASE_URL
+            auth_string = sdk_config.DEV_AUTH
+            auth_header = 'Basic ' + base64.b64encode(auth_string.encode()).decode() if auth_string else None
+        except ImportError:
+            # Fallback if config not generated (development mode)
+            base_url = os.environ.get('ACCESSFLOW_BASE_URL', 'https://accessflow.accessibe.com')
+            auth_header = None
+    
+        # Skip verification if base URL is not available
+        if not base_url:
+            return
+    
+        verify_url = f"{base_url}/api/v6/sdk/verify-sdk-api-key"
+    
+        # Enforce HTTPS to protect API key in transit
+        self._enforce_https(verify_url)
+    
+        try:
+            # Create request without data (no body, just like Node.js fetch)
+            request = urllib.request.Request(verify_url)
+            request.get_method = lambda: 'POST'
+    
+            # Add User-Agent to avoid Cloudflare bot detection (error 1010)
+            request.add_header('User-Agent', 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)')
+    
+            # Add headers exactly as Node.js does
+            # Note: urllib normalizes header names, but servers should be case-insensitive
+            request.add_header('x-api-key', self.api_key)
+            if auth_header:
+                request.add_header('Authorization', auth_header)
+    
+            with urllib.request.urlopen(request, timeout=10) as response:
+                # We only care that the request succeeded (status 200)
+                # No need to read the response body
+                pass
+            self._api_key_verified = True  # Cache successful verification
+        except urllib.error.HTTPError as e:
+            error_text = e.read().decode('utf-8', errors='ignore')
+            raise ValueError(f"AccessFlowSDK: invalid API key. HTTP {e.code}: {error_text[:100]}")
+        except Exception as e:
+&gt;           raise ValueError(f"AccessFlowSDK: API key verification failed. {str(e)}")
+E           ValueError: AccessFlowSDK: API key verification failed. &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:231: ValueError</failure></testcase><testcase classname="tests.test_accessflow_sdk_behavior.TestAuditSpecificRoute" name="test_multiple_audits_are_stable[chromium]" time="2.241"><failure message="ValueError: AccessFlowSDK: API key verification failed. &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;">self = &lt;urllib.request.HTTPSHandler object at 0x1101c7b60&gt;
+http_class = &lt;class 'http.client.HTTPSConnection'&gt;
+req = &lt;urllib.request.Request object at 0x115af8f50&gt;
+http_conn_args = {'context': &lt;ssl.SSLContext object at 0x1101675c0&gt;}
+host = 'accessflow.accessibe.com'
+h = &lt;http.client.HTTPSConnection object at 0x115ac8830&gt;
+headers = {'Connection': 'close', 'Host': 'accessflow.accessibe.com', 'User-Agent': 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)', 'X-Api-Key': 'flow-15nMmXZGqbnCraZW2qw000UW6JjhhwimCE'}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+&gt;               h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1319: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1338: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1384: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1333: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1093: in _send_output
+    self.send(msg)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1037: in send
+    self.connect()
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1479: in connect
+    self.sock = self._context.wrap_socket(self.sock,
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:455: in wrap_socket
+    return self.sslsocket_class._create(
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:1076: in _create
+    self.do_handshake()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ssl.SSLSocket [closed] fd=-1, family=30, type=1, proto=0&gt;, block = False
+
+    @_sslcopydoc
+    def do_handshake(self, block=False):
+        self._check_connected()
+        timeout = self.gettimeout()
+        try:
+            if timeout == 0.0 and block:
+                self.settimeout(None)
+&gt;           self._sslobj.do_handshake()
+E           ssl.SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:1372: SSLCertVerificationError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x1158e29c0&gt;
+
+    def _verify_api_key(self) -&gt; None:
+        """
+        Verify the API key with the AccessFlow server.
+        Raises an exception if the key is invalid.
+        Only verifies once per SDK instance (cached).
+        """
+        # Return early if already verified
+        if self._api_key_verified:
+            return
+    
+        if not self.api_key:
+            raise ValueError(
+                "AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY "
+                "in your environment or pass api_key to the constructor."
+            )
+    
+        # Get base URL and auth from generated config (injected during build from sdk.config.ts)
+        try:
+            from . import sdk_config
+            base_url = sdk_config.BASE_URL
+            auth_string = sdk_config.DEV_AUTH
+            auth_header = 'Basic ' + base64.b64encode(auth_string.encode()).decode() if auth_string else None
+        except ImportError:
+            # Fallback if config not generated (development mode)
+            base_url = os.environ.get('ACCESSFLOW_BASE_URL', 'https://accessflow.accessibe.com')
+            auth_header = None
+    
+        # Skip verification if base URL is not available
+        if not base_url:
+            return
+    
+        verify_url = f"{base_url}/api/v6/sdk/verify-sdk-api-key"
+    
+        # Enforce HTTPS to protect API key in transit
+        self._enforce_https(verify_url)
+    
+        try:
+            # Create request without data (no body, just like Node.js fetch)
+            request = urllib.request.Request(verify_url)
+            request.get_method = lambda: 'POST'
+    
+            # Add User-Agent to avoid Cloudflare bot detection (error 1010)
+            request.add_header('User-Agent', 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)')
+    
+            # Add headers exactly as Node.js does
+            # Note: urllib normalizes header names, but servers should be case-insensitive
+            request.add_header('x-api-key', self.api_key)
+            if auth_header:
+                request.add_header('Authorization', auth_header)
+    
+&gt;           with urllib.request.urlopen(request, timeout=10) as response:
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:222: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:189: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:489: in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:506: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:466: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1367: in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;urllib.request.HTTPSHandler object at 0x1101c7b60&gt;
+http_class = &lt;class 'http.client.HTTPSConnection'&gt;
+req = &lt;urllib.request.Request object at 0x115af8f50&gt;
+http_conn_args = {'context': &lt;ssl.SSLContext object at 0x1101675c0&gt;}
+host = 'accessflow.accessibe.com'
+h = &lt;http.client.HTTPSConnection object at 0x115ac8830&gt;
+headers = {'Connection': 'close', 'Host': 'accessflow.accessibe.com', 'User-Agent': 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)', 'X-Api-Key': 'flow-15nMmXZGqbnCraZW2qw000UW6JjhhwimCE'}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+                h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+            except OSError as err: # timeout error
+&gt;               raise URLError(err)
+E               urllib.error.URLError: &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1322: URLError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;tests.test_accessflow_sdk_behavior.TestAuditSpecificRoute object at 0x1101e25d0&gt;
+sdk = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x1158e29c0&gt;
+page = &lt;Page url='http://localhost:3000/#/graphics/alt-text'&gt;
+
+    def test_multiple_audits_are_stable(self, sdk, page):
+        """Running audit twice on the same page should not raise or diverge."""
+&gt;       report_a = sdk.audit()
+                   ^^^^^^^^^^^
+
+python-tests/tests/test_accessflow_sdk_behavior.py:103: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+python-tests/conftest.py:90: in _audit_with_recording
+    audits = original_audit()
+             ^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:242: in audit
+    self._verify_api_key()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x1158e29c0&gt;
+
+    def _verify_api_key(self) -&gt; None:
+        """
+        Verify the API key with the AccessFlow server.
+        Raises an exception if the key is invalid.
+        Only verifies once per SDK instance (cached).
+        """
+        # Return early if already verified
+        if self._api_key_verified:
+            return
+    
+        if not self.api_key:
+            raise ValueError(
+                "AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY "
+                "in your environment or pass api_key to the constructor."
+            )
+    
+        # Get base URL and auth from generated config (injected during build from sdk.config.ts)
+        try:
+            from . import sdk_config
+            base_url = sdk_config.BASE_URL
+            auth_string = sdk_config.DEV_AUTH
+            auth_header = 'Basic ' + base64.b64encode(auth_string.encode()).decode() if auth_string else None
+        except ImportError:
+            # Fallback if config not generated (development mode)
+            base_url = os.environ.get('ACCESSFLOW_BASE_URL', 'https://accessflow.accessibe.com')
+            auth_header = None
+    
+        # Skip verification if base URL is not available
+        if not base_url:
+            return
+    
+        verify_url = f"{base_url}/api/v6/sdk/verify-sdk-api-key"
+    
+        # Enforce HTTPS to protect API key in transit
+        self._enforce_https(verify_url)
+    
+        try:
+            # Create request without data (no body, just like Node.js fetch)
+            request = urllib.request.Request(verify_url)
+            request.get_method = lambda: 'POST'
+    
+            # Add User-Agent to avoid Cloudflare bot detection (error 1010)
+            request.add_header('User-Agent', 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)')
+    
+            # Add headers exactly as Node.js does
+            # Note: urllib normalizes header names, but servers should be case-insensitive
+            request.add_header('x-api-key', self.api_key)
+            if auth_header:
+                request.add_header('Authorization', auth_header)
+    
+            with urllib.request.urlopen(request, timeout=10) as response:
+                # We only care that the request succeeded (status 200)
+                # No need to read the response body
+                pass
+            self._api_key_verified = True  # Cache successful verification
+        except urllib.error.HTTPError as e:
+            error_text = e.read().decode('utf-8', errors='ignore')
+            raise ValueError(f"AccessFlowSDK: invalid API key. HTTP {e.code}: {error_text[:100]}")
+        except Exception as e:
+&gt;           raise ValueError(f"AccessFlowSDK: API key verification failed. {str(e)}")
+E           ValueError: AccessFlowSDK: API key verification failed. &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:231: ValueError</failure></testcase><testcase classname="tests.test_accessflow_sdk_behavior.TestAuditAfterNavigation" name="test_audit_after_route_change[chromium]" time="2.208"><failure message="ValueError: AccessFlowSDK: API key verification failed. &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;">self = &lt;urllib.request.HTTPSHandler object at 0x1101c7b60&gt;
+http_class = &lt;class 'http.client.HTTPSConnection'&gt;
+req = &lt;urllib.request.Request object at 0x115a3a430&gt;
+http_conn_args = {'context': &lt;ssl.SSLContext object at 0x1101675c0&gt;}
+host = 'accessflow.accessibe.com'
+h = &lt;http.client.HTTPSConnection object at 0x1158e3ac0&gt;
+headers = {'Connection': 'close', 'Host': 'accessflow.accessibe.com', 'User-Agent': 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)', 'X-Api-Key': 'flow-15nMmXZGqbnCraZW2qw000UW6JjhhwimCE'}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+&gt;               h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1319: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1338: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1384: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1333: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1093: in _send_output
+    self.send(msg)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1037: in send
+    self.connect()
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1479: in connect
+    self.sock = self._context.wrap_socket(self.sock,
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:455: in wrap_socket
+    return self.sslsocket_class._create(
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:1076: in _create
+    self.do_handshake()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ssl.SSLSocket [closed] fd=-1, family=30, type=1, proto=0&gt;, block = False
+
+    @_sslcopydoc
+    def do_handshake(self, block=False):
+        self._check_connected()
+        timeout = self.gettimeout()
+        try:
+            if timeout == 0.0 and block:
+                self.settimeout(None)
+&gt;           self._sslobj.do_handshake()
+E           ssl.SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:1372: SSLCertVerificationError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x11026f850&gt;
+
+    def _verify_api_key(self) -&gt; None:
+        """
+        Verify the API key with the AccessFlow server.
+        Raises an exception if the key is invalid.
+        Only verifies once per SDK instance (cached).
+        """
+        # Return early if already verified
+        if self._api_key_verified:
+            return
+    
+        if not self.api_key:
+            raise ValueError(
+                "AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY "
+                "in your environment or pass api_key to the constructor."
+            )
+    
+        # Get base URL and auth from generated config (injected during build from sdk.config.ts)
+        try:
+            from . import sdk_config
+            base_url = sdk_config.BASE_URL
+            auth_string = sdk_config.DEV_AUTH
+            auth_header = 'Basic ' + base64.b64encode(auth_string.encode()).decode() if auth_string else None
+        except ImportError:
+            # Fallback if config not generated (development mode)
+            base_url = os.environ.get('ACCESSFLOW_BASE_URL', 'https://accessflow.accessibe.com')
+            auth_header = None
+    
+        # Skip verification if base URL is not available
+        if not base_url:
+            return
+    
+        verify_url = f"{base_url}/api/v6/sdk/verify-sdk-api-key"
+    
+        # Enforce HTTPS to protect API key in transit
+        self._enforce_https(verify_url)
+    
+        try:
+            # Create request without data (no body, just like Node.js fetch)
+            request = urllib.request.Request(verify_url)
+            request.get_method = lambda: 'POST'
+    
+            # Add User-Agent to avoid Cloudflare bot detection (error 1010)
+            request.add_header('User-Agent', 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)')
+    
+            # Add headers exactly as Node.js does
+            # Note: urllib normalizes header names, but servers should be case-insensitive
+            request.add_header('x-api-key', self.api_key)
+            if auth_header:
+                request.add_header('Authorization', auth_header)
+    
+&gt;           with urllib.request.urlopen(request, timeout=10) as response:
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:222: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:189: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:489: in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:506: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:466: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1367: in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;urllib.request.HTTPSHandler object at 0x1101c7b60&gt;
+http_class = &lt;class 'http.client.HTTPSConnection'&gt;
+req = &lt;urllib.request.Request object at 0x115a3a430&gt;
+http_conn_args = {'context': &lt;ssl.SSLContext object at 0x1101675c0&gt;}
+host = 'accessflow.accessibe.com'
+h = &lt;http.client.HTTPSConnection object at 0x1158e3ac0&gt;
+headers = {'Connection': 'close', 'Host': 'accessflow.accessibe.com', 'User-Agent': 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)', 'X-Api-Key': 'flow-15nMmXZGqbnCraZW2qw000UW6JjhhwimCE'}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+                h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+            except OSError as err: # timeout error
+&gt;               raise URLError(err)
+E               urllib.error.URLError: &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1322: URLError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;tests.test_accessflow_sdk_behavior.TestAuditAfterNavigation object at 0x1101e2710&gt;
+page = &lt;Page url='http://localhost:3000/'&gt;
+sdk = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x11026f850&gt;
+
+    def test_audit_after_route_change(self, page, sdk):
+        """Navigate between routes and audit each; both should succeed."""
+        # First route
+        page.goto("/")
+        page.wait_for_load_state("networkidle")
+        page.wait_for_timeout(500)
+&gt;       report_home = sdk.audit()
+                      ^^^^^^^^^^^
+
+python-tests/tests/test_accessflow_sdk_behavior.py:123: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+python-tests/conftest.py:90: in _audit_with_recording
+    audits = original_audit()
+             ^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:242: in audit
+    self._verify_api_key()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x11026f850&gt;
+
+    def _verify_api_key(self) -&gt; None:
+        """
+        Verify the API key with the AccessFlow server.
+        Raises an exception if the key is invalid.
+        Only verifies once per SDK instance (cached).
+        """
+        # Return early if already verified
+        if self._api_key_verified:
+            return
+    
+        if not self.api_key:
+            raise ValueError(
+                "AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY "
+                "in your environment or pass api_key to the constructor."
+            )
+    
+        # Get base URL and auth from generated config (injected during build from sdk.config.ts)
+        try:
+            from . import sdk_config
+            base_url = sdk_config.BASE_URL
+            auth_string = sdk_config.DEV_AUTH
+            auth_header = 'Basic ' + base64.b64encode(auth_string.encode()).decode() if auth_string else None
+        except ImportError:
+            # Fallback if config not generated (development mode)
+            base_url = os.environ.get('ACCESSFLOW_BASE_URL', 'https://accessflow.accessibe.com')
+            auth_header = None
+    
+        # Skip verification if base URL is not available
+        if not base_url:
+            return
+    
+        verify_url = f"{base_url}/api/v6/sdk/verify-sdk-api-key"
+    
+        # Enforce HTTPS to protect API key in transit
+        self._enforce_https(verify_url)
+    
+        try:
+            # Create request without data (no body, just like Node.js fetch)
+            request = urllib.request.Request(verify_url)
+            request.get_method = lambda: 'POST'
+    
+            # Add User-Agent to avoid Cloudflare bot detection (error 1010)
+            request.add_header('User-Agent', 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)')
+    
+            # Add headers exactly as Node.js does
+            # Note: urllib normalizes header names, but servers should be case-insensitive
+            request.add_header('x-api-key', self.api_key)
+            if auth_header:
+                request.add_header('Authorization', auth_header)
+    
+            with urllib.request.urlopen(request, timeout=10) as response:
+                # We only care that the request succeeded (status 200)
+                # No need to read the response body
+                pass
+            self._api_key_verified = True  # Cache successful verification
+        except urllib.error.HTTPError as e:
+            error_text = e.read().decode('utf-8', errors='ignore')
+            raise ValueError(f"AccessFlowSDK: invalid API key. HTTP {e.code}: {error_text[:100]}")
+        except Exception as e:
+&gt;           raise ValueError(f"AccessFlowSDK: API key verification failed. {str(e)}")
+E           ValueError: AccessFlowSDK: API key verification failed. &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:231: ValueError</failure></testcase><testcase classname="tests.test_accessflow_sdk_behavior.TestFullAppValidation" name="test_audit_all_routes_and_generate_report[chromium]" time="2.387"><failure message="ValueError: AccessFlowSDK: API key verification failed. &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;">self = &lt;urllib.request.HTTPSHandler object at 0x1101c7b60&gt;
+http_class = &lt;class 'http.client.HTTPSConnection'&gt;
+req = &lt;urllib.request.Request object at 0x115ad2190&gt;
+http_conn_args = {'context': &lt;ssl.SSLContext object at 0x1101675c0&gt;}
+host = 'accessflow.accessibe.com'
+h = &lt;http.client.HTTPSConnection object at 0x1158e2250&gt;
+headers = {'Connection': 'close', 'Host': 'accessflow.accessibe.com', 'User-Agent': 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)', 'X-Api-Key': 'flow-15nMmXZGqbnCraZW2qw000UW6JjhhwimCE'}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+&gt;               h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1319: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1338: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1384: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1333: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1093: in _send_output
+    self.send(msg)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1037: in send
+    self.connect()
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/client.py:1479: in connect
+    self.sock = self._context.wrap_socket(self.sock,
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:455: in wrap_socket
+    return self.sslsocket_class._create(
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:1076: in _create
+    self.do_handshake()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ssl.SSLSocket [closed] fd=-1, family=30, type=1, proto=0&gt;, block = False
+
+    @_sslcopydoc
+    def do_handshake(self, block=False):
+        self._check_connected()
+        timeout = self.gettimeout()
+        try:
+            if timeout == 0.0 and block:
+                self.settimeout(None)
+&gt;           self._sslobj.do_handshake()
+E           ssl.SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ssl.py:1372: SSLCertVerificationError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x11026e050&gt;
+
+    def _verify_api_key(self) -&gt; None:
+        """
+        Verify the API key with the AccessFlow server.
+        Raises an exception if the key is invalid.
+        Only verifies once per SDK instance (cached).
+        """
+        # Return early if already verified
+        if self._api_key_verified:
+            return
+    
+        if not self.api_key:
+            raise ValueError(
+                "AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY "
+                "in your environment or pass api_key to the constructor."
+            )
+    
+        # Get base URL and auth from generated config (injected during build from sdk.config.ts)
+        try:
+            from . import sdk_config
+            base_url = sdk_config.BASE_URL
+            auth_string = sdk_config.DEV_AUTH
+            auth_header = 'Basic ' + base64.b64encode(auth_string.encode()).decode() if auth_string else None
+        except ImportError:
+            # Fallback if config not generated (development mode)
+            base_url = os.environ.get('ACCESSFLOW_BASE_URL', 'https://accessflow.accessibe.com')
+            auth_header = None
+    
+        # Skip verification if base URL is not available
+        if not base_url:
+            return
+    
+        verify_url = f"{base_url}/api/v6/sdk/verify-sdk-api-key"
+    
+        # Enforce HTTPS to protect API key in transit
+        self._enforce_https(verify_url)
+    
+        try:
+            # Create request without data (no body, just like Node.js fetch)
+            request = urllib.request.Request(verify_url)
+            request.get_method = lambda: 'POST'
+    
+            # Add User-Agent to avoid Cloudflare bot detection (error 1010)
+            request.add_header('User-Agent', 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)')
+    
+            # Add headers exactly as Node.js does
+            # Note: urllib normalizes header names, but servers should be case-insensitive
+            request.add_header('x-api-key', self.api_key)
+            if auth_header:
+                request.add_header('Authorization', auth_header)
+    
+&gt;           with urllib.request.urlopen(request, timeout=10) as response:
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:222: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:189: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:489: in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:506: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:466: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1367: in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;urllib.request.HTTPSHandler object at 0x1101c7b60&gt;
+http_class = &lt;class 'http.client.HTTPSConnection'&gt;
+req = &lt;urllib.request.Request object at 0x115ad2190&gt;
+http_conn_args = {'context': &lt;ssl.SSLContext object at 0x1101675c0&gt;}
+host = 'accessflow.accessibe.com'
+h = &lt;http.client.HTTPSConnection object at 0x1158e2250&gt;
+headers = {'Connection': 'close', 'Host': 'accessflow.accessibe.com', 'User-Agent': 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)', 'X-Api-Key': 'flow-15nMmXZGqbnCraZW2qw000UW6JjhhwimCE'}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+                h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+            except OSError as err: # timeout error
+&gt;               raise URLError(err)
+E               urllib.error.URLError: &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/urllib/request.py:1322: URLError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;tests.test_accessflow_sdk_behavior.TestFullAppValidation object at 0x1101e2850&gt;
+page = &lt;Page url='http://localhost:3000/'&gt;
+sdk = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x11026e050&gt;
+
+    def test_audit_all_routes_and_generate_report(self, page, sdk):
+        """Navigate every core route, audit each, then write a full report."""
+        route_reports = []
+    
+        for route in self.ROUTES:
+            page.goto(route)
+            page.wait_for_load_state("networkidle")
+            page.wait_for_timeout(500)
+    
+&gt;           audits = sdk.audit()
+                     ^^^^^^^^^^^
+
+python-tests/tests/test_accessflow_sdk_behavior.py:165: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+python-tests/conftest.py:90: in _audit_with_recording
+    audits = original_audit()
+             ^^^^^^^^^^^^^^^^
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:242: in audit
+    self._verify_api_key()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;accessflow_sdk.sdk.AccessFlowSDK object at 0x11026e050&gt;
+
+    def _verify_api_key(self) -&gt; None:
+        """
+        Verify the API key with the AccessFlow server.
+        Raises an exception if the key is invalid.
+        Only verifies once per SDK instance (cached).
+        """
+        # Return early if already verified
+        if self._api_key_verified:
+            return
+    
+        if not self.api_key:
+            raise ValueError(
+                "AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY "
+                "in your environment or pass api_key to the constructor."
+            )
+    
+        # Get base URL and auth from generated config (injected during build from sdk.config.ts)
+        try:
+            from . import sdk_config
+            base_url = sdk_config.BASE_URL
+            auth_string = sdk_config.DEV_AUTH
+            auth_header = 'Basic ' + base64.b64encode(auth_string.encode()).decode() if auth_string else None
+        except ImportError:
+            # Fallback if config not generated (development mode)
+            base_url = os.environ.get('ACCESSFLOW_BASE_URL', 'https://accessflow.accessibe.com')
+            auth_header = None
+    
+        # Skip verification if base URL is not available
+        if not base_url:
+            return
+    
+        verify_url = f"{base_url}/api/v6/sdk/verify-sdk-api-key"
+    
+        # Enforce HTTPS to protect API key in transit
+        self._enforce_https(verify_url)
+    
+        try:
+            # Create request without data (no body, just like Node.js fetch)
+            request = urllib.request.Request(verify_url)
+            request.get_method = lambda: 'POST'
+    
+            # Add User-Agent to avoid Cloudflare bot detection (error 1010)
+            request.add_header('User-Agent', 'Mozilla/5.0 (compatible; AccessFlowSDK/1.0)')
+    
+            # Add headers exactly as Node.js does
+            # Note: urllib normalizes header names, but servers should be case-insensitive
+            request.add_header('x-api-key', self.api_key)
+            if auth_header:
+                request.add_header('Authorization', auth_header)
+    
+            with urllib.request.urlopen(request, timeout=10) as response:
+                # We only care that the request succeeded (status 200)
+                # No need to read the response body
+                pass
+            self._api_key_verified = True  # Cache successful verification
+        except urllib.error.HTTPError as e:
+            error_text = e.read().decode('utf-8', errors='ignore')
+            raise ValueError(f"AccessFlowSDK: invalid API key. HTTP {e.code}: {error_text[:100]}")
+        except Exception as e:
+&gt;           raise ValueError(f"AccessFlowSDK: API key verification failed. {str(e)}")
+E           ValueError: AccessFlowSDK: API key verification failed. &lt;urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)&gt;
+
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/accessflow_sdk/sdk.py:231: ValueError</failure></testcase></testsuite></testsuites>

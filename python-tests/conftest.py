@@ -82,7 +82,7 @@ def sdk(page):
             "AF_Python_Package_Key not set. For local testing, create python-tests/.env with:\n"
             "  AF_Python_Package_Key=flow-your-key-here"
         )
-    sdk_instance = AccessFlowSDK(page, config={"apiToken": api_key})
+    sdk_instance = AccessFlowSDK(page, api_key=api_key)
 
     original_audit = sdk_instance.audit
 

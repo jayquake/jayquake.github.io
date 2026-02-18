@@ -24,7 +24,7 @@
     {
       "route": "/#/graphics/alt-text",
       "numberOfIssuesFound": {
-        "extreme": 4,
+        "extreme": 3,
         "high": 15,
         "medium": 3,
         "low": 1
