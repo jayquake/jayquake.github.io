@@ -109,7 +109,7 @@ jobs:
         working-directory: python-tests
         run: |
           pip install -r requirements.txt
-          pip install --force-reinstall --no-deps ../pythonSdk/accessflow_sdk-1.0.1-py3-none-any.whl
+          pip install --force-reinstall --no-deps ../pythonSdk/accessflow_sdk-1.0.1-py3-none-any-prod.whl
 
       - name: Install Playwright Browsers (Python)
         run: python -m playwright install --with-deps chromium
