@@ -82,6 +82,10 @@ jobs:
   test-python:
     name: Python Lane — Playwright Tests
     runs-on: ubuntu-latest
+    # Set ACCESSFLOW_BASE_URL to validate against test env and see audits at:
+    #   https://sdk-refactor--accessflow--test.acsb-test.com/audits?view=cicd
+    # env:
+    #   ACCESSFLOW_BASE_URL: https://sdk-refactor--accessflow--test.acsb-test.com
 
     steps:
       - name: Checkout code
@@ -110,6 +114,56 @@ jobs:
         run: |
           pip install -r requirements.txt
           pip install --force-reinstall --no-deps ../pythonSdk/accessflow_sdk-1.0.1+prod-py3-none-any.whl
+
+      - name: Debug Python SDK environment/source
+        working-directory: python-tests
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          import importlib.metadata as md
+
+          token = os.environ.get("PYTHON_ACCESSFLOW_SDK_TOKEN", "")
+          print(f"PYTHON_ACCESSFLOW_SDK_TOKEN set: {'yes' if bool(token) else 'no'}")
+          if token:
+              print(f"PYTHON_ACCESSFLOW_SDK_TOKEN length: {len(token)}")
+
+          # Resolve base URL (same logic as SDK: sdk_config or ACCESSFLOW_BASE_URL env)
+          base_url = None
+          try:
+              from accessflow_sdk import sdk_config
+              base_url = getattr(sdk_config, "BASE_URL", None)
+              print(f"SDK BASE_URL (from wheel): {base_url or '(empty)'}")
+          except Exception as e:
+              print(f"SDK sdk_config: not available ({e})")
+
+          env_base = os.environ.get("ACCESSFLOW_BASE_URL", "")
+          if env_base:
+              base_url = env_base
+              print(f"ACCESSFLOW_BASE_URL env: {env_base} (overrides wheel)")
+          else:
+              print(f"ACCESSFLOW_BASE_URL env: (not set)")
+          if not base_url:
+              base_url = "https://accessflow.accessibe.com"
+              print(f"Using fallback: {base_url}")
+
+          verify_url = f"{base_url.rstrip('/')}/api/v6/sdk/verify-sdk-api-key"
+          print(f"Token will validate at: {verify_url}")
+          print(f"Audits will appear at: {base_url.rstrip('/')}/audits")
+
+          dist = md.distribution("accessflow-sdk")
+          print(f"Installed accessflow-sdk version: {dist.version}")
+
+          direct_url = Path(dist._path) / "direct_url.json"
+          if direct_url.exists():
+              data = json.loads(direct_url.read_text(encoding="utf-8"))
+              print(f"Installed from: {data.get('url', 'unknown')}")
+          else:
+              print("Installed from: unavailable (direct_url.json missing)")
+          PY
+        env:
+          PYTHON_ACCESSFLOW_SDK_TOKEN: ${{ secrets.PYTHON_ACCESSFLOW_SDK_TOKEN }}
 
       - name: Install Playwright Browsers (Python)
         run: python -m playwright install --with-deps chromium
