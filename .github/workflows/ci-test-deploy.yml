@@ -113,7 +113,7 @@ jobs:
         working-directory: python-tests
         run: |
           pip install -r requirements.txt
-          pip install --force-reinstall --no-deps ../pythonSdk/accessflow_sdk-1.0.1+prod-py3-none-any.whl
+          pip install --force-reinstall --no-deps ../pythonSdk/accessflow_sdk-1.0.1_prod-py3-none-any.whl
 
       - name: Debug Python SDK environment/source
         working-directory: python-tests
