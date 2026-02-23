@@ -179,6 +179,13 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
+      - name: Debug Java SDK token
+        run: |
+          echo "JAVA_ACCESSFLOW_SDK_TOKEN set: $([ -n \"$JAVA_ACCESSFLOW_SDK_TOKEN\" ] && echo yes || echo no)"
+          echo "Token length: ${#JAVA_ACCESSFLOW_SDK_TOKEN}"
+        env:
+          JAVA_ACCESSFLOW_SDK_TOKEN: ${{ secrets.JAVA_ACCESSFLOW_SDK_TOKEN }}
+
       - name: Install Playwright Browsers (Java)
         working-directory: java-tests
         run: mvn exec:java -e -D exec.classpathScope=test -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install --with-deps chromium"
