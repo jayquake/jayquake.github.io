@@ -119,7 +119,7 @@ public class AccessFlowSDKProdTest {
 
     @Test
     @Order(3)
-    @DisplayName("Prod: Audit does not throw on forms route")
+    @DisplayName("Prod: Audit does not throw on empty forms route")
     void testProdAuditFormsRoute() {
         navigateAndWait("/#/forms");
         AccessFlowSDK sdk = createSdk();
