@@ -63,6 +63,8 @@ public class AccessFlowSDKProdTest {
     static void teardownAll() {
         if (browser != null) browser.close();
         if (playwright != null) playwright.close();
+
+        LocalReportCollector.write();
         AccessFlowTeardown.finalizeReports();
     }
 
@@ -93,6 +95,7 @@ public class AccessFlowSDKProdTest {
             AccessFlowSDK sdk = createSdk();
             Map<String, Object> report = sdk.audit();
             AccessFlowTeardown.recordAudit(page.url(), report);
+            LocalReportCollector.add(page.url(), report);
             assertNotNull(report, "audit() returned null for route " + route);
         }
     }
@@ -107,6 +110,8 @@ public class AccessFlowSDKProdTest {
         Map<String, Object> r2 = sdk.audit();
         AccessFlowTeardown.recordAudit(page.url(), r1);
         AccessFlowTeardown.recordAudit(page.url(), r2);
+        LocalReportCollector.add(page.url(), r1);
+        LocalReportCollector.add(page.url(), r2);
         assertNotNull(r1);
         assertNotNull(r2);
 
@@ -114,6 +119,7 @@ public class AccessFlowSDKProdTest {
         AccessFlowSDK sdk2 = createSdk();
         Map<String, Object> r3 = sdk2.audit();
         AccessFlowTeardown.recordAudit(page.url(), r3);
+        LocalReportCollector.add(page.url(), r3);
         assertNotNull(r3);
     }
 
@@ -126,6 +132,7 @@ public class AccessFlowSDKProdTest {
         assertDoesNotThrow(() -> {
             Map<String, Object> audits = sdk.audit();
             AccessFlowTeardown.recordAudit(page.url(), audits);
+            LocalReportCollector.add(page.url(), audits);
             return audits;
         }, "sdk.audit() should not throw on forms route");
     }
@@ -138,6 +145,7 @@ public class AccessFlowSDKProdTest {
         AccessFlowSDK sdk = createSdk();
         Map<String, Object> audits = sdk.audit();
         AccessFlowTeardown.recordAudit(page.url(), audits);
+        LocalReportCollector.add(page.url(), audits);
         assertNotNull(audits);
     }
 }

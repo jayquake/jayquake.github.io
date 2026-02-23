@@ -59,7 +59,10 @@ public class AccessFlowSDKBehaviorTest {
     static void teardownAll() {
         if (browser != null) browser.close();
         if (playwright != null) playwright.close();
-        
+
+        // Write local report for inspection
+        LocalReportCollector.write();
+
         // Finalize and upload AccessFlow reports
         AccessFlowTeardown.finalizeReports();
     }
@@ -120,6 +123,7 @@ public class AccessFlowSDKBehaviorTest {
         
         // Record audit for aggregation
         AccessFlowTeardown.recordAudit(page.url(), audits);
+        LocalReportCollector.add(page.url(), audits);
         
         assertNotNull(audits, "Audit report should not be null");
     }
@@ -132,8 +136,8 @@ public class AccessFlowSDKBehaviorTest {
         AccessFlowSDK sdk = createSdk();
         assertDoesNotThrow(() -> {
             Map<String, Object> audits = sdk.audit();
-            // Record audit for aggregation
             AccessFlowTeardown.recordAudit(page.url(), audits);
+            LocalReportCollector.add(page.url(), audits);
             return audits;
         }, "sdk.audit() should not throw on a well-formed page");
     }
@@ -152,6 +156,7 @@ public class AccessFlowSDKBehaviorTest {
         
         // Record audit for aggregation
         AccessFlowTeardown.recordAudit(page.url(), audits);
+        LocalReportCollector.add(page.url(), audits);
         
         assertNotNull(audits, "Audit report for graphics route should not be null");
     }
@@ -165,10 +170,11 @@ public class AccessFlowSDKBehaviorTest {
         Map<String, Object> reportA = sdk.audit();
         Map<String, Object> reportB = sdk.audit();
         
-        // Record both audits for aggregation
         AccessFlowTeardown.recordAudit(page.url(), reportA);
         AccessFlowTeardown.recordAudit(page.url(), reportB);
-        
+        LocalReportCollector.add(page.url(), reportA);
+        LocalReportCollector.add(page.url(), reportB);
+
         assertNotNull(reportA, "First audit should return a report");
         assertNotNull(reportB, "Second audit should return a report");
     }
@@ -186,18 +192,17 @@ public class AccessFlowSDKBehaviorTest {
         AccessFlowSDK sdk = createSdk();
         Map<String, Object> reportHome = sdk.audit();
         
-        // Record audit for aggregation
         AccessFlowTeardown.recordAudit(page.url(), reportHome);
-        
+        LocalReportCollector.add(page.url(), reportHome);
+
         assertNotNull(reportHome, "Home audit should produce a report");
 
-        // Second route
         navigateAndWait("/#/graphics/alt-text");
         AccessFlowSDK sdkGraphics = createSdk();
         Map<String, Object> reportGraphics = sdkGraphics.audit();
-        
-        // Record audit for aggregation
+
         AccessFlowTeardown.recordAudit(page.url(), reportGraphics);
+        LocalReportCollector.add(page.url(), reportGraphics);
         
         assertNotNull(reportGraphics, "Graphics audit should produce a report");
     }
