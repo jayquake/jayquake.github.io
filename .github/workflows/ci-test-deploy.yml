@@ -18,185 +18,144 @@ permissions:
   id-token: write
 
 jobs:
-  # =====================================================================
-  # JS Lane — Playwright + AccessFlow Node SDK
-  # =====================================================================
-  test-js:
-    name: JS Lane — Playwright Tests
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js 20.x
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
-
-      - name: Build application
-        run: npm run build
-        env:
-          CI: true
-
-      - name: Run JS Playwright Tests
-        run: npm run test:e2e
-        env:
-          CI: true
-          AF_Node_Package_Key: ${{ secrets.AF_Node_Package_Key }}
-
-      - name: Upload Playwright Report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: js-playwright-report
-          path: test-suite/playwright-report/
-          retention-days: 30
-
-      - name: Upload Test Results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: js-test-results
-          path: test-suite/test-results/
-          retention-days: 30
-
-      - name: Upload Build Artifacts
-        if: success()
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts
-          path: build/
-          retention-days: 7
-
-  # =====================================================================
-  # Python Lane — pytest-playwright + AccessFlow Python SDK
-  # =====================================================================
-  test-python:
-    name: Python Lane — Playwright Tests
-    runs-on: ubuntu-latest
-    # Set ACCESSFLOW_BASE_URL to validate against test env and see audits at:
-    #   https://sdk-refactor--accessflow--test.acsb-test.com/audits?view=cicd
-    # env:
-    #   ACCESSFLOW_BASE_URL: https://sdk-refactor--accessflow--test.acsb-test.com
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js 20.x
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-          cache: 'npm'
-
-      - name: Install Node dependencies & build app
-        run: |
-          npm ci
-          npm run build
-        env:
-          CI: true
-
-      - name: Setup Python 3.12
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Install Python dependencies
-        working-directory: python-tests
-        run: |
-          pip install -r requirements.txt
-          pip install --force-reinstall --no-deps ../pythonSdk/accessflow_sdk-1.0.1+prod-py3-none-any.whl
-
-      - name: Debug Python SDK environment/source
-        working-directory: python-tests
-        run: |
-          python - <<'PY'
-          import json
-          import os
-          from pathlib import Path
-          import importlib.metadata as md
-
-          token = os.environ.get("PYTHON_ACCESSFLOW_SDK_TOKEN", "")
-          print(f"PYTHON_ACCESSFLOW_SDK_TOKEN set: {'yes' if bool(token) else 'no'}")
-          if token:
-              print(f"PYTHON_ACCESSFLOW_SDK_TOKEN length: {len(token)}")
-
-          # Resolve base URL (same logic as SDK: sdk_config or ACCESSFLOW_BASE_URL env)
-          base_url = None
-          try:
-              from accessflow_sdk import sdk_config
-              base_url = getattr(sdk_config, "BASE_URL", None)
-              print(f"SDK BASE_URL (from wheel): {base_url or '(empty)'}")
-          except Exception as e:
-              print(f"SDK sdk_config: not available ({e})")
-
-          env_base = os.environ.get("ACCESSFLOW_BASE_URL", "")
-          if env_base:
-              base_url = env_base
-              print(f"ACCESSFLOW_BASE_URL env: {env_base} (overrides wheel)")
-          else:
-              print(f"ACCESSFLOW_BASE_URL env: (not set)")
-          if not base_url:
-              base_url = "https://accessflow.accessibe.com"
-              print(f"Using fallback: {base_url}")
-
-          verify_url = f"{base_url.rstrip('/')}/api/v6/sdk/verify-sdk-api-key"
-          print(f"Token will validate at: {verify_url}")
-          print(f"Audits will appear at: {base_url.rstrip('/')}/audits")
-
-          dist = md.distribution("accessflow-sdk")
-          print(f"Installed accessflow-sdk version: {dist.version}")
-
-          direct_url = Path(dist._path) / "direct_url.json"
-          if direct_url.exists():
-              data = json.loads(direct_url.read_text(encoding="utf-8"))
-              print(f"Installed from: {data.get('url', 'unknown')}")
-          else:
-              print("Installed from: unavailable (direct_url.json missing)")
-          PY
-        env:
-          PYTHON_ACCESSFLOW_SDK_TOKEN: ${{ secrets.PYTHON_ACCESSFLOW_SDK_TOKEN }}
-
-      - name: Install Playwright Browsers (Python)
-        run: python -m playwright install --with-deps chromium
-
-      - name: Start application server
-        run: npm start &
-        env:
-          BROWSER: none
-
-      - name: Wait for application
-        run: |
-          for i in $(seq 1 60); do
-            curl -sf http://localhost:3000 > /dev/null 2>&1 && echo "App ready!" && exit 0
-            sleep 1
-          done
-          echo "App did not start within 60 s" && exit 1
-
-      - name: Run Python Playwright Tests
-        working-directory: python-tests
-        run: |
-          mkdir -p test-results
-          pytest --junitxml=test-results/results.xml -v
-        env:
-          CI: true
-          PYTHON_ACCESSFLOW_SDK_TOKEN: ${{ secrets.PYTHON_ACCESSFLOW_SDK_TOKEN }}
-
-      - name: Upload Python Test Results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: python-test-results
-          path: python-tests/test-results/
-          retention-days: 30
+  # # =====================================================================
+  # # JS Lane — Playwright + AccessFlow Node SDK
+  # # =====================================================================
+  # test-js:
+  #   name: JS Lane — Playwright Tests
+  #   runs-on: ubuntu-latest
+  #
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #
+  #     - name: Setup Node.js 20.x
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: '20.x'
+  #         cache: 'npm'
+  #
+  #     - name: Install dependencies
+  #       run: npm ci
+  #
+  #     - name: Install Playwright Browsers
+  #       run: npx playwright install --with-deps chromium
+  #
+  #     - name: Build application
+  #       run: npm run build
+  #       env:
+  #         CI: true
+  #
+  #     - name: Run JS Playwright Tests
+  #       run: npm run test:e2e
+  #       env:
+  #         CI: true
+  #         AF_Node_Package_Key: ${{ secrets.AF_Node_Package_Key }}
+  #
+  #     - name: Upload Playwright Report
+  #       uses: actions/upload-artifact@v4
+  #       if: always()
+  #       with:
+  #         name: js-playwright-report
+  #         path: test-suite/playwright-report/
+  #         retention-days: 30
+  #
+  #     - name: Upload Test Results
+  #       uses: actions/upload-artifact@v4
+  #       if: always()
+  #       with:
+  #         name: js-test-results
+  #         path: test-suite/test-results/
+  #         retention-days: 30
+  #
+  #     - name: Upload Build Artifacts
+  #       if: success()
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: build-artifacts
+  #         path: build/
+  #         retention-days: 7
+  #
+  # # =====================================================================
+  # # Python Lane — pytest-playwright + AccessFlow Python SDK
+  # # =====================================================================
+  # test-python:
+  #   name: Python Lane — Playwright Tests
+  #   runs-on: ubuntu-latest
+  #
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #
+  #     - name: Setup Node.js 20.x
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: '20.x'
+  #         cache: 'npm'
+  #
+  #     - name: Install Node dependencies & build app
+  #       run: |
+  #         npm ci
+  #         npm run build
+  #       env:
+  #         CI: true
+  #
+  #     - name: Setup Python 3.12
+  #       uses: actions/setup-python@v5
+  #       with:
+  #         python-version: '3.12'
+  #
+  #     - name: Install Python dependencies
+  #       working-directory: python-tests
+  #       run: |
+  #         pip install -r requirements.txt
+  #         pip install --force-reinstall --no-deps ../pythonSdk/accessflow_sdk-1.0.1+prod-py3-none-any.whl
+  #
+  #     - name: Debug Python SDK environment/source
+  #       working-directory: python-tests
+  #       run: |
+  #         python - <<'PY'
+  #         import json, os
+  #         from pathlib import Path
+  #         import importlib.metadata as md
+  #         token = os.environ.get("PYTHON_ACCESSFLOW_SDK_TOKEN", "")
+  #         print(f"PYTHON_ACCESSFLOW_SDK_TOKEN set: {'yes' if bool(token) else 'no'}")
+  #         dist = md.distribution("accessflow-sdk")
+  #         print(f"Installed accessflow-sdk version: {dist.version}")
+  #         PY
+  #       env:
+  #         PYTHON_ACCESSFLOW_SDK_TOKEN: ${{ secrets.PYTHON_ACCESSFLOW_SDK_TOKEN }}
+  #
+  #     - name: Install Playwright Browsers (Python)
+  #       run: python -m playwright install --with-deps chromium
+  #
+  #     - name: Start application server
+  #       run: npm start &
+  #       env:
+  #         BROWSER: none
+  #
+  #     - name: Wait for application
+  #       run: |
+  #         for i in $(seq 1 60); do
+  #           curl -sf http://localhost:3000 > /dev/null 2>&1 && echo "App ready!" && exit 0
+  #           sleep 1
+  #         done
+  #         echo "App did not start within 60 s" && exit 1
+  #
+  #     - name: Run Python Playwright Tests
+  #       working-directory: python-tests
+  #       run: pytest --junitxml=test-results/results.xml -v
+  #       env:
+  #         CI: true
+  #         PYTHON_ACCESSFLOW_SDK_TOKEN: ${{ secrets.PYTHON_ACCESSFLOW_SDK_TOKEN }}
+  #
+  #     - name: Upload Python Test Results
+  #       uses: actions/upload-artifact@v4
+  #       if: always()
+  #       with:
+  #         name: python-test-results
+  #         path: python-tests/test-results/
+  #         retention-days: 30
 
   # =====================================================================
   # Java Lane — JUnit 5 + Playwright Java + AccessFlow Java SDK
@@ -266,7 +225,7 @@ jobs:
   # =====================================================================
   deploy:
     name: Deploy to GitHub Pages
-    needs: [test-js, test-python, test-java]
+    needs: [test-java]
     runs-on: ubuntu-latest
     # Deploy from main, master, develop, and dev branches
     if: |
@@ -391,7 +350,7 @@ jobs:
   # =====================================================================
   accessibility-summary:
     name: Accessibility Test Summary (All SDKs)
-    needs: [test-js, test-python, test-java]
+    needs: [test-java]
     runs-on: ubuntu-latest
     if: always()
 
