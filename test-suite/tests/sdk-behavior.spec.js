@@ -11,7 +11,10 @@ import { expect, test } from "@playwright/test";
 
 // Session-level SDK init (same pattern as search.spec.js)
 AccessFlowSDK.init({
-  apiKey: process.env.AF_Node_Package_Key || "flow-1saYAGtY8ADAPaZLWVg000Y6kyGsGG1LXH",
+  apiKey:
+    process.env.AF_NODE_PACKAGE_KEY ||
+    process.env.AF_Node_Package_Key ||
+    "flow-1saYAGtY8ADAPaZLWVg000Y6kyGsGG1LXH",
 });
 
 // ========================================================================

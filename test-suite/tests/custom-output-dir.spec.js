@@ -5,7 +5,10 @@ import path from "path";
 
 // Initialize AccessFlow SDK with API key
 AccessFlowSDK.init({
-  apiKey: process.env.AF_Node_Package_Key || "flow-1saYAGtY8ADAPaZLWVg000Y6kyGsGG1LXH",
+  apiKey:
+    process.env.AF_NODE_PACKAGE_KEY ||
+    process.env.AF_Node_Package_Key ||
+    "flow-1saYAGtY8ADAPaZLWVg000Y6kyGsGG1LXH",
 });
 
 test.describe("Custom OutputDir Support", () => {
