@@ -1,24 +1,9 @@
-// AppRoutes.js
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "../components/pages/Home";
 
-// Criteria Pages
-import Carousels from "../components/pages/Criteria/Carousels/Carousels";
-import Clickables from "../components/pages/Criteria/Clickables/Clickables";
-import Context from "../components/pages/Criteria/Context/Context";
-import Document from "../components/pages/Criteria/Document/Document";
-import Errors from "../components/pages/Criteria/Errors/Errors";
-import Forms from "../components/pages/Criteria/Forms/Forms";
-import Graphics from "../components/pages/Criteria/Graphics/Graphics";
-import Headings from "../components/pages/Criteria/Headings/Headings";
-import Keyboard from "../components/pages/Criteria/Keyboard/Keyboard";
-import Navigation from "../components/pages/Criteria/Navigation/Navigation";
-import Readability from "../components/pages/Criteria/Readability/Readability";
-import Tables from "../components/pages/Criteria/Tables/tables";
-
-// Modularized Routes for Each Criteria
-import ItemPage from "../components/layout/rulePage";
+// Modularized Routes for Each Criteria (individual rule detail pages)
+import UnifiedRulePage from "../components/layout/UnifiedRulePage";
 import CarouselsRoutes from "../components/pages/Criteria/Carousels/rules/carouselsRoutes";
 import ClickablesRoutes from "../components/pages/Criteria/Clickables/rules/ClickableRoutes";
 import ContextRoutes from "../components/pages/Criteria/Context/rules/ContextRoutes";
@@ -32,70 +17,61 @@ import NavigationRoutes from "../components/pages/Criteria/Navigation/rules/navi
 import ReadabilityRoutes from "../components/pages/Criteria/Readability/rules/readabilityRoutes";
 import TablesRoutes from "../components/pages/Criteria/Tables/rules/tablesRoutes";
 
-// Additional Dynamic Routes
+// Dynamic catch-all for legacy rule detail pages
 import AllRulesWithRoutes from "../components/pages/Criteria/AllRulesLinks";
-import EngineRulesListing from "../components/pages/EngineRulesListing";
-import EngineLibrary from "../components/pages/Engine/EngineLibrary";
-import RulesListing from "../components/pages/RulesListing";
 import EngineRoutes from "./engineRoutes";
+
+// Rule Lab
+import RuleLab from "../pages/RuleLab/index";
+
+// Test Runner Pages
+import ProjectSelector from "../pages/ProjectSelector";
+import TestHistory from "../pages/TestHistory";
+import TestRunner from "../pages/TestRunner";
+import TestLibrary from "../pages/TestLibrary/index";
+import TestProgress from "../pages/TestProgress/index";
+import ResultsView from "../pages/ResultsView/index";
+import { ValidationView } from "../pages/ValidationView";
+import AtomicTestLibrary from "../pages/AtomicTestLibrary/index";
 
 const AppRoutes = ({ navigate }) => (
   <Routes>
-    {/* Home Route */}
+    {/* Home / Dashboard */}
     <Route index element={<Home navigate={navigate} title="Home" />} />
 
-    {/* Dynamic Routes */}
-    <Route path="rules" element={<RulesListing />} />
-    <Route path="/*" element={<AllRulesWithRoutes navigate={navigate} />} />
+    {/* Test Runner Routes */}
+    <Route path="/test-runner" element={<ProjectSelector />} />
+    <Route path="/test-runner/validation" element={<ValidationView />} />
+    <Route path="/test-runner/history" element={<TestHistory />} />
+    <Route path="/test-runner/run" element={<TestRunner />} />
+    <Route path="/test-runner/library" element={<TestLibrary />} />
+    <Route path="/test-runner/progress/:runId" element={<TestProgress />} />
+    <Route path="/test-runner/results/:runId" element={<ResultsView />} />
+    <Route path="/test-runner/atomic-tests" element={<AtomicTestLibrary />} />
 
-    {/* Individual Criteria Pages */}
-    <Route
-      path="clickables"
-      element={<Clickables navigate={navigate} title="Clickables" />}
-    />
-    <Route
-      path="context"
-      element={<Context navigate={navigate} title="Context" />}
-    />
-    <Route
-      path="carousels"
-      element={<Carousels navigate={navigate} title="Carousels" />}
-    />
-    <Route path="forms" element={<Forms navigate={navigate} title="Forms" />} />
-    <Route
-      path="document"
-      element={<Document navigate={navigate} title="Document" />}
-    />
-    <Route
-      path="errors"
-      element={<Errors navigate={navigate} title="Errors" />}
-    />
-    <Route
-      path="graphics"
-      element={<Graphics navigate={navigate} title="Graphics" />}
-    />
-    <Route
-      path="keyboard"
-      element={<Keyboard navigate={navigate} title="Keyboard" />}
-    />
-    <Route
-      path="navigation"
-      element={<Navigation navigate={navigate} title="Navigation" />}
-    />
-    <Route
-      path="readability"
-      element={<Readability navigate={navigate} title="Readability" />}
-    />
-    <Route
-      path="headings"
-      element={<Headings navigate={navigate} title="Headings" />}
-    />
-    <Route
-      path="tables"
-      element={<Tables navigate={navigate} title="Tables" />}
-    />
+    {/* Rule Lab */}
+    <Route path="/rule-lab" element={<RuleLab />} />
 
-    {/* Individual Criteria Rule Routes */}
+    {/* Criteria landing pages redirect to dashboard (tree sidebar replaces them) */}
+    <Route path="graphics" element={<Navigate to="/" replace />} />
+    <Route path="forms" element={<Navigate to="/" replace />} />
+    <Route path="keyboard" element={<Navigate to="/" replace />} />
+    <Route path="navigation" element={<Navigate to="/" replace />} />
+    <Route path="headings" element={<Navigate to="/" replace />} />
+    <Route path="errors" element={<Navigate to="/" replace />} />
+    <Route path="carousels" element={<Navigate to="/" replace />} />
+    <Route path="clickables" element={<Navigate to="/" replace />} />
+    <Route path="context" element={<Navigate to="/" replace />} />
+    <Route path="document" element={<Navigate to="/" replace />} />
+    <Route path="readability" element={<Navigate to="/" replace />} />
+    <Route path="tables" element={<Navigate to="/" replace />} />
+
+    {/* Listing pages redirect to dashboard (tree sidebar replaces them) */}
+    <Route path="rules" element={<Navigate to="/" replace />} />
+    <Route path="/engine" element={<Navigate to="/" replace />} />
+    <Route path="/engine/library" element={<Navigate to="/" replace />} />
+
+    {/* Individual criteria rule detail routes (keep working) */}
     {ClickablesRoutes()}
     {ContextRoutes()}
     {KeyboardRoutes()}
@@ -109,15 +85,17 @@ const AppRoutes = ({ navigate }) => (
     {TablesRoutes()}
     {NavigationRoutes()}
 
-    {/* Engine Rules */}
-    <Route path="/engine" element={<EngineRulesListing />} />
-    <Route path="/engine/library" element={<EngineLibrary />} />
+    {/* Engine rule detail routes */}
     {EngineRoutes()}
+
+    {/* Dynamic catch-all for legacy rule detail pages */}
+    <Route path="/*" element={<AllRulesWithRoutes navigate={navigate} />} />
 
     <Route
       path="/test-item"
       element={
-        <ItemPage
+        <UnifiedRulePage
+          ruleType="legacy"
           ruleData={{ name: "Test Rule", description: "Testing ItemPage" }}
         />
       }

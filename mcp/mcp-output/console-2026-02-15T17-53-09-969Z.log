@@ -1,0 +1,16 @@
+[    2312ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[    3027ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[    3029ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[    3031ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[    3047ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[    3049ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[    3050ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[    4038ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://sdk-refactor--accessflow--test.acsb-test.com/trpc/website.checkSuccessfulScanExist:0
+[    4602ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://sdk-refactor--accessflow--test.acsb-test.com/trpc/users.zendesk:0
+[    4603ms] [ERROR] Error: TRPCClientError: User not authenticated
+    at TRPCClientError.from (https://sdk-refactor--accessflow--test.acsb-test.com/assets/index-utLCIGcZ.js:65:8000)
+    at https://sdk-refactor--accessflow--test.acsb-test.com/assets/index-utLCIGcZ.js:65:11195 @ https://sdk-refactor--accessflow--test.acsb-test.com/assets/index-utLCIGcZ.js:8643
+[    4603ms] [ERROR] Component Stack: Unhandled Rejection @ https://sdk-refactor--accessflow--test.acsb-test.com/assets/index-utLCIGcZ.js:8643
+[    4604ms] TRPCClientError: User not authenticated
+    at TRPCClientError.from (https://sdk-refactor--accessflow--test.acsb-test.com/assets/index-utLCIGcZ.js:65:8000)
+    at https://sdk-refactor--accessflow--test.acsb-test.com/assets/index-utLCIGcZ.js:65:11195

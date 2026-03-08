@@ -1,0 +1,46 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - heading "Staging Setup" [level=2] [ref=e5]:
+        - img [ref=e6]
+        - text: Staging Setup
+      - generic [ref=e12]:
+        - generic [ref=e13] [cursor=pointer]: User Email
+        - textbox "User Email" [ref=e16]:
+          - /placeholder: " "
+          - text: jason@digivate.com
+      - generic [ref=e17]:
+        - generic [ref=e18] [cursor=pointer]: Domain
+        - textbox "Domain" [ref=e21]:
+          - /placeholder: " "
+          - text: digivate.com
+      - generic [ref=e22]:
+        - generic [ref=e23] [cursor=pointer]: Page Count
+        - spinbutton "Page Count" [ref=e26]: "5"
+      - generic [ref=e27] [cursor=pointer]:
+        - text: standard
+        - img [ref=e29]
+      - button "Upsert Domain and User" [ref=e31] [cursor=pointer]
+      - generic [ref=e38]:
+        - generic [ref=e39]: License created
+        - link "Login" [ref=e40] [cursor=pointer]:
+          - /url: /?access=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6Imphc29uQGRpZ2l2YXRlLmNvbSIsIndlYnNpdGVJZCI6ImRpZ2l2YXRlLmNvbSJ9LCJpYXQiOjE3NzIxMDY0MDksImV4cCI6MTc3MjcxMTIwOX0.TtgqYaNnV1XYhqrIIzYnb-8eOJo37smm8qC5StSXDtiYs4uZKR86VEyTGu6CX7MoUmk7ezkrxC5erYjmLb7W5OHPSdNvYYJdYhEoE1GJgjx_rzwMMMuR8GdB4Co7SwZJLecgZ9TzTWh5FwDdEQWxW1Jh3mCDKGuvxhgyaTsilr1X3V8v5PNR-0BUJRie4CrN4A_WMPJ2v7hztWmwERgCVtbiuryWDpDkaHjtXxDaxzmKVayc3FfdxqQIOG5P7lO1zPDnvPd0VANLUoiS05WXcqHRKMo0GuPDio0zLzclezci0WW5KE8lMhabiGndkPUPJ-CC8z5gRl7AvMg6pKbFVFeKRFZieSxXt_f9R6n59SlcCadbqcPTrSLpVRVbqZ6FSTf8oTm-7vasYXaslh7f5kZUvqBOF7UMWp3mj7ZPcsY-46SIqc1NsDyCsUh2DhvkeJzArK1L_JXTHA30vkVVH1tDIZzkyVr7RJJD9PuntKmSFvkYqKpF_VUxbr0IQc_G4DqP-2SRBYtxAgJCoqO5PkxQpeh_hnLSumpQR56CmUhgwMaRCSrtwoGErhAyVZGagPTJ7bcSzIrk7f4-N2gp5OpaV-rjyx59cmXlYrwN2vj4NmlFwPCk74OwGJX_HZ0RJgZxeC67ohvt24GRcSeMmXuicfYoYObEIOGrXHytAKs&domain=digivate.com
+    - region "Notifications (alt+T)":
+      - list
+  - generic:
+    - generic "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=e32]:
+      - iframe [ref=e33]:
+        - button "Close message from Anna" [ref=f3e4] [cursor=pointer]:
+          - img [ref=f3e5]
+      - generic [ref=e34]:
+        - iframe [ref=e35]:
+          - figure [ref=f4e5]:
+            - img "Anna avatar" [ref=f4e6]
+        - iframe [ref=e36]:
+          - button "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=f5e5] [cursor=pointer]:
+            - heading "Anna" [level=1] [ref=f5e6]
+            - generic [ref=f5e8]: Hey there!👋 Is there anything I can help you with today?
+    - iframe [ref=e37]:
+      - button "Open messaging window" [ref=f2e5] [cursor=pointer]:
+        - img [ref=f2e7]
+        - img [ref=f2e10]

@@ -1,6 +1,7 @@
 import {
   Animation as AnimationIcon,
   Article as ArticleIcon,
+  Biotech as RuleLabIcon,
   TouchApp as ClickableIcon,
   Psychology as ContextIcon,
   Dashboard as DashboardIcon,
@@ -10,6 +11,7 @@ import {
   AccountTree as HeadingIcon,
   Keyboard as KeyboardIcon,
   Navigation as NavigationIcon,
+  PlayArrow as PlayArrowIcon,
   AutoStories as ReadabilityIcon,
   Assignment as RulesIcon,
   TableChart as TableIcon,
@@ -218,6 +220,26 @@ export const getSecondaryListItems = (data = [], isOpen = true) => (
       hasSuccess={true}
       hasFailure={true}
       isTestable={false}
+      isDrawerOpen={isOpen}
+    />
+    <CustomNavLink
+      to="/test-runner"
+      label="Test Runner"
+      icon={PlayArrowIcon}
+      category="Tools"
+      isTestable={false}
+      hasSuccess={false}
+      hasFailure={false}
+      isDrawerOpen={isOpen}
+    />
+    <CustomNavLink
+      to="/rule-lab"
+      label="Rule Lab"
+      icon={RuleLabIcon}
+      category="Tools"
+      isTestable={false}
+      hasSuccess={false}
+      hasFailure={false}
       isDrawerOpen={isOpen}
     />
   </React.Fragment>

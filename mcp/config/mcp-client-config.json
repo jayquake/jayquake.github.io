@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "url": "http://localhost:3001/mcp",
+      "description": "Microsoft Playwright MCP Server for test-e2e project",
+      "capabilities": [
+        "browser automation",
+        "web page interaction", 
+        "screenshot capture",
+        "trace recording",
+        "session management"
+      ]
+    }
+  },
+  "transport": "http",
+  "host": "localhost",
+  "port": 3001,
+  "endpoints": {
+    "mcp": "http://localhost:3001/mcp",
+    "sse": "http://localhost:3001/sse"
+  }
+}

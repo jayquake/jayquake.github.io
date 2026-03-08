@@ -1,6 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import {
+  Button,
+  Card,
+  CardContent,
   Container,
+  Grid,
   Paper,
   Table,
   TableBody,
@@ -11,6 +15,8 @@ import {
   TablePagination,
   TableSortLabel,
   TextField,
+  ToggleButton,
+  ToggleButtonGroup,
   FormControl,
   Select,
   MenuItem,
@@ -24,6 +30,10 @@ import {
   InputAdornment,
 } from '@mui/material';
 import {
+  Biotech as BiotechIcon,
+  GridView as GridViewIcon,
+  List as ListIcon,
+  OpenInNew as OpenInNewIcon,
   Search as SearchIcon,
   Visibility as ViewIcon,
   CheckCircle as SuccessIcon,
@@ -36,6 +46,7 @@ import rulesData from '../../data/legacy-rules.json';
 
 const RulesListing = () => {
   const navigate = useNavigate();
+  const [viewMode, setViewMode] = useState('cards');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [orderBy, setOrderBy] = useState('name');
@@ -343,14 +354,80 @@ const RulesListing = () => {
           </FormControl>
         </Stack>
 
-        {/* Results count */}
-        <Typography variant="body2" sx={{ mt: 2, color: '#64748b' }}>
-          Showing {paginatedRules.length} of {filteredRules.length} rules
-          {searchTerm && ` (filtered from ${rulesData.length} total)`}
-        </Typography>
+        {/* Results count + view toggle */}
+        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mt: 2 }} flexWrap="wrap" gap={1}>
+          <Typography variant="body2" sx={{ color: '#64748b' }}>
+            Showing {viewMode === 'table' ? paginatedRules.length : filteredRules.length} of {filteredRules.length} rules
+            {searchTerm && ` (filtered from ${rulesData.length} total)`}
+          </Typography>
+          <ToggleButtonGroup value={viewMode} exclusive onChange={(_, v) => v && setViewMode(v)} size="small">
+            <ToggleButton value="cards"><GridViewIcon fontSize="small" sx={{ mr: 0.5 }} />Cards</ToggleButton>
+            <ToggleButton value="table"><ListIcon fontSize="small" sx={{ mr: 0.5 }} />Table</ToggleButton>
+          </ToggleButtonGroup>
+        </Stack>
       </Paper>
 
+      {/* Card Grid */}
+      {viewMode === 'cards' && (
+        <Grid container spacing={2} sx={{ mb: 3 }}>
+          {filteredRules.map((rule) => {
+            const severityColors = getSeverityColor(rule.severity);
+            return (
+              <Grid item xs={12} sm={6} md={4} key={rule._id.$oid}>
+                <Card
+                  elevation={0}
+                  sx={{
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    borderRadius: 3,
+                    background: 'rgba(255,255,255,0.4)',
+                    backdropFilter: 'blur(20px)',
+                    WebkitBackdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(255,255,255,0.6)',
+                    boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
+                    transition: 'all 0.25s ease',
+                    cursor: 'pointer',
+                    '&:hover': { transform: 'translateY(-4px)', boxShadow: '0 8px 24px rgba(25,118,210,0.18)' },
+                  }}
+                  onClick={() => navigate(`/${rule.criteria}/${rule.route}`)}
+                >
+                  <CardContent sx={{ p: 2.5, flex: 1 }}>
+                    <Stack direction="row" spacing={1} sx={{ mb: 1.5 }} flexWrap="wrap">
+                      <Chip label={rule.severity?.charAt(0).toUpperCase() + rule.severity?.slice(1)} size="small" sx={{ fontWeight: 700, background: severityColors.bg, color: severityColors.color, border: `1px solid ${severityColors.border}40` }} />
+                      {rule.criteria && (
+                        <Chip label={rule.criteria.charAt(0).toUpperCase() + rule.criteria.slice(1)} size="small" sx={{ background: 'rgba(25,118,210,0.12)', color: '#1976d2', fontWeight: 600 }} />
+                      )}
+                      {rule.WCAGLevel && rule.WCAGLevel !== 'none' && (
+                        <Chip label={`WCAG ${rule.WCAGLevel}`} size="small" variant="outlined" />
+                      )}
+                    </Stack>
+                    <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 1, color: '#1e293b', lineHeight: 1.3 }}>
+                      {rule.name}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: '#64748b', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', mb: 2 }}>
+                      {rule.shortDescription}
+                    </Typography>
+                    <Stack direction="row" spacing={1} sx={{ mt: 'auto' }}>
+                      <Button size="small" variant="outlined" startIcon={<ViewIcon />} onClick={(e) => { e.stopPropagation(); navigate(`/${rule.criteria}/${rule.route}`); }} sx={{ textTransform: 'none', flex: 1 }}>
+                        View Rule
+                      </Button>
+                      <Tooltip title="Open in Rule Lab">
+                        <IconButton size="small" onClick={(e) => { e.stopPropagation(); navigate(`/rule-lab?ruleId=${rule.shortCode || rule.route}`); }} sx={{ color: '#5c6bc0', border: '1px solid rgba(92,107,192,0.3)', borderRadius: 1 }}>
+                          <BiotechIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    </Stack>
+                  </CardContent>
+                </Card>
+              </Grid>
+            );
+          })}
+        </Grid>
+      )}
+
       {/* Table */}
+      {viewMode === 'table' && (
       <Paper
         elevation={0}
         sx={{
@@ -549,6 +626,7 @@ const RulesListing = () => {
           }}
         />
       </Paper>
+      )}
     </Container>
   );
 };

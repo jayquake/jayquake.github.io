@@ -1,0 +1,53 @@
+- generic:
+  - generic:
+    - iframe [active] [ref=e1]:
+      - dialog "Messaging window" [ref=f13e2]:
+        - generic [ref=f13e3]:
+          - generic [ref=f13e4]:
+            - figure [ref=f13e5]:
+              - img "Company logo" [ref=f13e6]
+            - region [ref=f13e7]:
+              - heading "accessiBe" [level=2] [ref=f13e8]
+              - paragraph [ref=f13e9]: Hi. Need any help?
+          - button "Options menu" [ref=f13e13] [cursor=pointer]:
+            - img [ref=f13e14]
+          - generic:
+            - alert
+        - generic [ref=f13e19]:
+          - log [ref=f13e21]:
+            - paragraph [ref=f13e23]: 11:01 AM
+            - generic [ref=f13e24]:
+              - paragraph [ref=f13e25]: Anna
+              - generic [ref=f13e29]:
+                - generic [ref=f13e30]: "Anna says:"
+                - generic [ref=f13e31]: Hey there!👋 Is there anything I can help you with today?
+            - generic [ref=f13e36]:
+              - generic [ref=f13e37]: "Anna says:"
+              - generic [ref=f13e38]: We now support WCAG 2.2!
+            - generic [ref=f13e43]:
+              - generic [ref=f13e44]: "Anna says:"
+              - generic [ref=f13e45]: Apologies! Our agents are available from 9 am to 5 pm EST (M-F), but our automated service is here 24/7.
+            - generic [ref=f13e46]:
+              - generic [ref=f13e47]:
+                - figure [ref=f13e48]
+                - generic [ref=f13e50]:
+                  - generic [ref=f13e51]: "Anna says:"
+                  - generic [ref=f13e52]: "Please select from one of the following options:"
+              - paragraph [ref=f13e57]: Just now
+            - list [ref=f13e60]:
+              - listitem [ref=f13e61]:
+                - button "I’d like to speak with someone about your services" [ref=f13e62] [cursor=pointer]
+              - listitem [ref=f13e63]:
+                - button "I am a current accessiBe customer and need support" [ref=f13e64] [cursor=pointer]
+          - status
+          - generic [ref=f13e67]:
+            - button "Upload file" [ref=f13e68] [cursor=pointer]:
+              - img [ref=f13e69]
+            - region [ref=f13e71]:
+              - generic [ref=f13e72]:
+                - generic [ref=f13e73]: Type a message
+                - textbox "Type a message" [active] [ref=f13e74]
+    - iframe [ref=e2]:
+      - button "Close messaging window" [ref=f14e5] [cursor=pointer]:
+        - img [ref=f14e7]
+        - img [ref=f14e10]

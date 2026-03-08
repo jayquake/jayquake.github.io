@@ -1,0 +1,8 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=e2]:
+      - iframe [ref=e3]
+      - generic [ref=e4]:
+        - iframe [ref=e5]
+        - iframe [ref=e6]
+    - iframe [ref=e7]

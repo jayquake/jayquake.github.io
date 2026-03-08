@@ -1,0 +1,29 @@
+- generic [ref=e6]:
+  - generic [ref=e7]:
+    - generic [ref=e9]:
+      - heading "Staging Setup" [level=2] [ref=e10]:
+        - img [ref=e11]
+        - text: Staging Setup
+      - generic [ref=e17]:
+        - generic [ref=e18] [cursor=pointer]: User Email
+        - textbox "User Email" [ref=e21]:
+          - /placeholder: " "
+          - text: jasonqu@accessibe.com
+      - generic [ref=e22]:
+        - generic [ref=e23] [cursor=pointer]: Domain
+        - textbox "Domain" [ref=e26]:
+          - /placeholder: " "
+          - text: jayquake.github.io
+      - generic [ref=e27]:
+        - generic [ref=e28] [cursor=pointer]: Page Count
+        - spinbutton "Page Count" [active] [ref=e31]: "5"
+      - generic [ref=e32] [cursor=pointer]:
+        - text: standard
+        - img [ref=e34]
+      - button "Upsert Domain and User" [ref=e36] [cursor=pointer]
+    - region "Notifications (alt+T)":
+      - list
+  - iframe [ref=e5]:
+    - button "Open messaging window" [ref=f7e5] [cursor=pointer]:
+      - img [ref=f7e7]
+      - img [ref=f7e10]

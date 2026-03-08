@@ -1,0 +1,158 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - paragraph [ref=e7]: Skip to content
+          - link "Skip to content" [ref=e8] [cursor=pointer]:
+            - generic [ref=e9]: ↵
+            - generic [ref=e10]: ENTER
+        - generic [ref=e11]:
+          - paragraph [ref=e12]: Skip to footer
+          - link "Skip to footer" [ref=e13] [cursor=pointer]:
+            - generic [ref=e14]: ↵
+            - generic [ref=e15]: ENTER
+      - generic [ref=e16]:
+        - banner [ref=e17]:
+          - generic [ref=e18]:
+            - link [ref=e19] [cursor=pointer]:
+              - /url: /
+              - img [ref=e20]
+            - combobox "jayquake.github.io" [ref=e29] [cursor=pointer]:
+              - generic [ref=e31]:
+                - img [ref=e34]
+                - generic [ref=e35]: jayquake.github.io
+            - separator [ref=e37]
+            - button "Audits" [ref=e38] [cursor=pointer]:
+              - paragraph [ref=e41]: Audits
+          - generic [ref=e43]:
+            - generic [ref=e44]:
+              - button "Help" [ref=e46] [cursor=pointer]
+              - generic [ref=e48]:
+                - button "Notifications" [disabled]
+            - separator [ref=e49]
+            - button "jasonqu" [ref=e50] [cursor=pointer]:
+              - generic [ref=e52]: jasonqu
+        - generic [ref=e54]:
+          - generic [ref=e55]:
+            - list [ref=e56]:
+              - listitem [ref=e57]:
+                - link "Dashboard" [ref=e58] [cursor=pointer]:
+                  - /url: /dashboard
+                  - generic [ref=e62]: Dashboard
+              - listitem [ref=e63]:
+                - link "Explore" [ref=e64] [cursor=pointer]:
+                  - /url: /explore?view=issues&filters=default
+                  - generic [ref=e68]: Explore
+              - listitem [ref=e69]:
+                - link "Journeys" [ref=e70] [cursor=pointer]:
+                  - /url: /journeys
+                  - generic [ref=e74]: Journeys
+              - listitem [ref=e75]:
+                - link "Assets" [ref=e76] [cursor=pointer]:
+                  - /url: /assets
+                  - generic [ref=e80]: Assets
+              - listitem [ref=e81]:
+                - link "Tasks" [ref=e82] [cursor=pointer]:
+                  - /url: /tasks
+                  - generic [ref=e86]: Tasks
+              - listitem [ref=e87]:
+                - link "Integrations" [ref=e88] [cursor=pointer]:
+                  - /url: /integrations
+                  - generic [ref=e92]: Integrations
+              - listitem [ref=e93]:
+                - link "Audits" [ref=e94] [cursor=pointer]:
+                  - /url: /audits
+                  - generic [ref=e98]: Audits
+            - list [ref=e99]:
+              - separator [ref=e100]
+              - listitem [ref=e101]:
+                - link "Settings" [ref=e102] [cursor=pointer]:
+                  - /url: /settings
+                  - generic [ref=e106]: Settings
+          - generic [ref=e107]:
+            - main "Content" [ref=e108]:
+              - generic [ref=e110]:
+                - generic [ref=e111]:
+                  - generic [ref=e112]:
+                    - heading "Manage your journeys" [level=1] [ref=e113]
+                    - generic [ref=e114]:
+                      - paragraph [ref=e115]: Audit key user flows and interactive elements not automatically checked. Add these to accessFlow audits.
+                      - button "Watch Overview" [ref=e116] [cursor=pointer]:
+                        - generic [ref=e118]: Watch Overview
+                  - generic [ref=e119]:
+                    - button "Record a Journey" [ref=e120] [cursor=pointer]: Record a Journey
+                    - button "Open create journey manually menu" [ref=e122] [cursor=pointer]
+                - table [ref=e126]:
+                  - rowgroup [ref=e127]:
+                    - row "Journey name Last modified Last audited Steps Issues found" [ref=e128]:
+                      - columnheader "Journey name" [ref=e129]
+                      - columnheader "Last modified" [ref=e130]:
+                        - generic [ref=e131]:
+                          - generic [ref=e132]: Last modified
+                          - button [ref=e134] [cursor=pointer]
+                      - columnheader "Last audited" [ref=e136]:
+                        - generic [ref=e138]:
+                          - generic [ref=e139]: Last audited
+                          - button [ref=e141] [cursor=pointer]
+                      - columnheader "Steps" [ref=e143]:
+                        - generic [ref=e145]:
+                          - generic [ref=e146]: Steps
+                          - button [ref=e148] [cursor=pointer]
+                      - columnheader "Issues found" [ref=e150]:
+                        - generic [ref=e152]:
+                          - generic [ref=e153]: Issues found
+                          - button [ref=e155] [cursor=pointer]
+                      - columnheader [ref=e157]
+                  - rowgroup [ref=e158]:
+                    - row "Select Search and enter term jayquake.github.io/ Apr 10, 2025 Apr 10, 2025 3 Steps 22 Issues Open actions menu" [ref=e159] [cursor=pointer]:
+                      - cell "Select Search and enter term jayquake.github.io/" [ref=e160]:
+                        - generic [ref=e167]:
+                          - paragraph [ref=e169]: Select Search and enter term
+                          - paragraph [ref=e170]: jayquake.github.io/
+                      - cell "Apr 10, 2025" [ref=e171]:
+                        - paragraph [ref=e174]: Apr 10, 2025
+                      - cell "Apr 10, 2025" [ref=e175]:
+                        - paragraph [ref=e178]: Apr 10, 2025
+                      - cell "3 Steps" [ref=e179]:
+                        - paragraph [ref=e181]: 3 Steps
+                      - cell "22 Issues" [ref=e182]:
+                        - paragraph [ref=e187]: 22 Issues
+                      - cell "Open actions menu Select Search and enter term jayquake.github.io/ Apr 10, 2025 Apr 10, 2025 3 Steps 22 Issues" [ref=e188]:
+                        - generic [ref=e189]:
+                          - button "Open actions menu" [ref=e190]
+                          - link "Select Search and enter term jayquake.github.io/ Apr 10, 2025 Apr 10, 2025 3 Steps 22 Issues Open actions menu":
+                            - /url: /journeys/67f7876cba4e8da5fc003897
+            - generic [ref=e192]:
+              - separator [ref=e193]
+              - generic [ref=e194]:
+                - separator [ref=e195]
+                - button "Reset Selection" [ref=e197] [cursor=pointer]
+            - contentinfo "Footer" [ref=e199]:
+              - paragraph [ref=e200]: © 2026 - accessiBe Inc. All Rights Reserved.
+              - navigation "Footer menu" [ref=e201]:
+                - list [ref=e202]:
+                  - listitem [ref=e203]:
+                    - link "Terms of Service" [ref=e204] [cursor=pointer]:
+                      - /url: https://accessibe.com/terms-of-service
+                  - listitem [ref=e205]:
+                    - link "Privacy Policy" [ref=e206] [cursor=pointer]:
+                      - /url: https://accessibe.com/privacy-policy
+                  - listitem [ref=e207]:
+                    - link "Release Notes" [ref=e208] [cursor=pointer]:
+                      - /url: https://support.accessibe.com/hc/en-us/sections/17817223393298-accessFlow-Release-Notes
+                  - listitem [ref=e209]:
+                    - link "Support Portal" [ref=e210] [cursor=pointer]:
+                      - /url: https://support.accessibe.com/hc/en-us/categories/16379543560210-Getting-Started-with-accessFlow
+    - region "Notifications (alt+T)":
+      - list
+  - generic:
+    - generic "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=e211]:
+      - iframe [ref=e212]
+      - generic [ref=e213]:
+        - iframe [ref=e214]
+        - iframe [ref=e215]
+    - iframe [ref=e216]:
+      - button "Open messaging window" [ref=f17e5] [cursor=pointer]:
+        - img [ref=f17e7]
+        - img [ref=f17e10]

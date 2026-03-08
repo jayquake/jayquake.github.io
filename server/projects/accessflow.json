@@ -1,0 +1,13 @@
+{
+  "id": "accessflow",
+  "name": "AccessFlow",
+  "description": "AccessFlow E2E test suite",
+  "logo": "/logos/accessflow-logomark-color.png",
+  "testDirectory": "apps/accessFlow/tests",
+  "defaultBaseUrl": "http://localhost:4001",
+  "qaseProjectCode": "ACCESSFLOW",
+  "configPath": "apps/accessFlow/playwright.config.ts",
+  "globalSetupPath": "apps/accessFlow/global-setup.ts",
+  "envHubNames": ["accessflow"]
+}
+

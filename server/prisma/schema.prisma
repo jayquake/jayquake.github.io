@@ -1,0 +1,286 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./data/test-runner.db"
+}
+
+model TestRun {
+  id          String   @id @default(uuid())
+  runId      String   @unique
+  projectId  String?
+  flowId     String?
+  status     String   // 'running' | 'completed' | 'failed' | 'cancelled'
+  startTime  DateTime
+  endTime     DateTime?
+  duration    Int?     // milliseconds
+  reportPath  String?
+  config      String   // JSON string
+  summary     String   // JSON string (TestRunSummary)
+  qaseId      Int?     // Qase Run ID (ID of the test run created in Qase)
+  
+  // Output storage for easy OOP access (also stored in summary JSON)
+  stdout      String?  // Standard output from test execution
+  stderr      String?  // Standard error from test execution
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Hybrid Storage: HTML report tracking
+  htmlGenerated   Boolean @default(false)
+  htmlGeneratedAt DateTime?
+  
+  // Hybrid Storage: Quick stats (avoid parsing JSON)
+  testCount       Int? @default(0)
+  passedCount     Int? @default(0)
+  failedCount     Int? @default(0)
+  skippedCount    Int? @default(0)
+  
+  // Hybrid Storage: Artifact tracking
+  totalArtifacts     Int? @default(0)
+  totalArtifactSize  Int? @default(0)  // bytes
+  artifactRetentionUntil DateTime?
+  
+  results     TestResult[]
+  logs        TestLog[]
+  mcpAnalyses MCPAnalysis[]
+  artifacts   TestArtifact[]
+  
+  @@index([projectId])
+  @@index([flowId])
+  @@index([startTime])
+  @@index([qaseId])
+}
+
+model TestResult {
+  id          String   @id @default(uuid())
+  testRunId   String
+  testRun     TestRun  @relation(fields: [testRunId], references: [id], onDelete: Cascade)
+  name        String
+  file        String
+  status      String   // 'passed' | 'failed' | 'skipped'
+  duration    Int?     // milliseconds
+  error       String?
+  qaseId      Int?
+  startTime   DateTime
+  endTime     DateTime?
+  
+  // Hybrid Storage: Full Playwright test result data
+  playwrightData  String?  // JSON string - full test result from Playwright
+  
+  // Hybrid Storage: Additional metadata
+  retryCount      Int? @default(0)
+  projectName     String?
+  browserName     String?
+  
+  steps       TestStep[]
+  mcpAnalyses MCPAnalysis[]
+  artifacts   TestArtifact[]
+  
+  @@index([testRunId])
+  @@index([status])
+  @@index([qaseId])
+}
+
+model TestStep {
+  id          String   @id @default(uuid())
+  testResultId String
+  testResult  TestResult @relation(fields: [testResultId], references: [id], onDelete: Cascade)
+  title       String
+  status      String   // 'passed' | 'failed'
+  duration    Int?     // milliseconds
+  error       String?
+  location    String?  // JSON string
+  order       Int
+  startedAt   DateTime?
+  endedAt     DateTime?
+  
+  @@index([testResultId])
+}
+
+model Environment {
+  id          String   @id @default(uuid())
+  domain      String   @unique
+  source      String   // 'github' | 'gcp' | 'manual'
+  projectId   String?
+  metadata    String?  // JSON string
+  lastUsed    DateTime @default(now())
+  createdAt   DateTime @default(now())
+  
+  @@index([projectId])
+  @@index([domain])
+}
+
+model TestFile {
+  id          String   @id @default(uuid())
+  path        String   @unique
+  projectId   String
+  qaseId      Int?
+  qaseSuiteId Int?
+  metadata    String?  // JSON string
+  lastRun     DateTime?
+  
+  @@index([projectId])
+  @@index([qaseId])
+}
+
+// Qase Test Case persistence
+model QaseTestCase {
+  id              String   @id @default(uuid())
+  qaseId          Int      // Qase test case ID
+  projectCode     String   // Qase project code (e.g., "ACCESSFLOW")
+  title           String
+  description     String?
+  status          Int?     // Qase status ID
+  severity        Int?     // Qase severity ID
+  priority        Int?     // Qase priority ID
+  layer           Int?     // Qase layer ID
+  isFlaky         Int?     // 0 or 1
+  suiteId         Int?     // Qase suite ID
+  automation      Int?     // Automation status
+  customFields    String?  // JSON string for custom fields
+  
+  // Full Qase test case data (for reference)
+  fullData        String   // JSON string - complete test case from Qase API
+  
+  // Metadata
+  lastFetched     DateTime @default(now())
+  fetchCount      Int      @default(1)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  // Unique constraint: one test case per project
+  @@unique([projectCode, qaseId])
+  @@index([projectCode])
+  @@index([qaseId])
+  @@index([lastFetched])
+}
+
+model TestLog {
+  id          String   @id @default(uuid())
+  testRunId   String
+  testRun     TestRun  @relation(fields: [testRunId], references: [id], onDelete: Cascade)
+  level       String   // 'info' | 'warn' | 'error' | 'debug'
+  message     String
+  location    String?  // File path, line number
+  timestamp   DateTime
+  metadata    String?  // JSON string
+  
+  @@index([testRunId])
+  @@index([level])
+  @@index([timestamp])
+}
+
+model MCPAnalysis {
+  id          String   @id @default(uuid())
+  testRunId   String?
+  testRun     TestRun?  @relation(fields: [testRunId], references: [id], onDelete: Cascade)
+  testResultId String?
+  testResult  TestResult? @relation(fields: [testResultId], references: [id], onDelete: Cascade)
+  ruleId      String?
+  ruleType    String?   // "engine" | "legacy"
+  selector    String
+  suggestedSelectors String  // JSON array
+  elementInfo String   // JSON string
+  confidence  Float
+  error       String?
+  qaseId      Int?
+  analysisData String  // JSON string - full analysis context
+  screenshotPath String?  // Path to screenshot
+  tracePath   String?     // Path to trace file
+  navigationContext String? // JSON string - URL, steps, etc.
+  createdAt   DateTime @default(now())
+  
+  artifacts    MCPArtifact[]
+  ruleExamples RuleExample[]
+  
+  @@index([testRunId])
+  @@index([testResultId])
+  @@index([qaseId])
+  @@index([ruleId])
+}
+
+model MCPArtifact {
+  id          String   @id @default(uuid())
+  analysisId  String
+  analysis    MCPAnalysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+  type        String   // 'screenshot' | 'trace' | 'video' | 'log' | 'data'
+  path        String   // File path or data reference
+  contentType String?  // MIME type
+  size        Int?     // File size in bytes
+  metadata    String?  // JSON string
+  createdAt   DateTime @default(now())
+  
+  @@index([analysisId])
+  @@index([type])
+}
+
+// Hybrid Storage: Test artifacts (videos, screenshots, traces)
+model TestArtifact {
+  id            String   @id @default(uuid())
+  testRunId     String
+  testRun       TestRun  @relation(fields: [testRunId], references: [id], onDelete: Cascade)
+  testResultId  String?
+  testResult    TestResult? @relation(fields: [testResultId], references: [id], onDelete: Cascade)
+  
+  type          String   // 'video' | 'screenshot' | 'trace' | 'log'
+  path          String   // Relative path from test-e2e root
+  filename      String
+  contentType   String?  // MIME type
+  size          Int?     // File size in bytes
+  
+  metadata      String?  // JSON: dimensions, duration, etc.
+  
+  // Cleanup tracking
+  lastAccessed  DateTime? @default(now())
+  retentionPolicy String? // 'keep-forever' | '30-days' | 'on-failure-only'
+  markedForDeletion Boolean @default(false)
+  
+  createdAt     DateTime @default(now())
+  
+  @@index([testRunId])
+  @@index([testResultId])
+  @@index([type])
+  @@index([createdAt])
+  @@index([lastAccessed])
+  @@index([markedForDeletion])
+}
+
+model RuleExample {
+  id                    String   @id @default(uuid())
+  ruleId                String
+  ruleType              String   // "engine" | "legacy"
+  exampleType           String   // "success" | "failure" | "false_positive" | "edge_case"
+  htmlSnippet           String
+  sourceUrl             String?
+  siteName              String?
+  explanation           String?
+  accessibilityTree     String?  // JSON
+  computedRoles         String?  // JSON array
+  screenReaderNarration String?
+  screenshotPath        String?
+  curated               Boolean  @default(false)
+  analysisId            String?
+  analysis              MCPAnalysis? @relation(fields: [analysisId], references: [id], onDelete: SetNull)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([ruleId, ruleType])
+  @@index([ruleId, exampleType])
+  @@index([analysisId])
+  @@index([curated])
+}
+
+model CuratedSite {
+  id        String   @id @default(uuid())
+  name      String
+  url       String   @unique
+  category  String   // "ecommerce" | "government" | "news" | "saas" | "social"
+  enabled   Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@index([category])
+  @@index([enabled])
+}

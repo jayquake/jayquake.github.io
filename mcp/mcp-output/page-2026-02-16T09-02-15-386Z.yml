@@ -1,0 +1,88 @@
+- generic [active] [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e5]:
+      - heading "Staging Setup" [level=2] [ref=e6]:
+        - img [ref=e7]
+        - text: Staging Setup
+      - generic [ref=e13]:
+        - generic [ref=e14] [cursor=pointer]: User Email
+        - textbox "User Email" [ref=e17]:
+          - /placeholder: " "
+          - text: jasonqu@accessibe.com
+      - generic [ref=e18]:
+        - generic [ref=e19] [cursor=pointer]: Domain
+        - textbox "Domain" [ref=e22]:
+          - /placeholder: " "
+          - text: jayquake.github.io
+      - generic [ref=e23]:
+        - generic [ref=e24] [cursor=pointer]: Page Count
+        - spinbutton "Page Count" [ref=e27]: "5"
+      - generic [ref=e28] [cursor=pointer]:
+        - text: standard
+        - img [ref=e30]
+      - button "Upsert Domain and User" [ref=e32] [cursor=pointer]
+      - generic [ref=e39]:
+        - generic [ref=e40]: License created
+        - link "Login" [ref=e41] [cursor=pointer]:
+          - /url: /?access=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6Imphc29ucXVAYWNjZXNzaWJlLmNvbSIsIndlYnNpdGVJZCI6ImpheXF1YWtlLmdpdGh1Yi5pbyJ9LCJpYXQiOjE3NzEyMzI1MzMsImV4cCI6MTc3MTgzNzMzM30.kJz_u5rqFq_D_1J5F30jRv0pQ7b9ZoF0MdWcBMrOKNSMjD0TUtp-Fr9P3utqPukTcBKcf6vCvzlSPaDY91KbLMXnCpKYPGAsydcAYJbStkb2g4uswRGjkRMJthO4Vf-d60gnEGyvL9ToFtHIfWbOoFCtkjaVGDodwLuOCeKfbgO-L4GyyzUiigyjOdYWn1fDckzC7KlFZ7BNJFMcdtMJ9JZLfMYlVPTTPBnp_9MJqVNLbeSoOPGABAiR9zsQhU68i9cfTZu3lLwCaF3kCnep_dIuhSIFqzmoqxg0pFiVRDWqRLWJ46I4XNULLOkYywWNwTvgZmxMidPB-aGx_G4yPVPSPPbVzIzhOm5qx520_Mdy3oUjqG8f24maTsRM0xPqRWj5jfj6TRQXXnuIz9kAbyIzcyKrCdjOsiTEU2rCa_bJ0edDkGF9QvZTSeKS6m381st7lqQIDoK8kJCil6W9lmSo5EbhSAtnM2CRhCNPMPBeu0wtGctJSPZWh34Dhe6j0vqficN_BEIbzwNdx_5_6Koz2_TcXV8m4bvBuRons4DzXJY6uz0-rUD_ngXJUzU-m2-rQOV2skiJW281tLIf5b-CehmbcH5jQhdlnsr3wzNUiQEJTCup8ZBVBy8qEO0nvepKvueQIEyNkBsHSmlI-rJF0AVnjb1effFQlfm4bEA&domain=jayquake.github.io
+    - region "Notifications (alt+T)":
+      - list
+  - generic:
+    - iframe [ref=e38]:
+      - generic [active] [ref=f6e1]:
+        - dialog "Messaging window" [ref=f6e2]:
+          - generic [ref=f6e3]:
+            - generic [ref=f6e4]:
+              - figure [ref=f6e5]:
+                - img "Company logo" [ref=f6e6]
+              - region [ref=f6e7]:
+                - heading "accessiBe" [level=2] [ref=f6e8]
+                - paragraph [ref=f6e9]: Hi. Need any help?
+            - button "Options menu" [ref=f6e13] [cursor=pointer]:
+              - img [ref=f6e14]
+            - generic:
+              - alert
+          - generic [ref=f6e19]:
+            - log [ref=f6e21]:
+              - paragraph [ref=f6e23]: 11:01 AM
+              - generic [ref=f6e24]:
+                - paragraph [ref=f6e25]: Anna
+                - generic [ref=f6e29]:
+                  - generic [ref=f6e30]: "Anna says:"
+                  - generic [ref=f6e31]: Hey there!👋 Is there anything I can help you with today?
+                - paragraph [ref=f6e36]: Just now
+              - generic [ref=f6e51]:
+                - generic [ref=f6e55]:
+                  - generic [ref=f6e56]: "Anna says:"
+                  - generic [ref=f6e57]: We now support WCAG 2.2!
+                - paragraph [ref=f6e59]: Just now
+              - generic [ref=f6e60]:
+                - generic [ref=f6e64]:
+                  - generic [ref=f6e65]: "Anna says:"
+                  - generic [ref=f6e66]: Apologies! Our agents are available from 9 am to 5 pm EST (M-F), but our automated service is here 24/7.
+                - paragraph [ref=f6e68]: Just now
+              - generic [ref=f6e69]:
+                - generic [ref=f6e70]:
+                  - figure [ref=f6e71]
+                  - generic [ref=f6e73]:
+                    - generic [ref=f6e74]: "Anna says:"
+                    - generic [ref=f6e75]: "Please select from one of the following options:"
+                - paragraph [ref=f6e80]: Just now
+              - list [ref=f6e83]:
+                - listitem [ref=f6e84]:
+                  - button "I’d like to speak with someone about your services" [ref=f6e85] [cursor=pointer]
+                - listitem [ref=f6e86]:
+                  - button "I am a current accessiBe customer and need support" [ref=f6e87] [cursor=pointer]
+            - status
+            - generic [ref=f6e41]:
+              - button "Upload file" [ref=f6e42] [cursor=pointer]:
+                - img [ref=f6e43]
+              - region [ref=f6e45]:
+                - generic [ref=f6e46]:
+                  - generic [ref=f6e47]: Type a message
+                  - textbox "Type a message" [ref=f6e48]
+        - status [ref=f6e49]
+    - iframe [ref=e1]:
+      - button "Close messaging window" [ref=f2e12] [cursor=pointer]:
+        - img [ref=f2e7]
+        - img [ref=f2e10]

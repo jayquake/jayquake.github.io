@@ -1,6 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import EngineRulePage from "../components/layout/engineRulePage";
+import UnifiedRulePage from "../components/layout/UnifiedRulePage";
 
 // Import all engine rules and their components
 import { AltMisuse } from "../components/pages/engine-rules/alt-misuse/metadata.js";
@@ -485,1911 +485,1911 @@ const EngineRoutes = () => (
   <>
     <Route
       path="/engine/alt-misuse"
-      element={<EngineRulePage ruleData={AltMisuse} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={AltMisuse}  />}
     />
     <Route
       path="/engine/alt-misuse_success"
-      element={<AltMisuseSuccess />}
+      element={<AltMisuseSuccess  />}
     />
     <Route
       path="/engine/alt-misuse_failure"
-      element={<AltMisuseFailure />}
+      element={<AltMisuseFailure  />}
     />
     <Route
       path="/engine/aria-controls-has-reference"
-      element={<EngineRulePage ruleData={AriaControlsHasReference} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={AriaControlsHasReference}  />}
     />
     <Route
       path="/engine/aria-controls-has-reference_success"
-      element={<AriaControlsHasReferenceSuccess />}
+      element={<AriaControlsHasReferenceSuccess  />}
     />
     <Route
       path="/engine/aria-controls-has-reference_failure"
-      element={<AriaControlsHasReferenceFailure />}
+      element={<AriaControlsHasReferenceFailure  />}
     />
     <Route
       path="/engine/aria-describedby-has-reference"
-      element={<EngineRulePage ruleData={AriaDescribedByHasReference} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={AriaDescribedByHasReference}  />}
     />
     <Route
       path="/engine/aria-describedby-has-reference_success"
-      element={<AriaDescribedbyHasReferenceSuccess />}
+      element={<AriaDescribedbyHasReferenceSuccess  />}
     />
     <Route
       path="/engine/aria-describedby-has-reference_failure"
-      element={<AriaDescribedbyHasReferenceFailure />}
+      element={<AriaDescribedbyHasReferenceFailure  />}
     />
     <Route
       path="/engine/aria-invalid-mismatch"
-      element={<EngineRulePage ruleData={AriaInvalidMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={AriaInvalidMismatch}  />}
     />
     <Route
       path="/engine/aria-invalid-mismatch_success"
-      element={<AriaInvalidMismatchSuccess />}
+      element={<AriaInvalidMismatchSuccess  />}
     />
     <Route
       path="/engine/aria-invalid-mismatch_failure"
-      element={<AriaInvalidMismatchFailure />}
+      element={<AriaInvalidMismatchFailure  />}
     />
     <Route
       path="/engine/aria-invalid-misuse"
-      element={<EngineRulePage ruleData={AriaInvalidMisuse} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={AriaInvalidMisuse}  />}
     />
     <Route
       path="/engine/aria-invalid-misuse_success"
-      element={<AriaInvalidMisuseSuccess />}
+      element={<AriaInvalidMisuseSuccess  />}
     />
     <Route
       path="/engine/aria-invalid-misuse_failure"
-      element={<AriaInvalidMisuseFailure />}
+      element={<AriaInvalidMisuseFailure  />}
     />
     <Route
       path="/engine/aria-labelledby-has-reference"
-      element={<EngineRulePage ruleData={AriaLabelledByHasReference} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={AriaLabelledByHasReference}  />}
     />
     <Route
       path="/engine/aria-labelledby-has-reference_success"
-      element={<AriaLabelledbyHasReferenceSuccess />}
+      element={<AriaLabelledbyHasReferenceSuccess  />}
     />
     <Route
       path="/engine/aria-labelledby-has-reference_failure"
-      element={<AriaLabelledbyHasReferenceFailure />}
+      element={<AriaLabelledbyHasReferenceFailure  />}
     />
     <Route
       path="/engine/article-misuse"
-      element={<EngineRulePage ruleData={ArticleMisuse} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={ArticleMisuse}  />}
     />
     <Route
       path="/engine/article-misuse_success"
-      element={<ArticleMisuseSuccess />}
+      element={<ArticleMisuseSuccess  />}
     />
     <Route
       path="/engine/article-misuse_failure"
-      element={<ArticleMisuseFailure />}
+      element={<ArticleMisuseFailure  />}
     />
     <Route
       path="/engine/background-image-discernible"
-      element={<EngineRulePage ruleData={BackgroundImageDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={BackgroundImageDiscernible}  />}
     />
     <Route
       path="/engine/background-image-discernible_success"
-      element={<BackgroundImageDiscernibleSuccess />}
+      element={<BackgroundImageDiscernibleSuccess  />}
     />
     <Route
       path="/engine/background-image-discernible_failure"
-      element={<BackgroundImageDiscernibleFailure />}
+      element={<BackgroundImageDiscernibleFailure  />}
     />
     <Route
       path="/engine/background-image-discernible-image"
-      element={<EngineRulePage ruleData={BackgroundImageDiscernibleImage} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={BackgroundImageDiscernibleImage}  />}
     />
     <Route
       path="/engine/background-image-discernible-image_success"
-      element={<BackgroundImageDiscernibleImageSuccess />}
+      element={<BackgroundImageDiscernibleImageSuccess  />}
     />
     <Route
       path="/engine/background-image-discernible-image_failure"
-      element={<BackgroundImageDiscernibleImageFailure />}
+      element={<BackgroundImageDiscernibleImageFailure  />}
     />
     <Route
       path="/engine/breadcrumbs-mismatch"
-      element={<EngineRulePage ruleData={BreadcrumbsMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={BreadcrumbsMismatch}  />}
     />
     <Route
       path="/engine/breadcrumbs-mismatch_success"
-      element={<BreadcrumbsMismatchSuccess />}
+      element={<BreadcrumbsMismatchSuccess  />}
     />
     <Route
       path="/engine/breadcrumbs-mismatch_failure"
-      element={<BreadcrumbsMismatchFailure />}
+      element={<BreadcrumbsMismatchFailure  />}
     />
     <Route
       path="/engine/breadcrumbs-nav"
-      element={<EngineRulePage ruleData={BreadcrumbsNav} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={BreadcrumbsNav}  />}
     />
     <Route
       path="/engine/breadcrumbs-nav_success"
-      element={<BreadcrumbsNavSuccess />}
+      element={<BreadcrumbsNavSuccess  />}
     />
     <Route
       path="/engine/breadcrumbs-nav_failure"
-      element={<BreadcrumbsNavFailure />}
+      element={<BreadcrumbsNavFailure  />}
     />
     <Route
       path="/engine/broken-aria-reference"
-      element={<EngineRulePage ruleData={BrokenAriaReference} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={BrokenAriaReference}  />}
     />
     <Route
       path="/engine/broken-aria-reference_success"
-      element={<BrokenAriaReferenceSuccess />}
+      element={<BrokenAriaReferenceSuccess  />}
     />
     <Route
       path="/engine/broken-aria-reference_failure"
-      element={<BrokenAriaReferenceFailure />}
+      element={<BrokenAriaReferenceFailure  />}
     />
     <Route
       path="/engine/button-discernible"
-      element={<EngineRulePage ruleData={ButtonDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={ButtonDiscernible}  />}
     />
     <Route
       path="/engine/button-discernible_success"
-      element={<ButtonDiscernibleSuccess />}
+      element={<ButtonDiscernibleSuccess  />}
     />
     <Route
       path="/engine/button-discernible_failure"
-      element={<ButtonDiscernibleFailure />}
+      element={<ButtonDiscernibleFailure  />}
     />
     <Route
       path="/engine/button-mismatch"
-      element={<EngineRulePage ruleData={ButtonMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={ButtonMismatch}  />}
     />
     <Route
       path="/engine/button-mismatch_success"
-      element={<ButtonMismatchSuccess />}
+      element={<ButtonMismatchSuccess  />}
     />
     <Route
       path="/engine/button-mismatch_failure"
-      element={<ButtonMismatchFailure />}
+      element={<ButtonMismatchFailure  />}
     />
     <Route
       path="/engine/captcha-accessible-provider"
-      element={<EngineRulePage ruleData={CaptchaAccessibleProvider} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={CaptchaAccessibleProvider}  />}
     />
     <Route
       path="/engine/captcha-accessible-provider_success"
-      element={<CaptchaAccessibleProviderSuccess />}
+      element={<CaptchaAccessibleProviderSuccess  />}
     />
     <Route
       path="/engine/captcha-accessible-provider_failure"
-      element={<CaptchaAccessibleProviderFailure />}
+      element={<CaptchaAccessibleProviderFailure  />}
     />
     <Route
       path="/engine/carousel-aria-live"
-      element={<EngineRulePage ruleData={CarouselAriaLive} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={CarouselAriaLive}  />}
     />
     <Route
       path="/engine/carousel-aria-live_success"
-      element={<CarouselAriaLiveSuccess />}
+      element={<CarouselAriaLiveSuccess  />}
     />
     <Route
       path="/engine/carousel-aria-live_failure"
-      element={<CarouselAriaLiveFailure />}
+      element={<CarouselAriaLiveFailure  />}
     />
     <Route
       path="/engine/carousel-discernible"
-      element={<EngineRulePage ruleData={CarouselDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={CarouselDiscernible}  />}
     />
     <Route
       path="/engine/carousel-discernible_success"
-      element={<CarouselDiscernibleSuccess />}
+      element={<CarouselDiscernibleSuccess  />}
     />
     <Route
       path="/engine/carousel-discernible_failure"
-      element={<CarouselDiscernibleFailure />}
+      element={<CarouselDiscernibleFailure  />}
     />
     <Route
       path="/engine/carousel-dragging-movements"
-      element={<EngineRulePage ruleData={CarouselDraggingMovements} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={CarouselDraggingMovements}  />}
     />
     <Route
       path="/engine/carousel-dragging-movements_success"
-      element={<CarouselDraggingMovementsSuccess />}
+      element={<CarouselDraggingMovementsSuccess  />}
     />
     <Route
       path="/engine/carousel-dragging-movements_failure"
-      element={<CarouselDraggingMovementsFailure />}
+      element={<CarouselDraggingMovementsFailure  />}
     />
     <Route
       path="/engine/carousel-mismatch"
-      element={<EngineRulePage ruleData={CarouselMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={CarouselMismatch}  />}
     />
     <Route
       path="/engine/carousel-mismatch_success"
-      element={<CarouselMismatchSuccess />}
+      element={<CarouselMismatchSuccess  />}
     />
     <Route
       path="/engine/carousel-mismatch_failure"
-      element={<CarouselMismatchFailure />}
+      element={<CarouselMismatchFailure  />}
     />
     <Route
       path="/engine/carousel-next-slide-discernible"
-      element={<EngineRulePage ruleData={CarouselNextSlideDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={CarouselNextSlideDiscernible}  />}
     />
     <Route
       path="/engine/carousel-next-slide-discernible_success"
-      element={<CarouselNextSlideDiscernibleSuccess />}
+      element={<CarouselNextSlideDiscernibleSuccess  />}
     />
     <Route
       path="/engine/carousel-next-slide-discernible_failure"
-      element={<CarouselNextSlideDiscernibleFailure />}
+      element={<CarouselNextSlideDiscernibleFailure  />}
     />
     <Route
       path="/engine/carousel-next-slide-discernible-correctly"
-      element={<EngineRulePage ruleData={CarouselNextSlideDiscernibleCorrectly} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={CarouselNextSlideDiscernibleCorrectly}  />}
     />
     <Route
       path="/engine/carousel-next-slide-discernible-correctly_success"
-      element={<CarouselNextSlideDiscernibleCorrectlySuccess />}
+      element={<CarouselNextSlideDiscernibleCorrectlySuccess  />}
     />
     <Route
       path="/engine/carousel-next-slide-discernible-correctly_failure"
-      element={<CarouselNextSlideDiscernibleCorrectlyFailure />}
+      element={<CarouselNextSlideDiscernibleCorrectlyFailure  />}
     />
     <Route
       path="/engine/carousel-previous-slide-discernible"
-      element={<EngineRulePage ruleData={CarouselPreviousSlideDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={CarouselPreviousSlideDiscernible}  />}
     />
     <Route
       path="/engine/carousel-previous-slide-discernible_success"
-      element={<CarouselPreviousSlideDiscernibleSuccess />}
+      element={<CarouselPreviousSlideDiscernibleSuccess  />}
     />
     <Route
       path="/engine/carousel-previous-slide-discernible_failure"
-      element={<CarouselPreviousSlideDiscernibleFailure />}
+      element={<CarouselPreviousSlideDiscernibleFailure  />}
     />
     <Route
       path="/engine/carousel-previous-slide-discernible-correctly"
-      element={<EngineRulePage ruleData={CarouselPreviousSlideDiscernibleCorrectly} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={CarouselPreviousSlideDiscernibleCorrectly}  />}
     />
     <Route
       path="/engine/carousel-previous-slide-discernible-correctly_success"
-      element={<CarouselPreviousSlideDiscernibleCorrectlySuccess />}
+      element={<CarouselPreviousSlideDiscernibleCorrectlySuccess  />}
     />
     <Route
       path="/engine/carousel-previous-slide-discernible-correctly_failure"
-      element={<CarouselPreviousSlideDiscernibleCorrectlyFailure />}
+      element={<CarouselPreviousSlideDiscernibleCorrectlyFailure  />}
     />
     <Route
       path="/engine/carousel-redundant-discernible-text"
-      element={<EngineRulePage ruleData={CarouselRedundantDiscernibleText} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={CarouselRedundantDiscernibleText}  />}
     />
     <Route
       path="/engine/carousel-redundant-discernible-text_success"
-      element={<CarouselRedundantDiscernibleTextSuccess />}
+      element={<CarouselRedundantDiscernibleTextSuccess  />}
     />
     <Route
       path="/engine/carousel-redundant-discernible-text_failure"
-      element={<CarouselRedundantDiscernibleTextFailure />}
+      element={<CarouselRedundantDiscernibleTextFailure  />}
     />
     <Route
       path="/engine/carousel-slide-picker-discernible"
-      element={<EngineRulePage ruleData={CarouselSlidePickerDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={CarouselSlidePickerDiscernible}  />}
     />
     <Route
       path="/engine/carousel-slide-picker-discernible_success"
-      element={<CarouselSlidePickerDiscernibleSuccess />}
+      element={<CarouselSlidePickerDiscernibleSuccess  />}
     />
     <Route
       path="/engine/carousel-slide-picker-discernible_failure"
-      element={<CarouselSlidePickerDiscernibleFailure />}
+      element={<CarouselSlidePickerDiscernibleFailure  />}
     />
     <Route
       path="/engine/checkbox-aria-checked"
-      element={<EngineRulePage ruleData={CheckboxAriaChecked} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={CheckboxAriaChecked}  />}
     />
     <Route
       path="/engine/checkbox-aria-checked_success"
-      element={<CheckboxAriaCheckedSuccess />}
+      element={<CheckboxAriaCheckedSuccess  />}
     />
     <Route
       path="/engine/checkbox-aria-checked_failure"
-      element={<CheckboxAriaCheckedFailure />}
+      element={<CheckboxAriaCheckedFailure  />}
     />
     <Route
       path="/engine/checkbox-discernible"
-      element={<EngineRulePage ruleData={CheckboxDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={CheckboxDiscernible}  />}
     />
     <Route
       path="/engine/checkbox-discernible_success"
-      element={<CheckboxDiscernibleSuccess />}
+      element={<CheckboxDiscernibleSuccess  />}
     />
     <Route
       path="/engine/checkbox-discernible_failure"
-      element={<CheckboxDiscernibleFailure />}
+      element={<CheckboxDiscernibleFailure  />}
     />
     <Route
       path="/engine/checkbox-mismatch"
-      element={<EngineRulePage ruleData={CheckboxMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={CheckboxMismatch}  />}
     />
     <Route
       path="/engine/checkbox-mismatch_success"
-      element={<CheckboxMismatchSuccess />}
+      element={<CheckboxMismatchSuccess  />}
     />
     <Route
       path="/engine/checkbox-mismatch_failure"
-      element={<CheckboxMismatchFailure />}
+      element={<CheckboxMismatchFailure  />}
     />
     <Route
       path="/engine/checkbox-misuse"
-      element={<EngineRulePage ruleData={CheckboxMisuse} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={CheckboxMisuse}  />}
     />
     <Route
       path="/engine/checkbox-misuse_success"
-      element={<CheckboxMisuseSuccess />}
+      element={<CheckboxMisuseSuccess  />}
     />
     <Route
       path="/engine/checkbox-misuse_failure"
-      element={<CheckboxMisuseFailure />}
+      element={<CheckboxMisuseFailure  />}
     />
     <Route
       path="/engine/color-contrast"
-      element={<EngineRulePage ruleData={ColorContrast} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={ColorContrast}  />}
     />
     <Route
       path="/engine/color-contrast_success"
-      element={<ColorContrastSuccess />}
+      element={<ColorContrastSuccess  />}
     />
     <Route
       path="/engine/color-contrast_failure"
-      element={<ColorContrastFailure />}
+      element={<ColorContrastFailure  />}
     />
     <Route
       path="/engine/custom-select-options-list-listbox"
-      element={<EngineRulePage ruleData={CustomSelectOptionsListListbox} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={CustomSelectOptionsListListbox}  />}
     />
     <Route
       path="/engine/custom-select-options-list-listbox_success"
-      element={<CustomSelectOptionsListListboxSuccess />}
+      element={<CustomSelectOptionsListListboxSuccess  />}
     />
     <Route
       path="/engine/custom-select-options-list-listbox_failure"
-      element={<CustomSelectOptionsListListboxFailure />}
+      element={<CustomSelectOptionsListListboxFailure  />}
     />
     <Route
       path="/engine/custom-select-trigger-combobox"
-      element={<EngineRulePage ruleData={CustomSelectTriggerCombobox} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={CustomSelectTriggerCombobox}  />}
     />
     <Route
       path="/engine/custom-select-trigger-combobox_success"
-      element={<CustomSelectTriggerComboboxSuccess />}
+      element={<CustomSelectTriggerComboboxSuccess  />}
     />
     <Route
       path="/engine/custom-select-trigger-combobox_failure"
-      element={<CustomSelectTriggerComboboxFailure />}
+      element={<CustomSelectTriggerComboboxFailure  />}
     />
     <Route
       path="/engine/dialog-modal-focus"
-      element={<EngineRulePage ruleData={DialogModalFocus} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={DialogModalFocus}  />}
     />
     <Route
       path="/engine/dialog-modal-focus_success"
-      element={<DialogModalFocusSuccess />}
+      element={<DialogModalFocusSuccess  />}
     />
     <Route
       path="/engine/dialog-modal-focus_failure"
-      element={<DialogModalFocusFailure />}
+      element={<DialogModalFocusFailure  />}
     />
     <Route
       path="/engine/dialog-modal-mismatch"
-      element={<EngineRulePage ruleData={DialogModalMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={DialogModalMismatch}  />}
     />
     <Route
       path="/engine/dialog-modal-mismatch_success"
-      element={<DialogModalMismatchSuccess />}
+      element={<DialogModalMismatchSuccess  />}
     />
     <Route
       path="/engine/dialog-modal-mismatch_failure"
-      element={<DialogModalMismatchFailure />}
+      element={<DialogModalMismatchFailure  />}
     />
     <Route
       path="/engine/dialog-modal-misuse"
-      element={<EngineRulePage ruleData={DialogModalMisuse} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={DialogModalMisuse}  />}
     />
     <Route
       path="/engine/dialog-modal-misuse_success"
-      element={<DialogModalMisuseSuccess />}
+      element={<DialogModalMisuseSuccess  />}
     />
     <Route
       path="/engine/dialog-modal-misuse_failure"
-      element={<DialogModalMisuseFailure />}
+      element={<DialogModalMisuseFailure  />}
     />
     <Route
       path="/engine/duplicate-id"
-      element={<EngineRulePage ruleData={DuplicateId} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={DuplicateId}  />}
     />
     <Route
       path="/engine/duplicate-id_success"
-      element={<DuplicateIdSuccess />}
+      element={<DuplicateIdSuccess  />}
     />
     <Route
       path="/engine/duplicate-id_failure"
-      element={<DuplicateIdFailure />}
+      element={<DuplicateIdFailure  />}
     />
     <Route
       path="/engine/emphasis-mismatch"
-      element={<EngineRulePage ruleData={EmphasisMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={EmphasisMismatch}  />}
     />
     <Route
       path="/engine/emphasis-mismatch_success"
-      element={<EmphasisMismatchSuccess />}
+      element={<EmphasisMismatchSuccess  />}
     />
     <Route
       path="/engine/emphasis-mismatch_failure"
-      element={<EmphasisMismatchFailure />}
+      element={<EmphasisMismatchFailure  />}
     />
     <Route
       path="/engine/figure-discernible"
-      element={<EngineRulePage ruleData={FigureDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={FigureDiscernible}  />}
     />
     <Route
       path="/engine/figure-discernible_success"
-      element={<FigureDiscernibleSuccess />}
+      element={<FigureDiscernibleSuccess  />}
     />
     <Route
       path="/engine/figure-discernible_failure"
-      element={<FigureDiscernibleFailure />}
+      element={<FigureDiscernibleFailure  />}
     />
     <Route
       path="/engine/focus-not-obscured-footer"
-      element={<EngineRulePage ruleData={FocusNotObscuredFooter} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={FocusNotObscuredFooter}  />}
     />
     <Route
       path="/engine/focus-not-obscured-footer_success"
-      element={<FocusNotObscuredFooterSuccess />}
+      element={<FocusNotObscuredFooterSuccess  />}
     />
     <Route
       path="/engine/focus-not-obscured-footer_failure"
-      element={<FocusNotObscuredFooterFailure />}
+      element={<FocusNotObscuredFooterFailure  />}
     />
     <Route
       path="/engine/focus-not-obscured-header"
-      element={<EngineRulePage ruleData={FocusNotObscuredHeader} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={FocusNotObscuredHeader}  />}
     />
     <Route
       path="/engine/focus-not-obscured-header_success"
-      element={<FocusNotObscuredHeaderSuccess />}
+      element={<FocusNotObscuredHeaderSuccess  />}
     />
     <Route
       path="/engine/focus-not-obscured-header_failure"
-      element={<FocusNotObscuredHeaderFailure />}
+      element={<FocusNotObscuredHeaderFailure  />}
     />
     <Route
       path="/engine/focus-noticeable"
-      element={<EngineRulePage ruleData={FocusNoticeable} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={FocusNoticeable}  />}
     />
     <Route
       path="/engine/focus-noticeable_success"
-      element={<FocusNoticeableSuccess />}
+      element={<FocusNoticeableSuccess  />}
     />
     <Route
       path="/engine/focus-noticeable_failure"
-      element={<FocusNoticeableFailure />}
+      element={<FocusNoticeableFailure  />}
     />
     <Route
       path="/engine/font-sizes"
-      element={<EngineRulePage ruleData={FontSizes} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={FontSizes}  />}
     />
     <Route
       path="/engine/font-sizes_success"
-      element={<FontSizesSuccess />}
+      element={<FontSizesSuccess  />}
     />
     <Route
       path="/engine/font-sizes_failure"
-      element={<FontSizesFailure />}
+      element={<FontSizesFailure  />}
     />
     <Route
       path="/engine/form-context-change-warning"
-      element={<EngineRulePage ruleData={FormContextChangeWarning} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={FormContextChangeWarning}  />}
     />
     <Route
       path="/engine/form-context-change-warning_success"
-      element={<FormContextChangeWarningSuccess />}
+      element={<FormContextChangeWarningSuccess  />}
     />
     <Route
       path="/engine/form-context-change-warning_failure"
-      element={<FormContextChangeWarningFailure />}
+      element={<FormContextChangeWarningFailure  />}
     />
     <Route
       path="/engine/form-duplicate-id"
-      element={<EngineRulePage ruleData={FormDuplicateId} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={FormDuplicateId}  />}
     />
     <Route
       path="/engine/form-duplicate-id_success"
-      element={<FormDuplicateIdSuccess />}
+      element={<FormDuplicateIdSuccess  />}
     />
     <Route
       path="/engine/form-duplicate-id_failure"
-      element={<FormDuplicateIdFailure />}
+      element={<FormDuplicateIdFailure  />}
     />
     <Route
       path="/engine/form-mismatch"
-      element={<EngineRulePage ruleData={FormMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={FormMismatch}  />}
     />
     <Route
       path="/engine/form-mismatch_success"
-      element={<FormMismatchSuccess />}
+      element={<FormMismatchSuccess  />}
     />
     <Route
       path="/engine/form-mismatch_failure"
-      element={<FormMismatchFailure />}
+      element={<FormMismatchFailure  />}
     />
     <Route
       path="/engine/form-submit-button-mismatch"
-      element={<EngineRulePage ruleData={FormSubmitButtonMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={FormSubmitButtonMismatch}  />}
     />
     <Route
       path="/engine/form-submit-button-mismatch_success"
-      element={<FormSubmitButtonMismatchSuccess />}
+      element={<FormSubmitButtonMismatchSuccess  />}
     />
     <Route
       path="/engine/form-submit-button-mismatch_failure"
-      element={<FormSubmitButtonMismatchFailure />}
+      element={<FormSubmitButtonMismatchFailure  />}
     />
     <Route
       path="/engine/heading-discernible"
-      element={<EngineRulePage ruleData={HeadingDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={HeadingDiscernible}  />}
     />
     <Route
       path="/engine/heading-discernible_success"
-      element={<HeadingDiscernibleSuccess />}
+      element={<HeadingDiscernibleSuccess  />}
     />
     <Route
       path="/engine/heading-discernible_failure"
-      element={<HeadingDiscernibleFailure />}
+      element={<HeadingDiscernibleFailure  />}
     />
     <Route
       path="/engine/heading-h1"
-      element={<EngineRulePage ruleData={HeadingH1} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={HeadingH1}  />}
     />
     <Route
       path="/engine/heading-h1_success"
-      element={<HeadingH1Success />}
+      element={<HeadingH1Success  />}
     />
     <Route
       path="/engine/heading-h1_failure"
-      element={<HeadingH1Failure />}
+      element={<HeadingH1Failure  />}
     />
     <Route
       path="/engine/heading-lengthy"
-      element={<EngineRulePage ruleData={HeadingLengthy} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={HeadingLengthy}  />}
     />
     <Route
       path="/engine/heading-lengthy_success"
-      element={<HeadingLengthySuccess />}
+      element={<HeadingLengthySuccess  />}
     />
     <Route
       path="/engine/heading-lengthy_failure"
-      element={<HeadingLengthyFailure />}
+      element={<HeadingLengthyFailure  />}
     />
     <Route
       path="/engine/heading-mismatch"
-      element={<EngineRulePage ruleData={HeadingMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={HeadingMismatch}  />}
     />
     <Route
       path="/engine/heading-mismatch_success"
-      element={<HeadingMismatchSuccess />}
+      element={<HeadingMismatchSuccess  />}
     />
     <Route
       path="/engine/heading-mismatch_failure"
-      element={<HeadingMismatchFailure />}
+      element={<HeadingMismatchFailure  />}
     />
     <Route
       path="/engine/heading-misuse"
-      element={<EngineRulePage ruleData={HeadingMisuse} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={HeadingMisuse}  />}
     />
     <Route
       path="/engine/heading-misuse_success"
-      element={<HeadingMisuseSuccess />}
+      element={<HeadingMisuseSuccess  />}
     />
     <Route
       path="/engine/heading-misuse_failure"
-      element={<HeadingMisuseFailure />}
+      element={<HeadingMisuseFailure  />}
     />
     <Route
       path="/engine/heading-order"
-      element={<EngineRulePage ruleData={HeadingOrder} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={HeadingOrder}  />}
     />
     <Route
       path="/engine/heading-order_success"
-      element={<HeadingOrderSuccess />}
+      element={<HeadingOrderSuccess  />}
     />
     <Route
       path="/engine/heading-order_failure"
-      element={<HeadingOrderFailure />}
+      element={<HeadingOrderFailure  />}
     />
     <Route
       path="/engine/heading-order-optimal"
-      element={<EngineRulePage ruleData={HeadingOrderOptimal} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={HeadingOrderOptimal}  />}
     />
     <Route
       path="/engine/heading-order-optimal_success"
-      element={<HeadingOrderOptimalSuccess />}
+      element={<HeadingOrderOptimalSuccess  />}
     />
     <Route
       path="/engine/heading-order-optimal_failure"
-      element={<HeadingOrderOptimalFailure />}
+      element={<HeadingOrderOptimalFailure  />}
     />
     <Route
       path="/engine/heading-single-h1"
-      element={<EngineRulePage ruleData={HeadingSingleH1} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={HeadingSingleH1}  />}
     />
     <Route
       path="/engine/heading-single-h1_success"
-      element={<HeadingSingleH1Success />}
+      element={<HeadingSingleH1Success  />}
     />
     <Route
       path="/engine/heading-single-h1_failure"
-      element={<HeadingSingleH1Failure />}
+      element={<HeadingSingleH1Failure  />}
     />
     <Route
       path="/engine/html-lang"
-      element={<EngineRulePage ruleData={HtmlLang} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={HtmlLang}  />}
     />
     <Route
       path="/engine/html-lang_success"
-      element={<HtmlLangSuccess />}
+      element={<HtmlLangSuccess  />}
     />
     <Route
       path="/engine/html-lang_failure"
-      element={<HtmlLangFailure />}
+      element={<HtmlLangFailure  />}
     />
     <Route
       path="/engine/html-lang-valid"
-      element={<EngineRulePage ruleData={HtmlLangValid} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={HtmlLangValid}  />}
     />
     <Route
       path="/engine/html-lang-valid_success"
-      element={<HtmlLangValidSuccess />}
+      element={<HtmlLangValidSuccess  />}
     />
     <Route
       path="/engine/html-lang-valid_failure"
-      element={<HtmlLangValidFailure />}
+      element={<HtmlLangValidFailure  />}
     />
     <Route
       path="/engine/icon-discernible"
-      element={<EngineRulePage ruleData={IconDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={IconDiscernible}  />}
     />
     <Route
       path="/engine/icon-discernible_success"
-      element={<IconDiscernibleSuccess />}
+      element={<IconDiscernibleSuccess  />}
     />
     <Route
       path="/engine/icon-discernible_failure"
-      element={<IconDiscernibleFailure />}
+      element={<IconDiscernibleFailure  />}
     />
     <Route
       path="/engine/iframe-discernible"
-      element={<EngineRulePage ruleData={IframeDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={IframeDiscernible}  />}
     />
     <Route
       path="/engine/iframe-discernible_success"
-      element={<IframeDiscernibleSuccess />}
+      element={<IframeDiscernibleSuccess  />}
     />
     <Route
       path="/engine/iframe-discernible_failure"
-      element={<IframeDiscernibleFailure />}
+      element={<IframeDiscernibleFailure  />}
     />
     <Route
       path="/engine/image-discernible"
-      element={<EngineRulePage ruleData={ImageDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={ImageDiscernible}  />}
     />
     <Route
       path="/engine/image-discernible_success"
-      element={<ImageDiscernibleSuccess />}
+      element={<ImageDiscernibleSuccess  />}
     />
     <Route
       path="/engine/image-discernible_failure"
-      element={<ImageDiscernibleFailure />}
+      element={<ImageDiscernibleFailure  />}
     />
     <Route
       path="/engine/image-discernible-correctly"
-      element={<EngineRulePage ruleData={ImageDiscernibleCorrectly} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={ImageDiscernibleCorrectly}  />}
     />
     <Route
       path="/engine/image-discernible-correctly_success"
-      element={<ImageDiscernibleCorrectlySuccess />}
+      element={<ImageDiscernibleCorrectlySuccess  />}
     />
     <Route
       path="/engine/image-discernible-correctly_failure"
-      element={<ImageDiscernibleCorrectlyFailure />}
+      element={<ImageDiscernibleCorrectlyFailure  />}
     />
     <Route
       path="/engine/image-mismatch"
-      element={<EngineRulePage ruleData={ImageMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={ImageMismatch}  />}
     />
     <Route
       path="/engine/image-mismatch_success"
-      element={<ImageMismatchSuccess />}
+      element={<ImageMismatchSuccess  />}
     />
     <Route
       path="/engine/image-mismatch_failure"
-      element={<ImageMismatchFailure />}
+      element={<ImageMismatchFailure  />}
     />
     <Route
       path="/engine/image-misuse"
-      element={<EngineRulePage ruleData={ImageMisuse} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={ImageMisuse}  />}
     />
     <Route
       path="/engine/image-misuse_success"
-      element={<ImageMisuseSuccess />}
+      element={<ImageMisuseSuccess  />}
     />
     <Route
       path="/engine/image-misuse_failure"
-      element={<ImageMisuseFailure />}
+      element={<ImageMisuseFailure  />}
     />
     <Route
       path="/engine/input-discernible"
-      element={<EngineRulePage ruleData={InputDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={InputDiscernible}  />}
     />
     <Route
       path="/engine/input-discernible_success"
-      element={<InputDiscernibleSuccess />}
+      element={<InputDiscernibleSuccess  />}
     />
     <Route
       path="/engine/input-discernible_failure"
-      element={<InputDiscernibleFailure />}
+      element={<InputDiscernibleFailure  />}
     />
     <Route
       path="/engine/interactive-not-tabbable"
-      element={<EngineRulePage ruleData={InteractiveNotTabbable} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={InteractiveNotTabbable}  />}
     />
     <Route
       path="/engine/interactive-not-tabbable_success"
-      element={<InteractiveNotTabbableSuccess />}
+      element={<InteractiveNotTabbableSuccess  />}
     />
     <Route
       path="/engine/interactive-not-tabbable_failure"
-      element={<InteractiveNotTabbableFailure />}
+      element={<InteractiveNotTabbableFailure  />}
     />
     <Route
       path="/engine/interactive-target-size"
-      element={<EngineRulePage ruleData={InteractiveTargetSize} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={InteractiveTargetSize}  />}
     />
     <Route
       path="/engine/interactive-target-size_success"
-      element={<InteractiveTargetSizeSuccess />}
+      element={<InteractiveTargetSizeSuccess  />}
     />
     <Route
       path="/engine/interactive-target-size_failure"
-      element={<InteractiveTargetSizeFailure />}
+      element={<InteractiveTargetSizeFailure  />}
     />
     <Route
       path="/engine/letter-spacing-positive"
-      element={<EngineRulePage ruleData={LetterSpacingPositive} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={LetterSpacingPositive}  />}
     />
     <Route
       path="/engine/letter-spacing-positive_success"
-      element={<LetterSpacingPositiveSuccess />}
+      element={<LetterSpacingPositiveSuccess  />}
     />
     <Route
       path="/engine/letter-spacing-positive_failure"
-      element={<LetterSpacingPositiveFailure />}
+      element={<LetterSpacingPositiveFailure  />}
     />
     <Route
       path="/engine/link-anchor-ambiguous"
-      element={<EngineRulePage ruleData={LinkAnchorAmbiguous} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={LinkAnchorAmbiguous}  />}
     />
     <Route
       path="/engine/link-anchor-ambiguous_success"
-      element={<LinkAnchorAmbiguousSuccess />}
+      element={<LinkAnchorAmbiguousSuccess  />}
     />
     <Route
       path="/engine/link-anchor-ambiguous_failure"
-      element={<LinkAnchorAmbiguousFailure />}
+      element={<LinkAnchorAmbiguousFailure  />}
     />
     <Route
       path="/engine/link-anchor-discernible"
-      element={<EngineRulePage ruleData={LinkAnchorDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={LinkAnchorDiscernible}  />}
     />
     <Route
       path="/engine/link-anchor-discernible_success"
-      element={<LinkAnchorDiscernibleSuccess />}
+      element={<LinkAnchorDiscernibleSuccess  />}
     />
     <Route
       path="/engine/link-anchor-discernible_failure"
-      element={<LinkAnchorDiscernibleFailure />}
+      element={<LinkAnchorDiscernibleFailure  />}
     />
     <Route
       path="/engine/link-context"
-      element={<EngineRulePage ruleData={LinkContext} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={LinkContext}  />}
     />
     <Route
       path="/engine/link-context_success"
-      element={<LinkContextSuccess />}
+      element={<LinkContextSuccess  />}
     />
     <Route
       path="/engine/link-context_failure"
-      element={<LinkContextFailure />}
+      element={<LinkContextFailure  />}
     />
     <Route
       path="/engine/link-current-page"
-      element={<EngineRulePage ruleData={LinkCurrentPage} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={LinkCurrentPage}  />}
     />
     <Route
       path="/engine/link-current-page_success"
-      element={<LinkCurrentPageSuccess />}
+      element={<LinkCurrentPageSuccess  />}
     />
     <Route
       path="/engine/link-current-page_failure"
-      element={<LinkCurrentPageFailure />}
+      element={<LinkCurrentPageFailure  />}
     />
     <Route
       path="/engine/link-homepage-warning"
-      element={<EngineRulePage ruleData={LinkHomepageWarning} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={LinkHomepageWarning}  />}
     />
     <Route
       path="/engine/link-homepage-warning_success"
-      element={<LinkHomepageWarningSuccess />}
+      element={<LinkHomepageWarningSuccess  />}
     />
     <Route
       path="/engine/link-homepage-warning_failure"
-      element={<LinkHomepageWarningFailure />}
+      element={<LinkHomepageWarningFailure  />}
     />
     <Route
       path="/engine/link-image-warning"
-      element={<EngineRulePage ruleData={LinkImageWarning} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={LinkImageWarning}  />}
     />
     <Route
       path="/engine/link-image-warning_success"
-      element={<LinkImageWarningSuccess />}
+      element={<LinkImageWarningSuccess  />}
     />
     <Route
       path="/engine/link-image-warning_failure"
-      element={<LinkImageWarningFailure />}
+      element={<LinkImageWarningFailure  />}
     />
     <Route
       path="/engine/link-mailto-warning"
-      element={<EngineRulePage ruleData={LinkMailtoWarning} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={LinkMailtoWarning}  />}
     />
     <Route
       path="/engine/link-mailto-warning_success"
-      element={<LinkMailtoWarningSuccess />}
+      element={<LinkMailtoWarningSuccess  />}
     />
     <Route
       path="/engine/link-mailto-warning_failure"
-      element={<LinkMailtoWarningFailure />}
+      element={<LinkMailtoWarningFailure  />}
     />
     <Route
       path="/engine/link-navigation-ambiguous"
-      element={<EngineRulePage ruleData={LinkNavigationAmbiguous} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={LinkNavigationAmbiguous}  />}
     />
     <Route
       path="/engine/link-navigation-ambiguous_success"
-      element={<LinkNavigationAmbiguousSuccess />}
+      element={<LinkNavigationAmbiguousSuccess  />}
     />
     <Route
       path="/engine/link-navigation-ambiguous_failure"
-      element={<LinkNavigationAmbiguousFailure />}
+      element={<LinkNavigationAmbiguousFailure  />}
     />
     <Route
       path="/engine/link-navigation-discernible"
-      element={<EngineRulePage ruleData={LinkNavigationDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={LinkNavigationDiscernible}  />}
     />
     <Route
       path="/engine/link-navigation-discernible_success"
-      element={<LinkNavigationDiscernibleSuccess />}
+      element={<LinkNavigationDiscernibleSuccess  />}
     />
     <Route
       path="/engine/link-navigation-discernible_failure"
-      element={<LinkNavigationDiscernibleFailure />}
+      element={<LinkNavigationDiscernibleFailure  />}
     />
     <Route
       path="/engine/link-new-window-warning"
-      element={<EngineRulePage ruleData={LinkNewWindowWarning} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={LinkNewWindowWarning}  />}
     />
     <Route
       path="/engine/link-new-window-warning_success"
-      element={<LinkNewWindowWarningSuccess />}
+      element={<LinkNewWindowWarningSuccess  />}
     />
     <Route
       path="/engine/link-new-window-warning_failure"
-      element={<LinkNewWindowWarningFailure />}
+      element={<LinkNewWindowWarningFailure  />}
     />
     <Route
       path="/engine/link-pdf-warning"
-      element={<EngineRulePage ruleData={LinkPDFWarning} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={LinkPDFWarning}  />}
     />
     <Route
       path="/engine/link-pdf-warning_success"
-      element={<LinkPdfWarningSuccess />}
+      element={<LinkPdfWarningSuccess  />}
     />
     <Route
       path="/engine/link-pdf-warning_failure"
-      element={<LinkPdfWarningFailure />}
+      element={<LinkPdfWarningFailure  />}
     />
     <Route
       path="/engine/link-telephone-warning"
-      element={<EngineRulePage ruleData={LinkTelephoneWarning} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={LinkTelephoneWarning}  />}
     />
     <Route
       path="/engine/link-telephone-warning_success"
-      element={<LinkTelephoneWarningSuccess />}
+      element={<LinkTelephoneWarningSuccess  />}
     />
     <Route
       path="/engine/link-telephone-warning_failure"
-      element={<LinkTelephoneWarningFailure />}
+      element={<LinkTelephoneWarningFailure  />}
     />
     <Route
       path="/engine/list-item-within-list"
-      element={<EngineRulePage ruleData={ListItemWithinList} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={ListItemWithinList}  />}
     />
     <Route
       path="/engine/list-item-within-list_success"
-      element={<ListItemWithinListSuccess />}
+      element={<ListItemWithinListSuccess  />}
     />
     <Route
       path="/engine/list-item-within-list_failure"
-      element={<ListItemWithinListFailure />}
+      element={<ListItemWithinListFailure  />}
     />
     <Route
       path="/engine/list-not-empty"
-      element={<EngineRulePage ruleData={ListNotEmpty} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={ListNotEmpty}  />}
     />
     <Route
       path="/engine/list-not-empty_success"
-      element={<ListNotEmptySuccess />}
+      element={<ListNotEmptySuccess  />}
     />
     <Route
       path="/engine/list-not-empty_failure"
-      element={<ListNotEmptyFailure />}
+      element={<ListNotEmptyFailure  />}
     />
     <Route
       path="/engine/main-navigation-discernible"
-      element={<EngineRulePage ruleData={MainNavigationDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={MainNavigationDiscernible}  />}
     />
     <Route
       path="/engine/main-navigation-discernible_success"
-      element={<MainNavigationDiscernibleSuccess />}
+      element={<MainNavigationDiscernibleSuccess  />}
     />
     <Route
       path="/engine/main-navigation-discernible_failure"
-      element={<MainNavigationDiscernibleFailure />}
+      element={<MainNavigationDiscernibleFailure  />}
     />
     <Route
       path="/engine/main-navigation-mismatch"
-      element={<EngineRulePage ruleData={MainNavigationMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={MainNavigationMismatch}  />}
     />
     <Route
       path="/engine/main-navigation-mismatch_success"
-      element={<MainNavigationMismatchSuccess />}
+      element={<MainNavigationMismatchSuccess  />}
     />
     <Route
       path="/engine/main-navigation-mismatch_failure"
-      element={<MainNavigationMismatchFailure />}
+      element={<MainNavigationMismatchFailure  />}
     />
     <Route
       path="/engine/map-area-discernible"
-      element={<EngineRulePage ruleData={MapAreaDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={MapAreaDiscernible}  />}
     />
     <Route
       path="/engine/map-area-discernible_success"
-      element={<MapAreaDiscernibleSuccess />}
+      element={<MapAreaDiscernibleSuccess  />}
     />
     <Route
       path="/engine/map-area-discernible_failure"
-      element={<MapAreaDiscernibleFailure />}
+      element={<MapAreaDiscernibleFailure  />}
     />
     <Route
       path="/engine/marquee-deprecated"
-      element={<EngineRulePage ruleData={MarqueeDeprecated} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={MarqueeDeprecated}  />}
     />
     <Route
       path="/engine/marquee-deprecated_success"
-      element={<MarqueeDeprecatedSuccess />}
+      element={<MarqueeDeprecatedSuccess  />}
     />
     <Route
       path="/engine/marquee-deprecated_failure"
-      element={<MarqueeDeprecatedFailure />}
+      element={<MarqueeDeprecatedFailure  />}
     />
     <Route
       path="/engine/menu-avoid"
-      element={<EngineRulePage ruleData={MenuAvoid} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={MenuAvoid}  />}
     />
     <Route
       path="/engine/menu-avoid_success"
-      element={<MenuAvoidSuccess />}
+      element={<MenuAvoidSuccess  />}
     />
     <Route
       path="/engine/menu-avoid_failure"
-      element={<MenuAvoidFailure />}
+      element={<MenuAvoidFailure  />}
     />
     <Route
       path="/engine/menu-bar-avoid"
-      element={<EngineRulePage ruleData={MenuBarAvoid} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={MenuBarAvoid}  />}
     />
     <Route
       path="/engine/menu-bar-avoid_success"
-      element={<MenuBarAvoidSuccess />}
+      element={<MenuBarAvoidSuccess  />}
     />
     <Route
       path="/engine/menu-bar-avoid_failure"
-      element={<MenuBarAvoidFailure />}
+      element={<MenuBarAvoidFailure  />}
     />
     <Route
       path="/engine/menu-item-avoid"
-      element={<EngineRulePage ruleData={MenuItemAvoid} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={MenuItemAvoid}  />}
     />
     <Route
       path="/engine/menu-item-avoid_success"
-      element={<MenuItemAvoidSuccess />}
+      element={<MenuItemAvoidSuccess  />}
     />
     <Route
       path="/engine/menu-item-avoid_failure"
-      element={<MenuItemAvoidFailure />}
+      element={<MenuItemAvoidFailure  />}
     />
     <Route
       path="/engine/menu-trigger-clickable"
-      element={<EngineRulePage ruleData={MenuTriggerClickable} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={MenuTriggerClickable}  />}
     />
     <Route
       path="/engine/menu-trigger-clickable_success"
-      element={<MenuTriggerClickableSuccess />}
+      element={<MenuTriggerClickableSuccess  />}
     />
     <Route
       path="/engine/menu-trigger-clickable_failure"
-      element={<MenuTriggerClickableFailure />}
+      element={<MenuTriggerClickableFailure  />}
     />
     <Route
       path="/engine/menu-trigger-correct-state"
-      element={<EngineRulePage ruleData={MenuTriggerCorrectState} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={MenuTriggerCorrectState}  />}
     />
     <Route
       path="/engine/menu-trigger-correct-state_success"
-      element={<MenuTriggerCorrectStateSuccess />}
+      element={<MenuTriggerCorrectStateSuccess  />}
     />
     <Route
       path="/engine/menu-trigger-correct-state_failure"
-      element={<MenuTriggerCorrectStateFailure />}
+      element={<MenuTriggerCorrectStateFailure  />}
     />
     <Route
       path="/engine/menu-trigger-mismatch"
-      element={<EngineRulePage ruleData={MenuTriggerMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={MenuTriggerMismatch}  />}
     />
     <Route
       path="/engine/menu-trigger-mismatch_success"
-      element={<MenuTriggerMismatchSuccess />}
+      element={<MenuTriggerMismatchSuccess  />}
     />
     <Route
       path="/engine/menu-trigger-mismatch_failure"
-      element={<MenuTriggerMismatchFailure />}
+      element={<MenuTriggerMismatchFailure  />}
     />
     <Route
       path="/engine/menu-trigger-misuse"
-      element={<EngineRulePage ruleData={MenuTriggerMisuse} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={MenuTriggerMisuse}  />}
     />
     <Route
       path="/engine/menu-trigger-misuse_success"
-      element={<MenuTriggerMisuseSuccess />}
+      element={<MenuTriggerMisuseSuccess  />}
     />
     <Route
       path="/engine/menu-trigger-misuse_failure"
-      element={<MenuTriggerMisuseFailure />}
+      element={<MenuTriggerMisuseFailure  />}
     />
     <Route
       path="/engine/name-prohibited-no-aria-label"
-      element={<EngineRulePage ruleData={NameProhibitedNoAriaLabel} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={NameProhibitedNoAriaLabel}  />}
     />
     <Route
       path="/engine/name-prohibited-no-aria-label_success"
-      element={<NameProhibitedNoAriaLabelSuccess />}
+      element={<NameProhibitedNoAriaLabelSuccess  />}
     />
     <Route
       path="/engine/name-prohibited-no-aria-label_failure"
-      element={<NameProhibitedNoAriaLabelFailure />}
+      element={<NameProhibitedNoAriaLabelFailure  />}
     />
     <Route
       path="/engine/navigation-discernible"
-      element={<EngineRulePage ruleData={NavigationDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={NavigationDiscernible}  />}
     />
     <Route
       path="/engine/navigation-discernible_success"
-      element={<NavigationDiscernibleSuccess />}
+      element={<NavigationDiscernibleSuccess  />}
     />
     <Route
       path="/engine/navigation-discernible_failure"
-      element={<NavigationDiscernibleFailure />}
+      element={<NavigationDiscernibleFailure  />}
     />
     <Route
       path="/engine/navigation-item-link"
-      element={<EngineRulePage ruleData={NavigationItemLink} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={NavigationItemLink}  />}
     />
     <Route
       path="/engine/navigation-item-link_success"
-      element={<NavigationItemLinkSuccess />}
+      element={<NavigationItemLinkSuccess  />}
     />
     <Route
       path="/engine/navigation-item-link_failure"
-      element={<NavigationItemLinkFailure />}
+      element={<NavigationItemLinkFailure  />}
     />
     <Route
       path="/engine/navigation-mismatch"
-      element={<EngineRulePage ruleData={NavigationMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={NavigationMismatch}  />}
     />
     <Route
       path="/engine/navigation-mismatch_success"
-      element={<NavigationMismatchSuccess />}
+      element={<NavigationMismatchSuccess  />}
     />
     <Route
       path="/engine/navigation-mismatch_failure"
-      element={<NavigationMismatchFailure />}
+      element={<NavigationMismatchFailure  />}
     />
     <Route
       path="/engine/navigation-misuse"
-      element={<EngineRulePage ruleData={NavigationMisuse} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={NavigationMisuse}  />}
     />
     <Route
       path="/engine/navigation-misuse_success"
-      element={<NavigationMisuseSuccess />}
+      element={<NavigationMisuseSuccess  />}
     />
     <Route
       path="/engine/navigation-misuse_failure"
-      element={<NavigationMisuseFailure />}
+      element={<NavigationMisuseFailure  />}
     />
     <Route
       path="/engine/navigation-not-nested"
-      element={<EngineRulePage ruleData={NavigationNotNested} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={NavigationNotNested}  />}
     />
     <Route
       path="/engine/navigation-not-nested_success"
-      element={<NavigationNotNestedSuccess />}
+      element={<NavigationNotNestedSuccess  />}
     />
     <Route
       path="/engine/navigation-not-nested_failure"
-      element={<NavigationNotNestedFailure />}
+      element={<NavigationNotNestedFailure  />}
     />
     <Route
       path="/engine/navigation-redundant-discernible-text"
-      element={<EngineRulePage ruleData={NavigationRedundantDiscernibleText} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={NavigationRedundantDiscernibleText}  />}
     />
     <Route
       path="/engine/navigation-redundant-discernible-text_success"
-      element={<NavigationRedundantDiscernibleTextSuccess />}
+      element={<NavigationRedundantDiscernibleTextSuccess  />}
     />
     <Route
       path="/engine/navigation-redundant-discernible-text_failure"
-      element={<NavigationRedundantDiscernibleTextFailure />}
+      element={<NavigationRedundantDiscernibleTextFailure  />}
     />
     <Route
       path="/engine/navigation-submenu-discernible"
-      element={<EngineRulePage ruleData={NavigationSubmenuDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={NavigationSubmenuDiscernible}  />}
     />
     <Route
       path="/engine/navigation-submenu-discernible_success"
-      element={<NavigationSubmenuDiscernibleSuccess />}
+      element={<NavigationSubmenuDiscernibleSuccess  />}
     />
     <Route
       path="/engine/navigation-submenu-discernible_failure"
-      element={<NavigationSubmenuDiscernibleFailure />}
+      element={<NavigationSubmenuDiscernibleFailure  />}
     />
     <Route
       path="/engine/navigation-submenu-region"
-      element={<EngineRulePage ruleData={NavigationSubmenuRegion} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={NavigationSubmenuRegion}  />}
     />
     <Route
       path="/engine/navigation-submenu-region_success"
-      element={<NavigationSubmenuRegionSuccess />}
+      element={<NavigationSubmenuRegionSuccess  />}
     />
     <Route
       path="/engine/navigation-submenu-region_failure"
-      element={<NavigationSubmenuRegionFailure />}
+      element={<NavigationSubmenuRegionFailure  />}
     />
     <Route
       path="/engine/no-autofocus"
-      element={<EngineRulePage ruleData={NoAutofocus} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={NoAutofocus}  />}
     />
     <Route
       path="/engine/no-autofocus_success"
-      element={<NoAutofocusSuccess />}
+      element={<NoAutofocusSuccess  />}
     />
     <Route
       path="/engine/no-autofocus_failure"
-      element={<NoAutofocusFailure />}
+      element={<NoAutofocusFailure  />}
     />
     <Route
       path="/engine/no-extra-information-in-title"
-      element={<EngineRulePage ruleData={NoExtraInformationInTitle} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={NoExtraInformationInTitle}  />}
     />
     <Route
       path="/engine/no-extra-information-in-title_success"
-      element={<NoExtraInformationInTitleSuccess />}
+      element={<NoExtraInformationInTitleSuccess  />}
     />
     <Route
       path="/engine/no-extra-information-in-title_failure"
-      element={<NoExtraInformationInTitleFailure />}
+      element={<NoExtraInformationInTitleFailure  />}
     />
     <Route
       path="/engine/no-role-application"
-      element={<EngineRulePage ruleData={NoRoleApplication} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={NoRoleApplication}  />}
     />
     <Route
       path="/engine/no-role-application_success"
-      element={<NoRoleApplicationSuccess />}
+      element={<NoRoleApplicationSuccess  />}
     />
     <Route
       path="/engine/no-role-application_failure"
-      element={<NoRoleApplicationFailure />}
+      element={<NoRoleApplicationFailure  />}
     />
     <Route
       path="/engine/no-ui-slider-single-pointer"
-      element={<EngineRulePage ruleData={NoUiSliderSinglePointer} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={NoUiSliderSinglePointer}  />}
     />
     <Route
       path="/engine/no-ui-slider-single-pointer_success"
-      element={<NoUiSliderSinglePointerSuccess />}
+      element={<NoUiSliderSinglePointerSuccess  />}
     />
     <Route
       path="/engine/no-ui-slider-single-pointer_failure"
-      element={<NoUiSliderSinglePointerFailure />}
+      element={<NoUiSliderSinglePointerFailure  />}
     />
     <Route
       path="/engine/page-meta-description"
-      element={<EngineRulePage ruleData={PageMetaDescription} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={PageMetaDescription}  />}
     />
     <Route
       path="/engine/page-meta-description_success"
-      element={<PageMetaDescriptionSuccess />}
+      element={<PageMetaDescriptionSuccess  />}
     />
     <Route
       path="/engine/page-meta-description_failure"
-      element={<PageMetaDescriptionFailure />}
+      element={<PageMetaDescriptionFailure  />}
     />
     <Route
       path="/engine/page-meta-viewport"
-      element={<EngineRulePage ruleData={PageMetaViewport} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={PageMetaViewport}  />}
     />
     <Route
       path="/engine/page-meta-viewport_success"
-      element={<PageMetaViewportSuccess />}
+      element={<PageMetaViewportSuccess  />}
     />
     <Route
       path="/engine/page-meta-viewport_failure"
-      element={<PageMetaViewportFailure />}
+      element={<PageMetaViewportFailure  />}
     />
     <Route
       path="/engine/page-meta-viewport-valid"
-      element={<EngineRulePage ruleData={PageMetaViewportValid} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={PageMetaViewportValid}  />}
     />
     <Route
       path="/engine/page-meta-viewport-valid_success"
-      element={<PageMetaViewportValidSuccess />}
+      element={<PageMetaViewportValidSuccess  />}
     />
     <Route
       path="/engine/page-meta-viewport-valid_failure"
-      element={<PageMetaViewportValidFailure />}
+      element={<PageMetaViewportValidFailure  />}
     />
     <Route
       path="/engine/page-no-meta-http-equiv-refresh"
-      element={<EngineRulePage ruleData={PageNoMetaHttpEquivRefresh} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={PageNoMetaHttpEquivRefresh}  />}
     />
     <Route
       path="/engine/page-no-meta-http-equiv-refresh_success"
-      element={<PageNoMetaHttpEquivRefreshSuccess />}
+      element={<PageNoMetaHttpEquivRefreshSuccess  />}
     />
     <Route
       path="/engine/page-no-meta-http-equiv-refresh_failure"
-      element={<PageNoMetaHttpEquivRefreshFailure />}
+      element={<PageNoMetaHttpEquivRefreshFailure  />}
     />
     <Route
       path="/engine/page-title"
-      element={<EngineRulePage ruleData={PageTitle} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={PageTitle}  />}
     />
     <Route
       path="/engine/page-title_success"
-      element={<PageTitleSuccess />}
+      element={<PageTitleSuccess  />}
     />
     <Route
       path="/engine/page-title_failure"
-      element={<PageTitleFailure />}
+      element={<PageTitleFailure  />}
     />
     <Route
       path="/engine/page-title-valid"
-      element={<EngineRulePage ruleData={PageTitleValid} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={PageTitleValid}  />}
     />
     <Route
       path="/engine/page-title-valid_success"
-      element={<PageTitleValidSuccess />}
+      element={<PageTitleValidSuccess  />}
     />
     <Route
       path="/engine/page-title-valid_failure"
-      element={<PageTitleValidFailure />}
+      element={<PageTitleValidFailure  />}
     />
     <Route
       path="/engine/pixel-image-not-discernible"
-      element={<EngineRulePage ruleData={PixelImageNotDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={PixelImageNotDiscernible}  />}
     />
     <Route
       path="/engine/pixel-image-not-discernible_success"
-      element={<PixelImageNotDiscernibleSuccess />}
+      element={<PixelImageNotDiscernibleSuccess  />}
     />
     <Route
       path="/engine/pixel-image-not-discernible_failure"
-      element={<PixelImageNotDiscernibleFailure />}
+      element={<PixelImageNotDiscernibleFailure  />}
     />
     <Route
       path="/engine/radio-aria-checked"
-      element={<EngineRulePage ruleData={RadioAriaChecked} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={RadioAriaChecked}  />}
     />
     <Route
       path="/engine/radio-aria-checked_success"
-      element={<RadioAriaCheckedSuccess />}
+      element={<RadioAriaCheckedSuccess  />}
     />
     <Route
       path="/engine/radio-aria-checked_failure"
-      element={<RadioAriaCheckedFailure />}
+      element={<RadioAriaCheckedFailure  />}
     />
     <Route
       path="/engine/radio-discernible"
-      element={<EngineRulePage ruleData={RadioDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={RadioDiscernible}  />}
     />
     <Route
       path="/engine/radio-discernible_success"
-      element={<RadioDiscernibleSuccess />}
+      element={<RadioDiscernibleSuccess  />}
     />
     <Route
       path="/engine/radio-discernible_failure"
-      element={<RadioDiscernibleFailure />}
+      element={<RadioDiscernibleFailure  />}
     />
     <Route
       path="/engine/radio-mismatch"
-      element={<EngineRulePage ruleData={RadioMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={RadioMismatch}  />}
     />
     <Route
       path="/engine/radio-mismatch_success"
-      element={<RadioMismatchSuccess />}
+      element={<RadioMismatchSuccess  />}
     />
     <Route
       path="/engine/radio-mismatch_failure"
-      element={<RadioMismatchFailure />}
+      element={<RadioMismatchFailure  />}
     />
     <Route
       path="/engine/radio-misuse"
-      element={<EngineRulePage ruleData={RadioMisuse} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={RadioMisuse}  />}
     />
     <Route
       path="/engine/radio-misuse_success"
-      element={<RadioMisuseSuccess />}
+      element={<RadioMisuseSuccess  />}
     />
     <Route
       path="/engine/radio-misuse_failure"
-      element={<RadioMisuseFailure />}
+      element={<RadioMisuseFailure  />}
     />
     <Route
       path="/engine/redundant-discernible-content"
-      element={<EngineRulePage ruleData={RedundantDiscernibleContent} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={RedundantDiscernibleContent}  />}
     />
     <Route
       path="/engine/redundant-discernible-content_success"
-      element={<RedundantDiscernibleContentSuccess />}
+      element={<RedundantDiscernibleContentSuccess  />}
     />
     <Route
       path="/engine/redundant-discernible-content_failure"
-      element={<RedundantDiscernibleContentFailure />}
+      element={<RedundantDiscernibleContentFailure  />}
     />
     <Route
       path="/engine/region-footer"
-      element={<EngineRulePage ruleData={RegionFooter} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={RegionFooter}  />}
     />
     <Route
       path="/engine/region-footer_success"
-      element={<RegionFooterSuccess />}
+      element={<RegionFooterSuccess  />}
     />
     <Route
       path="/engine/region-footer_failure"
-      element={<RegionFooterFailure />}
+      element={<RegionFooterFailure  />}
     />
     <Route
       path="/engine/region-footer-mismatch"
-      element={<EngineRulePage ruleData={RegionFooterMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={RegionFooterMismatch}  />}
     />
     <Route
       path="/engine/region-footer-mismatch_success"
-      element={<RegionFooterMismatchSuccess />}
+      element={<RegionFooterMismatchSuccess  />}
     />
     <Route
       path="/engine/region-footer-mismatch_failure"
-      element={<RegionFooterMismatchFailure />}
+      element={<RegionFooterMismatchFailure  />}
     />
     <Route
       path="/engine/region-footer-misuse"
-      element={<EngineRulePage ruleData={RegionFooterMisuse} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={RegionFooterMisuse}  />}
     />
     <Route
       path="/engine/region-footer-misuse_success"
-      element={<RegionFooterMisuseSuccess />}
+      element={<RegionFooterMisuseSuccess  />}
     />
     <Route
       path="/engine/region-footer-misuse_failure"
-      element={<RegionFooterMisuseFailure />}
+      element={<RegionFooterMisuseFailure  />}
     />
     <Route
       path="/engine/region-footer-single"
-      element={<EngineRulePage ruleData={RegionFooterSingle} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={RegionFooterSingle}  />}
     />
     <Route
       path="/engine/region-footer-single_success"
-      element={<RegionFooterSingleSuccess />}
+      element={<RegionFooterSingleSuccess  />}
     />
     <Route
       path="/engine/region-footer-single_failure"
-      element={<RegionFooterSingleFailure />}
+      element={<RegionFooterSingleFailure  />}
     />
     <Route
       path="/engine/region-main-content"
-      element={<EngineRulePage ruleData={RegionMainContent} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={RegionMainContent}  />}
     />
     <Route
       path="/engine/region-main-content_success"
-      element={<RegionMainContentSuccess />}
+      element={<RegionMainContentSuccess  />}
     />
     <Route
       path="/engine/region-main-content_failure"
-      element={<RegionMainContentFailure />}
+      element={<RegionMainContentFailure  />}
     />
     <Route
       path="/engine/region-main-content-mismatch"
-      element={<EngineRulePage ruleData={RegionMainContentMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={RegionMainContentMismatch}  />}
     />
     <Route
       path="/engine/region-main-content-mismatch_success"
-      element={<RegionMainContentMismatchSuccess />}
+      element={<RegionMainContentMismatchSuccess  />}
     />
     <Route
       path="/engine/region-main-content-mismatch_failure"
-      element={<RegionMainContentMismatchFailure />}
+      element={<RegionMainContentMismatchFailure  />}
     />
     <Route
       path="/engine/region-main-content-misuse"
-      element={<EngineRulePage ruleData={RegionMainContentMisuse} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={RegionMainContentMisuse}  />}
     />
     <Route
       path="/engine/region-main-content-misuse_success"
-      element={<RegionMainContentMisuseSuccess />}
+      element={<RegionMainContentMisuseSuccess  />}
     />
     <Route
       path="/engine/region-main-content-misuse_failure"
-      element={<RegionMainContentMisuseFailure />}
+      element={<RegionMainContentMisuseFailure  />}
     />
     <Route
       path="/engine/region-main-content-single"
-      element={<EngineRulePage ruleData={RegionMainContentSingle} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={RegionMainContentSingle}  />}
     />
     <Route
       path="/engine/region-main-content-single_success"
-      element={<RegionMainContentSingleSuccess />}
+      element={<RegionMainContentSingleSuccess  />}
     />
     <Route
       path="/engine/region-main-content-single_failure"
-      element={<RegionMainContentSingleFailure />}
+      element={<RegionMainContentSingleFailure  />}
     />
     <Route
       path="/engine/required-form-field-aria-required"
-      element={<EngineRulePage ruleData={RequiredFormFieldAriaRequired} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={RequiredFormFieldAriaRequired}  />}
     />
     <Route
       path="/engine/required-form-field-aria-required_success"
-      element={<RequiredFormFieldAriaRequiredSuccess />}
+      element={<RequiredFormFieldAriaRequiredSuccess  />}
     />
     <Route
       path="/engine/required-form-field-aria-required_failure"
-      element={<RequiredFormFieldAriaRequiredFailure />}
+      element={<RequiredFormFieldAriaRequiredFailure  />}
     />
     <Route
       path="/engine/sale-price-discernible"
-      element={<EngineRulePage ruleData={SalePriceDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={SalePriceDiscernible}  />}
     />
     <Route
       path="/engine/sale-price-discernible_success"
-      element={<SalePriceDiscernibleSuccess />}
+      element={<SalePriceDiscernibleSuccess  />}
     />
     <Route
       path="/engine/sale-price-discernible_failure"
-      element={<SalePriceDiscernibleFailure />}
+      element={<SalePriceDiscernibleFailure  />}
     />
     <Route
       path="/engine/search-form-mismatch"
-      element={<EngineRulePage ruleData={SearchFormMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={SearchFormMismatch}  />}
     />
     <Route
       path="/engine/search-form-mismatch_success"
-      element={<SearchFormMismatchSuccess />}
+      element={<SearchFormMismatchSuccess  />}
     />
     <Route
       path="/engine/search-form-mismatch_failure"
-      element={<SearchFormMismatchFailure />}
+      element={<SearchFormMismatchFailure  />}
     />
     <Route
       path="/engine/select-option-mismatch"
-      element={<EngineRulePage ruleData={SelectOptionMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={SelectOptionMismatch}  />}
     />
     <Route
       path="/engine/select-option-mismatch_success"
-      element={<SelectOptionMismatchSuccess />}
+      element={<SelectOptionMismatchSuccess  />}
     />
     <Route
       path="/engine/select-option-mismatch_failure"
-      element={<SelectOptionMismatchFailure />}
+      element={<SelectOptionMismatchFailure  />}
     />
     <Route
       path="/engine/select-option-misuse"
-      element={<EngineRulePage ruleData={SelectOptionMisuse} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={SelectOptionMisuse}  />}
     />
     <Route
       path="/engine/select-option-misuse_success"
-      element={<SelectOptionMisuseSuccess />}
+      element={<SelectOptionMisuseSuccess  />}
     />
     <Route
       path="/engine/select-option-misuse_failure"
-      element={<SelectOptionMisuseFailure />}
+      element={<SelectOptionMisuseFailure  />}
     />
     <Route
       path="/engine/skip-link-exists"
-      element={<EngineRulePage ruleData={SkipLinkExists} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={SkipLinkExists}  />}
     />
     <Route
       path="/engine/skip-link-exists_success"
-      element={<SkipLinkExistsSuccess />}
+      element={<SkipLinkExistsSuccess  />}
     />
     <Route
       path="/engine/skip-link-exists_failure"
-      element={<SkipLinkExistsFailure />}
+      element={<SkipLinkExistsFailure  />}
     />
     <Route
       path="/engine/skip-link-first"
-      element={<EngineRulePage ruleData={SkipLinkFirst} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={SkipLinkFirst}  />}
     />
     <Route
       path="/engine/skip-link-first_success"
-      element={<SkipLinkFirstSuccess />}
+      element={<SkipLinkFirstSuccess  />}
     />
     <Route
       path="/engine/skip-link-first_failure"
-      element={<SkipLinkFirstFailure />}
+      element={<SkipLinkFirstFailure  />}
     />
     <Route
       path="/engine/slider-dragging-movements"
-      element={<EngineRulePage ruleData={SliderDraggingMovements} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={SliderDraggingMovements}  />}
     />
     <Route
       path="/engine/slider-dragging-movements_success"
-      element={<SliderDraggingMovementsSuccess />}
+      element={<SliderDraggingMovementsSuccess  />}
     />
     <Route
       path="/engine/slider-dragging-movements_failure"
-      element={<SliderDraggingMovementsFailure />}
+      element={<SliderDraggingMovementsFailure  />}
     />
     <Route
       path="/engine/sr-hidden-tabbable"
-      element={<EngineRulePage ruleData={SRHiddenTabbable} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={SRHiddenTabbable}  />}
     />
     <Route
       path="/engine/sr-hidden-tabbable_success"
-      element={<SrHiddenTabbableSuccess />}
+      element={<SrHiddenTabbableSuccess  />}
     />
     <Route
       path="/engine/sr-hidden-tabbable_failure"
-      element={<SrHiddenTabbableFailure />}
+      element={<SrHiddenTabbableFailure  />}
     />
     <Route
       path="/engine/strong-mismatch"
-      element={<EngineRulePage ruleData={StrongMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={StrongMismatch}  />}
     />
     <Route
       path="/engine/strong-mismatch_success"
-      element={<StrongMismatchSuccess />}
+      element={<StrongMismatchSuccess  />}
     />
     <Route
       path="/engine/strong-mismatch_failure"
-      element={<StrongMismatchFailure />}
+      element={<StrongMismatchFailure  />}
     />
     <Route
       path="/engine/svg-discernible"
-      element={<EngineRulePage ruleData={SVGDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={SVGDiscernible}  />}
     />
     <Route
       path="/engine/svg-discernible_success"
-      element={<SvgDiscernibleSuccess />}
+      element={<SvgDiscernibleSuccess  />}
     />
     <Route
       path="/engine/svg-discernible_failure"
-      element={<SvgDiscernibleFailure />}
+      element={<SvgDiscernibleFailure  />}
     />
     <Route
       path="/engine/tab-list-mismatch"
-      element={<EngineRulePage ruleData={TabListMisMatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={TabListMisMatch}  />}
     />
     <Route
       path="/engine/tab-list-mismatch_success"
-      element={<TabListMismatchSuccess />}
+      element={<TabListMismatchSuccess  />}
     />
     <Route
       path="/engine/tab-list-mismatch_failure"
-      element={<TabListMismatchFailure />}
+      element={<TabListMismatchFailure  />}
     />
     <Route
       path="/engine/tab-list-misuse"
-      element={<EngineRulePage ruleData={TabListMisuse} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={TabListMisuse}  />}
     />
     <Route
       path="/engine/tab-list-misuse_success"
-      element={<TabListMisuseSuccess />}
+      element={<TabListMisuseSuccess  />}
     />
     <Route
       path="/engine/tab-list-misuse_failure"
-      element={<TabListMisuseFailure />}
+      element={<TabListMisuseFailure  />}
     />
     <Route
       path="/engine/tab-mismatch"
-      element={<EngineRulePage ruleData={TabMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={TabMismatch}  />}
     />
     <Route
       path="/engine/tab-mismatch_success"
-      element={<TabMismatchSuccess />}
+      element={<TabMismatchSuccess  />}
     />
     <Route
       path="/engine/tab-mismatch_failure"
-      element={<TabMismatchFailure />}
+      element={<TabMismatchFailure  />}
     />
     <Route
       path="/engine/tab-misuse"
-      element={<EngineRulePage ruleData={TabMisuse} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={TabMisuse}  />}
     />
     <Route
       path="/engine/tab-misuse_success"
-      element={<TabMisuseSuccess />}
+      element={<TabMisuseSuccess  />}
     />
     <Route
       path="/engine/tab-misuse_failure"
-      element={<TabMisuseFailure />}
+      element={<TabMisuseFailure  />}
     />
     <Route
       path="/engine/tab-panel-mismatch"
-      element={<EngineRulePage ruleData={TabPanelMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={TabPanelMismatch}  />}
     />
     <Route
       path="/engine/tab-panel-mismatch_success"
-      element={<TabPanelMismatchSuccess />}
+      element={<TabPanelMismatchSuccess  />}
     />
     <Route
       path="/engine/tab-panel-mismatch_failure"
-      element={<TabPanelMismatchFailure />}
+      element={<TabPanelMismatchFailure  />}
     />
     <Route
       path="/engine/tab-panel-misuse"
-      element={<EngineRulePage ruleData={TabPanelMisuse} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={TabPanelMisuse}  />}
     />
     <Route
       path="/engine/tab-panel-misuse_success"
-      element={<TabPanelMisuseSuccess />}
+      element={<TabPanelMisuseSuccess  />}
     />
     <Route
       path="/engine/tab-panel-misuse_failure"
-      element={<TabPanelMisuseFailure />}
+      element={<TabPanelMisuseFailure  />}
     />
     <Route
       path="/engine/tabbable-non-interactive"
-      element={<EngineRulePage ruleData={TabbableNonInteractive} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={TabbableNonInteractive}  />}
     />
     <Route
       path="/engine/tabbable-non-interactive_success"
-      element={<TabbableNonInteractiveSuccess />}
+      element={<TabbableNonInteractiveSuccess  />}
     />
     <Route
       path="/engine/tabbable-non-interactive_failure"
-      element={<TabbableNonInteractiveFailure />}
+      element={<TabbableNonInteractiveFailure  />}
     />
     <Route
       path="/engine/tabbable-visible"
-      element={<EngineRulePage ruleData={TabbableVisible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={TabbableVisible}  />}
     />
     <Route
       path="/engine/tabbable-visible_success"
-      element={<TabbableVisibleSuccess />}
+      element={<TabbableVisibleSuccess  />}
     />
     <Route
       path="/engine/tabbable-visible_failure"
-      element={<TabbableVisibleFailure />}
+      element={<TabbableVisibleFailure  />}
     />
     <Route
       path="/engine/tabindex-valid"
-      element={<EngineRulePage ruleData={TabindexValid} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={TabindexValid}  />}
     />
     <Route
       path="/engine/tabindex-valid_success"
-      element={<TabindexValidSuccess />}
+      element={<TabindexValidSuccess  />}
     />
     <Route
       path="/engine/tabindex-valid_failure"
-      element={<TabindexValidFailure />}
+      element={<TabindexValidFailure  />}
     />
     <Route
       path="/engine/table-column-header"
-      element={<EngineRulePage ruleData={TableColumnHeader} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={TableColumnHeader}  />}
     />
     <Route
       path="/engine/table-column-header_success"
-      element={<TableColumnHeaderSuccess />}
+      element={<TableColumnHeaderSuccess  />}
     />
     <Route
       path="/engine/table-column-header_failure"
-      element={<TableColumnHeaderFailure />}
+      element={<TableColumnHeaderFailure  />}
     />
     <Route
       path="/engine/table-header-not-empty"
-      element={<EngineRulePage ruleData={TableHeaderNotEmpty} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={TableHeaderNotEmpty}  />}
     />
     <Route
       path="/engine/table-header-not-empty_success"
-      element={<TableHeaderNotEmptySuccess />}
+      element={<TableHeaderNotEmptySuccess  />}
     />
     <Route
       path="/engine/table-header-not-empty_failure"
-      element={<TableHeaderNotEmptyFailure />}
+      element={<TableHeaderNotEmptyFailure  />}
     />
     <Route
       path="/engine/table-headers"
-      element={<EngineRulePage ruleData={TableHeaders} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={TableHeaders}  />}
     />
     <Route
       path="/engine/table-headers_success"
-      element={<TableHeadersSuccess />}
+      element={<TableHeadersSuccess  />}
     />
     <Route
       path="/engine/table-headers_failure"
-      element={<TableHeadersFailure />}
+      element={<TableHeadersFailure  />}
     />
     <Route
       path="/engine/table-misuse"
-      element={<EngineRulePage ruleData={TableMisuse} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={TableMisuse}  />}
     />
     <Route
       path="/engine/table-misuse_success"
-      element={<TableMisuseSuccess />}
+      element={<TableMisuseSuccess  />}
     />
     <Route
       path="/engine/table-misuse_failure"
-      element={<TableMisuseFailure />}
+      element={<TableMisuseFailure  />}
     />
     <Route
       path="/engine/table-not-nested"
-      element={<EngineRulePage ruleData={TableNotNested} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={TableNotNested}  />}
     />
     <Route
       path="/engine/table-not-nested_success"
-      element={<TableNotNestedSuccess />}
+      element={<TableNotNestedSuccess  />}
     />
     <Route
       path="/engine/table-not-nested_failure"
-      element={<TableNotNestedFailure />}
+      element={<TableNotNestedFailure  />}
     />
     <Route
       path="/engine/table-row-header"
-      element={<EngineRulePage ruleData={TableRowHeader} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={TableRowHeader}  />}
     />
     <Route
       path="/engine/table-row-header_success"
-      element={<TableRowHeaderSuccess />}
+      element={<TableRowHeaderSuccess  />}
     />
     <Route
       path="/engine/table-row-header_failure"
-      element={<TableRowHeaderFailure />}
+      element={<TableRowHeaderFailure  />}
     />
     <Route
       path="/engine/text-spacing-line-height"
-      element={<EngineRulePage ruleData={TextSpacingLineHeight} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={TextSpacingLineHeight}  />}
     />
     <Route
       path="/engine/text-spacing-line-height_success"
-      element={<TextSpacingLineHeightSuccess />}
+      element={<TextSpacingLineHeightSuccess  />}
     />
     <Route
       path="/engine/text-spacing-line-height_failure"
-      element={<TextSpacingLineHeightFailure />}
+      element={<TextSpacingLineHeightFailure  />}
     />
     <Route
       path="/engine/text-spacing-word-spacing"
-      element={<EngineRulePage ruleData={TextSpacingWordSpacing} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={TextSpacingWordSpacing}  />}
     />
     <Route
       path="/engine/text-spacing-word-spacing_success"
-      element={<TextSpacingWordSpacingSuccess />}
+      element={<TextSpacingWordSpacingSuccess  />}
     />
     <Route
       path="/engine/text-spacing-word-spacing_failure"
-      element={<TextSpacingWordSpacingFailure />}
+      element={<TextSpacingWordSpacingFailure  />}
     />
     <Route
       path="/engine/toggle-button-correct-state"
-      element={<EngineRulePage ruleData={ToggleButtonCorrectState} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={ToggleButtonCorrectState}  />}
     />
     <Route
       path="/engine/toggle-button-correct-state_success"
-      element={<ToggleButtonCorrectStateSuccess />}
+      element={<ToggleButtonCorrectStateSuccess  />}
     />
     <Route
       path="/engine/toggle-button-correct-state_failure"
-      element={<ToggleButtonCorrectStateFailure />}
+      element={<ToggleButtonCorrectStateFailure  />}
     />
     <Route
       path="/engine/toggle-button-mismatch"
-      element={<EngineRulePage ruleData={ToggleButtonMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={ToggleButtonMismatch}  />}
     />
     <Route
       path="/engine/toggle-button-mismatch_success"
-      element={<ToggleButtonMismatchSuccess />}
+      element={<ToggleButtonMismatchSuccess  />}
     />
     <Route
       path="/engine/toggle-button-mismatch_failure"
-      element={<ToggleButtonMismatchFailure />}
+      element={<ToggleButtonMismatchFailure  />}
     />
     <Route
       path="/engine/toggle-button-misuse"
-      element={<EngineRulePage ruleData={ToggleButtonMisuse} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={ToggleButtonMisuse}  />}
     />
     <Route
       path="/engine/toggle-button-misuse_success"
-      element={<ToggleButtonMisuseSuccess />}
+      element={<ToggleButtonMisuseSuccess  />}
     />
     <Route
       path="/engine/toggle-button-misuse_failure"
-      element={<ToggleButtonMisuseFailure />}
+      element={<ToggleButtonMisuseFailure  />}
     />
     <Route
       path="/engine/user-rating-discernible"
-      element={<EngineRulePage ruleData={UserRatingDiscernible} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={UserRatingDiscernible}  />}
     />
     <Route
       path="/engine/user-rating-discernible_success"
-      element={<UserRatingDiscernibleSuccess />}
+      element={<UserRatingDiscernibleSuccess  />}
     />
     <Route
       path="/engine/user-rating-discernible_failure"
-      element={<UserRatingDiscernibleFailure />}
+      element={<UserRatingDiscernibleFailure  />}
     />
     <Route
       path="/engine/visibility-mismatch"
-      element={<EngineRulePage ruleData={VisibilityMismatch} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={VisibilityMismatch}  />}
     />
     <Route
       path="/engine/visibility-mismatch_success"
-      element={<VisibilityMismatchSuccess />}
+      element={<VisibilityMismatchSuccess  />}
     />
     <Route
       path="/engine/visibility-mismatch_failure"
-      element={<VisibilityMismatchFailure />}
+      element={<VisibilityMismatchFailure  />}
     />
     <Route
       path="/engine/visibility-misuse"
-      element={<EngineRulePage ruleData={VisibilityMisuse} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={VisibilityMisuse}  />}
     />
     <Route
       path="/engine/visibility-misuse_success"
-      element={<VisibilityMisuseSuccess />}
+      element={<VisibilityMisuseSuccess  />}
     />
     <Route
       path="/engine/visibility-misuse_failure"
-      element={<VisibilityMisuseFailure />}
+      element={<VisibilityMisuseFailure  />}
     />
     <Route
       path="/engine/visible-text-part-of-accessible-name"
-      element={<EngineRulePage ruleData={VisibleTextPartOfAccessibleName} />}
+      element={<UnifiedRulePage ruleType="engine" ruleData={VisibleTextPartOfAccessibleName}  />}
     />
     <Route
       path="/engine/visible-text-part-of-accessible-name_success"
-      element={<VisibleTextPartOfAccessibleNameSuccess />}
+      element={<VisibleTextPartOfAccessibleNameSuccess  />}
     />
     <Route
       path="/engine/visible-text-part-of-accessible-name_failure"
-      element={<VisibleTextPartOfAccessibleNameFailure />}
+      element={<VisibleTextPartOfAccessibleNameFailure  />}
     />
   </>
 );

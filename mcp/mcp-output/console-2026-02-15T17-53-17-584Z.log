@@ -1,0 +1,31 @@
+[      74ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://sdk-refactor--accessflow--test.acsb-test.com/trpc/users.zendesk:0
+[      75ms] [ERROR] Error: TRPCClientError: User not authenticated
+    at TRPCClientError.from (https://sdk-refactor--accessflow--test.acsb-test.com/assets/index-utLCIGcZ.js:65:8000)
+    at https://sdk-refactor--accessflow--test.acsb-test.com/assets/index-utLCIGcZ.js:65:11195 @ https://sdk-refactor--accessflow--test.acsb-test.com/assets/index-utLCIGcZ.js:8643
+[      75ms] [ERROR] Component Stack: Unhandled Rejection @ https://sdk-refactor--accessflow--test.acsb-test.com/assets/index-utLCIGcZ.js:8643
+[      76ms] TRPCClientError: User not authenticated
+    at TRPCClientError.from (https://sdk-refactor--accessflow--test.acsb-test.com/assets/index-utLCIGcZ.js:65:8000)
+    at https://sdk-refactor--accessflow--test.acsb-test.com/assets/index-utLCIGcZ.js:65:11195
+[      78ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://sdk-refactor--accessflow--test.acsb-test.com/trpc/website.active?input=%7B%22domain%22%3Anull%7D:0
+[     189ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://sdk-refactor--accessflow--test.acsb-test.com/trpc/website.lastScan:0
+[     192ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://sdk-refactor--accessflow--test.acsb-test.com/trpc/rules.allById:0
+[     216ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://sdk-refactor--accessflow--test.acsb-test.com/trpc/users.me:0
+[     428ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[     738ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[     740ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[     742ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[     745ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[     746ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[     747ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[    2841ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://sdk-refactor--accessflow--test.acsb-test.com/trpc/website.checkSuccessfulScanExist:0
+[    3000ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://sdk-refactor--accessflow--test.acsb-test.com/trpc/users.me:0
+[    3001ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://sdk-refactor--accessflow--test.acsb-test.com/trpc/website.lastScan:0
+[    3008ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://sdk-refactor--accessflow--test.acsb-test.com/trpc/users.zendesk:0
+[    3008ms] [ERROR] Error: TRPCClientError: User not authenticated
+    at TRPCClientError.from (https://sdk-refactor--accessflow--test.acsb-test.com/assets/index-utLCIGcZ.js:65:8000)
+    at https://sdk-refactor--accessflow--test.acsb-test.com/assets/index-utLCIGcZ.js:65:11195 @ https://sdk-refactor--accessflow--test.acsb-test.com/assets/index-utLCIGcZ.js:8643
+[    3008ms] [ERROR] Component Stack: Unhandled Rejection @ https://sdk-refactor--accessflow--test.acsb-test.com/assets/index-utLCIGcZ.js:8643
+[    3009ms] TRPCClientError: User not authenticated
+    at TRPCClientError.from (https://sdk-refactor--accessflow--test.acsb-test.com/assets/index-utLCIGcZ.js:65:8000)
+    at https://sdk-refactor--accessflow--test.acsb-test.com/assets/index-utLCIGcZ.js:65:11195
+[    3008ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://sdk-refactor--accessflow--test.acsb-test.com/trpc/rules.allById:0

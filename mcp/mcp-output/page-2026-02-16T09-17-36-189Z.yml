@@ -1,0 +1,156 @@
+- generic [active] [ref=e25]:
+  - generic [ref=e26]:
+    - generic [ref=e28]:
+      - generic [ref=e29]:
+        - generic [ref=e30]:
+          - paragraph [ref=e31]: Skip to content
+          - link "Skip to content" [ref=e32] [cursor=pointer]:
+            - generic [ref=e33]: ↵
+            - generic [ref=e34]: ENTER
+        - generic [ref=e35]:
+          - paragraph [ref=e36]: Skip to footer
+          - link "Skip to footer" [ref=e37] [cursor=pointer]:
+            - generic [ref=e38]: ↵
+            - generic [ref=e39]: ENTER
+      - generic [ref=e40]:
+        - banner [ref=e41]:
+          - generic [ref=e42]:
+            - link [ref=e43] [cursor=pointer]:
+              - /url: /
+              - img [ref=e44]
+            - combobox "jayquake.github.io" [ref=e52] [cursor=pointer]:
+              - generic [ref=e54]:
+                - img [ref=e57]
+                - generic [ref=e58]: jayquake.github.io
+              - img [ref=e60]
+            - separator [ref=e62]
+            - button "Audits" [ref=e63] [cursor=pointer]:
+              - img [ref=e66]
+              - paragraph [ref=e69]: Audits
+              - img [ref=e71]
+          - generic [ref=e73]:
+            - generic [ref=e74]:
+              - button "Help" [ref=e76] [cursor=pointer]:
+                - img [ref=e78]
+              - button "Notifications" [ref=e83] [cursor=pointer]:
+                - img [ref=e85]
+            - separator [ref=e87]
+            - button "jasonqu" [ref=e88] [cursor=pointer]:
+              - img [ref=e90]
+              - generic [ref=e93]: jasonqu
+              - img [ref=e95]
+        - generic [ref=e97]:
+          - generic [ref=e98]:
+            - list [ref=e99]:
+              - listitem [ref=e100]:
+                - link "Dashboard" [ref=e101] [cursor=pointer]:
+                  - /url: /dashboard
+                  - img [ref=e105]
+                  - generic [ref=e109]: Dashboard
+              - listitem [ref=e110]:
+                - link "Explore" [ref=e111] [cursor=pointer]:
+                  - /url: /explore?view=issues&filters=default
+                  - img [ref=e115]
+                  - generic [ref=e119]: Explore
+              - listitem [ref=e120]:
+                - link "Journeys" [ref=e121] [cursor=pointer]:
+                  - /url: /journeys
+                  - img [ref=e125]
+                  - generic [ref=e129]: Journeys
+              - listitem [ref=e130]:
+                - link "Assets" [ref=e131] [cursor=pointer]:
+                  - /url: /assets
+                  - img [ref=e135]
+                  - generic [ref=e139]: Assets
+              - listitem [ref=e140]:
+                - link "Tasks" [ref=e141] [cursor=pointer]:
+                  - /url: /tasks
+                  - img [ref=e145]
+                  - generic [ref=e148]: Tasks
+              - listitem [ref=e149]:
+                - link "Integrations" [ref=e150] [cursor=pointer]:
+                  - /url: /integrations
+                  - img [ref=e154]
+                  - generic [ref=e157]: Integrations
+              - listitem [ref=e158]:
+                - link "Audits" [ref=e159] [cursor=pointer]:
+                  - /url: /audits
+                  - img [ref=e163]
+                  - generic [ref=e166]: Audits
+            - list [ref=e167]:
+              - separator [ref=e168]
+              - listitem [ref=e169]:
+                - link "Settings" [ref=e170] [cursor=pointer]:
+                  - /url: /settings
+                  - img [ref=e174]
+                  - generic [ref=e177]: Settings
+          - generic [ref=e178]:
+            - main "Content" [ref=e179]:
+              - generic [ref=e667]:
+                - generic [ref=e668]:
+                  - generic [ref=e670]:
+                    - paragraph [ref=e671]: Untitled journey
+                    - button "Edit journey name" [ref=e673] [cursor=pointer]:
+                      - img [ref=e675]
+                  - generic [ref=e677]:
+                    - button "Close" [ref=e678] [cursor=pointer]
+                    - button "Save draft" [ref=e679] [cursor=pointer]
+                    - button "Save" [ref=e680] [cursor=pointer]
+                - generic [ref=e681]:
+                  - generic [ref=e682]:
+                    - generic [ref=e683]:
+                      - paragraph [ref=e684]: Starting web path
+                      - paragraph [ref=e685]: The starting point in your website where this journey will begin.
+                    - generic [ref=e690]:
+                      - img [ref=e693]
+                      - textbox "/my-page" [ref=e695]: /
+                  - generic [ref=e696]:
+                    - generic [ref=e697]:
+                      - paragraph [ref=e698]: Journey steps
+                      - paragraph [ref=e699]: To add a step, select the action type and enter the selector code for the desired element.
+                    - list [ref=e700]:
+                      - listitem [ref=e701]:
+                        - generic [ref=e702]:
+                          - generic [ref=e703]:
+                            - paragraph [ref=e704]: "1"
+                            - combobox "Action type" [ref=e707] [cursor=pointer]:
+                              - generic [ref=e708]: Action type
+                              - img [ref=e710]
+                          - generic [ref=e712]:
+                            - button "Duplicate" [ref=e714] [cursor=pointer]:
+                              - img [ref=e716]
+                            - generic [ref=e718]:
+                              - button "Remove" [disabled]:
+                                - generic:
+                                  - img
+                    - button "Add step" [ref=e719] [cursor=pointer]:
+                      - img [ref=e721]
+                      - text: Add step
+            - generic [ref=e369]:
+              - separator [ref=e370]
+              - generic [ref=e371]:
+                - separator [ref=e372]
+                - button "Reset Selection" [ref=e374] [cursor=pointer]:
+                  - img [ref=e376]
+            - contentinfo "Footer" [ref=e378]:
+              - paragraph [ref=e379]: © 2026 - accessiBe Inc. All Rights Reserved.
+              - navigation "Footer menu" [ref=e380]:
+                - list [ref=e381]:
+                  - listitem [ref=e382]:
+                    - link "Terms of Service" [ref=e383] [cursor=pointer]:
+                      - /url: https://accessibe.com/terms-of-service
+                  - listitem [ref=e384]:
+                    - link "Privacy Policy" [ref=e385] [cursor=pointer]:
+                      - /url: https://accessibe.com/privacy-policy
+                  - listitem [ref=e386]:
+                    - link "Release Notes" [ref=e387] [cursor=pointer]:
+                      - /url: https://support.accessibe.com/hc/en-us/sections/17817223393298-accessFlow-Release-Notes
+                  - listitem [ref=e388]:
+                    - link "Support Portal" [ref=e389] [cursor=pointer]:
+                      - /url: https://support.accessibe.com/hc/en-us/categories/16379543560210-Getting-Started-with-accessFlow
+    - region "Notifications (alt+T)":
+      - list
+  - iframe [ref=e6]:
+    - button "Open messaging window" [ref=f14e5] [cursor=pointer]:
+      - img [ref=f14e7]
+      - img [ref=f14e10]

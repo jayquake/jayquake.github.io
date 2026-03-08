@@ -1,0 +1,278 @@
+- generic:
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - paragraph: Skip to content
+            - link:
+              - generic: ↵
+              - generic: ENTER
+          - generic:
+            - paragraph: Skip to footer
+            - link:
+              - generic: ↵
+              - generic: ENTER
+        - generic:
+          - banner:
+            - generic:
+              - link:
+                - /url: /
+                - img
+              - generic:
+                - generic:
+                  - generic:
+                    - combobox:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - img
+                          - generic: digivate.com
+                      - generic:
+                        - img
+              - separator
+              - button:
+                - generic:
+                  - generic:
+                    - img
+                - paragraph: Audits
+                - generic:
+                  - img
+            - generic:
+              - generic:
+                - generic:
+                  - button:
+                    - generic:
+                      - img
+                - generic:
+                  - button:
+                    - generic:
+                      - img
+              - separator
+              - button:
+                - generic:
+                  - img
+                - generic: jason
+                - generic:
+                  - img
+          - generic:
+            - generic:
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /dashboard
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Dashboard
+                - listitem:
+                  - link:
+                    - /url: /explore?view=issues&filters=default
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Explore
+                - listitem:
+                  - link:
+                    - /url: /journeys
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Journeys
+                - listitem:
+                  - link:
+                    - /url: /assets
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Assets
+                - listitem:
+                  - link:
+                    - /url: /tasks
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Tasks
+                - listitem:
+                  - link:
+                    - /url: /integrations
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Integrations
+                - listitem:
+                  - link:
+                    - /url: /audits
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Audits
+              - list:
+                - separator
+                - listitem:
+                  - link:
+                    - /url: /settings
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Settings
+            - generic:
+              - main:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - heading [level=1]: Manage your journeys
+                        - generic:
+                          - paragraph: Audit key user flows and interactive elements not automatically checked. Add these to accessFlow audits.
+                          - button:
+                            - generic:
+                              - img
+                            - generic: Watch Overview
+                      - generic:
+                        - button:
+                          - generic:
+                            - img
+                          - text: Record a Journey
+                        - button:
+                          - generic:
+                            - img
+                    - generic:
+                      - generic:
+                        - table:
+                          - rowgroup:
+                            - row:
+                              - columnheader: Journey name
+                              - columnheader:
+                                - generic:
+                                  - generic: Last modified
+                                  - generic:
+                                    - button:
+                                      - generic:
+                                        - img
+                              - columnheader:
+                                - generic:
+                                  - generic:
+                                    - generic: Last audited
+                                    - generic:
+                                      - button:
+                                        - generic:
+                                          - img
+                              - columnheader:
+                                - generic:
+                                  - generic:
+                                    - generic: Steps
+                                    - generic:
+                                      - button:
+                                        - generic:
+                                          - img
+                              - columnheader:
+                                - generic:
+                                  - generic:
+                                    - generic: Issues found
+                                    - generic:
+                                      - button:
+                                        - generic:
+                                          - img
+                              - columnheader
+                          - rowgroup:
+                            - row:
+                              - cell:
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - paragraph: Journey 1 – 1772105652008
+                                      - paragraph: digivate.com/checkout
+                              - cell:
+                                - generic:
+                                  - generic:
+                                    - paragraph: Feb 26, 2026
+                              - cell:
+                                - generic:
+                                  - generic: Draft
+                              - cell:
+                                - generic:
+                                  - paragraph: 1 Steps
+                              - cell:
+                                - generic:
+                                  - paragraph: "----"
+                              - cell:
+                                - generic:
+                                  - button:
+                                    - generic:
+                                      - img
+              - generic:
+                - separator
+                - generic:
+                  - separator
+                  - generic:
+                    - button:
+                      - generic:
+                        - img
+              - contentinfo:
+                - paragraph: © 2026 - accessiBe Inc. All Rights Reserved.
+                - navigation:
+                  - list:
+                    - listitem:
+                      - link:
+                        - /url: https://accessibe.com/terms-of-service
+                        - text: Terms of Service
+                    - listitem:
+                      - link:
+                        - /url: https://accessibe.com/privacy-policy
+                        - text: Privacy Policy
+                    - listitem:
+                      - link:
+                        - /url: https://support.accessibe.com/hc/en-us/sections/17817223393298-accessFlow-Release-Notes
+                        - text: Release Notes
+                    - listitem:
+                      - link:
+                        - /url: https://support.accessibe.com/hc/en-us/categories/16379543560210-Getting-Started-with-accessFlow
+                        - text: Support Portal
+    - list
+  - generic:
+    - iframe [ref=e2]:
+      - button "Close message from Anna" [ref=f15e4] [cursor=pointer]:
+        - img [ref=f15e5]
+    - generic:
+      - iframe [ref=e4]:
+        - figure [ref=f16e5]:
+          - img "Anna avatar" [ref=f16e6]
+      - iframe [ref=e6]:
+        - button "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=f17e5] [cursor=pointer]:
+          - heading "Anna" [level=1] [ref=f17e6]
+          - generic [ref=f17e8]: Hey there!👋 Is there anything I can help you with today?
+  - iframe [ref=e5]:
+    - button "Open messaging window" [ref=f14e5] [cursor=pointer]:
+      - img [ref=f14e7]
+      - img [ref=f14e10]
+  - dialog "Understand the way journeys work" [ref=e8]:
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - button "Close" [active] [ref=e11] [cursor=pointer]:
+          - img [ref=e13]
+        - heading "Understand the way journeys work" [level=2] [ref=e16]
+        - paragraph [ref=e18]: Learn how to record important user flows and include them in the accessFlow audits.
+        - button "Close" [ref=e21] [cursor=pointer]
+      - iframe [ref=e24]:
+        - generic "YouTube Video Player" [ref=f18e3]:
+          - generic [ref=f18e5]:
+            - link "Photo image of accessiBe" [ref=f18e8] [cursor=pointer]:
+              - /url: https://www.youtube.com/channel/UCNXs01wEGLPCUPpuFi3_4XA?embeds_referring_euri=https%3A%2F%2Fjourney-seco--accessflow--test.acsb-test.com%2F
+            - link "Recording Journeys - accessFlow tutorials" [ref=f18e11] [cursor=pointer]:
+              - /url: https://www.youtube.com/watch?v=NsK1O-JoDVo
+            - button "More" [ref=f18e13] [cursor=pointer]:
+              - generic [ref=f18e14]:
+                - img
+          - button "Play" [ref=f18e17] [cursor=pointer]:
+            - img

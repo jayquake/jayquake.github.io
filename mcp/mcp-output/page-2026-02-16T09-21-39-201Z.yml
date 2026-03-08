@@ -1,0 +1,195 @@
+- generic [active] [ref=e6]:
+  - generic [ref=e7]:
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - generic [ref=e11]:
+          - paragraph [ref=e12]: Skip to content
+          - link "Skip to content" [ref=e13] [cursor=pointer]:
+            - generic [ref=e14]: ↵
+            - generic [ref=e15]: ENTER
+        - generic [ref=e16]:
+          - paragraph [ref=e17]: Skip to footer
+          - link "Skip to footer" [ref=e18] [cursor=pointer]:
+            - generic [ref=e19]: ↵
+            - generic [ref=e20]: ENTER
+      - generic [ref=e21]:
+        - banner [ref=e22]:
+          - generic [ref=e23]:
+            - link [ref=e24] [cursor=pointer]:
+              - /url: /
+              - img [ref=e25]
+            - combobox "jayquake.github.io" [ref=e33] [cursor=pointer]:
+              - generic [ref=e35]:
+                - img [ref=e38]
+                - generic [ref=e39]: jayquake.github.io
+              - img [ref=e41]
+            - separator [ref=e43]
+            - button "Audits" [ref=e44] [cursor=pointer]:
+              - img [ref=e47]
+              - paragraph [ref=e50]: Audits
+              - img [ref=e52]
+          - generic [ref=e54]:
+            - generic [ref=e55]:
+              - button "Help" [ref=e57] [cursor=pointer]:
+                - img [ref=e59]
+              - button "Notifications" [ref=e64] [cursor=pointer]:
+                - img [ref=e66]
+            - separator [ref=e68]
+            - button "jasonqu" [ref=e69] [cursor=pointer]:
+              - img [ref=e71]
+              - generic [ref=e74]: jasonqu
+              - img [ref=e76]
+        - generic [ref=e78]:
+          - generic [ref=e79]:
+            - list [ref=e80]:
+              - listitem [ref=e81]:
+                - link "Dashboard" [ref=e82] [cursor=pointer]:
+                  - /url: /dashboard
+                  - img [ref=e86]
+                  - generic [ref=e90]: Dashboard
+              - listitem [ref=e91]:
+                - link "Explore" [ref=e92] [cursor=pointer]:
+                  - /url: /explore?view=issues&filters=default
+                  - img [ref=e96]
+                  - generic [ref=e100]: Explore
+              - listitem [ref=e101]:
+                - link "Journeys" [ref=e102] [cursor=pointer]:
+                  - /url: /journeys
+                  - img [ref=e106]
+                  - generic [ref=e110]: Journeys
+              - listitem [ref=e111]:
+                - link "Assets" [ref=e112] [cursor=pointer]:
+                  - /url: /assets
+                  - img [ref=e116]
+                  - generic [ref=e120]: Assets
+              - listitem [ref=e121]:
+                - link "Tasks" [ref=e122] [cursor=pointer]:
+                  - /url: /tasks
+                  - img [ref=e126]
+                  - generic [ref=e129]: Tasks
+              - listitem [ref=e130]:
+                - link "Integrations" [ref=e131] [cursor=pointer]:
+                  - /url: /integrations
+                  - img [ref=e135]
+                  - generic [ref=e138]: Integrations
+              - listitem [ref=e139]:
+                - link "Audits" [ref=e140] [cursor=pointer]:
+                  - /url: /audits
+                  - img [ref=e144]
+                  - generic [ref=e147]: Audits
+            - list [ref=e148]:
+              - separator [ref=e149]
+              - listitem [ref=e150]:
+                - link "Settings" [ref=e151] [cursor=pointer]:
+                  - /url: /settings
+                  - img [ref=e155]
+                  - generic [ref=e158]: Settings
+          - generic [ref=e159]:
+            - main "Content" [ref=e160]:
+              - generic [ref=e162]:
+                - generic [ref=e163]:
+                  - generic [ref=e164]:
+                    - heading "Manage your journeys" [level=1] [ref=e165]
+                    - generic [ref=e166]:
+                      - paragraph [ref=e167]: Audit key user flows and interactive elements not automatically checked. Add these to accessFlow audits.
+                      - button "Watch Overview" [ref=e168] [cursor=pointer]:
+                        - img [ref=e170]
+                        - generic [ref=e175]: Watch Overview
+                  - generic [ref=e176]:
+                    - button "Record a Journey" [ref=e177] [cursor=pointer]:
+                      - img [ref=e179]
+                      - text: Record a Journey
+                    - button "Open create journey manually menu" [ref=e182] [cursor=pointer]:
+                      - img [ref=e184]
+                - table [ref=e188]:
+                  - rowgroup [ref=e189]:
+                    - row "Journey name Last modified Last audited Steps Issues found" [ref=e190]:
+                      - columnheader "Journey name" [ref=e191]
+                      - columnheader "Last modified" [ref=e192]:
+                        - generic [ref=e193]:
+                          - generic [ref=e194]: Last modified
+                          - button [ref=e196] [cursor=pointer]:
+                            - img [ref=e198]
+                      - columnheader "Last audited" [ref=e200]:
+                        - generic [ref=e202]:
+                          - generic [ref=e203]: Last audited
+                          - button [ref=e205] [cursor=pointer]:
+                            - img [ref=e207]
+                      - columnheader "Steps" [ref=e209]:
+                        - generic [ref=e211]:
+                          - generic [ref=e212]: Steps
+                          - button [ref=e214] [cursor=pointer]:
+                            - img [ref=e216]
+                      - columnheader "Issues found" [ref=e218]:
+                        - generic [ref=e220]:
+                          - generic [ref=e221]: Issues found
+                          - button [ref=e223] [cursor=pointer]:
+                            - img [ref=e225]
+                      - columnheader [ref=e227]
+                  - rowgroup [ref=e228]:
+                    - row "Untitled journey jayquake.github.io/ Feb 16, 2026 ---- 1 Steps ---- Open actions menu" [ref=e229] [cursor=pointer]:
+                      - cell "Untitled journey jayquake.github.io/" [ref=e230]:
+                        - generic [ref=e237]:
+                          - paragraph [ref=e239]: Untitled journey
+                          - paragraph [ref=e240]: jayquake.github.io/
+                      - cell "Feb 16, 2026" [ref=e241]:
+                        - paragraph [ref=e244]: Feb 16, 2026
+                      - cell "----" [ref=e245]:
+                        - paragraph [ref=e248]: "----"
+                      - cell "1 Steps" [ref=e249]:
+                        - paragraph [ref=e251]: 1 Steps
+                      - cell "----" [ref=e252]:
+                        - paragraph [ref=e254]: "----"
+                      - cell "Open actions menu Untitled journey jayquake.github.io/ Feb 16, 2026 ---- 1 Steps ----" [ref=e255]:
+                        - generic [ref=e256]:
+                          - button "Open actions menu" [ref=e257]:
+                            - img [ref=e259]
+                          - link "Untitled journey jayquake.github.io/ Feb 16, 2026 ---- 1 Steps ---- Open actions menu":
+                            - /url: /journeys/6992e0cbc7665c6d323cdbdf
+                    - row "Untitled journey 1 jayquake.github.io/ Feb 16, 2026 ---- 1 Steps ---- Open actions menu" [ref=e262] [cursor=pointer]:
+                      - cell "Untitled journey 1 jayquake.github.io/" [ref=e263]:
+                        - generic [ref=e270]:
+                          - paragraph [ref=e272]: Untitled journey 1
+                          - paragraph [ref=e273]: jayquake.github.io/
+                      - cell "Feb 16, 2026" [ref=e274]:
+                        - paragraph [ref=e277]: Feb 16, 2026
+                      - cell "----" [ref=e278]:
+                        - paragraph [ref=e281]: "----"
+                      - cell "1 Steps" [ref=e282]:
+                        - paragraph [ref=e284]: 1 Steps
+                      - cell "----" [ref=e285]:
+                        - paragraph [ref=e287]: "----"
+                      - cell "Open actions menu Untitled journey 1 jayquake.github.io/ Feb 16, 2026 ---- 1 Steps ----" [ref=e288]:
+                        - generic [ref=e289]:
+                          - button "Open actions menu" [ref=e290]:
+                            - img [ref=e292]
+                          - link "Untitled journey 1 jayquake.github.io/ Feb 16, 2026 ---- 1 Steps ---- Open actions menu":
+                            - /url: /journeys/6992e128c7665c6d323cdbe0
+            - generic [ref=e295]:
+              - separator [ref=e296]
+              - generic [ref=e297]:
+                - separator [ref=e298]
+                - button "Reset Selection" [ref=e300] [cursor=pointer]:
+                  - img [ref=e302]
+            - contentinfo "Footer" [ref=e304]:
+              - paragraph [ref=e305]: © 2026 - accessiBe Inc. All Rights Reserved.
+              - navigation "Footer menu" [ref=e306]:
+                - list [ref=e307]:
+                  - listitem [ref=e308]:
+                    - link "Terms of Service" [ref=e309] [cursor=pointer]:
+                      - /url: https://accessibe.com/terms-of-service
+                  - listitem [ref=e310]:
+                    - link "Privacy Policy" [ref=e311] [cursor=pointer]:
+                      - /url: https://accessibe.com/privacy-policy
+                  - listitem [ref=e312]:
+                    - link "Release Notes" [ref=e313] [cursor=pointer]:
+                      - /url: https://support.accessibe.com/hc/en-us/sections/17817223393298-accessFlow-Release-Notes
+                  - listitem [ref=e314]:
+                    - link "Support Portal" [ref=e315] [cursor=pointer]:
+                      - /url: https://support.accessibe.com/hc/en-us/categories/16379543560210-Getting-Started-with-accessFlow
+    - region "Notifications (alt+T)":
+      - list
+  - iframe [ref=e5]:
+    - button "Open messaging window" [ref=f21e5] [cursor=pointer]:
+      - img [ref=f21e7]
+      - img [ref=f21e10]

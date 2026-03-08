@@ -1,0 +1,46 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - heading "Staging Setup" [level=2] [ref=e5]:
+        - img [ref=e6]
+        - text: Staging Setup
+      - generic [ref=e12]:
+        - generic [ref=e13] [cursor=pointer]: User Email
+        - textbox "User Email" [ref=e16]:
+          - /placeholder: " "
+          - text: qa-automation+65bda985@accessibe.com
+      - generic [ref=e17]:
+        - generic [ref=e18] [cursor=pointer]: Domain
+        - textbox "Domain" [ref=e21]:
+          - /placeholder: " "
+          - text: 1771157749668.com
+      - generic [ref=e22]:
+        - generic [ref=e23] [cursor=pointer]: Page Count
+        - spinbutton "Page Count" [ref=e26]: "3"
+      - generic [ref=e27] [cursor=pointer]:
+        - text: standard
+        - img [ref=e36]
+      - button "Upsert Domain and User" [ref=e29] [cursor=pointer]
+      - generic [ref=e38]:
+        - generic [ref=e39]: License created
+        - link "Login" [ref=e40] [cursor=pointer]:
+          - /url: /?access=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6InFhLWF1dG9tYXRpb24rNjViZGE5ODVAYWNjZXNzaWJlLmNvbSIsIndlYnNpdGVJZCI6IjE3NzExNTc3NDk2NjguY29tIn0sImlhdCI6MTc3MTE1ODAxOSwiZXhwIjoxNzcxNzYyODE5fQ.MT6HGPyhshJ8tDHAArtSNsKVxzepN7F0FDaVckH5rUiCM5t9CBlZ7BW7Dx2RhNz2KzjnKknM5JbCQf9_yMWxjWaTAjxkfBrB1xz0ImQLv7_WA6pQWM_GWnNCyp9Qxwqsmj-e7vNVCtSpHd148yFzjxar7aeEsznNHRozDwfxEZbFlQY_QbU-r9t_WHWNtkJeKQMduNfOfrps_JowoID_1QHA4PGHlrCYoXIz04aV__yHgvtgOV1Gsh8Yq6XFHrss3at4HwFW09_kldG2rJbTDazIZNSMeHcnfhCh_refztN2GasKg3eaWGjNR1ELhFI5Iw6iH-Oxay5TBxK1iqCh1MLKuPI0ntVuEjrpzdWcBaTMRpQk18r2BMKrxrrcgmCA94IAd-TPRXRVVKvJb_MFE1XUZ14sGv4cktdzxWs3RPMsGkWr5s-K3i9ZANe5hrX6-qIFvV4aZcPa3tz1K9WkfIZx1DKRiIdNM_5-15XV0P0Mw1zibQ1N_lN5p60O29z20PUnRTw-nx7m6mTz3bpKTvtKf-cngzoRgmVwiyhB7FSsikpQzrpXhgBNYMR8krq38DhL7Wi9O0puUzRFOc7YyLQPErTyM9A0MqV-Z3Z3_XLRdCG3tAvM_VDMX7HTDqzJA4Xx4ZQgedew09L7APQNBDDr_L83paLMdcV1bUuSeMI&domain=1771157749668.com
+    - region "Notifications (alt+T)":
+      - list
+  - generic:
+    - generic "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=e30]:
+      - iframe [ref=e31]:
+        - button "Close message from Anna" [ref=f30e4] [cursor=pointer]:
+          - img [ref=f30e5]
+      - generic [ref=e32]:
+        - iframe [ref=e33]:
+          - figure [ref=f31e5]:
+            - img "Anna avatar" [ref=f31e6]
+        - iframe [ref=e34]:
+          - button "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=f32e5] [cursor=pointer]:
+            - heading "Anna" [level=1] [ref=f32e6]
+            - generic [ref=f32e8]: Hey there!👋 Is there anything I can help you with today?
+    - iframe [ref=e35]:
+      - button "Open messaging window" [ref=f29e5] [cursor=pointer]:
+        - img [ref=f29e7]
+        - img [ref=f29e10]

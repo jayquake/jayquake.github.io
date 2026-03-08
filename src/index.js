@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { HashRouter as Router } from "react-router-dom"; // Use HashRouter here
+import { BrowserRouter as Router } from "react-router-dom";
 import { ModalProvider } from "./components/util/ModalContext";
 import { LoadingProvider } from "./components/util/LoadingContext"; // Import LoadingProvider
 import GlobalLoading from "./components/util/GlobalLoading"; // Import GlobalLoading

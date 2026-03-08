@@ -1,0 +1,490 @@
+- generic:
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - paragraph: Skip to content
+            - link:
+              - generic: ↵
+              - generic: ENTER
+          - generic:
+            - paragraph: Skip to footer
+            - link:
+              - generic: ↵
+              - generic: ENTER
+        - generic:
+          - banner:
+            - generic:
+              - link:
+                - /url: /
+                - img
+              - generic:
+                - generic:
+                  - generic:
+                    - combobox:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - img
+                          - generic: jayquake.github.io
+                      - generic:
+                        - img
+              - separator
+              - button:
+                - generic:
+                  - generic:
+                    - img
+                - paragraph: Audits
+                - generic:
+                  - img
+            - generic:
+              - generic:
+                - generic:
+                  - button:
+                    - generic:
+                      - img
+                - generic:
+                  - button:
+                    - generic:
+                      - img
+              - separator
+              - button:
+                - generic:
+                  - img
+                - generic: jasonqu
+                - generic:
+                  - img
+          - generic:
+            - generic:
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /dashboard
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Dashboard
+                - listitem:
+                  - link:
+                    - /url: /explore?view=issues&filters=default
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Explore
+                - listitem:
+                  - link:
+                    - /url: /journeys
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Journeys
+                - listitem:
+                  - link:
+                    - /url: /assets
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Assets
+                - listitem:
+                  - link:
+                    - /url: /tasks
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Tasks
+                - listitem:
+                  - link:
+                    - /url: /integrations
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Integrations
+                - listitem:
+                  - link:
+                    - /url: /audits
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Audits
+              - list:
+                - separator
+                - listitem:
+                  - link:
+                    - /url: /settings
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Settings
+            - generic:
+              - main:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - heading [level=1]: Welcome, Jasonqu
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - img
+                              - generic: "Audit cycle:"
+                              - generic: Custom
+                              - generic:
+                                - generic:
+                                  - img
+                            - separator
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - img
+                                - generic: "Last audit: April 9"
+                              - separator
+                              - generic:
+                                - generic:
+                                  - img
+                                - generic: "Next audit: May 10"
+                          - generic:
+                            - button:
+                              - generic:
+                                - generic:
+                                  - img
+                              - generic:
+                                - generic:
+                                  - heading [level=4]: Unique issues
+                                  - generic:
+                                    - generic:
+                                      - img
+                                - generic:
+                                  - paragraph: "62"
+                            - button:
+                              - generic:
+                                - generic:
+                                  - img
+                              - generic:
+                                - generic:
+                                  - heading [level=4]: Recurring issues
+                                  - generic:
+                                    - generic:
+                                      - img
+                                - generic:
+                                  - paragraph: "15"
+                            - button:
+                              - generic:
+                                - generic:
+                                  - img
+                              - generic:
+                                - generic:
+                                  - heading [level=4]: Audited pages
+                                  - generic:
+                                    - generic:
+                                      - img
+                                - generic:
+                                  - paragraph: "5"
+                                  - generic: /
+                                  - paragraph: "5"
+                            - button:
+                              - generic:
+                                - generic:
+                                  - img
+                              - generic:
+                                - generic:
+                                  - heading [level=4]: Website assets
+                                  - generic:
+                                    - generic:
+                                      - img
+                                - generic:
+                                  - generic: "0"
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - img
+                          - paragraph: Audit completed successfully for the entire domain.
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - heading [level=4]: Site accessibility score
+                                - generic:
+                                  - generic:
+                                    - img
+                              - generic:
+                                - generic:
+                                  - combobox:
+                                    - generic: Past 30 days
+                                    - generic:
+                                      - img
+                            - generic:
+                              - generic:
+                                - img:
+                                  - generic: "58"
+                              - separator
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - img:
+                                        - generic:
+                                          - generic:
+                                            - generic:
+                                              - generic: "0"
+                                            - generic:
+                                              - generic: "25"
+                                            - generic:
+                                              - generic: "50"
+                                            - generic:
+                                              - generic: "75"
+                                            - generic:
+                                              - generic: "100"
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - heading [level=4]: Issues and pages over time
+                                - generic:
+                                  - generic:
+                                    - img
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - combobox:
+                                      - generic: Past 30 days
+                                      - generic:
+                                        - img
+                            - generic:
+                              - generic:
+                                - button:
+                                  - img
+                                - generic: Issues
+                              - generic:
+                                - button:
+                                  - img
+                                - generic: Pages
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img:
+                                      - generic:
+                                        - generic:
+                                          - generic:
+                                            - generic: "0"
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - heading [level=4]: Issues by severity
+                              - generic:
+                                - link:
+                                  - /url: /explore?view=issues
+                                  - generic: View all issues
+                                  - generic:
+                                    - img
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - heading [level=5]: "77"
+                                    - generic: Total issues
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - img
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - generic: Extreme
+                                    - generic:
+                                      - generic: "33"
+                                      - separator
+                                      - generic:
+                                        - generic: 43%
+                                  - generic:
+                                    - generic:
+                                      - generic: High
+                                    - generic:
+                                      - generic: "19"
+                                      - separator
+                                      - generic:
+                                        - generic: 25%
+                                  - generic:
+                                    - generic:
+                                      - generic: Medium
+                                    - generic:
+                                      - generic: "23"
+                                      - separator
+                                      - generic:
+                                        - generic: 30%
+                                  - generic:
+                                    - generic:
+                                      - generic: Low
+                                    - generic:
+                                      - generic: "2"
+                                      - separator
+                                      - generic:
+                                        - generic: 2%
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - heading [level=4]: Issue severity over time
+                                - generic:
+                                  - generic:
+                                    - img
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - combobox:
+                                      - generic: Past 30 days
+                                      - generic:
+                                        - img
+                            - generic:
+                              - generic:
+                                - button:
+                                  - img
+                                - generic: Extreme
+                              - generic:
+                                - button:
+                                  - img
+                                - generic: High
+                              - generic:
+                                - button:
+                                  - img
+                                - generic: Medium
+                              - generic:
+                                - button:
+                                  - img
+                                - generic: Low
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img:
+                                      - generic:
+                                        - generic:
+                                          - generic:
+                                            - generic: "0"
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: Top severity accessibility rules
+                              - link:
+                                - /url: /explore?view=rules
+                                - generic: View All
+                                - generic:
+                                  - img
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /rules/620570c26199d73f9cf2aeca
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - img
+                                    - generic: The color contrast ratio between text and its background should provide a readable experience
+                                  - generic: 19 Issues
+                                - separator
+                              - listitem:
+                                - link:
+                                  - /url: /rules/6206336bacb7f0495c5df39a
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - img
+                                    - generic: Form fields must include a descriptive label
+                                  - generic: 13 Issues
+                                - separator
+                              - listitem:
+                                - link:
+                                  - /url: /rules/62065412b0b1184e88c83835
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - img
+                                    - generic: Non-interactive elements should not be keyboard navigable
+                                  - generic: 11 Issues
+              - generic:
+                - separator
+                - generic:
+                  - separator
+                  - generic:
+                    - button:
+                      - generic:
+                        - img
+              - contentinfo:
+                - paragraph: © 2026 - accessiBe Inc. All Rights Reserved.
+                - navigation:
+                  - list:
+                    - listitem:
+                      - link:
+                        - /url: https://accessibe.com/terms-of-service
+                        - text: Terms of Service
+                    - listitem:
+                      - link:
+                        - /url: https://accessibe.com/privacy-policy
+                        - text: Privacy Policy
+                    - listitem:
+                      - link:
+                        - /url: https://support.accessibe.com/hc/en-us/sections/17817223393298-accessFlow-Release-Notes
+                        - text: Release Notes
+                    - listitem:
+                      - link:
+                        - /url: https://support.accessibe.com/hc/en-us/categories/16379543560210-Getting-Started-with-accessFlow
+                        - text: Support Portal
+    - list
+  - generic:
+    - iframe [ref=e3]:
+      - button "Close message from Anna" [ref=f35e4] [cursor=pointer]:
+        - img [ref=f35e5]
+    - generic:
+      - iframe [ref=e5]:
+        - figure [ref=f36e5]:
+          - img "Anna avatar" [ref=f36e6]
+      - iframe [ref=e6]:
+        - button "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=f37e5] [cursor=pointer]:
+          - heading "Anna" [level=1] [ref=f37e6]
+          - generic [ref=f37e8]: Hey there!👋 Is there anything I can help you with today?
+  - iframe [ref=e7]:
+    - button "Open messaging window" [ref=f34e5] [cursor=pointer]:
+      - img [ref=f34e7]
+      - img [ref=f34e10]
+  - dialog [ref=e9]:
+    - generic [ref=e11]:
+      - button "Close" [ref=e12] [cursor=pointer]:
+        - img [ref=e14]
+      - generic:
+        - heading [level=2]
+      - generic [ref=e17]:
+        - generic [ref=e18]:
+          - generic [ref=e19]:
+            - generic [ref=e20]: 🎉
+            - heading "accessFlow is all set. Here's what you can do next:" [level=2] [ref=e21]
+          - list [ref=e22]:
+            - listitem [ref=e23]:
+              - generic [ref=e25] [cursor=pointer]: Check your accessibility score
+            - listitem [ref=e26]:
+              - generic [ref=e28] [cursor=pointer]: Review issues' severity breakdown
+            - listitem [ref=e29]:
+              - generic [ref=e31] [cursor=pointer]: Explore all issues
+            - listitem [ref=e32]:
+              - generic [ref=e34] [cursor=pointer]: Fix your first issue
+        - generic [ref=e66]:
+          - generic [ref=e67]:
+            - heading "View accessibility score" [level=3] [ref=e68]
+            - paragraph [ref=e69]: Get a snapshot of your site's current accessibility level and see how fixing issues can improve your score.
+          - generic [ref=e70]:
+            - button "Skip" [ref=e71] [cursor=pointer]
+            - button "Next" [active] [ref=e72] [cursor=pointer]

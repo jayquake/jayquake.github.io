@@ -1,0 +1,4 @@
+- iframe [ref=e1]:
+  - button "Open messaging window" [ref=f7e5] [cursor=pointer]:
+    - img [ref=f7e7]
+    - img [ref=f7e10]

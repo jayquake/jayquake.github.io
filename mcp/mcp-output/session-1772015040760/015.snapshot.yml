@@ -1,0 +1,33 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - heading "Staging Setup" [level=2] [ref=e5]:
+        - img [ref=e6]
+        - text: Staging Setup
+      - generic [ref=e12]:
+        - generic [ref=e13] [cursor=pointer]: User Email
+        - textbox "User Email" [ref=e16]:
+          - /placeholder: " "
+          - text: qa-automation+bd3c1c47@accessibe.com
+      - generic [ref=e17]:
+        - generic [ref=e18] [cursor=pointer]: Domain
+        - textbox "Domain" [ref=e21]:
+          - /placeholder: " "
+          - text: 1772009258209.com
+      - generic [ref=e22]:
+        - generic [ref=e23] [cursor=pointer]: Page Count
+        - spinbutton "Page Count" [ref=e26]: "3"
+      - generic [ref=e27] [cursor=pointer]:
+        - text: standard
+        - img [ref=e29]
+      - button "Upsert Domain and User" [ref=e31] [cursor=pointer]
+      - generic [ref=e33]:
+        - generic [ref=e34]: License created
+        - link "Login" [ref=e35] [cursor=pointer]:
+          - /url: /?access=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6InFhLWF1dG9tYXRpb24rYmQzYzFjNDdAYWNjZXNzaWJlLmNvbSIsIndlYnNpdGVJZCI6IjE3NzIwMDkyNTgyMDkuY29tIn0sImlhdCI6MTc3MjAxNTA4OCwiZXhwIjoxNzcyNjE5ODg4fQ.X1TfG2bkBvQyF0p6xd1tq_0eXdUY0Lr6wxnITFSY4OErxjEPooMzZ0D2lMR2tNteU6q5W7S7INR4kjpCLCK-O4iRFv7r5U0Mnbp2_erSOJKgp-ncHcBJbY-JpDJW943ZwZkXCEAwvpRSvnDO-8yvDghgRBdBTO-h0JBdhS9kC8zDMamX01zempP9od7KX1vpK9k1przsSqSGaV3UMLdUc5e30Brvjb8ATDZQB4z9WR-ntPiLC7B2YN5tbKfLhjL-M9RM0HbeYURYQU1fQdMpfKoKEVQIOd98pBaUrQvXvbmA4FrJcGIoZsd16Xc381H4pRGsnhk3b07Ld4DtdsDvTAqc4uRbAkKoyGW2pq9fpwgZgUz5mrPh_zrq5n299-0yCm7Ne9eCfBGWQCLId9Wv67wqOnCUKPbotryBeoN_11u5h2DCqWfC3GGj8wg-4XWgq4_U4x93vwNax5LFhVLivpFJX3yNwtPgB2WObcVyMUM_XdECUqlq8jRASqsVl0icvXI2MFBeyUoWU927mTlkT3FDeziGZpbGwKbQXc_cjrn5X4Ly3pwKUB5tjDYiLkQQ_n0zPylInvLTU4bDgWoC5OZYpXbiBLjsq2GeYD35JU2ATrxo8J-UKgVu88AJ2MBgYbuJk7TumiGp2T8TTeln2FLq5SJFAD_yQ6Kyu-hUaus&domain=1772009258209.com
+    - region "Notifications (alt+T)":
+      - list
+  - iframe [ref=e32]:
+    - button "Open messaging window" [ref=f7e5] [cursor=pointer]:
+      - img [ref=f7e7]
+      - img [ref=f7e10]

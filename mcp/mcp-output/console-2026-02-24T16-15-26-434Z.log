@@ -1,0 +1,32 @@
+[    3513ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://sdk-export--accessflow--test.acsb-test.com/trpc/website.checkSuccessfulScanExist:0
+[    4078ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://sdk-export--accessflow--test.acsb-test.com/trpc/users.zendesk:0
+[    4127ms] [ERROR] Error: TRPCClientError: User not authenticated
+    at TRPCClientError.from (https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:65:8000)
+    at https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:65:11195 @ https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:8669
+[    4146ms] [ERROR] Component Stack: Unhandled Rejection @ https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:8669
+[    4156ms] TRPCClientError: User not authenticated
+    at TRPCClientError.from (https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:65:8000)
+    at https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:65:11195
+[    4348ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://sdk-export--accessflow--test.acsb-test.com/trpc/website.active?input=%7B%22domain%22%3Anull%7D:0
+[    4356ms] [ERROR] Error: TRPCClientError: PRECONDITION_FAILED
+    at TRPCClientError.from (https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:65:8000)
+    at https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:65:11195 @ https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:8669
+[    4356ms] [ERROR] Component Stack: Unhandled Rejection @ https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:8669
+[    4375ms] TRPCClientError: PRECONDITION_FAILED
+    at TRPCClientError.from (https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:65:8000)
+    at https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:65:11195
+[    4394ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://sdk-export--accessflow--test.acsb-test.com/trpc/scans.getLastScans?input=%7B%22limit%22%3A30%7D:0
+[    4400ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://sdk-export--accessflow--test.acsb-test.com/trpc/users.me:0
+[    4400ms] [ERROR] Error: TRPCClientError: PRECONDITION_FAILED
+    at TRPCClientError.from (https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:65:8000)
+    at https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:65:11195 @ https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:8669
+[    4401ms] [ERROR] Component Stack: Unhandled Rejection @ https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:8669
+[    4401ms] TRPCClientError: PRECONDITION_FAILED
+    at TRPCClientError.from (https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:65:8000)
+    at https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:65:11195
+[    4540ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://sdk-export--accessflow--test.acsb-test.com/trpc/website.mixpanelData:0
+[    4544ms] [ERROR] TRPCClientError: Website not found
+    at TRPCClientError.from (https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:65:8000)
+    at https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:65:11195 @ https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:8669
+[    4790ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://sdk-export--accessflow--test.acsb-test.com/trpc/website.checkSuccessfulScanExist:0
+[    5688ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://sdk-export--accessflow--test.acsb-test.com/trpc/scans.getLastScans?input=%7B%22limit%22%3A30%7D:0

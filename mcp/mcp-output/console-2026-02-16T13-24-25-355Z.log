@@ -1,0 +1,8 @@
+[     493ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[     868ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[     871ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[     874ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[     878ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[     879ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[     880ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[    2700ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://sdk-refactor--accessflow--test.acsb-test.com/trpc/website.checkSuccessfulScanExist:0

@@ -1,0 +1,63 @@
+[    8366ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[    8953ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[    8957ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[    8960ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[    8978ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[    8979ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[    8980ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[   10823ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://mix-p-sdk--accessflow--test.acsb-test.com/trpc/website.checkSuccessfulScanExist:0
+[   12171ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://mix-p-sdk--accessflow--test.acsb-test.com/trpc/website.checkSuccessfulScanExist:0
+[   12287ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://mix-p-sdk--accessflow--test.acsb-test.com/trpc/users.zendesk:0
+[   12288ms] [ERROR] Error: TRPCClientError: User not authenticated
+    at TRPCClientError.from (https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:65:8000)
+    at https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:65:11195 @ https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:8587
+[   12290ms] [ERROR] Component Stack: Unhandled Rejection @ https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:8587
+[   12292ms] TRPCClientError: User not authenticated
+    at TRPCClientError.from (https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:65:8000)
+    at https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:65:11195
+[   12353ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://mix-p-sdk--accessflow--test.acsb-test.com/trpc/users.me:0
+[   12354ms] [ERROR] Error: TRPCClientError: PRECONDITION_FAILED
+    at TRPCClientError.from (https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:65:8000)
+    at https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:65:11195 @ https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:8587
+[   12354ms] [ERROR] Component Stack: Unhandled Rejection @ https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:8587
+[   12355ms] TRPCClientError: PRECONDITION_FAILED
+    at TRPCClientError.from (https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:65:8000)
+    at https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:65:11195
+[   12489ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://mix-p-sdk--accessflow--test.acsb-test.com/trpc/website.mixpanelData:0
+[   12489ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://mix-p-sdk--accessflow--test.acsb-test.com/trpc/scans.getLastScans?input=%7B%22limit%22%3A30%7D:0
+[   12490ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://mix-p-sdk--accessflow--test.acsb-test.com/trpc/website.active?input=%7B%22domain%22%3Anull%7D:0
+[   12490ms] [ERROR] TRPCClientError: Website not found
+    at TRPCClientError.from (https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:65:8000)
+    at https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:65:11195 @ https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:8587
+[   12492ms] [ERROR] Error: TRPCClientError: PRECONDITION_FAILED
+    at TRPCClientError.from (https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:65:8000)
+    at https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:65:11195 @ https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:8587
+[   12493ms] [ERROR] Component Stack: Unhandled Rejection @ https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:8587
+[   12495ms] TRPCClientError: PRECONDITION_FAILED
+    at TRPCClientError.from (https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:65:8000)
+    at https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:65:11195
+[   13820ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://mix-p-sdk--accessflow--test.acsb-test.com/trpc/scans.getLastScans?input=%7B%22limit%22%3A30%7D:0
+[   14477ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://mix-p-sdk--accessflow--test.acsb-test.com/trpc/website.checkSuccessfulScanExist:0
+[   16101ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://mix-p-sdk--accessflow--test.acsb-test.com/trpc/scans.getLastScans?input=%7B%22limit%22%3A30%7D:0
+[   18784ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://mix-p-sdk--accessflow--test.acsb-test.com/trpc/website.checkSuccessfulScanExist:0
+[   20373ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://mix-p-sdk--accessflow--test.acsb-test.com/trpc/scans.getLastScans?input=%7B%22limit%22%3A30%7D:0
+[   22386ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://mix-p-sdk--accessflow--test.acsb-test.com/trpc/liveUpdates.getLastUpates?input=%7B%22lastAssetsUpdate%22%3A%222026-02-16T16%3A05%3A42.473Z%22%2C%22lastScansUpdate%22%3A%222026-02-16T16%3A05%3A42.473Z%22%2C%22lastNotificationsUpdate%22%3A%222026-02-16T16%3A05%3A42.473Z%22%2C%22lastWebsiteUpdate%22%3A%222026-02-16T16%3A05%3A42.473Z%22%2C%22lastWebpagesUpdate%22%3A%222026-02-16T16%3A05%3A42.473Z%22%2C%22lastUserUpdate%22%3A%222026-02-16T16%3A05%3A42.473Z%22%2C%22lastFunnelsUpdate%22%3A%222026-02-16T16%3A05%3A42.473Z%22%2C%22affectedPages%22%3A%5B%5D%2C%22affectedIssues%22%3A%5B%5D%2C%22affectedScans%22%3A%5B%5D%2C%22affectedFunnels%22%3A%5B%5D%2C%22lastAnnouncementsUpdate%22%3A%222026-02-16T16%3A05%3A42.473Z%22%7D:0
+[   45834ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[   46311ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[   46313ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[   46315ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[   46323ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[   46325ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[   46326ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[   48126ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://mix-p-sdk--accessflow--test.acsb-test.com/trpc/website.checkSuccessfulScanExist:0
+[   48494ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://mix-p-sdk--accessflow--test.acsb-test.com/trpc/users.zendesk:0
+[   48494ms] [ERROR] Error: TRPCClientError: User not authenticated
+    at TRPCClientError.from (https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:65:8000)
+    at https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:65:11195 @ https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:8587
+[   48494ms] [ERROR] Component Stack: Unhandled Rejection @ https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:8587
+[   48495ms] TRPCClientError: User not authenticated
+    at TRPCClientError.from (https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:65:8000)
+    at https://mix-p-sdk--accessflow--test.acsb-test.com/assets/index-Bb0M-jLp.js:65:11195
+[   52344ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[   52345ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1
+[   52346ms] [WARNING] Missing translation key:embeddable_framework.messenger.sources_cited.title_and_button @ https://static.zdassets.com/web_widget/messenger/latest/web-widget-main-3f24de8.js:1

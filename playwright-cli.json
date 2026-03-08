@@ -1,0 +1,11 @@
+{
+  "browser": {
+    "contextOptions": {
+      "httpCredentials": {
+        "username": "test",
+        "password": "acsb123"
+      }
+    }
+  },
+  "outputDir": "./mcp/mcp-output"
+}

@@ -1,0 +1,42 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - heading "Staging Setup" [level=2] [ref=e5]:
+        - img [ref=e6]
+        - text: Staging Setup
+      - generic [ref=e12]:
+        - generic [ref=e13] [cursor=pointer]: User Email
+        - textbox "User Email" [ref=e16]:
+          - /placeholder: " "
+          - text: qa-automation+f4e54017@accessibe.com
+      - generic [ref=e17]:
+        - generic [ref=e18] [cursor=pointer]: Domain
+        - textbox "Domain" [ref=e21]:
+          - /placeholder: " "
+          - text: 1771149755601.com
+      - generic [ref=e22]:
+        - generic [ref=e23] [cursor=pointer]: Page Count
+        - spinbutton "Page Count" [active] [ref=e26]: "5"
+      - generic [ref=e27] [cursor=pointer]:
+        - text: standard
+        - img [ref=e35]
+      - button "Upsert Domain and User" [ref=e29] [cursor=pointer]
+    - region "Notifications (alt+T)":
+      - list
+  - generic:
+    - generic "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=e30]:
+      - iframe [ref=e31]:
+        - button "Close message from Anna" [ref=f8e4] [cursor=pointer]:
+          - img [ref=f8e5]
+      - generic [ref=e32]:
+        - iframe [ref=e33]:
+          - figure [ref=f9e5]:
+            - img "Anna avatar" [ref=f9e6]
+        - iframe [ref=e37]:
+          - button "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=f10e5] [cursor=pointer]:
+            - heading "Anna" [level=1] [ref=f10e6]
+            - generic [ref=f10e8]: Hey there!👋 Is there anything I can help you with today?
+    - iframe [ref=e34]:
+      - button "Open messaging window" [ref=f7e5] [cursor=pointer]:
+        - img [ref=f7e7]
+        - img [ref=f7e10]

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Box, Container, Typography, Alert } from "@mui/material";
 import { useSearch } from "../../util/SearchContext"; // Adjust path as needed
-import ItemPage from "../../layout/rulePage";
+import UnifiedRulePage from "../../layout/UnifiedRulePage";
 import { useLoading } from "../../util/LoadingContext";
 import GlassSpinner, { GlassSkeleton } from "../../util/GlassSpinner";
 
@@ -179,7 +179,7 @@ function AllRulesWithRoutes({ filters }) {
         <Route
           key={`${formRule.id}-${formRule.criteria}-${formRule.route}`}
           path={`${formRule.criteria}/${formRule.route}`}
-          element={<ItemPage ruleData={formRule} />}
+          element={<UnifiedRulePage ruleData={formRule} ruleType="legacy" />}
         />
       ))}
     </Routes>

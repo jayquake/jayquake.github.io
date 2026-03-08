@@ -1,46 +1,49 @@
 import {
   Accessibility as AccessibilityIcon,
+  Biotech as BiotechIcon,
   BugReport as BugIcon,
   ChevronLeft as ChevronLeftIcon,
   DarkMode as DarkModeIcon,
+  Dashboard as DashboardIcon,
   LightMode as LightModeIcon,
   Menu as MenuIcon,
   Notifications as NotificationsIcon,
+  Science as ScienceIcon,
   Speed as SpeedIcon,
   Assessment as TestIcon,
 } from "@mui/icons-material";
 import {
   Avatar,
   Badge,
+  BottomNavigation,
+  BottomNavigationAction,
   Box,
-  Button,
   Chip,
-  Container,
   CssBaseline,
   Drawer,
   IconButton,
-  List,
   Menu,
   MenuItem,
   AppBar as MuiAppBar,
   Toolbar,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { styled, useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SearchComponent from "./components/layout/search";
+import RuleTreeSidebar from "./components/layout/RuleTreeSidebar";
 import engineRulesData from "./data/engine-rules-metadata.json";
-import { getMainListItems, getSecondaryListItems } from "./listItems";
 import AppRoutes from "./routes/AppRoutes";
-const drawerWidth = 280;
+const drawerWidth = 300;
 const collapsedDrawerWidth = 60;
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
+  shouldForwardProp: (prop) => prop !== "open" && prop !== "isMobile",
+})(({ theme, open, isMobile }) => ({
+  zIndex: isMobile ? theme.zIndex.appBar : theme.zIndex.drawer + 1,
   background: "rgba(255, 255, 255, 0.4)",
   backdropFilter: "blur(20px)",
   WebkitBackdropFilter: "blur(20px)",
@@ -51,22 +54,26 @@ const AppBar = styled(MuiAppBar, {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-  ...(!open && {
-    marginLeft: collapsedDrawerWidth,
-    width: `calc(100% - ${collapsedDrawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  }),
+  ...(isMobile
+    ? { marginLeft: 0, width: "100%" }
+    : {
+        ...(open && {
+          marginLeft: drawerWidth,
+          width: `calc(100% - ${drawerWidth}px)`,
+          transition: theme.transitions.create(["width", "margin"], {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+          }),
+        }),
+        ...(!open && {
+          marginLeft: collapsedDrawerWidth,
+          width: `calc(100% - ${collapsedDrawerWidth}px)`,
+          transition: theme.transitions.create(["width", "margin"], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+          }),
+        }),
+      }),
 }));
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -80,7 +87,11 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const pathnames = location.pathname.split("/").filter((x) => x);
+  const isTestRunnerRoute = location.pathname.startsWith("/test-runner");
+  const isRuleLabRoute = location.pathname.startsWith("/rule-lab");
 
   // UI State
   const [open, setOpen] = useState(false);
@@ -181,6 +192,13 @@ export default function App() {
       };
     }
 
+    if (currentCriteria === "rule-lab") {
+      return {
+        title: "Rule Lab",
+        subtitle: "Analyze and discover accessibility patterns",
+      };
+    }
+
     if (pathnames.length === 1) {
       const rulesInCategory = data.filter((rule) =>
         rule.criteria?.toLowerCase().includes(currentCriteria.toLowerCase())
@@ -196,81 +214,81 @@ export default function App() {
 
   const { title, subtitle } = getCurrentPageInfo();
 
+  // Auto-collapse sidebar on test runner routes to maximise workspace
+  useEffect(() => {
+    if (isTestRunnerRoute) setOpen(false);
+  }, [location.pathname, isTestRunnerRoute]);
+
   return (
     <Box
       sx={{
         display: "flex",
         minHeight: "100vh",
-        background:
-          location.pathname === "/"
-            ? "transparent"
-            : "linear-gradient(135deg, #f8fafc 0%, #f1f5f9 25%, #e2e8f0 50%, #cbd5e1 75%, #94a3b8 100%)",
+        background: "linear-gradient(135deg, #f0f4ff 0%, #e8eeff 25%, #f1f5f9 50%, #eef2ff 75%, #f8fafc 100%)",
         position: "relative",
         overflow: "hidden",
-        ...(location.pathname !== "/" && {
-          "&::before": {
-            content: '""',
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background:
-              "radial-gradient(circle at 25% 15%, rgba(167, 139, 250, 0.12) 0%, transparent 45%), radial-gradient(circle at 75% 85%, rgba(59, 130, 246, 0.08) 0%, transparent 45%), radial-gradient(circle at 50% 50%, rgba(102, 126, 234, 0.05) 0%, transparent 60%)",
-            backdropFilter: "blur(2px)",
-          },
-          "&::after": {
-            content: '""',
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background:
-              "conic-gradient(from 180deg at 50% 50%, rgba(255,255,255,0.1) 0deg, transparent 120deg, rgba(255,255,255,0.05) 240deg, transparent 360deg)",
-            animation: "rotate 60s linear infinite",
-            "@keyframes rotate": {
-              "0%": { transform: "rotate(0deg)" },
-              "100%": { transform: "rotate(360deg)" },
-            },
-          },
-        }),
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background:
+            "radial-gradient(circle at 25% 15%, rgba(102, 126, 234, 0.06) 0%, transparent 40%), radial-gradient(circle at 75% 85%, rgba(167, 139, 250, 0.04) 0%, transparent 40%)",
+        },
       }}
     >
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} isMobile={isMobile}>
         <Toolbar sx={{
           pr: 2,
-          display: "grid",
-          gridTemplateColumns: "auto minmax(200px, 400px) auto",
-          gap: 3,
+          ...(isMobile
+            ? { display: "flex", justifyContent: "space-between", gap: 1 }
+            : {
+                display: "grid",
+                gridTemplateColumns: "auto minmax(200px, 400px) auto",
+                gap: 3,
+              }),
           alignItems: "center",
-          width: "100%"
+          width: "100%",
         }}>
           {/* Left Section */}
-          <Box display="flex" alignItems="center" sx={{ justifySelf: "start" }}>
+          <Box display="flex" alignItems="center" sx={{ justifySelf: isMobile ? undefined : "start" }}>
+            {isMobile && (
+              <IconButton
+                color="inherit"
+                onClick={() => setOpen(true)}
+                sx={{ mr: 1 }}
+              >
+                <MenuIcon />
+              </IconButton>
+            )}
             <Box>
               <Typography
                 variant="h6"
                 noWrap
-                sx={{ fontWeight: 600, lineHeight: 1.2 }}
+                sx={{ fontWeight: 600, lineHeight: 1.2, fontSize: isMobile ? "0.95rem" : undefined }}
               >
                 {title}
               </Typography>
-              <Typography
-                variant="caption"
-                sx={{ opacity: 0.8, fontSize: "0.75rem" }}
-              >
-                {subtitle}
-              </Typography>
+              {!isMobile && (
+                <Typography
+                  variant="caption"
+                  sx={{ opacity: 0.8, fontSize: "0.75rem" }}
+                >
+                  {subtitle}
+                </Typography>
+              )}
             </Box>
           </Box>
 
-          {/* Center Section - Search */}
+          {/* Center Section - Search (hidden on mobile) */}
           <Box sx={{
             width: "100%",
             maxWidth: 400,
-            justifySelf: "center"
+            justifySelf: "center",
+            display: { xs: "none", md: "block" },
           }}>
             <SearchComponent
               data={data}
@@ -279,7 +297,7 @@ export default function App() {
           </Box>
 
           {/* Right Section - Actions */}
-          <Box display="flex" alignItems="center" gap={1.5} sx={{ justifySelf: "end" }}>
+          <Box display="flex" alignItems="center" gap={isMobile ? 0.5 : 1.5} sx={{ justifySelf: isMobile ? undefined : "end" }}>
             {/* Test Status Indicator */}
             <Tooltip
               title={testStatus.running ? "Tests running..." : "Ready to test"}
@@ -299,39 +317,6 @@ export default function App() {
                 }}
               />
             </Tooltip>
-            {/* Engine Library Link (glassy anchor) */}
-            <Tooltip title="Open Engine Rules Library">
-              <Button
-                component={Link}
-                to="/engine/library"
-                size="small"
-                variant="outlined"
-                sx={{
-                  textTransform: "none",
-                  borderRadius: 999,
-                  fontWeight: 600,
-                  px: 2.2,
-                  display: { xs: "none", sm: "inline-flex" },
-                  borderColor: "rgba(148, 163, 184, 0.5)",
-                  color: "#1e293b",
-                  background: "rgba(255, 255, 255, 0.55)",
-                  backdropFilter: "blur(14px)",
-                  WebkitBackdropFilter: "blur(14px)",
-                  boxShadow:
-                    "0 6px 16px rgba(15,23,42,0.18), inset 0 1px 0 rgba(255,255,255,0.7)",
-                  "&:hover": {
-                    borderColor: "rgba(148, 163, 184, 0.9)",
-                    background: "rgba(255, 255, 255, 0.85)",
-                    boxShadow:
-                      "0 10px 24px rgba(15,23,42,0.22), inset 0 1px 0 rgba(255,255,255,0.9)",
-                  },
-                }}
-                aria-label="Engine Library"
-              >
-                Engine Library
-              </Button>
-            </Tooltip>
-
             {/* Theme Toggle */}
             <Tooltip title="Toggle dark mode">
               <IconButton color="inherit" onClick={handleThemeToggle}>
@@ -460,11 +445,24 @@ export default function App() {
       </AppBar>
 
       <Drawer
-        variant="permanent"
-        open={open}
+        variant={isMobile ? "temporary" : "permanent"}
+        open={isMobile ? open : undefined}
+        onClose={isMobile ? () => setOpen(false) : undefined}
+        ModalProps={isMobile ? { keepMounted: true } : undefined}
         sx={{
+          ...(isMobile
+            ? { "& .MuiDrawer-paper": { width: drawerWidth } }
+            : {
+                width: open ? drawerWidth : collapsedDrawerWidth,
+                flexShrink: 0,
+                transition: (t) =>
+                  t.transitions.create("width", {
+                    easing: t.transitions.easing.easeInOut,
+                    duration: t.transitions.duration.standard,
+                  }),
+              }),
           "& .MuiDrawer-paper": {
-            width: open ? drawerWidth : collapsedDrawerWidth,
+            width: isMobile ? drawerWidth : (open ? drawerWidth : collapsedDrawerWidth),
             background: "rgba(255, 255, 255, 0.3)",
             backdropFilter: "blur(20px)",
             WebkitBackdropFilter: "blur(20px)",
@@ -473,16 +471,15 @@ export default function App() {
             border: "none",
             borderRight: "1px solid rgba(255, 255, 255, 0.5)",
             overflowX: "hidden",
-            overflowY: "auto",
-            pr: open ? 4 : 1,
-            transition: (theme) =>
-              theme.transitions.create(["width", "padding"], {
-                easing: theme.transitions.easing.easeInOut,
-                duration: theme.transitions.duration.standard,
-              }),
-            "&::-webkit-scrollbar": {
-              width: 8,
-            },
+            overflowY: "hidden",
+            ...(!isMobile && {
+              transition: (t) =>
+                t.transitions.create(["width", "padding"], {
+                  easing: t.transitions.easing.easeInOut,
+                  duration: t.transitions.duration.standard,
+                }),
+            }),
+            "&::-webkit-scrollbar": { width: 8 },
             "&::-webkit-scrollbar-track": {
               background: "rgba(255, 255, 255, 0.1)",
               backdropFilter: "blur(10px)",
@@ -493,9 +490,7 @@ export default function App() {
               backdropFilter: "blur(10px)",
               borderRadius: "4px",
               border: "1px solid rgba(255, 255, 255, 0.5)",
-              "&:hover": {
-                background: "rgba(255, 255, 255, 0.5)",
-              },
+              "&:hover": { background: "rgba(255, 255, 255, 0.5)" },
             },
           },
         }}
@@ -553,7 +548,7 @@ export default function App() {
             </Box>
           )}
           <IconButton
-            onClick={handleDrawerToggle}
+            onClick={isMobile ? () => setOpen(false) : handleDrawerToggle}
             sx={{
               color: "#667eea",
               width: 40,
@@ -566,7 +561,7 @@ export default function App() {
               transition: "all 0.2s ease",
             }}
           >
-            {open ? <ChevronLeftIcon /> : <MenuIcon />}
+            {isMobile || open ? <ChevronLeftIcon /> : <MenuIcon />}
           </IconButton>
         </DrawerHeader>
         <Box
@@ -578,33 +573,12 @@ export default function App() {
             mb: 2,
           }}
         />
-        <List
-          sx={{
-            px: open ? 1 : 0.25,
-            py: 0,
-            flex: 1,
-            transition: (theme) =>
-              theme.transitions.create("padding", {
-                easing: theme.transitions.easing.easeInOut,
-                duration: theme.transitions.duration.standard,
-              }),
-          }}
-        >
-          {getMainListItems(data, open)}
-        </List>
-        <List
-          sx={{
-            px: open ? 1 : 0.25,
-            py: 0,
-            transition: (theme) =>
-              theme.transitions.create("padding", {
-                easing: theme.transitions.easing.easeInOut,
-                duration: theme.transitions.duration.standard,
-              }),
-          }}
-        >
-          {getSecondaryListItems(data, open)}
-        </List>
+        <RuleTreeSidebar
+          data={data}
+          isOpen={isMobile ? true : open}
+          onRequestOpen={isMobile ? undefined : () => setOpen(true)}
+          onCloseMobile={isMobile ? () => setOpen(false) : undefined}
+        />
       </Drawer>
 
       <Box
@@ -615,68 +589,77 @@ export default function App() {
           height: "auto",
           overflow: "visible",
           backgroundColor: "transparent",
-          padding:
-            location.pathname === "/"
-              ? 0
-              : {
-                  xs: (theme) => theme.spacing(2),
-                  sm: (theme) => theme.spacing(3),
-                  md: (theme) => theme.spacing(4),
-                },
-          position: "relative",
-          zIndex: 1,
-          paddingBottom: (theme) => theme.spacing(8),
+          pb: isMobile ? "72px" : 0,
         }}
       >
         <Toolbar />
-        {location.pathname === "/" ? (
-          // Home page - no container wrapper, let Home manage its own spacing
-          <>
-            {loading ? (
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  minHeight: "50vh",
-                }}
-              >
-                <Typography>Loading...</Typography>
-              </Box>
-            ) : error ? (
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  minHeight: "50vh",
-                }}
-              >
-                <Typography color="error">Error: {error}</Typography>
-              </Box>
-            ) : (
-              <AppRoutes navigate={navigate} />
-            )}
-          </>
-        ) : (
-          // Other pages - use container with responsive maxWidth
-          <Container
-            maxWidth="lg"
+        {loading ? (
+          <Box
             sx={{
-              px: { xs: 2, sm: 3, md: 4 },
-              py: { xs: 1, sm: 2 },
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              minHeight: "50vh",
             }}
           >
-            {loading ? (
-              <Typography>Loading...</Typography>
-            ) : error ? (
-              <Typography color="error">Error: {error}</Typography>
-            ) : (
-              <AppRoutes navigate={navigate} />
-            )}
-          </Container>
+            <Typography>Loading...</Typography>
+          </Box>
+        ) : error ? (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              minHeight: "50vh",
+            }}
+          >
+            <Typography color="error">Error: {error}</Typography>
+          </Box>
+        ) : (
+          <AppRoutes navigate={navigate} />
         )}
       </Box>
+
+      {/* Mobile Bottom Navigation */}
+      {isMobile && (
+        <BottomNavigation
+          value={
+            location.pathname === "/" ? 0
+            : location.pathname.startsWith("/rule-lab") ? 2
+            : false
+          }
+          onChange={(_, newValue) => {
+            if (newValue === 0) navigate("/");
+            else if (newValue === 1) {
+              setOpen(true);
+            }
+            else if (newValue === 2) navigate("/rule-lab");
+          }}
+          showLabels
+          sx={{
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: (t) => t.zIndex.drawer + 2,
+            background: "rgba(255, 255, 255, 0.75)",
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+            borderTop: "1px solid rgba(255, 255, 255, 0.6)",
+            boxShadow: "0 -2px 10px rgba(0, 0, 0, 0.06)",
+            height: 64,
+            "& .MuiBottomNavigationAction-root": {
+              color: "#94a3b8",
+              minWidth: 0,
+              "&.Mui-selected": { color: "#667eea" },
+            },
+          }}
+        >
+          <BottomNavigationAction label="Dashboard" icon={<DashboardIcon />} />
+          <BottomNavigationAction label="Rules" icon={<ScienceIcon />} />
+          <BottomNavigationAction label="Rule Lab" icon={<BiotechIcon />} />
+        </BottomNavigation>
+      )}
     </Box>
   );
 }

@@ -1,0 +1,46 @@
+- generic [active] [ref=e6]:
+  - generic [ref=e7]:
+    - generic [ref=e9]:
+      - heading "Staging Setup" [level=2] [ref=e10]:
+        - img [ref=e11]
+        - text: Staging Setup
+      - generic [ref=e17]:
+        - generic [ref=e18] [cursor=pointer]: User Email
+        - textbox "User Email" [ref=e21]:
+          - /placeholder: " "
+          - text: jasonqu@accessibe.com
+      - generic [ref=e22]:
+        - generic [ref=e23] [cursor=pointer]: Domain
+        - textbox "Domain" [ref=e26]:
+          - /placeholder: " "
+          - text: jayquake.github.io
+      - generic [ref=e27]:
+        - generic [ref=e28] [cursor=pointer]: Page Count
+        - spinbutton "Page Count" [ref=e31]: "5"
+      - generic [ref=e32] [cursor=pointer]:
+        - text: standard
+        - img [ref=e34]
+      - button "Upsert Domain and User" [ref=e36] [cursor=pointer]
+      - generic [ref=e38]:
+        - generic [ref=e39]: License created
+        - link "Login" [ref=e40] [cursor=pointer]:
+          - /url: /?access=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6Imphc29ucXVAYWNjZXNzaWJlLmNvbSIsIndlYnNpdGVJZCI6ImpheXF1YWtlLmdpdGh1Yi5pbyJ9LCJpYXQiOjE3NzEyMzMxMjksImV4cCI6MTc3MTgzNzkyOX0.Zbh3e9XzhHiSe6L1kNinm0z-Bwm6cTS9Wod7Stkt0xZWoFwzJ6sme8GXdKntF4rJSZTc-mECrmc4kNQFoP4AKxYKMqREOQMfUQbEnKHV_qHGQyPVUhZBDv_MBT-dTYmeCTdaPEkE6WxHpICStX4QH91TnS-_P8L1bHK2iQgOgU11hGNrpwL6T8XS2ABbqbiPSSmqrbQDYZO905VNFQX8NVx0QkLVbcp1OHhPRTLYXjPM4elrlzcU1i9QzNIsAY8taQ8s-4KOI6wSEyadIiNG9-bQ7m6NXCW2U0cpV1CKpfEs6T4Arq1F14NJ3B-eVC-MeAGDsWIlKuCp4QhDMQ1FZBtgys_tBxmidDi3W5MhdzqmlmtQ-vDts0h_rrce2U42VA3irn_dm-XkKmwWX7GdKjsgjuJVt_qNjq4LI-PcBDAck-DnYivXpvJv3BOBddU0Hh2qXViuqVhMNxnP2uRvftXT2f6inrKckvd6jYKJKlma7dg-kKfL5eQMo5uCDtJONORllBi9NwG29ev4naxx8TNkfUV-QONNPaShzlZyLscHWQh4DQYFzkZW9NiowUrZBZwxcaiAhdovVMWP6ryKRutz_KKnc78vXsFoDcbSgwr8bRA84ZeKcoHHqiS9GAbrlehWaooUcv7jimwBAc_PQlp4B2ntiBxhs8p-Gp1xr5M&domain=jayquake.github.io
+    - region "Notifications (alt+T)":
+      - list
+  - generic:
+    - generic "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=e1]:
+      - iframe [ref=e2]:
+        - button "Close message from Anna" [ref=f3e4] [cursor=pointer]:
+          - img [ref=f3e5]
+      - generic [ref=e3]:
+        - iframe [ref=e4]:
+          - figure [ref=f4e5]:
+            - img "Anna avatar" [ref=f4e6]
+        - iframe [ref=e37]:
+          - button "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=f5e5] [cursor=pointer]:
+            - heading "Anna" [level=1] [ref=f5e6]
+            - generic [ref=f5e8]: Hey there!👋 Is there anything I can help you with today?
+    - iframe [ref=e5]:
+      - button "Open messaging window" [ref=f2e5] [cursor=pointer]:
+        - img [ref=f2e7]
+        - img [ref=f2e10]

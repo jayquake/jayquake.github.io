@@ -1,0 +1,177 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - paragraph [ref=e7]: Skip to content
+          - link "Skip to content" [ref=e8] [cursor=pointer]:
+            - generic [ref=e9]: ↵
+            - generic [ref=e10]: ENTER
+        - generic [ref=e11]:
+          - paragraph [ref=e12]: Skip to footer
+          - link "Skip to footer" [ref=e13] [cursor=pointer]:
+            - generic [ref=e14]: ↵
+            - generic [ref=e15]: ENTER
+      - generic [ref=e16]:
+        - banner [ref=e17]:
+          - generic [ref=e18]:
+            - link [ref=e19] [cursor=pointer]:
+              - /url: /
+              - img [ref=e20]
+            - combobox "digivate.com" [ref=e29] [cursor=pointer]:
+              - generic [ref=e31]:
+                - img [ref=e34]
+                - generic [ref=e35]: digivate.com
+              - img [ref=e37]
+            - separator [ref=e39]
+            - button "Audits" [ref=e40] [cursor=pointer]:
+              - img [ref=e43]
+              - paragraph [ref=e46]: Audits
+              - img [ref=e48]
+          - generic [ref=e50]:
+            - generic [ref=e51]:
+              - button "Help" [ref=e53] [cursor=pointer]:
+                - img [ref=e55]
+              - button "Notifications" [ref=e60] [cursor=pointer]:
+                - img [ref=e62]
+            - separator [ref=e64]
+            - button "jason" [ref=e65] [cursor=pointer]:
+              - img [ref=e67]
+              - generic [ref=e70]: jason
+              - img [ref=e72]
+        - generic [ref=e74]:
+          - generic [ref=e75]:
+            - list [ref=e76]:
+              - listitem [ref=e77]:
+                - link "Dashboard" [ref=e78] [cursor=pointer]:
+                  - /url: /dashboard
+                  - img [ref=e82]
+                  - generic [ref=e86]: Dashboard
+              - listitem [ref=e87]:
+                - link "Explore" [ref=e88] [cursor=pointer]:
+                  - /url: /explore?view=issues&filters=default
+                  - img [ref=e92]
+                  - generic [ref=e96]: Explore
+              - listitem [ref=e97]:
+                - link "Journeys" [ref=e98] [cursor=pointer]:
+                  - /url: /journeys
+                  - img [ref=e102]
+                  - generic [ref=e106]: Journeys
+              - listitem [ref=e107]:
+                - link "Assets" [ref=e108] [cursor=pointer]:
+                  - /url: /assets
+                  - img [ref=e112]
+                  - generic [ref=e116]: Assets
+              - listitem [ref=e117]:
+                - link "Tasks" [ref=e118] [cursor=pointer]:
+                  - /url: /tasks
+                  - img [ref=e122]
+                  - generic [ref=e125]: Tasks
+              - listitem [ref=e126]:
+                - link "Integrations" [ref=e127] [cursor=pointer]:
+                  - /url: /integrations
+                  - img [ref=e131]
+                  - generic [ref=e134]: Integrations
+              - listitem [ref=e135]:
+                - link "Audits" [ref=e136] [cursor=pointer]:
+                  - /url: /audits
+                  - img [ref=e140]
+                  - generic [ref=e143]: Audits
+            - list [ref=e144]:
+              - separator [ref=e145]
+              - listitem [ref=e146]:
+                - link "Settings" [ref=e147] [cursor=pointer]:
+                  - /url: /settings
+                  - img [ref=e151]
+                  - generic [ref=e154]: Settings
+          - generic [ref=e155]:
+            - main "Content" [ref=e156]:
+              - generic [ref=e158]:
+                - generic [ref=e159]:
+                  - generic [ref=e161]:
+                    - paragraph [ref=e162]: Untitled journey
+                    - button "Edit journey name" [ref=e164] [cursor=pointer]:
+                      - img [ref=e166]
+                  - generic [ref=e168]:
+                    - button "Close" [ref=e169] [cursor=pointer]
+                    - button "Save draft" [ref=e170] [cursor=pointer]
+                    - button "Save" [ref=e171] [cursor=pointer]
+                - generic [ref=e172]:
+                  - generic [ref=e173]:
+                    - generic [ref=e174]:
+                      - paragraph [ref=e175]: Starting web path
+                      - paragraph [ref=e176]: The starting point in your website where this journey will begin.
+                    - generic [ref=e181]:
+                      - img [ref=e184]
+                      - textbox "/my-page" [ref=e186]: /
+                  - generic [ref=e187]:
+                    - generic [ref=e188]:
+                      - paragraph [ref=e189]: Journey steps
+                      - paragraph [ref=e190]: To add a step, select the action type and enter the selector code for the desired element.
+                    - list [ref=e191]:
+                      - listitem [ref=e192]:
+                        - generic [ref=e193]:
+                          - generic [ref=e194]:
+                            - paragraph [ref=e195]: "1"
+                            - combobox "Action type" [ref=e198] [cursor=pointer]:
+                              - generic [ref=e199]: Action type
+                              - img [ref=e201]
+                          - generic [ref=e203]:
+                            - button "Duplicate" [ref=e205] [cursor=pointer]:
+                              - img [ref=e207]
+                            - generic [ref=e209]:
+                              - button "Remove" [disabled]:
+                                - generic:
+                                  - img
+                        - generic [ref=e242]: This can't be empty
+                    - button "Add step" [ref=e210] [cursor=pointer]:
+                      - img [ref=e212]
+                      - text: Add step
+            - generic [ref=e214]:
+              - separator [ref=e215]
+              - generic [ref=e216]:
+                - separator [ref=e217]
+                - button "Reset Selection" [ref=e219] [cursor=pointer]:
+                  - img [ref=e221]
+            - contentinfo "Footer" [ref=e223]:
+              - paragraph [ref=e224]: © 2026 - accessiBe Inc. All Rights Reserved.
+              - navigation "Footer menu" [ref=e225]:
+                - list [ref=e226]:
+                  - listitem [ref=e227]:
+                    - link "Terms of Service" [ref=e228] [cursor=pointer]:
+                      - /url: https://accessibe.com/terms-of-service
+                  - listitem [ref=e229]:
+                    - link "Privacy Policy" [ref=e230] [cursor=pointer]:
+                      - /url: https://accessibe.com/privacy-policy
+                  - listitem [ref=e231]:
+                    - link "Release Notes" [ref=e232] [cursor=pointer]:
+                      - /url: https://support.accessibe.com/hc/en-us/sections/17817223393298-accessFlow-Release-Notes
+                  - listitem [ref=e233]:
+                    - link "Support Portal" [ref=e234] [cursor=pointer]:
+                      - /url: https://support.accessibe.com/hc/en-us/categories/16379543560210-Getting-Started-with-accessFlow
+    - region "Notifications (alt+T)":
+      - list [ref=e244]:
+        - status [ref=e245]:
+          - generic [ref=e246]:
+            - generic [ref=e249]:
+              - img [ref=e251]
+              - paragraph [ref=e254]: Journey creation failed
+            - button "Close" [ref=e255] [cursor=pointer]:
+              - img [ref=e257]
+  - generic:
+    - generic "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=e235]:
+      - iframe [ref=e236]:
+        - button "Close message from Anna" [ref=f22e4] [cursor=pointer]:
+          - img [ref=f22e5]
+      - generic [ref=e237]:
+        - iframe [ref=e238]:
+          - figure [ref=f23e5]:
+            - img "Anna avatar" [ref=f23e6]
+        - iframe [ref=e239]:
+          - button "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=f24e5] [cursor=pointer]:
+            - heading "Anna" [level=1] [ref=f24e6]
+            - generic [ref=f24e8]: Hey there!👋 Is there anything I can help you with today?
+    - iframe [ref=e240]:
+      - button "Open messaging window" [ref=f21e5] [cursor=pointer]:
+        - img [ref=f21e7]
+        - img [ref=f21e10]

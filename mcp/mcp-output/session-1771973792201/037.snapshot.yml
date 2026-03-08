@@ -1,0 +1,306 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e7]:
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - generic [ref=e11]:
+          - paragraph [ref=e12]: Skip to content
+          - link "Skip to content" [ref=e13] [cursor=pointer]:
+            - generic [ref=e14]: ↵
+            - generic [ref=e15]: ENTER
+        - generic [ref=e16]:
+          - paragraph [ref=e17]: Skip to footer
+          - link "Skip to footer" [ref=e18] [cursor=pointer]:
+            - generic [ref=e19]: ↵
+            - generic [ref=e20]: ENTER
+      - generic [ref=e21]:
+        - banner [ref=e22]:
+          - generic [ref=e23]:
+            - link [ref=e24] [cursor=pointer]:
+              - /url: /
+              - img [ref=e25]
+            - combobox "jayquake.github.io" [ref=e34] [cursor=pointer]:
+              - generic [ref=e36]:
+                - img [ref=e39]
+                - generic [ref=e40]: jayquake.github.io
+              - img [ref=e42]
+            - separator [ref=e44]
+            - button "Audits" [ref=e45] [cursor=pointer]:
+              - img [ref=e48]
+              - paragraph [ref=e51]: Audits
+              - img [ref=e53]
+          - generic [ref=e55]:
+            - generic [ref=e56]:
+              - button "Help" [ref=e58] [cursor=pointer]:
+                - img [ref=e60]
+              - button "Notifications" [ref=e65] [cursor=pointer]:
+                - img [ref=e67]
+            - separator [ref=e69]
+            - button "jasonqu" [ref=e70] [cursor=pointer]:
+              - img [ref=e72]
+              - generic [ref=e75]: jasonqu
+              - img [ref=e77]
+        - generic [ref=e79]:
+          - generic [ref=e80]:
+            - list [ref=e81]:
+              - listitem [ref=e82]:
+                - link "Dashboard" [ref=e83] [cursor=pointer]:
+                  - /url: /dashboard
+                  - img [ref=e87]
+                  - generic [ref=e89]: Dashboard
+              - listitem [ref=e90]:
+                - link "Explore" [ref=e91] [cursor=pointer]:
+                  - /url: /explore?view=issues&filters=default
+                  - img [ref=e95]
+                  - generic [ref=e99]: Explore
+              - listitem [ref=e100]:
+                - link "Journeys" [ref=e101] [cursor=pointer]:
+                  - /url: /journeys
+                  - img [ref=e105]
+                  - generic [ref=e109]: Journeys
+              - listitem [ref=e110]:
+                - link "Assets" [ref=e111] [cursor=pointer]:
+                  - /url: /assets
+                  - img [ref=e115]
+                  - generic [ref=e119]: Assets
+              - listitem [ref=e120]:
+                - link "Tasks" [ref=e121] [cursor=pointer]:
+                  - /url: /tasks
+                  - img [ref=e125]
+                  - generic [ref=e128]: Tasks
+              - listitem [ref=e129]:
+                - link "Integrations" [ref=e130] [cursor=pointer]:
+                  - /url: /integrations
+                  - img [ref=e134]
+                  - generic [ref=e137]: Integrations
+              - listitem [ref=e138]:
+                - link "Audits" [ref=e139] [cursor=pointer]:
+                  - /url: /audits
+                  - img [ref=e143]
+                  - generic [ref=e146]: Audits
+            - list [ref=e147]:
+              - separator [ref=e148]
+              - listitem [ref=e149]:
+                - link "Settings" [ref=e150] [cursor=pointer]:
+                  - /url: /settings
+                  - img [ref=e154]
+                  - generic [ref=e157]: Settings
+          - generic [ref=e158]:
+            - main "Content" [ref=e159]:
+              - generic [ref=e161]:
+                - generic [ref=e162]:
+                  - heading "Welcome back, Jasonqu" [level=1] [ref=e164]
+                  - generic [ref=e166]:
+                    - generic [ref=e167]:
+                      - generic [ref=e168]:
+                        - img [ref=e170]
+                        - generic [ref=e172]: "Audit cycle:"
+                        - generic [ref=e173]: Custom
+                        - img [ref=e176]
+                      - separator [ref=e180]
+                      - generic [ref=e181]:
+                        - generic [ref=e182]:
+                          - img [ref=e184]
+                          - generic [ref=e186]: "Last audit: April 9"
+                        - separator [ref=e187]
+                        - generic [ref=e188]:
+                          - img [ref=e190]
+                          - generic [ref=e192]: "Next audit: May 10"
+                    - generic [ref=e193]:
+                      - button "Unique issues 62" [ref=e194] [cursor=pointer]:
+                        - img [ref=e197]
+                        - generic [ref=e199]:
+                          - generic [ref=e200]:
+                            - heading "Unique issues" [level=4] [ref=e201]
+                            - img [ref=e204]
+                          - paragraph [ref=e209]: "62"
+                      - button "Recurring issues 15" [ref=e210] [cursor=pointer]:
+                        - img [ref=e213]
+                        - generic [ref=e216]:
+                          - generic [ref=e217]:
+                            - heading "Recurring issues" [level=4] [ref=e218]
+                            - img [ref=e221]
+                          - paragraph [ref=e226]: "15"
+                      - button "Audited pages 5 / 5" [ref=e227] [cursor=pointer]:
+                        - img [ref=e230]
+                        - generic [ref=e232]:
+                          - generic [ref=e233]:
+                            - heading "Audited pages" [level=4] [ref=e234]
+                            - img [ref=e237]
+                          - generic [ref=e241]:
+                            - paragraph [ref=e242]: "5"
+                            - generic [ref=e243]: /
+                            - paragraph [ref=e244]: "5"
+                      - button "Website assets 0" [ref=e245] [cursor=pointer]:
+                        - img [ref=e248]
+                        - generic [ref=e252]:
+                          - generic [ref=e253]:
+                            - heading "Website assets" [level=4] [ref=e254]
+                            - img [ref=e257]
+                          - generic [ref=e262]: "0"
+                - generic [ref=e263]:
+                  - generic [ref=e265]:
+                    - img [ref=e268]
+                    - paragraph [ref=e270]: Audit completed successfully for the entire domain.
+                  - generic [ref=e271]:
+                    - generic [ref=e273]:
+                      - generic [ref=e274]:
+                        - generic [ref=e275]:
+                          - heading "Site accessibility score" [level=4] [ref=e276]
+                          - img [ref=e279]
+                        - combobox "Past 30 days" [ref=e285] [cursor=pointer]:
+                          - generic [ref=e286]: Past 30 days
+                          - img [ref=e288]
+                      - generic [ref=e290]:
+                        - img [ref=e292]:
+                          - generic [ref=e295]: "58"
+                        - separator [ref=e296]
+                        - img [ref=e301]:
+                          - generic [ref=e305]:
+                            - generic [ref=e307]: "0"
+                            - generic [ref=e309]: "25"
+                            - generic [ref=e311]: "50"
+                            - generic [ref=e313]: "75"
+                            - generic [ref=e315]: "100"
+                    - generic [ref=e317]:
+                      - generic [ref=e318]:
+                        - generic [ref=e319]:
+                          - heading "Issues and pages over time" [level=4] [ref=e320]
+                          - img [ref=e323]
+                        - combobox "Past 30 days" [ref=e330] [cursor=pointer]:
+                          - generic [ref=e331]: Past 30 days
+                          - img [ref=e333]
+                      - generic [ref=e335]:
+                        - generic [ref=e336]:
+                          - button "Issues" [ref=e337] [cursor=pointer]:
+                            - img [ref=e338]
+                          - generic [ref=e340]: Issues
+                        - generic [ref=e341]:
+                          - button "Pages" [ref=e342] [cursor=pointer]:
+                            - img [ref=e343]
+                          - generic [ref=e345]: Pages
+                      - img [ref=e350]:
+                        - generic [ref=e355]: "0"
+                    - generic [ref=e357]:
+                      - generic [ref=e358]:
+                        - heading "Issues by severity" [level=4] [ref=e360]
+                        - link "View all issues" [ref=e362] [cursor=pointer]:
+                          - /url: /explore?view=issues
+                          - generic [ref=e363]: View all issues
+                          - img [ref=e365]
+                      - generic [ref=e368]:
+                        - generic [ref=e369]:
+                          - generic [ref=e370]:
+                            - heading "77" [level=5] [ref=e371]
+                            - generic [ref=e372]: Total issues
+                          - img [ref=e376]
+                        - generic [ref=e384]:
+                          - generic [ref=e385]:
+                            - generic [ref=e388]: Extreme
+                            - generic [ref=e389]:
+                              - generic [ref=e390]: "33"
+                              - separator [ref=e391]
+                              - generic [ref=e393]: 43%
+                          - generic [ref=e394]:
+                            - generic [ref=e397]: High
+                            - generic [ref=e398]:
+                              - generic [ref=e399]: "19"
+                              - separator [ref=e400]
+                              - generic [ref=e402]: 25%
+                          - generic [ref=e403]:
+                            - generic [ref=e406]: Medium
+                            - generic [ref=e407]:
+                              - generic [ref=e408]: "23"
+                              - separator [ref=e409]
+                              - generic [ref=e411]: 30%
+                          - generic [ref=e412]:
+                            - generic [ref=e415]: Low
+                            - generic [ref=e416]:
+                              - generic [ref=e417]: "2"
+                              - separator [ref=e418]
+                              - generic [ref=e420]: 2%
+                    - generic [ref=e422]:
+                      - generic [ref=e423]:
+                        - generic [ref=e424]:
+                          - heading "Issue severity over time" [level=4] [ref=e425]
+                          - img [ref=e428]
+                        - combobox "Past 30 days" [ref=e435] [cursor=pointer]:
+                          - generic [ref=e436]: Past 30 days
+                          - img [ref=e438]
+                      - generic [ref=e440]:
+                        - generic [ref=e441]:
+                          - button "extreme issues" [ref=e442] [cursor=pointer]:
+                            - img [ref=e443]
+                          - generic [ref=e445]: Extreme
+                        - generic [ref=e446]:
+                          - button "high issues" [ref=e447] [cursor=pointer]:
+                            - img [ref=e448]
+                          - generic [ref=e450]: High
+                        - generic [ref=e451]:
+                          - button "medium issues" [ref=e452] [cursor=pointer]:
+                            - img [ref=e453]
+                          - generic [ref=e455]: Medium
+                        - generic [ref=e456]:
+                          - button "low issues" [ref=e457] [cursor=pointer]:
+                            - img [ref=e458]
+                          - generic [ref=e460]: Low
+                      - img [ref=e465]:
+                        - generic [ref=e470]: "0"
+                    - generic [ref=e472]:
+                      - generic [ref=e473]:
+                        - generic [ref=e474]: Top severity accessibility rules
+                        - link "View All" [ref=e475] [cursor=pointer]:
+                          - /url: /explore?view=rules
+                          - generic [ref=e476]: View All
+                          - img [ref=e478]
+                      - list [ref=e480]:
+                        - listitem [ref=e481]:
+                          - link "The color contrast ratio between text and its background should provide a readable experience 19 Issues" [ref=e482] [cursor=pointer]:
+                            - /url: /rules/620570c26199d73f9cf2aeca
+                            - generic [ref=e483]:
+                              - img [ref=e486]
+                              - generic [ref=e489]: The color contrast ratio between text and its background should provide a readable experience
+                            - generic [ref=e490]: 19 Issues
+                          - separator [ref=e491]
+                        - listitem [ref=e492]:
+                          - link "Form fields must include a descriptive label 13 Issues" [ref=e493] [cursor=pointer]:
+                            - /url: /rules/6206336bacb7f0495c5df39a
+                            - generic [ref=e494]:
+                              - img [ref=e497]
+                              - generic [ref=e500]: Form fields must include a descriptive label
+                            - generic [ref=e501]: 13 Issues
+                          - separator [ref=e502]
+                        - listitem [ref=e503]:
+                          - link "Non-interactive elements should not be keyboard navigable 11 Issues" [ref=e504] [cursor=pointer]:
+                            - /url: /rules/62065412b0b1184e88c83835
+                            - generic [ref=e505]:
+                              - img [ref=e508]
+                              - generic [ref=e511]: Non-interactive elements should not be keyboard navigable
+                            - generic [ref=e512]: 11 Issues
+            - generic [ref=e513]:
+              - separator [ref=e514]
+              - generic [ref=e515]:
+                - separator [ref=e516]
+                - button "Reset Selection" [ref=e518] [cursor=pointer]:
+                  - img [ref=e520]
+            - contentinfo "Footer" [ref=e522]:
+              - paragraph [ref=e523]: © 2026 - accessiBe Inc. All Rights Reserved.
+              - navigation "Footer menu" [ref=e524]:
+                - list [ref=e525]:
+                  - listitem [ref=e526]:
+                    - link "Terms of Service" [ref=e527] [cursor=pointer]:
+                      - /url: https://accessibe.com/terms-of-service
+                  - listitem [ref=e528]:
+                    - link "Privacy Policy" [ref=e529] [cursor=pointer]:
+                      - /url: https://accessibe.com/privacy-policy
+                  - listitem [ref=e530]:
+                    - link "Release Notes" [ref=e531] [cursor=pointer]:
+                      - /url: https://support.accessibe.com/hc/en-us/sections/17817223393298-accessFlow-Release-Notes
+                  - listitem [ref=e532]:
+                    - link "Support Portal" [ref=e533] [cursor=pointer]:
+                      - /url: https://support.accessibe.com/hc/en-us/categories/16379543560210-Getting-Started-with-accessFlow
+    - region "Notifications (alt+T)":
+      - list
+  - iframe [ref=e6]:
+    - button "Open messaging window" [ref=f32e5] [cursor=pointer]:
+      - img [ref=f32e7]
+      - img [ref=f32e10]

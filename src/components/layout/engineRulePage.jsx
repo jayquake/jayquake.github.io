@@ -40,13 +40,14 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import engineLegacyMapping from "../../data/engine-legacy-mapping";
 import legacyEngineMapping from "../../data/legacy-engine-mapping";
 import legacyRulesData from "../../data/legacy-rules.json";
 import CustomizedBreadcrumbs from "../util/ruleBreadcrumb";
 
 function EngineRulePage({ ruleData }) {
+  const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -1024,6 +1025,68 @@ function EngineRulePage({ ruleData }) {
           </Paper>
         </Fade>
       )}
+
+      {/* MCP Analysis Section */}
+      <Paper
+        elevation={0}
+        sx={{
+          p: 4,
+          mt: 3,
+          mb: 3,
+          borderRadius: 4,
+          background: "rgba(255, 255, 255, 0.4)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          border: "1px solid rgba(255, 255, 255, 0.6)",
+          boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            mb: 2,
+          }}
+        >
+          <Stack direction="row" alignItems="center" spacing={2}>
+            <ScienceIcon color="primary" fontSize="large" />
+            <Typography variant="h5" fontWeight="bold" color="primary">
+              MCP Analysis
+            </Typography>
+          </Stack>
+          <Button
+            variant="outlined"
+            size="small"
+            startIcon={<ScienceIcon />}
+            onClick={() =>
+              navigate(`/rule-lab?ruleId=${ruleData.id || ""}`)
+            }
+            sx={{
+              textTransform: "none",
+              fontWeight: 600,
+              borderRadius: 2,
+            }}
+          >
+            Open in Rule Lab
+          </Button>
+        </Box>
+        <Typography
+          variant="body1"
+          sx={{
+            lineHeight: 1.8,
+            color: "#374151",
+            background: "rgba(248, 250, 252, 0.8)",
+            p: 3,
+            borderRadius: 2,
+            border: "1px solid rgba(203, 213, 225, 0.5)",
+          }}
+        >
+          Use the Rule Lab to deeply analyze this rule's examples with Playwright
+          MCP, discovering accessibility tree data, computed ARIA roles, and
+          screen reader narration.
+        </Typography>
+      </Paper>
 
       {/* Summary Footer */}
       <Slide in direction="up" timeout={1600}>

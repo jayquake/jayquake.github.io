@@ -1,0 +1,12 @@
+[
+  { "name": "GOV.UK", "url": "https://www.gov.uk", "category": "government" },
+  { "name": "USA.gov", "url": "https://www.usa.gov", "category": "government" },
+  { "name": "Amazon", "url": "https://www.amazon.com", "category": "ecommerce" },
+  { "name": "Target", "url": "https://www.target.com", "category": "ecommerce" },
+  { "name": "BBC News", "url": "https://www.bbc.com/news", "category": "news" },
+  { "name": "NPR", "url": "https://www.npr.org", "category": "news" },
+  { "name": "GitHub", "url": "https://github.com", "category": "saas" },
+  { "name": "Notion", "url": "https://www.notion.so", "category": "saas" },
+  { "name": "Twitter/X", "url": "https://x.com", "category": "social" },
+  { "name": "Reddit", "url": "https://www.reddit.com", "category": "social" }
+]

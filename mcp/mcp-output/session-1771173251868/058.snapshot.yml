@@ -1,0 +1,15 @@
+- generic [active]:
+  - generic:
+    - generic "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=e1]:
+      - iframe [ref=e2]:
+        - button "Close message from Anna" [ref=f58e4] [cursor=pointer]:
+          - img [ref=f58e5]
+      - generic [ref=e3]:
+        - iframe [ref=e4]:
+          - figure [ref=f59e5]:
+            - img "Anna avatar" [ref=f59e6]
+        - iframe
+    - iframe [ref=e5]:
+      - button "Open messaging window" [ref=f57e5] [cursor=pointer]:
+        - img [ref=f57e7]
+        - img [ref=f57e10]

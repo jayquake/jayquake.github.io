@@ -1,0 +1,239 @@
+- generic [ref=e21]:
+  - generic [ref=e22]:
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - paragraph [ref=e27]: Skip to content
+          - link "Skip to content" [ref=e28] [cursor=pointer]:
+            - generic [ref=e29]: ↵
+            - generic [ref=e30]: ENTER
+        - generic [ref=e31]:
+          - paragraph [ref=e32]: Skip to footer
+          - link "Skip to footer" [ref=e33] [cursor=pointer]:
+            - generic [ref=e34]: ↵
+            - generic [ref=e35]: ENTER
+      - generic [ref=e36]:
+        - banner [ref=e37]:
+          - generic [ref=e38]:
+            - link [ref=e39] [cursor=pointer]:
+              - /url: /
+              - img [ref=e40]
+            - combobox "jayquake.github.io" [ref=e48] [cursor=pointer]:
+              - generic [ref=e50]:
+                - img [ref=e53]
+                - generic [ref=e54]: jayquake.github.io
+              - img [ref=e56]
+            - separator [ref=e58]
+            - button "Audits" [ref=e59] [cursor=pointer]:
+              - img [ref=e62]
+              - paragraph [ref=e65]: Audits
+              - img [ref=e67]
+          - generic [ref=e69]:
+            - generic [ref=e70]:
+              - button "Help" [ref=e72] [cursor=pointer]:
+                - img [ref=e74]
+              - button "Notifications" [ref=e79] [cursor=pointer]:
+                - img [ref=e81]
+            - separator [ref=e83]
+            - button "jasonqu" [ref=e84] [cursor=pointer]:
+              - img [ref=e86]
+              - generic [ref=e89]: jasonqu
+              - img [ref=e91]
+        - generic [ref=e93]:
+          - generic [ref=e94]:
+            - list [ref=e95]:
+              - listitem [ref=e96]:
+                - link "Dashboard" [ref=e97] [cursor=pointer]:
+                  - /url: /dashboard
+                  - img [ref=e101]
+                  - generic [ref=e105]: Dashboard
+              - listitem [ref=e106]:
+                - link "Explore" [ref=e107] [cursor=pointer]:
+                  - /url: /explore?view=issues&filters=default
+                  - img [ref=e111]
+                  - generic [ref=e115]: Explore
+              - listitem [ref=e116]:
+                - link "Journeys" [ref=e117] [cursor=pointer]:
+                  - /url: /journeys
+                  - img [ref=e121]
+                  - generic [ref=e125]: Journeys
+              - listitem [ref=e126]:
+                - link "Assets" [ref=e127] [cursor=pointer]:
+                  - /url: /assets
+                  - img [ref=e131]
+                  - generic [ref=e135]: Assets
+              - listitem [ref=e136]:
+                - link "Tasks" [ref=e137] [cursor=pointer]:
+                  - /url: /tasks
+                  - img [ref=e141]
+                  - generic [ref=e144]: Tasks
+              - listitem [ref=e145]:
+                - link "Integrations" [ref=e146] [cursor=pointer]:
+                  - /url: /integrations
+                  - img [ref=e150]
+                  - generic [ref=e153]: Integrations
+              - listitem [ref=e154]:
+                - link "Audits" [ref=e155] [cursor=pointer]:
+                  - /url: /audits
+                  - img [ref=e159]
+                  - generic [ref=e162]: Audits
+            - list [ref=e163]:
+              - separator [ref=e164]
+              - listitem [ref=e165]:
+                - link "Settings" [ref=e166] [cursor=pointer]:
+                  - /url: /settings
+                  - img [ref=e170]
+                  - generic [ref=e173]: Settings
+          - generic [ref=e174]:
+            - main "Content" [ref=e175]:
+              - generic [ref=e177]:
+                - generic [ref=e178]:
+                  - generic [ref=e179]:
+                    - heading "Manage your journeys" [level=1] [ref=e180]
+                    - generic [ref=e181]:
+                      - paragraph [ref=e182]: Audit key user flows and interactive elements not automatically checked. Add these to accessFlow audits.
+                      - button "Watch Overview" [ref=e183] [cursor=pointer]:
+                        - img [ref=e185]
+                        - generic [ref=e190]: Watch Overview
+                  - generic [ref=e191]:
+                    - button "Record a Journey" [ref=e192] [cursor=pointer]:
+                      - img [ref=e194]
+                      - text: Record a Journey
+                    - button "Open create journey manually menu" [expanded] [ref=e197] [cursor=pointer]:
+                      - img [ref=e199]
+                - table [ref=e203]:
+                  - rowgroup [ref=e204]:
+                    - row "Journey name Last modified Last audited Steps Issues found" [ref=e205]:
+                      - columnheader "Journey name" [ref=e206]
+                      - columnheader "Last modified" [ref=e207]:
+                        - generic [ref=e208]:
+                          - generic [ref=e209]: Last modified
+                          - button [ref=e211] [cursor=pointer]:
+                            - img [ref=e213]
+                      - columnheader "Last audited" [ref=e215]:
+                        - generic [ref=e217]:
+                          - generic [ref=e218]: Last audited
+                          - button [ref=e220] [cursor=pointer]:
+                            - img [ref=e222]
+                      - columnheader "Steps" [ref=e224]:
+                        - generic [ref=e226]:
+                          - generic [ref=e227]: Steps
+                          - button [ref=e229] [cursor=pointer]:
+                            - img [ref=e231]
+                      - columnheader "Issues found" [ref=e233]:
+                        - generic [ref=e235]:
+                          - generic [ref=e236]: Issues found
+                          - button [ref=e238] [cursor=pointer]:
+                            - img [ref=e240]
+                      - columnheader [ref=e242]
+                  - rowgroup [ref=e243]:
+                    - row "Errors were found while validating the steps of Untitled journey Review and fix errors Open actions menu" [ref=e244]:
+                      - cell "Errors were found while validating the steps of Untitled journey" [ref=e245]:
+                        - generic [ref=e247]:
+                          - img [ref=e250]
+                          - paragraph [ref=e253]:
+                            - text: Errors were found while validating the steps of
+                            - strong [ref=e254]: Untitled journey
+                      - cell [ref=e255]
+                      - cell [ref=e256]
+                      - cell [ref=e257]
+                      - cell "Review and fix errors" [ref=e258]:
+                        - link "Review and fix errors" [ref=e260] [cursor=pointer]:
+                          - /url: /journeys/698de1a9c26a6667424b01bc/edit
+                          - generic [ref=e261]: Review and fix errors
+                          - img [ref=e263]
+                      - cell "Open actions menu" [ref=e265]:
+                        - button "Open actions menu" [ref=e267] [cursor=pointer]:
+                          - img [ref=e269]
+                    - row "Errors were found while validating the steps of Untitled journey 1 Review and fix errors Open actions menu" [ref=e272]:
+                      - cell "Errors were found while validating the steps of Untitled journey 1" [ref=e273]:
+                        - generic [ref=e275]:
+                          - img [ref=e278]
+                          - paragraph [ref=e281]:
+                            - text: Errors were found while validating the steps of
+                            - strong [ref=e282]: Untitled journey 1
+                      - cell [ref=e283]
+                      - cell [ref=e284]
+                      - cell [ref=e285]
+                      - cell "Review and fix errors" [ref=e286]:
+                        - link "Review and fix errors" [ref=e288] [cursor=pointer]:
+                          - /url: /journeys/6991abccc7665c6d323cdbdc/edit
+                          - generic [ref=e289]: Review and fix errors
+                          - img [ref=e291]
+                      - cell "Open actions menu" [ref=e293]:
+                        - button "Open actions menu" [ref=e295] [cursor=pointer]:
+                          - img [ref=e297]
+                    - row "Untitled journey 2 jayquake.github.io/ Feb 15, 2026 Draft 1 Steps ---- Open actions menu" [ref=e300] [cursor=pointer]:
+                      - cell "Untitled journey 2 jayquake.github.io/" [ref=e301]:
+                        - generic [ref=e308]:
+                          - paragraph [ref=e310]: Untitled journey 2
+                          - paragraph [ref=e311]: jayquake.github.io/
+                      - cell "Feb 15, 2026" [ref=e312]:
+                        - paragraph [ref=e315]: Feb 15, 2026
+                      - cell "Draft" [ref=e316]:
+                        - generic [ref=e318]: Draft
+                      - cell "1 Steps" [ref=e319]:
+                        - paragraph [ref=e321]: 1 Steps
+                      - cell "----" [ref=e322]:
+                        - paragraph [ref=e324]: "----"
+                      - cell "Open actions menu Untitled journey 2 jayquake.github.io/ Feb 15, 2026 Draft 1 Steps ----" [ref=e325]:
+                        - generic [ref=e326]:
+                          - button "Open actions menu" [ref=e327]:
+                            - img [ref=e329]
+                          - link "Untitled journey 2 jayquake.github.io/ Feb 15, 2026 Draft 1 Steps ---- Open actions menu":
+                            - /url: /journeys/6991afedc7665c6d323cdbdd
+                    - row "Untitled journey 3 jayquake.github.io/ Feb 16, 2026 ---- 1 Steps ---- Open actions menu" [ref=e332] [cursor=pointer]:
+                      - cell "Untitled journey 3 jayquake.github.io/" [ref=e333]:
+                        - generic [ref=e340]:
+                          - paragraph [ref=e342]: Untitled journey 3
+                          - paragraph [ref=e343]: jayquake.github.io/
+                      - cell "Feb 16, 2026" [ref=e344]:
+                        - paragraph [ref=e347]: Feb 16, 2026
+                      - cell "----" [ref=e348]:
+                        - paragraph [ref=e351]: "----"
+                      - cell "1 Steps" [ref=e352]:
+                        - paragraph [ref=e354]: 1 Steps
+                      - cell "----" [ref=e355]:
+                        - paragraph [ref=e357]: "----"
+                      - cell "Open actions menu Untitled journey 3 jayquake.github.io/ Feb 16, 2026 ---- 1 Steps ----" [ref=e358]:
+                        - generic [ref=e359]:
+                          - button "Open actions menu" [ref=e360]:
+                            - img [ref=e362]
+                          - link "Untitled journey 3 jayquake.github.io/ Feb 16, 2026 ---- 1 Steps ---- Open actions menu":
+                            - /url: /journeys/6992dc03c7665c6d323cdbde
+            - generic [ref=e365]:
+              - separator [ref=e366]
+              - generic [ref=e367]:
+                - separator [ref=e368]
+                - button "Reset Selection" [ref=e370] [cursor=pointer]:
+                  - img [ref=e372]
+            - contentinfo "Footer" [ref=e374]:
+              - paragraph [ref=e375]: © 2026 - accessiBe Inc. All Rights Reserved.
+              - navigation "Footer menu" [ref=e376]:
+                - list [ref=e377]:
+                  - listitem [ref=e378]:
+                    - link "Terms of Service" [ref=e379] [cursor=pointer]:
+                      - /url: https://accessibe.com/terms-of-service
+                  - listitem [ref=e380]:
+                    - link "Privacy Policy" [ref=e381] [cursor=pointer]:
+                      - /url: https://accessibe.com/privacy-policy
+                  - listitem [ref=e382]:
+                    - link "Release Notes" [ref=e383] [cursor=pointer]:
+                      - /url: https://support.accessibe.com/hc/en-us/sections/17817223393298-accessFlow-Release-Notes
+                  - listitem [ref=e384]:
+                    - link "Support Portal" [ref=e385] [cursor=pointer]:
+                      - /url: https://support.accessibe.com/hc/en-us/categories/16379543560210-Getting-Started-with-accessFlow
+    - region "Notifications (alt+T)":
+      - list
+  - iframe [ref=e2]:
+    - button "Close messaging window" [ref=f14e5] [cursor=pointer]:
+      - img [ref=f14e7]
+      - img [ref=f14e10]
+  - dialog [ref=e387]:
+    - navigation [ref=e388]:
+      - list [ref=e389]:
+        - listitem [ref=e390]:
+          - button "Create Manually" [active] [ref=e391] [cursor=pointer]:
+            - generic [ref=e392]:
+              - img [ref=e394]
+              - generic [ref=e396]: Create Manually

@@ -1,0 +1,169 @@
+- generic [active] [ref=e6]:
+  - generic [ref=e7]:
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - generic [ref=e11]:
+          - paragraph [ref=e12]: Skip to content
+          - link "Skip to content" [ref=e13] [cursor=pointer]:
+            - generic [ref=e14]: ↵
+            - generic [ref=e15]: ENTER
+        - generic [ref=e16]:
+          - paragraph [ref=e17]: Skip to footer
+          - link "Skip to footer" [ref=e18] [cursor=pointer]:
+            - generic [ref=e19]: ↵
+            - generic [ref=e20]: ENTER
+      - generic [ref=e21]:
+        - banner [ref=e22]:
+          - generic [ref=e23]:
+            - link [ref=e24] [cursor=pointer]:
+              - /url: /
+              - img [ref=e25]
+            - combobox "digivate.com" [ref=e34] [cursor=pointer]:
+              - generic [ref=e36]:
+                - img [ref=e39]
+                - generic [ref=e40]: digivate.com
+              - img [ref=e42]
+            - separator [ref=e44]
+            - button "Audits" [ref=e45] [cursor=pointer]:
+              - img [ref=e48]
+              - paragraph [ref=e51]: Audits
+              - img [ref=e53]
+          - generic [ref=e55]:
+            - generic [ref=e56]:
+              - button "Help" [ref=e58] [cursor=pointer]:
+                - img [ref=e60]
+              - button "Notifications" [ref=e65] [cursor=pointer]:
+                - img [ref=e67]
+            - separator [ref=e69]
+            - button "jason" [ref=e70] [cursor=pointer]:
+              - img [ref=e72]
+              - generic [ref=e75]: jason
+              - img [ref=e77]
+        - generic [ref=e79]:
+          - generic [ref=e80]:
+            - list [ref=e81]:
+              - listitem [ref=e82]:
+                - link "Dashboard" [ref=e83] [cursor=pointer]:
+                  - /url: /dashboard
+                  - img [ref=e87]
+                  - generic [ref=e91]: Dashboard
+              - listitem [ref=e92]:
+                - link "Explore" [ref=e93] [cursor=pointer]:
+                  - /url: /explore?view=issues&filters=default
+                  - img [ref=e97]
+                  - generic [ref=e101]: Explore
+              - listitem [ref=e102]:
+                - link "Journeys" [ref=e103] [cursor=pointer]:
+                  - /url: /journeys
+                  - img [ref=e107]
+                  - generic [ref=e111]: Journeys
+              - listitem [ref=e112]:
+                - link "Assets" [ref=e113] [cursor=pointer]:
+                  - /url: /assets
+                  - img [ref=e117]
+                  - generic [ref=e121]: Assets
+              - listitem [ref=e122]:
+                - link "Tasks" [ref=e123] [cursor=pointer]:
+                  - /url: /tasks
+                  - img [ref=e127]
+                  - generic [ref=e130]: Tasks
+              - listitem [ref=e131]:
+                - link "Integrations" [ref=e132] [cursor=pointer]:
+                  - /url: /integrations
+                  - img [ref=e136]
+                  - generic [ref=e139]: Integrations
+              - listitem [ref=e140]:
+                - link "Audits" [ref=e141] [cursor=pointer]:
+                  - /url: /audits
+                  - img [ref=e145]
+                  - generic [ref=e148]: Audits
+            - list [ref=e149]:
+              - separator [ref=e150]
+              - listitem [ref=e151]:
+                - link "Settings" [ref=e152] [cursor=pointer]:
+                  - /url: /settings
+                  - img [ref=e156]
+                  - generic [ref=e159]: Settings
+          - generic [ref=e160]:
+            - main "Content" [ref=e161]:
+              - generic [ref=e163]:
+                - generic [ref=e164]:
+                  - generic [ref=e166]:
+                    - paragraph [ref=e167]: Untitled journey
+                    - button "Edit journey name" [ref=e169] [cursor=pointer]:
+                      - img [ref=e171]
+                  - generic [ref=e173]:
+                    - button "Close" [ref=e174] [cursor=pointer]
+                    - button "Save draft" [ref=e175] [cursor=pointer]
+                    - button "Save" [ref=e176] [cursor=pointer]
+                - generic [ref=e177]:
+                  - generic [ref=e178]:
+                    - generic [ref=e179]:
+                      - paragraph [ref=e180]: Starting web path
+                      - paragraph [ref=e181]: The starting point in your website where this journey will begin.
+                    - generic [ref=e186]:
+                      - img [ref=e189]
+                      - textbox "/my-page" [ref=e191]: /
+                  - generic [ref=e192]:
+                    - generic [ref=e193]:
+                      - paragraph [ref=e194]: Journey steps
+                      - paragraph [ref=e195]: To add a step, select the action type and enter the selector code for the desired element.
+                    - list [ref=e196]:
+                      - listitem [ref=e197]:
+                        - generic [ref=e198]:
+                          - generic [ref=e199]:
+                            - paragraph [ref=e200]: "1"
+                            - combobox "Action type" [ref=e203] [cursor=pointer]:
+                              - generic [ref=e204]: Action type
+                              - img [ref=e206]
+                          - generic [ref=e208]:
+                            - button "Duplicate" [ref=e210] [cursor=pointer]:
+                              - img [ref=e212]
+                            - generic [ref=e214]:
+                              - button "Remove" [disabled]:
+                                - generic:
+                                  - img
+                    - button "Add step" [ref=e215] [cursor=pointer]:
+                      - img [ref=e217]
+                      - text: Add step
+            - generic [ref=e219]:
+              - separator [ref=e220]
+              - generic [ref=e221]:
+                - separator [ref=e222]
+                - button "Reset Selection" [ref=e224] [cursor=pointer]:
+                  - img [ref=e226]
+            - contentinfo "Footer" [ref=e228]:
+              - paragraph [ref=e229]: © 2026 - accessiBe Inc. All Rights Reserved.
+              - navigation "Footer menu" [ref=e230]:
+                - list [ref=e231]:
+                  - listitem [ref=e232]:
+                    - link "Terms of Service" [ref=e233] [cursor=pointer]:
+                      - /url: https://accessibe.com/terms-of-service
+                  - listitem [ref=e234]:
+                    - link "Privacy Policy" [ref=e235] [cursor=pointer]:
+                      - /url: https://accessibe.com/privacy-policy
+                  - listitem [ref=e236]:
+                    - link "Release Notes" [ref=e237] [cursor=pointer]:
+                      - /url: https://support.accessibe.com/hc/en-us/sections/17817223393298-accessFlow-Release-Notes
+                  - listitem [ref=e238]:
+                    - link "Support Portal" [ref=e239] [cursor=pointer]:
+                      - /url: https://support.accessibe.com/hc/en-us/categories/16379543560210-Getting-Started-with-accessFlow
+    - region "Notifications (alt+T)":
+      - list
+  - generic:
+    - generic "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=e1]:
+      - iframe [ref=e2]:
+        - button "Close message from Anna" [ref=f27e4] [cursor=pointer]:
+          - img [ref=f27e5]
+      - generic [ref=e3]:
+        - iframe [ref=e4]:
+          - figure [ref=f28e5]:
+            - img "Anna avatar" [ref=f28e6]
+        - iframe [ref=e240]:
+          - button "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=f29e5] [cursor=pointer]:
+            - heading "Anna" [level=1] [ref=f29e6]
+            - generic [ref=f29e8]: Hey there!👋 Is there anything I can help you with today?
+    - iframe [ref=e5]:
+      - button "Open messaging window" [ref=f26e5] [cursor=pointer]:
+        - img [ref=f26e7]
+        - img [ref=f26e10]

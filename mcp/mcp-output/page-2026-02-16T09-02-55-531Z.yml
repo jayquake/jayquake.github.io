@@ -1,0 +1,416 @@
+- generic:
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - paragraph: Skip to content
+            - link:
+              - generic: ↵
+              - generic: ENTER
+          - generic:
+            - paragraph: Skip to footer
+            - link:
+              - generic: ↵
+              - generic: ENTER
+        - generic:
+          - banner:
+            - generic:
+              - link:
+                - /url: /
+                - img
+              - generic:
+                - generic:
+                  - combobox:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - img
+                        - generic: jayquake.github.io
+                    - generic:
+                      - img
+              - separator
+              - button:
+                - generic:
+                  - generic:
+                    - img
+                - paragraph: Audits
+                - generic:
+                  - img
+            - generic:
+              - generic:
+                - generic:
+                  - button:
+                    - generic:
+                      - img
+                - generic:
+                  - button:
+                    - generic:
+                      - img
+              - separator
+              - button:
+                - generic:
+                  - img
+                - generic: jasonqu
+                - generic:
+                  - img
+          - generic:
+            - generic:
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /dashboard
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Dashboard
+                - listitem:
+                  - link:
+                    - /url: /explore?view=issues&filters=default
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Explore
+                - listitem:
+                  - link:
+                    - /url: /journeys
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Journeys
+                - listitem:
+                  - link:
+                    - /url: /assets
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Assets
+                - listitem:
+                  - link:
+                    - /url: /tasks
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Tasks
+                - listitem:
+                  - link:
+                    - /url: /integrations
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Integrations
+                - listitem:
+                  - link:
+                    - /url: /audits
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Audits
+              - list:
+                - separator
+                - listitem:
+                  - link:
+                    - /url: /settings
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Settings
+            - generic:
+              - main:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - heading [level=1]: Manage your journeys
+                        - generic:
+                          - paragraph: Audit key user flows and interactive elements not automatically checked. Add these to accessFlow audits.
+                          - button:
+                            - generic:
+                              - img
+                            - generic: Watch Overview
+                      - generic:
+                        - button:
+                          - generic:
+                            - img
+                          - text: Record a Journey
+                        - button:
+                          - generic:
+                            - img
+                    - generic:
+                      - generic:
+                        - table:
+                          - rowgroup:
+                            - row:
+                              - columnheader: Journey name
+                              - columnheader:
+                                - generic:
+                                  - generic: Last modified
+                                  - generic:
+                                    - button:
+                                      - generic:
+                                        - img
+                              - columnheader:
+                                - generic:
+                                  - generic:
+                                    - generic: Last audited
+                                    - generic:
+                                      - button:
+                                        - generic:
+                                          - img
+                              - columnheader:
+                                - generic:
+                                  - generic:
+                                    - generic: Steps
+                                    - generic:
+                                      - button:
+                                        - generic:
+                                          - img
+                              - columnheader:
+                                - generic:
+                                  - generic:
+                                    - generic: Issues found
+                                    - generic:
+                                      - button:
+                                        - generic:
+                                          - img
+                              - columnheader
+                          - rowgroup:
+                            - row:
+                              - cell:
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - img
+                                    - paragraph:
+                                      - text: Errors were found while validating the steps of
+                                      - strong: Untitled journey
+                              - cell
+                              - cell
+                              - cell
+                              - cell:
+                                - generic:
+                                  - link:
+                                    - /url: /journeys/698de1a9c26a6667424b01bc/edit
+                                    - generic: Review and fix errors
+                                    - generic:
+                                      - img
+                              - cell:
+                                - generic:
+                                  - button:
+                                    - generic:
+                                      - img
+                            - row:
+                              - cell:
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - img
+                                    - paragraph:
+                                      - text: Errors were found while validating the steps of
+                                      - strong: Untitled journey 1
+                              - cell
+                              - cell
+                              - cell
+                              - cell:
+                                - generic:
+                                  - link:
+                                    - /url: /journeys/6991abccc7665c6d323cdbdc/edit
+                                    - generic: Review and fix errors
+                                    - generic:
+                                      - img
+                              - cell:
+                                - generic:
+                                  - button:
+                                    - generic:
+                                      - img
+                            - row:
+                              - cell:
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - paragraph: Untitled journey 2
+                                      - paragraph: jayquake.github.io/
+                              - cell:
+                                - generic:
+                                  - generic:
+                                    - paragraph: Feb 15, 2026
+                              - cell:
+                                - generic:
+                                  - generic: Draft
+                              - cell:
+                                - generic:
+                                  - paragraph: 1 Steps
+                              - cell:
+                                - generic:
+                                  - paragraph: "----"
+                              - cell:
+                                - generic:
+                                  - button:
+                                    - generic:
+                                      - img
+                            - row:
+                              - cell:
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - paragraph: Untitled journey 3
+                                      - paragraph: jayquake.github.io/
+                              - cell:
+                                - generic:
+                                  - generic:
+                                    - paragraph: Feb 16, 2026
+                              - cell:
+                                - generic:
+                                  - generic:
+                                    - paragraph: "----"
+                              - cell:
+                                - generic:
+                                  - paragraph: 1 Steps
+                              - cell:
+                                - generic:
+                                  - paragraph: "----"
+                              - cell:
+                                - generic:
+                                  - button:
+                                    - generic:
+                                      - img
+              - generic:
+                - separator
+                - generic:
+                  - separator
+                  - generic:
+                    - button:
+                      - generic:
+                        - img
+              - contentinfo:
+                - paragraph: © 2026 - accessiBe Inc. All Rights Reserved.
+                - navigation:
+                  - list:
+                    - listitem:
+                      - link:
+                        - /url: https://accessibe.com/terms-of-service
+                        - text: Terms of Service
+                    - listitem:
+                      - link:
+                        - /url: https://accessibe.com/privacy-policy
+                        - text: Privacy Policy
+                    - listitem:
+                      - link:
+                        - /url: https://support.accessibe.com/hc/en-us/sections/17817223393298-accessFlow-Release-Notes
+                        - text: Release Notes
+                    - listitem:
+                      - link:
+                        - /url: https://support.accessibe.com/hc/en-us/categories/16379543560210-Getting-Started-with-accessFlow
+                        - text: Support Portal
+    - list
+  - iframe [ref=e1]:
+    - generic [ref=f13e1]:
+      - dialog "Messaging window" [ref=f13e2]:
+        - generic [ref=f13e3]:
+          - generic [ref=f13e4]:
+            - figure [ref=f13e5]:
+              - img "Company logo" [ref=f13e6]
+            - region [ref=f13e7]:
+              - heading "accessiBe" [level=2] [ref=f13e8]
+              - paragraph [ref=f13e9]: Hi. Need any help?
+          - button "Options menu" [ref=f13e13] [cursor=pointer]:
+            - img [ref=f13e14]
+          - generic:
+            - alert
+        - generic [ref=f13e75]:
+          - log [ref=f13e77]:
+            - paragraph [ref=f13e79]: June 19 at 2:19 PM
+            - generic [ref=f13e80]:
+              - paragraph [ref=f13e81]: Anna
+              - generic [ref=f13e85]:
+                - generic [ref=f13e86]: "Anna says:"
+                - generic [ref=f13e87]: Hey there!👋 Is there anything I can help you with today?
+            - generic [ref=f13e92]:
+              - generic [ref=f13e93]: "Anna says:"
+              - generic [ref=f13e94]: Apologies! Our agents are available from 9 am to 5 pm EST (M-F), but our automated service is here 24/7.
+            - generic [ref=f13e96]:
+              - figure [ref=f13e97]
+              - generic [ref=f13e99]:
+                - generic [ref=f13e100]: "Anna says:"
+                - generic [ref=f13e101]: "Please select from one of the following options:"
+            - paragraph [ref=f13e103]: September 10 at 10:59 AM
+            - generic [ref=f13e104]:
+              - paragraph [ref=f13e105]: Anna
+              - generic [ref=f13e109]:
+                - generic [ref=f13e110]: "Anna says:"
+                - generic [ref=f13e111]: Apologies! Our agents are available from 9 am to 5 pm EST (M-F), but our automated service is here 24/7.
+            - generic [ref=f13e113]:
+              - figure [ref=f13e114]
+              - generic [ref=f13e116]:
+                - generic [ref=f13e117]: "Anna says:"
+                - generic [ref=f13e118]: "Please select from one of the following options:"
+            - paragraph [ref=f13e120]: 11:01 AM
+            - generic [ref=f13e121]:
+              - paragraph [ref=f13e122]: Anna
+              - generic [ref=f13e126]:
+                - generic [ref=f13e127]: "Anna says:"
+                - generic [ref=f13e128]: Hey there!👋 Is there anything I can help you with today?
+            - generic [ref=f13e133]:
+              - generic [ref=f13e134]: "Anna says:"
+              - generic [ref=f13e135]: We now support WCAG 2.2!
+            - generic [ref=f13e140]:
+              - generic [ref=f13e141]: "Anna says:"
+              - generic [ref=f13e142]: Apologies! Our agents are available from 9 am to 5 pm EST (M-F), but our automated service is here 24/7.
+            - generic [ref=f13e143]:
+              - generic [ref=f13e144]:
+                - figure [ref=f13e145]
+                - generic [ref=f13e147]:
+                  - generic [ref=f13e148]: "Anna says:"
+                  - generic [ref=f13e149]: "Please select from one of the following options:"
+              - paragraph [ref=f13e154]: 11:01 AM
+            - list [ref=f13e157]:
+              - listitem [ref=f13e158]:
+                - button "I’d like to speak with someone about your services" [ref=f13e159] [cursor=pointer]
+              - listitem [ref=f13e160]:
+                - button "I am a current accessiBe customer and need support" [ref=f13e161] [cursor=pointer]
+          - status
+          - generic [ref=f13e164]:
+            - button "Upload file" [ref=f13e165] [cursor=pointer]:
+              - img [ref=f13e166]
+            - region [ref=f13e168]:
+              - generic [ref=f13e169]:
+                - generic [ref=f13e170]: Type a message
+                - textbox "Type a message" [active] [ref=f13e171]
+      - status [ref=f13e172]
+  - iframe [ref=e2]:
+    - button "Close messaging window" [ref=f14e5] [cursor=pointer]:
+      - img [ref=f14e7]
+      - img [ref=f14e10]
+  - dialog "Understand the way journeys work" [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - button "Close" [active] [ref=e7] [cursor=pointer]:
+          - img [ref=e9]
+        - heading "Understand the way journeys work" [level=2] [ref=e12]
+        - paragraph [ref=e14]: Learn how to record important user flows and include them in the accessFlow audits.
+        - button "Close" [ref=e17] [cursor=pointer]
+      - iframe [ref=e20]:
+        - generic "YouTube Video Player" [ref=f15e3]:
+          - generic [ref=f15e5]:
+            - link "Photo image of accessiBe" [ref=f15e8] [cursor=pointer]:
+              - /url: https://www.youtube.com/channel/UCNXs01wEGLPCUPpuFi3_4XA?embeds_referring_euri=https%3A%2F%2Fmix-p-sdk--accessflow--test.acsb-test.com%2F
+            - link "Recording Journeys - accessFlow tutorials" [ref=f15e11] [cursor=pointer]:
+              - /url: https://www.youtube.com/watch?v=NsK1O-JoDVo
+            - button "More" [ref=f15e13] [cursor=pointer]:
+              - generic [ref=f15e14]:
+                - img
+          - button "Play" [ref=f15e17] [cursor=pointer]:
+            - img

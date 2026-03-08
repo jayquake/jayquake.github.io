@@ -1,0 +1,258 @@
+- generic:
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - paragraph: Skip to content
+            - link:
+              - generic: ↵
+              - generic: ENTER
+          - generic:
+            - paragraph: Skip to footer
+            - link:
+              - generic: ↵
+              - generic: ENTER
+        - generic:
+          - banner:
+            - generic:
+              - link:
+                - /url: /
+                - img
+              - generic:
+                - generic:
+                  - combobox:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: "1"
+                        - generic: 1771149755601.com
+                    - generic:
+                      - img
+              - separator
+              - button:
+                - generic:
+                  - generic:
+                    - img
+                - paragraph: Audits
+                - generic:
+                  - img
+            - generic:
+              - generic:
+                - generic:
+                  - button:
+                    - generic:
+                      - img
+                - generic:
+                  - button:
+                    - generic:
+                      - img
+              - separator
+              - button:
+                - generic:
+                  - img
+                - generic: qa-automation+f4e54017
+                - generic:
+                  - img
+          - generic:
+            - generic:
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /dashboard
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Dashboard
+                - listitem:
+                  - link:
+                    - /url: /explore?view=issues&filters=default
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Explore
+                - listitem:
+                  - link:
+                    - /url: /journeys
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Journeys
+                - listitem:
+                  - link:
+                    - /url: /assets
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Assets
+                - listitem:
+                  - link:
+                    - /url: /tasks
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Tasks
+                - listitem:
+                  - link:
+                    - /url: /integrations
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                      - generic:
+                        - img
+                    - generic: Integrations
+                - listitem:
+                  - link:
+                    - /url: /audits
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Audits
+              - list:
+                - separator
+                - listitem:
+                  - link:
+                    - /url: /settings
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Settings
+            - generic:
+              - main:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - heading [level=1]: Welcome, Qa-automation+f4e54017
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - img
+                            - generic:
+                              - text: Your trial includes a
+                              - strong: one-time audit for the first 3 pages and 1 asset.
+                          - button:
+                            - text: Get more audits
+                            - generic:
+                              - img
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - img
+                              - generic: "Audit cycle:"
+                              - generic: Monthly
+                              - generic:
+                                - generic:
+                                  - img
+                            - separator
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - img
+                                - generic: "Last audit: February 15"
+                              - generic:
+                                - generic:
+                                  - img
+                                - text: Failed
+                              - separator
+                              - generic:
+                                - generic:
+                                  - img
+                                - generic: "Next audit: March 17"
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - paragraph:
+                              - generic:
+                                - img
+                            - paragraph: Data can’t be displayed because the last audit, initiated at February 15, 2026 at 12:03 PM failed.
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - img
+                            - generic:
+                              - heading [level=2]: Internal error
+                              - paragraph: Our audit encountered an unexpected issue.
+                            - generic:
+                              - button:
+                                - generic:
+                                  - img
+                                - generic: Reaudit Website
+                              - link:
+                                - /url: https://support.accessibe.com/hc/en-us/categories/16379543560210-Getting-Started-with-accessFlow
+                                - text: Contact Support
+              - generic:
+                - separator
+                - generic:
+                  - separator
+                  - generic:
+                    - button:
+                      - generic:
+                        - img
+              - contentinfo:
+                - paragraph: © 2026 - accessiBe Inc. All Rights Reserved.
+                - navigation:
+                  - list:
+                    - listitem:
+                      - link:
+                        - /url: https://accessibe.com/terms-of-service
+                        - text: Terms of Service
+                    - listitem:
+                      - link:
+                        - /url: https://accessibe.com/privacy-policy
+                        - text: Privacy Policy
+                    - listitem:
+                      - link:
+                        - /url: https://support.accessibe.com/hc/en-us/sections/17817223393298-accessFlow-Release-Notes
+                        - text: Release Notes
+                    - listitem:
+                      - link:
+                        - /url: https://support.accessibe.com/hc/en-us/categories/16379543560210-Getting-Started-with-accessFlow
+                        - text: Support Portal
+    - list
+  - generic:
+    - iframe [ref=e3]:
+      - button "Close message from Anna" [ref=f13e4] [cursor=pointer]:
+        - img [ref=f13e5]
+    - generic:
+      - iframe [ref=e5]:
+        - figure [ref=f14e5]:
+          - img "Anna avatar" [ref=f14e6]
+      - iframe [ref=e6]:
+        - button "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=f15e5] [cursor=pointer]:
+          - heading "Anna" [level=1] [ref=f15e6]
+          - generic [ref=f15e8]: Hey there!👋 Is there anything I can help you with today?
+  - iframe [ref=e7]:
+    - button "Open messaging window" [ref=f12e5] [cursor=pointer]:
+      - img [ref=f12e7]
+      - img [ref=f12e10]
+  - dialog "Welcome to accessFlow" [ref=e9]:
+    - generic [ref=e10]:
+      - generic [ref=e11]:
+        - button "Close" [active] [ref=e12] [cursor=pointer]:
+          - img [ref=e14]
+        - generic:
+          - heading "Welcome to accessFlow" [level=2]:
+            - generic [ref=e16]: Welcome to accessFlow
+        - generic [ref=e18]:
+          - heading "Welcome to accessFlow" [level=1] [ref=e19]
+          - paragraph [ref=e20]: We’re auditing your website to provide full transparency for your accessibility journey. This may take some time, depending on its size. You’ll get a notification when it’s done. Meanwhile, you can watch a tutorial to explore accessFlow’s key features.
+        - generic [ref=e22]:
+          - button "Watch tutorial" [ref=e23] [cursor=pointer]:
+            - img [ref=e25]
+            - generic [ref=e27]: Watch tutorial
+          - button "Great, thanks" [ref=e28] [cursor=pointer]
+      - img "accessFlow welcome trial illustration" [ref=e31]

@@ -1,0 +1,254 @@
+- generic:
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - paragraph: Skip to content
+            - link:
+              - generic: ↵
+              - generic: ENTER
+          - generic:
+            - paragraph: Skip to footer
+            - link:
+              - generic: ↵
+              - generic: ENTER
+        - generic:
+          - banner:
+            - generic:
+              - link:
+                - /url: /
+                - img
+              - generic:
+                - generic:
+                  - combobox:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - img
+                        - generic: jayquake.github.io
+                    - generic:
+                      - img
+              - separator
+              - button:
+                - generic:
+                  - generic:
+                    - img
+                - paragraph: Audits
+                - generic:
+                  - img
+            - generic:
+              - generic:
+                - generic:
+                  - button:
+                    - generic:
+                      - img
+                - generic:
+                  - button:
+                    - generic:
+                      - img
+              - separator
+              - button:
+                - generic:
+                  - img
+                - generic: jasonqu
+                - generic:
+                  - img
+          - generic:
+            - generic:
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /dashboard
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Dashboard
+                - listitem:
+                  - link:
+                    - /url: /explore?view=issues&filters=default
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Explore
+                - listitem:
+                  - link:
+                    - /url: /journeys
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Journeys
+                - listitem:
+                  - link:
+                    - /url: /assets
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Assets
+                - listitem:
+                  - link:
+                    - /url: /tasks
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Tasks
+                - listitem:
+                  - link:
+                    - /url: /integrations
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Integrations
+                - listitem:
+                  - link:
+                    - /url: /audits
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Audits
+              - list:
+                - separator
+                - listitem:
+                  - link:
+                    - /url: /settings
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Settings
+            - generic:
+              - main:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - heading [level=1]: Manage your journeys
+                        - generic:
+                          - paragraph: Audit key user flows and interactive elements not automatically checked. Add these to accessFlow audits.
+                          - button:
+                            - generic:
+                              - img
+                            - generic: Watch Overview
+                      - generic:
+                        - button:
+                          - generic:
+                            - img
+                          - text: Record a Journey
+                        - button:
+                          - generic:
+                            - img
+                    - generic:
+                      - generic:
+                        - table:
+                          - rowgroup:
+                            - row:
+                              - columnheader: Journey name
+                              - columnheader:
+                                - generic:
+                                  - generic: Last modified
+                                  - generic:
+                                    - button:
+                                      - generic:
+                                        - img
+                              - columnheader:
+                                - generic:
+                                  - generic:
+                                    - generic: Last audited
+                                    - generic:
+                                      - button:
+                                        - generic:
+                                          - img
+                              - columnheader:
+                                - generic:
+                                  - generic:
+                                    - generic: Steps
+                                    - generic:
+                                      - button:
+                                        - generic:
+                                          - img
+                              - columnheader:
+                                - generic:
+                                  - generic:
+                                    - generic: Issues found
+                                    - generic:
+                                      - button:
+                                        - generic:
+                                          - img
+                              - columnheader
+                          - rowgroup:
+                            - row:
+                              - cell:
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - img
+                                    - paragraph:
+                                      - text: Errors were found while validating the steps of
+                                      - strong: Untitled journey
+                              - cell
+                              - cell
+                              - cell
+                              - cell:
+                                - generic:
+                                  - link:
+                                    - /url: /journeys/6992e24ac7665c6d323cdbe1/edit
+                                    - generic: Review and fix errors
+                                    - generic:
+                                      - img
+                              - cell:
+                                - generic:
+                                  - button:
+                                    - generic:
+                                      - img
+              - generic:
+                - separator
+                - generic:
+                  - separator
+                  - generic:
+                    - button:
+                      - generic:
+                        - img
+              - contentinfo:
+                - paragraph: © 2026 - accessiBe Inc. All Rights Reserved.
+                - navigation:
+                  - list:
+                    - listitem:
+                      - link:
+                        - /url: https://accessibe.com/terms-of-service
+                        - text: Terms of Service
+                    - listitem:
+                      - link:
+                        - /url: https://accessibe.com/privacy-policy
+                        - text: Privacy Policy
+                    - listitem:
+                      - link:
+                        - /url: https://support.accessibe.com/hc/en-us/sections/17817223393298-accessFlow-Release-Notes
+                        - text: Release Notes
+                    - listitem:
+                      - link:
+                        - /url: https://support.accessibe.com/hc/en-us/categories/16379543560210-Getting-Started-with-accessFlow
+                        - text: Support Portal
+    - list
+  - iframe [ref=e5]:
+    - button "Open messaging window" [ref=f26e5] [cursor=pointer]:
+      - img [ref=f26e7]
+      - img [ref=f26e10]
+  - dialog "Delete journey?" [ref=e290]:
+    - generic [ref=e292]:
+      - button "Close" [active] [ref=e293] [cursor=pointer]:
+        - img [ref=e295]
+      - generic [ref=e297]:
+        - heading "Delete journey?" [level=2] [ref=e298]
+        - paragraph [ref=e299]: The journey will no longer be audited and any associated issue data will be lost.
+      - generic [ref=e301]:
+        - button "Keep It" [ref=e302] [cursor=pointer]
+        - button "Delete Journey" [ref=e303] [cursor=pointer]

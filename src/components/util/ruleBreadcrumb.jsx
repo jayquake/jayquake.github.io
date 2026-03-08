@@ -1,6 +1,5 @@
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Breadcrumbs, MenuItem, Paper, Select } from "@mui/material";
-import Grid from "@mui/material/Grid";
 import React from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
@@ -13,7 +12,6 @@ const CustomizedBreadcrumbs = ({ selectedOption, handleOptionChange }) => {
   const navigate = useNavigate();
   const pathnames = location.pathname.split("/").filter((x) => x);
 
-  // Detect success / failure variant from the URL for both legacy and engine rules
   const hasVariant = /(_success|_failure)$/.test(location.pathname);
   const lastPart = location.pathname.endsWith("_failure")
     ? "failure"
@@ -28,71 +26,40 @@ const CustomizedBreadcrumbs = ({ selectedOption, handleOptionChange }) => {
   };
 
   return (
-    <Grid container item xs={12}>
-      {" "}
-      {/* Added "item" prop */}
+    <>
       <Paper
         elevation={0}
         sx={{
-          padding: "16px 24px",
-          background: "rgba(255, 255, 255, 0.25)",
-          backdropFilter: "blur(25px)",
-          WebkitBackdropFilter: "blur(25px)",
-          border: "1px solid rgba(255, 255, 255, 0.4)",
-          borderTop: "2px solid rgba(255, 255, 255, 0.6)",
-          borderRadius: 4,
-          boxShadow: `
-            0 20px 60px rgba(0, 0, 0, 0.12),
-            0 8px 24px rgba(0, 0, 0, 0.08),
-            inset 0 2px 4px rgba(255, 255, 255, 0.4),
-            inset 0 -1px 2px rgba(0, 0, 0, 0.05)
-          `,
-          position: "relative",
-          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-          "&::before": {
-            content: '""',
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background:
-              "linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%)",
-            borderRadius: 4,
-            pointerEvents: "none",
-          },
-          "&:hover": {
-            background: "rgba(255, 255, 255, 0.35)",
-            borderTop: "2px solid rgba(255, 255, 255, 0.8)",
-            transform: "translateY(-2px)",
-            boxShadow: `
-              0 32px 80px rgba(0, 0, 0, 0.15),
-              0 12px 32px rgba(0, 0, 0, 0.1),
-              inset 0 2px 6px rgba(255, 255, 255, 0.5),
-              inset 0 -1px 3px rgba(0, 0, 0, 0.03)
-            `,
-          },
+          px: { xs: 1.5, sm: 2, md: 3 },
+          py: { xs: 1, sm: 1.5, md: 2 },
+          background: "rgba(255, 255, 255, 0.55)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          border: "1px solid rgba(255, 255, 255, 0.7)",
+          borderRadius: 3,
+          boxShadow: "0 4px 16px rgba(0, 0, 0, 0.06)",
+          width: "100%",
+          overflow: "hidden",
         }}
       >
         <Breadcrumbs
-          separator={<NavigateNextIcon fontSize="small" />}
+          separator={<NavigateNextIcon sx={{ fontSize: { xs: 14, md: 18 } }} />}
           aria-label="breadcrumb"
+          sx={{ flexWrap: "nowrap", alignItems: "center" }}
         >
           <NavLink
-            underline="hover"
             to="/"
             style={{
               textDecoration: "none",
               color: "inherit",
               fontWeight: 600,
-              padding: "6px 12px",
-              borderRadius: "12px",
-              background: "rgba(255, 255, 255, 0.2)",
-              backdropFilter: "blur(8px)",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
-              transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-              boxShadow:
-                "0 4px 12px rgba(0, 0, 0, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.4)",
+              padding: "4px 8px",
+              borderRadius: "8px",
+              background: "rgba(255, 255, 255, 0.3)",
+              border: "1px solid rgba(255, 255, 255, 0.4)",
+              transition: "all 0.2s ease",
+              fontSize: "0.8rem",
+              whiteSpace: "nowrap",
             }}
           >
             Home
@@ -117,25 +84,22 @@ const CustomizedBreadcrumbs = ({ selectedOption, handleOptionChange }) => {
 
             return last ? (
               <NavLink
-                underline="hover"
                 to={targetTo}
                 style={{
                   textDecoration: "none",
                   color: "#1565c0",
                   fontWeight: 700,
-                  padding: "8px 16px",
-                  borderRadius: "16px",
-                  background: "rgba(25, 118, 210, 0.25)",
-                  backdropFilter: "blur(12px)",
-                  border: "1px solid rgba(25, 118, 210, 0.4)",
-                  borderTop: "2px solid rgba(25, 118, 210, 0.6)",
-                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                  boxShadow: `
-                    0 8px 20px rgba(25, 118, 210, 0.2),
-                    0 4px 12px rgba(25, 118, 210, 0.15),
-                    inset 0 2px 4px rgba(255, 255, 255, 0.4),
-                    inset 0 -1px 2px rgba(25, 118, 210, 0.1)
-                  `,
+                  padding: "4px 10px",
+                  borderRadius: "8px",
+                  background: "rgba(25, 118, 210, 0.15)",
+                  border: "1px solid rgba(25, 118, 210, 0.3)",
+                  transition: "all 0.2s ease",
+                  fontSize: "0.8rem",
+                  maxWidth: "160px",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  display: "inline-block",
                 }}
                 key={to}
               >
@@ -143,20 +107,18 @@ const CustomizedBreadcrumbs = ({ selectedOption, handleOptionChange }) => {
               </NavLink>
             ) : (
               <NavLink
-                underline="hover"
                 to={to}
                 style={{
                   textDecoration: "none",
                   color: "inherit",
                   fontWeight: 600,
-                  padding: "6px 12px",
-                  borderRadius: "12px",
-                  background: "rgba(255, 255, 255, 0.2)",
-                  backdropFilter: "blur(8px)",
-                  border: "1px solid rgba(255, 255, 255, 0.3)",
-                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                  boxShadow:
-                    "0 4px 12px rgba(0, 0, 0, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.4)",
+                  padding: "4px 8px",
+                  borderRadius: "8px",
+                  background: "rgba(255, 255, 255, 0.3)",
+                  border: "1px solid rgba(255, 255, 255, 0.4)",
+                  transition: "all 0.2s ease",
+                  fontSize: "0.8rem",
+                  whiteSpace: "nowrap",
                 }}
                 key={to}
               >
@@ -172,29 +134,20 @@ const CustomizedBreadcrumbs = ({ selectedOption, handleOptionChange }) => {
               aria-label="Select variant type"
               size="small"
               sx={{
-                marginLeft: "12px",
-                minWidth: "100px",
+                ml: 1,
+                minWidth: 90,
                 background: "rgba(255, 255, 255, 0.4)",
                 backdropFilter: "blur(10px)",
-                WebkitBackdropFilter: "blur(10px)",
-                border: "1px solid rgba(25, 118, 210, 0.3)",
+                border: "1px solid rgba(25, 118, 210, 0.25)",
                 borderRadius: 2,
                 fontWeight: 600,
+                fontSize: "0.8rem",
                 color: "#1976d2",
-                "& .MuiSelect-select": {
-                  padding: "6px 12px",
-                },
-                "& .MuiOutlinedInput-notchedOutline": {
-                  border: "none",
-                },
-                "&:hover": {
-                  background: "rgba(255, 255, 255, 0.5)",
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    border: "none",
-                  },
-                },
+                "& .MuiSelect-select": { py: 0.5, px: 1.5 },
+                "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                "&:hover .MuiOutlinedInput-notchedOutline": { border: "none" },
                 "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                  border: "2px solid rgba(25, 118, 210, 0.5)",
+                  border: "2px solid rgba(25, 118, 210, 0.4)",
                 },
               }}
             >
@@ -208,7 +161,7 @@ const CustomizedBreadcrumbs = ({ selectedOption, handleOptionChange }) => {
           )}
         </Breadcrumbs>
       </Paper>
-    </Grid>
+    </>
   );
 };
 

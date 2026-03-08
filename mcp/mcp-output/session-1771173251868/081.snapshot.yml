@@ -1,0 +1,221 @@
+- generic:
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - paragraph: Skip to content
+            - link:
+              - generic: ↵
+              - generic: ENTER
+          - generic:
+            - paragraph: Skip to footer
+            - link:
+              - generic: ↵
+              - generic: ENTER
+        - generic:
+          - banner:
+            - generic:
+              - link:
+                - /url: /
+                - img
+              - generic:
+                - generic:
+                  - generic:
+                    - combobox:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: "1"
+                          - generic: 1771173145343.com
+                      - generic:
+                        - img
+              - separator
+              - button:
+                - generic:
+                  - generic:
+                    - img
+                - paragraph: Audits
+                - generic:
+                  - img
+            - generic:
+              - generic:
+                - generic:
+                  - button:
+                    - generic:
+                      - img
+                - generic:
+                  - button:
+                    - generic:
+                      - img
+              - separator
+              - button:
+                - generic:
+                  - img
+                - generic: qa-automation+1e931597
+                - generic:
+                  - img
+          - generic:
+            - generic:
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /dashboard
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Dashboard
+                - listitem:
+                  - link:
+                    - /url: /explore?view=issues&filters=default
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Explore
+                - listitem:
+                  - link:
+                    - /url: /journeys
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Journeys
+                - listitem:
+                  - link:
+                    - /url: /assets
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Assets
+                - listitem:
+                  - link:
+                    - /url: /tasks
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Tasks
+                - listitem:
+                  - link:
+                    - /url: /integrations
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                      - generic:
+                        - img
+                    - generic: Integrations
+                - listitem:
+                  - link:
+                    - /url: /audits
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Audits
+              - list:
+                - separator
+                - listitem:
+                  - link:
+                    - /url: /settings
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic: Settings
+            - generic:
+              - main:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - heading [level=1]: Manage your journeys
+                        - generic:
+                          - paragraph: Audit key user flows and interactive elements not automatically checked. Add these to accessFlow audits.
+                          - button:
+                            - generic:
+                              - img
+                            - generic: Watch Overview
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - img
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+                                  - text: 20 journeys available
+                                  - generic:
+                                    - img
+                          - paragraph: No journeys created yet
+                          - paragraph: Create journeys to audit flows that aren't audited automatically
+                        - generic:
+                          - button:
+                            - generic:
+                              - img
+                            - text: Record a Journey
+                          - button:
+                            - generic:
+                              - img
+                            - text: Create Manually
+              - generic:
+                - separator
+                - generic:
+                  - separator
+                  - generic:
+                    - button:
+                      - generic:
+                        - img
+              - contentinfo:
+                - paragraph: © 2026 - accessiBe Inc. All Rights Reserved.
+                - navigation:
+                  - list:
+                    - listitem:
+                      - link:
+                        - /url: https://accessibe.com/terms-of-service
+                        - text: Terms of Service
+                    - listitem:
+                      - link:
+                        - /url: https://accessibe.com/privacy-policy
+                        - text: Privacy Policy
+                    - listitem:
+                      - link:
+                        - /url: https://support.accessibe.com/hc/en-us/sections/17817223393298-accessFlow-Release-Notes
+                        - text: Release Notes
+                    - listitem:
+                      - link:
+                        - /url: https://support.accessibe.com/hc/en-us/categories/16379543560210-Getting-Started-with-accessFlow
+                        - text: Support Portal
+    - list
+  - generic:
+    - iframe [ref=e234]
+    - generic:
+      - iframe [ref=e236]
+      - iframe [ref=e237]
+  - iframe [ref=e238]
+  - dialog [active] [ref=e240]:
+    - generic [ref=e242]:
+      - button "Close" [ref=e243] [cursor=pointer]:
+        - img [ref=e245]
+      - generic [ref=e247]:
+        - img [ref=e248]
+        - generic [ref=e285]:
+          - generic [ref=e286]:
+            - heading "Record a Journey" [level=2] [ref=e287]
+            - paragraph [ref=e288]: Start by downloading and installing the accessFlow extension - available only on Chrome.
+          - generic [ref=e289]:
+            - link "Learn more" [ref=e290] [cursor=pointer]:
+              - /url: https://support.accessibe.com/hc/en-us/articles/17023361401746-Journeys-Record-a-journey-session
+            - generic [ref=e291]:
+              - button "Cancel" [ref=e292] [cursor=pointer]
+              - link "Install extension" [ref=e293] [cursor=pointer]:
+                - /url: https://chrome.google.com/webstore/detail/hakdifmlboagplbbhohjkolcajnihcgj
+                - img [ref=e294]
+                - generic [ref=e298]: Install extension

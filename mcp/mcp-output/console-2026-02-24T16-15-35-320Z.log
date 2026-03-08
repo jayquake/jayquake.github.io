@@ -1,0 +1,13 @@
+[      59ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://sdk-export--accessflow--test.acsb-test.com/trpc/rules.allById:0
+[      59ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://sdk-export--accessflow--test.acsb-test.com/trpc/website.lastScan:0
+[      59ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://sdk-export--accessflow--test.acsb-test.com/trpc/users.me:0
+[     123ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://sdk-export--accessflow--test.acsb-test.com/trpc/website.active?input=%7B%22domain%22%3Anull%7D:0
+[     158ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://sdk-export--accessflow--test.acsb-test.com/trpc/users.zendesk:0
+[     158ms] [ERROR] Error: TRPCClientError: User not authenticated
+    at TRPCClientError.from (https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:65:8000)
+    at https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:65:11195 @ https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:8669
+[     158ms] [ERROR] Component Stack: Unhandled Rejection @ https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:8669
+[     159ms] TRPCClientError: User not authenticated
+    at TRPCClientError.from (https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:65:8000)
+    at https://sdk-export--accessflow--test.acsb-test.com/assets/index-CRlCv30J.js:65:11195
+[    2301ms] [ERROR] Failed to load resource: the server responded with a status of 412 () @ https://sdk-export--accessflow--test.acsb-test.com/trpc/website.checkSuccessfulScanExist:0

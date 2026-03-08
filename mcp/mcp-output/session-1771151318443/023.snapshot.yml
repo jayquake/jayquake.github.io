@@ -1,0 +1,38 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - heading "Staging Setup" [level=2] [ref=e5]:
+        - img [ref=e6]
+        - text: Staging Setup
+      - generic [ref=e12]:
+        - generic [ref=e13] [cursor=pointer]: User Email
+        - textbox "User Email" [ref=e16]:
+          - /placeholder: " "
+      - generic [ref=e17]:
+        - generic [ref=e18] [cursor=pointer]: Domain
+        - textbox "Domain" [ref=e21]:
+          - /placeholder: " "
+      - generic [ref=e22]:
+        - generic [ref=e23] [cursor=pointer]: Page Count
+        - spinbutton "Page Count" [ref=e26]: "5"
+      - generic [ref=e27] [cursor=pointer]: standard
+      - button "Upsert Domain and User" [ref=e29] [cursor=pointer]
+    - region "Notifications (alt+T)":
+      - list
+  - generic:
+    - generic "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=e30]:
+      - iframe [ref=e31]:
+        - button "Close message from Anna" [ref=f28e4] [cursor=pointer]:
+          - img [ref=f28e5]
+      - generic [ref=e32]:
+        - iframe [ref=e33]:
+          - figure [ref=f29e5]:
+            - img "Anna avatar" [ref=f29e6]
+        - iframe [ref=e34]:
+          - button "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=f30e5] [cursor=pointer]:
+            - heading "Anna" [level=1] [ref=f30e6]
+            - generic [ref=f30e8]: Hey there!👋 Is there anything I can help you with today?
+    - iframe [ref=e35]:
+      - button "Open messaging window" [ref=f27e5] [cursor=pointer]:
+        - img [ref=f27e7]
+        - img [ref=f27e10]

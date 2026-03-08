@@ -1,0 +1,157 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - paragraph [ref=e7]: Skip to content
+          - link "Skip to content" [ref=e8] [cursor=pointer]:
+            - generic [ref=e9]: ↵
+            - generic [ref=e10]: ENTER
+        - generic [ref=e11]:
+          - paragraph [ref=e12]: Skip to footer
+          - link "Skip to footer" [ref=e13] [cursor=pointer]:
+            - generic [ref=e14]: ↵
+            - generic [ref=e15]: ENTER
+      - generic [ref=e16]:
+        - banner [ref=e17]:
+          - generic [ref=e18]:
+            - link [ref=e19] [cursor=pointer]:
+              - /url: /
+              - img [ref=e20]
+            - combobox "1771173145343.com" [ref=e29] [cursor=pointer]:
+              - generic [ref=e31]:
+                - generic [ref=e34]: "1"
+                - generic [ref=e35]: 1771173145343.com
+              - img [ref=e37]
+            - separator [ref=e39]
+            - button "Audits" [ref=e40] [cursor=pointer]:
+              - img [ref=e43]
+              - paragraph [ref=e46]: Audits
+              - img [ref=e48]
+          - generic [ref=e50]:
+            - generic [ref=e51]:
+              - button "Help" [ref=e53] [cursor=pointer]:
+                - img [ref=e55]
+              - generic [ref=e59]:
+                - button "Notifications" [disabled]:
+                  - generic:
+                    - img
+            - separator [ref=e60]
+            - button "qa-automation+1e931597" [ref=e61] [cursor=pointer]:
+              - img [ref=e63]
+              - generic [ref=e66]: qa-automation+1e931597
+              - img [ref=e68]
+        - generic [ref=e70]:
+          - generic [ref=e71]:
+            - list [ref=e72]:
+              - listitem [ref=e73]:
+                - link "Dashboard" [ref=e74] [cursor=pointer]:
+                  - /url: /dashboard
+                  - img [ref=e78]
+                  - generic [ref=e82]: Dashboard
+              - listitem [ref=e83]:
+                - link "Explore" [ref=e84] [cursor=pointer]:
+                  - /url: /explore?view=issues&filters=default
+                  - img [ref=e88]
+                  - generic [ref=e92]: Explore
+              - listitem [ref=e93]:
+                - link "Journeys" [ref=e94] [cursor=pointer]:
+                  - /url: /journeys
+                  - img [ref=e98]
+                  - generic [ref=e102]: Journeys
+              - listitem [ref=e103]:
+                - link "Assets" [ref=e104] [cursor=pointer]:
+                  - /url: /assets
+                  - img [ref=e108]
+                  - generic [ref=e112]: Assets
+              - listitem [ref=e113]:
+                - link "Tasks" [ref=e114] [cursor=pointer]:
+                  - /url: /tasks
+                  - img [ref=e118]
+                  - generic [ref=e121]: Tasks
+              - listitem [ref=e122]:
+                - link "Integrations" [ref=e123] [cursor=pointer]:
+                  - /url: /integrations
+                  - generic [ref=e124]:
+                    - img [ref=e127]
+                    - img [ref=e131]
+                  - generic [ref=e133]: Integrations
+              - listitem [ref=e134]:
+                - link "Audits" [ref=e135] [cursor=pointer]:
+                  - /url: /audits
+                  - img [ref=e139]
+                  - generic [ref=e142]: Audits
+            - list [ref=e143]:
+              - separator [ref=e144]
+              - listitem [ref=e145]:
+                - link "Settings" [ref=e146] [cursor=pointer]:
+                  - /url: /settings
+                  - img [ref=e150]
+                  - generic [ref=e153]: Settings
+          - generic [ref=e154]:
+            - main "Content" [ref=e155]:
+              - generic [ref=e157]:
+                - generic [ref=e159]:
+                  - heading "Manage your journeys" [level=1] [ref=e160]
+                  - generic [ref=e161]:
+                    - paragraph [ref=e162]: Audit key user flows and interactive elements not automatically checked. Add these to accessFlow audits.
+                    - button "Watch Overview" [ref=e163] [cursor=pointer]:
+                      - img [ref=e165]
+                      - generic [ref=e170]: Watch Overview
+                - generic [ref=e172]:
+                  - generic [ref=e173]:
+                    - img [ref=e175]
+                    - generic [ref=e185]:
+                      - img [ref=e187]
+                      - text: 20 journeys available
+                      - img [ref=e192]
+                    - paragraph [ref=e196]: No journeys created yet
+                    - paragraph [ref=e197]: Create journeys to audit flows that aren't audited automatically
+                  - generic [ref=e198]:
+                    - button "Record a Journey" [ref=e199] [cursor=pointer]:
+                      - img [ref=e201]
+                      - text: Record a Journey
+                    - button "Create Manually" [ref=e204] [cursor=pointer]:
+                      - img [ref=e206]
+                      - text: Create Manually
+            - generic [ref=e208]:
+              - separator [ref=e209]
+              - generic [ref=e210]:
+                - separator [ref=e211]
+                - button "Reset Selection" [ref=e213] [cursor=pointer]:
+                  - img [ref=e215]
+            - contentinfo "Footer" [ref=e217]:
+              - paragraph [ref=e218]: © 2026 - accessiBe Inc. All Rights Reserved.
+              - navigation "Footer menu" [ref=e219]:
+                - list [ref=e220]:
+                  - listitem [ref=e221]:
+                    - link "Terms of Service" [ref=e222] [cursor=pointer]:
+                      - /url: https://accessibe.com/terms-of-service
+                  - listitem [ref=e223]:
+                    - link "Privacy Policy" [ref=e224] [cursor=pointer]:
+                      - /url: https://accessibe.com/privacy-policy
+                  - listitem [ref=e225]:
+                    - link "Release Notes" [ref=e226] [cursor=pointer]:
+                      - /url: https://support.accessibe.com/hc/en-us/sections/17817223393298-accessFlow-Release-Notes
+                  - listitem [ref=e227]:
+                    - link "Support Portal" [ref=e228] [cursor=pointer]:
+                      - /url: https://support.accessibe.com/hc/en-us/categories/16379543560210-Getting-Started-with-accessFlow
+    - region "Notifications (alt+T)":
+      - list
+  - generic:
+    - generic "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=e229]:
+      - iframe [ref=e230]:
+        - button "Close message from Anna" [ref=f18e4] [cursor=pointer]:
+          - img [ref=f18e5]
+      - generic [ref=e231]:
+        - iframe [ref=e232]:
+          - figure [ref=f19e5]:
+            - img "Anna avatar" [ref=f19e6]
+        - iframe [ref=e233]:
+          - button "Anna says \"Hey there!👋 Is there anything I can help you with today?\". Open messaging window to continue the conversation." [ref=f20e5] [cursor=pointer]:
+            - heading "Anna" [level=1] [ref=f20e6]
+            - generic [ref=f20e8]: Hey there!👋 Is there anything I can help you with today?
+    - iframe [ref=e234]:
+      - button "Open messaging window" [ref=f17e5] [cursor=pointer]:
+        - img [ref=f17e7]
+        - img [ref=f17e10]
