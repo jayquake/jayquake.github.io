@@ -8,7 +8,7 @@ AccessFlowSDK.init({
   apiKey:
     process.env.AF_NODE_PACKAGE_KEY ||
     process.env.AF_Node_Package_Key ||
-    "flow-1saYAGtY8ADAPaZLWVg000Y6kyGsGG1LXH",
+    "flow-1fTWLuAYJNS4eaa2lQg000i0M6IpSO6ZAW",
 });
 
 test.describe("Custom OutputDir Support", () => {
@@ -100,7 +100,7 @@ test.describe("Custom OutputDir Support", () => {
     // Test multiple pages
     const pages = [
       { name: "Home", path: "/" },
-      { name: "Graphics", path: "/#/graphics" },
+      { name: "Background Images", path: "/graphics/background-images_success" },
     ];
 
     for (const testPage of pages) {

@@ -1,0 +1,172 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e7]:
+        - heading "Engine" [level=6] [ref=e8]
+        - text: Rule Testing
+      - generic [ref=e11]:
+        - img [ref=e12]
+        - textbox "Search for rules and criteria" [ref=e15]:
+          - /placeholder: Search...
+      - generic [ref=e16]:
+        - generic "Ready to test" [ref=e17]:
+          - img [ref=e18]
+          - generic [ref=e20]: Ready
+        - button "Toggle dark mode" [ref=e21] [cursor=pointer]:
+          - img [ref=e22]
+        - button "Notifications" [ref=e24] [cursor=pointer]:
+          - generic [ref=e25]:
+            - img [ref=e26]
+            - generic [ref=e28]: "3"
+        - button [ref=e29] [cursor=pointer]:
+          - img [ref=e30]
+  - generic [ref=e33]:
+    - button [ref=e35] [cursor=pointer]:
+      - img [ref=e36]
+    - generic [ref=e39]:
+      - button "Dashboard" [ref=e41] [cursor=pointer]:
+        - img [ref=e43]
+      - list [ref=e47]:
+        - button "Engine Rules (162)" [ref=e48] [cursor=pointer]:
+          - img [ref=e50]
+        - button "Legacy Rules (90)" [ref=e53] [cursor=pointer]:
+          - img [ref=e55]
+  - main [ref=e57]:
+    - button "Quick actions" [ref=e59] [cursor=pointer]:
+      - img [ref=e61]
+    - menu:
+      - generic:
+        - generic: Share
+        - menuitem "Share"
+      - generic:
+        - generic: Print
+        - menuitem "Print"
+      - generic:
+        - generic: Copy All Examples
+        - menuitem "Copy All Examples"
+    - generic [ref=e63]:
+      - generic [ref=e64]:
+        - navigation "breadcrumb" [ref=e66]:
+          - list [ref=e67]:
+            - listitem [ref=e68]:
+              - link "Home" [ref=e69] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e70]:
+              - img [ref=e71]
+            - listitem [ref=e73]:
+              - link "Engine" [ref=e74] [cursor=pointer]:
+                - /url: /engine
+            - listitem [ref=e75]:
+              - img [ref=e76]
+            - listitem [ref=e78]:
+              - link "Page Title" [ref=e79] [cursor=pointer]:
+                - /url: /engine/page-title
+            - listitem [ref=e80]:
+              - img [ref=e81]
+            - listitem [ref=e83]:
+              - generic "Select variant type" [ref=e84]:
+                - combobox [ref=e85] [cursor=pointer]: Success
+                - textbox: success
+                - img
+                - group
+        - separator [ref=e86]
+        - generic [ref=e87]:
+          - heading "Page should have a title" [level=4] [ref=e88]
+          - generic "Engine Rule" [ref=e89]:
+            - generic [ref=e90]: Engine
+        - paragraph [ref=e91]: Screen readers rely heavily on page titles to announce the purpose of a page. If titles aren’t descriptive, users with low or no vision may not understand the context until they start navigating the page.
+        - generic [ref=e92]:
+          - generic [ref=e93]:
+            - img [ref=e94]
+            - generic [ref=e96]: Compliant
+          - generic [ref=e97]:
+            - img [ref=e98]
+            - generic [ref=e100]: 2 Examples
+          - generic [ref=e102]: page-title
+      - generic [ref=e103]:
+        - heading "Understanding Best Practices" [level=3] [ref=e104]:
+          - button "Understanding Best Practices" [expanded] [ref=e105] [cursor=pointer]:
+            - generic [ref=e107]:
+              - img [ref=e108]
+              - heading "Understanding Best Practices" [level=6] [ref=e110]
+            - img [ref=e112]
+        - region [ref=e117]:
+          - generic [ref=e118]:
+            - paragraph [ref=e119]: Make sure the title element inside the <head> is unique and describes the purpose of the page.
+            - generic [ref=e120]:
+              - heading "Best Practices:" [level=6] [ref=e121]
+              - generic [ref=e122]:
+                - generic [ref=e123]:
+                  - generic [ref=e125]: "1"
+                  - paragraph [ref=e126]: Follow proper HTML semantics
+                - generic [ref=e127]:
+                  - generic [ref=e129]: "2"
+                  - paragraph [ref=e130]: Ensure screen reader compatibility
+                - generic [ref=e131]:
+                  - generic [ref=e133]: "3"
+                  - paragraph [ref=e134]: Test with assistive technologies
+      - generic [ref=e135]:
+        - generic [ref=e136]:
+          - img [ref=e137]
+          - generic [ref=e139]:
+            - heading "Success Examples" [level=6] [ref=e140]
+            - text: Patterns that demonstrate proper accessibility implementation
+        - separator [ref=e141]
+        - region "success examples list" [ref=e142]:
+          - 'region "Success Example #1" [ref=e143]':
+            - generic [ref=e144]:
+              - generic [ref=e145]:
+                - generic [ref=e146]:
+                  - img [ref=e147]
+                  - 'heading "Success Example #1" [level=6] [ref=e149]'
+                  - generic [ref=e151]: page empty title
+                  - generic [ref=e152]:
+                    - img [ref=e153]
+                    - generic [ref=e155]: Best Practice
+                - generic [ref=e156]:
+                  - button "Show code" [ref=e157] [cursor=pointer]:
+                    - img [ref=e158]
+                  - button "Copy example 1 code" [ref=e160] [cursor=pointer]:
+                    - img [ref=e161]
+                  - button "Analyze in Rule Lab" [ref=e163] [cursor=pointer]:
+                    - img [ref=e164]
+                  - button "View accessibility tree" [ref=e166] [cursor=pointer]:
+                    - img [ref=e167]
+                  - button "Flag as false positive" [ref=e169] [cursor=pointer]:
+                    - img [ref=e170]
+              - generic [ref=e173]: "Rendered Output:"
+              - alert [ref=e174]:
+                - img [ref=e176]
+                - paragraph [ref=e179]: This example properly implements the page-title requirement.
+          - 'region "Success Example #2" [ref=e180]':
+            - generic [ref=e181]:
+              - generic [ref=e182]:
+                - generic [ref=e183]:
+                  - img [ref=e184]
+                  - 'heading "Success Example #2" [level=6] [ref=e186]'
+                  - generic [ref=e188]: page title element
+                  - generic [ref=e189]:
+                    - img [ref=e190]
+                    - generic [ref=e192]: Best Practice
+                - generic [ref=e193]:
+                  - button "Show code" [ref=e194] [cursor=pointer]:
+                    - img [ref=e195]
+                  - button "Copy example 2 code" [ref=e197] [cursor=pointer]:
+                    - img [ref=e198]
+                  - button "Analyze in Rule Lab" [ref=e200] [cursor=pointer]:
+                    - img [ref=e201]
+                  - button "View accessibility tree" [ref=e203] [cursor=pointer]:
+                    - img [ref=e204]
+                  - button "Flag as false positive" [ref=e206] [cursor=pointer]:
+                    - img [ref=e207]
+              - generic [ref=e210]: "Rendered Output:"
+              - alert [ref=e211]:
+                - img [ref=e213]
+                - paragraph [ref=e216]: This example properly implements the page-title requirement.
+        - paragraph [ref=e218]:
+          - strong [ref=e219]: "Tip:"
+          - text: Use the action buttons on each example to copy code, analyze in Rule Lab, view the accessibility tree, or flag false positives.
+```

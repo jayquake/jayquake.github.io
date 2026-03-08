@@ -14,7 +14,7 @@ AccessFlowSDK.init({
   apiKey:
     process.env.AF_NODE_PACKAGE_KEY ||
     process.env.AF_Node_Package_Key ||
-    "flow-1saYAGtY8ADAPaZLWVg000Y6kyGsGG1LXH",
+    "flow-1fTWLuAYJNS4eaa2lQg000i0M6IpSO6ZAW",
 });
 
 // ========================================================================
@@ -64,7 +64,7 @@ test.describe("Audit — Home Page", () => {
 
 test.describe("Audit — Graphics Route", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/#/graphics/alt-text");
+    await page.goto("/graphics/alt-text_success");
     await page.waitForLoadState("networkidle");
     await page.waitForTimeout(500);
   });
@@ -103,7 +103,7 @@ test.describe("Audit — After Navigation", () => {
     expect(reportHome).toBeTruthy();
 
     // Second route
-    await page.goto("/#/graphics/alt-text");
+    await page.goto("/graphics/alt-text_success");
     await page.waitForLoadState("networkidle");
     await page.waitForTimeout(500);
     const sdkGraphics = new AccessFlowSDK(page);

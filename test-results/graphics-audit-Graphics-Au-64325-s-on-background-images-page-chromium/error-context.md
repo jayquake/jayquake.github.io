@@ -1,0 +1,251 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e7]:
+        - heading "Graphics" [level=6] [ref=e8]
+        - text: Rule Testing
+      - generic [ref=e11]:
+        - img [ref=e12]
+        - textbox "Search for rules and criteria" [ref=e15]:
+          - /placeholder: Search...
+      - generic [ref=e16]:
+        - generic "Ready to test" [ref=e17]:
+          - img [ref=e18]
+          - generic [ref=e20]: Ready
+        - button "Toggle dark mode" [ref=e21] [cursor=pointer]:
+          - img [ref=e22]
+        - button "Notifications" [ref=e24] [cursor=pointer]:
+          - generic [ref=e25]:
+            - img [ref=e26]
+            - generic [ref=e28]: "3"
+        - button [ref=e29] [cursor=pointer]:
+          - img [ref=e30]
+  - generic [ref=e33]:
+    - button [ref=e35] [cursor=pointer]:
+      - img [ref=e36]
+    - generic [ref=e39]:
+      - button "Dashboard" [ref=e41] [cursor=pointer]:
+        - img [ref=e43]
+      - list [ref=e47]:
+        - button "Engine Rules (162)" [ref=e48] [cursor=pointer]:
+          - img [ref=e50]
+        - button "Legacy Rules (90)" [ref=e53] [cursor=pointer]:
+          - img [ref=e55]
+  - main [ref=e57]:
+    - button "Quick actions" [ref=e59] [cursor=pointer]:
+      - img [ref=e61]
+    - menu:
+      - generic:
+        - generic: Share
+        - menuitem "Share"
+      - generic:
+        - generic: Print
+        - menuitem "Print"
+      - generic:
+        - generic: Copy All Examples
+        - menuitem "Copy All Examples"
+    - generic [ref=e63]:
+      - generic [ref=e64]:
+        - navigation "breadcrumb" [ref=e66]:
+          - list [ref=e67]:
+            - listitem [ref=e68]:
+              - link "Home" [ref=e69] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e70]:
+              - img [ref=e71]
+            - listitem [ref=e73]:
+              - link "Graphics" [ref=e74] [cursor=pointer]:
+                - /url: /graphics
+            - listitem [ref=e75]:
+              - img [ref=e76]
+            - listitem [ref=e78]:
+              - link "Background Images" [ref=e79] [cursor=pointer]:
+                - /url: /graphics/background-images
+            - listitem [ref=e80]:
+              - img [ref=e81]
+            - listitem [ref=e83]:
+              - generic "Select variant type" [ref=e84]:
+                - combobox [ref=e85] [cursor=pointer]: Failure
+                - textbox: failure
+                - img
+                - group
+        - separator [ref=e86]
+        - generic "Legacy Rule" [ref=e88]:
+          - generic [ref=e89]: Legacy
+        - paragraph [ref=e90]: Background Images - Failure Cases
+        - generic [ref=e91]:
+          - generic [ref=e92]:
+            - img [ref=e93]
+            - generic [ref=e95]: Needs Fix
+          - generic [ref=e96]:
+            - img [ref=e97]
+            - generic [ref=e99]: 6 Examples
+          - generic [ref=e101]: background-images
+      - generic [ref=e102]:
+        - generic [ref=e103]:
+          - img [ref=e104]
+          - generic [ref=e106]:
+            - heading "Failure Examples" [level=6] [ref=e107]
+            - text: Common accessibility failures that need to be fixed
+        - separator [ref=e108]
+        - region "failure examples list" [ref=e109]:
+          - 'region "Failure Example #1" [ref=e110]':
+            - generic [ref=e111]:
+              - generic [ref=e112]:
+                - generic [ref=e113]:
+                  - img [ref=e114]
+                  - 'heading "Failure Example #1" [level=6] [ref=e116]'
+                  - generic [ref=e117]:
+                    - img [ref=e118]
+                    - generic [ref=e120]: Accessibility Issue
+                - generic [ref=e121]:
+                  - button "Show code" [ref=e122] [cursor=pointer]:
+                    - img [ref=e123]
+                  - button "Copy example 1 code" [ref=e125] [cursor=pointer]:
+                    - img [ref=e126]
+                  - button "Analyze in Rule Lab" [ref=e128] [cursor=pointer]:
+                    - img [ref=e129]
+                  - button "View accessibility tree" [ref=e131] [cursor=pointer]:
+                    - img [ref=e132]
+                  - button "Flag as false positive" [ref=e134] [cursor=pointer]:
+                    - img [ref=e135]
+              - generic [ref=e138]: "Rendered Output:"
+              - alert [ref=e142]:
+                - img [ref=e144]
+                - paragraph [ref=e147]: This example violates the background-images requirement and needs to be fixed.
+          - 'region "Failure Example #2" [ref=e148]':
+            - generic [ref=e149]:
+              - generic [ref=e150]:
+                - generic [ref=e151]:
+                  - img [ref=e152]
+                  - 'heading "Failure Example #2" [level=6] [ref=e154]'
+                  - generic [ref=e155]:
+                    - img [ref=e156]
+                    - generic [ref=e158]: Accessibility Issue
+                - generic [ref=e159]:
+                  - button "Show code" [ref=e160] [cursor=pointer]:
+                    - img [ref=e161]
+                  - button "Copy example 2 code" [ref=e163] [cursor=pointer]:
+                    - img [ref=e164]
+                  - button "Analyze in Rule Lab" [ref=e166] [cursor=pointer]:
+                    - img [ref=e167]
+                  - button "View accessibility tree" [ref=e169] [cursor=pointer]:
+                    - img [ref=e170]
+                  - button "Flag as false positive" [ref=e172] [cursor=pointer]:
+                    - img [ref=e173]
+              - generic [ref=e175]:
+                - generic [ref=e176]: "Rendered Output:"
+                - generic [ref=e180]: Text on Image
+              - alert [ref=e181]:
+                - img [ref=e183]
+                - paragraph [ref=e186]: This example violates the background-images requirement and needs to be fixed.
+          - 'region "Failure Example #3" [ref=e187]':
+            - generic [ref=e188]:
+              - generic [ref=e189]:
+                - generic [ref=e190]:
+                  - img [ref=e191]
+                  - 'heading "Failure Example #3" [level=6] [ref=e193]'
+                  - generic [ref=e194]:
+                    - img [ref=e195]
+                    - generic [ref=e197]: Accessibility Issue
+                - generic [ref=e198]:
+                  - button "Show code" [ref=e199] [cursor=pointer]:
+                    - img [ref=e200]
+                  - button "Copy example 3 code" [ref=e202] [cursor=pointer]:
+                    - img [ref=e203]
+                  - button "Analyze in Rule Lab" [ref=e205] [cursor=pointer]:
+                    - img [ref=e206]
+                  - button "View accessibility tree" [ref=e208] [cursor=pointer]:
+                    - img [ref=e209]
+                  - button "Flag as false positive" [ref=e211] [cursor=pointer]:
+                    - img [ref=e212]
+              - generic [ref=e214]:
+                - generic [ref=e215]: "Rendered Output:"
+                - heading [level=2] [ref=e218]
+              - alert [ref=e219]:
+                - img [ref=e221]
+                - paragraph [ref=e224]: This example violates the background-images requirement and needs to be fixed.
+          - 'region "Failure Example #4" [ref=e225]':
+            - generic [ref=e226]:
+              - generic [ref=e227]:
+                - generic [ref=e228]:
+                  - img [ref=e229]
+                  - 'heading "Failure Example #4" [level=6] [ref=e231]'
+                  - generic [ref=e232]:
+                    - img [ref=e233]
+                    - generic [ref=e235]: Accessibility Issue
+                - generic [ref=e236]:
+                  - button "Show code" [ref=e237] [cursor=pointer]:
+                    - img [ref=e238]
+                  - button "Copy example 4 code" [ref=e240] [cursor=pointer]:
+                    - img [ref=e241]
+                  - button "Analyze in Rule Lab" [ref=e243] [cursor=pointer]:
+                    - img [ref=e244]
+                  - button "View accessibility tree" [ref=e246] [cursor=pointer]:
+                    - img [ref=e247]
+                  - button "Flag as false positive" [ref=e249] [cursor=pointer]:
+                    - img [ref=e250]
+              - generic [ref=e252]:
+                - generic [ref=e253]: "Rendered Output:"
+                - button [ref=e256] [cursor=pointer]
+              - alert [ref=e257]:
+                - img [ref=e259]
+                - paragraph [ref=e262]: This example violates the background-images requirement and needs to be fixed.
+          - 'region "Failure Example #5" [ref=e263]':
+            - generic [ref=e264]:
+              - generic [ref=e265]:
+                - generic [ref=e266]:
+                  - img [ref=e267]
+                  - 'heading "Failure Example #5" [level=6] [ref=e269]'
+                  - generic [ref=e270]:
+                    - img [ref=e271]
+                    - generic [ref=e273]: Accessibility Issue
+                - generic [ref=e274]:
+                  - button "Show code" [ref=e275] [cursor=pointer]:
+                    - img [ref=e276]
+                  - button "Copy example 5 code" [ref=e278] [cursor=pointer]:
+                    - img [ref=e279]
+                  - button "Analyze in Rule Lab" [ref=e281] [cursor=pointer]:
+                    - img [ref=e282]
+                  - button "View accessibility tree" [ref=e284] [cursor=pointer]:
+                    - img [ref=e285]
+                  - button "Flag as false positive" [ref=e287] [cursor=pointer]:
+                    - img [ref=e288]
+              - generic [ref=e290]:
+                - generic [ref=e291]: "Rendered Output:"
+                - link [ref=e294] [cursor=pointer]:
+                  - /url: "#"
+              - alert [ref=e295]:
+                - img [ref=e297]
+                - paragraph [ref=e300]: This example violates the background-images requirement and needs to be fixed.
+          - 'region "Failure Example #6" [ref=e301]':
+            - generic [ref=e302]:
+              - generic [ref=e303]:
+                - generic [ref=e304]:
+                  - img [ref=e305]
+                  - 'heading "Failure Example #6" [level=6] [ref=e307]'
+                  - generic [ref=e308]:
+                    - img [ref=e309]
+                    - generic [ref=e311]: Accessibility Issue
+                - generic [ref=e312]:
+                  - button "Show code" [ref=e313] [cursor=pointer]:
+                    - img [ref=e314]
+                  - button "Copy example 6 code" [ref=e316] [cursor=pointer]:
+                    - img [ref=e317]
+                  - button "Analyze in Rule Lab" [ref=e319] [cursor=pointer]:
+                    - img [ref=e320]
+                  - button "View accessibility tree" [ref=e322] [cursor=pointer]:
+                    - img [ref=e323]
+                  - button "Flag as false positive" [ref=e325] [cursor=pointer]:
+                    - img [ref=e326]
+              - generic [ref=e329]: "Rendered Output:"
+              - alert [ref=e333]:
+                - img [ref=e335]
+                - paragraph [ref=e338]: This example violates the background-images requirement and needs to be fixed.
+        - paragraph [ref=e340]:
+          - strong [ref=e341]: "Tip:"
+          - text: Use the action buttons on each example to copy code, analyze in Rule Lab, view the accessibility tree, or flag false positives.
+```

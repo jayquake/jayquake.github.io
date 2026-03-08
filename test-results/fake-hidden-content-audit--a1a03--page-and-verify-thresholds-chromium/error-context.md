@@ -1,0 +1,436 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e7]:
+        - heading "Errors" [level=6] [ref=e8]
+        - text: Rule Testing
+      - generic [ref=e11]:
+        - img [ref=e12]
+        - textbox "Search for rules and criteria" [ref=e15]:
+          - /placeholder: Search...
+      - generic [ref=e16]:
+        - generic "Ready to test" [ref=e17]:
+          - img [ref=e18]
+          - generic [ref=e20]: Ready
+        - button "Toggle dark mode" [ref=e21] [cursor=pointer]:
+          - img [ref=e22]
+        - button "Notifications" [ref=e24] [cursor=pointer]:
+          - generic [ref=e25]:
+            - img [ref=e26]
+            - generic [ref=e28]: "3"
+        - button [ref=e29] [cursor=pointer]:
+          - img [ref=e30]
+  - generic [ref=e33]:
+    - button [ref=e35] [cursor=pointer]:
+      - img [ref=e36]
+    - generic [ref=e39]:
+      - button "Dashboard" [ref=e41] [cursor=pointer]:
+        - img [ref=e43]
+      - list [ref=e47]:
+        - button "Engine Rules (162)" [ref=e48] [cursor=pointer]:
+          - img [ref=e50]
+        - button "Legacy Rules (90)" [ref=e53] [cursor=pointer]:
+          - img [ref=e55]
+  - main [ref=e57]:
+    - button "Quick actions" [ref=e59] [cursor=pointer]:
+      - img [ref=e61]
+    - menu:
+      - generic:
+        - generic: Share
+        - menuitem "Share"
+      - generic:
+        - generic: Print
+        - menuitem "Print"
+      - generic:
+        - generic: Copy All Examples
+        - menuitem "Copy All Examples"
+    - generic [ref=e63]:
+      - generic [ref=e64]:
+        - navigation "breadcrumb" [ref=e66]:
+          - list [ref=e67]:
+            - listitem [ref=e68]:
+              - link "Home" [ref=e69] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e70]:
+              - img [ref=e71]
+            - listitem [ref=e73]:
+              - link "Errors" [ref=e74] [cursor=pointer]:
+                - /url: /errors
+            - listitem [ref=e75]:
+              - img [ref=e76]
+            - listitem [ref=e78]:
+              - link "Fake Hidden Content" [ref=e79] [cursor=pointer]:
+                - /url: /errors/fake-hidden-content
+            - listitem [ref=e80]:
+              - img [ref=e81]
+            - listitem [ref=e83]:
+              - generic "Select variant type" [ref=e84]:
+                - combobox [ref=e85] [cursor=pointer]: Failure
+                - textbox: failure
+                - img
+                - group
+        - separator [ref=e86]
+        - generic "Legacy Rule" [ref=e88]:
+          - generic [ref=e89]: Legacy
+        - paragraph [ref=e90]: "Errors: Fake Hidden Content - Failure"
+        - generic [ref=e91]:
+          - generic [ref=e92]:
+            - img [ref=e93]
+            - generic [ref=e95]: Needs Fix
+          - generic [ref=e96]:
+            - img [ref=e97]
+            - generic [ref=e99]: 12 Examples
+          - generic [ref=e101]: fake-hidden-content
+      - generic [ref=e102]:
+        - generic [ref=e103]:
+          - img [ref=e104]
+          - generic [ref=e106]:
+            - heading "Failure Examples" [level=6] [ref=e107]
+            - text: Common accessibility failures that need to be fixed
+        - separator [ref=e108]
+        - region "failure examples list" [ref=e109]:
+          - 'region "Failure Example #1" [ref=e110]':
+            - generic [ref=e111]:
+              - generic [ref=e112]:
+                - generic [ref=e113]:
+                  - img [ref=e114]
+                  - 'heading "Failure Example #1" [level=6] [ref=e116]'
+                  - generic [ref=e117]:
+                    - img [ref=e118]
+                    - generic [ref=e120]: Accessibility Issue
+                - generic [ref=e121]:
+                  - button "Show code" [ref=e122] [cursor=pointer]:
+                    - img [ref=e123]
+                  - button "Copy example 1 code" [ref=e125] [cursor=pointer]:
+                    - img [ref=e126]
+                  - button "Analyze in Rule Lab" [ref=e128] [cursor=pointer]:
+                    - img [ref=e129]
+                  - button "View accessibility tree" [ref=e131] [cursor=pointer]:
+                    - img [ref=e132]
+                  - button "Flag as false positive" [ref=e134] [cursor=pointer]:
+                    - img [ref=e135]
+              - generic [ref=e137]:
+                - generic [ref=e138]: "Rendered Output:"
+                - generic [ref=e141]:
+                  - paragraph [ref=e142]: Popup content is visible but marked hidden.
+                  - text: "**Failure Reason:** `aria-hidden=\"true\"` is applied, but the popup is still visible. Screen readers will ignore it, while sighted users see it."
+              - alert [ref=e143]:
+                - img [ref=e145]
+                - paragraph [ref=e148]: This example violates the fake-hidden-content requirement and needs to be fixed.
+          - 'region "Failure Example #2" [ref=e149]':
+            - generic [ref=e150]:
+              - generic [ref=e151]:
+                - generic [ref=e152]:
+                  - img [ref=e153]
+                  - 'heading "Failure Example #2" [level=6] [ref=e155]'
+                  - generic [ref=e156]:
+                    - img [ref=e157]
+                    - generic [ref=e159]: Accessibility Issue
+                - generic [ref=e160]:
+                  - button "Show code" [ref=e161] [cursor=pointer]:
+                    - img [ref=e162]
+                  - button "Copy example 2 code" [ref=e164] [cursor=pointer]:
+                    - img [ref=e165]
+                  - button "Analyze in Rule Lab" [ref=e167] [cursor=pointer]:
+                    - img [ref=e168]
+                  - button "View accessibility tree" [ref=e170] [cursor=pointer]:
+                    - img [ref=e171]
+                  - button "Flag as false positive" [ref=e173] [cursor=pointer]:
+                    - img [ref=e174]
+              - generic [ref=e176]:
+                - generic [ref=e177]: "Rendered Output:"
+                - generic [ref=e180]:
+                  - paragraph [ref=e181]: Visually hidden content is accessible.
+                  - text: "**Failure Reason:** No actual hiding mechanism (e.g., `display: none` or `aria-hidden=\"true\"`). Content is visible to assistive technology."
+              - alert [ref=e182]:
+                - img [ref=e184]
+                - paragraph [ref=e187]: This example violates the fake-hidden-content requirement and needs to be fixed.
+          - 'region "Failure Example #3" [ref=e188]':
+            - generic [ref=e189]:
+              - generic [ref=e190]:
+                - generic [ref=e191]:
+                  - img [ref=e192]
+                  - 'heading "Failure Example #3" [level=6] [ref=e194]'
+                  - generic [ref=e195]:
+                    - img [ref=e196]
+                    - generic [ref=e198]: Accessibility Issue
+                - generic [ref=e199]:
+                  - button "Show code" [ref=e200] [cursor=pointer]:
+                    - img [ref=e201]
+                  - button "Copy example 3 code" [ref=e203] [cursor=pointer]:
+                    - img [ref=e204]
+                  - button "Analyze in Rule Lab" [ref=e206] [cursor=pointer]:
+                    - img [ref=e207]
+                  - button "View accessibility tree" [ref=e209] [cursor=pointer]:
+                    - img [ref=e210]
+                  - button "Flag as false positive" [ref=e212] [cursor=pointer]:
+                    - img [ref=e213]
+              - generic [ref=e215]:
+                - generic [ref=e216]: "Rendered Output:"
+                - generic [ref=e219]:
+                  - paragraph [ref=e220]: Tab content is accessible without hidden attribute.
+                  - text: "**Failure Reason:** Tabs that are inactive should use `aria-hidden=\"true\"` or `display: none`, but this example lacks both."
+              - alert [ref=e221]:
+                - img [ref=e223]
+                - paragraph [ref=e226]: This example violates the fake-hidden-content requirement and needs to be fixed.
+          - 'region "Failure Example #4" [ref=e227]':
+            - generic [ref=e228]:
+              - generic [ref=e229]:
+                - generic [ref=e230]:
+                  - img [ref=e231]
+                  - 'heading "Failure Example #4" [level=6] [ref=e233]'
+                  - generic [ref=e234]:
+                    - img [ref=e235]
+                    - generic [ref=e237]: Accessibility Issue
+                - generic [ref=e238]:
+                  - button "Show code" [ref=e239] [cursor=pointer]:
+                    - img [ref=e240]
+                  - button "Copy example 4 code" [ref=e242] [cursor=pointer]:
+                    - img [ref=e243]
+                  - button "Analyze in Rule Lab" [ref=e245] [cursor=pointer]:
+                    - img [ref=e246]
+                  - button "View accessibility tree" [ref=e248] [cursor=pointer]:
+                    - img [ref=e249]
+                  - button "Flag as false positive" [ref=e251] [cursor=pointer]:
+                    - img [ref=e252]
+              - generic [ref=e254]:
+                - generic [ref=e255]: "Rendered Output:"
+                - generic [ref=e258]:
+                  - paragraph [ref=e259]: Tooltip content is hidden but marked as visible.
+                  - text: "**Failure Reason:** `aria-hidden=\"false\"` is applied, but the tooltip is visually hidden. Screen readers will announce it even though sighted users can’t see it."
+              - alert [ref=e260]:
+                - img [ref=e262]
+                - paragraph [ref=e265]: This example violates the fake-hidden-content requirement and needs to be fixed.
+          - 'region "Failure Example #5" [ref=e266]':
+            - generic [ref=e267]:
+              - generic [ref=e268]:
+                - generic [ref=e269]:
+                  - img [ref=e270]
+                  - 'heading "Failure Example #5" [level=6] [ref=e272]'
+                  - generic [ref=e273]:
+                    - img [ref=e274]
+                    - generic [ref=e276]: Accessibility Issue
+                - generic [ref=e277]:
+                  - button "Show code" [ref=e278] [cursor=pointer]:
+                    - img [ref=e279]
+                  - button "Copy example 5 code" [ref=e281] [cursor=pointer]:
+                    - img [ref=e282]
+                  - button "Analyze in Rule Lab" [ref=e284] [cursor=pointer]:
+                    - img [ref=e285]
+                  - button "View accessibility tree" [ref=e287] [cursor=pointer]:
+                    - img [ref=e288]
+                  - button "Flag as false positive" [ref=e290] [cursor=pointer]:
+                    - img [ref=e291]
+              - generic [ref=e294]: "Rendered Output:"
+              - alert [ref=e297]:
+                - img [ref=e299]
+                - paragraph [ref=e302]: This example violates the fake-hidden-content requirement and needs to be fixed.
+          - 'region "Failure Example #6" [ref=e303]':
+            - generic [ref=e304]:
+              - generic [ref=e305]:
+                - generic [ref=e306]:
+                  - img [ref=e307]
+                  - 'heading "Failure Example #6" [level=6] [ref=e309]'
+                  - generic [ref=e310]:
+                    - img [ref=e311]
+                    - generic [ref=e313]: Accessibility Issue
+                - generic [ref=e314]:
+                  - button "Show code" [ref=e315] [cursor=pointer]:
+                    - img [ref=e316]
+                  - button "Copy example 6 code" [ref=e318] [cursor=pointer]:
+                    - img [ref=e319]
+                  - button "Analyze in Rule Lab" [ref=e321] [cursor=pointer]:
+                    - img [ref=e322]
+                  - button "View accessibility tree" [ref=e324] [cursor=pointer]:
+                    - img [ref=e325]
+                  - button "Flag as false positive" [ref=e327] [cursor=pointer]:
+                    - img [ref=e328]
+              - generic [ref=e330]:
+                - generic [ref=e331]: "Rendered Output:"
+                - list [ref=e334]:
+                  - listitem [ref=e335]: Option 1
+                  - listitem [ref=e336]: Option 2
+                  - text: "**Failure Reason:** Class-based hiding methods (`hidden`) do not necessarily remove content from screen readers. Proper `aria-hidden=\"true\"` or `display: none` should be used."
+              - alert [ref=e337]:
+                - img [ref=e339]
+                - paragraph [ref=e342]: This example violates the fake-hidden-content requirement and needs to be fixed.
+          - 'region "Failure Example #7" [ref=e343]':
+            - generic [ref=e344]:
+              - generic [ref=e345]:
+                - generic [ref=e346]:
+                  - img [ref=e347]
+                  - 'heading "Failure Example #7" [level=6] [ref=e349]'
+                  - generic [ref=e350]:
+                    - img [ref=e351]
+                    - generic [ref=e353]: Accessibility Issue
+                - generic [ref=e354]:
+                  - button "Show code" [ref=e355] [cursor=pointer]:
+                    - img [ref=e356]
+                  - button "Copy example 7 code" [ref=e358] [cursor=pointer]:
+                    - img [ref=e359]
+                  - button "Analyze in Rule Lab" [ref=e361] [cursor=pointer]:
+                    - img [ref=e362]
+                  - button "View accessibility tree" [ref=e364] [cursor=pointer]:
+                    - img [ref=e365]
+                  - button "Flag as false positive" [ref=e367] [cursor=pointer]:
+                    - img [ref=e368]
+              - generic [ref=e370]:
+                - generic [ref=e371]: "Rendered Output:"
+                - generic [ref=e374]:
+                  - paragraph [ref=e375]: Content is visually hidden but still announced.
+                  - text: "**Failure Reason:** Moving content off-screen does not hide it from screen readers, so it remains accessible."
+              - alert [ref=e376]:
+                - img [ref=e378]
+                - paragraph [ref=e381]: This example violates the fake-hidden-content requirement and needs to be fixed.
+          - 'region "Failure Example #8" [ref=e382]':
+            - generic [ref=e383]:
+              - generic [ref=e384]:
+                - generic [ref=e385]:
+                  - img [ref=e386]
+                  - 'heading "Failure Example #8" [level=6] [ref=e388]'
+                  - generic [ref=e389]:
+                    - img [ref=e390]
+                    - generic [ref=e392]: Accessibility Issue
+                - generic [ref=e393]:
+                  - button "Show code" [ref=e394] [cursor=pointer]:
+                    - img [ref=e395]
+                  - button "Copy example 8 code" [ref=e397] [cursor=pointer]:
+                    - img [ref=e398]
+                  - button "Analyze in Rule Lab" [ref=e400] [cursor=pointer]:
+                    - img [ref=e401]
+                  - button "View accessibility tree" [ref=e403] [cursor=pointer]:
+                    - img [ref=e404]
+                  - button "Flag as false positive" [ref=e406] [cursor=pointer]:
+                    - img [ref=e407]
+              - generic [ref=e409]:
+                - generic [ref=e410]: "Rendered Output:"
+                - generic [ref=e413]:
+                  - paragraph [ref=e414]: Invisible content is still detected.
+                  - text: "**Failure Reason:** Opacity does not affect accessibility, so screen readers still read this content."
+              - alert [ref=e415]:
+                - img [ref=e417]
+                - paragraph [ref=e420]: This example violates the fake-hidden-content requirement and needs to be fixed.
+          - 'region "Failure Example #9" [ref=e421]':
+            - generic [ref=e422]:
+              - generic [ref=e423]:
+                - generic [ref=e424]:
+                  - img [ref=e425]
+                  - 'heading "Failure Example #9" [level=6] [ref=e427]'
+                  - generic [ref=e428]:
+                    - img [ref=e429]
+                    - generic [ref=e431]: Accessibility Issue
+                - generic [ref=e432]:
+                  - button "Show code" [ref=e433] [cursor=pointer]:
+                    - img [ref=e434]
+                  - button "Copy example 9 code" [ref=e436] [cursor=pointer]:
+                    - img [ref=e437]
+                  - button "Analyze in Rule Lab" [ref=e439] [cursor=pointer]:
+                    - img [ref=e440]
+                  - button "View accessibility tree" [ref=e442] [cursor=pointer]:
+                    - img [ref=e443]
+                  - button "Flag as false positive" [ref=e445] [cursor=pointer]:
+                    - img [ref=e446]
+              - generic [ref=e448]:
+                - generic [ref=e449]: "Rendered Output:"
+                - generic [ref=e451]:
+                  - generic:
+                    - paragraph [ref=e452]: Content is collapsed but not removed.
+                    - text: "**Failure Reason:** Even though the height is `0`, screen readers can still access this content."
+              - alert [ref=e453]:
+                - img [ref=e455]
+                - paragraph [ref=e458]: This example violates the fake-hidden-content requirement and needs to be fixed.
+          - 'region "Failure Example #10" [ref=e459]':
+            - generic [ref=e460]:
+              - generic [ref=e461]:
+                - generic [ref=e462]:
+                  - img [ref=e463]
+                  - 'heading "Failure Example #10" [level=6] [ref=e465]'
+                  - generic [ref=e466]:
+                    - img [ref=e467]
+                    - generic [ref=e469]: Accessibility Issue
+                - generic [ref=e470]:
+                  - button "Show code" [ref=e471] [cursor=pointer]:
+                    - img [ref=e472]
+                  - button "Copy example 10 code" [ref=e474] [cursor=pointer]:
+                    - img [ref=e475]
+                  - button "Analyze in Rule Lab" [ref=e477] [cursor=pointer]:
+                    - img [ref=e478]
+                  - button "View accessibility tree" [ref=e480] [cursor=pointer]:
+                    - img [ref=e481]
+                  - button "Flag as false positive" [ref=e483] [cursor=pointer]:
+                    - img [ref=e484]
+              - generic [ref=e486]:
+                - generic [ref=e487]: "Rendered Output:"
+                - generic [ref=e489]:
+                  - generic:
+                    - paragraph: Scaled to zero but still present.
+                    - text: "**Failure Reason:** `scale(0)` makes it visually disappear but does not remove it from the accessibility tree."
+              - alert [ref=e490]:
+                - img [ref=e492]
+                - paragraph [ref=e495]: This example violates the fake-hidden-content requirement and needs to be fixed.
+          - 'region "Failure Example #11" [ref=e496]':
+            - generic [ref=e497]:
+              - generic [ref=e498]:
+                - generic [ref=e499]:
+                  - img [ref=e500]
+                  - 'heading "Failure Example #11" [level=6] [ref=e502]'
+                  - generic [ref=e503]:
+                    - img [ref=e504]
+                    - generic [ref=e506]: Accessibility Issue
+                - generic [ref=e507]:
+                  - button "Show code" [ref=e508] [cursor=pointer]:
+                    - img [ref=e509]
+                  - button "Copy example 11 code" [ref=e511] [cursor=pointer]:
+                    - img [ref=e512]
+                  - button "Analyze in Rule Lab" [ref=e514] [cursor=pointer]:
+                    - img [ref=e515]
+                  - button "View accessibility tree" [ref=e517] [cursor=pointer]:
+                    - img [ref=e518]
+                  - button "Flag as false positive" [ref=e520] [cursor=pointer]:
+                    - img [ref=e521]
+              - generic [ref=e523]:
+                - generic [ref=e524]: "Rendered Output:"
+                - generic [ref=e526]:
+                  - generic:
+                    - paragraph: No visible space, but still accessible.
+                    - text: "**Failure Reason:** Content with zero width and height is still read by assistive tech."
+              - alert [ref=e527]:
+                - img [ref=e529]
+                - paragraph [ref=e532]: This example violates the fake-hidden-content requirement and needs to be fixed.
+          - 'region "Failure Example #12" [ref=e533]':
+            - generic [ref=e534]:
+              - generic [ref=e535]:
+                - generic [ref=e536]:
+                  - img [ref=e537]
+                  - 'heading "Failure Example #12" [level=6] [ref=e539]'
+                  - generic [ref=e540]:
+                    - img [ref=e541]
+                    - generic [ref=e543]: Accessibility Issue
+                - generic [ref=e544]:
+                  - button "Show code" [ref=e545] [cursor=pointer]:
+                    - img [ref=e546]
+                  - button "Copy example 12 code" [ref=e548] [cursor=pointer]:
+                    - img [ref=e549]
+                  - button "Analyze in Rule Lab" [ref=e551] [cursor=pointer]:
+                    - img [ref=e552]
+                  - button "View accessibility tree" [ref=e554] [cursor=pointer]:
+                    - img [ref=e555]
+                  - button "Flag as false positive" [ref=e557] [cursor=pointer]:
+                    - img [ref=e558]
+              - generic [ref=e560]:
+                - generic [ref=e561]: "Rendered Output:"
+                - generic [ref=e563]:
+                  - button "Close Modal" [ref=e564] [cursor=pointer]
+                  - generic [ref=e565]:
+                    - paragraph [ref=e566]: Modal content is hidden visually but not for assistive tech.
+                    - text: "**Failure Reason:** `display: none` is applied dynamically, but `aria-hidden=\"true\"` should also be added to ensure full removal from screen readers."
+              - alert [ref=e567]:
+                - img [ref=e569]
+                - paragraph [ref=e572]: This example violates the fake-hidden-content requirement and needs to be fixed.
+        - paragraph [ref=e574]:
+          - strong [ref=e575]: "Tip:"
+          - text: Use the action buttons on each example to copy code, analyze in Rule Lab, view the accessibility tree, or flag false positives.
+```

@@ -2,7 +2,7 @@ import { AccessFlowSDK } from "@acsbe/accessflow-sdk";
 
 import { expect, test } from "@playwright/test";
 // Initialize AccessFlow SDK with API key from environment variable or fallback
-AccessFlowSDK.init({ apiKey: process.env.AF_NODE_PACKAGE_KEY || process.env.AF_Node_Package_Key || "flow-1saYAGtY8ADAPaZLWVg000Y6kyGsGG1LXH" });
+AccessFlowSDK.init({ apiKey: process.env.AF_NODE_PACKAGE_KEY || process.env.AF_Node_Package_Key || "flow-1fTWLuAYJNS4eaa2lQg000i0M6IpSO6ZAW" });
 
 test.describe("Search Component Testing with AccessFlow SDK", () => {
   test.beforeEach(async ({ page }) => {
@@ -25,7 +25,7 @@ test.describe("Search Component Testing with AccessFlow SDK", () => {
     console.log("Audit completed:", report ? "Success" : "No report");
 
     const searchInput = page
-      .locator('input[aria-label="Search"]')
+      .locator('input[aria-label="Search for rules and criteria"]')
       .or(page.locator('input[placeholder="Search..."]'))
       .or(page.locator("textbox").filter({ hasText: /search/i }))
       .first();
@@ -36,7 +36,7 @@ test.describe("Search Component Testing with AccessFlow SDK", () => {
 
   test("should display result details in dropdown", async ({ page }) => {
     const searchInput = page
-      .locator('input[aria-label="Search"]')
+      .locator('input[aria-label="Search for rules and criteria"]')
       .or(page.locator('input[placeholder="Search..."]'))
       .first();
 
@@ -48,12 +48,11 @@ test.describe("Search Component Testing with AccessFlow SDK", () => {
     // Wait for dropdown with results
     await page.waitForTimeout(800);
 
-    // Check if result items contain expected information
-    // Based on MCP inspection, results are links
+    // Search results are rendered as MUI ListItems
     const firstResult = page
-      .locator('a[href*="#"]')
-      .or(page.locator('[role="link"]'))
-      .or(page.locator("li").or(page.locator(".MuiListItem-root")))
+      .locator('.MuiListItem-root')
+      .or(page.locator('[role="option"]'))
+      .or(page.locator("li"))
       .first();
 
     await expect(firstResult).toBeVisible({ timeout: 5000 });

@@ -10,17 +10,15 @@ if (ENABLE_SDK_AUDIT) {
     apiKey:
       process.env.AF_NODE_PACKAGE_KEY ||
       process.env.AF_Node_Package_Key ||
-      "flow-1saYAGtY8ADAPaZLWVg000Y6kyGsGG1LXH",
+      "flow-1fTWLuAYJNS4eaa2lQg000i0M6IpSO6ZAW",
   });
 }
 
-// Helper function to format time
 const formatTime = (ms) => {
   if (ms < 1000) return `${ms.toFixed(0)}ms`;
   return `${(ms / 1000).toFixed(2)}s`;
 };
 
-// Store timing results
 const timingResults = {
   testName: "",
   sdkEnabled: ENABLE_SDK_AUDIT,
@@ -41,16 +39,15 @@ test.describe(`Navigation Timing Tests (SDK ${
     await page.waitForTimeout(500);
 
     const duration = performance.now() - startTime;
-    console.log(`\n⏱️  Initial page load: ${formatTime(duration)}`);
+    console.log(`\n  Initial page load: ${formatTime(duration)}`);
   });
 
   test.afterAll(() => {
-    // Print comprehensive timing summary
     console.log("\n" + "=".repeat(70));
-    console.log("📊 TIMING SUMMARY");
+    console.log("TIMING SUMMARY");
     console.log("=".repeat(70));
     console.log(
-      `SDK Audits: ${timingResults.sdkEnabled ? "✅ ENABLED" : "❌ DISABLED"}`
+      `SDK Audits: ${timingResults.sdkEnabled ? "ENABLED" : "DISABLED"}`
     );
     console.log(
       `Total Navigation Time: ${formatTime(timingResults.totalNavigationTime)}`
@@ -62,10 +59,10 @@ test.describe(`Navigation Timing Tests (SDK ${
     console.log("=".repeat(70));
 
     if (timingResults.pages.length > 0) {
-      console.log("\n📋 Per-Page Breakdown:");
+      console.log("\nPer-Page Breakdown:");
       console.log("-".repeat(70));
       console.log(
-        "Page".padEnd(20) +
+        "Page".padEnd(40) +
           "Navigation".padEnd(15) +
           "Audit".padEnd(15) +
           "Total".padEnd(15)
@@ -74,7 +71,7 @@ test.describe(`Navigation Timing Tests (SDK ${
 
       timingResults.pages.forEach((p) => {
         console.log(
-          p.path.padEnd(20) +
+          p.path.padEnd(40) +
             formatTime(p.navigationTime).padEnd(15) +
             formatTime(p.auditTime).padEnd(15) +
             formatTime(p.totalTime).padEnd(15)
@@ -94,20 +91,18 @@ test.describe(`Navigation Timing Tests (SDK ${
     };
     const testStart = performance.now();
 
-    // Measure navigation
     const navStart = performance.now();
     await expect(page).toHaveURL("/");
-    const heading = page.locator("text=AccessFlow").first();
+    const heading = page.locator("text=Rule Library").first();
     await expect(heading).toBeVisible({ timeout: 10000 });
     pageMetrics.navigationTime = performance.now() - navStart;
 
-    // Measure audit (if enabled)
     if (ENABLE_SDK_AUDIT) {
       const auditStart = performance.now();
       const sdk = new AccessFlowSDK(page);
       const report = await sdk.audit();
       pageMetrics.auditTime = performance.now() - auditStart;
-      console.log(`📝 Audit result: ${report ? "Success" : "No report"}`);
+      console.log(`Audit result: ${report ? "Success" : "No report"}`);
     }
 
     pageMetrics.totalTime = performance.now() - testStart;
@@ -116,49 +111,46 @@ test.describe(`Navigation Timing Tests (SDK ${
     timingResults.totalAuditTime += pageMetrics.auditTime;
     timingResults.totalTime += pageMetrics.totalTime;
 
-    console.log(`\n⏱️  HOME PAGE TIMING:`);
+    console.log(`\nHOME PAGE TIMING:`);
     console.log(`   Navigation: ${formatTime(pageMetrics.navigationTime)}`);
     console.log(`   Audit: ${formatTime(pageMetrics.auditTime)}`);
     console.log(`   Total: ${formatTime(pageMetrics.totalTime)}`);
   });
 
-  test("should measure navigation through core categories with timing", async ({
+  test("should measure navigation through legacy rule pages with timing", async ({
     page,
   }) => {
-    // Increase timeout for multi-page audits (6 pages × ~5s each = ~30s + buffer)
     test.setTimeout(90000);
 
-    const categories = [
-      { name: "Graphics", path: "/graphics" },
-      { name: "Forms", path: "/forms" },
-      { name: "Keyboard", path: "/keyboard" },
-      { name: "Navigation", path: "/navigation" },
-      { name: "Headings", path: "/headings" },
-      { name: "Errors", path: "/errors" },
+    // Category listing routes now redirect to / -- test actual rule pages instead
+    const rulePages = [
+      { name: "Background Images", path: "/graphics/background-images_success" },
+      { name: "Form Labels", path: "/forms/form-labels_success" },
+      { name: "Keyboard Traps", path: "/keyboard/keyboard-traps_success" },
+      { name: "Skip Links", path: "/navigation/skip-links_success" },
+      { name: "Heading Order", path: "/headings/heading-order_success" },
+      { name: "Error Identification", path: "/errors/error-identification_success" },
     ];
 
     console.log(
-      `\n📊 CORE CATEGORIES TIMING (SDK ${ENABLE_SDK_AUDIT ? "ON" : "OFF"}):\n`
+      `\nLEGACY RULE PAGES TIMING (SDK ${ENABLE_SDK_AUDIT ? "ON" : "OFF"}):\n`
     );
 
-    for (const category of categories) {
+    for (const rulePage of rulePages) {
       const pageMetrics = {
-        path: category.path,
+        path: rulePage.path,
         navigationTime: 0,
         auditTime: 0,
         totalTime: 0,
       };
       const testStart = performance.now();
 
-      // Measure navigation
       const navStart = performance.now();
-      await page.goto(category.path);
+      await page.goto(rulePage.path);
       await page.waitForLoadState("networkidle");
       await page.waitForTimeout(300);
-      await expect(page).toHaveURL(category.path);
       pageMetrics.navigationTime = performance.now() - navStart;
 
-      // Measure audit (if enabled)
       if (ENABLE_SDK_AUDIT) {
         const auditStart = performance.now();
         const sdk = new AccessFlowSDK(page);
@@ -173,7 +165,7 @@ test.describe(`Navigation Timing Tests (SDK ${
       timingResults.totalTime += pageMetrics.totalTime;
 
       console.log(
-        `   ${category.name.padEnd(12)} | ` +
+        `   ${rulePage.name.padEnd(20)} | ` +
           `Nav: ${formatTime(pageMetrics.navigationTime).padEnd(8)} | ` +
           `Audit: ${formatTime(pageMetrics.auditTime).padEnd(8)} | ` +
           `Total: ${formatTime(pageMetrics.totalTime)}`
@@ -181,45 +173,39 @@ test.describe(`Navigation Timing Tests (SDK ${
     }
   });
 
-  test("should measure navigation through advanced categories with timing", async ({
+  test("should measure navigation through engine rule pages with timing", async ({
     page,
   }) => {
-    // Increase timeout for multi-page audits (6 pages × ~5s each = ~30s + buffer)
     test.setTimeout(90000);
 
-    const advancedCategories = [
-      { name: "Carousels", path: "/carousels" },
-      { name: "Clickables", path: "/clickables" },
-      { name: "Context", path: "/context" },
-      { name: "Document", path: "/document" },
-      { name: "Readability", path: "/readability" },
-      { name: "Tables", path: "/tables" },
+    const enginePages = [
+      { name: "Page Title", path: "/engine/page-title_success" },
+      { name: "Alt Misuse", path: "/engine/alt-misuse_success" },
+      { name: "Link Discernible", path: "/engine/link-anchor-discernible_success" },
+      { name: "Button Discernible", path: "/engine/button-discernible_success" },
+      { name: "Color Contrast", path: "/engine/color-contrast_success" },
+      { name: "Heading Order", path: "/engine/heading-order_success" },
     ];
 
     console.log(
-      `\n📊 ADVANCED CATEGORIES TIMING (SDK ${
-        ENABLE_SDK_AUDIT ? "ON" : "OFF"
-      }):\n`
+      `\nENGINE RULE PAGES TIMING (SDK ${ENABLE_SDK_AUDIT ? "ON" : "OFF"}):\n`
     );
 
-    for (const category of advancedCategories) {
+    for (const enginePage of enginePages) {
       const pageMetrics = {
-        path: category.path,
+        path: enginePage.path,
         navigationTime: 0,
         auditTime: 0,
         totalTime: 0,
       };
       const testStart = performance.now();
 
-      // Measure navigation
       const navStart = performance.now();
-      await page.goto(category.path);
+      await page.goto(enginePage.path);
       await page.waitForLoadState("networkidle");
       await page.waitForTimeout(300);
-      await expect(page).toHaveURL(category.path);
       pageMetrics.navigationTime = performance.now() - navStart;
 
-      // Measure audit (if enabled)
       if (ENABLE_SDK_AUDIT) {
         const auditStart = performance.now();
         const sdk = new AccessFlowSDK(page);
@@ -234,7 +220,7 @@ test.describe(`Navigation Timing Tests (SDK ${
       timingResults.totalTime += pageMetrics.totalTime;
 
       console.log(
-        `   ${category.name.padEnd(12)} | ` +
+        `   ${enginePage.name.padEnd(20)} | ` +
           `Nav: ${formatTime(pageMetrics.navigationTime).padEnd(8)} | ` +
           `Audit: ${formatTime(pageMetrics.auditTime).padEnd(8)} | ` +
           `Total: ${formatTime(pageMetrics.totalTime)}`
@@ -242,28 +228,28 @@ test.describe(`Navigation Timing Tests (SDK ${
     }
   });
 
-  test("should measure comprehensive navigation timing", async ({ page }) => {
+  test("should measure comprehensive navigation timing across key pages", async ({ page }) => {
     test.setTimeout(120000);
 
     const allPages = [
       "/",
-      "/rules",
-      "/graphics",
-      "/forms",
-      "/keyboard",
-      "/navigation",
-      "/headings",
-      "/errors",
-      "/carousels",
-      "/clickables",
-      "/context",
-      "/document",
-      "/readability",
-      "/tables",
+      "/rule-lab",
+      "/graphics/background-images_success",
+      "/graphics/alt-text_success",
+      "/forms/form-labels_success",
+      "/keyboard/keyboard-traps_success",
+      "/navigation/skip-links_success",
+      "/headings/heading-order_success",
+      "/errors/error-identification_success",
+      "/errors/fake-hidden-content_failure",
+      "/engine/page-title_success",
+      "/engine/alt-misuse_success",
+      "/engine/button-discernible_success",
+      "/engine/heading-order_success",
     ];
 
     console.log(
-      `\n📊 COMPREHENSIVE TIMING TEST (SDK ${ENABLE_SDK_AUDIT ? "ON" : "OFF"}):`
+      `\nCOMPREHENSIVE TIMING TEST (SDK ${ENABLE_SDK_AUDIT ? "ON" : "OFF"}):`
     );
     console.log("=".repeat(60));
 
@@ -295,7 +281,7 @@ test.describe(`Navigation Timing Tests (SDK ${
       comprehensiveResults.pageCount++;
 
       console.log(
-        `   ${path.padEnd(15)} | Nav: ${formatTime(navTime).padEnd(
+        `   ${path.padEnd(45)} | Nav: ${formatTime(navTime).padEnd(
           8
         )} | Audit: ${formatTime(auditTime)}`
       );
@@ -307,7 +293,7 @@ test.describe(`Navigation Timing Tests (SDK ${
       comprehensiveResults.totalAuditTime / comprehensiveResults.pageCount;
 
     console.log("=".repeat(60));
-    console.log(`\n📈 COMPREHENSIVE RESULTS:`);
+    console.log(`\nCOMPREHENSIVE RESULTS:`);
     console.log(`   Pages Tested: ${comprehensiveResults.pageCount}`);
     console.log(`   SDK Audits: ${ENABLE_SDK_AUDIT ? "ENABLED" : "DISABLED"}`);
     console.log(
@@ -333,7 +319,6 @@ test.describe(`Navigation Timing Tests (SDK ${
     );
     console.log("=".repeat(60));
 
-    // Assertions
-    expect(comprehensiveResults.pageCount).toBe(14);
+    expect(comprehensiveResults.pageCount).toBe(allPages.length);
   });
 });

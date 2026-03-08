@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 
 // Initialize AccessFlow SDK with API key
-AccessFlowSDK.init({ apiKey: process.env.AF_NODE_PACKAGE_KEY || process.env.AF_Node_Package_Key || "flow-1saYAGtY8ADAPaZLWVg000Y6kyGsGG1LXH" });
+AccessFlowSDK.init({ apiKey: process.env.AF_NODE_PACKAGE_KEY || process.env.AF_Node_Package_Key || "flow-1fTWLuAYJNS4eaa2lQg000i0M6IpSO6ZAW" });
 
 // Read AccessFlow config
 const configPath = path.join(process.cwd(), "accessflow.config.json");
@@ -16,40 +16,8 @@ if (fs.existsSync(configPath)) {
   config = JSON.parse(fs.readFileSync(configPath, "utf8"));
 }
 
-// Load Mock Data
-const mockDataPath = path.join(
-  process.cwd(),
-  "test-suite",
-  "tests",
-  "mock-audit-data.json"
-);
-let mockData;
-try {
-  mockData = JSON.parse(fs.readFileSync(mockDataPath, "utf8"));
-} catch (e) {
-  // Fallback for when running from inside test-suite directory
-  const fallbackPath = path.join(
-    process.cwd(),
-    "tests",
-    "mock-audit-data.json"
-  );
-  if (fs.existsSync(fallbackPath)) {
-    mockData = JSON.parse(fs.readFileSync(fallbackPath, "utf8"));
-  } else {
-    console.warn(
-      "Could not find mock-audit-data.json at",
-      mockDataPath,
-      "or",
-      fallbackPath
-    );
-    mockData = { pages: {} };
-  }
-}
-
 test.describe("Fake Hidden Content Audit Tests", () => {
   test.beforeEach(async ({ page }) => {
-    // Navigate to the app home page before each test
-    // Using relative path requires baseURL in playwright.config.js
     await page.goto("/");
     await page.waitForLoadState("networkidle");
     await page.waitForTimeout(1000);
@@ -61,7 +29,6 @@ test.describe("Fake Hidden Content Audit Tests", () => {
     const auditResults = [];
     const sdk = new AccessFlowSDK(page);
 
-    // Helper to perform audit and store result
     const performAudit = async (context) => {
       console.log(`Starting audit for context: ${context}`);
 
@@ -69,7 +36,6 @@ test.describe("Fake Hidden Content Audit Tests", () => {
 
       auditResults.push({ context, report });
 
-      // Check Thresholds
       if (config.localCheck && report) {
         const issuesFound = report.numberOfIssuesFound || {};
         const thresholds = config.issuesFoundThreshold;
@@ -90,9 +56,6 @@ test.describe("Fake Hidden Content Audit Tests", () => {
           }
         }
 
-        // Log threshold status for visibility
-        // Note: Failure example pages show CODE EXAMPLES of failures, not actual
-        // accessibility violations - so the page itself may be fully accessible
         if (context === "Initial Failure Page") {
           console.log(
             `[${context}] Threshold exceeded: ${thresholdExceeded} (this page displays failure code examples, not actual violations)`
@@ -103,28 +66,8 @@ test.describe("Fake Hidden Content Audit Tests", () => {
       console.log(`Audit completed for ${context}`);
     };
 
-    // 1. Navigate to Errors page
-    const errorsLink = page.locator('a[href="#/errors"]').first();
-    await expect(errorsLink).toBeVisible();
-    await errorsLink.click();
-    await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(500);
-    await expect(page).toHaveURL(/.*errors/);
-
-    // 2. Navigate to Fake Hidden Content details
-    const detailsLink = page.locator('a[href="#/errors/fake-hidden-content"]');
-    await expect(detailsLink).toBeVisible();
-    await detailsLink.dispatchEvent("click");
-    await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(500);
-    await expect(page).toHaveURL(/.*errors\/fake-hidden-content/);
-
-    // 3. Navigate to Failure Examples
-    const failureLink = page.locator(
-      'a[href="#/errors/fake-hidden-content_failure"]'
-    );
-    await expect(failureLink).toBeVisible();
-    await failureLink.dispatchEvent("click");
+    // Navigate directly to the failure page (sidebar is now a tree view)
+    await page.goto("/errors/fake-hidden-content_failure");
     await page.waitForLoadState("networkidle");
     await page.waitForTimeout(1000);
     await expect(page).toHaveURL(/.*errors\/fake-hidden-content_failure/);
@@ -142,12 +85,11 @@ test.describe("Fake Hidden Content Audit Tests", () => {
       await page.waitForTimeout(500);
       await performAudit("Notifications Modal Open");
 
-      // Close modal
       await page.keyboard.press("Escape");
       await page.waitForTimeout(500);
     }
 
-    // State 3: Expand/Collapse Sidebar (simplified for this test)
+    // State 3: Expand/Collapse Sidebar
     const closeSidebarButton = page
       .locator("button")
       .filter({ has: page.locator('svg[data-testid="ChevronLeftIcon"]') })
@@ -158,7 +100,6 @@ test.describe("Fake Hidden Content Audit Tests", () => {
       await page.waitForTimeout(500);
       await performAudit("Sidebar Collapsed");
 
-      // Restore
       const openSidebarButton = page
         .locator("button")
         .filter({ has: page.locator('svg[data-testid="MenuIcon"]') })
@@ -166,20 +107,8 @@ test.describe("Fake Hidden Content Audit Tests", () => {
       if (await openSidebarButton.isVisible()) await openSidebarButton.click();
     }
 
-    // State 4: Navigate Routes (Go to Success Page)
-    await page.goto("#/errors/fake-hidden-content");
-    await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(500);
-
-    const successLink = page.locator(
-      'a[href="#/errors/fake-hidden-content_success"]'
-    );
-    if (await successLink.isVisible()) {
-      await successLink.dispatchEvent("click");
-    } else {
-      await page.goto("#/errors/fake-hidden-content_success");
-    }
-
+    // State 4: Navigate to Success Page
+    await page.goto("/errors/fake-hidden-content_success");
     await page.waitForLoadState("networkidle");
     await page.waitForTimeout(1000);
     await expect(page).toHaveURL(/.*errors\/fake-hidden-content_success/);
@@ -191,10 +120,8 @@ test.describe("Fake Hidden Content Audit Tests", () => {
     expect(auditResults.length).toBeGreaterThan(1);
 
     const violationCounts = auditResults.map((r) => {
-      // Handle different report formats (mock vs real)
       let violationsCount = 0;
       if (r.report && r.report.ruleViolations) {
-        // Count from ruleViolations object
         violationsCount = Object.values(r.report.ruleViolations).reduce(
           (acc, rule) => acc + (rule.numberOfOccurrences || 0),
           0
