@@ -34,6 +34,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ENGINE_RULE_CATEGORIES from "../../../data/engine-rule-categories";
 import engineRulesData from "../../../data/engine-rules-metadata.json";
+import { getAllCachedResults } from "../../../utils/analysisCache";
 
 const STORAGE_KEY = "ruleTreeExpanded";
 
@@ -130,7 +131,36 @@ function LeafItem({ item, onClick, isActive, isOpen }) {
   );
 }
 
-function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, expanded, onToggle, onNavigate, location }) {
+function HealthDot({ status }) {
+  const colors = {
+    green: "#4caf50",
+    yellow: "#ff9800",
+    red: "#f44336",
+    gray: "#cbd5e1",
+  };
+  return (
+    <Tooltip title={
+      status === "green" ? "No critical/serious issues" :
+      status === "yellow" ? "Has moderate/minor issues" :
+      status === "red" ? "Has critical/serious issues" :
+      "Not analyzed"
+    }>
+      <Box
+        sx={{
+          width: 8,
+          height: 8,
+          borderRadius: "50%",
+          bgcolor: colors[status] || colors.gray,
+          flexShrink: 0,
+          opacity: status === "gray" ? 0.4 : 0.8,
+          ml: 0.5,
+        }}
+      />
+    </Tooltip>
+  );
+}
+
+function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, expanded, onToggle, onNavigate, location, healthStatus }) {
   const isExpanded = expanded[`rule-${ruleType}-${ruleId}`] || false;
   const basePath = ruleType === "engine" ? `/engine/${ruleId}` : `/${criteriaOrCategory}/${ruleId}`;
   const isRuleActive = location.pathname === basePath;
@@ -195,15 +225,18 @@ function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, exp
           </IconButton>
         )}
         {isOpen && (
-          <ListItemText
-            primary={ruleLabel}
-            primaryTypographyProps={{
-              fontSize: "0.75rem",
-              fontWeight: isRuleActive ? 600 : 400,
-              color: "#334155",
-              noWrap: true,
-            }}
-          />
+          <>
+            <ListItemText
+              primary={ruleLabel}
+              primaryTypographyProps={{
+                fontSize: "0.75rem",
+                fontWeight: isRuleActive ? 600 : 400,
+                color: "#334155",
+                noWrap: true,
+              }}
+            />
+            <HealthDot status={healthStatus || "gray"} />
+          </>
         )}
       </ListItemButton>
       {isOpen && (
@@ -225,7 +258,7 @@ function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, exp
   );
 }
 
-function CategoryNode({ categoryId, label, color, icon, rules, ruleType, isOpen, expanded, onToggle, onNavigate, location, search }) {
+function CategoryNode({ categoryId, label, color, icon, rules, ruleType, isOpen, expanded, onToggle, onNavigate, location, search, healthMap }) {
   const isExpanded = expanded[`cat-${ruleType}-${categoryId}`] || false;
   const Icon = typeof icon === "string" ? ICON_MAP[icon] || DescriptionIcon : icon;
 
@@ -301,6 +334,7 @@ function CategoryNode({ categoryId, label, color, icon, rules, ruleType, isOpen,
                   onToggle={onToggle}
                   onNavigate={onNavigate}
                   location={location}
+                  healthStatus={healthMap?.[ruleId]}
                 />
               );
             })}
@@ -418,6 +452,44 @@ export default function RuleTreeSidebar({ data = [], isOpen = true, onRequestOpe
         rules: grouped[cat],
       }));
   }, [data]);
+
+  // Health status map from analysis cache
+  const healthMap = useMemo(() => {
+    const map = {};
+    try {
+      const cached = getAllCachedResults();
+      for (const [ruleId, results] of cached.entries()) {
+        let hasCS = false;
+        let hasModerate = false;
+        for (const r of results) {
+          if (r.audit) {
+            if (r.audit.summary.critical > 0 || r.audit.summary.serious > 0) {
+              map[ruleId] = "red";
+              hasCS = true;
+              break;
+            }
+            if (r.audit.summary.moderate > 0 || r.audit.summary.minor > 0) {
+              hasModerate = true;
+            }
+          }
+        }
+        if (!hasCS) {
+          map[ruleId] = hasModerate ? "yellow" : "green";
+        }
+      }
+    } catch { /* ignore */ }
+    return map;
+  }, []);
+
+  // Subscribe to storage events for cross-tab updates
+  useEffect(() => {
+    const handler = () => {
+      // Force re-render when localStorage changes (from batch analysis, etc.)
+      setExpanded((prev) => ({ ...prev }));
+    };
+    window.addEventListener("storage", handler);
+    return () => window.removeEventListener("storage", handler);
+  }, []);
 
   const isDashboardActive = location.pathname === "/";
 
@@ -556,6 +628,7 @@ export default function RuleTreeSidebar({ data = [], isOpen = true, onRequestOpe
                 onNavigate={handleNavigate}
                 location={location}
                 search={search}
+                healthMap={healthMap}
               />
             ))}
           </TierNode>
@@ -603,6 +676,7 @@ export default function RuleTreeSidebar({ data = [], isOpen = true, onRequestOpe
                 onNavigate={handleNavigate}
                 location={location}
                 search={search}
+                healthMap={healthMap}
               />
             ))}
           </TierNode>

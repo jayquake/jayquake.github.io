@@ -1,6 +1,14 @@
+import { isStaticDeployment } from '../utils/environment';
+
 const API_URL = process.env.REACT_APP_API_URL || '';
 
 async function fetchAPI<T>(endpoint: string, options?: RequestInit): Promise<T> {
+  if (isStaticDeployment() && endpoint.startsWith('/api/')) {
+    throw new Error(
+      'This feature requires the backend server. Run locally with `npm run dev:full` for full functionality.'
+    );
+  }
+
   const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
     headers: {

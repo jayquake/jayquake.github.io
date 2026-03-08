@@ -1,7 +1,9 @@
 import AssignmentIcon from "@mui/icons-material/Assignment";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ClearIcon from "@mui/icons-material/Clear";
 import ScienceIcon from "@mui/icons-material/Science";
 import SearchIcon from "@mui/icons-material/Search";
+import WarningIcon from "@mui/icons-material/Warning";
 import {
   Box,
   Chip,
@@ -10,6 +12,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -17,6 +20,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import engineRulesData from "../../data/engine-rules-metadata.json";
+import { getAllCachedResults } from "../../utils/analysisCache";
 
 const StyledSearchBar = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -45,6 +49,41 @@ const StyledDropdown = styled(motion.div)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   overflow: "hidden",
 }));
+
+function AuditBadge({ ruleId }) {
+  const status = useMemo(() => {
+    const cached = getAllCachedResults();
+    const results = cached.get(ruleId);
+    if (!results || results.length === 0) return null;
+    let hasCritical = false;
+    let hasIssues = false;
+    for (const r of results) {
+      if (r.audit) {
+        if (r.audit.summary.critical > 0 || r.audit.summary.serious > 0) hasCritical = true;
+        if (r.audit.summary.moderate > 0 || r.audit.summary.minor > 0) hasIssues = true;
+      }
+    }
+    if (hasCritical) return "error";
+    if (hasIssues) return "warning";
+    return "pass";
+  }, [ruleId]);
+
+  if (!status) return null;
+
+  if (status === "pass") {
+    return (
+      <Tooltip title="No critical/serious issues">
+        <CheckCircleIcon sx={{ fontSize: 16, color: "#4caf50", flexShrink: 0 }} />
+      </Tooltip>
+    );
+  }
+
+  return (
+    <Tooltip title={status === "error" ? "Has critical/serious issues" : "Has moderate/minor issues"}>
+      <WarningIcon sx={{ fontSize: 16, color: status === "error" ? "#f44336" : "#ff9800", flexShrink: 0 }} />
+    </Tooltip>
+  );
+}
 
 const SearchComponent = ({ data }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -170,6 +209,8 @@ const SearchComponent = ({ data }) => {
                               fontWeight: 600,
                             }}
                           />
+                          <Box sx={{ flex: 1 }} />
+                          <AuditBadge ruleId={item.id || item.route} />
                         </Box>
                       }
                       secondary={

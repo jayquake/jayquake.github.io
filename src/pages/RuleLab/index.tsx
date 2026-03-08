@@ -6,12 +6,16 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Chip from '@mui/material/Chip';
 import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import CircularProgress from '@mui/material/CircularProgress';
 import ScienceIcon from '@mui/icons-material/Science';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
+import InfoIcon from '@mui/icons-material/Info';
 
 import { api } from '../../api/client';
+import { isStaticDeployment } from '../../utils/environment';
+import engineRulesData from '../../data/engine-rules-metadata.json';
 import { RulePicker } from './components/RulePicker';
 import { ExampleAnalysisPanel } from './components/ExampleAnalysisPanel';
 import { DiscoveryPanel } from './components/DiscoveryPanel';
@@ -24,12 +28,25 @@ export interface RuleInfo {
   tags?: string[];
 }
 
+function loadStaticRules(): { engineRules: RuleInfo[]; legacyRules: RuleInfo[] } {
+  const normalize = (rule: any): RuleInfo => ({
+    id: rule.id ?? rule.kebabId ?? rule.route ?? '',
+    name: rule.name ?? rule.title ?? rule.id ?? '',
+    description: rule.description ?? rule.shortDescription ?? '',
+    impact: rule.impact ?? rule.severity ?? '',
+    tags: rule.tags ?? [],
+  });
+  const engine = (engineRulesData as any[]).map(normalize);
+  return { engineRules: engine, legacyRules: [] };
+}
+
 export default function RuleLab() {
   const [searchParams] = useSearchParams();
   const initialRuleId = searchParams.get('ruleId') || searchParams.get('rule');
   const initialRuleType = searchParams.get('type') as 'engine' | 'legacy' | null;
   const initialHtmlParam = searchParams.get('html');
   const initialExampleType = searchParams.get('exampleType') || undefined;
+  const staticMode = isStaticDeployment();
 
   const initialHtml = React.useMemo(() => {
     if (!initialHtmlParam) return undefined;
@@ -50,37 +67,77 @@ export default function RuleLab() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [mcpHealthy, setMcpHealthy] = useState<boolean | null>(null);
+  const [legacyRulesLoaded, setLegacyRulesLoaded] = useState(false);
 
   const loadRules = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
-      const data = await api.ruleLab.listRules();
-      const normalize = (rule: any): RuleInfo => ({
-        id: rule.id ?? rule.kebabId ?? rule.route ?? '',
-        name: rule.name ?? rule.title ?? rule.id ?? '',
-        description: rule.description ?? rule.shortDescription ?? '',
-        impact: rule.impact ?? rule.severity ?? '',
-        tags: rule.tags ?? [],
-      });
-      const engine = (data.engineRules ?? []).map(normalize);
-      const legacy = (data.legacyRules ?? []).map(normalize);
-      setRules({ engineRules: engine, legacyRules: legacy });
+
+      if (staticMode) {
+        const staticRules = loadStaticRules();
+
+        // Also try to load legacy rules from the static data.json
+        if (!legacyRulesLoaded) {
+          try {
+            const resp = await fetch(`${process.env.PUBLIC_URL || ''}/data.json`);
+            if (resp.ok) {
+              const legacyData = await resp.json();
+              const normalize = (rule: any): RuleInfo => ({
+                id: rule.route ?? rule.name ?? '',
+                name: rule.name ?? '',
+                description: rule.shortDescription ?? '',
+                impact: rule.severity ?? '',
+                tags: [],
+              });
+              const legacy = Array.isArray(legacyData)
+                ? legacyData.map(normalize)
+                : [];
+              staticRules.legacyRules = legacy;
+              setLegacyRulesLoaded(true);
+            }
+          } catch {
+            // Legacy data.json not available in static mode
+          }
+        }
+
+        setRules(staticRules);
+      } else {
+        const data = await api.ruleLab.listRules();
+        const normalize = (rule: any): RuleInfo => ({
+          id: rule.id ?? rule.kebabId ?? rule.route ?? '',
+          name: rule.name ?? rule.title ?? rule.id ?? '',
+          description: rule.description ?? rule.shortDescription ?? '',
+          impact: rule.impact ?? rule.severity ?? '',
+          tags: rule.tags ?? [],
+        });
+        const engine = (data.engineRules ?? []).map(normalize);
+        const legacy = (data.legacyRules ?? []).map(normalize);
+        setRules({ engineRules: engine, legacyRules: legacy });
+      }
     } catch (err: any) {
-      setError(err.message || 'Failed to load rules');
+      if (staticMode) {
+        setRules(loadStaticRules());
+      } else {
+        setError(err.message || 'Failed to load rules');
+      }
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [staticMode, legacyRulesLoaded]);
 
   const checkHealth = useCallback(async () => {
+    if (staticMode) {
+      setMcpHealthy(null);
+      return;
+    }
     try {
       const result = await api.ruleLab.checkHealth();
       setMcpHealthy(result?.healthy ?? result?.available ?? false);
     } catch {
       setMcpHealthy(false);
     }
-  }, []);
+  }, [staticMode]);
 
   useEffect(() => {
     loadRules();
@@ -168,18 +225,24 @@ export default function RuleLab() {
       </Box>
 
       <Box sx={{ flex: 1, overflow: 'auto', p: 3 }}>
+        {staticMode && (
+          <Alert severity="info" icon={<InfoIcon />} sx={{ mb: 2 }}>
+            <AlertTitle>Static Mode</AlertTitle>
+            Analysis uses the client-side engine. Live site discovery requires the local backend.
+          </Alert>
+        )}
         {!selectedRule ? (
           <EmptyState ruleCount={rules.engineRules.length + rules.legacyRules.length} />
         ) : (
           <>
-            <RuleHeader rule={selectedRule} ruleType={selectedRuleType} mcpHealthy={mcpHealthy} />
+            <RuleHeader rule={selectedRule} ruleType={selectedRuleType} mcpHealthy={mcpHealthy} staticMode={staticMode} />
             <Tabs
               value={activeTab}
               onChange={(_, v) => setActiveTab(v)}
               sx={{ mb: 2, borderBottom: 1, borderColor: 'divider' }}
             >
               <Tab label="Example Analysis" />
-              <Tab label="Discovery" />
+              <Tab label="Discovery" disabled={staticMode} />
             </Tabs>
             {activeTab === 0 && (
               <ExampleAnalysisPanel
@@ -189,7 +252,7 @@ export default function RuleLab() {
                 initialExampleType={initialExampleType}
               />
             )}
-            {activeTab === 1 && (
+            {activeTab === 1 && !staticMode && (
               <DiscoveryPanel ruleId={selectedRule.id} ruleType={selectedRuleType as 'engine' | 'legacy'} />
             )}
           </>
@@ -231,14 +294,16 @@ function RuleHeader({
   rule,
   ruleType,
   mcpHealthy,
+  staticMode,
 }: {
   rule: RuleInfo;
   ruleType: string;
   mcpHealthy: boolean | null;
+  staticMode?: boolean;
 }) {
   return (
     <Box sx={{ mb: 2 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1, flexWrap: 'wrap' }}>
         <Typography variant="h5" sx={{ fontWeight: 600 }}>
           {rule.name}
         </Typography>
@@ -260,7 +325,15 @@ function RuleHeader({
           />
         )}
         <Box sx={{ flex: 1 }} />
-        {mcpHealthy !== null && (
+        {staticMode ? (
+          <Chip
+            icon={<ScienceIcon />}
+            label="Client-Side Engine"
+            size="small"
+            color="default"
+            variant="outlined"
+          />
+        ) : mcpHealthy !== null ? (
           <Chip
             icon={mcpHealthy ? <CheckCircleIcon /> : <ErrorIcon />}
             label={mcpHealthy ? 'MCP Connected' : 'MCP Offline'}
@@ -268,7 +341,7 @@ function RuleHeader({
             color={mcpHealthy ? 'success' : 'error'}
             variant="outlined"
           />
-        )}
+        ) : null}
       </Box>
       {rule.description && (
         <Typography variant="body2" color="text.secondary">

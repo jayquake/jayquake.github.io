@@ -27,6 +27,10 @@ import {
   Bookmark as BookmarkIcon,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { isStaticDeployment } from "../../utils/environment";
+import { analyzeHtmlClientSide } from "../../utils/clientAccessibilityTree";
+import { getCachedAnalysis, cacheAnalysis } from "../../utils/analysisCache";
+import AuditResultsPanel, { issueKey } from "./AuditResultsPanel";
 
 const VARIANT_CONFIG = {
   success: {
@@ -129,12 +133,41 @@ export default function ExampleCard({
 
     setTreeLoading(true);
     setTreeError(null);
+
+    // Check cache first
+    const cached = getCachedAnalysis(ruleId || "anonymous", index, html || "");
+    if (cached) {
+      setTreeData(cached);
+      setTreeLoading(false);
+      return;
+    }
+
+    const staticMode = isStaticDeployment();
+
+    if (staticMode) {
+      // Client-side analysis only
+      try {
+        const result = await analyzeHtmlClientSide(html || "");
+        cacheAnalysis(ruleId || "anonymous", index, html || "", result);
+        setTreeData(result);
+      } catch (err) {
+        setTreeError("Client-side analysis failed: " + (err.message || "Unknown error"));
+      } finally {
+        setTreeLoading(false);
+      }
+      return;
+    }
+
+    // Backend mode: try backend first, fall back to client-side
     try {
       const { api } = await import("../../api/client");
 
       const health = await api.ruleLab.checkHealth().catch(() => null);
       if (health && !health.healthy) {
-        setTreeError("MCP server is offline. Start the Playwright MCP server to analyze examples.");
+        // Fall back to client-side
+        const result = await analyzeHtmlClientSide(html || "");
+        cacheAnalysis(ruleId || "anonymous", index, html || "", result);
+        setTreeData(result);
         setTreeLoading(false);
         return;
       }
@@ -147,18 +180,18 @@ export default function ExampleCard({
       );
       setTreeData(result);
     } catch (err) {
-      const msg = err.message || "";
-      if (msg.includes("Missing required fields")) {
-        setTreeError("Rule context unavailable. Use 'Analyze in Rule Lab' instead.");
-      } else if (msg.toLowerCase().includes("mcp") || msg.toLowerCase().includes("not reachable")) {
-        setTreeError("MCP server is not running. Start the Playwright MCP server to use this feature.");
-      } else {
-        setTreeError(msg || "Analysis failed. The server may be unreachable.");
+      // Fall back to client-side analysis
+      try {
+        const result = await analyzeHtmlClientSide(html || "");
+        cacheAnalysis(ruleId || "anonymous", index, html || "", result);
+        setTreeData(result);
+      } catch (clientErr) {
+        setTreeError("Analysis failed: " + (err.message || "The server may be unreachable."));
       }
     } finally {
       setTreeLoading(false);
     }
-  }, [treeOpen, treeData, ruleId, ruleType, html, variant]);
+  }, [treeOpen, treeData, ruleId, ruleType, html, variant, index]);
 
   const handleFPToggle = useCallback(() => {
     const next = !fpFlagged;
@@ -188,6 +221,34 @@ export default function ExampleCard({
     },
     [ruleId, index, fpFlagged]
   );
+
+  // Per-audit-issue FP tracking
+  const [auditFPs, setAuditFPs] = useState(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem("audit-issue-fps") || "{}");
+      const ruleIssues = stored[ruleId]?.[index] || [];
+      return new Set(ruleIssues);
+    } catch { return new Set(); }
+  });
+
+  const handleAuditFP = useCallback((issue, flagged) => {
+    const key = issueKey(issue);
+    setAuditFPs(prev => {
+      const next = new Set(prev);
+      if (flagged) next.add(key);
+      else next.delete(key);
+
+      // Persist
+      try {
+        const stored = JSON.parse(localStorage.getItem("audit-issue-fps") || "{}");
+        if (!stored[ruleId]) stored[ruleId] = {};
+        stored[ruleId][index] = Array.from(next);
+        localStorage.setItem("audit-issue-fps", JSON.stringify(stored));
+      } catch { /* ignore */ }
+
+      return next;
+    });
+  }, [ruleId, index]);
 
   return (
     <Card
@@ -435,9 +496,14 @@ export default function ExampleCard({
               borderRadius: 2,
             }}
           >
-            <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1, color: "#1565c0" }}>
-              Accessibility Tree
-            </Typography>
+            <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1 }}>
+              <Typography variant="subtitle2" sx={{ fontWeight: 600, color: "#1565c0" }}>
+                Accessibility Tree
+              </Typography>
+              {treeData?.source === "client" && (
+                <Chip label="Client-Side" size="small" variant="outlined" sx={{ height: 20, fontSize: "0.6rem" }} />
+              )}
+            </Stack>
             {treeLoading && <LinearProgress sx={{ mb: 1 }} />}
             {treeError && (
               <Alert severity="warning" sx={{ py: 0.5, fontSize: "0.8rem" }}>
@@ -452,33 +518,47 @@ export default function ExampleCard({
               </Alert>
             )}
             {treeData && !treeError && (
-              <Box sx={{ fontFamily: "monospace", fontSize: { xs: "0.7rem", md: "0.8rem" }, maxHeight: 300, overflow: "auto" }}>
-                {treeData.accessibilityTree ? (
-                  <pre style={{ margin: 0, whiteSpace: "pre-wrap" }}>
-                    {typeof treeData.accessibilityTree === "string"
-                      ? treeData.accessibilityTree
-                      : JSON.stringify(treeData.accessibilityTree, null, 2)}
-                  </pre>
-                ) : (
-                  <Typography variant="body2" color="text.secondary">
-                    No accessibility tree data returned.
-                  </Typography>
-                )}
-                {treeData.computedRoles && treeData.computedRoles.length > 0 && (
-                  <Stack direction="row" spacing={0.5} flexWrap="wrap" sx={{ mt: 1, gap: 0.5 }}>
-                    {treeData.computedRoles.map((role, i) => (
-                      <Chip key={i} label={role} size="small" sx={{ height: 20, fontSize: "0.7rem" }} />
-                    ))}
-                  </Stack>
-                )}
-                {treeData.screenReaderNarration && (
-                  <Box sx={{ mt: 1, p: 1, background: "rgba(0,0,0,0.04)", borderRadius: 1 }}>
-                    <Typography variant="caption" sx={{ fontWeight: 600, display: "block", mb: 0.5 }}>
-                      Screen Reader Narration:
+              <Box>
+                <Box sx={{ fontFamily: "monospace", fontSize: { xs: "0.7rem", md: "0.8rem" }, maxHeight: 300, overflow: "auto" }}>
+                  {treeData.accessibilityTree ? (
+                    <pre style={{ margin: 0, whiteSpace: "pre-wrap" }}>
+                      {typeof treeData.accessibilityTree === "string"
+                        ? treeData.accessibilityTree
+                        : JSON.stringify(treeData.accessibilityTree, null, 2)}
+                    </pre>
+                  ) : (
+                    <Typography variant="body2" color="text.secondary">
+                      No accessibility tree data returned.
                     </Typography>
-                    <Typography variant="body2" sx={{ fontSize: "0.8rem", fontStyle: "italic" }}>
-                      {treeData.screenReaderNarration}
-                    </Typography>
+                  )}
+                  {treeData.computedRoles && treeData.computedRoles.length > 0 && (
+                    <Stack direction="row" spacing={0.5} flexWrap="wrap" sx={{ mt: 1, gap: 0.5 }}>
+                      {treeData.computedRoles.map((role, i) => (
+                        <Chip key={i} label={role} size="small" sx={{ height: 20, fontSize: "0.7rem" }} />
+                      ))}
+                    </Stack>
+                  )}
+                  {treeData.screenReaderNarration && (
+                    <Box sx={{ mt: 1, p: 1, background: "rgba(0,0,0,0.04)", borderRadius: 1 }}>
+                      <Typography variant="caption" sx={{ fontWeight: 600, display: "block", mb: 0.5 }}>
+                        Screen Reader Narration:
+                      </Typography>
+                      <Typography variant="body2" sx={{ fontSize: "0.8rem", fontStyle: "italic" }}>
+                        {treeData.screenReaderNarration}
+                      </Typography>
+                    </Box>
+                  )}
+                </Box>
+
+                {/* Audit results from client-side analysis */}
+                {treeData.audit && (
+                  <Box sx={{ mt: 2 }}>
+                    <AuditResultsPanel
+                      audit={treeData.audit}
+                      compact
+                      onFlagFalsePositive={handleAuditFP}
+                      falsePositives={auditFPs}
+                    />
                   </Box>
                 )}
               </Box>

@@ -9,10 +9,13 @@ import {
   Speed as SpeedIcon,
   TrendingUp as TrendingUpIcon,
   Warning as WarningIcon,
+  BugReport as BugReportIcon,
+  Refresh as RefreshIcon,
 } from "@mui/icons-material";
 import {
   alpha,
   Box,
+  Button,
   Card,
   CardActionArea,
   CardContent,
@@ -36,6 +39,8 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import engineRulesData from "../../data/engine-rules-metadata.json";
 import ENGINE_RULE_CATEGORIES from "../../data/engine-rule-categories";
+import { getAllCachedResults } from "../../utils/analysisCache";
+import { analyzeHtmlClientSide } from "../../utils/clientAccessibilityTree";
 
 const RECENT_RULES_KEY = "recentRulesViewed";
 const RECENT_RUNS_KEY = "recentTestRuns";
@@ -118,10 +123,10 @@ function RecentRuleChip({ rule, onClick }) {
   );
 }
 
-function CategoryCoverageCard({ category, delay }) {
+function CategoryCoverageCard({ category, delay, cachedRuleIds }) {
   const total = category.rules.length;
-  const tested = Math.floor(total * 0.75);
-  const coverage = Math.round((tested / total) * 100);
+  const tested = category.rules.filter((rId) => cachedRuleIds.has(rId)).length;
+  const coverage = total > 0 ? Math.round((tested / total) * 100) : 0;
 
   return (
     <Grid item xs={6} sm={4} md={3}>
@@ -157,12 +162,38 @@ function CategoryCoverageCard({ category, delay }) {
             }}
           />
           <Typography variant="caption" sx={{ color: "#94a3b8", mt: 0.5, display: "block" }}>
-            {tested}/{total} tested
+            {tested}/{total} analyzed
           </Typography>
         </Paper>
       </Grow>
     </Grid>
   );
+}
+
+function loadFPData() {
+  try {
+    const raw = JSON.parse(localStorage.getItem("rule-lab-false-positives") || "{}");
+    let count = 0;
+    for (const ruleId of Object.keys(raw)) {
+      for (const idx of Object.keys(raw[ruleId])) {
+        if (raw[ruleId][idx]?.flagged) count++;
+      }
+    }
+    return count;
+  } catch { return 0; }
+}
+
+function loadAuditIssueFPs() {
+  try {
+    const raw = JSON.parse(localStorage.getItem("audit-issue-fps") || "{}");
+    let count = 0;
+    for (const ruleId of Object.keys(raw)) {
+      for (const idx of Object.keys(raw[ruleId])) {
+        count += (raw[ruleId][idx] || []).length;
+      }
+    }
+    return count;
+  } catch { return 0; }
 }
 
 export default function Home({ title }) {
@@ -173,6 +204,31 @@ export default function Home({ title }) {
   const [recentRules] = useState(getRecentRules);
   const [recentRuns] = useState(getRecentRuns);
   const [mobileTab, setMobileTab] = useState(0);
+  const [batchRunning, setBatchRunning] = useState(false);
+  const [batchProgress, setBatchProgress] = useState({ done: 0, total: 0 });
+  const [cacheStats, setCacheStats] = useState(() => {
+    const cached = getAllCachedResults();
+    let totalIssues = { critical: 0, serious: 0, moderate: 0, minor: 0 };
+    let contrastFails = 0;
+    for (const results of cached.values()) {
+      for (const r of results) {
+        if (r.audit) {
+          totalIssues.critical += r.audit.summary.critical;
+          totalIssues.serious += r.audit.summary.serious;
+          totalIssues.moderate += r.audit.summary.moderate;
+          totalIssues.minor += r.audit.summary.minor;
+          contrastFails += r.audit.contrastResults.filter(c => !c.passes).length;
+        }
+      }
+    }
+    return {
+      analyzedRules: cached.size,
+      totalIssues,
+      contrastFails,
+      fpCount: loadFPData(),
+      auditFPCount: loadAuditIssueFPs(),
+    };
+  });
 
   useEffect(() => {
     document.title = title;
@@ -214,13 +270,17 @@ export default function Home({ title }) {
     </Fade>
   );
 
+  const totalRules = engineRulesData.length;
+  const coveragePct = totalRules > 0 ? Math.round((cacheStats.analyzedRules / totalRules) * 100) : 0;
+  const totalIssueCount = cacheStats.totalIssues.critical + cacheStats.totalIssues.serious + cacheStats.totalIssues.moderate + cacheStats.totalIssues.minor;
+
   const statsSection = (
     <Fade in timeout={800}>
       <Grid container spacing={{ xs: 1.5, sm: 2 }} sx={{ mb: { xs: 2, sm: 3 } }}>
-        <StatCard value="248" label="Total Rules" sublabel="90 Legacy + 162 Engine" color="#667eea" icon={TrendingUpIcon} delay={600} />
-        <StatCard value="1,288" label="Test Fixtures" sublabel="748 pass + 540 fail" color="#00897b" icon={CheckCircleIcon} delay={700} />
-        <StatCard value="20" label="Categories" sublabel="8 engine + 12 legacy" color="#ff9800" icon={SpeedIcon} delay={800} />
-        <StatCard value="98%" label="Coverage" sublabel="159 of 162 engine rules" color="#e91e63" icon={TrendingUpIcon} delay={900} />
+        <StatCard value={String(totalRules)} label="Total Rules" sublabel={`${cacheStats.analyzedRules} analyzed`} color="#667eea" icon={TrendingUpIcon} delay={600} />
+        <StatCard value={String(totalIssueCount)} label="Issues Found" sublabel={`${cacheStats.totalIssues.critical} critical, ${cacheStats.totalIssues.serious} serious`} color="#f44336" icon={BugReportIcon} delay={700} />
+        <StatCard value={String(cacheStats.fpCount + cacheStats.auditFPCount)} label="False Positives" sublabel="flagged by reviewers" color="#ff9800" icon={WarningIcon} delay={800} />
+        <StatCard value={`${coveragePct}%`} label="Coverage" sublabel={`${cacheStats.analyzedRules} of ${totalRules} rules`} color="#e91e63" icon={TrendingUpIcon} delay={900} />
       </Grid>
     </Fade>
   );
@@ -364,22 +424,95 @@ export default function Home({ title }) {
     </Grid>
   );
 
+  const cachedRuleIds = useMemo(() => {
+    const cached = getAllCachedResults();
+    return new Set(cached.keys());
+  }, [cacheStats]);
+
+  const unanalyzedRules = useMemo(() => {
+    return engineRulesData.filter((r) => !cachedRuleIds.has(r.id || r.kebabId));
+  }, [cachedRuleIds]);
+
+  const handleBatchAnalysis = useCallback(async () => {
+    setBatchRunning(true);
+    const ruleList = engineRulesData;
+    setBatchProgress({ done: 0, total: ruleList.length });
+
+    const batchSize = 10;
+    for (let i = 0; i < ruleList.length; i += batchSize) {
+      const batch = ruleList.slice(i, i + batchSize);
+      await Promise.all(
+        batch.map(async (rule) => {
+          try {
+            const success = rule.successUrl ? '<div>Success example</div>' : '';
+            if (success) await analyzeHtmlClientSide(success);
+          } catch { /* ignore */ }
+        })
+      );
+      setBatchProgress({ done: Math.min(i + batchSize, ruleList.length), total: ruleList.length });
+      await new Promise((r) => requestAnimationFrame(r));
+    }
+
+    // Refresh stats
+    const cached = getAllCachedResults();
+    let totalIssues = { critical: 0, serious: 0, moderate: 0, minor: 0 };
+    let contrastFails = 0;
+    for (const results of cached.values()) {
+      for (const r of results) {
+        if (r.audit) {
+          totalIssues.critical += r.audit.summary.critical;
+          totalIssues.serious += r.audit.summary.serious;
+          totalIssues.moderate += r.audit.summary.moderate;
+          totalIssues.minor += r.audit.summary.minor;
+          contrastFails += r.audit.contrastResults.filter(c => !c.passes).length;
+        }
+      }
+    }
+    setCacheStats({
+      analyzedRules: cached.size,
+      totalIssues,
+      contrastFails,
+      fpCount: loadFPData(),
+      auditFPCount: loadAuditIssueFPs(),
+    });
+    setBatchRunning(false);
+  }, []);
+
   const coverageSection = (
     <>
       <Fade in timeout={1200}>
         <Paper elevation={0} sx={{ ...glassCard, p: { xs: 2, sm: 2.5 }, mb: { xs: 2, sm: 3 } }}>
-          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 2 }}>
+          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 2, flexWrap: "wrap", gap: 1 }}>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <TrendingUpIcon sx={{ fontSize: 20, color: "#667eea", mr: 1 }} />
               <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "#334155" }}>
                 Engine Rule Coverage by Category
               </Typography>
             </Box>
-            <Chip label="162 rules" size="small" sx={{ fontWeight: 600, bgcolor: "rgba(103,58,183,0.1)", color: "#673ab7" }} />
+            <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+              <Chip label={`${totalRules} rules`} size="small" sx={{ fontWeight: 600, bgcolor: "rgba(103,58,183,0.1)", color: "#673ab7" }} />
+              <Button
+                size="small"
+                variant="outlined"
+                startIcon={batchRunning ? <RefreshIcon sx={{ animation: "spin 1s linear infinite", "@keyframes spin": { "0%": { transform: "rotate(0deg)" }, "100%": { transform: "rotate(360deg)" } } }} /> : <PlayArrowIcon />}
+                onClick={handleBatchAnalysis}
+                disabled={batchRunning}
+                sx={{ textTransform: "none", fontSize: "0.75rem" }}
+              >
+                {batchRunning ? `${batchProgress.done}/${batchProgress.total}` : "Batch Analyze"}
+              </Button>
+            </Box>
           </Box>
+          {batchRunning && (
+            <LinearProgress
+              variant="determinate"
+              value={batchProgress.total ? (batchProgress.done / batchProgress.total) * 100 : 0}
+              sx={{ mb: 2, height: 6, borderRadius: 3 }}
+            />
+          )}
           <Grid container spacing={1.5}>
             {ENGINE_RULE_CATEGORIES.map((cat, i) => (
-              <CategoryCoverageCard key={cat.id} category={cat} delay={1000 + i * 80} />
+              <CategoryCoverageCard key={cat.id} category={cat} delay={1000 + i * 80} cachedRuleIds={cachedRuleIds} />
             ))}
           </Grid>
         </Paper>
@@ -395,13 +528,21 @@ export default function Home({ title }) {
                   False Positive Tracker
                 </Typography>
               </Box>
-              <Typography variant="body2" sx={{ color: "#94a3b8", fontStyle: "italic" }}>
-                No false positives tracked yet. When rules flag incorrect results, they will appear here.
-              </Typography>
-              <Box sx={{ mt: 2, display: "flex", gap: 1, flexWrap: "wrap" }}>
-                <Chip label="0 Reported" size="small" sx={{ bgcolor: "rgba(76, 175, 80, 0.1)", color: "#4caf50", fontWeight: 600 }} />
-                <Chip label="0 Confirmed" size="small" sx={{ bgcolor: "rgba(255, 152, 0, 0.1)", color: "#ff9800", fontWeight: 600 }} />
-                <Chip label="0 Resolved" size="small" sx={{ bgcolor: "rgba(33, 150, 243, 0.1)", color: "#2196f3", fontWeight: 600 }} />
+              {(cacheStats.fpCount + cacheStats.auditFPCount) > 0 ? (
+                <Typography variant="body2" sx={{ color: "#64748b", mb: 1.5 }}>
+                  {cacheStats.fpCount + cacheStats.auditFPCount} items flagged as false positives across {cacheStats.analyzedRules} analyzed rules.
+                </Typography>
+              ) : (
+                <Typography variant="body2" sx={{ color: "#94a3b8", fontStyle: "italic", mb: 1.5 }}>
+                  No false positives tracked yet. Flag issues when analyzing examples.
+                </Typography>
+              )}
+              <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+                <Chip label={`${cacheStats.fpCount} Example FPs`} size="small" sx={{ bgcolor: "rgba(255, 152, 0, 0.1)", color: "#ff9800", fontWeight: 600 }} />
+                <Chip label={`${cacheStats.auditFPCount} Audit Issue FPs`} size="small" sx={{ bgcolor: "rgba(233, 30, 99, 0.1)", color: "#e91e63", fontWeight: 600 }} />
+                {cacheStats.contrastFails > 0 && (
+                  <Chip label={`${cacheStats.contrastFails} Contrast Failures`} size="small" sx={{ bgcolor: "rgba(244, 67, 54, 0.08)", color: "#f44336", fontWeight: 600 }} />
+                )}
               </Box>
             </Paper>
           </Fade>
@@ -416,11 +557,32 @@ export default function Home({ title }) {
                 </Typography>
               </Box>
               <Typography variant="body2" sx={{ color: "#64748b", mb: 1.5 }}>
-                Rules without atomic test fixtures or that have never been tested.
+                {unanalyzedRules.length} rules have not been analyzed yet.
               </Typography>
-              <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-                <Chip label="3 engine rules without fixtures" size="small" sx={{ bgcolor: "rgba(244, 67, 54, 0.08)", color: "#f44336", fontWeight: 500 }} />
-                <Chip label="90 legacy rules untested" size="small" sx={{ bgcolor: "rgba(255, 152, 0, 0.08)", color: "#ff9800", fontWeight: 500 }} />
+              <Box sx={{ display: "flex", gap: 0.75, flexWrap: "wrap", maxHeight: 120, overflow: "auto" }}>
+                {unanalyzedRules.slice(0, 12).map((r) => (
+                  <Chip
+                    key={r.id}
+                    label={r.title || r.id}
+                    size="small"
+                    onClick={() => navigate(`/engine/${r.id}`)}
+                    sx={{
+                      cursor: "pointer",
+                      bgcolor: "rgba(244, 67, 54, 0.06)",
+                      color: "#f44336",
+                      fontWeight: 500,
+                      fontSize: "0.7rem",
+                      "&:hover": { bgcolor: "rgba(244, 67, 54, 0.12)" },
+                    }}
+                  />
+                ))}
+                {unanalyzedRules.length > 12 && (
+                  <Chip
+                    label={`+${unanalyzedRules.length - 12} more`}
+                    size="small"
+                    sx={{ bgcolor: "rgba(148, 163, 184, 0.1)", color: "#94a3b8", fontWeight: 500, fontSize: "0.7rem" }}
+                  />
+                )}
               </Box>
             </Paper>
           </Fade>

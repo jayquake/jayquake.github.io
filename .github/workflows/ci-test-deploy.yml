@@ -282,6 +282,7 @@ jobs:
           fi
         env:
           CI: true
+          REACT_APP_STATIC_ONLY: 'true'
 
       - name: Checkout gh-pages branch
         uses: actions/checkout@v4

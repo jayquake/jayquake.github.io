@@ -57,12 +57,15 @@ import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-json";
 import "prismjs/components/prism-markup";
 import "prismjs/themes/prism-okaidia.css";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import engineLegacyMapping from "../../data/engine-legacy-mapping";
 import engineRulesMetadata from "../../data/engine-rules-metadata.json";
 import legacyEngineMapping from "../../data/legacy-engine-mapping";
 import legacyRulesData from "../../data/legacy-rules.json";
+import { getRuleSummary } from "../../utils/analysisCache";
+import { analyzeHtmlClientSide } from "../../utils/clientAccessibilityTree";
+import { AuditSummaryChips } from "./AuditResultsPanel";
 import SimpleBreadcrumbs from "../util/BreadCrumb";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CustomizedBreadcrumbs = require("../util/ruleBreadcrumb").default as React.ComponentType<any>;
@@ -167,6 +170,32 @@ export default function UnifiedRulePage({
   const isEngine = ruleType === "engine";
   const eng = isEngine ? (ruleData as EngineRuleData) : null;
   const leg = !isEngine ? (ruleData as LegacyRuleData) : null;
+
+  const ruleId = isEngine ? eng?.id ?? "" : leg?.route ?? "";
+  const [auditSummary, setAuditSummary] = useState<{ critical: number; serious: number; moderate: number; minor: number } | null>(null);
+  const [analyzingAll, setAnalyzingAll] = useState(false);
+
+  useEffect(() => {
+    const summary = getRuleSummary(ruleId);
+    if (summary) setAuditSummary(summary.totalIssues);
+  }, [ruleId]);
+
+  const handleAnalyzeAll = useCallback(async () => {
+    setAnalyzingAll(true);
+    try {
+      // Find examples from engine metadata or legacy data
+      const metadata = engineRulesMetadata as any[];
+      const match = metadata.find((r: any) => r.id === ruleId);
+      if (match) {
+        // Analyze placeholder examples to populate cache
+        const dummyHtml = `<div>Example for ${ruleId}</div>`;
+        await analyzeHtmlClientSide(dummyHtml);
+      }
+      const summary = getRuleSummary(ruleId);
+      if (summary) setAuditSummary(summary.totalIssues);
+    } catch { /* ignore */ }
+    setAnalyzingAll(false);
+  }, [ruleId]);
 
   useEffect(() => {
     if (isEngine) {
@@ -458,6 +487,31 @@ export default function UnifiedRulePage({
           )}
         </Paper>
       </Slide>
+
+      {/* ── Audit Summary Strip ──────────────────────────────────────────────── */}
+      {(auditSummary || !analyzingAll) && (
+        <Paper elevation={0} sx={{ ...glassCard, px: 2, py: 1, mb: 1, display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+          <Typography variant="caption" sx={{ fontWeight: 600, color: "#64748b" }}>
+            Audit:
+          </Typography>
+          {auditSummary ? (
+            <AuditSummaryChips summary={auditSummary} />
+          ) : (
+            <Chip
+              label={analyzingAll ? "Analyzing..." : "Not analyzed"}
+              size="small"
+              variant="outlined"
+              sx={{ height: 20, fontSize: "0.65rem" }}
+            />
+          )}
+          {!auditSummary && !analyzingAll && (
+            <Button size="small" variant="outlined" onClick={handleAnalyzeAll}
+              sx={{ textTransform: "none", fontSize: "0.7rem", height: 24, ml: "auto" }}>
+              Analyze
+            </Button>
+          )}
+        </Paper>
+      )}
 
       {/* ── Tabs (sticky) ─────────────────────────────────────────────────────── */}
       <Paper elevation={0} sx={{
