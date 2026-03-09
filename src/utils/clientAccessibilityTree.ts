@@ -231,7 +231,7 @@ function cssPath(el: Element): string {
       parts.unshift(selector);
       break;
     }
-    const parent = current.parentElement;
+    const parent: Element | null = current.parentElement;
     if (parent) {
       const siblings = Array.from(parent.children).filter(
         c => c.tagName === current!.tagName

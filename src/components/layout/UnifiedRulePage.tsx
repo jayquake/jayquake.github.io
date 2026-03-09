@@ -171,7 +171,7 @@ export default function UnifiedRulePage({
   const eng = isEngine ? (ruleData as EngineRuleData) : null;
   const leg = !isEngine ? (ruleData as LegacyRuleData) : null;
 
-  const ruleId = isEngine ? eng?.id ?? "" : leg?.route ?? "";
+  const ruleId = isEngine ? eng?.id ?? "" : leg?.shortCode || leg?.route || "";
   const [auditSummary, setAuditSummary] = useState<{ critical: number; serious: number; moderate: number; minor: number } | null>(null);
   const [analyzingAll, setAnalyzingAll] = useState(false);
 
@@ -253,7 +253,6 @@ export default function UnifiedRulePage({
   const severity = isEngine ? eng!.impact : leg!.severity;
   const severityColors = getSeverityColor(severity);
   const title = isEngine ? eng!.title : leg!.name;
-  const ruleId = isEngine ? eng!.id : leg!.shortCode || leg!.route;
   const description = isEngine ? eng!.description : leg!.issueDescription || leg!.shortDescription || "";
   const wcagRefs: WcagRef[] = isEngine
     ? (eng!.refs?.filter((r) => r.type === "WCAG") ?? [])
