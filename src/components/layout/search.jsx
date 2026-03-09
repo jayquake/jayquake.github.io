@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import engineRulesData from "../../data/engine-rules-metadata.json";
 import { getAllCachedResults } from "../../utils/analysisCache";
@@ -88,6 +88,18 @@ function AuditBadge({ ruleId }) {
 const SearchComponent = ({ data }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
+  const containerRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Combine legacy rules and engine rules
   const combinedData = useMemo(() => {
@@ -127,8 +139,13 @@ const SearchComponent = ({ data }) => {
     setShowDropdown(false);
   };
 
+  const handleSelectResult = () => {
+    setSearchQuery("");
+    setShowDropdown(false);
+  };
+
   return (
-    <Box sx={{ position: "relative", width: "100%" }}>
+    <Box ref={containerRef} sx={{ position: "relative", width: "100%" }}>
       <StyledSearchBar>
         <SearchIcon color="action" />
         <StyledInputBase
@@ -166,6 +183,7 @@ const SearchComponent = ({ data }) => {
                     }
                     component={Link}
                     to={item.route}
+                    onClick={handleSelectResult}
                     button
                     sx={{
                       borderLeft:
