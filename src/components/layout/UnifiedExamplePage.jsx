@@ -189,7 +189,7 @@ export default function UnifiedExamplePage({
             icon={action.icon}
             tooltipTitle={action.name}
             onClick={action.action}
-            tooltipOpen
+            tooltipOpen={!isMobile}
           />
         ))}
       </SpeedDial>
@@ -201,7 +201,7 @@ export default function UnifiedExamplePage({
             <CustomizedBreadcrumbs />
             <Divider sx={{ my: { xs: 1.5, md: 2 } }} />
 
-            <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1 }}>
+            <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1, flexWrap: "wrap", gap: 0.5 }}>
               {title && (
                 <Typography
                   variant={isMobile ? "h5" : "h4"}

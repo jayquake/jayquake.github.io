@@ -31,7 +31,7 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@acsbe/accessflow-sdk": "file:nodeSDK/acsbe-accessflow-sdk-1.0.1 .tgz",
+    "@acsbe/accessflow-sdk": "file:nodeSDK/acsbe-accessflow-sdk.tgz",
     "@playwright/test": "^1.56.1",
     "@types/prismjs": "^1.26.6",
     "@types/react": "^19.2.14",

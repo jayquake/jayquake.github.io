@@ -317,7 +317,7 @@ export default function ExampleCard({
           </Stack>
 
           {/* Action buttons */}
-          <Stack direction="row" spacing={0.5}>
+          <Stack direction="row" spacing={0.5} sx={{ flexWrap: "wrap", gap: 0.5 }}>
             <Tooltip title={showCode ? "Show rendered" : "Show code"}>
               <IconButton
                 size="small"

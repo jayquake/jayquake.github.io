@@ -359,7 +359,7 @@ export default function UnifiedRulePage({
         icon={<SpeedDialIcon />}
       >
         {speedDialActions.map((a) => (
-          <SpeedDialAction key={a.name} icon={a.icon} tooltipTitle={a.name} onClick={a.action} tooltipOpen />
+          <SpeedDialAction key={a.name} icon={a.icon} tooltipTitle={a.name} onClick={a.action} tooltipOpen={!isMobile} />
         ))}
       </SpeedDial>
 
@@ -375,7 +375,7 @@ export default function UnifiedRulePage({
           <Divider sx={{ my: { xs: 1.5, md: 2 } }} />
 
           {/* Title row with type chip */}
-          <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1 }}>
+          <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1, flexWrap: "wrap", gap: 0.5 }}>
             <Tooltip title={isEngine
               ? "Automated validation rule from the audit engine"
               : "Guidance for manual and automated accessibility testing"}>

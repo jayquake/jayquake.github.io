@@ -2,7 +2,7 @@ import { AccessFlowSDK } from "@acsbe/accessflow-sdk";
 
 import { expect, test } from "@playwright/test";
 // Initialize AccessFlow SDK with API key from environment variable or fallback
-AccessFlowSDK.init({ apiKey: process.env.AF_NODE_PACKAGE_KEY || process.env.AF_Node_Package_Key || "flow-1fTWLuAYJNS4eaa2lQg000i0M6IpSO6ZAW" });
+AccessFlowSDK.init({ apiKey: process.env.AF_NODE_PACKAGE_KEY || process.env.AF_Node_Package_Key || "flow-1TmAHDBGjDGX4aadlA0000VdvvxVnhZfP2" });
 
 test.describe("Search Component Testing with AccessFlow SDK", () => {
   test.beforeEach(async ({ page }) => {

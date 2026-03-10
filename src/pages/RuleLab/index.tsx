@@ -8,10 +8,15 @@ import Chip from '@mui/material/Chip';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import CircularProgress from '@mui/material/CircularProgress';
+import Drawer from '@mui/material/Drawer';
+import Fab from '@mui/material/Fab';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 import ScienceIcon from '@mui/icons-material/Science';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import InfoIcon from '@mui/icons-material/Info';
+import ListIcon from '@mui/icons-material/List';
 
 import { api } from '../../api/client';
 import { isStaticDeployment } from '../../utils/environment';
@@ -42,11 +47,14 @@ function loadStaticRules(): { engineRules: RuleInfo[]; legacyRules: RuleInfo[] }
 
 export default function RuleLab() {
   const [searchParams] = useSearchParams();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const initialRuleId = searchParams.get('ruleId') || searchParams.get('rule');
   const initialRuleType = searchParams.get('type') as 'engine' | 'legacy' | null;
   const initialHtmlParam = searchParams.get('html');
   const initialExampleType = searchParams.get('exampleType') || undefined;
   const staticMode = isStaticDeployment();
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const initialHtml = React.useMemo(() => {
     if (!initialHtmlParam) return undefined;
@@ -187,11 +195,12 @@ export default function RuleLab() {
     setSelectedRule(rule);
     setSelectedRuleType(type);
     setActiveTab(0);
-  }, []);
+    if (isMobile) setDrawerOpen(false);
+  }, [isMobile]);
 
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'calc(100vh - 64px)' }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: isMobile ? 'calc(100vh - 128px)' : 'calc(100vh - 64px)' }}>
         <CircularProgress />
       </Box>
     );
@@ -199,32 +208,57 @@ export default function RuleLab() {
 
   if (error) {
     return (
-      <Box sx={{ p: 3 }}>
+      <Box sx={{ p: { xs: 2, md: 3 } }}>
         <Alert severity="error">{error}</Alert>
       </Box>
     );
   }
 
-  return (
-    <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)', overflow: 'hidden' }}>
-      <Box
-        sx={{
-          width: 300,
-          minWidth: 300,
-          borderRight: 1,
-          borderColor: 'divider',
-          overflow: 'auto',
-        }}
-      >
-        <RulePicker
-          engineRules={rules.engineRules}
-          legacyRules={rules.legacyRules}
-          selectedRule={selectedRule}
-          onSelect={handleSelectRule}
-        />
-      </Box>
+  const rulePickerContent = (
+    <RulePicker
+      engineRules={rules.engineRules}
+      legacyRules={rules.legacyRules}
+      selectedRule={selectedRule}
+      onSelect={handleSelectRule}
+    />
+  );
 
-      <Box sx={{ flex: 1, overflow: 'auto', p: 3 }}>
+  return (
+    <Box sx={{ display: 'flex', height: isMobile ? 'calc(100vh - 128px)' : 'calc(100vh - 64px)', overflow: 'hidden' }}>
+      {/* Desktop: fixed sidebar */}
+      {!isMobile && (
+        <Box
+          sx={{
+            width: 300,
+            minWidth: 300,
+            borderRight: 1,
+            borderColor: 'divider',
+            overflow: 'auto',
+          }}
+        >
+          {rulePickerContent}
+        </Box>
+      )}
+
+      {/* Mobile: temporary drawer */}
+      {isMobile && (
+        <Drawer
+          variant="temporary"
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          ModalProps={{ keepMounted: true }}
+          sx={{
+            '& .MuiDrawer-paper': {
+              width: 300,
+              maxWidth: '85vw',
+            },
+          }}
+        >
+          {rulePickerContent}
+        </Drawer>
+      )}
+
+      <Box sx={{ flex: 1, overflow: 'auto', p: { xs: 1.5, sm: 2, md: 3 } }}>
         {staticMode && (
           <Alert severity="info" icon={<InfoIcon />} sx={{ mb: 2 }}>
             <AlertTitle>Static Mode</AlertTitle>
@@ -232,13 +266,14 @@ export default function RuleLab() {
           </Alert>
         )}
         {!selectedRule ? (
-          <EmptyState ruleCount={rules.engineRules.length + rules.legacyRules.length} />
+          <EmptyState ruleCount={rules.engineRules.length + rules.legacyRules.length} isMobile={isMobile} onOpenPicker={() => setDrawerOpen(true)} />
         ) : (
           <>
-            <RuleHeader rule={selectedRule} ruleType={selectedRuleType} mcpHealthy={mcpHealthy} staticMode={staticMode} />
+            <RuleHeader rule={selectedRule} ruleType={selectedRuleType} mcpHealthy={mcpHealthy} staticMode={staticMode} isMobile={isMobile} />
             <Tabs
               value={activeTab}
               onChange={(_, v) => setActiveTab(v)}
+              variant={isMobile ? 'fullWidth' : 'standard'}
               sx={{ mb: 2, borderBottom: 1, borderColor: 'divider' }}
             >
               <Tab label="Example Analysis" />
@@ -258,11 +293,29 @@ export default function RuleLab() {
           </>
         )}
       </Box>
+
+      {/* Mobile FAB to open rule picker */}
+      {isMobile && (
+        <Fab
+          color="primary"
+          onClick={() => setDrawerOpen(true)}
+          sx={{
+            position: 'fixed',
+            bottom: 80,
+            right: 16,
+            zIndex: (t) => t.zIndex.drawer - 1,
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          }}
+          aria-label="Open rule picker"
+        >
+          <ListIcon />
+        </Fab>
+      )}
     </Box>
   );
 }
 
-function EmptyState({ ruleCount }: { ruleCount: number }) {
+function EmptyState({ ruleCount, isMobile, onOpenPicker }: { ruleCount: number; isMobile?: boolean; onOpenPicker?: () => void }) {
   return (
     <Box
       sx={{
@@ -273,18 +326,34 @@ function EmptyState({ ruleCount }: { ruleCount: number }) {
         height: '100%',
         color: 'text.secondary',
         gap: 2,
+        px: 2,
       }}
     >
-      <ScienceIcon sx={{ fontSize: 64, opacity: 0.3 }} />
-      <Typography variant="h5" color="text.secondary">
+      <ScienceIcon sx={{ fontSize: { xs: 48, md: 64 }, opacity: 0.3 }} />
+      <Typography variant={isMobile ? 'h6' : 'h5'} color="text.secondary">
         Rule Lab
       </Typography>
       <Typography variant="body2" color="text.secondary" textAlign="center" maxWidth={400}>
-        Select a rule from the sidebar to analyze its examples, explore accessibility tree data, and discover
-        real-world instances across curated sites.
+        {isMobile
+          ? 'Tap the button below to pick a rule and start analyzing.'
+          : 'Select a rule from the sidebar to analyze its examples, explore accessibility tree data, and discover real-world instances across curated sites.'}
       </Typography>
       {ruleCount > 0 && (
         <Chip label={`${ruleCount} rules available`} size="small" variant="outlined" />
+      )}
+      {isMobile && onOpenPicker && (
+        <Fab
+          variant="extended"
+          color="primary"
+          onClick={onOpenPicker}
+          sx={{
+            mt: 1,
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          }}
+        >
+          <ListIcon sx={{ mr: 1 }} />
+          Pick a Rule
+        </Fab>
       )}
     </Box>
   );
@@ -295,16 +364,18 @@ function RuleHeader({
   ruleType,
   mcpHealthy,
   staticMode,
+  isMobile,
 }: {
   rule: RuleInfo;
   ruleType: string;
   mcpHealthy: boolean | null;
   staticMode?: boolean;
+  isMobile?: boolean;
 }) {
   return (
     <Box sx={{ mb: 2 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1, flexWrap: 'wrap' }}>
-        <Typography variant="h5" sx={{ fontWeight: 600 }}>
+      <Box sx={{ display: 'flex', alignItems: isMobile ? 'flex-start' : 'center', gap: 1, mb: 1, flexWrap: 'wrap' }}>
+        <Typography variant={isMobile ? 'h6' : 'h5'} sx={{ fontWeight: 600, width: isMobile ? '100%' : 'auto' }}>
           {rule.name}
         </Typography>
         <Chip label={rule.id} size="small" variant="outlined" sx={{ fontFamily: 'monospace', fontSize: '0.75rem' }} />
@@ -324,7 +395,7 @@ function RuleHeader({
             }
           />
         )}
-        <Box sx={{ flex: 1 }} />
+        {!isMobile && <Box sx={{ flex: 1 }} />}
         {staticMode ? (
           <Chip
             icon={<ScienceIcon />}
@@ -344,7 +415,7 @@ function RuleHeader({
         ) : null}
       </Box>
       {rule.description && (
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.8rem', md: '0.875rem' } }}>
           {rule.description}
         </Typography>
       )}

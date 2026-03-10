@@ -299,7 +299,7 @@ export function ExampleAnalysisPanel({ ruleId, ruleType, initialHtml, initialExa
 
       <Divider sx={{ my: 3 }} />
 
-      <Paper id="custom-html-section" variant="outlined" sx={{ p: 2 }}>
+      <Paper id="custom-html-section" variant="outlined" sx={{ p: { xs: 1.5, sm: 2 } }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
           <AddIcon fontSize="small" color="primary" />
           <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
@@ -312,14 +312,14 @@ export function ExampleAnalysisPanel({ ruleId, ruleType, initialHtml, initialExa
             <TextField
               fullWidth
               multiline
-              minRows={4}
+              minRows={3}
               maxRows={12}
               placeholder={'<button aria-label="Submit">Submit</button>'}
               value={customHtml}
               onChange={(e) => setCustomHtml(e.target.value)}
               sx={{
                 mb: 1,
-                '& .MuiInputBase-input': { fontFamily: 'monospace', fontSize: '0.85rem' },
+                '& .MuiInputBase-input': { fontFamily: 'monospace', fontSize: { xs: '0.8rem', md: '0.85rem' } },
               }}
             />
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>

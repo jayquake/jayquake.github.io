@@ -222,7 +222,7 @@ export function DiscoveryPanel({ ruleId, ruleType }: DiscoveryPanelProps) {
 
       {/* Sites section */}
       <Paper variant="outlined" sx={{ p: 2, mb: 2 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: { xs: 'flex-start', sm: 'center' }, justifyContent: 'space-between', mb: 2, flexWrap: 'wrap', gap: 1 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <LanguageIcon fontSize="small" color="primary" />
             <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
@@ -342,9 +342,10 @@ export function DiscoveryPanel({ ruleId, ruleType }: DiscoveryPanelProps) {
                   display: 'flex',
                   alignItems: 'center',
                   gap: 1,
-                  px: 1.5,
+                  px: { xs: 0.5, sm: 1.5 },
                   py: 0.75,
                   borderRadius: 1,
+                  flexWrap: 'wrap',
                   '&:hover': { bgcolor: 'action.hover' },
                 }}
               >
@@ -359,14 +360,14 @@ export function DiscoveryPanel({ ruleId, ruleType }: DiscoveryPanelProps) {
                   label=""
                   sx={{ m: 0, mr: 0.5 }}
                 />
-                <Typography variant="body2" sx={{ fontWeight: 500, minWidth: 120 }}>
+                <Typography variant="body2" sx={{ fontWeight: 500, minWidth: { xs: 80, sm: 120 } }}>
                   {site.name}
                 </Typography>
                 <Typography
                   variant="caption"
                   color="text.secondary"
                   noWrap
-                  sx={{ flex: 1, fontFamily: 'monospace' }}
+                  sx={{ flex: 1, fontFamily: 'monospace', minWidth: 0, display: { xs: 'none', sm: 'block' } }}
                 >
                   {site.url}
                 </Typography>
@@ -395,7 +396,7 @@ export function DiscoveryPanel({ ruleId, ruleType }: DiscoveryPanelProps) {
             {discoveryResults.map((dr, drIdx) => (
               <Card key={drIdx} variant="outlined">
                 <CardContent sx={{ pb: '16px !important' }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5, flexWrap: 'wrap' }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
                       {dr.siteName}
                     </Typography>
@@ -406,7 +407,7 @@ export function DiscoveryPanel({ ruleId, ruleType }: DiscoveryPanelProps) {
                       rel="noopener noreferrer"
                       variant="caption"
                       color="primary"
-                      sx={{ display: 'flex', alignItems: 'center', gap: 0.25, textDecoration: 'none' }}
+                      sx={{ display: 'flex', alignItems: 'center', gap: 0.25, textDecoration: 'none', wordBreak: 'break-all', minWidth: 0 }}
                     >
                       {dr.siteUrl} <OpenInNewIcon sx={{ fontSize: 12 }} />
                     </Typography>
