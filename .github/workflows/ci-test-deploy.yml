@@ -18,11 +18,70 @@ permissions:
   id-token: write
 
 jobs:
+  # # =====================================================================
+  # # JS Lane — Playwright + AccessFlow Node SDK (DISABLED)
+  # # Switched to Selenium lane below.
+  # # =====================================================================
+  # test-js:
+  #   name: JS Lane — Playwright Tests
+  #   runs-on: ubuntu-latest
+  #
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #
+  #     - name: Setup Node.js 20.x
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: '20.x'
+  #         cache: 'npm'
+  #
+  #     - name: Install dependencies
+  #       run: npm ci --legacy-peer-deps
+  #
+  #     - name: Install Playwright Browsers
+  #       run: npx playwright install --with-deps chromium
+  #
+  #     - name: Build application
+  #       run: npm run build
+  #       env:
+  #         CI: true
+  #
+  #     - name: Run JS Playwright Tests
+  #       run: cd test-suite && npx playwright test
+  #       env:
+  #         CI: true
+  #         AF_NODE_PACKAGE_KEY: ${{ secrets.AF_NODE_PACKAGE_KEY }}
+  #
+  #     - name: Upload Playwright Report
+  #       uses: actions/upload-artifact@v4
+  #       if: always()
+  #       with:
+  #         name: js-playwright-report
+  #         path: test-suite/playwright-report/
+  #         retention-days: 30
+  #
+  #     - name: Upload Test Results
+  #       uses: actions/upload-artifact@v4
+  #       if: always()
+  #       with:
+  #         name: js-test-results
+  #         path: test-suite/test-results/
+  #         retention-days: 30
+  #
+  #     - name: Upload Build Artifacts
+  #       if: success()
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: build-artifacts
+  #         path: build/
+  #         retention-days: 7
+
   # =====================================================================
-  # JS Lane — Playwright + AccessFlow Node SDK
+  # JS Lane — Selenium + AccessFlow Node SDK
   # =====================================================================
-  test-js:
-    name: JS Lane — Playwright Tests
+  test-js-selenium:
+    name: JS Lane — Selenium Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -38,34 +97,43 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
+      - name: Install Chrome & ChromeDriver
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
 
       - name: Build application
         run: npm run build
         env:
           CI: true
 
-      - name: Run JS Playwright Tests
-        run: npm run test:e2e
+      - name: Start application server
+        run: npx serve -s build -l 3000 &
         env:
           CI: true
+
+      - name: Wait for application
+        run: |
+          for i in $(seq 1 60); do
+            curl -sf http://localhost:3000 > /dev/null 2>&1 && echo "App ready!" && exit 0
+            sleep 1
+          done
+          echo "App did not start within 60 s" && exit 1
+
+      - name: Run JS Selenium Tests
+        run: cd selenium-test-suite && npx jest --config jest.config.js --forceExit
+        env:
+          CI: true
+          HEADLESS: true
+          BASE_URL: http://localhost:3000
           AF_NODE_PACKAGE_KEY: ${{ secrets.AF_NODE_PACKAGE_KEY }}
 
-      - name: Upload Playwright Report
+      - name: Upload Selenium Test Results
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: js-playwright-report
-          path: test-suite/playwright-report/
-          retention-days: 30
-
-      - name: Upload Test Results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: js-test-results
-          path: test-suite/test-results/
+          name: js-selenium-test-results
+          path: selenium-test-suite/test-results/
           retention-days: 30
 
       - name: Upload Build Artifacts
@@ -354,10 +422,10 @@ jobs:
     if: always()
 
     steps:
-      - name: Download JS Test Results
+      - name: Download JS Selenium Test Results
         uses: actions/download-artifact@v4
         with:
-          name: js-test-results
+          name: js-selenium-test-results
           path: js-results
         continue-on-error: true
 
@@ -431,8 +499,7 @@ jobs:
 
           # ========== Test Artifacts ==========
           echo "### 📂 Test Artifacts Available" >> $GITHUB_STEP_SUMMARY
-          echo "- 📦 \`js-playwright-report\` - Detailed JS Playwright HTML report" >> $GITHUB_STEP_SUMMARY
-          echo "- 📦 \`js-test-results\` - JS test data + AccessFlow reports" >> $GITHUB_STEP_SUMMARY
+          echo "- 📦 \`js-selenium-test-results\` - JS Selenium test data + AccessFlow reports" >> $GITHUB_STEP_SUMMARY
           echo "- 📦 \`python-test-results\` - Python test data + AccessFlow reports" >> $GITHUB_STEP_SUMMARY
           echo "- 📦 \`java-test-results\` - Java test data + AccessFlow reports" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
