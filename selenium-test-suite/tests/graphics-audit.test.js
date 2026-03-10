@@ -33,24 +33,52 @@ describe('Graphics Audit Tests with SDK', () => {
 
   test('should perform audits across multiple states on background images page', async () => {
     const auditResults = [];
-    const sdk = new AccessFlowSDK(new SeleniumDriver(driver));
-
-    const performAudit = async (context, retryIfNull = false) => {
+    const performAudit = async (context, options = {}) => {
+      const { maxAttempts = 1, waitBetweenAttemptsMs = 2000 } = options;
       console.log(`Starting audit for context: ${context}`);
-      let report = await sdk.audit();
-      if (retryIfNull && !report) {
-        for (let attempt = 1; attempt <= 2 && !report; attempt++) {
-          await driver.sleep(2000);
-          report = await sdk.audit();
+      let report = null;
+
+      for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+        const sdk = new AccessFlowSDK(new SeleniumDriver(driver));
+        report = await sdk.audit();
+        if (report) break;
+
+        if (attempt < maxAttempts) {
+          console.log(
+            `Audit returned no report for ${context} (attempt ${attempt}/${maxAttempts}), retrying...`,
+          );
+          await driver.sleep(waitBetweenAttemptsMs);
         }
       }
+
       auditResults.push({ context, report });
       if (!report) {
         console.log(`Audit completed for ${context} (no report after retries)`);
         return;
       }
+
       expect(report).toBeTruthy();
       console.log(`Audit completed for ${context}`);
+    };
+
+    const performSuccessPageAudit = async () => {
+      await performAudit('Success Page', {
+        maxAttempts: 4,
+        waitBetweenAttemptsMs: 2500,
+      });
+
+      if (!auditResults[auditResults.length - 1]?.report) {
+        // If the first pass still returns null, wait for page stability and retry once more.
+        await driver.wait(
+          until.elementLocated(By.css('main, [role="main"], h1, h2')),
+          10000,
+        );
+        await driver.sleep(1200);
+        await performAudit('Success Page (stability retry)', {
+          maxAttempts: 2,
+          waitBetweenAttemptsMs: 3000,
+        });
+      }
     };
 
     // Navigate to failure page
@@ -117,7 +145,7 @@ describe('Graphics Audit Tests with SDK', () => {
     );
     await driver.sleep(800);
 
-    await performAudit('Success Page', true);
+    await performSuccessPageAudit();
 
     // Verification — require at least 2 successful audits (Success Page can be flaky)
     console.log('Total audits performed:', auditResults.length);

@@ -17,7 +17,12 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LanguageIcon from '@mui/icons-material/Language';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import { useState } from 'react';
+
+import { api } from '../../../api/client';
+
+const getBasename = (p: string) => p.replace(/^.*[/\\]/, '');
 
 const SEVERITY_COLORS: Record<string, string> = {
   extreme: '#d32f2f',
@@ -38,6 +43,7 @@ type SdkAuditReport = {
   highCount: number;
   lowCount: number;
   mediumCount: number;
+  rawAuditPaths?: string[];
   sdkType: string;
   summaryData: {
     pages?: Record<string, {
@@ -59,6 +65,7 @@ type SdkAuditReport = {
 
 interface SdkAuditTabProps {
   report: SdkAuditReport;
+  runId: string | undefined;
 }
 
 function SeverityChip({ count, severity }: { count: number; severity: string }) {
@@ -77,11 +84,29 @@ function SeverityChip({ count, severity }: { count: number; severity: string }) 
   );
 }
 
-export function SdkAuditTab({ report }: SdkAuditTabProps) {
+export function SdkAuditTab({ report, runId }: SdkAuditTabProps) {
   const [expandedPage, setExpandedPage] = useState<string | false>(false);
+  const [rawFileContent, setRawFileContent] = useState<{ filename: string; lines: any[] } | null>(null);
+  const [rawFileLoading, setRawFileLoading] = useState<string | null>(null);
 
   const pages = report.summaryData?.pages || {};
   const pageEntries = Object.entries(pages);
+  const rawPaths = report.rawAuditPaths || [];
+  const rawFilenames = rawPaths.map(getBasename);
+
+  const handleViewRawFile = async (filename: string) => {
+    if (!runId) return;
+    setRawFileLoading(filename);
+    setRawFileContent(null);
+    try {
+      const data = await api.runs.getSdkAuditRawFile(runId, filename);
+      setRawFileContent({ filename: data.filename, lines: data.lines });
+    } catch {
+      setRawFileContent({ filename, lines: [] });
+    } finally {
+      setRawFileLoading(null);
+    }
+  };
 
   return (
     <Stack spacing={2.5}>
@@ -138,6 +163,80 @@ export function SdkAuditTab({ report }: SdkAuditTabProps) {
           variant="outlined"
         />
       </Stack>
+
+      {/* Raw audit files */}
+      {runId && rawFilenames.length > 0 && (
+        <Paper sx={{ p: 2 }} variant="outlined">
+          <Typography fontWeight={600} sx={{ mb: 1.5 }} variant="subtitle2">
+            Raw audit files (JSONL)
+          </Typography>
+          <Stack spacing={1}>
+            {rawFilenames.map((filename) => (
+              <Stack
+                alignItems="center"
+                direction="row"
+                key={filename}
+                spacing={1}
+              >
+                <InsertDriveFileIcon sx={{ color: 'text.secondary', fontSize: 20 }} />
+                <Typography sx={{ fontFamily: 'monospace', fontSize: '0.85rem' }} variant="body2">
+                  {filename}
+                </Typography>
+                <Chip
+                  clickable
+                  disabled={rawFileLoading === filename}
+                  label={rawFileLoading === filename ? 'Loading…' : 'View'}
+                  onClick={() => handleViewRawFile(filename)}
+                  size="small"
+                  variant="outlined"
+                />
+              </Stack>
+            ))}
+            {rawFileContent && (
+              <Box
+                sx={{
+                  bgcolor: 'grey.50',
+                  border: '1px solid',
+                  borderColor: 'divider',
+                  borderRadius: 1,
+                  maxHeight: 360,
+                  overflow: 'auto',
+                  p: 1.5,
+                  mt: 1,
+                }}
+              >
+                <Typography fontWeight={600} sx={{ mb: 1 }} variant="caption">
+                  {rawFileContent.filename} ({rawFileContent.lines.length} line
+                  {rawFileContent.lines.length !== 1 ? 's' : ''})
+                </Typography>
+                <Stack spacing={0.5}>
+                  {rawFileContent.lines.map((line, idx) => (
+                    <Paper
+                      key={idx}
+                      component="pre"
+                      sx={{
+                        fontSize: '0.7rem',
+                        m: 0,
+                        p: 1,
+                        whiteSpace: 'pre-wrap',
+                        wordBreak: 'break-all',
+                      }}
+                      variant="outlined"
+                    >
+                      {JSON.stringify(line)}
+                    </Paper>
+                  ))}
+                  {rawFileContent.lines.length === 0 && (
+                    <Typography color="text.secondary" variant="caption">
+                      No audit entries in this file
+                    </Typography>
+                  )}
+                </Stack>
+              </Box>
+            )}
+          </Stack>
+        </Paper>
+      )}
 
       {/* Per-page accordions */}
       {pageEntries.length === 0 ? (

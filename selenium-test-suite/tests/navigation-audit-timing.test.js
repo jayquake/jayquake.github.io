@@ -122,9 +122,9 @@ describe(`Navigation Timing Tests (SDK ${ENABLE_SDK_AUDIT ? 'ENABLED' : 'DISABLE
     console.log(`   Total: ${formatTime(pageMetrics.totalTime)}`);
   });
 
-  test('should measure navigation through legacy rule pages with timing', async () => {
-    jest.setTimeout(90000);
-
+  test(
+    'should measure navigation through legacy rule pages with timing',
+    async () => {
     const rulePages = [
       { name: 'Background Images', path: '/graphics/background-images_success' },
       { name: 'Form Labels', path: '/forms/form-labels_success' },
@@ -172,11 +172,13 @@ describe(`Navigation Timing Tests (SDK ${ENABLE_SDK_AUDIT ? 'ENABLED' : 'DISABLE
           `Total: ${formatTime(pageMetrics.totalTime)}`,
       );
     }
-  });
+    },
+    90000,
+  );
 
-  test('should measure navigation through engine rule pages with timing', async () => {
-    jest.setTimeout(90000);
-
+  test(
+    'should measure navigation through engine rule pages with timing',
+    async () => {
     const enginePages = [
       { name: 'Page Title', path: '/engine/page-title_success' },
       { name: 'Alt Misuse', path: '/engine/alt-misuse_success' },
@@ -224,11 +226,13 @@ describe(`Navigation Timing Tests (SDK ${ENABLE_SDK_AUDIT ? 'ENABLED' : 'DISABLE
           `Total: ${formatTime(pageMetrics.totalTime)}`,
       );
     }
-  });
+    },
+    90000,
+  );
 
-  test('should measure comprehensive navigation timing across key pages', async () => {
-    jest.setTimeout(120000);
-
+  test(
+    'should measure comprehensive navigation timing across key pages',
+    async () => {
     const allPages = [
       '/',
       '/rule-lab',
@@ -309,5 +313,7 @@ describe(`Navigation Timing Tests (SDK ${ENABLE_SDK_AUDIT ? 'ENABLED' : 'DISABLE
     console.log('='.repeat(60));
 
     expect(comprehensiveResults.pageCount).toBe(allPages.length);
-  });
+    },
+    120000,
+  );
 });

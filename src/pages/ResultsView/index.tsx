@@ -635,7 +635,7 @@ export default function ResultsView() {
                 )}
 
                 {activeTab === 'sdk-audit' && sdkAuditReport && (
-                  <SdkAuditTab report={sdkAuditReport} />
+                  <SdkAuditTab report={sdkAuditReport} runId={runId ?? undefined} />
                 )}
 
                 {activeTab === 'mcp' && testRunData && (

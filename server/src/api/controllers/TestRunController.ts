@@ -1,4 +1,6 @@
 import { type Request, type Response } from 'express';
+import { readFile } from 'fs/promises';
+import { basename } from 'path';
 
 import type { ProgressUpdate, TestRunConfig } from '../../../../shared/types';
 
@@ -598,6 +600,64 @@ export class TestRunController {
       });
     } catch (error: any) {
       console.error('[TestRunController] Error getting SDK audit:', error);
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  /**
+   * Serve raw audit JSONL file content for a run.
+   * Only allows filenames that are in the run's stored rawAuditPaths (by basename).
+   */
+  async getSdkAuditRawFile(req: Request, res: Response): Promise<void> {
+    try {
+      const { runId, filename } = req.params;
+      const prisma = DatabaseService.getInstance().getClient();
+
+      const testRun = await this.testRunRepository.findByRunId(runId);
+      if (!testRun) {
+        res.status(404).json({ error: 'Test run not found' });
+        return;
+      }
+
+      const auditReport = await prisma.sdkAuditReport.findUnique({
+        where: { testRunId: testRun.id },
+      });
+
+      if (!auditReport?.rawAuditPaths) {
+        res.status(404).json({ error: 'No raw audit files for this run' });
+        return;
+      }
+
+      const paths: string[] = JSON.parse(auditReport.rawAuditPaths);
+      const requestedBasename = basename(filename);
+      const filePath = paths.find((p) => basename(p) === requestedBasename);
+      if (!filePath) {
+        res.status(404).json({ error: 'Raw audit file not found' });
+        return;
+      }
+
+      const content = await readFile(filePath, 'utf-8');
+      const lines = content
+        .trim()
+        ? content
+            .trim()
+            .split('\n')
+            .filter(Boolean)
+            .map((line) => {
+              try {
+                return JSON.parse(line);
+              } catch {
+                return { _raw: line };
+              }
+            })
+        : [];
+      res.json({ content, filename: requestedBasename, lines });
+    } catch (error: any) {
+      if (error.code === 'ENOENT') {
+        res.status(404).json({ error: 'File not found' });
+        return;
+      }
+      console.error('[TestRunController] Error getting SDK audit raw file:', error);
       res.status(500).json({ error: error.message });
     }
   }

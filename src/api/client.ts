@@ -366,6 +366,10 @@ export const api = {
           totalPages: number;
         };
       }>(`/api/runs/${runId}/sdk-audit`),
+    getSdkAuditRawFile: (runId: string, filename: string) =>
+      fetchAPI<{ content: string; filename: string; lines: any[] }>(
+        `/api/runs/${runId}/sdk-audit/raw/${encodeURIComponent(filename)}`
+      ),
   },
   ruleLab: {
     listRules: () => fetchAPI<{ engineRules: any[]; legacyRules: any[]; total: number }>('/api/rules'),
