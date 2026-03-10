@@ -127,6 +127,7 @@ jobs:
           HEADLESS: true
           BASE_URL: http://localhost:3000
           AF_NODE_PACKAGE_KEY: ${{ secrets.AF_NODE_PACKAGE_KEY }}
+          ACCESSFLOW_SDK_API_KEY: ${{ secrets.ACCESSFLOW_SDK_API_KEY }}
 
       - name: Upload Selenium Test Results
         uses: actions/upload-artifact@v4

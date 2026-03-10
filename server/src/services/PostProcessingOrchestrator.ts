@@ -201,7 +201,7 @@ export class PostProcessingOrchestrator {
 
           console.log(`[PostProcessingOrchestrator] Step 6: Processing AccessFlow audit data (${sdkType})...`);
           const auditResult = await this.accessFlowAuditProcessor.process(
-            runId, sdkType, outputDir, testRun.stdout || undefined,
+            runId, sdkType, outputDir, testRun.stdout || undefined, testRun.startTime,
           );
 
           if (auditResult.success) {

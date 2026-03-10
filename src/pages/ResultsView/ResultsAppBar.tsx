@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography';
 import HomeIcon from '@mui/icons-material/Home';
 import HistoryIcon from '@mui/icons-material/History';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import SendIcon from '@mui/icons-material/Send';
 import type { Project } from '../../../shared/types';
 
@@ -23,7 +22,6 @@ interface ResultsAppBarProps {
   projectId?: string;
   projectName?: string;
   projects?: Project[];
-  reportUrl?: null | string;
   runId: string;
   runStatus: string;
   sendingToSlack?: boolean;
@@ -45,7 +43,6 @@ export default function ResultsAppBar({
   projectId,
   projectName,
   projects = [],
-  reportUrl,
   runId,
   runStatus,
   sendingToSlack = false,
@@ -129,20 +126,6 @@ export default function ResultsAppBar({
           >
             History
           </Button>
-
-          {reportUrl && (
-            <Button
-              component="a"
-              href={reportUrl}
-              rel="noopener noreferrer"
-              size="small"
-              startIcon={<OpenInNewIcon />}
-              target="_blank"
-              variant="contained"
-            >
-              View Report
-            </Button>
-          )}
         </Box>
       </Toolbar>
     </AppBar>

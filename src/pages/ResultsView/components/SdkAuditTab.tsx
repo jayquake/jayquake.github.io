@@ -16,8 +16,9 @@ import Typography from '@mui/material/Typography';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import LanguageIcon from '@mui/icons-material/Language';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import LanguageIcon from '@mui/icons-material/Language';
+import SecurityIcon from '@mui/icons-material/Security';
 import { useState } from 'react';
 
 import { api } from '../../../api/client';
@@ -64,7 +65,7 @@ type SdkAuditReport = {
 };
 
 interface SdkAuditTabProps {
-  report: SdkAuditReport;
+  report: SdkAuditReport | null;
   runId: string | undefined;
 }
 
@@ -88,6 +89,21 @@ export function SdkAuditTab({ report, runId }: SdkAuditTabProps) {
   const [expandedPage, setExpandedPage] = useState<string | false>(false);
   const [rawFileContent, setRawFileContent] = useState<{ filename: string; lines: any[] } | null>(null);
   const [rawFileLoading, setRawFileLoading] = useState<string | null>(null);
+
+  if (!report) {
+    return (
+      <Paper sx={{ p: 6, textAlign: 'center' }} variant="outlined">
+        <SecurityIcon sx={{ fontSize: 48, color: 'text.disabled', mb: 2 }} />
+        <Typography gutterBottom variant="h6">
+          No Audit Report Available
+        </Typography>
+        <Typography color="text.secondary" variant="body2">
+          The SDK audit report has not been generated for this test run.
+          Run tests with the AccessFlow SDK to generate audit data.
+        </Typography>
+      </Paper>
+    );
+  }
 
   const pages = report.summaryData?.pages || {};
   const pageEntries = Object.entries(pages);

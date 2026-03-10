@@ -3,7 +3,21 @@ import type { ProgressUpdate } from '../../shared/types';
 import { useEffect, useRef, useState } from 'react';
 
 const API_URL = process.env.REACT_APP_API_URL || '';
-const WS_URL = API_URL.replace(/^http/, 'ws');
+
+function resolveWsBaseUrl(): string {
+  if (API_URL) {
+    return API_URL.replace(/^http/, 'ws');
+  }
+  const { hostname, port, protocol } = window.location;
+  // In dev, the React dev-server runs on 3000 and its HMR WebSocket also
+  // lives at /ws — connect directly to the backend on 3001 to avoid the clash.
+  if (hostname === 'localhost' && port === '3000') {
+    return 'ws://localhost:3001';
+  }
+  return `${protocol === 'https:' ? 'wss' : 'ws'}://${hostname}${port ? `:${port}` : ''}`;
+}
+
+const WS_URL = resolveWsBaseUrl();
 
 export function useWebSocket(runId: null | string) {
   const [updates, setUpdates] = useState<ProgressUpdate[]>([]);

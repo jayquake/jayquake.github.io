@@ -2,10 +2,11 @@
  * AccessFlowAuditProcessor
  *
  * Finds and parses AccessFlow SDK audit summary files after a test run.
- * Handles Node, Python, and Java lanes with their respective file patterns.
+ * Falls back to building a summary from raw JSONL audit files when no
+ * pre-generated summary exists (e.g. Selenium runs).
  */
 
-import { existsSync, readdirSync } from 'fs';
+import { existsSync, readdirSync, statSync } from 'fs';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
 
@@ -36,12 +37,38 @@ const RAW_AUDIT_PATTERNS: Record<string, RegExp[]> = {
   python: [/^aflow-state-local-.*\.jsonl$/, /^accessFlow-raw-audits-.*\.jsonl$/],
 };
 
+/**
+ * Maps raw audit rule keys to human-readable metadata.
+ * Severity levels sourced from the AccessFlow SDK classification engine.
+ */
+const RULE_META: Record<string, { description: string; name: string; severity: string; wcagLink?: string }> = {
+  altText: { description: 'Images should have meaningful alt text', name: 'Alt Text', severity: 'extreme', wcagLink: 'https://www.w3.org/WAI/WCAG21/quickref/#non-text-content' },
+  ambiguousLinks: { description: 'Links should have unique, descriptive text', name: 'Ambiguous Links', severity: 'medium' },
+  ariaLabelMisuse: { description: 'ARIA labels should be correctly applied', name: 'ARIA Label Misuse', severity: 'high' },
+  backgroundImages: { description: 'Background images with content should have text alternatives', name: 'Background Images', severity: 'high' },
+  breadcrumbs: { description: 'Breadcrumb navigation should be properly structured', name: 'Breadcrumbs', severity: 'low' },
+  brokenAriaLabels: { description: 'ARIA labels should reference existing elements', name: 'Broken ARIA Labels', severity: 'high' },
+  brokenAriaReference: { description: 'ARIA references should point to valid IDs', name: 'Broken ARIA Reference', severity: 'high' },
+  brokenList: { description: 'Lists should be properly structured', name: 'Broken List', severity: 'medium' },
+  brokenNavItems: { description: 'Navigation items should be accessible', name: 'Broken Nav Items', severity: 'high' },
+  colorContrast: { description: 'Text and background should have sufficient contrast', name: 'Color Contrast', severity: 'medium', wcagLink: 'https://www.w3.org/WAI/WCAG21/quickref/#contrast-minimum' },
+  decorativeContent: { description: 'Decorative elements should be hidden from assistive technology', name: 'Decorative Content', severity: 'low' },
+  emptyHeadings: { description: 'Headings should not be empty', name: 'Empty Headings', severity: 'medium' },
+  fontSizes: { description: 'Font sizes should provide a readable experience', name: 'Font Sizes', severity: 'medium' },
+  headingOrder: { description: 'Heading levels should follow a logical order', name: 'Heading Order', severity: 'medium' },
+  pageTitle: { description: 'Pages should have a descriptive title', name: 'Page Title', severity: 'extreme', wcagLink: 'https://www.w3.org/WAI/WCAG21/quickref/#page-titled' },
+  tabIndex: { description: 'Tab index values should be used correctly', name: 'Tab Index', severity: 'medium' },
+  missingFormLabels: { description: 'Form inputs should have associated labels', name: 'Missing Form Labels', severity: 'extreme', wcagLink: 'https://www.w3.org/WAI/WCAG21/quickref/#labels-or-instructions' },
+  languageAttribute: { description: 'The HTML element should have a valid lang attribute', name: 'Language Attribute', severity: 'extreme' },
+};
+
 export class AccessFlowAuditProcessor {
   async process(
     runId: string,
     sdkType: string,
     outputDirectory: string,
     stdout?: string,
+    runStartTime?: Date,
   ): Promise<AccessFlowAuditResult> {
     const result: AccessFlowAuditResult = {
       environment: '',
@@ -65,20 +92,28 @@ export class AccessFlowAuditProcessor {
         return result;
       }
 
-      // Find summary file
+      // Collect raw audit JSONL paths (needed regardless of summary source)
+      result.rawAuditPaths = this.findRawAuditFiles(outputDir, sdkType, runStartTime);
+
+      // Try the pre-generated summary file first
       const summaryPath = this.findSummaryFile(outputDir, sdkType);
-      if (!summaryPath) {
-        result.errors.push(`No AccessFlow summary file found in ${outputDir}`);
+
+      if (summaryPath) {
+        console.log(`[AccessFlowAuditProcessor] Reading summary: ${summaryPath}`);
+        const content = await readFile(summaryPath, 'utf-8');
+        result.summaryData = JSON.parse(content);
+      } else if (result.rawAuditPaths.length > 0) {
+        console.log(
+          `[AccessFlowAuditProcessor] No summary file found, building from ${result.rawAuditPaths.length} raw JSONL files`,
+        );
+        result.summaryData = await this.buildSummaryFromRawFiles(result.rawAuditPaths);
+      } else {
+        result.errors.push(`No AccessFlow summary or raw audit files found in ${outputDir}`);
         return result;
       }
 
-      console.log(`[AccessFlowAuditProcessor] Reading summary: ${summaryPath}`);
-      const content = await readFile(summaryPath, 'utf-8');
-      const summaryData = JSON.parse(content);
-      result.summaryData = summaryData;
-
       // Aggregate severity counts across all pages
-      const pages = summaryData.pages || {};
+      const pages = result.summaryData.pages || {};
       result.totalPages = Object.keys(pages).length;
 
       for (const pageData of Object.values(pages) as any[]) {
@@ -95,13 +130,8 @@ export class AccessFlowAuditProcessor {
         result.severityCounts.medium +
         result.severityCounts.low;
 
-      // Extract environment from stdout or page URLs
       result.environment = this.extractEnvironment(stdout, pages);
 
-      // Collect raw audit JSONL paths
-      result.rawAuditPaths = this.findRawAuditFiles(outputDir, sdkType);
-
-      // Check threshold (extreme or high > 0 means threshold failed)
       result.thresholdPassed =
         result.severityCounts.extreme === 0 && result.severityCounts.high === 0;
 
@@ -117,6 +147,97 @@ export class AccessFlowAuditProcessor {
     return result;
   }
 
+  /**
+   * Build a summary object (matching the report-summary.json structure) from
+   * raw JSONL audit files.  Each line is `{ audit: Record<ruleKey, violations>, url: string }`.
+   */
+  private async buildSummaryFromRawFiles(
+    rawPaths: string[],
+  ): Promise<{ pages: Record<string, any> }> {
+    const pages: Record<string, { numberOfIssuesFound: Record<string, number>; ruleViolations: Record<string, any> }> = {};
+
+    for (const filePath of rawPaths) {
+      try {
+        const content = await readFile(filePath, 'utf-8');
+        const lines = content.trim().split('\n').filter(Boolean);
+
+        for (const line of lines) {
+          let entry: any;
+          try { entry = JSON.parse(line); } catch { continue; }
+
+          const url: string = entry.url || 'unknown';
+          const audit: Record<string, any> = entry.audit || {};
+
+          if (!pages[url]) {
+            pages[url] = {
+              numberOfIssuesFound: { extreme: 0, high: 0, low: 0, medium: 0 },
+              ruleViolations: {},
+            };
+          }
+
+          const page = pages[url];
+
+          for (const [ruleKey, violations] of Object.entries(audit)) {
+            if (violations == null || typeof violations !== 'object') continue;
+            const selectorEntries = Object.entries(violations as Record<string, any>);
+            if (selectorEntries.length === 0) continue;
+
+            const meta = RULE_META[ruleKey] || {
+              description: '',
+              name: this.camelToTitle(ruleKey),
+              severity: 'medium',
+            };
+
+            if (!page.ruleViolations[ruleKey]) {
+              page.ruleViolations[ruleKey] = {
+                WCAGLink: meta.wcagLink || '-',
+                description: meta.description,
+                name: meta.name,
+                numberOfOccurrences: 0,
+                selectorData: [],
+                severity: meta.severity,
+              };
+            }
+
+            const rv = page.ruleViolations[ruleKey];
+
+            for (const [_selector, detail] of selectorEntries) {
+              if (typeof detail !== 'object' || detail == null) continue;
+              rv.numberOfOccurrences += detail.occurrences || 1;
+              rv.selectorData.push({
+                HTML: detail.HTML || '',
+                selector: detail.selector || _selector,
+                suggestionLabel: detail.suggestionLabel || '',
+                suggestionType: detail.suggestionType || '',
+              });
+            }
+          }
+        }
+      } catch (err: any) {
+        console.warn(`[AccessFlowAuditProcessor] Error reading ${filePath}: ${err.message}`);
+      }
+    }
+
+    // Compute per-page severity counts from the rule violations
+    for (const pageData of Object.values(pages)) {
+      for (const rv of Object.values(pageData.ruleViolations) as any[]) {
+        const sev: string = rv.severity || 'medium';
+        if (sev in pageData.numberOfIssuesFound) {
+          pageData.numberOfIssuesFound[sev] += rv.numberOfOccurrences;
+        }
+      }
+    }
+
+    return { pages };
+  }
+
+  private camelToTitle(key: string): string {
+    return key
+      .replace(/([A-Z])/g, ' $1')
+      .replace(/^./, (c) => c.toUpperCase())
+      .trim();
+  }
+
   private findSummaryFile(outputDir: string, sdkType: string): string | null {
     const fileNames = SUMMARY_FILE_NAMES[sdkType] || SUMMARY_FILE_NAMES.node;
 
@@ -125,7 +246,6 @@ export class AccessFlowAuditProcessor {
       if (existsSync(filePath)) return filePath;
     }
 
-    // Also check parent directory (some SDKs write to the working dir, not the output dir)
     const parentDir = join(outputDir, '..');
     for (const fileName of fileNames) {
       const filePath = join(parentDir, fileName);
@@ -135,22 +255,36 @@ export class AccessFlowAuditProcessor {
     return null;
   }
 
-  private findRawAuditFiles(outputDir: string, sdkType: string): string[] {
-    const patterns = RAW_AUDIT_PATTERNS[sdkType] || [];
+  private findRawAuditFiles(outputDir: string, sdkType: string, runStartTime?: Date): string[] {
+    const patterns = RAW_AUDIT_PATTERNS[sdkType] || RAW_AUDIT_PATTERNS.node;
     if (patterns.length === 0) return [];
 
     try {
       const files = readdirSync(outputDir);
-      return files
+      let matched = files
         .filter((f) => patterns.some((p) => p.test(f)))
         .map((f) => join(outputDir, f));
+
+      // When a run start time is available, only include files modified after
+      // the run started (with a small buffer) to avoid stale data from prior runs.
+      if (runStartTime) {
+        const cutoff = new Date(runStartTime.getTime() - 5000);
+        matched = matched.filter((f) => {
+          try {
+            return statSync(f).mtime >= cutoff;
+          } catch {
+            return false;
+          }
+        });
+      }
+
+      return matched;
     } catch {
       return [];
     }
   }
 
   private extractEnvironment(stdout?: string, pages?: Record<string, any>): string {
-    // Try extracting from stdout (SDK logs the verification endpoint)
     if (stdout) {
       const envMatch = stdout.match(
         /verify-sdk-api-key endpoint at https?:\/\/([^\s/]+)/i,
@@ -158,7 +292,6 @@ export class AccessFlowAuditProcessor {
       if (envMatch) return envMatch[1];
     }
 
-    // Fall back to page URLs
     if (pages) {
       const urls = Object.keys(pages);
       if (urls.length > 0) {

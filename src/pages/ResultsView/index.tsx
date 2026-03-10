@@ -13,7 +13,6 @@ import { useToast } from '../../components/standalone/ToastContainer';
 import { useCommonShortcuts, useKeyboardShortcuts } from '../../hooks/useKeyboardShortcuts';
 import { ConsoleOutputTab } from './components/ConsoleOutputTab';
 import { MCPDebugTab } from './components/MCPDebugTab';
-import { PlaywrightReportTab } from './components/PlaywrightReportTab';
 import { SdkAuditTab } from './components/SdkAuditTab';
 import { SummaryTab } from './components/SummaryTab';
 import { ConsoleOutput } from './models/ConsoleOutput';
@@ -23,9 +22,7 @@ import ResultsAppBar from './ResultsAppBar';
 import ResultsTabs from './ResultsTabs';
 import RunStatsBar from './RunStatsBar';
 
-const API_URL = process.env.REACT_APP_API_URL || '';
-
-type TabType = 'details' | 'mcp' | 'output' | 'sdk-audit' | 'summary';
+type TabType = 'details' | 'mcp' | 'output' | 'summary';
 
 export default function ResultsView() {
   const { runId } = useParams<{ runId: string }>();
@@ -37,8 +34,6 @@ export default function ResultsView() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<TabType>('summary');
   const [sdkAuditReport, setSdkAuditReport] = useState<any>(null);
-  const [reportUrl, setReportUrl] = useState<null | string>(null);
-  const [reportLoading, setReportLoading] = useState(false);
   const [mcpAnalyses, setMcpAnalyses] = useState<any[]>([]);
   const [mcpLoading, setMcpLoading] = useState(false);
   const [mcpInteracting, setMcpInteracting] = useState(false);
@@ -107,22 +102,6 @@ export default function ResultsView() {
       }
 
       setRun(data);
-
-      try {
-        setReportLoading(true);
-        const reportInfo = await api.runs.getReport(runId);
-        if (reportInfo.exists) {
-          setReportUrl(`${API_URL}${reportInfo.reportUrl}`);
-        } else {
-          setReportUrl(null);
-        }
-      } catch (err: any) {
-        if (err.message?.includes('404') || err.message?.includes('Not Found')) {
-          setReportUrl(null);
-        }
-      } finally {
-        setReportLoading(false);
-      }
     } catch (err: any) {
       console.error('Error loading results:', err);
       setError(err.message || 'Failed to load test results. Please try again.');
@@ -544,7 +523,6 @@ export default function ResultsView() {
         projectId={run?.projectId}
         projectName={allProjects.find(p => p.id === run?.projectId)?.name}
         projects={allProjects}
-        reportUrl={reportUrl}
         runId={runId || ''}
         runStatus={run?.status || ''}
         sendingToSlack={sendingToSlack}
@@ -631,10 +609,6 @@ export default function ResultsView() {
                 )}
 
                 {activeTab === 'details' && (
-                  <PlaywrightReportTab reportLoading={reportLoading} reportUrl={reportUrl} />
-                )}
-
-                {activeTab === 'sdk-audit' && sdkAuditReport && (
                   <SdkAuditTab report={sdkAuditReport} runId={runId ?? undefined} />
                 )}
 
