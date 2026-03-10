@@ -561,9 +561,19 @@ export default function TestHistory() {
                               </Tooltip>
                             )}
                             <Box sx={{ minWidth: 0 }}>
-                              <Typography fontWeight={600} noWrap variant="body2">
-                                {project?.name ?? run.projectId ?? 'Multi-Project'}
-                              </Typography>
+                              <Stack alignItems="center" direction="row" spacing={0.5}>
+                                <Typography fontWeight={600} noWrap variant="body2">
+                                  {project?.name ?? run.projectId ?? 'Multi-Project'}
+                                </Typography>
+                                {run.sdkType && (
+                                  <Chip
+                                    color={run.sdkType === 'node' ? 'info' : run.sdkType === 'python' ? 'success' : 'warning'}
+                                    label={run.sdkType}
+                                    size="small"
+                                    sx={{ fontSize: '0.6rem', height: 16, textTransform: 'uppercase', fontWeight: 700 }}
+                                  />
+                                )}
+                              </Stack>
                               <Typography color="text.disabled" noWrap sx={{ fontSize: '0.65rem', fontFamily: 'monospace' }}>
                                 {run.id.substring(0, 14)}…
                               </Typography>
@@ -668,9 +678,19 @@ export default function TestHistory() {
                             />
                           )}
                           <Box sx={{ minWidth: 0 }}>
-                            <Typography fontWeight={700} noWrap variant="subtitle2">
-                              {project?.name ?? run.projectId ?? 'Multi-Project'}
-                            </Typography>
+                            <Stack alignItems="center" direction="row" spacing={0.5}>
+                              <Typography fontWeight={700} noWrap variant="subtitle2">
+                                {project?.name ?? run.projectId ?? 'Multi-Project'}
+                              </Typography>
+                              {run.sdkType && (
+                                <Chip
+                                  color={run.sdkType === 'node' ? 'info' : run.sdkType === 'python' ? 'success' : 'warning'}
+                                  label={run.sdkType}
+                                  size="small"
+                                  sx={{ fontSize: '0.6rem', height: 16, textTransform: 'uppercase', fontWeight: 700 }}
+                                />
+                              )}
+                            </Stack>
                             {displayDomain && <Typography color="primary" noWrap variant="caption">{displayDomain}</Typography>}
                           </Box>
                         </Stack>

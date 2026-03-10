@@ -103,13 +103,13 @@ export class TestFileParser {
   }
 
   /**
-   * Parse test file by relative path (resolves from test-e2e root)
+   * Parse test file by relative path (resolves test dir via PathUtils.resolveTestDirectory)
    */
   static parseTestFileByRelativePath(relativePath: string, projectTestDirectory: string): TestCaseInfo[] {
-    const testE2eDir = PathUtils.getTestE2eDir();
     const testDirAbsolute =
-      projectTestDirectory.startsWith('/') ? projectTestDirectory : PathUtils.resolveFromTestE2e(projectTestDirectory);
-
+      projectTestDirectory.startsWith('/')
+        ? projectTestDirectory
+        : PathUtils.resolveTestDirectory(projectTestDirectory);
     const filePath = join(testDirAbsolute, relativePath);
     return this.parseTestFile(filePath);
   }

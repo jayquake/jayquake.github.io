@@ -153,6 +153,7 @@ export type ProgressUpdate = {
 // ============================================================================
 
 export type Project = {
+  apiKeyEnvVar?: string;
   configPath: string;
   defaultBaseUrl: string;
   description: string;
@@ -161,8 +162,13 @@ export type Project = {
   id: string;
   logo: string;
   name: string;
+  outputDirectory?: string;
   qaseProjectCode?: string;
+  sdkType?: 'java' | 'node' | 'python';
+  testCommand?: string;
   testDirectory: string;
+  testFramework?: 'maven' | 'playwright' | 'pytest';
+  workingDirectory?: string;
 }
 
 /**

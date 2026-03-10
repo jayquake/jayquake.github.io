@@ -1,5 +1,6 @@
 import { type Request, type Response } from 'express';
 
+import { getNodeSdkDefaultBaseUrl, getNodeSdkTarballPath } from '../../infrastructure/utils/SdkConfigReader';
 import { ProjectService } from '../../services/ProjectService';
 import { TestLibraryService } from '../../services/TestLibraryService';
 
@@ -65,6 +66,29 @@ export class ProjectController {
       const includeQaseMetadata = req.query.includeQaseMetadata === 'true';
       const suiteGroup = await this.testLibraryService.getTestFilesGroupedBySuite(req.params.id, includeQaseMetadata);
       res.json(suiteGroup);
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  /**
+   * GET /api/projects/:id/sdk-default-base-url
+   * For AccessFlow (Node), read the base URL from the SDK tarball's sdk.config.js.
+   */
+  async getSdkDefaultBaseUrl(req: Request, res: Response): Promise<void> {
+    try {
+      const projectId = req.params.id;
+      if (projectId !== 'accessflow') {
+        res.status(404).json({ error: 'SDK default URL only supported for accessflow project' });
+        return;
+      }
+      const tgzPath = getNodeSdkTarballPath();
+      const baseUrl = getNodeSdkDefaultBaseUrl(tgzPath);
+      if (!baseUrl) {
+        res.status(404).json({ error: 'Could not read default base URL from SDK tarball' });
+        return;
+      }
+      res.json({ baseUrl });
     } catch (error: any) {
       res.status(500).json({ error: error.message });
     }

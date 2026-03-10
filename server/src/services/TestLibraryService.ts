@@ -1,5 +1,5 @@
 import { readdirSync, statSync } from 'fs';
-import { join } from 'path';
+import { join, relative } from 'path';
 
 import type { QaseConfig } from '../../../shared/types';
 
@@ -103,11 +103,11 @@ export class TestLibraryService {
     }
 
     // Scan file system for test files
-    // Resolve relative path to absolute for file operations
+    // Prefer project root so in-repo test-suite/tests is used when TEST_E2E_DIR points elsewhere
     const testDirAbsolute =
-      project.testDirectory.startsWith('/') ?
-        project.testDirectory
-      : PathUtils.resolveFromTestE2e(project.testDirectory);
+      project.testDirectory.startsWith('/')
+        ? project.testDirectory
+        : PathUtils.resolveTestDirectory(project.testDirectory);
     const testFiles = await this.scanTestFiles(testDirAbsolute, projectId);
 
     // Enrich with database metadata (last run, Qase IDs)
@@ -361,7 +361,7 @@ export class TestLibraryService {
             scanDir(fullPath, baseDir);
           } else if (stats.isFile() && entry.match(/\.(spec|test)\.(ts|js|tsx|jsx)$/)) {
             // Test file found
-            const relativePath = fullPath.replace(`${baseDir  }/`, '');
+            const relativePath = relative(baseDir, fullPath).replace(/\\/g, '/');
             files.push({
               name: entry,
               path: fullPath,

@@ -10,9 +10,11 @@ export type TestRunCreateInput = {
   projectId?: string;
   reportPath?: string;
   runId: string;
+  sdkType?: string;
   startTime: Date;
   status: string;
   summary: string; // JSON string
+  testFramework?: string;
 }
 
 export type TestRunUpdateInput = {
@@ -25,11 +27,11 @@ export type TestRunUpdateInput = {
   htmlGeneratedAt?: Date;
   passedCount?: number;
   qaseId?: number; // Qase Run ID
-  reportPath?: string;
+  reportPath?: null | string;
   skippedCount?: number;
   status?: string;
-  stderr?: string; // Standard error
-  stdout?: string; // Standard output
+  stderr?: null | string;
+  stdout?: null | string;
   summary?: string; // JSON string
   testCount?: number;
   totalArtifacts?: number;
@@ -72,9 +74,11 @@ export class TestRunRepository extends BaseRepository<TestRunWithRelations, Test
         projectId: data.projectId,
         reportPath: data.reportPath,
         runId: data.runId,
+        sdkType: data.sdkType,
         startTime: data.startTime,
         status: data.status,
         summary: data.summary,
+        testFramework: data.testFramework,
       },
       include: {
         logs: true,

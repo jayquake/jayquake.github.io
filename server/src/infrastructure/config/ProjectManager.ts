@@ -26,9 +26,11 @@ export class ProjectManager {
     const project = this.projects.get(projectId);
     if (!project) return [];
 
+    const testFilePatterns = this.getTestFilePatterns(project.testFramework);
+
     try {
-      // Resolve to absolute only for file system operations
-      const testDir = PathUtils.resolveFromTestE2e(project.testDirectory);
+      // Resolve to absolute: prefer project root so in-repo test-suite/tests is used
+      const testDir = PathUtils.resolveTestDirectory(project.testDirectory);
       const files: string[] = [];
 
       const scanDirectory = (dir: string, basePath = ''): void => {
@@ -39,8 +41,9 @@ export class ProjectManager {
           const relativePath = join(basePath, entry.name);
 
           if (entry.isDirectory()) {
+            if (entry.name === '__pycache__' || entry.name === 'node_modules' || entry.name === 'target') continue;
             scanDirectory(fullPath, relativePath);
-          } else if (entry.isFile() && entry.name.endsWith('.spec.ts')) {
+          } else if (entry.isFile() && testFilePatterns.some((p) => entry.name.match(p))) {
             files.push(relativePath);
           }
         }
@@ -50,7 +53,18 @@ export class ProjectManager {
       return files;
     } catch (error) {
       console.error(`[ProjectManager] Error scanning test files for ${projectId}:`, error);
-      throw error; // Don't mask failures - throw error instead of returning empty array
+      throw error;
+    }
+  }
+
+  private getTestFilePatterns(testFramework?: string): RegExp[] {
+    switch (testFramework) {
+      case 'pytest':
+        return [/^test_.*\.py$/, /.*_test\.py$/];
+      case 'maven':
+        return [/.*Test\.java$/, /.*Tests\.java$/];
+      default:
+        return [/\.spec\.(ts|js)$/];
     }
   }
 
@@ -96,11 +110,21 @@ export class ProjectManager {
             if (project.globalSetupPath) {
               project.globalSetupPath = PathUtils.normalizeRelativePath(project.globalSetupPath);
             }
+            if (project.workingDirectory) {
+              project.workingDirectory = PathUtils.normalizeRelativePath(project.workingDirectory);
+            }
+            if (project.outputDirectory) {
+              project.outputDirectory = PathUtils.normalizeRelativePath(project.outputDirectory);
+            }
 
             // Validate paths exist - non-fatal: test suites may live in a separate checkout
             try {
               PathUtils.validatePathExists(project.testDirectory, `Test directory for project ${project.id}`);
-              PathUtils.validatePathExists(project.configPath, `Config path for project ${project.id}`);
+              // Only validate configPath for Playwright projects; pytest/maven use their own configs
+              const isPlaywright = !project.testFramework || project.testFramework === 'playwright';
+              if (isPlaywright) {
+                PathUtils.validatePathExists(project.configPath, `Config path for project ${project.id}`);
+              }
               if (project.globalSetupPath) {
                 PathUtils.validatePathExists(project.globalSetupPath, `Global setup path for project ${project.id}`);
               }
@@ -109,7 +133,7 @@ export class ProjectManager {
             }
 
             this.projects.set(project.id, project);
-            console.log(`[ProjectManager] Loaded project: ${project.name} (${project.id})`);
+            console.log(`[ProjectManager] Loaded project: ${project.name} (${project.id}) [${project.testFramework || 'playwright'}]`);
           } else {
             console.warn(`[ProjectManager] Invalid project config: ${file}`);
           }

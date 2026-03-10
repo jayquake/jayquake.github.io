@@ -9,11 +9,22 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import BiotechIcon from '@mui/icons-material/Biotech';
 import ChecklistIcon from '@mui/icons-material/Checklist';
 import HistoryIcon from '@mui/icons-material/History';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import SpeedIcon from '@mui/icons-material/Speed';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 
 const TOOLS = [
+  {
+    icon: <RocketLaunchIcon sx={{ fontSize: 36, color: '#667eea' }} />,
+    title: 'SDK Test Suites',
+    description:
+      'Select an AccessFlow SDK project (Node, Python, Java) and run E2E tests with environment targeting, test selection, and audit reporting.',
+    badge: 'Node · Python · Java',
+    accent: '#667eea',
+    cta: 'Run SDK Tests',
+    to: '/test-runner/library',
+  },
   {
     icon: <BiotechIcon sx={{ fontSize: 36, color: '#5c6bc0' }} />,
     title: 'Engine Rule Atomic Tests',

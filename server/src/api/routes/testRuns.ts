@@ -24,6 +24,7 @@ router.get('/:runId', (req, res) => testRunController.getRun(req, res));
 router.get('/:runId/results-with-qase', (req, res) => testRunController.getResultsWithQaseDetails(req, res));
 router.get('/:runId/qase-test-cases', (req, res) => testRunController.getQaseTestCases(req, res));
 router.get('/:runId/post-processing-status', (req, res) => testRunController.getPostProcessingStatus(req, res));
+router.get('/:runId/sdk-audit', (req, res) => testRunController.getSdkAudit(req, res));
 // Note: /:runId/report route is handled in server.ts to return JSON metadata
 // The actual report files are served via /api/reports/:runId/* middleware
 router.post('/:runId/cancel', (req, res) => testRunController.cancelRun(req, res));

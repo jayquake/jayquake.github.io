@@ -258,6 +258,8 @@ export const api = {
   projects: {
     getAll: () => fetchAPI<any[]>('/api/projects'),
     getById: (id: string) => fetchAPI<any>(`/api/projects/${id}`),
+    getSdkDefaultBaseUrl: (id: string) =>
+      fetchAPI<{ baseUrl: string }>(`/api/projects/${id}/sdk-default-base-url`),
     getTestCases: (id: string, filePath: string) =>
       fetchAPI<{ fullTitle?: string; lineNumber: number; qaseId?: number; title: string; }[]>(
         `/api/projects/${id}/test-cases/${encodeURIComponent(filePath)}`
@@ -346,6 +348,24 @@ export const api = {
       fetchAPI<{ results: any[] }>(`/api/runs/${runId}/results-with-qase`),
     getTestResults: (runId: string) =>
       fetchAPI<{ results: any[]; summary: any }>(`/api/runs/${runId}/test-results`),
+    getSdkAudit: (runId: string) =>
+      fetchAPI<{
+        exists: boolean;
+        report: null | {
+          environment: string;
+          extremeCount: number;
+          highCount: number;
+          id: string;
+          lowCount: number;
+          mediumCount: number;
+          rawAuditPaths: string[];
+          sdkType: string;
+          summaryData: any;
+          thresholdPassed: boolean;
+          totalIssues: number;
+          totalPages: number;
+        };
+      }>(`/api/runs/${runId}/sdk-audit`),
   },
   ruleLab: {
     listRules: () => fetchAPI<{ engineRules: any[]; legacyRules: any[]; total: number }>('/api/rules'),

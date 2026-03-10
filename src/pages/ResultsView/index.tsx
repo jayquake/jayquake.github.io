@@ -14,6 +14,7 @@ import { useCommonShortcuts, useKeyboardShortcuts } from '../../hooks/useKeyboar
 import { ConsoleOutputTab } from './components/ConsoleOutputTab';
 import { MCPDebugTab } from './components/MCPDebugTab';
 import { PlaywrightReportTab } from './components/PlaywrightReportTab';
+import { SdkAuditTab } from './components/SdkAuditTab';
 import { SummaryTab } from './components/SummaryTab';
 import { ConsoleOutput } from './models/ConsoleOutput';
 import { MCPAnalysis } from './models/MCPAnalysis';
@@ -24,7 +25,7 @@ import RunStatsBar from './RunStatsBar';
 
 const API_URL = process.env.REACT_APP_API_URL || '';
 
-type TabType = 'details' | 'mcp' | 'output' | 'summary';
+type TabType = 'details' | 'mcp' | 'output' | 'sdk-audit' | 'summary';
 
 export default function ResultsView() {
   const { runId } = useParams<{ runId: string }>();
@@ -35,6 +36,7 @@ export default function ResultsView() {
   const [allProjects, setAllProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<TabType>('summary');
+  const [sdkAuditReport, setSdkAuditReport] = useState<any>(null);
   const [reportUrl, setReportUrl] = useState<null | string>(null);
   const [reportLoading, setReportLoading] = useState(false);
   const [mcpAnalyses, setMcpAnalyses] = useState<any[]>([]);
@@ -89,6 +91,19 @@ export default function ResultsView() {
         }
       } catch (err) {
         console.warn('[ResultsView] Could not load detailed test results:', err);
+      }
+
+      // Fetch SDK audit data
+      try {
+        const auditData = await api.runs.getSdkAudit(runId);
+        if (auditData.exists && auditData.report) {
+          setSdkAuditReport(auditData.report);
+        } else {
+          setSdkAuditReport(null);
+        }
+      } catch (err) {
+        console.warn('[ResultsView] Could not load SDK audit data:', err);
+        setSdkAuditReport(null);
       }
 
       setRun(data);
@@ -578,6 +593,7 @@ export default function ResultsView() {
                 activeTab={activeTab}
                 mcpCount={mcpCount}
                 onChange={setActiveTab}
+                sdkAuditCount={sdkAuditReport?.totalIssues}
               />
 
               <Box sx={{ pt: 2, pb: 4 }}>
@@ -616,6 +632,10 @@ export default function ResultsView() {
 
                 {activeTab === 'details' && (
                   <PlaywrightReportTab reportLoading={reportLoading} reportUrl={reportUrl} />
+                )}
+
+                {activeTab === 'sdk-audit' && sdkAuditReport && (
+                  <SdkAuditTab report={sdkAuditReport} />
                 )}
 
                 {activeTab === 'mcp' && testRunData && (

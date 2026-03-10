@@ -1,13 +1,17 @@
 {
   "id": "accessflow",
-  "name": "AccessFlow",
-  "description": "AccessFlow E2E test suite",
+  "name": "AccessFlow (Node)",
+  "description": "AccessFlow Node SDK E2E test suite",
   "logo": "/logos/accessflow-logomark-color.png",
-  "testDirectory": "apps/accessFlow/tests",
-  "defaultBaseUrl": "http://localhost:4001",
+  "sdkType": "node",
+  "testFramework": "playwright",
+  "testCommand": "npx playwright test",
+  "testDirectory": "test-suite/tests",
+  "workingDirectory": "test-suite",
+  "outputDirectory": "test-suite/test-results",
+  "apiKeyEnvVar": "AF_NODE_PACKAGE_KEY",
+  "defaultBaseUrl": "http://localhost:3000",
+  "configPath": "test-suite/playwright.config.js",
   "qaseProjectCode": "ACCESSFLOW",
-  "configPath": "apps/accessFlow/playwright.config.ts",
-  "globalSetupPath": "apps/accessFlow/global-setup.ts",
   "envHubNames": ["accessflow"]
 }
-

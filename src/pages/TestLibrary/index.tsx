@@ -1,10 +1,18 @@
 import type { Project, QaseConfig, TestRunConfig } from '../../../shared/types';
 
 import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Chip from '@mui/material/Chip';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid';
 import LinearProgress from '@mui/material/LinearProgress';
 import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import FolderIcon from '@mui/icons-material/Folder';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
@@ -134,6 +142,7 @@ export default function TestLibrary() {
 
   useEffect(() => {
     if (projectId) loadProject();
+    else setLoading(false);
   }, [projectId]);
 
   const loadProject = async () => {
@@ -163,8 +172,19 @@ export default function TestLibrary() {
       setSuiteGroup(suites);
       setDeployedEnvs((envHub.domains as DeployedEnv[]) || []);
 
-      const recentUrls = await api.environments.getRecent(projectId, 20).catch(() => [] as string[]);
-      const defaultUrl = projectData.defaultBaseUrl || (recentUrls.length > 0 ? recentUrls[0] : '');
+      let defaultUrl = projectData.defaultBaseUrl || '';
+      if (projectId === 'accessflow') {
+        try {
+          const sdkDefault = await api.projects.getSdkDefaultBaseUrl(projectId);
+          if (sdkDefault?.baseUrl) defaultUrl = sdkDefault.baseUrl;
+        } catch {
+          // ignore; use project default or recent
+        }
+      }
+      if (!defaultUrl) {
+        const recentUrls = await api.environments.getRecent(projectId, 20).catch(() => [] as string[]);
+        defaultUrl = recentUrls.length > 0 ? recentUrls[0] : '';
+      }
       setBaseUrl(defaultUrl);
 
       setQaseConfig(prev => ({ ...prev, projectCode: projectData.qaseProjectCode || '' }));
@@ -543,9 +563,123 @@ export default function TestLibrary() {
   }
 
   if (!project) {
+    const frameworkLabel: Record<string, string> = { playwright: 'Playwright', pytest: 'Pytest', maven: 'Maven' };
+    const sdkColor: Record<string, 'info' | 'success' | 'warning'> = { node: 'info', python: 'success', java: 'warning' };
+    const sdkAccent: Record<string, string> = { node: '#2196f3', python: '#4caf50', java: '#ff9800' };
+
     return (
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-        <Typography color="text.secondary">No project selected.</Typography>
+      <Box sx={{ px: { xs: 2, sm: 4, md: 6 }, py: 4, maxWidth: 1100, mx: 'auto' }}>
+        <Stack spacing={1} sx={{ mb: 5 }}>
+          <Stack direction="row" alignItems="center" spacing={2}>
+            <RocketLaunchIcon sx={{ fontSize: 40, color: 'primary.main' }} />
+            <Box>
+              <Typography fontWeight={800} variant="h3" sx={{ lineHeight: 1.1 }}>
+                Run{' '}
+                <Box component="span" sx={{ color: 'primary.main' }}>
+                  SDK Tests
+                </Box>
+              </Typography>
+              <Typography color="text.secondary" variant="body1" sx={{ mt: 0.5 }}>
+                Select a project to configure and run tests
+              </Typography>
+            </Box>
+          </Stack>
+          <Divider sx={{ mt: 2 }} />
+        </Stack>
+
+        {allProjects.length === 0 ? (
+          <Box sx={{ textAlign: 'center', py: 8 }}>
+            <Typography color="text.secondary">Loading projects...</Typography>
+            <LinearProgress sx={{ width: 200, mx: 'auto', mt: 2, borderRadius: 1 }} />
+          </Box>
+        ) : (
+          <Grid container spacing={3}>
+            {allProjects.map(p => {
+              const accent = (p.sdkType && sdkAccent[p.sdkType]) || '#667eea';
+              return (
+                <Grid size={{ xs: 12, sm: 6, md: 4 }} key={p.id}>
+                  <Card
+                    onClick={() => navigate(`?project=${p.id}`)}
+                    elevation={0}
+                    sx={{
+                      height: '100%',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      borderRadius: 3,
+                      border: '2px solid',
+                      borderColor: 'rgba(0,0,0,0.06)',
+                      transition: 'all 0.2s ease',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      '&:hover': {
+                        transform: 'translateY(-4px)',
+                        borderColor: accent,
+                        boxShadow: `0 8px 28px ${accent}28`,
+                      },
+                      '&::before': {
+                        content: '""',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: 4,
+                        background: accent,
+                      },
+                    }}
+                  >
+                    <CardContent sx={{ p: 3, flex: 1, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                      {p.logo ? (
+                        <Box
+                          component="img"
+                          src={p.logo}
+                          alt={p.name}
+                          sx={{ width: 48, height: 48, objectFit: 'contain' }}
+                        />
+                      ) : (
+                        <FolderIcon sx={{ fontSize: 48, color: 'text.disabled' }} />
+                      )}
+
+                      <Box>
+                        <Typography fontWeight={700} variant="h6" sx={{ mb: 0.5 }}>
+                          {p.name}
+                        </Typography>
+                        <Stack direction="row" spacing={0.5} sx={{ mb: 1 }}>
+                          {p.sdkType && (
+                            <Chip
+                              label={p.sdkType.toUpperCase()}
+                              size="small"
+                              color={sdkColor[p.sdkType] || 'default'}
+                              sx={{ fontSize: '0.65rem', height: 20, fontWeight: 700 }}
+                            />
+                          )}
+                          {p.testFramework && (
+                            <Chip
+                              label={frameworkLabel[p.testFramework] || p.testFramework}
+                              size="small"
+                              variant="outlined"
+                              sx={{ fontSize: '0.65rem', height: 20 }}
+                            />
+                          )}
+                        </Stack>
+                        <Typography color="text.secondary" variant="body2" sx={{ lineHeight: 1.6 }}>
+                          {p.description}
+                        </Typography>
+                      </Box>
+
+                      <Box sx={{ mt: 'auto', pt: 1, display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        <Typography variant="body2" fontWeight={600} sx={{ color: accent }}>
+                          Select Project
+                        </Typography>
+                        <ArrowForwardIcon sx={{ fontSize: 16, color: accent }} />
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              );
+            })}
+          </Grid>
+        )}
       </Box>
     );
   }

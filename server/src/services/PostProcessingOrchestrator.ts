@@ -18,8 +18,11 @@
 
 import { DatabaseService } from '../infrastructure/database/DatabaseService';
 import { TestRunRepository } from '../repositories/TestRunRepository';
+import { AccessFlowAuditProcessor } from './processors/AccessFlowAuditProcessor';
 import { DatabasePopulator } from './processors/DatabasePopulator';
+import { JUnitReportProcessor } from './processors/JUnitReportProcessor';
 import { MetadataProcessor } from './processors/MetadataProcessor';
+import type { PlaywrightProcessorResult } from './processors/PlaywrightReportProcessor';
 import { PlaywrightReportProcessor } from './processors/PlaywrightReportProcessor';
 import { QaseDataProcessor } from './processors/QaseDataProcessor';
 
@@ -37,7 +40,9 @@ export type ProcessingResult = {
 }
 
 export class PostProcessingOrchestrator {
+  private accessFlowAuditProcessor: AccessFlowAuditProcessor;
   private databasePopulator: DatabasePopulator;
+  private junitProcessor: JUnitReportProcessor;
   private metadataProcessor: MetadataProcessor;
   private playwrightProcessor: PlaywrightReportProcessor;
   private qaseProcessor: QaseDataProcessor;
@@ -46,6 +51,8 @@ export class PostProcessingOrchestrator {
   constructor() {
     const prisma = DatabaseService.getInstance().getClient();
     this.playwrightProcessor = new PlaywrightReportProcessor();
+    this.junitProcessor = new JUnitReportProcessor();
+    this.accessFlowAuditProcessor = new AccessFlowAuditProcessor();
     this.qaseProcessor = new QaseDataProcessor();
     this.metadataProcessor = new MetadataProcessor();
     this.databasePopulator = new DatabasePopulator(prisma);
@@ -119,19 +126,33 @@ export class PostProcessingOrchestrator {
         throw new Error(`Test run not found: ${runId}`);
       }
 
-      // Step 2: Process Playwright JSON report
-      console.log('[PostProcessingOrchestrator] Step 2: Processing Playwright report...');
-      const playwrightData = await this.playwrightProcessor.process(runId);
-      if (!playwrightData.success) {
-        result.errors.push(...playwrightData.errors);
-        throw new Error('Failed to process Playwright report');
+      const framework = (testRun as any).testFramework || 'playwright';
+      console.log(`[PostProcessingOrchestrator] Test framework: ${framework}`);
+
+      // Step 2: Process test report (framework-specific)
+      let reportData: PlaywrightProcessorResult;
+
+      if (framework === 'pytest' || framework === 'maven') {
+        console.log(`[PostProcessingOrchestrator] Step 2: Processing ${framework} JUnit report...`);
+        const config = JSON.parse(testRun.config || '{}');
+        const outputDir = config.outputDirectory ||
+          (framework === 'pytest' ? 'python-tests/test-results' : 'java-tests/target/surefire-reports');
+        reportData = await this.junitProcessor.process(runId, outputDir, framework);
+      } else {
+        console.log('[PostProcessingOrchestrator] Step 2: Processing Playwright report...');
+        reportData = await this.playwrightProcessor.process(runId);
       }
-      result.processedData.testsProcessed = playwrightData.tests.length;
-      result.processedData.reportPath = playwrightData.htmlReportPath;
+
+      if (!reportData.success) {
+        result.errors.push(...reportData.errors);
+        throw new Error(`Failed to process ${framework} report`);
+      }
+      result.processedData.testsProcessed = reportData.tests.length;
+      result.processedData.reportPath = reportData.htmlReportPath;
 
       // Step 3: Process Qase metadata (if tests have Qase IDs)
       console.log('[PostProcessingOrchestrator] Step 3: Processing Qase metadata...');
-      const qaseData = await this.qaseProcessor.process(playwrightData.tests, runId);
+      const qaseData = await this.qaseProcessor.process(reportData.tests, runId);
       if (qaseData.success) {
         result.processedData.qaseTestsLinked = qaseData.linkedTests;
       } else {
@@ -139,41 +160,70 @@ export class PostProcessingOrchestrator {
         result.errors.push(...qaseData.errors.map((e) => `[Qase] ${e}`));
       }
 
-      // Step 4: Process artifacts and metadata
-      console.log('[PostProcessingOrchestrator] Step 4: Processing artifacts and metadata...');
-      const metadataResult = await this.metadataProcessor.process(runId, playwrightData.tests);
-      if (metadataResult.success) {
-        result.processedData.artifactsProcessed = metadataResult.artifactCount;
+      // Step 4: Process artifacts and metadata (Playwright only — pytest/maven don't produce Playwright artifacts)
+      let metadataResult = { artifactCount: 0, errors: [] as string[], success: true };
+      if (framework === 'playwright') {
+        console.log('[PostProcessingOrchestrator] Step 4: Processing artifacts and metadata...');
+        metadataResult = await this.metadataProcessor.process(runId, reportData.tests);
+        if (!metadataResult.success) {
+          console.warn('[PostProcessingOrchestrator] Metadata processing failed (non-critical):', metadataResult.errors);
+          result.errors.push(...metadataResult.errors.map((e) => `[Metadata] ${e}`));
+        }
       } else {
-        console.warn('[PostProcessingOrchestrator] Metadata processing failed (non-critical):', metadataResult.errors);
-        result.errors.push(...metadataResult.errors.map((e) => `[Metadata] ${e}`));
+        console.log(`[PostProcessingOrchestrator] Step 4: Skipping artifact processing for ${framework}`);
       }
+      result.processedData.artifactsProcessed = metadataResult.artifactCount;
 
       // Step 5: Populate database
       console.log('[PostProcessingOrchestrator] Step 5: Populating database...');
-      const dbResult = await this.databasePopulator.populate(runId, playwrightData, qaseData, metadataResult);
+      const dbResult = await this.databasePopulator.populate(runId, reportData, qaseData, metadataResult);
       if (!dbResult.success) {
         result.errors.push(...dbResult.errors);
         throw new Error('Failed to populate database');
       }
 
-      // Step 6: Update test run summary
-      console.log('[PostProcessingOrchestrator] Step 6: Updating test run summary...');
-      await this.updateTestRunSummary(runId, playwrightData);
+      // Step 6: Process AccessFlow SDK audit data (non-critical)
+      const sdkType = (testRun as any).sdkType;
+      if (sdkType) {
+        try {
+          const config = JSON.parse(testRun.config || '{}');
+          const outputDir = config.outputDirectory ||
+            (sdkType === 'python' ? 'python-tests/test-results'
+            : sdkType === 'java' ? 'java-tests/target/surefire-reports'
+            : 'test-suite/test-results');
 
-      // HTML report is already generated by Playwright's HTML reporter
-      // The path is captured in playwrightData.htmlReportPath (set in Step 2)
-      if (playwrightData.htmlReportPath) {
-        console.log(`[PostProcessingOrchestrator] ✅ HTML report available: ${playwrightData.htmlReportPath}`);
+          console.log(`[PostProcessingOrchestrator] Step 6: Processing AccessFlow audit data (${sdkType})...`);
+          const auditResult = await this.accessFlowAuditProcessor.process(
+            runId, sdkType, outputDir, testRun.stdout || undefined,
+          );
+
+          if (auditResult.success) {
+            await this.databasePopulator.persistSdkAuditReport(testRun.id, auditResult);
+            console.log(`[PostProcessingOrchestrator] SDK audit saved: ${auditResult.totalIssues} issues across ${auditResult.totalPages} pages`);
+          } else {
+            console.warn('[PostProcessingOrchestrator] SDK audit processing skipped:', auditResult.errors);
+          }
+        } catch (auditError: any) {
+          console.warn('[PostProcessingOrchestrator] SDK audit processing failed (non-critical):', auditError.message);
+        }
+      }
+
+      // Step 7: Update test run summary
+      console.log('[PostProcessingOrchestrator] Step 7: Updating test run summary...');
+      await this.updateTestRunSummary(runId, reportData);
+
+      if (reportData.htmlReportPath) {
+        console.log(`[PostProcessingOrchestrator] HTML report available: ${reportData.htmlReportPath}`);
       }
 
       result.success = true;
       result.duration = Date.now() - startTime;
 
-      console.log(`[PostProcessingOrchestrator] ✅ Post-processing completed successfully in ${result.duration}ms`);
+      console.log(`[PostProcessingOrchestrator] Post-processing completed in ${result.duration}ms`);
       console.log(`[PostProcessingOrchestrator] Summary:`, {
         artifactsProcessed: result.processedData.artifactsProcessed,
         errors: result.errors.length,
+        framework,
         qaseTestsLinked: result.processedData.qaseTestsLinked,
         testsProcessed: result.processedData.testsProcessed,
       });
@@ -181,7 +231,7 @@ export class PostProcessingOrchestrator {
       result.success = false;
       result.errors.push(error.message);
       result.duration = Date.now() - startTime;
-      console.error('[PostProcessingOrchestrator] ❌ Post-processing failed:', error);
+      console.error('[PostProcessingOrchestrator] Post-processing failed:', error);
     }
 
     return result;

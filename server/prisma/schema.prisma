@@ -43,10 +43,15 @@ model TestRun {
   totalArtifactSize  Int? @default(0)  // bytes
   artifactRetentionUntil DateTime?
   
-  results     TestResult[]
-  logs        TestLog[]
-  mcpAnalyses MCPAnalysis[]
-  artifacts   TestArtifact[]
+  // SDK lane metadata
+  sdkType       String?   // "node", "python", "java"
+  testFramework String?   // "playwright", "pytest", "maven"
+  
+  results        TestResult[]
+  logs           TestLog[]
+  mcpAnalyses    MCPAnalysis[]
+  artifacts      TestArtifact[]
+  sdkAuditReport SdkAuditReport?
   
   @@index([projectId])
   @@index([flowId])
@@ -283,4 +288,25 @@ model CuratedSite {
 
   @@index([category])
   @@index([enabled])
+}
+
+model SdkAuditReport {
+  id              String   @id @default(uuid())
+  testRunId       String   @unique
+  testRun         TestRun  @relation(fields: [testRunId], references: [id], onDelete: Cascade)
+  environment     String
+  sdkType         String
+  summaryData     String   // JSON blob of the full report summary
+  totalPages      Int
+  totalIssues     Int
+  extremeCount    Int      @default(0)
+  highCount       Int      @default(0)
+  mediumCount     Int      @default(0)
+  lowCount        Int      @default(0)
+  rawAuditPaths   String?  // JSON array of JSONL file paths
+  thresholdPassed Boolean  @default(true)
+  createdAt       DateTime @default(now())
+
+  @@index([sdkType])
+  @@index([testRunId])
 }

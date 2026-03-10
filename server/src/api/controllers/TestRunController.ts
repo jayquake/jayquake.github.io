@@ -69,13 +69,16 @@ export class TestRunController {
         total: 0,
       });
 
+      const projectData = project.toJSON();
       await this.testRunRepository.create({
         config: JSON.stringify(config),
         projectId,
         runId,
+        sdkType: projectData.sdkType,
         startTime: new Date(),
         status: 'running',
         summary: JSON.stringify(summary.toJSON()),
+        testFramework: projectData.testFramework,
       });
 
       // Pre-fetch Qase test cases BEFORE test execution (blocking operation)
@@ -561,6 +564,40 @@ export class TestRunController {
       res.sendFile(reportFile);
     } catch (error: any) {
       console.error('[TestRunController] Error serving report:', error);
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  async getSdkAudit(req: Request, res: Response): Promise<void> {
+    try {
+      const { runId } = req.params;
+      const prisma = DatabaseService.getInstance().getClient();
+
+      const testRun = await this.testRunRepository.findByRunId(runId);
+      if (!testRun) {
+        res.status(404).json({ error: 'Test run not found' });
+        return;
+      }
+
+      const auditReport = await prisma.sdkAuditReport.findUnique({
+        where: { testRunId: testRun.id },
+      });
+
+      if (!auditReport) {
+        res.json({ exists: false, report: null });
+        return;
+      }
+
+      res.json({
+        exists: true,
+        report: {
+          ...auditReport,
+          rawAuditPaths: auditReport.rawAuditPaths ? JSON.parse(auditReport.rawAuditPaths) : [],
+          summaryData: JSON.parse(auditReport.summaryData),
+        },
+      });
+    } catch (error: any) {
+      console.error('[TestRunController] Error getting SDK audit:', error);
       res.status(500).json({ error: error.message });
     }
   }

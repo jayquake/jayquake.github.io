@@ -4,6 +4,9 @@ import type { Project as ProjectType } from '../../../../shared/types';
  * Project Entity - Project configuration with validation
  */
 export class Project {
+  get apiKeyEnvVar(): string | undefined {
+    return this._apiKeyEnvVar;
+  }
   get configPath(): string {
     return this._configPath;
   }
@@ -26,12 +29,29 @@ export class Project {
   get name(): string {
     return this._name;
   }
+  get outputDirectory(): string | undefined {
+    return this._outputDirectory;
+  }
   get qaseProjectCode(): string | undefined {
     return this._qaseProjectCode;
+  }
+  get sdkType(): 'java' | 'node' | 'python' | undefined {
+    return this._sdkType;
+  }
+  get testCommand(): string | undefined {
+    return this._testCommand;
   }
   get testDirectory(): string {
     return this._testDirectory;
   }
+  get testFramework(): 'maven' | 'playwright' | 'pytest' | undefined {
+    return this._testFramework;
+  }
+  get workingDirectory(): string | undefined {
+    return this._workingDirectory;
+  }
+
+  private _apiKeyEnvVar?: string;
 
   private _configPath: string;
 
@@ -47,9 +67,19 @@ export class Project {
 
   private _name: string;
 
+  private _outputDirectory?: string;
+
   private _qaseProjectCode?: string;
 
+  private _sdkType?: 'java' | 'node' | 'python';
+
+  private _testCommand?: string;
+
   private _testDirectory: string;
+
+  private _testFramework?: 'maven' | 'playwright' | 'pytest';
+
+  private _workingDirectory?: string;
 
   constructor(project: ProjectType) {
     this.validate(project);
@@ -62,6 +92,12 @@ export class Project {
     this._qaseProjectCode = project.qaseProjectCode;
     this._configPath = project.configPath;
     this._globalSetupPath = project.globalSetupPath;
+    this._sdkType = project.sdkType;
+    this._testFramework = project.testFramework;
+    this._testCommand = project.testCommand;
+    this._workingDirectory = project.workingDirectory;
+    this._outputDirectory = project.outputDirectory;
+    this._apiKeyEnvVar = project.apiKeyEnvVar;
   }
 
   // Create from plain object
@@ -78,9 +114,14 @@ export class Project {
     return Boolean(this._qaseProjectCode);
   }
 
+  isPlaywright(): boolean {
+    return !this._testFramework || this._testFramework === 'playwright';
+  }
+
   // Convert to plain object
   toJSON(): ProjectType {
     return {
+      apiKeyEnvVar: this._apiKeyEnvVar,
       configPath: this._configPath,
       defaultBaseUrl: this._defaultBaseUrl,
       description: this._description,
@@ -88,8 +129,13 @@ export class Project {
       id: this._id,
       logo: this._logo,
       name: this._name,
+      outputDirectory: this._outputDirectory,
       qaseProjectCode: this._qaseProjectCode,
+      sdkType: this._sdkType,
+      testCommand: this._testCommand,
       testDirectory: this._testDirectory,
+      testFramework: this._testFramework,
+      workingDirectory: this._workingDirectory,
     };
   }
 

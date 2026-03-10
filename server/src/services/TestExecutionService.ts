@@ -1,4 +1,5 @@
 import { type ChildProcess, spawn } from 'child_process';
+import { existsSync } from 'fs';
 import { join } from 'path';
 
 import type { ProgressUpdate, Project, TestRunConfig } from '../../../shared/types';
@@ -15,9 +16,17 @@ import { TestRunRepository } from '../repositories/TestRunRepository';
 import { PostProcessingOrchestrator } from './PostProcessingOrchestrator';
 import { TestResultsProcessor } from './TestResultsProcessor';
 
+type SpawnConfig = {
+  args: string[];
+  command: string;
+  cwd: string;
+  env: Record<string, string | undefined>;
+  cleanupFn?: () => void;
+};
+
 /**
- * TestExecutionService - Manages Playwright test execution with tsx
- * Refactored from TestRunner to use repositories and follow OOP patterns
+ * TestExecutionService - Manages test execution across frameworks
+ * Supports Playwright (Node), pytest (Python), and Maven (Java) lanes
  */
 export class TestExecutionService {
   private activeProcesses: Map<string, ChildProcess> = new Map();
@@ -50,6 +59,129 @@ export class TestExecutionService {
     return this.activeProcesses.has(runId);
   }
 
+  private buildBaseEnv(project: Project, config: TestRunConfig): Record<string, string | undefined> {
+    const env: Record<string, string | undefined> = {
+      ...process.env,
+      ACCESSFLOW_URL: config.baseUrl,
+      BASE_URL: config.baseUrl,
+      CI: 'false',
+      STANDALONE_APP: 'true',
+    };
+
+    if (config.qaseConfig?.enabled) {
+      env.QASE_API_TOKEN = config.qaseConfig.apiToken || '';
+      env.QASE_PROJECT_CODE = config.qaseConfig.projectCode || '';
+      env.QASE_ENVIRONMENT = config.qaseConfig.environment || 'default';
+      env.QASE_RUN_TITLE = config.qaseConfig.runTitle || `Standalone App - ${project.name}`;
+      if (config.qaseConfig.host) {
+        env.QASE_TESTOPS_HOST = config.qaseConfig.host;
+      }
+    }
+
+    if (process.env.DB_URI) env.DB_URI = process.env.DB_URI;
+    if (process.env.DB_NAME) env.DB_NAME = process.env.DB_NAME;
+
+    return env;
+  }
+
+  private buildPlaywrightSpawnConfig(
+    runId: string,
+    project: Project,
+    config: TestRunConfig,
+    env: Record<string, string | undefined>,
+  ): SpawnConfig {
+    const testE2eDir = PathUtils.getTestE2eDir();
+    const configContent = this.configManager.buildConfigContent(project, config, runId);
+    const configPath = this.configManager.saveTempConfig(runId, configContent, testE2eDir);
+
+    let configRelativePath: string;
+    if (configPath.startsWith(testE2eDir)) {
+      const relative = configPath.replace(testE2eDir, '').replace(/^\/+/, '');
+      configRelativePath = relative.startsWith('./') ? relative : `./${relative}`;
+    } else {
+      configRelativePath = configPath;
+    }
+
+    const args = ['test', '--config', configRelativePath];
+    if (config.uiMode) args.push('--ui');
+    if (config.grepPattern) args.push('--grep', config.grepPattern);
+
+    const nodeModulesPath = join(testE2eDir, 'node_modules');
+    const existingNodePath = (env.NODE_PATH as string) || '';
+    const nodePath = existingNodePath ? `${nodeModulesPath}:${existingNodePath}` : nodeModulesPath;
+
+    return {
+      args: ['playwright', ...args],
+      command: 'npx',
+      cwd: testE2eDir,
+      env: { ...env, NODE_PATH: nodePath },
+      cleanupFn: () => {
+        setTimeout(() => this.configManager.cleanupConfig(runId, testE2eDir), 60000);
+      },
+    };
+  }
+
+  private buildPytestSpawnConfig(
+    project: Project,
+    config: TestRunConfig,
+    env: Record<string, string | undefined>,
+  ): SpawnConfig {
+    const projectRoot = PathUtils.getProjectRoot();
+    const cwd = join(projectRoot, project.workingDirectory || 'python-tests');
+
+    const args = ['-v', '--junitxml=test-results/results.xml'];
+    if (config.grepPattern) args.push('-k', config.grepPattern);
+    if (config.testFiles?.length) {
+      for (const f of config.testFiles) args.push(`tests/${f}`);
+    }
+
+    const apiKeyEnvVar = project.apiKeyEnvVar || 'PYTHON_ACCESSFLOW_SDK_TOKEN';
+    if (process.env[apiKeyEnvVar]) {
+      env[apiKeyEnvVar] = process.env[apiKeyEnvVar];
+    }
+
+    return { args, command: 'pytest', cwd, env };
+  }
+
+  private buildMavenSpawnConfig(
+    project: Project,
+    config: TestRunConfig,
+    env: Record<string, string | undefined>,
+  ): SpawnConfig {
+    const projectRoot = PathUtils.getProjectRoot();
+    const cwd = join(projectRoot, project.workingDirectory || 'java-tests');
+
+    const args = ['test', '-B'];
+    if (config.grepPattern) args.push(`-Dtest=${config.grepPattern}`);
+
+    const apiKeyEnvVar = project.apiKeyEnvVar || 'JAVA_ACCESSFLOW_SDK_TOKEN';
+    if (process.env[apiKeyEnvVar]) {
+      env[apiKeyEnvVar] = process.env[apiKeyEnvVar];
+      env.ACCESSFLOW_SDK_API_KEY = process.env[apiKeyEnvVar];
+    }
+
+    return { args, command: 'mvn', cwd, env };
+  }
+
+  private getSpawnConfig(
+    runId: string,
+    project: Project,
+    config: TestRunConfig,
+    env: Record<string, string | undefined>,
+  ): SpawnConfig {
+    const framework = project.testFramework || 'playwright';
+    console.log(`[TestExecutionService] Building spawn config for framework: ${framework}`);
+
+    switch (framework) {
+      case 'pytest':
+        return this.buildPytestSpawnConfig(project, config, env);
+      case 'maven':
+        return this.buildMavenSpawnConfig(project, config, env);
+      default:
+        return this.buildPlaywrightSpawnConfig(runId, project, config, env);
+    }
+  }
+
   async runTests(
     runId: string,
     project: Project,
@@ -59,18 +191,16 @@ export class TestExecutionService {
     return new Promise(async (resolve, reject) => {
       let currentTestRun: any = null;
       try {
-        // Get test-e2e directory using shared utility (consistent across all services)
         const testE2eDir = PathUtils.getTestE2eDir();
+        const framework = project.testFramework || 'playwright';
         console.log(`[TestExecutionService] testE2eDir: ${testE2eDir}`);
-        console.log(`[TestExecutionService] project.testDirectory: ${project.testDirectory}`);
+        console.log(`[TestExecutionService] project: ${project.name} [${framework}]`);
 
-        // Get existing TestRun (created by controller)
         currentTestRun = await this.testRunRepository.findByRunId(runId);
         if (!currentTestRun) {
           throw new Error(`TestRun ${runId} not found. It should be created by the controller first.`);
         }
 
-        // Save baseUrl to Environment table for future autocomplete
         if (config.baseUrl) {
           try {
             const { EnvironmentService } = await import('./EnvironmentService');
@@ -78,84 +208,18 @@ export class TestExecutionService {
             await envService.saveEnvironment(config.baseUrl, 'manual', project.id, { lastUsedInRun: runId });
           } catch (envError) {
             console.warn('[TestExecutionService] Failed to save environment:', envError);
-            // Don't fail the test run if environment save fails
           }
         }
 
-        // Generate config with runId for unique report folder
-        const configContent = this.configManager.buildConfigContent(project, config, runId);
-        const configPath = this.configManager.saveTempConfig(runId, configContent, testE2eDir);
+        const env = this.buildBaseEnv(project, config);
+        const spawnConfig = this.getSpawnConfig(runId, project, config, env);
 
-        // Set environment variables
-        const env = {
-          ...process.env,
-          ACCESSFLOW_URL: config.baseUrl,
-          BASE_URL: config.baseUrl,
-          CI: 'false',
-          STANDALONE_APP: 'true',
-        };
+        console.log(`[TestExecutionService] Spawning: ${spawnConfig.command} ${spawnConfig.args.join(' ')}`);
+        console.log(`[TestExecutionService] Working directory: ${spawnConfig.cwd}`);
 
-        if (config.qaseConfig?.enabled) {
-          env.QASE_API_TOKEN = config.qaseConfig.apiToken || '';
-          env.QASE_PROJECT_CODE = config.qaseConfig.projectCode || '';
-          env.QASE_ENVIRONMENT = config.qaseConfig.environment || 'default';
-          env.QASE_RUN_TITLE = config.qaseConfig.runTitle || `Standalone App - ${project.name}`;
-          if (config.qaseConfig.host) {
-            env.QASE_TESTOPS_HOST = config.qaseConfig.host;
-          }
-        }
-
-        if (process.env.DB_URI) {
-          env.DB_URI = process.env.DB_URI;
-        }
-        if (process.env.DB_NAME) {
-          env.DB_NAME = process.env.DB_NAME;
-        }
-
-        // Build test command using tsx for TypeScript execution
-        // Config path should be relative to testE2eDir (where we're running from)
-        let configRelativePath: string;
-        if (configPath.startsWith(testE2eDir)) {
-          // Remove testE2eDir prefix and ensure it starts with ./
-          const relative = configPath.replace(testE2eDir, '').replace(/^\/+/, '');
-          configRelativePath = relative.startsWith('./') ? relative : `./${relative}`;
-        } else {
-          configRelativePath = configPath;
-        }
-
-        console.log(`[TestExecutionService] Config path: ${configPath}`);
-        console.log(`[TestExecutionService] Config relative path: ${configRelativePath}`);
-        console.log(`[TestExecutionService] Test E2E dir: ${testE2eDir}`);
-
-        const args = ['test', '--config', configRelativePath];
-
-        if (config.uiMode) {
-          args.push('--ui');
-        }
-
-        // Add grep pattern if individual test cases are selected
-        if (config.grepPattern) {
-          args.push('--grep', config.grepPattern);
-        }
-
-        // Use npx playwright but ensure @playwright/test resolves from project's node_modules
-        // The issue: npx downloads playwright CLI to temp cache, but config imports @playwright/test
-        // Solution: Set NODE_PATH to include project's node_modules so Node can resolve @playwright/test
-        const nodeModulesPath = join(testE2eDir, 'node_modules');
-        const existingNodePath = env.NODE_PATH || '';
-        const nodePath = existingNodePath ? `${nodeModulesPath}:${existingNodePath}` : nodeModulesPath;
-
-        console.log(`[TestExecutionService] Spawning: npx playwright ${args.join(' ')}`);
-        console.log(`[TestExecutionService] Working directory: ${testE2eDir}`);
-        console.log(`[TestExecutionService] Config file exists: ${require('fs').existsSync(configPath)}`);
-        console.log(`[TestExecutionService] NODE_PATH: ${nodePath}`);
-
-        const proc = spawn('npx', ['playwright', ...args], {
-          cwd: testE2eDir,
-          env: {
-            ...env,
-            NODE_PATH: nodePath, // Ensure @playwright/test resolves from project's node_modules
-          },
+        const proc = spawn(spawnConfig.command, spawnConfig.args, {
+          cwd: spawnConfig.cwd,
+          env: spawnConfig.env,
           stdio: ['pipe', 'pipe', 'pipe'],
         });
 
@@ -304,34 +368,25 @@ export class TestExecutionService {
         });
 
         proc.on('close', async (code) => {
-          console.log(`[TestExecutionService] Process closed with code: ${code} for runId: ${runId}`);
+          console.log(`[TestExecutionService] Process closed with code: ${code} for runId: ${runId} [${framework}]`);
           this.activeProcesses.delete(runId);
           this.outputParsers.delete(runId);
 
-          // Don't cleanup config immediately - keep it for debugging
-          // Only cleanup after a delay to allow for report generation
-          setTimeout(() => {
-            this.configManager.cleanupConfig(runId, testE2eDir);
-          }, 60000); // Cleanup after 60 seconds
+          if (spawnConfig.cleanupFn) spawnConfig.cleanupFn();
 
           const success = code === 0;
 
-          // Update .env file with BASE_URL for IDE runs to use
           if (config.baseUrl) {
             try {
               EnvFileManager.updateBaseUrl(config.baseUrl);
             } catch (envError) {
               console.warn('[TestExecutionService] Failed to update .env file:', envError);
-              // Don't fail the test run if .env update fails
             }
           }
 
-          // Get report path - use organized folder structure
-          // Note: runId already includes "run-" prefix
-          // IMPORTANT: HTML reports are always generated by default (configured in ConfigManager)
-          // The reportPath is always set and stored in the database for every test run
-          const reportPathRelative = `reports/html/${runId}`;
-          console.log(`[TestExecutionService] Setting reportPath for ${runId}: ${reportPathRelative}`);
+          // Playwright generates HTML reports; other frameworks may not
+          const reportPathRelative = framework === 'playwright' ? `reports/html/${runId}` : undefined;
+          console.log(`[TestExecutionService] Setting reportPath for ${runId}: ${reportPathRelative || 'N/A'}`);
 
           const finalStdout = stdout || '';
           const finalStderr = stderr || '';
@@ -358,10 +413,10 @@ export class TestExecutionService {
             );
             await this.testRunRepository.update(currentTestRun.id, {
               endTime: new Date(),
-              reportPath: reportPathRelative,
+              reportPath: reportPathRelative || null,
               status: success ? 'completed' : 'failed',
               stderr: finalStderr || null,
-              stdout: finalStdout || null, // Store output directly for easy OOP access
+              stdout: finalStdout || null,
               summary: JSON.stringify(finalSummary.toJSON()),
             });
             console.log(`[TestExecutionService] TestRun updated successfully with output`);
@@ -407,12 +462,12 @@ export class TestExecutionService {
           onProgress(completionUpdate);
 
           resolve({
-            reportPath: reportPathRelative,
+            reportPath: reportPathRelative || undefined,
             results: {
               exitCode: code,
               failed: finalSummary.failed,
               passed: finalSummary.passed,
-              reportPath: reportPathRelative,
+              reportPath: reportPathRelative || undefined,
               skipped: finalSummary.skipped,
               stderr: finalStderr,
               stdout: finalStdout,

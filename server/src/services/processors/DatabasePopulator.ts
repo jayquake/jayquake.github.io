@@ -20,6 +20,7 @@ import { type PrismaClient } from '@prisma/client';
 import { TestArtifactRepository } from '../../repositories/TestArtifactRepository';
 import { TestResultRepository } from '../../repositories/TestResultRepository';
 import { TestStepRepository } from '../../repositories/TestStepRepository';
+import { type AccessFlowAuditResult } from './AccessFlowAuditProcessor';
 import { type MetadataProcessorResult } from './MetadataProcessor';
 import { type PlaywrightProcessorResult } from './PlaywrightReportProcessor';
 import { type QaseProcessorResult } from './QaseDataProcessor';
@@ -209,5 +210,42 @@ export class DatabasePopulator {
     }
 
     return result;
+  }
+
+  async persistSdkAuditReport(
+    testRunId: string,
+    auditResult: AccessFlowAuditResult,
+  ): Promise<void> {
+    await this.prisma.sdkAuditReport.upsert({
+      where: { testRunId },
+      create: {
+        testRunId,
+        environment: auditResult.environment,
+        sdkType: auditResult.sdkType,
+        summaryData: JSON.stringify(auditResult.summaryData),
+        totalPages: auditResult.totalPages,
+        totalIssues: auditResult.totalIssues,
+        extremeCount: auditResult.severityCounts.extreme,
+        highCount: auditResult.severityCounts.high,
+        mediumCount: auditResult.severityCounts.medium,
+        lowCount: auditResult.severityCounts.low,
+        rawAuditPaths: JSON.stringify(auditResult.rawAuditPaths),
+        thresholdPassed: auditResult.thresholdPassed,
+      },
+      update: {
+        environment: auditResult.environment,
+        sdkType: auditResult.sdkType,
+        summaryData: JSON.stringify(auditResult.summaryData),
+        totalPages: auditResult.totalPages,
+        totalIssues: auditResult.totalIssues,
+        extremeCount: auditResult.severityCounts.extreme,
+        highCount: auditResult.severityCounts.high,
+        mediumCount: auditResult.severityCounts.medium,
+        lowCount: auditResult.severityCounts.low,
+        rawAuditPaths: JSON.stringify(auditResult.rawAuditPaths),
+        thresholdPassed: auditResult.thresholdPassed,
+      },
+    });
+    console.log(`[DatabasePopulator] SDK audit report saved for testRun ${testRunId}`);
   }
 }

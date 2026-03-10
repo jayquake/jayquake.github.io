@@ -69,6 +69,19 @@ export class PathUtils {
     return resolve(testE2eDir, relativePath);
   }
 
+  /**
+   * Resolve a project-relative path (e.g. test-suite/tests) for file operations.
+   * Tries project root first so in-repo projects (e.g. AccessFlow Node) use repo paths
+   * even when TEST_E2E_DIR points at another checkout.
+   */
+  static resolveTestDirectory(relativePath: string): string {
+    const fromRoot = this.resolveFromProjectRoot(relativePath);
+    if (existsSync(fromRoot)) {
+      return fromRoot;
+    }
+    return this.resolveFromTestE2e(relativePath);
+  }
+
   static validatePathExists(path: string, description: string): void {
     const absolutePath = path.startsWith('/') ? path : this.resolveFromTestE2e(path);
     if (!existsSync(absolutePath)) {
