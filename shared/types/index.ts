@@ -167,7 +167,7 @@ export type Project = {
   sdkType?: 'java' | 'node' | 'python';
   testCommand?: string;
   testDirectory: string;
-  testFramework?: 'maven' | 'playwright' | 'pytest';
+  testFramework?: 'maven' | 'playwright' | 'pytest' | 'selenium';
   workingDirectory?: string;
 }
 

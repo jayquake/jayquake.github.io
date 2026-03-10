@@ -189,14 +189,14 @@ export class ReportService {
         console.log(`[ReportService] Reading ${dbResults.length} test results from database for run ${runId}`);
         playwrightResults = this.convertDbResultsToParsedResults(dbResults);
         
-        // Check if steps are missing from database and enrich from HTML report
+        // Enrich with HTML report steps only for Playwright runs (other frameworks don't produce HTML reports)
+        const framework = run.testFramework || 'playwright';
         const hasSteps = playwrightResults.some(r => r.steps && r.steps.length > 0);
-        if (!hasSteps) {
+        if (!hasSteps && framework === 'playwright') {
           console.log(`[ReportService] No steps in database, enriching from HTML report`);
           try {
             const htmlResults = await this.readFromFilesystem(runId, run.reportPath);
             if (htmlResults.length > 0) {
-              // Merge steps from HTML report into database results
               playwrightResults = playwrightResults.map((dbResult, index) => {
                 const htmlResult = htmlResults.find(hr => hr.title === dbResult.title && hr.file === dbResult.file) || htmlResults[index];
                 if (htmlResult && htmlResult.steps) {

@@ -96,7 +96,10 @@ export default function TestProgress() {
     }, 2000);
   }, [loadTestResults]);
 
-  // Load run status on mount for already-completed runs
+  // Poll run status via REST API as a fallback in case WebSocket events are missed.
+  // Checks every 5s while the run is still 'running'. Stops once status transitions.
+  const statusPollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
   useEffect(() => {
     if (!runId) return;
 
@@ -114,6 +117,30 @@ export default function TestProgress() {
     };
 
     checkRunStatus();
+
+    statusPollRef.current = setInterval(async () => {
+      try {
+        const data = await api.runs.getById(runId);
+        setRunData(data);
+        if (data.status === 'completed' || data.status === 'failed') {
+          setRunStatus(data.status);
+          if (statusPollRef.current) {
+            clearInterval(statusPollRef.current);
+            statusPollRef.current = null;
+          }
+          scheduleResultsRetry();
+        }
+      } catch {
+        // ignore — will retry on next interval
+      }
+    }, 5000);
+
+    return () => {
+      if (statusPollRef.current) {
+        clearInterval(statusPollRef.current);
+        statusPollRef.current = null;
+      }
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runId]);
 
@@ -129,11 +156,11 @@ export default function TestProgress() {
     const lastUpdate = updates[updates.length - 1];
     if (lastUpdate?.type === 'run-complete' || lastUpdate?.type === 'flow-complete') {
       setRunStatus('completed');
-      // results-ready will fire when post-processing finishes; schedule a retry
-      // fallback in case the WS message is missed
+      if (statusPollRef.current) { clearInterval(statusPollRef.current); statusPollRef.current = null; }
       scheduleResultsRetry();
     } else if (lastUpdate?.type === 'run-error' || lastUpdate?.type === 'flow-error') {
       setRunStatus('failed');
+      if (statusPollRef.current) { clearInterval(statusPollRef.current); statusPollRef.current = null; }
       scheduleResultsRetry();
     } else if (lastUpdate?.type === 'results-ready') {
       // Post-processing complete — fetch final results and cancel any pending retry

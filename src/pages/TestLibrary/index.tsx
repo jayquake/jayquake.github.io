@@ -173,7 +173,7 @@ export default function TestLibrary() {
       setDeployedEnvs((envHub.domains as DeployedEnv[]) || []);
 
       let defaultUrl = projectData.defaultBaseUrl || '';
-      if (projectId === 'accessflow') {
+      if (projectData.sdkType) {
         try {
           const sdkDefault = await api.projects.getSdkDefaultBaseUrl(projectId);
           if (sdkDefault?.baseUrl) defaultUrl = sdkDefault.baseUrl;
@@ -563,7 +563,7 @@ export default function TestLibrary() {
   }
 
   if (!project) {
-    const frameworkLabel: Record<string, string> = { playwright: 'Playwright', pytest: 'Pytest', maven: 'Maven' };
+    const frameworkLabel: Record<string, string> = { playwright: 'Playwright', pytest: 'Pytest', maven: 'Maven', selenium: 'Selenium' };
     const sdkColor: Record<string, 'info' | 'success' | 'warning'> = { node: 'info', python: 'success', java: 'warning' };
     const sdkAccent: Record<string, string> = { node: '#2196f3', python: '#4caf50', java: '#ff9800' };
 

@@ -163,6 +163,37 @@ export class TestExecutionService {
     return { args, command: 'mvn', cwd, env };
   }
 
+  private buildSeleniumSpawnConfig(
+    project: Project,
+    config: TestRunConfig,
+    env: Record<string, string | undefined>,
+  ): SpawnConfig {
+    const projectRoot = PathUtils.getProjectRoot();
+    const cwd = join(projectRoot, project.workingDirectory || 'selenium-test-suite');
+
+    const args = ['--config', 'jest.config.js', '--forceExit', '--verbose'];
+
+    if (config.testFiles?.length) {
+      for (const f of config.testFiles) args.push(f);
+    }
+    if (config.grepPattern) {
+      args.push('-t', config.grepPattern);
+    }
+
+    if (config.headless !== false) {
+      env.HEADLESS = 'true';
+    } else {
+      env.HEADLESS = 'false';
+    }
+
+    const apiKeyEnvVar = project.apiKeyEnvVar || 'AF_NODE_PACKAGE_KEY';
+    if (process.env[apiKeyEnvVar]) {
+      env[apiKeyEnvVar] = process.env[apiKeyEnvVar];
+    }
+
+    return { args: ['jest', ...args], command: 'npx', cwd, env };
+  }
+
   private getSpawnConfig(
     runId: string,
     project: Project,
@@ -177,6 +208,8 @@ export class TestExecutionService {
         return this.buildPytestSpawnConfig(project, config, env);
       case 'maven':
         return this.buildMavenSpawnConfig(project, config, env);
+      case 'selenium':
+        return this.buildSeleniumSpawnConfig(project, config, env);
       default:
         return this.buildPlaywrightSpawnConfig(runId, project, config, env);
     }

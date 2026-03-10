@@ -20,6 +20,7 @@ import { DatabaseService } from '../infrastructure/database/DatabaseService';
 import { TestRunRepository } from '../repositories/TestRunRepository';
 import { AccessFlowAuditProcessor } from './processors/AccessFlowAuditProcessor';
 import { DatabasePopulator } from './processors/DatabasePopulator';
+import { JestOutputProcessor } from './processors/JestOutputProcessor';
 import { JUnitReportProcessor } from './processors/JUnitReportProcessor';
 import { MetadataProcessor } from './processors/MetadataProcessor';
 import type { PlaywrightProcessorResult } from './processors/PlaywrightReportProcessor';
@@ -42,6 +43,7 @@ export type ProcessingResult = {
 export class PostProcessingOrchestrator {
   private accessFlowAuditProcessor: AccessFlowAuditProcessor;
   private databasePopulator: DatabasePopulator;
+  private jestProcessor: JestOutputProcessor;
   private junitProcessor: JUnitReportProcessor;
   private metadataProcessor: MetadataProcessor;
   private playwrightProcessor: PlaywrightReportProcessor;
@@ -52,6 +54,7 @@ export class PostProcessingOrchestrator {
     const prisma = DatabaseService.getInstance().getClient();
     this.playwrightProcessor = new PlaywrightReportProcessor();
     this.junitProcessor = new JUnitReportProcessor();
+    this.jestProcessor = new JestOutputProcessor();
     this.accessFlowAuditProcessor = new AccessFlowAuditProcessor();
     this.qaseProcessor = new QaseDataProcessor();
     this.metadataProcessor = new MetadataProcessor();
@@ -132,7 +135,10 @@ export class PostProcessingOrchestrator {
       // Step 2: Process test report (framework-specific)
       let reportData: PlaywrightProcessorResult;
 
-      if (framework === 'pytest' || framework === 'maven') {
+      if (framework === 'selenium') {
+        console.log('[PostProcessingOrchestrator] Step 2: Processing Jest output...');
+        reportData = await this.jestProcessor.process(runId);
+      } else if (framework === 'pytest' || framework === 'maven') {
         console.log(`[PostProcessingOrchestrator] Step 2: Processing ${framework} JUnit report...`);
         const config = JSON.parse(testRun.config || '{}');
         const outputDir = config.outputDirectory ||
@@ -161,7 +167,7 @@ export class PostProcessingOrchestrator {
       }
 
       // Step 4: Process artifacts and metadata (Playwright only — pytest/maven don't produce Playwright artifacts)
-      let metadataResult = { artifactCount: 0, errors: [] as string[], success: true };
+      let metadataResult = { artifactCount: 0, artifacts: [] as any[], errors: [] as string[], success: true };
       if (framework === 'playwright') {
         console.log('[PostProcessingOrchestrator] Step 4: Processing artifacts and metadata...');
         metadataResult = await this.metadataProcessor.process(runId, reportData.tests);
@@ -190,6 +196,7 @@ export class PostProcessingOrchestrator {
           const outputDir = config.outputDirectory ||
             (sdkType === 'python' ? 'python-tests/test-results'
             : sdkType === 'java' ? 'java-tests/target/surefire-reports'
+            : framework === 'selenium' ? 'selenium-test-suite/test-results'
             : 'test-suite/test-results');
 
           console.log(`[PostProcessingOrchestrator] Step 6: Processing AccessFlow audit data (${sdkType})...`);

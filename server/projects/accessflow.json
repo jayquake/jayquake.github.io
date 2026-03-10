@@ -1,8 +1,8 @@
 {
   "id": "accessflow",
-  "name": "AccessFlow (Node)",
-  "description": "AccessFlow Node SDK E2E test suite",
-  "logo": "/logos/accessflow-logomark-color.png",
+  "name": "AccessFlow (Node Playwright)",
+  "description": "AccessFlow Node SDK E2E test suite using Playwright",
+  "logo": "/logos/playwright.svg",
   "sdkType": "node",
   "testFramework": "playwright",
   "testCommand": "npx playwright test",
