@@ -1,17 +1,17 @@
 -------------------------------------------------------------------------------
 Test set: com.accessflow.SdkAuditSearchComponentTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 74.03 s <<< FAILURE! -- in com.accessflow.SdkAuditSearchComponentTest
-com.accessflow.SdkAuditSearchComponentTest.testSearchInputDisplayed -- Time elapsed: 37.41 s <<< ERROR!
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 72.98 s <<< FAILURE! -- in com.accessflow.SdkAuditSearchComponentTest
+com.accessflow.SdkAuditSearchComponentTest.testSearchInputDisplayed -- Time elapsed: 37.62 s <<< ERROR!
 org.openqa.selenium.TimeoutException: 
-timeout: Timed out receiving message from renderer: -0.000
+timeout: Timed out receiving message from renderer: -0.006
   (Session info: chrome=145.0.7632.160)
 Build info: version: '4.18.1', revision: 'b1d3319b48'
 System info: os.name: 'Mac OS X', os.arch: 'aarch64', os.version: '15.7.4', java.version: '25.0.2'
 Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [6047a63b53dcc53a2c15bab815ab4a34, get {url=http://localhost:3000/}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 145.0.7632.160, chrome: {chromedriverVersion: 145.0.7632.117 (de4e5d6e13b..., userDataDir: /var/folders/hb/b2tj8_yn10q...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:62270}, goog:processID: 46045, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: mac, proxy: Proxy(), se:cdp: ws://localhost:62270/devtoo..., se:cdpVersion: 145.0.7632.160, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: 6047a63b53dcc53a2c15bab815ab4a34
+Command: [c68b221631bb5d58a4e2bb15ae716763, get {url=http://localhost:3000/}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 145.0.7632.160, chrome: {chromedriverVersion: 145.0.7632.117 (de4e5d6e13b..., userDataDir: /var/folders/hb/b2tj8_yn10q...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:61239}, goog:processID: 82577, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: mac, proxy: Proxy(), se:cdp: ws://localhost:61239/devtoo..., se:cdpVersion: 145.0.7632.160, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: c68b221631bb5d58a4e2bb15ae716763
 	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
 	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
 	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
@@ -29,16 +29,16 @@ Session ID: 6047a63b53dcc53a2c15bab815ab4a34
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
 
-com.accessflow.SdkAuditSearchComponentTest.testSearchResultDetails -- Time elapsed: 36.59 s <<< ERROR!
+com.accessflow.SdkAuditSearchComponentTest.testSearchResultDetails -- Time elapsed: 35.34 s <<< ERROR!
 org.openqa.selenium.TimeoutException: 
-timeout: Timed out receiving message from renderer: -0.001
+timeout: Timed out receiving message from renderer: -0.005
   (Session info: chrome=145.0.7632.160)
 Build info: version: '4.18.1', revision: 'b1d3319b48'
 System info: os.name: 'Mac OS X', os.arch: 'aarch64', os.version: '15.7.4', java.version: '25.0.2'
 Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [90ce2b7f808660c26a577dcb3ba7c9c2, get {url=http://localhost:3000/}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 145.0.7632.160, chrome: {chromedriverVersion: 145.0.7632.117 (de4e5d6e13b..., userDataDir: /var/folders/hb/b2tj8_yn10q...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:62635}, goog:processID: 47103, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: mac, proxy: Proxy(), se:cdp: ws://localhost:62635/devtoo..., se:cdpVersion: 145.0.7632.160, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: 90ce2b7f808660c26a577dcb3ba7c9c2
+Command: [8a1f6a775ec47917c97a4dca620781bc, get {url=http://localhost:3000/}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 145.0.7632.160, chrome: {chromedriverVersion: 145.0.7632.117 (de4e5d6e13b..., userDataDir: /var/folders/hb/b2tj8_yn10q...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:61608}, goog:processID: 83609, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: mac, proxy: Proxy(), se:cdp: ws://localhost:61608/devtoo..., se:cdpVersion: 145.0.7632.160, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 8a1f6a775ec47917c97a4dca620781bc
 	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
 	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
 	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)

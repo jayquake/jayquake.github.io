@@ -1,22 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.accessflow.LocalCheckTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 10.10 s <<< FAILURE! -- in com.accessflow.LocalCheckTest
-com.accessflow.LocalCheckTest.testLocalCheckFalseDoesNotFail -- Time elapsed: 4.872 s <<< ERROR!
-java.lang.RuntimeException: AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY in your environment or pass apiKey to the constructor.
-	at com.acsbe.accessflow.AccessFlowSDK.verifyApiKey(AccessFlowSDK.java:282)
-	at com.acsbe.accessflow.AccessFlowSDK.audit(AccessFlowSDK.java:352)
-	at com.accessflow.LocalCheckTest.testLocalCheckFalseDoesNotFail(LocalCheckTest.java:75)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-
-com.accessflow.LocalCheckTest.testLocalCheckTrueUnderThreshold -- Time elapsed: 5.230 s <<< ERROR!
-java.lang.RuntimeException: AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY in your environment or pass apiKey to the constructor.
-	at com.acsbe.accessflow.AccessFlowSDK.verifyApiKey(AccessFlowSDK.java:282)
-	at com.acsbe.accessflow.AccessFlowSDK.audit(AccessFlowSDK.java:352)
-	at com.accessflow.LocalCheckTest.testLocalCheckTrueUnderThreshold(LocalCheckTest.java:56)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 20.81 s -- in com.accessflow.LocalCheckTest
