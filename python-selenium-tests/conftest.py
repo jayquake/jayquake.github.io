@@ -129,12 +129,13 @@ def driver():
 def sdk(driver):
     """Provide an AccessFlow SDK instance bound to the Selenium driver."""
     api_key = (
-        os.environ.get("PYTHON_ACCESSFLOW_SDK_TOKEN")
+        os.environ.get("AF_NODE_PACKAGE_KEY")
+        or os.environ.get("PYTHON_ACCESSFLOW_SDK_TOKEN")
         or os.environ.get("ACCESSFLOW_SDK_API_KEY")
     )
     if not api_key:
         pytest.skip(
-            "PYTHON_ACCESSFLOW_SDK_TOKEN or ACCESSFLOW_SDK_API_KEY not set. "
+            "AF_NODE_PACKAGE_KEY, PYTHON_ACCESSFLOW_SDK_TOKEN, or ACCESSFLOW_SDK_API_KEY not set. "
             "For local testing, create python-selenium-tests/.env with:\n"
             "  PYTHON_ACCESSFLOW_SDK_TOKEN=flow-your-key-here"
         )

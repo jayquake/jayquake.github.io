@@ -200,13 +200,27 @@ jobs:
           done
           echo "App did not start within 60 s" && exit 1
 
+      - name: Ensure AccessFlow API key is set (Python Selenium)
+        run: |
+          if [ -z "$AF_NODE_PACKAGE_KEY" ] && [ -z "$ACCESSFLOW_SDK_API_KEY" ] && [ -z "$PYTHON_ACCESSFLOW_SDK_TOKEN" ]; then
+            echo "::error::Add AF_NODE_PACKAGE_KEY (same as Node Selenium), ACCESSFLOW_SDK_API_KEY, or PYTHON_ACCESSFLOW_SDK_TOKEN to this repo's GitHub Secrets."
+            exit 1
+          fi
+          echo "AccessFlow API key is set."
+        env:
+          AF_NODE_PACKAGE_KEY: ${{ secrets.AF_NODE_PACKAGE_KEY }}
+          ACCESSFLOW_SDK_API_KEY: ${{ secrets.ACCESSFLOW_SDK_API_KEY }}
+          PYTHON_ACCESSFLOW_SDK_TOKEN: ${{ secrets.PYTHON_ACCESSFLOW_SDK_TOKEN }}
+
       - name: Run Python Selenium Tests
         working-directory: python-selenium-tests
         run: pytest -v --junitxml=test-results/results.xml
         env:
+          # Same key as Node Selenium (AF_NODE_PACKAGE_KEY); Python conftest reads it first.
           CI: true
           HEADLESS: "true"
           BASE_URL: http://localhost:3000
+          AF_NODE_PACKAGE_KEY: ${{ secrets.AF_NODE_PACKAGE_KEY }}
           PYTHON_ACCESSFLOW_SDK_TOKEN: ${{ secrets.PYTHON_ACCESSFLOW_SDK_TOKEN }}
           ACCESSFLOW_SDK_API_KEY: ${{ secrets.ACCESSFLOW_SDK_API_KEY }}
 
