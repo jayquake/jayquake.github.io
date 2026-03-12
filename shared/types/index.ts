@@ -161,6 +161,7 @@ export type Project = {
   globalSetupPath?: null | string;
   id: string;
   logo: string;
+  logos?: string[];
   name: string;
   outputDirectory?: string;
   qaseProjectCode?: string;

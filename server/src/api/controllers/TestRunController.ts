@@ -61,6 +61,13 @@ export class TestRunController {
         return;
       }
 
+      const projectData = project.toJSON();
+      const runConfig: TestRunConfig = {
+        ...config,
+        ...(projectData.outputDirectory && { outputDirectory: projectData.outputDirectory }),
+        ...(projectData.workingDirectory && { workingDirectory: projectData.workingDirectory }),
+      };
+
       const runId = `run-${Date.now()}-${Math.random().toString(36).substring(7)}`;
 
       // Create test run in database
@@ -71,9 +78,8 @@ export class TestRunController {
         total: 0,
       });
 
-      const projectData = project.toJSON();
       await this.testRunRepository.create({
-        config: JSON.stringify(config),
+        config: JSON.stringify(runConfig),
         projectId,
         runId,
         sdkType: projectData.sdkType,
@@ -131,7 +137,7 @@ export class TestRunController {
 
       // Start test execution asynchronously
       this.testExecutionService
-        .runTests(runId, project.toJSON(), config, (update: ProgressUpdate) => {
+        .runTests(runId, project.toJSON(), runConfig, (update: ProgressUpdate) => {
           this.broadcastToClients(update);
           if (update.type === 'test-output') {
             outputUpdates.push(update.output || '');
@@ -462,27 +468,40 @@ export class TestRunController {
 
   async getRun(req: Request, res: Response): Promise<void> {
     try {
-      const run = await this.testRunRepository.findByRunId(req.params.runId);
+      let run = await this.testRunRepository.findByRunId(req.params.runId);
       if (!run) {
         res.status(404).json({ error: 'Run not found' });
         return;
       }
 
-      // Convert Prisma object to shared TestRun format
-      // Include output fields for easy OOP access
+      // Auto-reprocess completed runs with stale zero-result summaries
+      const parsedSummary = JSON.parse(run.summary);
+      if (run.status === 'completed' && parsedSummary.total === 0 && (run.stdout || run.stderr)) {
+        try {
+          const orchestrator = new PostProcessingOrchestrator();
+          const result = await orchestrator.processTestRun(req.params.runId);
+          if (result.success && result.processedData.testsProcessed > 0) {
+            console.log(`[TestRunController] Auto-reprocessed stale run ${req.params.runId}: ${result.processedData.testsProcessed} tests`);
+            run = (await this.testRunRepository.findByRunId(req.params.runId))!;
+          }
+        } catch (reprocessError: any) {
+          console.warn(`[TestRunController] Auto-reprocessing failed:`, reprocessError.message);
+        }
+      }
+
       const convertedRun = {
         config: JSON.parse(run.config),
         duration: run.duration || undefined,
         endTime: run.endTime ? run.endTime.toISOString() : undefined,
         flowId: run.flowId || undefined,
-        id: run.runId, // Use runId (run-XXX format) as the id
+        id: run.runId,
         projectId: run.projectId || undefined,
         reportPath: run.reportPath || undefined,
-        results: [], // Results are loaded separately if needed
+        results: [],
         startTime: run.startTime.toISOString(),
         status: run.status,
-        stderr: run.stderr || undefined, // Direct access to error output
-        stdout: run.stdout || undefined, // Direct access to output
+        stderr: run.stderr || undefined,
+        stdout: run.stdout || undefined,
         summary: JSON.parse(run.summary),
       };
 

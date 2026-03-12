@@ -1,0 +1,45 @@
+node_modules
+server/node_modules
+build
+server/dist
+.git
+.gitignore
+
+# Test results and runtime artifacts
+test-suite/test-results
+selenium-test-suite/test-results
+mcp/mcp-output/screenshots
+mcp/mcp-output/traces
+mcp/mcp-output/sessions
+reports
+
+# Database files (volume-mounted at runtime)
+server/prisma/data/*.db
+server/prisma/data/*.db-journal
+
+# IDE and editor
+.cursor
+.vscode
+*.swp
+*.swo
+
+# Environment and secrets
+.env
+.env.*
+server/.env
+*.pem
+*.key
+credentials*.json
+secrets*.json
+*secrets*.json
+accessflow-*.json
+artifact_token.txt
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docs and non-essential
+SDK Docs
+*.md
+!README.md

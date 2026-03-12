@@ -424,8 +424,12 @@ export class TestExecutionService {
           const finalStdout = stdout || '';
           const finalStderr = stderr || '';
 
-          // Parse final summary from output
-          const finalParsed = parser.parseTestExecution(finalStdout);
+          // Parse final summary from output.
+          // Jest/Selenium write test results to stderr, so parse both streams.
+          const combinedOutput = finalStdout + '\n' + finalStderr;
+          const finalParsed = parser.parseTestExecution(combinedOutput);
+          const totalFromSummary = (finalParsed.summary?.passed || 0) +
+            (finalParsed.summary?.failed || 0) + (finalParsed.summary?.skipped || 0);
           const finalSummary = new TestRunSummary({
             exitCode: code || 0,
             failed: finalParsed.summary?.failed || 0,
@@ -433,7 +437,7 @@ export class TestExecutionService {
             skipped: finalParsed.summary?.skipped || 0,
             stderr: finalStderr,
             stdout: finalStdout,
-            total: finalParsed.testCount || 0,
+            total: finalParsed.testCount || totalFromSummary,
           });
 
           // Update TestRun with final status and summary

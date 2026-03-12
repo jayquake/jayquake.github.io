@@ -108,7 +108,7 @@ export class TestLibraryService {
       project.testDirectory.startsWith('/')
         ? project.testDirectory
         : PathUtils.resolveTestDirectory(project.testDirectory);
-    const testFiles = await this.scanTestFiles(testDirAbsolute, projectId);
+    const testFiles = await this.scanTestFiles(testDirAbsolute, projectId, project.testFramework);
 
     // Enrich with database metadata (last run, Qase IDs)
     const enrichedFiles = await this.enrichWithDatabaseMetadata(testFiles, projectId);
@@ -344,9 +344,18 @@ export class TestLibraryService {
 
   /**
    * Scan filesystem for test files
+   * Supports Jest/Playwright (.spec/.test .ts|js|tsx|jsx) and pytest (test_*.py, *_test.py)
    */
-  private async scanTestFiles(testDirectory: string, projectId: string): Promise<TestFileInfo[]> {
+  private async scanTestFiles(
+    testDirectory: string,
+    projectId: string,
+    testFramework?: string,
+  ): Promise<TestFileInfo[]> {
     const files: TestFileInfo[] = [];
+    const isPytest = testFramework === 'pytest';
+    const filePattern = isPytest
+      ? /^test_.*\.py$|.*_test\.py$/
+      : /\.(spec|test)\.(ts|js|tsx|jsx)$/;
 
     const scanDir = (dir: string, baseDir: string = testDirectory) => {
       try {
@@ -359,7 +368,7 @@ export class TestLibraryService {
           if (stats.isDirectory()) {
             // Recursively scan subdirectories
             scanDir(fullPath, baseDir);
-          } else if (stats.isFile() && entry.match(/\.(spec|test)\.(ts|js|tsx|jsx)$/)) {
+          } else if (stats.isFile() && entry.match(filePattern)) {
             // Test file found
             const relativePath = relative(baseDir, fullPath).replace(/\\/g, '/');
             files.push({

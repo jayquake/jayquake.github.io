@@ -1,0 +1,20 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - db-data:/data
+    env_file:
+      - .env
+    environment:
+      - PORT=8080
+      - NODE_ENV=production
+      - PROJECT_ROOT=/app
+      - DATABASE_URL=file:/data/test-runner.db
+    restart: unless-stopped
+
+volumes:
+  db-data:

@@ -69,6 +69,7 @@ export class AccessFlowAuditProcessor {
     outputDirectory: string,
     stdout?: string,
     runStartTime?: Date,
+    workingDirectory?: string,
   ): Promise<AccessFlowAuditResult> {
     const result: AccessFlowAuditResult = {
       environment: '',
@@ -112,6 +113,12 @@ export class AccessFlowAuditProcessor {
         return result;
       }
 
+      // Embed accessflow.config.json into summaryData for threshold display
+      const sdkConfig = this.readSdkConfig(projectRoot, outputDirectory, workingDirectory, sdkType);
+      if (sdkConfig) {
+        result.summaryData.config = sdkConfig;
+      }
+
       // Aggregate severity counts across all pages
       const pages = result.summaryData.pages || {};
       result.totalPages = Object.keys(pages).length;
@@ -132,8 +139,18 @@ export class AccessFlowAuditProcessor {
 
       result.environment = this.extractEnvironment(stdout, pages);
 
-      result.thresholdPassed =
-        result.severityCounts.extreme === 0 && result.severityCounts.high === 0;
+      // Use config thresholds if available, otherwise fall back to zero-tolerance
+      if (sdkConfig?.issuesFoundThreshold) {
+        const t = sdkConfig.issuesFoundThreshold;
+        result.thresholdPassed =
+          result.severityCounts.extreme <= (t.extreme ?? 0) &&
+          result.severityCounts.high <= (t.high ?? 0) &&
+          result.severityCounts.medium <= (t.medium ?? 0) &&
+          result.severityCounts.low <= (t.low ?? 0);
+      } else {
+        result.thresholdPassed =
+          result.severityCounts.extreme === 0 && result.severityCounts.high === 0;
+      }
 
       result.success = true;
       console.log(
@@ -282,6 +299,49 @@ export class AccessFlowAuditProcessor {
     } catch {
       return [];
     }
+  }
+
+  /**
+   * Locate and read the accessflow.config.json for the project.
+   * Searches: working directory, output directory parent, and
+   * Java resources path as a fallback.
+   */
+  private readSdkConfig(
+    projectRoot: string,
+    outputDirectory: string,
+    workingDirectory?: string,
+    sdkType?: string,
+  ): Record<string, any> | null {
+    const CONFIG_NAME = 'accessflow.config.json';
+    const candidates: string[] = [];
+
+    if (workingDirectory) {
+      candidates.push(join(projectRoot, workingDirectory, CONFIG_NAME));
+    }
+
+    // Parent of output directory (e.g. selenium-test-suite/test-results -> selenium-test-suite)
+    const outputParent = join(projectRoot, outputDirectory, '..');
+    candidates.push(join(outputParent, CONFIG_NAME));
+
+    // Java keeps config in src/test/resources/
+    if (sdkType === 'java' && workingDirectory) {
+      candidates.push(join(projectRoot, workingDirectory, 'src/test/resources', CONFIG_NAME));
+    }
+
+    for (const candidate of candidates) {
+      try {
+        if (existsSync(candidate)) {
+          const { readFileSync } = require('fs');
+          const content = readFileSync(candidate, 'utf-8');
+          console.log(`[AccessFlowAuditProcessor] Found SDK config: ${candidate}`);
+          return JSON.parse(content);
+        }
+      } catch {
+        // continue to next candidate
+      }
+    }
+
+    return null;
   }
 
   private extractEnvironment(stdout?: string, pages?: Record<string, any>): string {

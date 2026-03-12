@@ -141,8 +141,11 @@ export class PostProcessingOrchestrator {
       } else if (framework === 'pytest' || framework === 'maven') {
         console.log(`[PostProcessingOrchestrator] Step 2: Processing ${framework} JUnit report...`);
         const config = JSON.parse(testRun.config || '{}');
+        const projectId = (testRun as any).projectId;
         const outputDir = config.outputDirectory ||
-          (framework === 'pytest' ? 'python-tests/test-results' : 'java-tests/target/surefire-reports');
+          (framework === 'pytest'
+            ? (projectId === 'accessflow-python-selenium' ? 'python-selenium-tests/test-results' : 'python-tests/test-results')
+            : 'java-tests/target/surefire-reports');
         reportData = await this.junitProcessor.process(runId, outputDir, framework);
       } else {
         console.log('[PostProcessingOrchestrator] Step 2: Processing Playwright report...');
@@ -193,15 +196,24 @@ export class PostProcessingOrchestrator {
       if (sdkType) {
         try {
           const config = JSON.parse(testRun.config || '{}');
+          const projectId = (testRun as any).projectId;
           const outputDir = config.outputDirectory ||
-            (sdkType === 'python' ? 'python-tests/test-results'
-            : sdkType === 'java' ? 'java-tests/target/surefire-reports'
-            : framework === 'selenium' ? 'selenium-test-suite/test-results'
-            : 'test-suite/test-results');
+            (sdkType === 'python'
+              ? (projectId === 'accessflow-python-selenium' ? 'python-selenium-tests/test-results' : 'python-tests/test-results')
+              : sdkType === 'java' ? 'java-tests/target/surefire-reports'
+              : framework === 'selenium' ? 'selenium-test-suite/test-results'
+              : 'test-suite/test-results');
+
+          const workingDir = config.workingDirectory ||
+            (sdkType === 'python'
+              ? (projectId === 'accessflow-python-selenium' ? 'python-selenium-tests' : 'python-tests')
+              : sdkType === 'java' ? 'java-tests'
+              : framework === 'selenium' ? 'selenium-test-suite'
+              : 'test-suite');
 
           console.log(`[PostProcessingOrchestrator] Step 6: Processing AccessFlow audit data (${sdkType})...`);
           const auditResult = await this.accessFlowAuditProcessor.process(
-            runId, sdkType, outputDir, testRun.stdout || undefined, testRun.startTime,
+            runId, sdkType, outputDir, testRun.stdout || undefined, testRun.startTime, workingDir,
           );
 
           if (auditResult.success) {

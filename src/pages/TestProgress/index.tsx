@@ -267,8 +267,8 @@ export default function TestProgress() {
       <ProgressAppBar
         connected={connected}
         onCancel={handleCancel}
-        onNavigateBack={() => navigate('/test-runner')}
-        onProjectChange={(id) => navigate(`/test-runner/run?project=${id}`)}
+        onNavigateBack={() => navigate(runData?.projectId ? `/test-runner/library?project=${runData.projectId}` : '/test-runner')}
+        onProjectChange={(id) => navigate(`/test-runner/library?project=${id}`)}
         onRetry={() => navigate(-1)}
         onTogglePlaywrightUI={() => setShowUIViewer(v => !v)}
         onViewResults={() => navigate(`/test-runner/results/${runId}`)}

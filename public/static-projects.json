@@ -1,0 +1,105 @@
+[
+  {
+    "id": "accessflow-java",
+    "name": "AccessFlow (Java)",
+    "description": "AccessFlow Java SDK test suite using JUnit 5 + Playwright",
+    "logo": "/logos/java.svg",
+    "sdkType": "java",
+    "testFramework": "maven",
+    "testCommand": "mvn test -B",
+    "testDirectory": "java-tests/src/test/java",
+    "workingDirectory": "java-tests",
+    "outputDirectory": "java-tests/target/surefire-reports",
+    "apiKeyEnvVar": "JAVA_ACCESSFLOW_SDK_TOKEN",
+    "defaultBaseUrl": "http://localhost:3000",
+    "configPath": "java-tests/pom.xml",
+    "qaseProjectCode": "ACCESSFLOW",
+    "envHubNames": [
+      "accessflow"
+    ]
+  },
+  {
+    "id": "accessflow-python-selenium",
+    "name": "AccessFlow (Python Selenium)",
+    "description": "AccessFlow Python SDK test suite using pytest + Selenium WebDriver",
+    "logo": "/logos/python.svg",
+    "logos": [
+      "/logos/python.svg",
+      "/logos/selenium.svg"
+    ],
+    "sdkType": "python",
+    "testFramework": "pytest",
+    "testCommand": "pytest -v --junitxml=test-results/results.xml",
+    "testDirectory": "python-selenium-tests/tests",
+    "workingDirectory": "python-selenium-tests",
+    "outputDirectory": "python-selenium-tests/test-results",
+    "apiKeyEnvVar": "PYTHON_ACCESSFLOW_SDK_TOKEN",
+    "defaultBaseUrl": "http://localhost:3000",
+    "configPath": "python-selenium-tests/pytest.ini",
+    "qaseProjectCode": "ACCESSFLOW",
+    "envHubNames": [
+      "accessflow"
+    ]
+  },
+  {
+    "id": "accessflow-python",
+    "name": "AccessFlow (Python)",
+    "description": "AccessFlow Python SDK test suite using pytest + Playwright",
+    "logo": "/logos/python.svg",
+    "sdkType": "python",
+    "testFramework": "pytest",
+    "testCommand": "pytest -v --junitxml=test-results/results.xml",
+    "testDirectory": "python-tests/tests",
+    "workingDirectory": "python-tests",
+    "outputDirectory": "python-tests/test-results",
+    "apiKeyEnvVar": "PYTHON_ACCESSFLOW_SDK_TOKEN",
+    "defaultBaseUrl": "http://localhost:3000",
+    "configPath": "python-tests/pytest.ini",
+    "qaseProjectCode": "ACCESSFLOW",
+    "envHubNames": [
+      "accessflow"
+    ]
+  },
+  {
+    "id": "accessflow-selenium",
+    "name": "AccessFlow (Node Selenium)",
+    "description": "AccessFlow Node SDK E2E test suite using Selenium WebDriver",
+    "logo": "/logos/selenium.svg",
+    "logos": [
+      "/logos/nodejs.svg",
+      "/logos/selenium.svg"
+    ],
+    "sdkType": "node",
+    "testFramework": "selenium",
+    "testCommand": "npx jest --config jest.config.js --forceExit",
+    "testDirectory": "selenium-test-suite/tests",
+    "workingDirectory": "selenium-test-suite",
+    "outputDirectory": "selenium-test-suite/test-results",
+    "apiKeyEnvVar": "AF_NODE_PACKAGE_KEY",
+    "defaultBaseUrl": "http://localhost:3000",
+    "configPath": "selenium-test-suite/jest.config.js",
+    "qaseProjectCode": "ACCESSFLOW",
+    "envHubNames": [
+      "accessflow"
+    ]
+  },
+  {
+    "id": "accessflow",
+    "name": "AccessFlow (Node Playwright)",
+    "description": "AccessFlow Node SDK E2E test suite using Playwright",
+    "logo": "/logos/playwright.svg",
+    "sdkType": "node",
+    "testFramework": "playwright",
+    "testCommand": "npx playwright test",
+    "testDirectory": "test-suite/tests",
+    "workingDirectory": "test-suite",
+    "outputDirectory": "test-suite/test-results",
+    "apiKeyEnvVar": "AF_NODE_PACKAGE_KEY",
+    "defaultBaseUrl": "http://localhost:3000",
+    "configPath": "test-suite/playwright.config.js",
+    "qaseProjectCode": "ACCESSFLOW",
+    "envHubNames": [
+      "accessflow"
+    ]
+  }
+]

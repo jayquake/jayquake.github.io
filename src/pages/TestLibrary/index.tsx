@@ -1,5 +1,6 @@
 import type { Project, QaseConfig, TestRunConfig } from '../../../shared/types';
 
+import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -18,13 +19,14 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { api } from '../../api/client';
 import { useToast } from '../../components/standalone/ToastContainer';
+import { isStaticDeployment } from '../../utils/environment';
 import AdvancedOptionsAccordion from './AdvancedOptionsAccordion';
 import ExecutionModeCard from './ExecutionModeCard';
 import RunQueue from './RunQueue';
 import StickyRunHeader from './StickyRunHeader';
 import TargetEnvironmentCard from './TargetEnvironmentCard';
 import TestFileTree from './TestFileTree';
-import type { DeployedEnv, ExecutionMode, TestCaseInfo, TestFileInfo, TestSuiteGroup } from './types';
+import type { ExecutionMode, TestCaseInfo, TestFileInfo, TestSuiteGroup } from './types';
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 
@@ -107,8 +109,7 @@ export default function TestLibrary() {
 
   // ── environment ──
   const [baseUrl, setBaseUrl] = useState('');
-  const [deployedEnvs, setDeployedEnvs] = useState<DeployedEnv[]>([]);
-  const [envsLoading, setEnvsLoading] = useState(false);
+  
   const [httpAuthEnabled, setHttpAuthEnabled] = useState(false);
   const [httpAuthUsername, setHttpAuthUsername] = useState('');
   const [httpAuthPassword, setHttpAuthPassword] = useState('');
@@ -148,7 +149,6 @@ export default function TestLibrary() {
   const loadProject = async () => {
     if (!projectId) return;
 
-    // Reset all project-scoped state before loading the new project
     setLoading(true);
     setProject(null);
     setSuiteGroup(null);
@@ -162,15 +162,18 @@ export default function TestLibrary() {
     testCasesLoadedToastShown.current = false;
 
     try {
-      const [projectData, suites, envHub] = await Promise.all([
-        api.projects.getById(projectId),
-        api.projects.getTestSuites(projectId, false),
-        api.environments.discover(projectId).catch(() => ({ count: 0, domains: [], lastUpdated: '' })),
-      ]);
-
+      const projectData = await api.projects.getById(projectId);
       setProject(projectData);
+      setQaseConfig(prev => ({ ...prev, projectCode: projectData.qaseProjectCode || '' }));
+
+      if (isStaticDeployment()) {
+        setBaseUrl(projectData.defaultBaseUrl || '');
+        setLoading(false);
+        return;
+      }
+
+      const suites = await api.projects.getTestSuites(projectId, false);
       setSuiteGroup(suites);
-      setDeployedEnvs((envHub.domains as DeployedEnv[]) || []);
 
       let defaultUrl = projectData.defaultBaseUrl || '';
       if (projectData.sdkType) {
@@ -186,8 +189,6 @@ export default function TestLibrary() {
         defaultUrl = recentUrls.length > 0 ? recentUrls[0] : '';
       }
       setBaseUrl(defaultUrl);
-
-      setQaseConfig(prev => ({ ...prev, projectCode: projectData.qaseProjectCode || '' }));
 
       const allPaths = getAllSuitePaths(suites);
       setExpandedSuites(new Set(['root', ...allPaths]));
@@ -309,30 +310,7 @@ export default function TestLibrary() {
 
   // ── handlers ──────────────────────────────────────────────────────────────
 
-  const handleSelectEnv = (domain: string) => {
-    setBaseUrl(domain);
-    if (requiresBasicAuth(domain)) {
-      setHttpAuthEnabled(true);
-      if (!httpAuthUsername) setHttpAuthUsername('test');
-      if (!httpAuthPassword) setHttpAuthPassword('acsb123');
-    } else {
-      setHttpAuthEnabled(false);
-    }
-  };
-
-  const handleRefreshEnvs = async () => {
-    if (!projectId) return;
-    setEnvsLoading(true);
-    try {
-      const result = await api.environments.discover(projectId);
-      setDeployedEnvs((result.domains as DeployedEnv[]) || []);
-      showToast(`Found ${result.count} environment${result.count !== 1 ? 's' : ''}`, 'success');
-    } catch {
-      showToast('Failed to refresh environments', 'error');
-    } finally {
-      setEnvsLoading(false);
-    }
-  };
+  
 
   const handleToggleTest = (path: string) => {
     setSelectedTests(prev => {
@@ -566,6 +544,144 @@ export default function TestLibrary() {
     const frameworkLabel: Record<string, string> = { playwright: 'Playwright', pytest: 'Pytest', maven: 'Maven', selenium: 'Selenium' };
     const sdkColor: Record<string, 'info' | 'success' | 'warning'> = { node: 'info', python: 'success', java: 'warning' };
     const sdkAccent: Record<string, string> = { node: '#2196f3', python: '#4caf50', java: '#ff9800' };
+    const projectById = new Map(allProjects.map((p) => [p.id, p]));
+
+    type LangKey = 'node' | 'python' | 'java';
+    const languageOrder: { key: LangKey; label: string; logo: string }[] = [
+      { key: 'node', label: 'Node', logo: '/logos/nodejs.svg' },
+      { key: 'python', label: 'Python', logo: '/logos/python.svg' },
+      { key: 'java', label: 'Java', logo: '/logos/java.svg' },
+    ];
+
+    const playwrightProjectIds: Record<LangKey, string | null> = {
+      node: 'accessflow',
+      python: 'accessflow-python',
+      java: 'accessflow-java',
+    };
+    const seleniumProjectIds: Record<LangKey, string | null> = {
+      node: 'accessflow-selenium',
+      python: 'accessflow-python-selenium',
+      java: null,
+    };
+
+    const langLabels: Record<LangKey, string> = { node: 'Node', python: 'Python', java: 'Java' };
+
+    const renderProjectCard = (
+      cardKey: string,
+      p: Project | null,
+      accent: string,
+      isComingSoon: boolean,
+      langKey: LangKey,
+      section: 'playwright' | 'selenium',
+    ) => {
+      const onClick = !isComingSoon && p ? () => navigate(`?project=${p.id}`) : undefined;
+      const langInfo = languageOrder.find((item) => item.key === langKey)!;
+      const iconsToShow: string[] = [langInfo.logo];
+      if (!isComingSoon && p?.logos?.length) {
+        iconsToShow.push(...p.logos);
+      }
+      const uniqueIcons = Array.from(new Set(iconsToShow));
+      const sectionLabel = section === 'playwright' ? 'Playwright' : 'Selenium';
+      const comingSoonTitle = `AccessFlow (${langLabels[langKey]} ${sectionLabel})`;
+      const comingSoonDescription = `AccessFlow ${langLabels[langKey]} SDK E2E test suite using ${sectionLabel} — coming soon.`;
+      return (
+        <Grid size={{ xs: 12, sm: 6, md: 4 }} key={cardKey}>
+          <Card
+            onClick={onClick}
+            elevation={0}
+            sx={{
+              height: '100%',
+              cursor: isComingSoon ? 'default' : 'pointer',
+              display: 'flex',
+              flexDirection: 'column',
+              borderRadius: 3,
+              border: '2px solid',
+              borderColor: isComingSoon ? 'action.disabledBackground' : 'rgba(0,0,0,0.06)',
+              transition: 'all 0.2s ease',
+              position: 'relative',
+              overflow: 'hidden',
+              opacity: isComingSoon ? 0.75 : 1,
+              '&:hover': isComingSoon
+                ? {}
+                : {
+                    transform: 'translateY(-4px)',
+                    borderColor: accent,
+                    boxShadow: `0 8px 28px ${accent}28`,
+                  },
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: 4,
+                background: isComingSoon ? 'grey' : accent,
+              },
+            }}
+          >
+            <CardContent sx={{ p: 3, flex: 1, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+              <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
+                {uniqueIcons.map((logoSrc, i) => (
+                  <Box
+                    key={i}
+                    component="img"
+                    src={logoSrc}
+                    alt=""
+                    sx={{ width: 44, height: 44, objectFit: 'contain' }}
+                  />
+                ))}
+              </Stack>
+
+              <Box>
+                <Typography fontWeight={700} variant="h6" sx={{ mb: 0.5 }}>
+                  {isComingSoon ? comingSoonTitle : p!.name}
+                </Typography>
+                <Stack direction="row" spacing={0.5} sx={{ mb: 1, flexWrap: 'wrap', gap: 0.5 }}>
+                  {!isComingSoon && p?.sdkType && (
+                    <Chip
+                      label={p.sdkType.toUpperCase()}
+                      size="small"
+                      color={sdkColor[p.sdkType] || 'default'}
+                      sx={{ fontSize: '0.65rem', height: 20, fontWeight: 700 }}
+                    />
+                  )}
+                  {isComingSoon ? (
+                    <Chip
+                      label="Coming Soon"
+                      size="small"
+                      color="default"
+                      variant="outlined"
+                      sx={{ fontSize: '0.65rem', height: 20 }}
+                    />
+                  ) : (
+                    p?.testFramework && (
+                      <Chip
+                        label={frameworkLabel[p.testFramework] || p.testFramework}
+                        size="small"
+                        variant="outlined"
+                        sx={{ fontSize: '0.65rem', height: 20 }}
+                      />
+                    )
+                  )}
+                </Stack>
+                <Typography color="text.secondary" variant="body2" sx={{ lineHeight: 1.6 }}>
+                  {isComingSoon ? comingSoonDescription : p!.description}
+                </Typography>
+              </Box>
+
+              {!isComingSoon && (
+                <Box sx={{ mt: 'auto', pt: 1, display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                  <Typography variant="body2" fontWeight={600} sx={{ color: accent }}>
+                    Select Project
+                  </Typography>
+                  <ArrowForwardIcon sx={{ fontSize: 16, color: accent }} />
+                </Box>
+              )}
+            </CardContent>
+          </Card>
+        </Grid>
+      );
+    };
 
     return (
       <Box sx={{ px: { xs: 2, sm: 4, md: 6 }, py: 4, maxWidth: 1100, mx: 'auto' }}>
@@ -593,93 +709,75 @@ export default function TestLibrary() {
             <LinearProgress sx={{ width: 200, mx: 'auto', mt: 2, borderRadius: 1 }} />
           </Box>
         ) : (
-          <Grid container spacing={3}>
-            {allProjects.map(p => {
-              const accent = (p.sdkType && sdkAccent[p.sdkType]) || '#667eea';
-              return (
-                <Grid size={{ xs: 12, sm: 6, md: 4 }} key={p.id}>
-                  <Card
-                    onClick={() => navigate(`?project=${p.id}`)}
-                    elevation={0}
-                    sx={{
-                      height: '100%',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      borderRadius: 3,
-                      border: '2px solid',
-                      borderColor: 'rgba(0,0,0,0.06)',
-                      transition: 'all 0.2s ease',
-                      position: 'relative',
-                      overflow: 'hidden',
-                      '&:hover': {
-                        transform: 'translateY(-4px)',
-                        borderColor: accent,
-                        boxShadow: `0 8px 28px ${accent}28`,
-                      },
-                      '&::before': {
-                        content: '""',
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        height: 4,
-                        background: accent,
-                      },
-                    }}
-                  >
-                    <CardContent sx={{ p: 3, flex: 1, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-                      {p.logo ? (
-                        <Box
-                          component="img"
-                          src={p.logo}
-                          alt={p.name}
-                          sx={{ width: 48, height: 48, objectFit: 'contain' }}
-                        />
-                      ) : (
-                        <FolderIcon sx={{ fontSize: 48, color: 'text.disabled' }} />
-                      )}
+          <Stack spacing={4}>
+            <Box>
+              <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
+                <Box
+                  component="img"
+                  src="/logos/playwright.svg"
+                  alt="Playwright"
+                  sx={{ width: 32, height: 32, objectFit: 'contain' }}
+                />
+                <Typography variant="h6" fontWeight={700}>
+                  Playwright
+                </Typography>
+              </Stack>
+              <Grid container spacing={3}>
+                {languageOrder.map(({ key }) => {
+                  const id = playwrightProjectIds[key];
+                  const proj = id ? projectById.get(id) ?? null : null;
+                  const accent = sdkAccent[key] || '#667eea';
+                  return renderProjectCard(`playwright-${key}`, proj, accent, !proj && !!id, key, 'playwright');
+                })}
+              </Grid>
+            </Box>
 
-                      <Box>
-                        <Typography fontWeight={700} variant="h6" sx={{ mb: 0.5 }}>
-                          {p.name}
-                        </Typography>
-                        <Stack direction="row" spacing={0.5} sx={{ mb: 1 }}>
-                          {p.sdkType && (
-                            <Chip
-                              label={p.sdkType.toUpperCase()}
-                              size="small"
-                              color={sdkColor[p.sdkType] || 'default'}
-                              sx={{ fontSize: '0.65rem', height: 20, fontWeight: 700 }}
-                            />
-                          )}
-                          {p.testFramework && (
-                            <Chip
-                              label={frameworkLabel[p.testFramework] || p.testFramework}
-                              size="small"
-                              variant="outlined"
-                              sx={{ fontSize: '0.65rem', height: 20 }}
-                            />
-                          )}
-                        </Stack>
-                        <Typography color="text.secondary" variant="body2" sx={{ lineHeight: 1.6 }}>
-                          {p.description}
-                        </Typography>
-                      </Box>
-
-                      <Box sx={{ mt: 'auto', pt: 1, display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                        <Typography variant="body2" fontWeight={600} sx={{ color: accent }}>
-                          Select Project
-                        </Typography>
-                        <ArrowForwardIcon sx={{ fontSize: 16, color: accent }} />
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              );
-            })}
-          </Grid>
+            <Box>
+              <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
+                <Box
+                  component="img"
+                  src="/logos/selenium.svg"
+                  alt="Selenium"
+                  sx={{ width: 32, height: 32, objectFit: 'contain' }}
+                />
+                <Typography variant="h6" fontWeight={700}>
+                  Selenium
+                </Typography>
+              </Stack>
+              <Grid container spacing={3}>
+                {languageOrder.map(({ key }) => {
+                  const id = seleniumProjectIds[key];
+                  const proj = id ? projectById.get(id) ?? null : null;
+                  const accent = sdkAccent[key] || '#667eea';
+                  const isComingSoon = !proj;
+                  return renderProjectCard(`selenium-${key}`, proj ?? null, accent, isComingSoon, key, 'selenium');
+                })}
+              </Grid>
+            </Box>
+          </Stack>
         )}
+      </Box>
+    );
+  }
+
+  if (isStaticDeployment()) {
+    return (
+      <Box sx={{ px: { xs: 2, sm: 4, md: 6 }, py: 4, maxWidth: 800, mx: 'auto' }}>
+        <StickyRunHeader
+          projectName={project.name}
+          projectId={project.id}
+          projects={allProjects}
+          selectedCount={0}
+          validUrl={false}
+          isSubmitting={false}
+          onRun={() => {}}
+          onBack={() => navigate('/test-runner')}
+          onProjectChange={(id) => navigate(`/test-runner/library?project=${id}`)}
+        />
+        <Alert severity="info" sx={{ mt: 3 }}>
+          Test execution requires the backend server. Run locally with{' '}
+          <code>npm run dev:full</code> or deploy with Docker for full functionality.
+        </Alert>
       </Box>
     );
   }
@@ -696,7 +794,7 @@ export default function TestLibrary() {
         isSubmitting={isSubmitting}
         onRun={() => handleRunTests()}
         onBack={() => navigate('/test-runner')}
-        onProjectChange={(id) => navigate(`/test-runner/run?project=${id}`)}
+        onProjectChange={(id) => navigate(`/test-runner/library?project=${id}`)}
       />
 
       {/* Two-column body */}
@@ -791,14 +889,10 @@ export default function TestLibrary() {
           <TargetEnvironmentCard
             baseUrl={baseUrl}
             isUrlValid={isUrlValid}
-            deployedEnvs={deployedEnvs}
-            envsLoading={envsLoading}
             httpAuthEnabled={httpAuthEnabled}
             httpAuthUsername={httpAuthUsername}
             httpAuthPassword={httpAuthPassword}
             onBaseUrlChange={setBaseUrl}
-            onSelectEnv={handleSelectEnv}
-            onRefreshEnvs={handleRefreshEnvs}
             onHttpAuthUsernameChange={setHttpAuthUsername}
             onHttpAuthPasswordChange={setHttpAuthPassword}
           />

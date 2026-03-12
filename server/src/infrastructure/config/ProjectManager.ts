@@ -5,7 +5,7 @@ import type { Project } from '../../../../shared/types';
 
 import { PathUtils } from '../utils/PathUtils';
 
-const PROJECTS_DIR = join(__dirname, '../../../projects');
+const PROJECTS_DIR = join(PathUtils.getProjectRoot(), 'server', 'projects');
 
 export class ProjectManager {
   private projects: Map<string, Project> = new Map();

@@ -2,6 +2,20 @@ import { isStaticDeployment } from '../utils/environment';
 
 const API_URL = process.env.REACT_APP_API_URL || '';
 
+let _staticProjectsCache: any[] | null = null;
+
+async function loadStaticProjects(): Promise<any[]> {
+  if (_staticProjectsCache) return _staticProjectsCache;
+  try {
+    const resp = await fetch(`${process.env.PUBLIC_URL || ''}/static-projects.json`);
+    if (!resp.ok) return [];
+    _staticProjectsCache = await resp.json();
+    return _staticProjectsCache!;
+  } catch {
+    return [];
+  }
+}
+
 async function fetchAPI<T>(endpoint: string, options?: RequestInit): Promise<T> {
   if (isStaticDeployment() && endpoint.startsWith('/api/')) {
     throw new Error(
@@ -256,8 +270,10 @@ export const api = {
       ),
   },
   projects: {
-    getAll: () => fetchAPI<any[]>('/api/projects'),
-    getById: (id: string) => fetchAPI<any>(`/api/projects/${id}`),
+    getAll: () => isStaticDeployment() ? loadStaticProjects() : fetchAPI<any[]>('/api/projects'),
+    getById: (id: string) => isStaticDeployment()
+      ? loadStaticProjects().then(ps => { const p = ps.find(x => x.id === id); if (!p) throw new Error('Project not found'); return p; })
+      : fetchAPI<any>(`/api/projects/${id}`),
     getSdkDefaultBaseUrl: (id: string) =>
       fetchAPI<{ baseUrl: string }>(`/api/projects/${id}/sdk-default-base-url`),
     getTestCases: (id: string, filePath: string) =>

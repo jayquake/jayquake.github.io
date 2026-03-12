@@ -467,18 +467,7 @@ app.post('/api/runs/:runId/cancel', (req, res) => {
 });
 
 // Get test run results
-app.get('/api/runs/:runId', async (req, res) => {
-  try {
-    const run = await resultsStorage.getRun(req.params.runId);
-    if (!run) {
-      return res.status(404).json({ error: 'Run not found' });
-    }
-    res.json(run);
-  } catch (error: any) {
-    console.error('[API] Error getting run:', error);
-    res.status(500).json({ error: 'Failed to get test run' });
-  }
-});
+// Note: GET /api/runs/:runId is handled by testRunsRouter (TestRunController.getRun)
 
 // Get all test runs
 app.get('/api/runs', async (req, res) => {

@@ -279,7 +279,7 @@ export class ConsoleOutputParser {
         continue;
       }
 
-      // Parse summary line: "1 failed (40.3s)"
+      // Parse summary line: "1 failed (40.3s)" (Playwright format)
       const summaryMatch = line.match(ConsoleOutputParser.TEST_PATTERNS.summary);
       if (summaryMatch) {
         if (!result.summary) {
@@ -294,6 +294,21 @@ export class ConsoleOutputParser {
         const count = parseInt(summaryMatch[1], 10);
         const type = summaryMatch[2].toLowerCase() as 'failed' | 'passed' | 'skipped';
         result.summary[type] = count;
+        continue;
+      }
+
+      // Parse Jest summary: "Tests:  3 passed, 1 failed, 4 total"
+      const jestSummaryMatch = line.match(
+        /^Tests:\s+(?:(\d+)\s+passed)?[,\s]*(?:(\d+)\s+failed)?[,\s]*(?:(\d+)\s+skipped)?[,\s]*(\d+)\s+total/i,
+      );
+      if (jestSummaryMatch) {
+        if (!result.summary) {
+          result.summary = { duration: '0s', failed: 0, passed: 0, skipped: 0 };
+        }
+        result.summary.passed = parseInt(jestSummaryMatch[1] || '0', 10);
+        result.summary.failed = parseInt(jestSummaryMatch[2] || '0', 10);
+        result.summary.skipped = parseInt(jestSummaryMatch[3] || '0', 10);
+        result.testCount = parseInt(jestSummaryMatch[4], 10);
       }
     }
 

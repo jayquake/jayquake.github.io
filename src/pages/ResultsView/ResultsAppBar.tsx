@@ -17,6 +17,7 @@ import ProjectBreadcrumbItem from '../../components/standalone/ProjectBreadcrumb
 interface ResultsAppBarProps {
   onNavigateBack: () => void;
   onNavigateToHistory: () => void;
+  onNavigateToLibrary?: () => void;
   onProjectChange: (projectId: string) => void;
   onShareToSlack?: () => void;
   projectId?: string;
@@ -38,6 +39,7 @@ const STATUS_COLOR: Record<string, 'default' | 'error' | 'info' | 'success' | 'w
 export default function ResultsAppBar({
   onNavigateBack,
   onNavigateToHistory,
+  onNavigateToLibrary,
   onProjectChange,
   onShareToSlack,
   projectId,
@@ -76,24 +78,19 @@ export default function ResultsAppBar({
               onProjectChange={onProjectChange}
             />
           )}
-          {projectId && (
+          {projectId && onNavigateToLibrary && (
             <Link
               color="inherit"
-              href={`/run?project=${projectId}`}
+              onClick={onNavigateToLibrary}
+              sx={{ cursor: 'pointer' }}
               underline="hover"
               variant="body2"
             >
-              {projectName ? `${projectName} Test Configuration` : 'Test Configuration'}
+              Test Configuration
             </Link>
           )}
-          <Typography color="inherit" variant="body2">
-            Test Execution
-          </Typography>
-          <Typography color="inherit" variant="body2">
-            Results
-          </Typography>
-          <Typography color="text.primary" variant="body2">
-            {shortId}
+          <Typography color="text.primary" fontWeight={600} variant="body2">
+            Results &middot; {shortId}
           </Typography>
         </Breadcrumbs>
 

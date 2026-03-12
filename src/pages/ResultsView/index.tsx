@@ -518,7 +518,8 @@ export default function ResultsView() {
       <ResultsAppBar
         onNavigateBack={() => navigate('/test-runner')}
         onNavigateToHistory={() => navigate('/test-runner/history')}
-        onProjectChange={(id) => navigate(`/test-runner/run?project=${id}`)}
+        onNavigateToLibrary={run?.projectId ? () => navigate(`/test-runner/library?project=${run.projectId}`) : undefined}
+        onProjectChange={(id) => navigate(`/test-runner/library?project=${id}`)}
         onShareToSlack={handleShareToSlack}
         projectId={run?.projectId}
         projectName={allProjects.find(p => p.id === run?.projectId)?.name}

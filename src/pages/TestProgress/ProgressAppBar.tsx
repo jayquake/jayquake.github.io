@@ -100,18 +100,16 @@ export default function ProgressAppBar({
           {projectId && (
             <Link
               color="inherit"
-              href={`/run?project=${projectId}`}
+              onClick={onNavigateBack}
+              sx={{ cursor: 'pointer' }}
               underline="hover"
               variant="body2"
             >
-              {projectName ? `${projectName} Test Configuration` : 'Test Configuration'}
+              Test Configuration
             </Link>
           )}
-          <Typography color="inherit" variant="body2">
-            Test Execution
-          </Typography>
-          <Typography color="text.primary" variant="body2">
-            {shortRunId}
+          <Typography color="text.primary" fontWeight={600} variant="body2">
+            Execution &middot; {shortRunId}
           </Typography>
         </Breadcrumbs>
 

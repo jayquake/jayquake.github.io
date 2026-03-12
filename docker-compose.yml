@@ -1,0 +1,18 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3001:3001"
+    volumes:
+      - db-data:/data
+    env_file:
+      - .env
+    environment:
+      - PORT=3001
+      - NODE_ENV=production
+      - PROJECT_ROOT=/app
+      - DATABASE_URL=file:/data/test-runner.db
+    restart: unless-stopped
+
+volumes:
+  db-data:

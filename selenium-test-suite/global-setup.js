@@ -31,16 +31,20 @@ function waitForServer(url, timeoutMs = 60000) {
 }
 
 module.exports = async function globalSetup() {
+  const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
   const isCI = process.env.CI === 'true';
 
-  if (!isCI) {
-    try {
-      await waitForServer('http://localhost:3000', 3000);
-      console.log('Dev server already running on port 3000');
-      return;
-    } catch {
-      // Server not running, start it
-    }
+  // In Docker/production the server is already running — just verify it's reachable
+  try {
+    await waitForServer(baseUrl, 5000);
+    console.log(`Server already running at ${baseUrl}`);
+    return;
+  } catch {
+    // Server not running, start it (local dev / CI)
+  }
+
+  if (isCI || process.env.NODE_ENV === 'production') {
+    throw new Error(`Server not reachable at ${baseUrl} — expected it to be running already`);
   }
 
   console.log('Starting application server...');
@@ -60,6 +64,6 @@ module.exports = async function globalSetup() {
 
   global.__SERVER_PROCESS__ = serverProcess;
 
-  await waitForServer('http://localhost:3000', 60000);
+  await waitForServer(baseUrl, 60000);
   console.log('Application server is ready');
 };
