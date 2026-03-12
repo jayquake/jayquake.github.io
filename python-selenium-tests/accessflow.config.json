@@ -5,5 +5,5 @@
     "medium": 2000,
     "low": 1000
   },
-  "localCheck": false
+  "localCheck": true
 }
