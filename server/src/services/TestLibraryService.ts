@@ -344,7 +344,8 @@ export class TestLibraryService {
 
   /**
    * Scan filesystem for test files
-   * Supports Jest/Playwright (.spec/.test .ts|js|tsx|jsx) and pytest (test_*.py, *_test.py)
+   * Supports Jest/Playwright (.spec/.test .ts|js|tsx|jsx), pytest (test_*.py, *_test.py),
+   * and Maven/JUnit (*Test.java, *Tests.java)
    */
   private async scanTestFiles(
     testDirectory: string,
@@ -352,10 +353,14 @@ export class TestLibraryService {
     testFramework?: string,
   ): Promise<TestFileInfo[]> {
     const files: TestFileInfo[] = [];
-    const isPytest = testFramework === 'pytest';
-    const filePattern = isPytest
-      ? /^test_.*\.py$|.*_test\.py$/
-      : /\.(spec|test)\.(ts|js|tsx|jsx)$/;
+    let filePattern: RegExp;
+    if (testFramework === 'pytest') {
+      filePattern = /^test_.*\.py$|.*_test\.py$/;
+    } else if (testFramework === 'maven') {
+      filePattern = /.*Test\.java$|.*Tests\.java$/;
+    } else {
+      filePattern = /\.(spec|test)\.(ts|js|tsx|jsx)$/;
+    }
 
     const scanDir = (dir: string, baseDir: string = testDirectory) => {
       try {

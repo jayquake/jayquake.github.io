@@ -1,5 +1,28 @@
 [
   {
+    "id": "accessflow-java-selenium",
+    "name": "AccessFlow (Java Selenium)",
+    "description": "AccessFlow Java SDK test suite using JUnit 5 + Selenium WebDriver",
+    "logo": "/logos/java.svg",
+    "logos": [
+      "/logos/java.svg",
+      "/logos/selenium.svg"
+    ],
+    "sdkType": "java",
+    "testFramework": "maven",
+    "testCommand": "mvn test -B",
+    "testDirectory": "java-selenium-tests/src/test/java/com/accessflow",
+    "workingDirectory": "java-selenium-tests",
+    "outputDirectory": "java-selenium-tests/test-results",
+    "apiKeyEnvVar": "AF_NODE_PACKAGE_KEY",
+    "defaultBaseUrl": "http://localhost:3000",
+    "configPath": "java-selenium-tests/pom.xml",
+    "qaseProjectCode": "ACCESSFLOW",
+    "envHubNames": [
+      "accessflow"
+    ]
+  },
+  {
     "id": "accessflow-java",
     "name": "AccessFlow (Java)",
     "description": "AccessFlow Java SDK test suite using JUnit 5 + Playwright",
