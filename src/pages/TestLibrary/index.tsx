@@ -561,7 +561,7 @@ export default function TestLibrary() {
     const seleniumProjectIds: Record<LangKey, string | null> = {
       node: 'accessflow-selenium',
       python: 'accessflow-python-selenium',
-      java: null,
+      java: 'accessflow-java-selenium',
     };
 
     const langLabels: Record<LangKey, string> = { node: 'Node', python: 'Python', java: 'Java' };

@@ -1,0 +1,58 @@
+-------------------------------------------------------------------------------
+Test set: com.accessflow.SdkAuditInitAndBasicReportsTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 1, Errors: 4, Skipped: 0, Time elapsed: 23.70 s <<< FAILURE! -- in com.accessflow.SdkAuditInitAndBasicReportsTest
+com.accessflow.SdkAuditInitAndBasicReportsTest.testAuditHomePage -- Time elapsed: 4.036 s <<< ERROR!
+java.lang.RuntimeException: AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY in your environment or pass apiKey to the constructor.
+	at com.acsbe.accessflow.AccessFlowSDK.verifyApiKey(AccessFlowSDK.java:282)
+	at com.acsbe.accessflow.AccessFlowSDK.audit(AccessFlowSDK.java:352)
+	at com.accessflow.SdkAuditInitAndBasicReportsTest.testAuditHomePage(SdkAuditInitAndBasicReportsTest.java:61)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+com.accessflow.SdkAuditInitAndBasicReportsTest.testAuditDoesNotThrow -- Time elapsed: 2.507 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected exception thrown: java.lang.RuntimeException: AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY in your environment or pass apiKey to the constructor.
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:152)
+	at org.junit.jupiter.api.AssertDoesNotThrow.createAssertionFailedError(AssertDoesNotThrow.java:84)
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:53)
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:36)
+	at org.junit.jupiter.api.Assertions.assertDoesNotThrow(Assertions.java:3168)
+	at com.accessflow.SdkAuditInitAndBasicReportsTest.testAuditDoesNotThrow(SdkAuditInitAndBasicReportsTest.java:71)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+Caused by: java.lang.RuntimeException: AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY in your environment or pass apiKey to the constructor.
+	at com.acsbe.accessflow.AccessFlowSDK.verifyApiKey(AccessFlowSDK.java:282)
+	at com.acsbe.accessflow.AccessFlowSDK.audit(AccessFlowSDK.java:352)
+	at com.accessflow.SdkAuditInitAndBasicReportsTest.lambda$testAuditDoesNotThrow$0(SdkAuditInitAndBasicReportsTest.java:72)
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:49)
+	... 6 more
+
+com.accessflow.SdkAuditInitAndBasicReportsTest.testAuditGraphicsRoute -- Time elapsed: 3.680 s <<< ERROR!
+java.lang.RuntimeException: AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY in your environment or pass apiKey to the constructor.
+	at com.acsbe.accessflow.AccessFlowSDK.verifyApiKey(AccessFlowSDK.java:282)
+	at com.acsbe.accessflow.AccessFlowSDK.audit(AccessFlowSDK.java:352)
+	at com.accessflow.SdkAuditInitAndBasicReportsTest.testAuditGraphicsRoute(SdkAuditInitAndBasicReportsTest.java:82)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+com.accessflow.SdkAuditInitAndBasicReportsTest.testMultipleAuditsStable -- Time elapsed: 4.818 s <<< ERROR!
+java.lang.RuntimeException: AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY in your environment or pass apiKey to the constructor.
+	at com.acsbe.accessflow.AccessFlowSDK.verifyApiKey(AccessFlowSDK.java:282)
+	at com.acsbe.accessflow.AccessFlowSDK.audit(AccessFlowSDK.java:352)
+	at com.accessflow.SdkAuditInitAndBasicReportsTest.testMultipleAuditsStable(SdkAuditInitAndBasicReportsTest.java:92)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+com.accessflow.SdkAuditInitAndBasicReportsTest.testAuditAfterRouteChange -- Time elapsed: 3.635 s <<< ERROR!
+java.lang.RuntimeException: AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY in your environment or pass apiKey to the constructor.
+	at com.acsbe.accessflow.AccessFlowSDK.verifyApiKey(AccessFlowSDK.java:282)
+	at com.acsbe.accessflow.AccessFlowSDK.audit(AccessFlowSDK.java:352)
+	at com.accessflow.SdkAuditInitAndBasicReportsTest.testAuditAfterRouteChange(SdkAuditInitAndBasicReportsTest.java:106)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+

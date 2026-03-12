@@ -62,24 +62,34 @@ export class JUnitReportProcessor {
     framework: 'maven' | 'pytest',
   ): string | null {
     const possiblePaths: string[] = [];
+    const { readdirSync } = require('fs');
 
     if (framework === 'pytest') {
       possiblePaths.push(
         join(projectRoot, outputDirectory, 'results.xml'),
         join(projectRoot, 'python-tests', 'test-results', 'results.xml'),
+        join(projectRoot, 'python-selenium-tests', 'test-results', 'results.xml'),
       );
     } else {
-      const surefireDir = join(projectRoot, 'java-tests', 'target', 'surefire-reports');
-      if (existsSync(surefireDir)) {
-        const { readdirSync } = require('fs');
-        try {
-          const xmlFiles = readdirSync(surefireDir).filter(
-            (f: string) => f.startsWith('TEST-') && f.endsWith('.xml'),
-          );
-          for (const f of xmlFiles) {
-            possiblePaths.push(join(surefireDir, f));
-          }
-        } catch { /* ignore scan errors */ }
+      // Derive surefire directory from the outputDirectory's parent (working directory)
+      const outputParent = resolve(projectRoot, outputDirectory, '..');
+      const candidates = [
+        join(outputParent, 'target', 'surefire-reports'),
+        join(projectRoot, 'java-selenium-tests', 'target', 'surefire-reports'),
+        join(projectRoot, 'java-tests', 'target', 'surefire-reports'),
+      ];
+
+      for (const surefireDir of candidates) {
+        if (existsSync(surefireDir)) {
+          try {
+            const xmlFiles = readdirSync(surefireDir).filter(
+              (f: string) => f.startsWith('TEST-') && f.endsWith('.xml'),
+            );
+            for (const f of xmlFiles) {
+              possiblePaths.push(join(surefireDir, f));
+            }
+          } catch { /* ignore scan errors */ }
+        }
       }
       possiblePaths.push(join(projectRoot, outputDirectory, 'results.xml'));
     }

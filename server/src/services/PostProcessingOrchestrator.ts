@@ -145,7 +145,7 @@ export class PostProcessingOrchestrator {
         const outputDir = config.outputDirectory ||
           (framework === 'pytest'
             ? (projectId === 'accessflow-python-selenium' ? 'python-selenium-tests/test-results' : 'python-tests/test-results')
-            : 'java-tests/target/surefire-reports');
+            : (projectId === 'accessflow-java-selenium' ? 'java-selenium-tests/test-results' : 'java-tests/target/surefire-reports'));
         reportData = await this.junitProcessor.process(runId, outputDir, framework);
       } else {
         console.log('[PostProcessingOrchestrator] Step 2: Processing Playwright report...');
@@ -200,14 +200,16 @@ export class PostProcessingOrchestrator {
           const outputDir = config.outputDirectory ||
             (sdkType === 'python'
               ? (projectId === 'accessflow-python-selenium' ? 'python-selenium-tests/test-results' : 'python-tests/test-results')
-              : sdkType === 'java' ? 'java-tests/target/surefire-reports'
+              : sdkType === 'java'
+                ? (projectId === 'accessflow-java-selenium' ? 'java-selenium-tests/test-results' : 'java-tests/target/surefire-reports')
               : framework === 'selenium' ? 'selenium-test-suite/test-results'
               : 'test-suite/test-results');
 
           const workingDir = config.workingDirectory ||
             (sdkType === 'python'
               ? (projectId === 'accessflow-python-selenium' ? 'python-selenium-tests' : 'python-tests')
-              : sdkType === 'java' ? 'java-tests'
+              : sdkType === 'java'
+                ? (projectId === 'accessflow-java-selenium' ? 'java-selenium-tests' : 'java-tests')
               : framework === 'selenium' ? 'selenium-test-suite'
               : 'test-suite');
 

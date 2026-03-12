@@ -1,0 +1,31 @@
+-------------------------------------------------------------------------------
+Test set: com.accessflow.SdkAuditBreadcrumbNavigationTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 14.35 s <<< FAILURE! -- in com.accessflow.SdkAuditBreadcrumbNavigationTest
+com.accessflow.SdkAuditBreadcrumbNavigationTest.testAuditMultipleRulePages -- Time elapsed: 4.441 s <<< ERROR!
+java.lang.RuntimeException: AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY in your environment or pass apiKey to the constructor.
+	at com.acsbe.accessflow.AccessFlowSDK.verifyApiKey(AccessFlowSDK.java:282)
+	at com.acsbe.accessflow.AccessFlowSDK.audit(AccessFlowSDK.java:352)
+	at com.accessflow.SdkAuditBreadcrumbNavigationTest.testAuditMultipleRulePages(SdkAuditBreadcrumbNavigationTest.java:137)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+com.accessflow.SdkAuditBreadcrumbNavigationTest.testNavigateSuccessToFailure -- Time elapsed: 4.681 s <<< ERROR!
+java.lang.RuntimeException: AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY in your environment or pass apiKey to the constructor.
+	at com.acsbe.accessflow.AccessFlowSDK.verifyApiKey(AccessFlowSDK.java:282)
+	at com.acsbe.accessflow.AccessFlowSDK.audit(AccessFlowSDK.java:352)
+	at com.accessflow.SdkAuditBreadcrumbNavigationTest.testNavigateSuccessToFailure(SdkAuditBreadcrumbNavigationTest.java:93)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+com.accessflow.SdkAuditBreadcrumbNavigationTest.testNavigateFailureToSuccess -- Time elapsed: 5.230 s <<< ERROR!
+java.lang.RuntimeException: AccessFlowSDK: API key is missing. Please set ACCESSFLOW_SDK_API_KEY in your environment or pass apiKey to the constructor.
+	at com.acsbe.accessflow.AccessFlowSDK.verifyApiKey(AccessFlowSDK.java:282)
+	at com.acsbe.accessflow.AccessFlowSDK.audit(AccessFlowSDK.java:352)
+	at com.accessflow.SdkAuditBreadcrumbNavigationTest.testNavigateFailureToSuccess(SdkAuditBreadcrumbNavigationTest.java:57)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+

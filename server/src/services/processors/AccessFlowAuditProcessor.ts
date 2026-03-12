@@ -32,7 +32,7 @@ const SUMMARY_FILE_NAMES: Record<string, string[]> = {
 };
 
 const RAW_AUDIT_PATTERNS: Record<string, RegExp[]> = {
-  java: [],
+  java: [/^accessFlow-raw-audits-.*\.jsonl$/],
   node: [/^accessFlow-raw-audits-.*\.jsonl$/],
   python: [/^aflow-state-local-.*\.jsonl$/, /^accessFlow-raw-audits-.*\.jsonl$/],
 };

@@ -2,6 +2,7 @@
 Shared fixtures and session-level setup for Python AccessFlow SDK Selenium tests.
 """
 
+import json
 import os
 import subprocess
 import sys
@@ -21,6 +22,97 @@ from accessflow_sdk import AccessFlowSDK, SeleniumDriver, finalize_reports
 load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
 BASE_URL = os.environ.get("BASE_URL", "http://localhost:3000")
+
+
+# ---------------------------------------------------------------------------
+# Local report collection (mirrors Java LocalReportCollector)
+# ---------------------------------------------------------------------------
+
+RULE_SEVERITY = {
+    "altText": "extreme", "pageTitle": "extreme", "missingFormLabels": "extreme",
+    "languageAttribute": "extreme", "backgroundImages": "high", "ariaLabelMisuse": "high",
+    "brokenAriaLabels": "high", "brokenAriaReference": "high", "brokenNavItems": "high",
+    "colorContrast": "medium", "emptyHeadings": "medium", "fontSizes": "medium",
+    "headingOrder": "medium", "tabIndex": "medium", "ambiguousLinks": "medium",
+    "brokenList": "medium", "breadcrumbs": "low", "decorativeContent": "low",
+}
+
+_collected_audits: list[dict] = []
+
+
+def _record_audit(url: str, audit_data: dict) -> None:
+    _collected_audits.append({"url": url, "audit": audit_data})
+
+
+def _write_local_reports() -> None:
+    if not _collected_audits:
+        return
+
+    results_dir = os.path.join(os.path.dirname(__file__), "test-results")
+    os.makedirs(results_dir, exist_ok=True)
+
+    # Build pages-based summary matching AccessFlowAuditProcessor expectations
+    pages: dict = {}
+    for entry in _collected_audits:
+        url = entry["url"]
+        audit = entry.get("audit") or {}
+
+        if url not in pages:
+            pages[url] = {
+                "numberOfIssuesFound": {"extreme": 0, "high": 0, "medium": 0, "low": 0},
+                "ruleViolations": {},
+            }
+
+        page = pages[url]
+        counts = page["numberOfIssuesFound"]
+        rule_violations = page["ruleViolations"]
+
+        for rule_key, violations in audit.items():
+            if not isinstance(violations, dict) or not violations:
+                continue
+
+            severity = RULE_SEVERITY.get(rule_key, "medium")
+
+            if rule_key not in rule_violations:
+                rule_violations[rule_key] = {
+                    "name": _camel_to_title(rule_key),
+                    "severity": severity,
+                    "numberOfOccurrences": 0,
+                    "selectorData": [],
+                }
+
+            rv = rule_violations[rule_key]
+            occurrences = 0
+
+            for sel_key, detail in violations.items():
+                if not isinstance(detail, dict):
+                    continue
+                occ = detail.get("occurrences", 1)
+                occurrences += occ
+                rv["selectorData"].append({
+                    "selector": detail.get("selector", sel_key),
+                    "HTML": detail.get("HTML", ""),
+                })
+
+            rv["numberOfOccurrences"] += occurrences
+            counts[severity] = counts.get(severity, 0) + occurrences
+
+    summary_path = os.path.join(results_dir, "accessflow-report-summary.json")
+    with open(summary_path, "w") as f:
+        json.dump({"pages": pages}, f, indent=2)
+    print(f"[AccessFlow] Local report written to: {summary_path}")
+
+    # Also write raw JSONL for the processor's fallback path
+    jsonl_path = os.path.join(results_dir, f"accessFlow-raw-audits-{os.getpid()}.jsonl")
+    with open(jsonl_path, "w") as f:
+        for entry in _collected_audits:
+            f.write(json.dumps(entry) + "\n")
+    print(f"[AccessFlow] Raw audit JSONL written to: {jsonl_path}")
+
+
+def _camel_to_title(key: str) -> str:
+    import re
+    return re.sub(r"([A-Z])", r" \1", key).strip().title()
 
 
 # ---------------------------------------------------------------------------
@@ -97,9 +189,10 @@ def _ensure_app_server():
 
 @pytest.fixture(scope="session", autouse=True)
 def _finalize_accessflow_reports():
-    """Finalize/upload aggregated reports after the full test session."""
+    """Finalize/upload aggregated reports and write local summary after the full test session."""
     yield
     finalize_reports()
+    _write_local_reports()
 
 
 # ---------------------------------------------------------------------------
@@ -127,7 +220,10 @@ def driver():
 
 @pytest.fixture
 def sdk(driver):
-    """Provide an AccessFlow SDK instance bound to the Selenium driver."""
+    """Provide an AccessFlow SDK instance bound to the Selenium driver.
+
+    Wraps audit() to auto-record results for local report generation.
+    """
     api_key = (
         os.environ.get("AF_NODE_PACKAGE_KEY")
         or os.environ.get("PYTHON_ACCESSFLOW_SDK_TOKEN")
@@ -139,4 +235,15 @@ def sdk(driver):
             "For local testing, create python-selenium-tests/.env with:\n"
             "  PYTHON_ACCESSFLOW_SDK_TOKEN=flow-your-key-here"
         )
-    return AccessFlowSDK(SeleniumDriver(driver), api_key=api_key)
+    real_sdk = AccessFlowSDK(SeleniumDriver(driver), api_key=api_key)
+
+    original_audit = real_sdk.audit
+
+    def _recording_audit(*args, **kwargs):
+        result = original_audit(*args, **kwargs)
+        if result is not None:
+            _record_audit(driver.current_url, result)
+        return result
+
+    real_sdk.audit = _recording_audit
+    return real_sdk
