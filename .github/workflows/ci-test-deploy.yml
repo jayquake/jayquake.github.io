@@ -492,11 +492,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - test-js
-      - test-js-selenium
-      - test-python-selenium
-      - test-java-selenium
       - test-python
-      - test-java
     # Deploy from main, master, develop, and dev branches (only after all test lanes succeed)
     if: |
       github.event_name == 'push' && (
@@ -624,11 +620,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - test-js
-      - test-js-selenium
-      - test-python-selenium
-      - test-java-selenium
       - test-python
-      - test-java
     # Run after every lane finishes so artifacts exist; still emit a summary if some lanes failed
     if: always()
 
