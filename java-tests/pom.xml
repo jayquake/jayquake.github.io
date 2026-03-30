@@ -44,9 +44,9 @@
         <dependency>
             <groupId>com.acsbe</groupId>
             <artifactId>accessflow-sdk</artifactId>
-            <version>1.0.1</version>
+            <version>1.1.1</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/../javaSdk/accessflow-sdk-1.0.1.jar</systemPath>
+            <systemPath>${project.basedir}/../javaSdk/accessflow-sdk.jar</systemPath>
         </dependency>
     </dependencies>
 

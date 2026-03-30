@@ -1,7 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+node_modules
 /.pnp
 .pnp.js
 
@@ -25,7 +25,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # Server backend
-server/node_modules
 server/dist
 server/.env
 server/prisma/data/*.db
@@ -35,6 +34,9 @@ server/prisma/data/*.db-journal
 mcp/mcp-output/screenshots/
 mcp/mcp-output/traces/
 mcp/mcp-output/sessions/
+
+# Java build output
+**/target/
 
 # credentials and secrets (do not commit)
 accessflow-*.json

@@ -167,99 +167,98 @@ jobs:
           path: build/
           retention-days: 7
 
-  # # =====================================================================
-  # # Python Lane — pytest + Selenium + AccessFlow Python SDK (DISABLED)
-  # # Replaced by Java Selenium lane below.
-  # # =====================================================================
-  # test-python-selenium:
-  #   name: Python Lane — Selenium Tests
-  #   runs-on: ubuntu-latest
-  #
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-  #
-  #     - name: Setup Node.js 20.x
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: '20.x'
-  #         cache: 'npm'
-  #
-  #     - name: Install dependencies
-  #       run: npm ci --legacy-peer-deps
-  #
-  #     - name: Install Chrome & ChromeDriver
-  #       uses: browser-actions/setup-chrome@v1
-  #       with:
-  #         chrome-version: stable
-  #
-  #     - name: Build application
-  #       run: npm run build
-  #       env:
-  #         CI: true
-  #
-  #     - name: Setup Python 3.12
-  #       uses: actions/setup-python@v5
-  #       with:
-  #         python-version: '3.12'
-  #
-  #     - name: Install Python dependencies
-  #       run: |
-  #         pip install -r requirements.txt
-  #         pip install --force-reinstall --no-deps ../pythonSdk/accessflow_sdk-1.0.1-py3-none-any.whl
-  #       working-directory: python-selenium-tests
-  #
-  #     - name: Start application server
-  #       run: npx serve -s build -l 3000 &
-  #       env:
-  #         CI: true
-  #
-  #     - name: Wait for application
-  #       run: |
-  #         for i in $(seq 1 60); do
-  #           curl -sf http://localhost:3000 > /dev/null 2>&1 && echo "App ready!" && exit 0
-  #           sleep 1
-  #         done
-  #         echo "App did not start within 60 s" && exit 1
-  #
-  #     - name: Ensure AccessFlow API key is set (Python Selenium)
-  #       run: |
-  #         if [ -z "$AF_NODE_PACKAGE_KEY" ] && [ -z "$ACCESSFLOW_SDK_API_KEY" ] && [ -z "$PYTHON_ACCESSFLOW_SDK_TOKEN" ]; then
-  #           echo "::error::Add AF_NODE_PACKAGE_KEY (same as Node Selenium), ACCESSFLOW_SDK_API_KEY, or PYTHON_ACCESSFLOW_SDK_TOKEN to this repo's GitHub Secrets."
-  #           exit 1
-  #         fi
-  #         echo "AccessFlow API key is set."
-  #       env:
-  #         AF_NODE_PACKAGE_KEY: ${{ secrets.AF_NODE_PACKAGE_KEY }}
-  #         ACCESSFLOW_SDK_API_KEY: ${{ secrets.ACCESSFLOW_SDK_API_KEY }}
-  #         PYTHON_ACCESSFLOW_SDK_TOKEN: ${{ secrets.PYTHON_ACCESSFLOW_SDK_TOKEN }}
-  #
-  #     - name: Run Python Selenium Tests
-  #       working-directory: python-selenium-tests
-  #       run: pytest -v --junitxml=test-results/results.xml
-  #       env:
-  #         CI: true
-  #         HEADLESS: "true"
-  #         BASE_URL: http://localhost:3000
-  #         AF_NODE_PACKAGE_KEY: ${{ secrets.AF_NODE_PACKAGE_KEY }}
-  #         PYTHON_ACCESSFLOW_SDK_TOKEN: ${{ secrets.PYTHON_ACCESSFLOW_SDK_TOKEN }}
-  #         ACCESSFLOW_SDK_API_KEY: ${{ secrets.ACCESSFLOW_SDK_API_KEY }}
-  #
-  #     - name: Upload Python Selenium Test Results
-  #       uses: actions/upload-artifact@v4
-  #       if: always()
-  #       with:
-  #         name: python-selenium-test-results
-  #         path: python-selenium-tests/test-results/
-  #         retention-days: 30
-  #
-  #     - name: Upload Build Artifacts
-  #       if: success()
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: build-artifacts
-  #         path: build/
-  #         retention-days: 7
+  # =====================================================================
+  # Python Lane — pytest + Selenium + AccessFlow Python SDK
+  # =====================================================================
+  test-python-selenium:
+    name: Python Lane — Selenium Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Install Chrome & ChromeDriver
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+
+      - name: Build application
+        run: npm run build
+        env:
+          CI: true
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install --force-reinstall --no-deps ../pythonSdk/accessflow_sdk-1.1.1-py3-none-any.whl
+        working-directory: python-selenium-tests
+
+      - name: Start application server
+        run: npx serve -s build -l 3000 &
+        env:
+          CI: true
+
+      - name: Wait for application
+        run: |
+          for i in $(seq 1 60); do
+            curl -sf http://localhost:3000 > /dev/null 2>&1 && echo "App ready!" && exit 0
+            sleep 1
+          done
+          echo "App did not start within 60 s" && exit 1
+
+      - name: Ensure AccessFlow API key is set (Python Selenium)
+        run: |
+          if [ -z "$AF_NODE_PACKAGE_KEY" ] && [ -z "$ACCESSFLOW_SDK_API_KEY" ] && [ -z "$PYTHON_ACCESSFLOW_SDK_TOKEN" ]; then
+            echo "::error::Add AF_NODE_PACKAGE_KEY (same as Node Selenium), ACCESSFLOW_SDK_API_KEY, or PYTHON_ACCESSFLOW_SDK_TOKEN to this repo's GitHub Secrets."
+            exit 1
+          fi
+          echo "AccessFlow API key is set."
+        env:
+          AF_NODE_PACKAGE_KEY: ${{ secrets.AF_NODE_PACKAGE_KEY }}
+          ACCESSFLOW_SDK_API_KEY: ${{ secrets.ACCESSFLOW_SDK_API_KEY }}
+          PYTHON_ACCESSFLOW_SDK_TOKEN: ${{ secrets.PYTHON_ACCESSFLOW_SDK_TOKEN }}
+
+      - name: Run Python Selenium Tests
+        working-directory: python-selenium-tests
+        run: pytest -v --junitxml=test-results/results.xml
+        env:
+          CI: true
+          HEADLESS: "true"
+          BASE_URL: http://localhost:3000
+          AF_NODE_PACKAGE_KEY: ${{ secrets.AF_NODE_PACKAGE_KEY }}
+          PYTHON_ACCESSFLOW_SDK_TOKEN: ${{ secrets.PYTHON_ACCESSFLOW_SDK_TOKEN }}
+          ACCESSFLOW_SDK_API_KEY: ${{ secrets.ACCESSFLOW_SDK_API_KEY }}
+
+      - name: Upload Python Selenium Test Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: python-selenium-test-results
+          path: python-selenium-tests/test-results/
+          retention-days: 30
+
+      - name: Upload Build Artifacts
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-python-selenium
+          path: build/
+          retention-days: 7
 
   # =====================================================================
   # Java Lane — JUnit 5 + Selenium + AccessFlow Java SDK
@@ -342,149 +341,148 @@ jobs:
             java-selenium-tests/target/surefire-reports/
           retention-days: 30
 
-  # # =====================================================================
-  # # Python Lane — pytest-playwright + AccessFlow Python SDK
-  # # =====================================================================
-  # test-python:
-  #   name: Python Lane — Playwright Tests
-  #   runs-on: ubuntu-latest
-  #
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-  #
-  #     - name: Setup Node.js 20.x
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: '20.x'
-  #         cache: 'npm'
-  #
-  #     - name: Install Node dependencies & build app
-  #       run: |
-  #         npm ci
-  #         npm run build
-  #       env:
-  #         CI: true
-  #
-  #     - name: Setup Python 3.12
-  #       uses: actions/setup-python@v5
-  #       with:
-  #         python-version: '3.12'
-  #
-  #     - name: Install Python dependencies
-  #       working-directory: python-tests
-  #       run: |
-  #         pip install -r requirements.txt
-  #         pip install --force-reinstall --no-deps ../pythonSdk/accessflow_sdk-1.0.1+prod-py3-none-any.whl
-  #
-  #     - name: Debug Python SDK environment/source
-  #       working-directory: python-tests
-  #       run: python -c "import importlib.metadata as m; print('accessflow-sdk:', m.version('accessflow-sdk'))"
-  #       env:
-  #         PYTHON_ACCESSFLOW_SDK_TOKEN: ${{ secrets.PYTHON_ACCESSFLOW_SDK_TOKEN }}
-  #
-  #     - name: Install Playwright Browsers (Python)
-  #       run: python -m playwright install --with-deps chromium
-  #
-  #     - name: Start application server
-  #       run: npm start &
-  #       env:
-  #         BROWSER: none
-  #
-  #     - name: Wait for application
-  #       run: |
-  #         for i in $(seq 1 60); do
-  #           curl -sf http://localhost:3000 > /dev/null 2>&1 && echo "App ready!" && exit 0
-  #           sleep 1
-  #         done
-  #         echo "App did not start within 60 s" && exit 1
-  #
-  #     - name: Run Python Playwright Tests
-  #       working-directory: python-tests
-  #       run: pytest --junitxml=test-results/results.xml -v
-  #       env:
-  #         CI: true
-  #         PYTHON_ACCESSFLOW_SDK_TOKEN: ${{ secrets.PYTHON_ACCESSFLOW_SDK_TOKEN }}
-  #
-  #     - name: Upload Python Test Results
-  #       uses: actions/upload-artifact@v4
-  #       if: always()
-  #       with:
-  #         name: python-test-results
-  #         path: python-tests/test-results/
-  #         retention-days: 30
+  # =====================================================================
+  # Python Lane — pytest-playwright + AccessFlow Python SDK
+  # =====================================================================
+  test-python:
+    name: Python Lane — Playwright Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install Node dependencies & build app
+        run: |
+          npm ci --legacy-peer-deps
+          npm run build
+        env:
+          CI: true
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        working-directory: python-tests
+        run: |
+          pip install -r requirements.txt
+          pip install --force-reinstall --no-deps ../pythonSdk/accessflow_sdk-1.1.1-py3-none-any.whl
+
+      - name: Verify Python SDK version
+        working-directory: python-tests
+        run: python -c "import importlib.metadata as m; print('accessflow-sdk:', m.version('accessflow-sdk'))"
+
+      - name: Install Playwright Browsers (Python)
+        run: python -m playwright install --with-deps chromium
+
+      - name: Start application server
+        run: npx serve -s build -l 3000 &
+        env:
+          CI: true
+
+      - name: Wait for application
+        run: |
+          for i in $(seq 1 60); do
+            curl -sf http://localhost:3000 > /dev/null 2>&1 && echo "App ready!" && exit 0
+            sleep 1
+          done
+          echo "App did not start within 60 s" && exit 1
+
+      - name: Run Python Playwright Tests
+        working-directory: python-tests
+        run: pytest --junitxml=test-results/results.xml -v
+        env:
+          CI: true
+          PYTHON_ACCESSFLOW_SDK_TOKEN: ${{ secrets.PYTHON_ACCESSFLOW_SDK_TOKEN }}
+
+      - name: Upload Python Test Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: python-test-results
+          path: python-tests/test-results/
+          retention-days: 30
 
   # =====================================================================
   # Java Lane — JUnit 5 + Playwright Java + AccessFlow Java SDK
-  # Muted: SDK verification endpoint (acsb-test.com) is unreachable.
-  # Uncomment when the SDK is updated to point to a reachable endpoint.
   # =====================================================================
-  # test-java:
-  #   name: Java Lane — Playwright Tests
-  #   runs-on: ubuntu-latest
-  #
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-  #
-  #     - name: Setup Node.js 20.x
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: '20.x'
-  #         cache: 'npm'
-  #
-  #     - name: Install Node dependencies & build app
-  #       run: |
-  #         npm ci
-  #         npm run build
-  #       env:
-  #         CI: true
-  #
-  #     - name: Setup Java 17
-  #       uses: actions/setup-java@v4
-  #       with:
-  #         distribution: 'temurin'
-  #         java-version: '17'
-  #         cache: 'maven'
-  #
-  #     - name: Debug Java SDK token
-  #       run: |
-  #         echo "JAVA_ACCESSFLOW_SDK_TOKEN set: $([ -n \"$JAVA_ACCESSFLOW_SDK_TOKEN\" ] && echo yes || echo no)"
-  #         echo "Token length: ${#JAVA_ACCESSFLOW_SDK_TOKEN}"
-  #       env:
-  #         JAVA_ACCESSFLOW_SDK_TOKEN: ${{ secrets.JAVA_ACCESSFLOW_SDK_TOKEN }}
-  #
-  #     - name: Install Playwright Browsers (Java)
-  #       working-directory: java-tests
-  #       run: mvn exec:java -e -D exec.classpathScope=test -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install --with-deps chromium"
-  #
-  #     - name: Start application server
-  #       run: npm start &
-  #       env:
-  #         BROWSER: none
-  #
-  #     - name: Wait for application
-  #       run: |
-  #         for i in $(seq 1 60); do
-  #           curl -sf http://localhost:3000 > /dev/null 2>&1 && echo "App ready!" && exit 0
-  #           sleep 1
-  #         done
-  #         echo "App did not start within 60 s" && exit 1
-  #
-  #     - name: Run Java Playwright Tests
-  #       working-directory: java-tests
-  #       run: mvn test -B
-  #       env:
-  #         CI: true
-  #         JAVA_ACCESSFLOW_SDK_TOKEN: ${{ secrets.JAVA_ACCESSFLOW_SDK_TOKEN }}
-  #
-  #     - name: Upload Java Test Results
-  #       uses: actions/upload-artifact@v4
-  #       if: always()
-  #       with:
-  #         name: java-test-results
-  #         path: java-tests/target/surefire-reports/
-  #         retention-days: 30
+  test-java:
+    name: Java Lane — Playwright Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install Node dependencies & build app
+        run: |
+          npm ci --legacy-peer-deps
+          npm run build
+        env:
+          CI: true
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+
+      - name: Install Playwright Browsers (Java)
+        working-directory: java-tests
+        run: mvn exec:java -e -D exec.classpathScope=test -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install --with-deps chromium"
+
+      - name: Start application server
+        run: npx serve -s build -l 3000 &
+        env:
+          CI: true
+
+      - name: Wait for application
+        run: |
+          for i in $(seq 1 60); do
+            curl -sf http://localhost:3000 > /dev/null 2>&1 && echo "App ready!" && exit 0
+            sleep 1
+          done
+          echo "App did not start within 60 s" && exit 1
+
+      - name: Ensure AccessFlow API key is set (Java Playwright)
+        run: |
+          if [ -z "$JAVA_ACCESSFLOW_SDK_TOKEN" ]; then
+            echo "::error::Add JAVA_ACCESSFLOW_SDK_TOKEN to this repo's GitHub Secrets."
+            exit 1
+          fi
+          echo "AccessFlow API key is set."
+        env:
+          JAVA_ACCESSFLOW_SDK_TOKEN: ${{ secrets.JAVA_ACCESSFLOW_SDK_TOKEN }}
+
+      - name: Run Java Playwright Tests
+        working-directory: java-tests
+        run: mvn test -B
+        env:
+          CI: true
+          JAVA_ACCESSFLOW_SDK_TOKEN: ${{ secrets.JAVA_ACCESSFLOW_SDK_TOKEN }}
+
+      - name: Upload Java Test Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: java-playwright-test-results
+          path: java-tests/target/surefire-reports/
+          retention-days: 30
 
   # =====================================================================
   # Deploy
