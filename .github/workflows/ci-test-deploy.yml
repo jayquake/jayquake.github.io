@@ -205,7 +205,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           pip install -r requirements.txt
-          pip install --force-reinstall --no-deps ../pythonSdk/accessflow_sdk-1.1.1-py3-none-any.whl
+          pip install --force-reinstall --no-deps ../pythonSdk/accessflow_sdk-1.1.0-py3-none-any.whl
         working-directory: python-selenium-tests
 
       - name: Start application server
@@ -374,7 +374,7 @@ jobs:
         working-directory: python-tests
         run: |
           pip install -r requirements.txt
-          pip install --force-reinstall --no-deps ../pythonSdk/accessflow_sdk-1.1.1-py3-none-any.whl
+          pip install --force-reinstall --no-deps ../pythonSdk/accessflow_sdk-1.1.0-py3-none-any.whl
 
       - name: Verify Python SDK version
         working-directory: python-tests
