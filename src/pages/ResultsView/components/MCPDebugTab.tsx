@@ -491,7 +491,10 @@ type TestArtifacts = {
   videoUrl: null | string;
 };
 
-const API_BASE_URL = (typeof window !== 'undefined' ? (window as any).__VITE_API_URL__ : undefined) || 'http://localhost:3000';
+const API_BASE_URL =
+  (typeof window !== 'undefined' ? (window as any).__VITE_API_URL__ : undefined) ||
+  process.env.REACT_APP_API_URL ||
+  '';
 
 const TestArtifactsViewer = ({
   onSnapshotLoaded,

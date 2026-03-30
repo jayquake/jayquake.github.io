@@ -9,9 +9,9 @@ function resolveWsBaseUrl(): string {
     return API_URL.replace(/^http/, 'ws');
   }
   const { hostname, port, protocol } = window.location;
-  // In dev, the React dev-server runs on 3000 and its HMR WebSocket also
-  // lives at /ws — connect directly to the backend on 3001 to avoid the clash.
-  if (hostname === 'localhost' && port === '3000') {
+  // In dev, the CRA dev server (any port) shares /ws with HMR — connect to the
+  // API server on 3001 instead. Skip when the app is already served from the API port.
+  if (hostname === 'localhost' && !API_URL && port !== '3001') {
     return 'ws://localhost:3001';
   }
   return `${protocol === 'https:' ? 'wss' : 'ws'}://${hostname}${port ? `:${port}` : ''}`;

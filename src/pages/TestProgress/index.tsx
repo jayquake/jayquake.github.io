@@ -208,7 +208,7 @@ export default function TestProgress() {
       if (detectedUrl || (!uiModeChecked && runStatus === 'running')) {
         setUiModeChecked(true);
         try {
-          const response = await fetch(`http://localhost:3000/api/playwright-ui/${runId}`);
+          const response = await fetch(`/api/playwright-ui/${runId}`);
           if (response.ok) {
             const data = await response.json();
             if (data.proxyUrl) {

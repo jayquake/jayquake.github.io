@@ -15,7 +15,7 @@ interface PlaywrightUIPanelProps {
 
 export default function PlaywrightUIPanel({ onHide, proxyUrl, runId }: PlaywrightUIPanelProps) {
   const handleOpenInNew = () => {
-    fetch(`http://localhost:3000/api/playwright-ui/${runId}`)
+    fetch(`/api/playwright-ui/${runId}`)
       .then(res => res.json())
       .then(data => {
         if (data.url) {
