@@ -65,7 +65,7 @@
     "test:e2e:breadcrumb": "cd selenium-test-suite && npx jest --config jest.config.js tests/sdk-audit-breadcrumb-navigation.test.js",
     "test:e2e:timing": "cd selenium-test-suite && npx jest --config jest.config.js tests/sdk-audit-navigation-timing.test.js",
     "test:e2e:hidden": "cd selenium-test-suite && npx jest --config jest.config.js tests/sdk-audit-hidden-content-thresholds.test.js",
-    "test:e2e:playwright": "echo 'Playwright tests disabled — use test:e2e for Selenium tests'",
+    "test:e2e:playwright": "cd test-suite && npx playwright test",
     "test:e2e:playwright:run": "cd test-suite && playwright test",
     "test:e2e:playwright:ui": "cd test-suite && playwright test --ui",
     "test:e2e:playwright:report": "cd test-suite && playwright show-report",

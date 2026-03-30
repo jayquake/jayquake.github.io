@@ -1,5 +1,8 @@
 // @ts-check
+const path = require('path');
 const { defineConfig, devices } = require('@playwright/test');
+
+const repoRoot = path.join(__dirname, '..');
 
 /**
  * @see https://playwright.dev/docs/test-configuration
@@ -62,12 +65,20 @@ module.exports = defineConfig({
     // },
   ],
 
-  /* Run your local dev server before starting the tests */
-  webServer: {
-    command: 'npm start',
-    url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
-  },
+  /* Dev server runs from repo root (this config lives in test-suite/). CI serves the production build. */
+  webServer: process.env.CI
+    ? {
+        command: 'npx serve -s build -l 3000',
+        url: 'http://localhost:3000',
+        cwd: repoRoot,
+        reuseExistingServer: false,
+      }
+    : {
+        command: 'npm start',
+        url: 'http://localhost:3000',
+        cwd: repoRoot,
+        reuseExistingServer: true,
+      },
 });
 
 
