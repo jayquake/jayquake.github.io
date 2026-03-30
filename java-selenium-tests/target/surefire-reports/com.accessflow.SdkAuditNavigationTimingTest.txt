@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.accessflow.SdkAuditNavigationTimingTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 110.2 s -- in com.accessflow.SdkAuditNavigationTimingTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 76.03 s -- in com.accessflow.SdkAuditNavigationTimingTest
