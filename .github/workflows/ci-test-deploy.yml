@@ -490,7 +490,14 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     runs-on: ubuntu-latest
-    # Deploy from main, master, develop, and dev branches
+    needs:
+      - test-js
+      - test-js-selenium
+      - test-python-selenium
+      - test-java-selenium
+      - test-python
+      - test-java
+    # Deploy from main, master, develop, and dev branches (only after all test lanes succeed)
     if: |
       github.event_name == 'push' && (
         github.ref == 'refs/heads/main' ||
@@ -615,6 +622,14 @@ jobs:
   accessibility-summary:
     name: Accessibility Test Summary (All SDKs)
     runs-on: ubuntu-latest
+    needs:
+      - test-js
+      - test-js-selenium
+      - test-python-selenium
+      - test-java-selenium
+      - test-python
+      - test-java
+    # Run after every lane finishes so artifacts exist; still emit a summary if some lanes failed
     if: always()
 
     steps:
@@ -622,7 +637,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: python-selenium-test-results
-          path: js-results
+          path: python-selenium-results
         continue-on-error: true
 
       - name: Download Python Test Results
@@ -632,10 +647,10 @@ jobs:
           path: python-results
         continue-on-error: true
 
-      - name: Download Java Test Results
+      - name: Download Java Playwright Test Results
         uses: actions/download-artifact@v4
         with:
-          name: java-test-results
+          name: java-playwright-test-results
           path: java-results
         continue-on-error: true
 
@@ -653,11 +668,11 @@ jobs:
 
           # ========== Python Selenium SDK Results ==========
           echo "### 📦 Python Selenium SDK Results" >> $GITHUB_STEP_SUMMARY
-          if [ -f "js-results/accessFlow-report-summary.json" ]; then
+          if [ -f "python-selenium-results/accessFlow-report-summary.json" ]; then
             echo "✅ **AccessFlow audit completed**" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
-            cat js-results/accessFlow-report-summary.json >> $GITHUB_STEP_SUMMARY
+            cat python-selenium-results/accessFlow-report-summary.json >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           else
@@ -719,7 +734,8 @@ jobs:
           echo "- 📦 \`python-selenium-test-results\` - Python Selenium test data + AccessFlow reports" >> $GITHUB_STEP_SUMMARY
           echo "- 📦 \`java-selenium-test-results\` - Java Selenium test data + AccessFlow reports" >> $GITHUB_STEP_SUMMARY
           echo "- 📦 \`python-test-results\` - Python test data + AccessFlow reports" >> $GITHUB_STEP_SUMMARY
-          echo "- 📦 \`java-test-results\` - Java test data + AccessFlow reports" >> $GITHUB_STEP_SUMMARY
+          echo "- 📦 \`java-playwright-test-results\` - Java Playwright test data + AccessFlow reports" >> $GITHUB_STEP_SUMMARY
+          echo "- 📦 \`js-test-results\` / \`js-selenium-test-results\` - Node SDK Playwright / Selenium artifacts" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "---" >> $GITHUB_STEP_SUMMARY
           echo "*Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')*" >> $GITHUB_STEP_SUMMARY
