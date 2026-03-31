@@ -10,7 +10,7 @@ if (ENABLE_SDK_AUDIT) {
     apiKey:
       process.env.AF_NODE_PACKAGE_KEY ||
       process.env.AF_Node_Package_Key ||
-      "flow-1Rne8TWPwxRONacpdjA000gvFjBP5bY8fv",
+      "flow-1U2ZoybZBK4gZacuqsA0008F9xAVgoirEn",
   });
 }
 

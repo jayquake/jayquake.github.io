@@ -2,7 +2,7 @@ import { AccessFlowSDK } from "@acsbe/accessflow-sdk";
 import { expect, test } from "@playwright/test";
 
 // Initialize AccessFlow SDK with API key
-AccessFlowSDK.init({ apiKey: process.env.AF_NODE_PACKAGE_KEY || process.env.AF_Node_Package_Key || "flow-1Rne8TWPwxRONacpdjA000gvFjBP5bY8fv" });
+AccessFlowSDK.init({ apiKey: process.env.AF_NODE_PACKAGE_KEY || process.env.AF_Node_Package_Key || "flow-1U2ZoybZBK4gZacuqsA0008F9xAVgoirEn" });
 
 test.describe("Graphics Audit Tests with SDK", () => {
   test.beforeEach(async ({ page }) => {
