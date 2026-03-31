@@ -24,7 +24,7 @@ module.exports = defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://localhost:3003',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -68,14 +68,14 @@ module.exports = defineConfig({
   /* Dev server runs from repo root (this config lives in test-suite/). CI serves the production build. */
   webServer: process.env.CI
     ? {
-        command: 'npx serve -s build -l 3000',
-        url: 'http://localhost:3000',
+        command: 'npx serve -s build -l 3003',
+        url: 'http://localhost:3003',
         cwd: repoRoot,
         reuseExistingServer: false,
       }
     : {
         command: 'npm start',
-        url: 'http://localhost:3000',
+        url: 'http://localhost:3003',
         cwd: repoRoot,
         reuseExistingServer: true,
       },

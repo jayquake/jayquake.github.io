@@ -52,9 +52,8 @@ test.describe("Audit — Home Page", () => {
 
   test("audit should complete without throwing", async ({ page }) => {
     const sdk = new AccessFlowSDK(page);
-    await expect(async () => {
-      await sdk.audit();
-    }).not.toThrow();
+    const report = await sdk.audit();
+    expect(report).toBeDefined();
   });
 });
 
