@@ -497,8 +497,10 @@ jobs:
       - test-python-selenium
       - test-java-selenium
       - test-java
-    # Deploy from main, master, develop, and dev branches (only after all test lanes succeed)
+    # Deploy from main, master, develop, and dev branches (even if test lanes fail)
     if: |
+      always() &&
+      !cancelled() &&
       github.event_name == 'push' && (
         github.ref == 'refs/heads/main' ||
         github.ref == 'refs/heads/master' ||
