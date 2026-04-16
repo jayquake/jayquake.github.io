@@ -31,7 +31,7 @@ import {
   alpha,
 } from "@mui/material";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import ENGINE_RULE_CATEGORIES from "../../../data/engine-rule-categories";
 import engineRulesData from "../../../data/engine-rules-metadata.json";
 import { getAllCachedResults } from "../../../utils/analysisCache";
@@ -107,10 +107,12 @@ const LEAF_ITEMS = [
   { key: "mcp-debug", label: "MCP Debug", icon: BugReportIcon, color: "#ff9800" },
 ];
 
-function LeafItem({ item, onClick, isActive, isOpen }) {
+function LeafItem({ item, to, onClick, isActive, isOpen }) {
   const Icon = item.icon;
   return (
     <ListItemButton
+      component={RouterLink}
+      to={to}
       onClick={onClick}
       selected={isActive}
       sx={{
@@ -119,6 +121,8 @@ function LeafItem({ item, onClick, isActive, isOpen }) {
         minHeight: 28,
         borderRadius: 1,
         mx: isOpen ? 0.5 : 0,
+        textDecoration: "none",
+        color: "inherit",
         "&.Mui-selected": {
           bgcolor: alpha(item.color, 0.12),
           "&:hover": { bgcolor: alpha(item.color, 0.18) },
@@ -173,7 +177,8 @@ function HealthDot({ status }) {
 }
 
 function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, expanded, onToggle, onNavigate, location, healthStatus }) {
-  const isExpanded = expanded[`rule-${ruleType}-${ruleId}`] || false;
+  const nodeKey = `rule-${ruleType}-${ruleId}`;
+  const isExpanded = nodeKey in expanded ? expanded[nodeKey] : true;
   const basePath = ruleType === "engine" ? `/engine/${ruleId}` : `/${criteriaOrCategory}/${ruleId}`;
   const isRuleActive = location.pathname === basePath;
 
@@ -186,28 +191,22 @@ function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, exp
     onToggle(`rule-${ruleType}-${ruleId}`);
   };
 
+  const leafPaths = useMemo(() => ({
+    success: `${basePath}_success`,
+    failure: `${basePath}_failure`,
+    "rule-lab": `/rule-lab?rule=${ruleId}&type=${ruleType}`,
+    "mcp-debug": `/rule-lab?rule=${ruleId}&type=${ruleType}&mode=mcp`,
+  }), [basePath, ruleId, ruleType]);
+
   const handleLeafClick = (leafKey) => {
-    switch (leafKey) {
-      case "success":
-        onNavigate(`${basePath}_success`);
-        break;
-      case "failure":
-        onNavigate(`${basePath}_failure`);
-        break;
-      case "rule-lab":
-        onNavigate(`/rule-lab?rule=${ruleId}&type=${ruleType}`);
-        break;
-      case "mcp-debug":
-        onNavigate(`/rule-lab?rule=${ruleId}&type=${ruleType}&mode=mcp`);
-        break;
-      default:
-        break;
-    }
+    onNavigate(leafPaths[leafKey]);
   };
 
   return (
     <>
       <ListItemButton
+        component={RouterLink}
+        to={basePath}
         onClick={handleClick}
         selected={isRuleActive}
         sx={{
@@ -216,6 +215,8 @@ function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, exp
           minHeight: 30,
           borderRadius: 1,
           mx: isOpen ? 0.5 : 0,
+          textDecoration: "none",
+          color: "inherit",
           "&.Mui-selected": {
             bgcolor: "rgba(102, 126, 234, 0.12)",
             "&:hover": { bgcolor: "rgba(102, 126, 234, 0.18)" },
@@ -258,6 +259,7 @@ function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, exp
               <LeafItem
                 key={item.key}
                 item={item}
+                to={leafPaths[item.key]}
                 onClick={() => handleLeafClick(item.key)}
                 isActive={false}
                 isOpen={isOpen}
