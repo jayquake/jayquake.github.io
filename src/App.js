@@ -94,7 +94,7 @@ export default function App() {
   const isRuleLabRoute = location.pathname.startsWith("/rule-lab");
 
   // UI State
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState([]);

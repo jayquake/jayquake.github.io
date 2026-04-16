@@ -73,12 +73,24 @@ function getEngineRuleTitle(ruleId) {
   return rule ? rule.title : ruleId;
 }
 
+const DEFAULT_EXPANDED = {
+  "tier-engine": true,
+  "cat-engine-aria-roles": true,
+  "cat-engine-forms-inputs": true,
+  "cat-engine-links-navigation": true,
+  "cat-engine-images-media": true,
+  "cat-engine-structure-semantics": true,
+  "cat-engine-interactive-widgets": true,
+  "cat-engine-text-content": true,
+  "cat-engine-page-document": true,
+};
+
 function loadExpanded() {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? JSON.parse(stored) : {};
+    return stored ? { ...DEFAULT_EXPANDED, ...JSON.parse(stored) } : { ...DEFAULT_EXPANDED };
   } catch {
-    return {};
+    return { ...DEFAULT_EXPANDED };
   }
 }
 
