@@ -1,10 +1,10 @@
 # AccessFlow SDK for JavaScript / TypeScript
 
-# 
+#
 
 Professional accessibility testing for JavaScript and TypeScript applications using Playwright.
 
-AccessFlow SDK enables engineering teams to automatically detect **WCAG 2.1 accessibility issues** directly within automated test suites. Designed for modern CI/CD workflows, it ensures accessibility validation is continuous, enforceable, and scalable.
+AccessFlow SDK enables teams to automatically detect **WCAG 2.1 accessibility issues** directly within automated test suites. Designed for modern CI/CD workflows, it ensures accessibility validation is continuous, enforceable, and scalable.
 
 ---
 
@@ -26,17 +26,15 @@ With AccessFlow SDK for JavaScript / TypeScript, you can:
 
 You will receive the following from the AccessFlow team:
 
-| Item | Purpose |
-| --- | --- |
+| Item                  | Purpose                                         |
+| --------------------- | ----------------------------------------------- |
 | **NPM Install Token** | Install the SDK package (double base64-encoded) |
-| **NPM Registry URL** | Private NPM registry location |
-| **SDK API Key** | Authenticate audit requests at runtime |
+| **NPM Registry URL**  | Private NPM registry location                   |
+| **SDK API Key**       | Authenticate audit requests at runtime          |
 
 > The NPM Install Token is used for installation.
-> 
-> 
+>
 > The SDK API Key is used during test execution.
-> 
 
 ---
 
@@ -261,10 +259,10 @@ Report includes:
 
 In CI pipelines, configure two secrets:
 
-| Secret | Purpose |
-| --- | --- |
+| Secret                          | Purpose             |
+| ------------------------------- | ------------------- |
 | `ACCESSFLOW_NPM_REGISTRY_TOKEN` | Install SDK package |
-| `ACCESSFLOW_SDK_API_KEY` | Authenticate audits |
+| `ACCESSFLOW_SDK_API_KEY`        | Authenticate audits |
 
 Your `.npmrc` should reference the token via environment variable:
 
@@ -315,13 +313,13 @@ export default config;
 
 # Environment Variables
 
-| Variable | Required | Purpose |
-| --- | --- | --- |
-| `ACCESSFLOW_SDK_API_KEY` | Yes | Runtime authentication |
-| `ACCESSFLOW_NPM_REGISTRY_TOKEN` | CI only | Install SDK |
-| `CI` | Auto | Enables upload behavior |
-| `ACCESSFLOW_UPLOAD_ENABLED` | Optional | Override upload behavior |
-| `ACCESSFLOW_OUTPUT_DIR` | Optional | Custom report directory |
+| Variable                        | Required | Purpose                  |
+| ------------------------------- | -------- | ------------------------ |
+| `ACCESSFLOW_SDK_API_KEY`        | Yes      | Runtime authentication   |
+| `ACCESSFLOW_NPM_REGISTRY_TOKEN` | CI only  | Install SDK              |
+| `CI`                            | Auto     | Enables upload behavior  |
+| `ACCESSFLOW_UPLOAD_ENABLED`     | Optional | Override upload behavior |
+| `ACCESSFLOW_OUTPUT_DIR`         | Optional | Custom report directory  |
 
 ---
 
