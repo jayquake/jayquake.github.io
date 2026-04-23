@@ -1,6 +1,6 @@
 # AccessFlow SDK
 
-Professional accessibility testing SDK for web applications. Automatically detect WCAG 2.1 accessibility issues in your testing.
+Professional accessibility testing SDK for web applications. Automatically detect WCAG 2.1 accessibility issues in your testing suites.
 
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 
