@@ -1,6 +1,6 @@
 # AccessFlow SDK
 
-Professional accessibility testing SDK for web applications. Automatically detect WCAG 2.1 accessibility issues in your tests.
+Professional accessibility testing SDK for web applications. Automatically detect WCAG 2.1 accessibility issues in your testing.
 
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 
@@ -27,10 +27,10 @@ Professional accessibility testing SDK for web applications. Automatically detec
 
 You will receive the following from the AccessFlow team:
 
-| Item                         | Description                                              |
-| ---------------------------- | -------------------------------------------------------- |
-| **Registry Install Token**   | A base64-encoded service account key for package installation |
-| **SDK API Key**              | Your project API key for runtime authentication          |
+| Item                       | Description                                                   |
+| -------------------------- | ------------------------------------------------------------- |
+| **Registry Install Token** | A base64-encoded service account key for package installation |
+| **SDK API Key**            | Your project API key for runtime authentication               |
 
 > **Important:** The **Registry Install Token** is used to download/install the SDK package. The **SDK API Key** is used at runtime when running accessibility audits. These are two separate credentials.
 
@@ -70,15 +70,15 @@ npm install -D @playwright/test
 ```
 
 ```typescript
-import { test } from '@playwright/test';
-import AccessFlowSDK from '@acsbe/accessflow-sdk';
+import { test } from "@playwright/test";
+import AccessFlowSDK from "@acsbe/accessflow-sdk";
 
 // Set ACCESSFLOW_SDK_API_KEY in your environment
 // SDK automatically uses it - no initialization needed
 
-test('accessibility check', async ({ page }) => {
+test("accessibility check", async ({ page }) => {
   const sdk = new AccessFlowSDK(page);
-  await page.goto('https://example.com');
+  await page.goto("https://example.com");
 
   const audits = await sdk.audit();
   // Audit data is automatically recorded; the final report is generated and uploaded in CI.
@@ -92,13 +92,13 @@ npm install -D selenium-webdriver
 ```
 
 ```typescript
-import { Builder } from 'selenium-webdriver';
-import { AccessFlowSDK, SeleniumDriver } from '@acsbe/accessflow-sdk';
+import { Builder } from "selenium-webdriver";
+import { AccessFlowSDK, SeleniumDriver } from "@acsbe/accessflow-sdk";
 
 // Set ACCESSFLOW_SDK_API_KEY in your environment
 
-const driver = await new Builder().forBrowser('chrome').build();
-await driver.get('https://example.com');
+const driver = await new Builder().forBrowser("chrome").build();
+await driver.get("https://example.com");
 
 const sdk = new AccessFlowSDK(new SeleniumDriver(driver));
 const audits = await sdk.audit();
@@ -278,7 +278,7 @@ const report = await sdk.generateReport(audits);
 // Assert or use the data in this test
 expect(report.numberOfIssuesFound.extreme).toBe(0);
 expect(report.numberOfIssuesFound.high).toBeLessThanOrEqual(5);
-console.log('Issues by severity:', report.numberOfIssuesFound);
+console.log("Issues by severity:", report.numberOfIssuesFound);
 // report.ruleViolations gives per-rule details
 ```
 
@@ -310,7 +310,7 @@ System.out.println("Issues by severity: " + counts);
 **Important:** If using GitHub Actions or other CI/CD with Ubuntu runners, use **Ubuntu 22.04** instead of `ubuntu-latest`:
 
 ```yaml
-runs-on: ubuntu-22.04  # ✅ Recommended
+runs-on: ubuntu-22.04 # ✅ Recommended
 # runs-on: ubuntu-latest  # ❌ Currently maps to Ubuntu 24.04 which has Playwright compatibility issues
 ```
 
@@ -336,14 +336,14 @@ export ACCESSFLOW_SDK_API_KEY=your-api-key-here
 
 **CI/CD (store as a secret):**
 
-| Platform         | Where to set it                                          |
-| ---------------- | -------------------------------------------------------- |
-| GitHub Actions   | Repository Settings → Secrets → `ACCESSFLOW_SDK_API_KEY` |
-| CircleCI         | Project Settings → Environment Variables                 |
-| GitLab CI        | Project Settings → CI/CD → Variables                     |
-| Jenkins          | Credentials → Secret Text                                |
-| Azure Pipelines  | Pipeline Variables (secret)                              |
-| Bitbucket        | Repository Settings → Pipeline Variables                 |
+| Platform        | Where to set it                                          |
+| --------------- | -------------------------------------------------------- |
+| GitHub Actions  | Repository Settings → Secrets → `ACCESSFLOW_SDK_API_KEY` |
+| CircleCI        | Project Settings → Environment Variables                 |
+| GitLab CI       | Project Settings → CI/CD → Variables                     |
+| Jenkins         | Credentials → Secret Text                                |
+| Azure Pipelines | Pipeline Variables (secret)                              |
+| Bitbucket       | Repository Settings → Pipeline Variables                 |
 
 ### Option 2: Programmatic Initialization
 
@@ -351,7 +351,7 @@ When you need to set the API key in code:
 
 ```typescript
 // JavaScript/TypeScript - Initialize once before tests
-import AccessFlowSDK from '@acsbe/accessflow-sdk';
+import AccessFlowSDK from "@acsbe/accessflow-sdk";
 AccessFlowSDK.init({ apiKey: process.env.ACCESSFLOW_SDK_API_KEY! });
 ```
 
@@ -404,7 +404,14 @@ Configure thresholds to fail builds on accessibility issues. Create `accessflow.
           "name": "Images must have alternate text",
           "severity": "high",
           "selectors": ["img.hero"],
-          "selectorData": [{ "selector": "img.hero", "HTML": "<img src=\"/banner.png\">", "suggestionLabel": "Add alt text", "suggestionType": "addAttribute" }],
+          "selectorData": [
+            {
+              "selector": "img.hero",
+              "HTML": "<img src=\"/banner.png\">",
+              "suggestionLabel": "Add alt text",
+              "suggestionType": "addAttribute"
+            }
+          ],
           "WCAGLevel": "A",
           "WCAGLink": "https://www.w3.org/TR/WCAG21/#text-alternatives"
         },
@@ -413,7 +420,14 @@ Configure thresholds to fail builds on accessibility issues. Create `accessflow.
           "name": "Heading order",
           "severity": "medium",
           "selectors": ["h3:first-of-type"],
-          "selectorData": [{ "selector": "h3:first-of-type", "HTML": "<h3>Section</h3>", "suggestionLabel": "Use h2 before h3", "suggestionType": "changeTag" }],
+          "selectorData": [
+            {
+              "selector": "h3:first-of-type",
+              "HTML": "<h3>Section</h3>",
+              "suggestionLabel": "Use h2 before h3",
+              "suggestionType": "changeTag"
+            }
+          ],
           "WCAGLevel": "A",
           "WCAGLink": "https://www.w3.org/TR/WCAG21/#info-and-relationships"
         }
@@ -428,8 +442,18 @@ Configure thresholds to fail builds on accessibility issues. Create `accessflow.
           "severity": "high",
           "selectors": ["a.nav-link", "a[href='#']"],
           "selectorData": [
-            { "selector": "a.nav-link", "HTML": "<a class=\"nav-link\" href=\"/about\"></a>", "suggestionLabel": "Add link text", "suggestionType": "addContent" },
-            { "selector": "a[href='#']", "HTML": "<a href=\"#\"> </a>", "suggestionLabel": "Add link text", "suggestionType": "addContent" }
+            {
+              "selector": "a.nav-link",
+              "HTML": "<a class=\"nav-link\" href=\"/about\"></a>",
+              "suggestionLabel": "Add link text",
+              "suggestionType": "addContent"
+            },
+            {
+              "selector": "a[href='#']",
+              "HTML": "<a href=\"#\"> </a>",
+              "suggestionLabel": "Add link text",
+              "suggestionType": "addContent"
+            }
           ],
           "WCAGLevel": "A",
           "WCAGLink": "https://www.w3.org/TR/WCAG21/#link-purpose-in-context"
@@ -439,7 +463,14 @@ Configure thresholds to fail builds on accessibility issues. Create `accessflow.
           "name": "Contrast (Minimum)",
           "severity": "medium",
           "selectors": [".muted"],
-          "selectorData": [{ "selector": ".muted", "HTML": "<span class=\"muted\">Disclaimer</span>", "suggestionLabel": "Increase contrast", "suggestionType": "changeStyle" }],
+          "selectorData": [
+            {
+              "selector": ".muted",
+              "HTML": "<span class=\"muted\">Disclaimer</span>",
+              "suggestionLabel": "Increase contrast",
+              "suggestionType": "changeStyle"
+            }
+          ],
           "WCAGLevel": "AA",
           "WCAGLink": "https://www.w3.org/TR/WCAG21/#contrast-minimum"
         }
@@ -472,4 +503,3 @@ With `localCheck: true`, running tests locally will exit with an error and print
 ## License
 
 [ISC License](./LICENSE)
-
