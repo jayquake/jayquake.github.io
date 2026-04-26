@@ -4,7 +4,7 @@
 
 Professional accessibility testing for JavaScript and TypeScript applications using Playwright.
 
-AccessFlow SDK enables teams to automatically detect **WCAG 2.1 accessibility issues** directly within automated test suites. Designed for modern CI/CD workflows, it ensures accessibility validation is continuous, enforceable, and scalable.
+AccessFlow SDK enables teams to detect **WCAG 2.1 accessibility issues** directly within automated test suites. Designed for modern CI/CD workflows, it ensures accessibility validation is continuous, enforceable, and scalable.
 
 ---
 
