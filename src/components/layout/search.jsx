@@ -149,7 +149,7 @@ const SearchComponent = ({ data }) => {
       <StyledSearchBar>
         <SearchIcon color="action" />
         <StyledInputBase
-          placeholder="Search..."
+          placeholder="Search Here"
           value={searchQuery}
           onChange={handleInputChange}
           onFocus={() => setShowDropdown(searchQuery.length > 0)}
