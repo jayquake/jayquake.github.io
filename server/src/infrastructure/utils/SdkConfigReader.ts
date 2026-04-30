@@ -47,5 +47,5 @@ export function getNodeSdkDefaultBaseUrl(tgzPath: string): string | null {
  */
 export function getNodeSdkTarballPath(): string {
   const projectRoot = PathUtils.getProjectRoot();
-  return join(projectRoot, 'nodeSDK', 'acsbe-accessflow-sdk.tgz');
+  return join(projectRoot, 'sdk', 'packages', 'node', 'acsbe-accessflow-sdk.tgz');
 }

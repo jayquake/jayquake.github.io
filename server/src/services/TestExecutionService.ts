@@ -127,7 +127,7 @@ export class TestExecutionService {
     env: Record<string, string | undefined>,
   ): SpawnConfig {
     const projectRoot = PathUtils.getProjectRoot();
-    const cwd = join(projectRoot, project.workingDirectory || 'python-tests');
+    const cwd = join(projectRoot, project.workingDirectory || 'sdk/tests/playwright/python');
 
     const args = ['-v', '--junitxml=test-results/results.xml'];
     if (config.grepPattern) args.push('-k', config.grepPattern);
@@ -149,7 +149,7 @@ export class TestExecutionService {
     env: Record<string, string | undefined>,
   ): SpawnConfig {
     const projectRoot = PathUtils.getProjectRoot();
-    const cwd = join(projectRoot, project.workingDirectory || 'java-tests');
+    const cwd = join(projectRoot, project.workingDirectory || 'sdk/tests/playwright/java');
 
     const args = ['test', '-B'];
     if (config.grepPattern) args.push(`-Dtest=${config.grepPattern}`);
@@ -169,7 +169,7 @@ export class TestExecutionService {
     env: Record<string, string | undefined>,
   ): SpawnConfig {
     const projectRoot = PathUtils.getProjectRoot();
-    const cwd = join(projectRoot, project.workingDirectory || 'selenium-test-suite');
+    const cwd = join(projectRoot, project.workingDirectory || 'sdk/tests/selenium/node');
 
     const args = ['--config', 'jest.config.js', '--forceExit', '--verbose'];
 

@@ -3,10 +3,10 @@ name: sdk-update-ci-reenable
 description: >
   Install or update AccessFlow SDK packages and manage CI test lanes.
   Use when the user drops new SDK files (.tgz, .whl, .jar, .tar.gz) into
-  nodeSDK/, pythonSdk/, or javaSdk/ and wants to wire them up for Selenium
-  and/or Playwright tests. Also use when the user mentions updating an SDK,
-  reinstalling SDKs, re-enabling or muting CI test lanes, or uncommenting
-  a test job in the workflow.
+  sdk/packages/node/, sdk/packages/python/, or sdk/packages/java/ and wants
+  to wire them up for Selenium and/or Playwright tests. Also use when the
+  user mentions updating an SDK, reinstalling SDKs, re-enabling or muting
+  CI test lanes, or uncommenting a test job in the workflow.
 ---
 
 # SDK Update & CI Re-enable
@@ -16,28 +16,47 @@ description: >
 This project has **six independent CI test lanes** across three SDKs and two
 test frameworks. Each lane can be enabled or muted individually.
 
+The SDK tree is consolidated under a single `sdk/` parent:
+
+```
+sdk/
+  packages/
+    node/      (.tgz)
+    python/    (.whl, .tar.gz)
+    java/      (.jar)
+  tests/
+    playwright/
+      node/    (Playwright)
+      python/  (pytest-playwright)
+      java/    (JUnit 5 + Playwright)
+    selenium/
+      node/    (Jest + Selenium)
+      python/  (pytest + Selenium)
+      java/    (JUnit 5 + Selenium)
+```
+
 ## SDK Lanes Reference
 
 | Lane | CI Job Name | SDK Dir | Package Format | Test Dir | Framework |
 |------|-------------|---------|----------------|----------|-----------|
-| JS Playwright | `test-js` | `nodeSDK/` | `.tgz` | `test-suite/` | Playwright |
-| JS Selenium | `test-js-selenium` | `nodeSDK/` | `.tgz` | `selenium-test-suite/` | Jest + Selenium |
-| Python Playwright | `test-python` | `pythonSdk/` | `.whl` | `python-tests/` | pytest-playwright |
-| Python Selenium | `test-python-selenium` | `pythonSdk/` | `.whl` | `python-selenium-tests/` | pytest + Selenium |
-| Java Playwright | `test-java` | `javaSdk/` | `.jar` | `java-tests/` | JUnit 5 + Playwright |
-| Java Selenium | `test-java-selenium` | `javaSdk/` | `.jar` | `java-selenium-tests/` | JUnit 5 + Selenium |
+| JS Playwright | `test-js` | `sdk/packages/node/` | `.tgz` | `sdk/tests/playwright/node/` | Playwright |
+| JS Selenium | `test-js-selenium` | `sdk/packages/node/` | `.tgz` | `sdk/tests/selenium/node/` | Jest + Selenium |
+| Python Playwright | `test-python` | `sdk/packages/python/` | `.whl` | `sdk/tests/playwright/python/` | pytest-playwright |
+| Python Selenium | `test-python-selenium` | `sdk/packages/python/` | `.whl` | `sdk/tests/selenium/python/` | pytest + Selenium |
+| Java Playwright | `test-java` | `sdk/packages/java/` | `.jar` | `sdk/tests/playwright/java/` | JUnit 5 + Playwright |
+| Java Selenium | `test-java-selenium` | `sdk/packages/java/` | `.jar` | `sdk/tests/selenium/java/` | JUnit 5 + Selenium |
 
 ## Dependency Reference Locations
 
 | SDK | Where the filename is referenced |
 |-----|----------------------------------|
-| **Node** | `package.json` → `devDependencies["@acsbe/accessflow-sdk"]` (root, `file:nodeSDK/<name>.tgz`) |
-| **Node** | `selenium-test-suite/package.json` → `dependencies["@acsbe/accessflow-sdk"]` (`file:../nodeSDK/<name>.tgz`) |
-| **Python** | `python-tests/requirements.txt` (last line: `../pythonSdk/<name>.whl`) |
-| **Python** | `python-selenium-tests/requirements.txt` (last line: `../pythonSdk/<name>.whl`) |
+| **Node** | `package.json` → `devDependencies["@acsbe/accessflow-sdk"]` (root, `file:sdk/packages/node/<name>.tgz`) |
+| **Node** | `sdk/tests/selenium/node/package.json` → `dependencies["@acsbe/accessflow-sdk"]` (`file:../../../packages/node/<name>.tgz`) |
+| **Python** | `sdk/tests/playwright/python/requirements.txt` (last line: `../../../packages/python/<name>.whl`) |
+| **Python** | `sdk/tests/selenium/python/requirements.txt` (last line: `../../../packages/python/<name>.whl`) |
 | **Python** | `.github/workflows/ci-test-deploy.yml` → `pip install` steps in `test-python` and `test-python-selenium` |
-| **Java** | `java-tests/pom.xml` → `<systemPath>` for accessflow-sdk dependency |
-| **Java** | `java-selenium-tests/pom.xml` → `<systemPath>` for accessflow-sdk dependency |
+| **Java** | `sdk/tests/playwright/java/pom.xml` → `<systemPath>` for accessflow-sdk dependency |
+| **Java** | `sdk/tests/selenium/java/pom.xml` → `<systemPath>` for accessflow-sdk dependency |
 
 ## CI Secrets
 
@@ -67,14 +86,14 @@ Task Progress:
 List each SDK directory:
 
 ```bash
-ls -la nodeSDK/ pythonSdk/ javaSdk/
+ls -la sdk/packages/node/ sdk/packages/python/ sdk/packages/java/
 ```
 
 **Common issues to fix:**
 - Filenames with spaces or parentheses (e.g., `acsbe-accessflow-sdk (1).tgz`)
   must be renamed to clean names (e.g., `acsbe-accessflow-sdk-1.1.1.tgz`)
-- Python `.tar.gz` source tarballs sometimes land in `nodeSDK/` — move them
-  to `pythonSdk/`
+- Python `.tar.gz` source tarballs sometimes land in `sdk/packages/node/` — move
+  them to `sdk/packages/python/`
 - The Java `.jar` keeps the same name (`accessflow-sdk.jar`), so a copy
   overwrites the old one
 
@@ -84,20 +103,20 @@ ls -la nodeSDK/ pythonSdk/ javaSdk/
 
 ```json
 // package.json (root)
-"@acsbe/accessflow-sdk": "file:nodeSDK/<new-name>.tgz"
+"@acsbe/accessflow-sdk": "file:sdk/packages/node/<new-name>.tgz"
 
-// selenium-test-suite/package.json
-"@acsbe/accessflow-sdk": "file:../nodeSDK/<new-name>.tgz"
+// sdk/tests/selenium/node/package.json
+"@acsbe/accessflow-sdk": "file:../../../packages/node/<new-name>.tgz"
 ```
 
 **Python** — Two `requirements.txt` files AND two CI pip install lines:
 
 ```
-# python-tests/requirements.txt
-../pythonSdk/<new-name>.whl
+# sdk/tests/playwright/python/requirements.txt
+../../../packages/python/<new-name>.whl
 
-# python-selenium-tests/requirements.txt
-../pythonSdk/<new-name>.whl
+# sdk/tests/selenium/python/requirements.txt
+../../../packages/python/<new-name>.whl
 ```
 
 In `.github/workflows/ci-test-deploy.yml`, update the `pip install` lines
@@ -106,11 +125,11 @@ in both `test-python` and `test-python-selenium` jobs.
 **Java** — Two `pom.xml` files:
 
 ```xml
-<!-- java-tests/pom.xml -->
-<systemPath>${project.basedir}/../javaSdk/accessflow-sdk.jar</systemPath>
+<!-- sdk/tests/playwright/java/pom.xml -->
+<systemPath>${project.basedir}/../../../packages/java/accessflow-sdk.jar</systemPath>
 
-<!-- java-selenium-tests/pom.xml -->
-<systemPath>${project.basedir}/../javaSdk/accessflow-sdk.jar</systemPath>
+<!-- sdk/tests/selenium/java/pom.xml -->
+<systemPath>${project.basedir}/../../../packages/java/accessflow-sdk.jar</systemPath>
 ```
 
 Also update the `<version>` tag to match the new SDK version.
@@ -122,14 +141,14 @@ Also update the `<version>` tag to match the new SDK version.
 rm -rf node_modules package-lock.json
 npm install --legacy-peer-deps
 
-# Selenium test suite
-cd selenium-test-suite
+# Selenium Node test suite
+cd sdk/tests/selenium/node
 rm -rf node_modules package-lock.json
 npm install
 
 # Verify
 npm ls @acsbe/accessflow-sdk   # from root
-cd selenium-test-suite && npm ls @acsbe/accessflow-sdk
+cd sdk/tests/selenium/node && npm ls @acsbe/accessflow-sdk
 ```
 
 ### Step 4: Update CI workflow
@@ -147,6 +166,7 @@ Add `(MUTED)` to the section header comment.
 - All `npm ci` steps use `--legacy-peer-deps`
 - Python Playwright lane uses `npx serve -s build -l 3000` (not `npm start`)
 - All lanes have an API key check step
+- `working-directory:` and `cd` paths use the new `sdk/tests/...` paths
 
 ### Step 5: Update CI needs: arrays
 
@@ -170,7 +190,7 @@ grep -E '^  test-|^  deploy:|^  accessibility' .github/workflows/ci-test-deploy.
 npm ls @acsbe/accessflow-sdk
 
 # Playwright test listing
-cd test-suite && npx playwright test --list
+cd sdk/tests/playwright/node && npx playwright test --list
 ```
 
 ## Selective Lane Enable/Mute

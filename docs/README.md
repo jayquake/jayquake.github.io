@@ -57,12 +57,12 @@ Feature implementation and enhancement summaries.
 
 ## 🧪 Testing
 
-Testing documentation is located in the `test-suite/` directory:
+Testing documentation is located in the `sdk/tests/playwright/node/` directory:
 
 | Document | Description |
 |----------|-------------|
-| [MCP_TEST_FIXES.md](../test-suite/MCP_TEST_FIXES.md) | Test fixes using Playwright MCP |
-| [SDK_DISABLED.md](../test-suite/SDK_DISABLED.md) | SDK status in Playwright tests |
+| [MCP_TEST_FIXES.md](../sdk/tests/playwright/node/MCP_TEST_FIXES.md) | Test fixes using Playwright MCP |
+| [SDK_DISABLED.md](../sdk/tests/playwright/node/SDK_DISABLED.md) | SDK status in Playwright tests |
 
 ---
 

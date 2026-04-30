@@ -13,7 +13,7 @@ import pytest
 from dotenv import load_dotenv
 from accessflow_sdk import AccessFlowSDK, finalize_reports, record_audit
 
-# Load .env from python-tests/ for local testing (PYTHON_ACCESSFLOW_SDK_TOKEN)
+# Load .env from sdk/tests/playwright/python/ for local testing (PYTHON_ACCESSFLOW_SDK_TOKEN)
 load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
 BASE_URL = "http://localhost:3000"
@@ -79,7 +79,7 @@ def sdk(page):
     api_key = os.environ.get("PYTHON_ACCESSFLOW_SDK_TOKEN")
     if not api_key:
         pytest.skip(
-            "PYTHON_ACCESSFLOW_SDK_TOKEN not set. For local testing, create python-tests/.env with:\n"
+            "PYTHON_ACCESSFLOW_SDK_TOKEN not set. For local testing, create sdk/tests/playwright/python/.env with:\n"
             "  PYTHON_ACCESSFLOW_SDK_TOKEN=flow-your-key-here"
         )
     sdk_instance = AccessFlowSDK(page, api_key=api_key)

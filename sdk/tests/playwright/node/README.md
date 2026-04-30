@@ -51,7 +51,7 @@ npm run test:e2e:headed      # Run in headed mode (see browser)
 ## 📁 Directory Structure
 
 ```
-test-suite/
+sdk/tests/playwright/node/
 ├── README.md                    # This file
 ├── INSTALLATION.md              # Installation guide
 ├── INSTALLATION_QUICK_REF.md    # Quick installation reference

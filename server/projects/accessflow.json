@@ -6,12 +6,12 @@
   "sdkType": "node",
   "testFramework": "playwright",
   "testCommand": "npx playwright test",
-  "testDirectory": "test-suite/tests",
-  "workingDirectory": "test-suite",
-  "outputDirectory": "test-suite/test-results",
+  "testDirectory": "sdk/tests/playwright/node/tests",
+  "workingDirectory": "sdk/tests/playwright/node",
+  "outputDirectory": "sdk/tests/playwright/node/test-results",
   "apiKeyEnvVar": "AF_NODE_PACKAGE_KEY",
   "defaultBaseUrl": "http://localhost:3000",
-  "configPath": "test-suite/playwright.config.js",
+  "configPath": "sdk/tests/playwright/node/playwright.config.js",
   "qaseProjectCode": "ACCESSFLOW",
   "envHubNames": ["accessflow"]
 }

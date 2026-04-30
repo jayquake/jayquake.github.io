@@ -67,16 +67,16 @@ export class JUnitReportProcessor {
     if (framework === 'pytest') {
       possiblePaths.push(
         join(projectRoot, outputDirectory, 'results.xml'),
-        join(projectRoot, 'python-tests', 'test-results', 'results.xml'),
-        join(projectRoot, 'python-selenium-tests', 'test-results', 'results.xml'),
+        join(projectRoot, 'sdk', 'tests', 'playwright', 'python', 'test-results', 'results.xml'),
+        join(projectRoot, 'sdk', 'tests', 'selenium', 'python', 'test-results', 'results.xml'),
       );
     } else {
       // Derive surefire directory from the outputDirectory's parent (working directory)
       const outputParent = resolve(projectRoot, outputDirectory, '..');
       const candidates = [
         join(outputParent, 'target', 'surefire-reports'),
-        join(projectRoot, 'java-selenium-tests', 'target', 'surefire-reports'),
-        join(projectRoot, 'java-tests', 'target', 'surefire-reports'),
+        join(projectRoot, 'sdk', 'tests', 'selenium', 'java', 'target', 'surefire-reports'),
+        join(projectRoot, 'sdk', 'tests', 'playwright', 'java', 'target', 'surefire-reports'),
       ];
 
       for (const surefireDir of candidates) {

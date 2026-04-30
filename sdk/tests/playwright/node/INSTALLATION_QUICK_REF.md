@@ -48,7 +48,7 @@ npm install --save-dev @acsbe/accessflow-sdk @playwright/test playwright
 
 ## Quick Setup
 
-### 1. Playwright Config (`test-suite/playwright.config.js`)
+### 1. Playwright Config (`sdk/tests/playwright/node/playwright.config.js`)
 
 ```javascript
 const { defineConfig, devices } = require('@playwright/test');
@@ -65,7 +65,7 @@ module.exports = defineConfig({
 });
 ```
 
-### 2. Global Teardown (`test-suite/global-teardown.js`)
+### 2. Global Teardown (`sdk/tests/playwright/node/global-teardown.js`)
 
 ```javascript
 const accessFlowSdkGlobalTeardown =
@@ -78,7 +78,7 @@ async function globalTeardown() {
 module.exports = globalTeardown;
 ```
 
-### 3. Test File (`test-suite/tests/example.spec.js`)
+### 3. Test File (`sdk/tests/playwright/node/tests/example.spec.js`)
 
 ```javascript
 import { AccessFlowSDK } from "@acsbe/accessflow-sdk";
@@ -100,9 +100,9 @@ test("audit test", async ({ page }, testInfo) => {
 ```json
 {
   "scripts": {
-    "test:e2e": "cd test-suite && playwright test",
-    "test:e2e:ui": "cd test-suite && playwright test --ui",
-    "test:e2e:headed": "cd test-suite && playwright test --headed"
+    "test:e2e": "cd sdk/tests/playwright/node && playwright test",
+    "test:e2e:ui": "cd sdk/tests/playwright/node && playwright test --ui",
+    "test:e2e:headed": "cd sdk/tests/playwright/node && playwright test --headed"
   }
 }
 ```

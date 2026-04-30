@@ -65,7 +65,7 @@ module.exports = defineConfig({
     // },
   ],
 
-  /* Dev server runs from repo root (this config lives in test-suite/). CI serves the production build. */
+  /* Dev server runs from repo root (this config lives in sdk/tests/playwright/node/). CI serves the production build. */
   webServer: process.env.CI
     ? {
         command: 'npx serve -s build -l 3003',

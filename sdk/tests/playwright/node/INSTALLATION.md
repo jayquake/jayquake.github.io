@@ -89,7 +89,7 @@ your-project/
 ├── node_modules/
 │   └── @acsbe/
 │       └── accessflow-sdk/
-├── test-suite/
+├── sdk/tests/playwright/node/
 │   ├── playwright.config.js
 │   ├── global-teardown.js
 │   └── tests/
@@ -115,7 +115,7 @@ npx playwright install
 
 ### 2. Configure Playwright
 
-Create or update `test-suite/playwright.config.js`:
+Create or update `sdk/tests/playwright/node/playwright.config.js`:
 
 ```javascript
 const { defineConfig, devices } = require('@playwright/test');
@@ -142,7 +142,7 @@ module.exports = defineConfig({
 
 ### 3. Set Up Global Teardown
 
-Create `test-suite/global-teardown.js`:
+Create `sdk/tests/playwright/node/global-teardown.js`:
 
 ```javascript
 const accessFlowSdkGlobalTeardown =
@@ -158,7 +158,7 @@ module.exports = globalTeardown;
 
 ### 4. Create Your First Test
 
-Create `test-suite/tests/example.spec.js`:
+Create `sdk/tests/playwright/node/tests/example.spec.js`:
 
 ```javascript
 import { AccessFlowSDK } from "@acsbe/accessflow-sdk";
@@ -233,11 +233,11 @@ Add these scripts to your `package.json`:
 ```json
 {
   "scripts": {
-    "test:e2e": "cd test-suite && playwright test",
-    "test:e2e:ui": "cd test-suite && playwright test --ui",
-    "test:e2e:headed": "cd test-suite && playwright test --headed",
-    "test:e2e:debug": "cd test-suite && playwright test --debug",
-    "test:e2e:report": "cd test-suite && playwright show-report"
+    "test:e2e": "cd sdk/tests/playwright/node && playwright test",
+    "test:e2e:ui": "cd sdk/tests/playwright/node && playwright test --ui",
+    "test:e2e:headed": "cd sdk/tests/playwright/node && playwright test --headed",
+    "test:e2e:debug": "cd sdk/tests/playwright/node && playwright test --debug",
+    "test:e2e:report": "cd sdk/tests/playwright/node && playwright show-report"
   }
 }
 ```
@@ -310,7 +310,7 @@ After installation:
 
 1. ✅ **Read the [Custom OutputDir Guide](./CUSTOM_OUTPUT_DIR.md)** - Learn how to configure custom output directories
 2. ✅ **Check the [Quick Reference](./CUSTOM_OUTPUT_DIR_QUICK_REF.md)** - Quick tips and common patterns
-3. ✅ **Review example tests** - Look at existing test files in `test-suite/tests/`
+3. ✅ **Review example tests** - Look at existing test files in `sdk/tests/playwright/node/tests/`
 4. ✅ **Set up CI/CD** - See [GitHub Actions Setup](../docs/setup/GITHUB_ACTIONS_SETUP.md)
 
 ## Version Compatibility

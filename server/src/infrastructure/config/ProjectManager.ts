@@ -29,7 +29,7 @@ export class ProjectManager {
     const testFilePatterns = this.getTestFilePatterns(project.testFramework);
 
     try {
-      // Resolve to absolute: prefer project root so in-repo test-suite/tests is used
+      // Resolve to absolute: prefer project root so in-repo sdk/tests/playwright/node/tests is used
       const testDir = PathUtils.resolveTestDirectory(project.testDirectory);
       const files: string[] = [];
 

@@ -4,7 +4,7 @@ FROM node:20-slim AS deps
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-COPY nodeSDK ./nodeSDK
+COPY sdk/packages/node ./sdk/packages/node
 RUN npm ci --legacy-peer-deps
 
 COPY server/package.json server/package-lock.json* ./server/
@@ -68,15 +68,11 @@ COPY --from=build /app/server/package.json ./server/package.json
 # Copy project configs (needed at runtime by ProjectManager)
 COPY --from=build /app/server/projects ./server/projects
 
-# Copy test suites so tests can be executed from the cloud
-COPY --from=build /app/selenium-test-suite ./selenium-test-suite
-COPY --from=build /app/test-suite ./test-suite
+# Copy SDK tree (packages + tests) so tests can be executed from the cloud
+COPY --from=build /app/sdk ./sdk
 
-# Copy the SDK package (referenced by test suite deps)
-COPY --from=build /app/nodeSDK ./nodeSDK
-
-# Install Selenium test suite dependencies
-RUN cd /app/selenium-test-suite && (npm ci 2>/dev/null || npm install)
+# Install Selenium Node test suite dependencies
+RUN cd /app/sdk/tests/selenium/node && (npm ci 2>/dev/null || npm install)
 
 # Copy entrypoint
 COPY scripts/docker-entrypoint.sh /app/docker-entrypoint.sh

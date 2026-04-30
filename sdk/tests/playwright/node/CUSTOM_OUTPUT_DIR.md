@@ -28,7 +28,7 @@ projects: [
 ```
 
 **Key Points:**
-- `outputDir`: Relative path to your custom directory (relative to `test-suite/`)
+- `outputDir`: Relative path to your custom directory (relative to `sdk/tests/playwright/node/`)
 - `testMatch`: Optional pattern to match specific test files
 - The project name can be anything descriptive
 
@@ -83,7 +83,7 @@ test("should save reports", async ({ page }) => {
 After running tests with custom outputDir, you'll see:
 
 ```
-test-suite/
+sdk/tests/playwright/node/
 └── custom-test-output/
     ├── .accessflow-output-dir          # Marker file with directory path
     ├── .last-run.json                  # Playwright metadata
@@ -102,7 +102,7 @@ npm run test:e2e -- tests/custom-output-dir.spec.js --project=chromium-custom-ou
 ### Option 2: Run All Tests in Project
 
 ```bash
-cd test-suite
+cd sdk/tests/playwright/node
 playwright test --project=chromium-custom-output
 ```
 
@@ -116,18 +116,18 @@ To verify the custom outputDir is working:
 
 1. **Check the directory exists**:
    ```bash
-   ls -la test-suite/custom-test-output/
+   ls -la sdk/tests/playwright/node/custom-test-output/
    ```
 
 2. **Verify JSONL files are present**:
    ```bash
-   ls test-suite/custom-test-output/accessFlow-raw-audits-*.jsonl
+   ls sdk/tests/playwright/node/custom-test-output/accessFlow-raw-audits-*.jsonl
    ```
 
 3. **Check the marker file**:
    ```bash
-   cat test-suite/custom-test-output/.accessflow-output-dir
-   # Should contain: /path/to/test-suite/custom-test-output
+   cat sdk/tests/playwright/node/custom-test-output/.accessflow-output-dir
+   # Should contain: /path/to/sdk/tests/playwright/node/custom-test-output
    ```
 
 ## Important Notes
@@ -138,7 +138,7 @@ To verify the custom outputDir is working:
 
 3. **Global Teardown**: The global teardown looks for the marker file (`.accessflow-output-dir`) in common directories. If your custom directory is in a non-standard location, ensure the marker file is created correctly.
 
-4. **Relative vs Absolute Paths**: The `outputDir` in Playwright config can be relative (to `test-suite/`) or absolute. Relative paths are recommended for portability.
+4. **Relative vs Absolute Paths**: The `outputDir` in Playwright config can be relative (to `sdk/tests/playwright/node/`) or absolute. Relative paths are recommended for portability.
 
 5. **Multiple Projects**: You can have multiple projects with different output directories for different test suites.
 

@@ -19,7 +19,7 @@ This document summarizes all changes made to align the three SDK test lanes and 
 
 ### 1. Python SDK - Windows Encoding Fix
 
-**File:** `pythonSdk/accessflow_sdk-1.0.1-py3-none-any.whl`
+**File:** `sdk/packages/python/accessflow_sdk-1.0.1-py3-none-any.whl`
 
 **Changes Applied:**
 ```python
@@ -53,7 +53,7 @@ platform win32 -- Python 3.13.7, pytest-9.0.2, pluggy-1.6.0
 
 ### 2. Java Test Suite - Report Finalization
 
-**File:** `java-tests/src/test/java/com/accessflow/AccessFlowSDKBehaviorTest.java`
+**File:** `sdk/tests/playwright/java/src/test/java/com/accessflow/AccessFlowSDKBehaviorTest.java`
 
 **Changes:**
 
@@ -169,7 +169,7 @@ Now displays comprehensive results from all three SDKs:
 
 ### 4. Configuration File Updates
 
-**File:** `java-tests/pom.xml`
+**File:** `sdk/tests/playwright/java/pom.xml`
 
 **Change:**
 ```xml
@@ -180,7 +180,7 @@ Now displays comprehensive results from all three SDKs:
 <groupId>com.acsbe</groupId>
 ```
 
-**File:** `python-tests/conftest.py`
+**File:** `sdk/tests/playwright/python/conftest.py`
 
 **Change:**
 ```python
@@ -242,10 +242,10 @@ All SDKs:    ACCESSFLOW_SDK_API_KEY
 
 ## 📁 Files Modified
 
-1. ✅ `pythonSdk/accessflow_sdk-1.0.1-py3-none-any.whl` (SDK package)
-2. ✅ `python-tests/conftest.py` (Windows npm compatibility)
-3. ✅ `java-tests/pom.xml` (Package groupId fix)
-4. ✅ `java-tests/src/test/java/com/accessflow/AccessFlowSDKBehaviorTest.java` (Report finalization)
+1. ✅ `sdk/packages/python/accessflow_sdk-1.0.1-py3-none-any.whl` (SDK package)
+2. ✅ `sdk/tests/playwright/python/conftest.py` (Windows npm compatibility)
+3. ✅ `sdk/tests/playwright/java/pom.xml` (Package groupId fix)
+4. ✅ `sdk/tests/playwright/java/src/test/java/com/accessflow/AccessFlowSDKBehaviorTest.java` (Report finalization)
 5. ✅ `.github/workflows/ci-test-deploy.yml` (Enhanced summary)
 
 ## 📄 Documentation Created

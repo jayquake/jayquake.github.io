@@ -1,1 +1,1 @@
-# Test package for python-selenium-tests
+# Test package for sdk/tests/selenium/python

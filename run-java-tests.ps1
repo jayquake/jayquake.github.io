@@ -28,8 +28,8 @@ try {
     exit 1
 }
 
-# Navigate to java-tests
-Set-Location java-tests
+# Navigate to Java Playwright test suite
+Set-Location sdk/tests/playwright/java
 
 Write-Host "`n=== Running Maven Commands ===`n" -ForegroundColor Cyan
 

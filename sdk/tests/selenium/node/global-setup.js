@@ -49,8 +49,8 @@ module.exports = async function globalSetup() {
 
   console.log('Starting application server...');
   serverProcess = exec('npm start', {
-    cwd: process.cwd().includes('selenium-test-suite')
-      ? require('path').resolve(process.cwd(), '..')
+    cwd: process.cwd().includes('sdk/tests/selenium/node')
+      ? require('path').resolve(process.cwd(), '..', '..', '..', '..')
       : process.cwd(),
     env: { ...process.env, BROWSER: 'none' },
   });

@@ -18,7 +18,7 @@ from selenium.webdriver.chrome.service import Service
 
 from accessflow_sdk import AccessFlowSDK, SeleniumDriver, finalize_reports
 
-# Load .env from python-selenium-tests/ for local testing (PYTHON_ACCESSFLOW_SDK_TOKEN)
+# Load .env from sdk/tests/selenium/python/ for local testing (PYTHON_ACCESSFLOW_SDK_TOKEN)
 load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
 BASE_URL = os.environ.get("BASE_URL", "http://localhost:3000")
@@ -232,7 +232,7 @@ def sdk(driver):
     if not api_key:
         pytest.skip(
             "AF_NODE_PACKAGE_KEY, PYTHON_ACCESSFLOW_SDK_TOKEN, or ACCESSFLOW_SDK_API_KEY not set. "
-            "For local testing, create python-selenium-tests/.env with:\n"
+            "For local testing, create sdk/tests/selenium/python/.env with:\n"
             "  PYTHON_ACCESSFLOW_SDK_TOKEN=flow-your-key-here"
         )
     real_sdk = AccessFlowSDK(SeleniumDriver(driver), api_key=api_key)

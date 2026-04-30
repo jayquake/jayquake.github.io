@@ -33,8 +33,8 @@ git push origin main
 ## 🧪 Test Suite
 
 ### Files
-- `test-suite/tests/navigation-audit.spec.js` - 10 comprehensive tests ✨ NEW
-- `test-suite/tests/search.spec.js` - Search functionality tests
+- `sdk/tests/playwright/node/tests/navigation-audit.spec.js` - 10 comprehensive tests ✨ NEW
+- `sdk/tests/playwright/node/tests/search.spec.js` - Search functionality tests
 
 ### Coverage
 - **10 E2E tests** covering navigation, UI, and accessibility
@@ -48,7 +48,7 @@ git push origin main
 npm run test:e2e
 
 # Run navigation audit tests
-cd test-suite && npx playwright test navigation-audit.spec.js
+cd sdk/tests/playwright/node && npx playwright test navigation-audit.spec.js
 
 # Run with UI
 npm run test:e2e:ui
@@ -116,7 +116,7 @@ npm run test:e2e:report
 └── workflows/
     └── ci-test-deploy.yml          ← Single unified workflow
 
-test-suite/
+sdk/tests/playwright/node/
 ├── tests/
 │   ├── navigation-audit.spec.js   ← 10 comprehensive tests
 │   └── search.spec.js              ← Search tests

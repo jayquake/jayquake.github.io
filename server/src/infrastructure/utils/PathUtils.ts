@@ -9,7 +9,7 @@ import { join, resolve } from 'path';
  *     shared/
  *     mcp/
  *     build/            (CRA production build)
- *     test-suite/       (local Playwright tests)
+ *     sdk/              (SDK packages and tests, e.g. sdk/tests/playwright/node)
  */
 export class PathUtils {
   /**
@@ -48,7 +48,7 @@ export class PathUtils {
       console.warn(`[PathUtils] TEST_E2E_DIR set but invalid: ${process.env.TEST_E2E_DIR}`);
     }
 
-    // Default: use the project root (test-suite/ lives in the repo)
+    // Default: use the project root (sdk/tests/ lives in the repo)
     return this.getProjectRoot();
   }
 
@@ -70,7 +70,7 @@ export class PathUtils {
   }
 
   /**
-   * Resolve a project-relative path (e.g. test-suite/tests) for file operations.
+   * Resolve a project-relative path (e.g. sdk/tests/playwright/node/tests) for file operations.
    * Tries project root first so in-repo projects (e.g. AccessFlow Node) use repo paths
    * even when TEST_E2E_DIR points at another checkout.
    */

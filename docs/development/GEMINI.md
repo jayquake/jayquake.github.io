@@ -56,7 +56,7 @@ audit-rules/
 │   ├── generate-rule-components-v2.js     # Generate Success/Failure components
 │   ├── generate-engine-routes.js          # Generate routing configuration
 │   └── deploy-via-actions.sh              # GitHub Actions deployment
-├── test-suite/                     # Playwright E2E tests
+├── sdk/tests/playwright/node/                     # Playwright E2E tests
 ├── build/                          # Production build output (generated)
 └── package.json                    # Project dependencies and scripts
 ```
@@ -316,9 +316,9 @@ npm run test:e2e:debug        # Debug mode
 
 ### Test Structure
 
-- Location: `test-suite/tests/`
+- Location: `sdk/tests/playwright/node/tests/`
 - Includes: Accessibility tests, keyboard navigation, search functionality
-- Config: `test-suite/playwright.config.js`
+- Config: `sdk/tests/playwright/node/playwright.config.js`
 
 ---
 

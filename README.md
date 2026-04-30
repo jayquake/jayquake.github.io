@@ -178,12 +178,20 @@ ACCESSFLOW_API_KEY=your-key-here
 │   │   └── data/test-runner.db   # SQLite database
 │   └── .env.example
 ├── shared/                       # Shared types and utilities
-├── test-suite/                   # Playwright E2E tests (JS)
-├── python-tests/                 # Playwright E2E tests (Python)
-├── java-tests/                   # Playwright E2E tests (Java)
-├── nodeSDK/                      # AccessFlow JS SDK artifact
-├── pythonSdk/                    # AccessFlow Python SDK artifact
-├── javaSdk/                      # AccessFlow Java SDK artifact
+├── sdk/
+│   ├── packages/
+│   │   ├── node/                 # AccessFlow JS SDK artifact
+│   │   ├── python/               # AccessFlow Python SDK artifact
+│   │   └── java/                 # AccessFlow Java SDK artifact
+│   └── tests/
+│       ├── playwright/
+│       │   ├── node/             # Playwright E2E tests (JS)
+│       │   ├── python/           # Playwright E2E tests (Python)
+│       │   └── java/             # Playwright E2E tests (Java)
+│       └── selenium/
+│           ├── node/             # Selenium E2E tests (JS)
+│           ├── python/           # Selenium E2E tests (Python)
+│           └── java/             # Selenium E2E tests (Java)
 └── package.json
 ```
 
@@ -247,7 +255,7 @@ npm run test:e2e
 ### Python
 
 ```bash
-cd python-tests
+cd sdk/tests/playwright/python
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python -m playwright install --with-deps chromium
@@ -257,7 +265,7 @@ pytest -v
 ### Java
 
 ```bash
-cd java-tests
+cd sdk/tests/playwright/java
 mvn compile
 mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install --with-deps chromium"
 mvn test

@@ -73,8 +73,8 @@ The workflow will automatically run when you:
 ## 🔧 Configuration Details
 
 ### Test Configuration
-- Tests run from the `test-suite/` directory
-- Uses `test-suite/playwright.config.js` for configuration
+- Tests run from the `sdk/tests/playwright/node/` directory
+- Uses `sdk/tests/playwright/node/playwright.config.js` for configuration
 - Dev server starts automatically on `http://localhost:3000`
 - Tests run in CI mode (retries enabled, single worker)
 
@@ -121,7 +121,7 @@ The workflow uploads multiple artifacts:
 
 ```bash
 # After downloading the artifact
-cd test-suite
+cd sdk/tests/playwright/node
 npx playwright show-report /path/to/downloaded/report
 ```
 
@@ -215,7 +215,7 @@ strategy:
 
 ### Test on Multiple Browsers
 
-Edit `test-suite/playwright.config.js`:
+Edit `sdk/tests/playwright/node/playwright.config.js`:
 ```javascript
 projects: [
   { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
@@ -272,7 +272,7 @@ if: github.event_name == 'push' && github.ref == 'refs/heads/production'
   if: failure()  # Only upload on failure
   with:
     name: playwright-report-node-${{ matrix.node-version }}
-    path: test-suite/playwright-report/
+    path: sdk/tests/playwright/node/playwright-report/
 ```
 
 ## 🎯 Next Steps

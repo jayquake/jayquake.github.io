@@ -63,7 +63,7 @@
 ### Test Suite Files
 
 ```
-test-suite/
+sdk/tests/playwright/node/
 ├── tests/
 │   ├── navigation-audit.spec.js    ← ✨ New comprehensive test
 │   │   • 10 tests covering multi-page navigation
@@ -156,7 +156,7 @@ After each run, you'll see:
 └── workflows/
     └── ci-test-deploy.yml          ← Single unified workflow ✨
 
-test-suite/
+sdk/tests/playwright/node/
 ├── playwright.config.js            ← Playwright configuration
 ├── global-teardown.js              ← AccessFlow teardown
 └── tests/
@@ -181,7 +181,7 @@ package.json                        ← NPM scripts & dependencies
 npm run test:e2e
 
 # Run specific test file
-npx playwright test test-suite/tests/navigation-audit.spec.js
+npx playwright test sdk/tests/playwright/node/tests/navigation-audit.spec.js
 
 # Open Playwright UI
 npm run test:e2e:ui
@@ -264,7 +264,7 @@ gh run download
 
 - `GITHUB_ACTIONS_SETUP.md` - Detailed setup guide
 - `WORKFLOW_SUMMARY.md` - This file (overview)
-- `test-suite/tests/navigation-audit.spec.js` - Test file with inline comments
+- `sdk/tests/playwright/node/tests/navigation-audit.spec.js` - Test file with inline comments
 - `.github/workflows/ci-test-deploy.yml` - Workflow with comments
 
 ---

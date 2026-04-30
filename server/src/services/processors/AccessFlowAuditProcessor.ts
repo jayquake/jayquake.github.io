@@ -319,7 +319,7 @@ export class AccessFlowAuditProcessor {
       candidates.push(join(projectRoot, workingDirectory, CONFIG_NAME));
     }
 
-    // Parent of output directory (e.g. selenium-test-suite/test-results -> selenium-test-suite)
+    // Parent of output directory (e.g. sdk/tests/selenium/node/test-results -> sdk/tests/selenium/node)
     const outputParent = join(projectRoot, outputDirectory, '..');
     candidates.push(join(outputParent, CONFIG_NAME));
 

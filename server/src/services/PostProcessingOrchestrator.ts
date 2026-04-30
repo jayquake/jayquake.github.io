@@ -144,8 +144,8 @@ export class PostProcessingOrchestrator {
         const projectId = (testRun as any).projectId;
         const outputDir = config.outputDirectory ||
           (framework === 'pytest'
-            ? (projectId === 'accessflow-python-selenium' ? 'python-selenium-tests/test-results' : 'python-tests/test-results')
-            : (projectId === 'accessflow-java-selenium' ? 'java-selenium-tests/test-results' : 'java-tests/target/surefire-reports'));
+            ? (projectId === 'accessflow-python-selenium' ? 'sdk/tests/selenium/python/test-results' : 'sdk/tests/playwright/python/test-results')
+            : (projectId === 'accessflow-java-selenium' ? 'sdk/tests/selenium/java/test-results' : 'sdk/tests/playwright/java/target/surefire-reports'));
         reportData = await this.junitProcessor.process(runId, outputDir, framework);
       } else {
         console.log('[PostProcessingOrchestrator] Step 2: Processing Playwright report...');
@@ -199,19 +199,19 @@ export class PostProcessingOrchestrator {
           const projectId = (testRun as any).projectId;
           const outputDir = config.outputDirectory ||
             (sdkType === 'python'
-              ? (projectId === 'accessflow-python-selenium' ? 'python-selenium-tests/test-results' : 'python-tests/test-results')
+              ? (projectId === 'accessflow-python-selenium' ? 'sdk/tests/selenium/python/test-results' : 'sdk/tests/playwright/python/test-results')
               : sdkType === 'java'
-                ? (projectId === 'accessflow-java-selenium' ? 'java-selenium-tests/test-results' : 'java-tests/target/surefire-reports')
-              : framework === 'selenium' ? 'selenium-test-suite/test-results'
-              : 'test-suite/test-results');
+                ? (projectId === 'accessflow-java-selenium' ? 'sdk/tests/selenium/java/test-results' : 'sdk/tests/playwright/java/target/surefire-reports')
+              : framework === 'selenium' ? 'sdk/tests/selenium/node/test-results'
+              : 'sdk/tests/playwright/node/test-results');
 
           const workingDir = config.workingDirectory ||
             (sdkType === 'python'
-              ? (projectId === 'accessflow-python-selenium' ? 'python-selenium-tests' : 'python-tests')
+              ? (projectId === 'accessflow-python-selenium' ? 'sdk/tests/selenium/python' : 'sdk/tests/playwright/python')
               : sdkType === 'java'
-                ? (projectId === 'accessflow-java-selenium' ? 'java-selenium-tests' : 'java-tests')
-              : framework === 'selenium' ? 'selenium-test-suite'
-              : 'test-suite');
+                ? (projectId === 'accessflow-java-selenium' ? 'sdk/tests/selenium/java' : 'sdk/tests/playwright/java')
+              : framework === 'selenium' ? 'sdk/tests/selenium/node'
+              : 'sdk/tests/playwright/node');
 
           console.log(`[PostProcessingOrchestrator] Step 6: Processing AccessFlow audit data (${sdkType})...`);
           const auditResult = await this.accessFlowAuditProcessor.process(

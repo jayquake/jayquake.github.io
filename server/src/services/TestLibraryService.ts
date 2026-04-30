@@ -103,7 +103,7 @@ export class TestLibraryService {
     }
 
     // Scan file system for test files
-    // Prefer project root so in-repo test-suite/tests is used when TEST_E2E_DIR points elsewhere
+    // Prefer project root so in-repo sdk/tests/playwright/node/tests is used when TEST_E2E_DIR points elsewhere
     const testDirAbsolute =
       project.testDirectory.startsWith('/')
         ? project.testDirectory

@@ -46,7 +46,7 @@
             <artifactId>accessflow-sdk</artifactId>
             <version>1.1.1</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/../javaSdk/accessflow-sdk.jar</systemPath>
+            <systemPath>${project.basedir}/../../../packages/java/accessflow-sdk.jar</systemPath>
         </dependency>
     </dependencies>
 

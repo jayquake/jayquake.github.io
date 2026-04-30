@@ -3,5 +3,5 @@ pytest-playwright>=0.4
 playwright>=1.40
 python-dotenv>=1.0
 # Install the local AccessFlow Python SDK wheel.
-# Run "pip install -r requirements.txt" from python-tests/ so this path resolves.
-../pythonSdk/accessflow_sdk-1.1.1-py3-none-any.whl
+# Run "pip install -r requirements.txt" from sdk/tests/playwright/python/ so this path resolves.
+../../../packages/python/accessflow_sdk-1.1.1-py3-none-any.whl

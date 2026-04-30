@@ -31,38 +31,38 @@ This allows the test to verify navigation flow without requiring actual SDK audi
 
 ## Files Modified
 
-### 1. `test-suite/global-teardown.js`
+### 1. `sdk/tests/playwright/node/global-teardown.js`
 
 - Commented out SDK import
 - Commented out SDK teardown call
 - Added console log for tracking
 
-### 2. `test-suite/tests/graphics-audit.spec.js`
+### 2. `sdk/tests/playwright/node/tests/graphics-audit.spec.js`
 
 - Commented out SDK import and initialization
 - Commented out SDK instantiation and audit calls
 - Tests now skip audits with logging
 
-### 3. `test-suite/tests/breadcrumb-toggle-audit.spec.js`
+### 3. `sdk/tests/playwright/node/tests/breadcrumb-toggle-audit.spec.js`
 
 - Commented out SDK import and initialization
 - Commented out all SDK instantiation and audit calls
 - Added mock return values for navigation testing
 - Tests focus on UI navigation without audits
 
-### 4. `test-suite/tests/fake-hidden-content-audit.spec.js`
+### 4. `sdk/tests/playwright/node/tests/fake-hidden-content-audit.spec.js`
 
 - Commented out SDK import and initialization
 - Commented out audit calls (mock data still works)
 - Tests skip audits but verify navigation
 
-### 5. `test-suite/tests/search.spec.js`
+### 5. `sdk/tests/playwright/node/tests/search.spec.js`
 
 - Commented out SDK import and initialization
 - Commented out SDK instantiation and audit call
 - Tests focus on search functionality without audits
 
-### 6. `test-suite/tests/navigation-audit-timing.spec.js`
+### 6. `sdk/tests/playwright/node/tests/navigation-audit-timing.spec.js`
 
 - Commented out SDK import
 - Set `ENABLE_SDK_AUDIT = false`

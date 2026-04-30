@@ -6,8 +6,13 @@ server/dist
 .gitignore
 
 # Test results and runtime artifacts
-test-suite/test-results
-selenium-test-suite/test-results
+sdk/tests/playwright/node/test-results
+sdk/tests/playwright/python/test-results
+sdk/tests/playwright/java/target
+sdk/tests/selenium/node/test-results
+sdk/tests/selenium/python/test-results
+sdk/tests/selenium/java/test-results
+sdk/tests/selenium/java/target
 mcp/mcp-output/screenshots
 mcp/mcp-output/traces
 mcp/mcp-output/sessions

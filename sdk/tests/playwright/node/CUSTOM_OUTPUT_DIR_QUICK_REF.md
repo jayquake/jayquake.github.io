@@ -48,7 +48,7 @@ npm run test:e2e -- tests/custom-output-dir.spec.js --project=chromium-custom-ou
 ## Expected Output
 
 ```
-test-suite/custom-test-output/
+sdk/tests/playwright/node/custom-test-output/
 ├── .accessflow-output-dir          # Marker file
 ├── accessFlow-raw-audits-*.jsonl   # Audit data
 └── accessFlow-report-summary.json  # Summary (CI only)
