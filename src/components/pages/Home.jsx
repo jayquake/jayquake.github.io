@@ -288,24 +288,29 @@ export default function Home({ title }) {
   const searchSection = (
     <Fade in timeout={900}>
       <Paper elevation={0} sx={{ ...glassCard, p: { xs: 2, sm: 2.5 }, mb: { xs: 2, sm: 3 } }}>
-        <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "#334155", mb: 1.5 }}>
+        <Typography id="jump-to-rule-heading" variant="subtitle2" component="h2" sx={{ fontWeight: 700, color: "#334155", mb: 1.5 }}>
           Jump to Rule
         </Typography>
         <TextField
           size="small"
+          type="search"
           placeholder="Search by rule name or ID..."
           value={jumpSearch}
           onChange={(e) => setJumpSearch(e.target.value)}
           fullWidth
+          inputProps={{
+            "aria-labelledby": "jump-to-rule-heading",
+            "aria-label": "Search by rule name or ID",
+          }}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <SearchIcon sx={{ color: "#94a3b8" }} />
+                <SearchIcon sx={{ color: "#94a3b8" }} aria-hidden />
               </InputAdornment>
             ),
             endAdornment: jumpSearch && (
               <InputAdornment position="end">
-                <IconButton size="small" onClick={() => setJumpSearch("")}>
+                <IconButton size="small" onClick={() => setJumpSearch("")} aria-label="Clear search">
                   <CancelIcon sx={{ fontSize: 16 }} />
                 </IconButton>
               </InputAdornment>
@@ -313,6 +318,7 @@ export default function Home({ title }) {
           }}
           sx={{
             "& .MuiOutlinedInput-root": {
+              minWidth: 0,
               bgcolor: "rgba(255,255,255,0.7)",
               borderRadius: 2,
               "& fieldset": { borderColor: "rgba(148, 163, 184, 0.3)" },
