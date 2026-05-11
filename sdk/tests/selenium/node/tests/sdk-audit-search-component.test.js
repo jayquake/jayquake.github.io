@@ -38,7 +38,7 @@ describe('Search Component Testing with AccessFlow SDK', () => {
 
     const searchInput = await driver.wait(
       until.elementLocated(
-        By.css('input[aria-label="Search for rules and criteria"], input[placeholder="Search..."]'),
+        By.css('input[aria-label="Search for rules and criteria"], input[placeholder="Search Here"]'),
       ),
       10000,
     );
@@ -46,13 +46,13 @@ describe('Search Component Testing with AccessFlow SDK', () => {
     expect(await searchInput.isDisplayed()).toBe(true);
 
     const placeholder = await searchInput.getAttribute('placeholder');
-    expect(placeholder).toBe('Search...');
+    expect(placeholder).toBe('Search Here');
   });
 
   test('should display result details in dropdown', async () => {
     const searchInput = await driver.wait(
       until.elementLocated(
-        By.css('input[aria-label="Search for rules and criteria"], input[placeholder="Search..."]'),
+        By.css('input[aria-label="Search for rules and criteria"], input[placeholder="Search Here"]'),
       ),
       10000,
     );
