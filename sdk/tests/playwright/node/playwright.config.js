@@ -2,7 +2,12 @@
 const path = require('path');
 const { defineConfig, devices } = require('@playwright/test');
 
-const repoRoot = path.join(__dirname, '..');
+// This config lives in sdk/tests/playwright/node/, so the repo root (where
+// `build/` and `package.json` live) is four levels up. Previously this was
+// `path.join(__dirname, '..')` which pointed at sdk/tests/playwright/ — so
+// `npx serve -s build` ran from a directory with no build/ folder, never
+// bound a port, and the webServer block silently timed out.
+const repoRoot = path.resolve(__dirname, '..', '..', '..', '..');
 
 /**
  * @see https://playwright.dev/docs/test-configuration

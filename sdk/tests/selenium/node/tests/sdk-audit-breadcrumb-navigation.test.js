@@ -129,6 +129,8 @@ describe('Breadcrumbs with Accessibility Audits', () => {
   });
 
   test('should audit multiple rule pages via breadcrumb navigation', async () => {
+    // 3 rules × 2 audits per rule = 6 audits, ~30s each in headless CI ≈ 180s+.
+    // Global jest.setTimeout(180_000) is too tight; this loop needs more headroom.
     const auditResults = [];
 
     const rules = [
@@ -193,5 +195,5 @@ describe('Breadcrumbs with Accessibility Audits', () => {
     expect(auditResults.every((r) => r.failureAudit && r.successAudit)).toBe(
       true,
     );
-  });
+  }, 360000);
 });
