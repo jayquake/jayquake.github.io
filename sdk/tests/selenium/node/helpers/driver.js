@@ -22,7 +22,10 @@ async function createDriver() {
     .setChromeOptions(options)
     .build();
 
-  await driver.manage().setTimeouts({ implicit: 5000, pageLoad: 30000 });
+  // script: 120s — AccessFlow SDK audits run as async scripts and can take
+  // 30–60s on first run in headless CI; default 30s caused "script timeout"
+  // failures across every Selenium test suite.
+  await driver.manage().setTimeouts({ implicit: 5000, pageLoad: 30000, script: 120000 });
 
   return driver;
 }

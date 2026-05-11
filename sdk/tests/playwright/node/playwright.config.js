@@ -72,12 +72,16 @@ module.exports = defineConfig({
         url: 'http://localhost:3003',
         cwd: repoRoot,
         reuseExistingServer: false,
+        // 180s: `npx serve` cold-installs serve@14 on the runner before
+        // binding the port; default 60s timed out every CI run.
+        timeout: 180_000,
       }
     : {
         command: 'npm start',
         url: 'http://localhost:3003',
         cwd: repoRoot,
         reuseExistingServer: true,
+        timeout: 120_000,
       },
 });
 

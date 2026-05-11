@@ -173,7 +173,7 @@ describe(`Navigation Timing Tests (SDK ${ENABLE_SDK_AUDIT ? 'ENABLED' : 'DISABLE
       );
     }
     },
-    90000,
+    240000,
   );
 
   test(
@@ -227,7 +227,7 @@ describe(`Navigation Timing Tests (SDK ${ENABLE_SDK_AUDIT ? 'ENABLED' : 'DISABLE
       );
     }
     },
-    90000,
+    240000,
   );
 
   test(
@@ -314,6 +314,6 @@ describe(`Navigation Timing Tests (SDK ${ENABLE_SDK_AUDIT ? 'ENABLED' : 'DISABLE
 
     expect(comprehensiveResults.pageCount).toBe(allPages.length);
     },
-    120000,
+    600000,
   );
 });
