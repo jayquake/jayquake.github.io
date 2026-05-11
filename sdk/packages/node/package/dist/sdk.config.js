@@ -3,7 +3,7 @@ var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAccessFlowBaseUrl = exports.getDevAuth = void 0;
 // Default to development. Production builds will set this to true temporarily.
-const IS_PRODUCTION = false;
+const IS_PRODUCTION = true;
 const RAW_URL = IS_PRODUCTION ?
     'https://accessflow.accessibe.com'
     : 'https://test:acsb123@apikey-web--accessflow--test.acsb-test.com';
