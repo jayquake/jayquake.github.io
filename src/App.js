@@ -185,6 +185,13 @@ export default function App() {
     const criteriaTitle = capitalizeFirstLetter(currentCriteria);
 
     // Special case for engine rules
+    if (currentCriteria === "engine" && pathnames[1] === "library") {
+      return {
+        title: "Engine Rules Library",
+        subtitle: `${engineRulesData.length} automated engine rules`,
+      };
+    }
+
     if (currentCriteria === "engine" && pathnames.length === 1) {
       return {
         title: "Engine Rules",

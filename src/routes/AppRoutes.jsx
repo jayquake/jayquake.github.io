@@ -33,6 +33,7 @@ import TestProgress from "../pages/TestProgress/index";
 import ResultsView from "../pages/ResultsView/index";
 import { ValidationView } from "../pages/ValidationView";
 import AtomicTestLibrary from "../pages/AtomicTestLibrary/index";
+import EngineLibrary from "../components/pages/Engine/EngineLibrary";
 
 const AppRoutes = ({ navigate }) => (
   <Routes>
@@ -68,8 +69,8 @@ const AppRoutes = ({ navigate }) => (
 
     {/* Listing pages redirect to dashboard (tree sidebar replaces them) */}
     <Route path="rules" element={<Navigate to="/" replace />} />
-    <Route path="/engine" element={<Navigate to="/" replace />} />
-    <Route path="/engine/library" element={<Navigate to="/" replace />} />
+    <Route path="/engine" element={<Navigate to="/engine/library" replace />} />
+    <Route path="/engine/library" element={<EngineLibrary />} />
 
     {/* Individual criteria rule detail routes (keep working) */}
     {ClickablesRoutes()}

@@ -387,6 +387,18 @@ export default function Home({ title }) {
               </Typography>
             </Box>
             <Stack spacing={1}>
+              <Card elevation={0} sx={{ bgcolor: "rgba(124, 58, 237, 0.06)", border: "1px solid rgba(124, 58, 237, 0.15)", borderRadius: 2 }}>
+                <CardActionArea onClick={() => navigate("/engine/library")} sx={{ p: 1.5 }}>
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <ScienceIcon sx={{ fontSize: 18, color: "#7c3aed", mr: 1.5 }} />
+                    <Box flex={1}>
+                      <Typography variant="body2" sx={{ fontWeight: 600, color: "#334155" }}>Engine Rule Library</Typography>
+                      <Typography variant="caption" sx={{ color: "#94a3b8" }}>{totalRules} engine rules with filters and cards</Typography>
+                    </Box>
+                    <ArrowRightIcon sx={{ color: "#94a3b8" }} />
+                  </Box>
+                </CardActionArea>
+              </Card>
               <Card elevation={0} sx={{ bgcolor: "rgba(0, 137, 123, 0.06)", border: "1px solid rgba(0, 137, 123, 0.15)", borderRadius: 2 }}>
                 <CardActionArea onClick={() => navigate("/test-runner/atomic-tests")} sx={{ p: 1.5 }}>
                   <Box sx={{ display: "flex", alignItems: "center" }}>
