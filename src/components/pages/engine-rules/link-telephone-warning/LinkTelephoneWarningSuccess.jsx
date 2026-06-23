@@ -5,7 +5,7 @@ const LinkTelephoneWarningSuccess = () => {
   const ruleId = "link-telephone-warning";
   const title = `Warning a user when a link triggers a phone application is recommended`;
   const description = `It's good practice to warn users about the expected behavior when activating a link triggers a phone application.`;
-  const helpText = `Add a visibly hidden text element that contains 'Opens phone application'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id.`;
+  const helpText = `Add a visibly hidden text element that contains 'Opens phone application'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id. Alternatively, nest a visibly hidden element that contains additional context inside of the link.`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
@@ -53,6 +53,11 @@ const LinkTelephoneWarningSuccess = () => {
   <a href="tel:0000000001" id="tel-link" aria-labelledby="tel-desc">Call us now at 000-000-0001 </a>
   <span id="tel-desc" class="sr-only">Opens Dialer</span>
 </p>` },
+  { filename: "marleylilly", content: `<!--real example from https://marleylilly.com/contact-info-->
+<a href="tel:+18442041482" title="tel:+18442041482">
+  Call
+  <span data-acsb-sr-only="true" style="position: absolute !important; width: 1px !important; height: 1px !important; padding: 0px !important; overflow: hidden !important; clip: rect(0px, 0px, 0px, 0px) !important; border: 0px !important"> | Opens Phone </span>
+</a>` },
   { filename: "remediated link tel", content: `<html lang="de">
   <a href="tel:0000000001">Call<span data-acsb-sr-only="true" class="acsb-sr-only" style="position: absolute !important; width: 1px !important; height: 1px !important; padding: 0px !important; overflow: hidden !important; clip: rect(0px, 0px, 0px, 0px) !important; border: 0px !important"> | Öffnet Telefon</span></a>
 </html>` }

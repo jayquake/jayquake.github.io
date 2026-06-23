@@ -6,24 +6,17 @@ import { textContainsWords } from "@acsbe/core-engine-dictionary";
 export const LinkMailtoWarning: Rule = {
   id: "link-mailto-warning",
   metadata: {
-    category: "Lists",
-    profile: "Cognitive Disability",
-    wcagVersion: "2.0",
-    wcagLevel: "A",
+    category: "Interactive Content",
+    profile: ["Blind"],
+    wcagVersion: "General Guidelines",
+    wcagLevel: "N/A",
   },
   impact: "minor",
   title: "Warning a user when a link triggers a mail application is recommended",
   description: "It's good practice to warn users about the expected behavior when activating a link triggers a mail application.",
-  advice: "Add a visibly hidden text element that contains 'Opens mail application'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id.",
+  advice: "Add a visibly hidden text element that contains 'Opens mail application'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id. Alternatively, nest a visibly hidden element that contains additional context inside of the link.",
   associatedDetectors: [CompliantComponentLink],
-  refs: [
-    {
-      type: "WCAG",
-      id: "3.2.1",
-      level: "A",
-      link: "https://www.w3.org/WAI/WCAG21/Understanding/on-focus.html",
-    },
-  ],
+  refs: [],
   passCondition: PassCondition.NoFailedNodes,
   async validate({ classifier, response }) {
     const links = classifier.getMatched([CompliantComponentLink]);

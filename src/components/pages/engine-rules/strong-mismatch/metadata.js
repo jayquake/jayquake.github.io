@@ -8,7 +8,7 @@ export const StrongMismatch = {
   advice: `Add role=strong to the elements that are perceived as strong importance.`,
   impact: "serious",
   refs: [
-    { type: "WCAG", id: "1.3.1", level: "A", link: "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html" },
+    { type: "WCAG", id: "1.3.1", level: "A", link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html" },
     { type: "WAI", link: "https://www.w3.org/WAI/WCAG21/Techniques/html/H49" },
     { type: "WAI", link: "https://www.w3.org/WAI/WCAG21/Techniques/general/G115" },
     { type: "Non-Standard", link: "https://help.siteimprove.com/support/solutions/articles/80000448460-accessibility-the-use-of-emphasis-in-text" },

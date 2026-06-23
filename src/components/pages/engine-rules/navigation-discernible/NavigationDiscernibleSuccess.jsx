@@ -3,7 +3,7 @@ import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const NavigationDiscernibleSuccess = () => {
   const ruleId = "navigation-discernible";
-  const title = `Navigation regions should have unique labels when there are multiple navigation regions`;
+  const title = `Navigation regions should have unique labels when there are multiple navigation landmarks`;
   const description = `When multiple navigation regions exist on a page, each navigation element should have a unique label so that each region can be differentiated by screen reader users.`;
   const helpText = `Provide a unique label for each navigation region using either the aria-label or aria-labelledby attribute.`;
   const bestPractices = [

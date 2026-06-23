@@ -5,8 +5,8 @@ import { PassCondition } from "../interfaces";
 export const TabListMisuse: Rule = {
   id: "tab-list-misuse",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "Tabs",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
@@ -16,6 +16,12 @@ export const TabListMisuse: Rule = {
   description: 'Applying role="tablist" to an element without tabs misleads screen reader users by suggesting a group of tabs that does not exist.',
   advice: 'Remove role="tablist" from the failing element.',
   refs: [
+    {
+      type: "WCAG",
+      id: "1.3.1",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
+    },
     {
       type: "Non-Standard",
       link: "https://www.digitala11y.com/tablist-role/",

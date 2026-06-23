@@ -4,7 +4,7 @@ import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 const ArticleMisuseSuccess = () => {
   const ruleId = "article-misuse";
   const title = `Only elements that function as articles should be tagged as article regions`;
-  const description = `Coding elements that aren't full-featured text articles using the article HTML tag causes screen readers to announce incorrect information about the purpose and structure of the content.`;
+  const description = `Using an <article> tag on content that is not self-contained and that cannot stand on its own outside the context of the page, such as a blog post, news story, or forum entry, causes screen readers to announce misleading information about the purpose the content in relation to the main subject of the page.`;
   const helpText = `Assign role="presentation" to the failing element or use a different HTML tag that is more appropriate for the function of the element.`;
   const bestPractices = [
   "Follow proper HTML semantics",

@@ -1,21 +1,33 @@
 import type { Rule } from "~/rules/interfaces";
 import { PassCondition } from "~/rules/interfaces";
-import { PerceivableComponentButton, CompliantComponentButton, CompliantTraitVisible, CompliantComponentMenuItem, CompliantComponentTab, CompliantComponentHeading, CompliantComponentSwitch } from "@acsbe/core-engine-classifier";
+import { PerceivableComponentButton, CompliantComponentButton, CompliantComponentMenuItem, CompliantComponentTab, CompliantComponentHeading, CompliantComponentSwitch, CompliantTraitExposed } from "@acsbe/core-engine-classifier";
 
 export const ButtonMismatch: Rule = {
   id: "button-mismatch",
   metadata: {
-    category: "Forms",
-    profile: "Blind",
+    category: "Interactive Content",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
   impact: "critical",
   title: "Buttons should be tagged for assistive technology",
   description: "If interactive elements cannot be identified as buttons, screen reader users may not realize the element is actionable, which can stop them from submitting forms, opening dialogs, or performing other intended actions.",
-  advice: 'Add role="button" to the custom navigation region, or use a HTML <button> element.',
-  associatedDetectors: [PerceivableComponentButton, CompliantComponentButton, CompliantTraitVisible, CompliantComponentMenuItem, CompliantComponentTab, CompliantComponentSwitch],
+  advice: 'Add role="button" to the custom interactive element, or use a HTML <button> element.',
+  associatedDetectors: [PerceivableComponentButton, CompliantComponentButton, CompliantComponentMenuItem, CompliantComponentTab, CompliantComponentSwitch, CompliantTraitExposed],
   refs: [
+    {
+      type: "WCAG",
+      id: "1.3.1",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
+    },
+    {
+      type: "WCAG",
+      id: "4.1.2",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+    },
     {
       type: "ACT",
       ruleId: "97a4e1",
@@ -29,7 +41,7 @@ export const ButtonMismatch: Rule = {
   ],
   passCondition: PassCondition.NoFailedNodes,
   async validate({ classifier, response }) {
-    const buttons = classifier.getMatched([PerceivableComponentButton, CompliantTraitVisible]);
+    const buttons = classifier.getMatched([PerceivableComponentButton, CompliantTraitExposed]);
 
     for (const button of buttons) {
       /**

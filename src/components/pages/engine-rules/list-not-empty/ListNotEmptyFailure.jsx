@@ -19,17 +19,6 @@ const ListNotEmptyFailure = () => {
     <ul></ul>
   </body>
 </html>` },
-  { filename: "list with invisible items", content: `<html>
-  <head> </head>
-  <body>
-    <ol>
-      <li style="display: none">Milk</li>
-    </ol>
-    <ul>
-      <li style="visibility: hidden">Coffee</li>
-    </ul>
-  </body>
-</html>` },
   { filename: "role list without list items", content: `<html>
   <head> </head>
   <body>

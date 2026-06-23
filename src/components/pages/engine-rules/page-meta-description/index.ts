@@ -4,8 +4,8 @@ import { PassCondition } from "~/rules/interfaces";
 export const PageMetaDescription: Rule = {
   id: "page-meta-description",
   metadata: {
-    category: "General",
-    profile: "Cognitive Disability",
+    category: "Metadata",
+    profile: ["Cognitive Disability"],
     wcagVersion: "General Guidelines",
     wcagLevel: "N/A",
   },

@@ -5,8 +5,8 @@ import { CompliantComponentButton, CompliantComponentLink, PerceivableTraitDisce
 export const SVGDiscernible: Rule = {
   id: "svg-discernible",
   metadata: {
-    category: "General",
-    profile: "Cognitive Disability",
+    category: "Graphics",
+    profile: ["Cognitive Disability"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },

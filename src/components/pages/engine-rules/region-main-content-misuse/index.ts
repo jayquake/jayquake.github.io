@@ -6,7 +6,7 @@ export const RegionMainContentMisuse: Rule = {
   id: "region-main-content-misuse",
   metadata: {
     category: "Landmarks",
-    profile: "Blind",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
@@ -16,6 +16,12 @@ export const RegionMainContentMisuse: Rule = {
   advice: 'If the failing element is a custom main landmark, remove role="main". If the failing element is coded using a HTML <main> tag, change the tag to a <div> or an element with a suitable role.',
   associatedDetectors: [PerceivableComponentMainContent, CompliantComponentMainContent],
   refs: [
+    {
+      type: "WCAG",
+      id: "1.3.1",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
+    },
     {
       type: "Non-Standard",
       link: "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/main_role",

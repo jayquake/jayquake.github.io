@@ -5,7 +5,7 @@ const AriaLabelledbyHasReferenceSuccess = () => {
   const ruleId = "aria-labelledby-has-reference";
   const title = `aria-labelledby should reference a valid element id`;
   const description = `Since aria-labelledby relies on valid id references, screen readers can only announce the label if the target exists. If the id is missing or invalid, the label will not be conveyed, causing users to miss important context.`;
-  const helpText = `Make sure that aria-labeledby attribute point to an existing, screen-reader-visible element on the screen with proper text content.`;
+  const helpText = `Ensure aria-labelledby references an existing, unique id on the page. Remove or update the attribute if the target element is missing or no longer relevant.`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",

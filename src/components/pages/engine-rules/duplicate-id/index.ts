@@ -4,8 +4,8 @@ import { PassCondition } from "~/rules/interfaces";
 export const DuplicateId: Rule = {
   id: "duplicate-id",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "General",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },

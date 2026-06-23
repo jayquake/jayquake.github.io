@@ -5,17 +5,23 @@ import { PerceivableComponentBackgroundImage, PerceivableTraitDiscernibleText, P
 export const BackgroundImageDiscernibleImage: Rule = {
   id: "background-image-discernible-image",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "Graphics",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
-  impact: "moderate",
-  title: "Non decorative Background images should be tagged and labeled",
-  description: "Background image alternative text should be labeled as image for screen reader.",
-  advice: "Add role='img' to the first discernible sr-only element in the background image.",
+  impact: "serious",
+  title: "Functional image displayed using CSS background properties should be tagged for assistive technology",
+  description: 'Functional images presented using CSS background or background-image properties should be marked up using role="img" so that they can be identified as images by screen reader users.',
+  advice: 'Add role="img" to elements that present functional images using CSS.',
   associatedDetectors: [PerceivableComponentBackgroundImage, PerceivableTraitDiscernibleText, PerceivableTraitScreenReaderOnly, CompliantComponentImage, CompliantTraitVisible],
   refs: [
+    {
+      type: "WCAG",
+      id: "1.1.1",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html",
+    },
     {
       type: "W3C",
       link: "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=211%2C412#non-text-content",

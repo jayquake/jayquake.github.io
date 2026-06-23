@@ -8,7 +8,6 @@ export const RedundantDiscernibleContent = {
   advice: `Remove the aria-label from the failing element.`,
   impact: "minor",
   refs: [
-    { type: "WCAG", id: "2.5.3", level: "A", link: "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1#label-in-name" },
     { type: "Non-Standard", link: "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label" },
     { type: "Non-Standard", link: "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-labelledby" }
   ]

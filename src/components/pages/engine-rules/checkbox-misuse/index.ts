@@ -5,8 +5,8 @@ import { CompliantComponentCheckbox, PerceivableComponentCheckbox } from "@acsbe
 export const CheckboxMisuse: Rule = {
   id: "checkbox-misuse",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "Forms",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },

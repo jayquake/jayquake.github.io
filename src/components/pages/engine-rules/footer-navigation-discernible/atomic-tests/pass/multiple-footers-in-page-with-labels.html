@@ -1,0 +1,35 @@
+<!--testconfig
+    "testedClass": "Rules.FooterNavigationDiscernible",
+    "expect": {
+        "passedNodes": ["#nav1", "#nav2"],
+        "failedNodes": []
+    }
+-->
+<!-- This test checks for a footer navigation that has an accessible name. -->
+<footer>
+  <nav aria-label="Footer Navigation" id="nav1">
+    <ul>
+      <li>
+        <a href="/home">Home</a>
+      </li>
+      <li>
+        <a href="/about">About</a>
+      </li>
+      <li>
+        <a href="/pricing">Pricing</a>
+      </li>
+    </ul>
+  </nav>
+</footer>
+<footer>
+  <nav aria-label="Other Footer Navigation" id="nav2">
+    <ul>
+      <li>
+        <a href="/someplace">Some Place</a>
+      </li>
+      <li>
+        <a href="/otherplace">A different place</a>
+      </li>
+    </ul>
+  </nav>
+</footer>

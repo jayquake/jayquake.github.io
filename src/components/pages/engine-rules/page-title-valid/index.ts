@@ -5,21 +5,21 @@ export const PageTitleValid: Rule = {
   id: "page-title-valid",
   metadata: {
     category: "Metadata",
-    profile: "Blind",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
-  impact: "minor",
+  impact: "moderate",
   title: "Page title should be descriptive",
-  description: "Providing a descriptive title helps users understand the content of the page.",
-  advice: "Add a `<title>` element to that well describes the page content",
+  description: "Screen readers rely heavily on page titles to announce the purpose of a page. If titles aren’t descriptive, users with low or no vision may not understand the context until they start navigating the page.",
+  advice: "Make sure the title element inside the <head> is unique and describes the purpose of the page.",
   associatedDetectors: [],
   refs: [
     {
       type: "WCAG",
       id: "2.4.2",
       level: "A",
-      link: "https://www.w3.org/WAI/WCAG21/Understanding/page-titled.html",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/page-titled.html",
     },
     {
       type: "ACT",

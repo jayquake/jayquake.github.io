@@ -6,7 +6,7 @@ export const SkipLinkFirst: Rule = {
   id: "skip-link-first",
   metadata: {
     category: "Landmarks",
-    profile: "Blind",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },

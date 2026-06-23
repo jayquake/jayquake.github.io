@@ -5,7 +5,7 @@ export const PageMetaViewport: Rule = {
   id: "had-meta-viewport",
   metadata: {
     category: "Metadata",
-    profile: "Vision Impaired",
+    profile: ["Vision Impaired"],
     wcagVersion: "General Guidelines",
     wcagLevel: "N/A",
   },

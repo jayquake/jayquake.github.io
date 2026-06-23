@@ -8,7 +8,7 @@ export const CustomSelectOptionsListListbox = {
   advice: `Assign role="listbox" to the container element that directly holds the list options.`,
   impact: "serious",
   refs: [
-    { type: "WCAG", id: "4.1.2", level: "A", link: "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1#name-role-value" },
+    { type: "WCAG", id: "4.1.2", level: "A", link: "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html" },
     { type: "Non-Standard", link: "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/combobox_role" }
   ]
 };

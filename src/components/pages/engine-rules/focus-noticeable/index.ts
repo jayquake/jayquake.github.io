@@ -5,14 +5,14 @@ import { PassCondition } from "~/rules/interfaces";
 export const FocusNoticeable: Rule = {
   id: "focus-noticeable",
   metadata: {
-    category: "Lists",
-    profile: "Vision Impaired",
-    wcagVersion: "2.0",
+    category: "Interactive Content",
+    profile: ["Motor Impaired"],
+    wcagVersion: "2.2",
     wcagLevel: "AA",
   },
   isBackendOnly: true,
   impact: "serious",
-  title: "Focusable elements should have a visible focus indicator",
+  title: "Focused elements should not be obscured by a sticky header",
   description: "All focusable elements must have a visible focus indicator when they receive keyboard focus.",
   advice: "Add a CSS outline or other visual indicator to focusable elements to ensure the currently focused element can be visibly distinguished.",
   associatedDetectors: [PerceivableTraitTabbable],

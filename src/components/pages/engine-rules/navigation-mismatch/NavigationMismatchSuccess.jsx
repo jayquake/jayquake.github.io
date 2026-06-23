@@ -5,7 +5,7 @@ const NavigationMismatchSuccess = () => {
   const ruleId = "navigation-mismatch";
   const title = `A list of navigation links is not contained in a navigation landmark`;
   const description = `Screen readers rely on accurate tagging and labeling to provide necessary context. If a navigation region is not tagged as a navigation landmark, screen reader users may lose orientation and find the page's structure difficult to understand.`;
-  const helpText = `Add role=navigation to the custom navigation region, or use a HTML <nav> element.`;
+  const helpText = `Add role="navigation" to the custom navigation region, or use a HTML <nav> element.`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",

@@ -23,21 +23,21 @@ export const TableNotNested: Rule = {
   id: "table-not-nested",
   metadata: {
     category: "Tables",
-    profile: "Blind",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
   impact: "serious",
   title: "Tables should not be nested",
   description: "Nested tables are often misinterpreted by screen readers, making it hard for users to follow the intended structure and meaning of the data.",
-  advice: 'Avoid nesting tables. Use separate tables with clear headings, and if tables are used for layout, assign  role="presentation" or role="none" to each table element.',
+  advice: 'Avoid nesting tables. Use separate tables with clear headings, and if tables are used for layout, assign role="presentation" or role="none" to each table element.',
   associatedDetectors: [CompliantComponentTable],
   refs: [
     {
       type: "WCAG",
       id: "1.3.1",
       level: "A",
-      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
     },
     {
       type: "Non-Standard",

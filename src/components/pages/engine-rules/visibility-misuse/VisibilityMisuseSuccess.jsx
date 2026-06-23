@@ -129,7 +129,21 @@ const VisibilityMisuseSuccess = () => {
   <body>
     <div style="opacity: 0" aria-hidden="true">Some invisible content</div>
   </body>
-</html>` }
+</html>` },
+  { filename: "zoomed out element to invisible size", content: `<div aria-hidden="true">1</div>
+
+<style>
+  body {
+    margin: 0;
+    zoom: 0.5;
+  }
+
+  div {
+    background-color: red;
+    height: 5px;
+    width: 5px;
+  }
+</style>` }
   ];
 
   return (

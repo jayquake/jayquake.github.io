@@ -3,9 +3,9 @@ import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const AriaInvalidMisuseSuccess = () => {
   const ruleId = "aria-invalid-misuse";
-  const title = `Fields must indicate validation errors to assistive technology`;
-  const description = `Screen reader users rely on properly coded field validation status and associated validation messages. Otherwise, users would have to browse around and try to pick up clues on the page as to why their submission attempt did not work.`;
-  const helpText = `Include the aria-invalid=true attribute when the field validation shows on the page. Screen readers will pick that up and inform the user that this field is invalid. Make sure to change the aria-invalid to false when the field value becomes valid.`;
+  const title = `Only input fields with validation errors should be assigned aria-invalid="true"`;
+  const description = `Using aria-invalid="true" on an input field that does not have errors may cause confusion for users who rely on assistive technology, who may try to correct their already valid response.`;
+  const helpText = `To make sure that screen reader users can accurately identify form fields with invalid input, set aria-invalid="true" only on input fields that have errors. Remove the attribute once the value becomes valid.`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",

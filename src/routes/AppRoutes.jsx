@@ -1,59 +1,52 @@
-import React from "react";
+import React, { lazy } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "../components/pages/Home";
+import { useDeferredRouteElements } from "../components/util/DeferredRouteGroup";
+import RouteSuspense from "../components/util/RouteSuspense";
+import { isCriteriaPath } from "./criteriaRoutesBundle";
 
-// Modularized Routes for Each Criteria (individual rule detail pages)
-import UnifiedRulePage from "../components/layout/UnifiedRulePage";
-import CarouselsRoutes from "../components/pages/Criteria/Carousels/rules/carouselsRoutes";
-import ClickablesRoutes from "../components/pages/Criteria/Clickables/rules/ClickableRoutes";
-import ContextRoutes from "../components/pages/Criteria/Context/rules/ContextRoutes";
-import DocumentRoutes from "../components/pages/Criteria/Document/rules/documentRoutes";
-import ErrorsRoutes from "../components/pages/Criteria/Errors/rules/errorsRoutes";
-import FormruleRoutes from "../components/pages/Criteria/Forms/rules/FormruleRoutes";
-import GraphicsRoutes from "../components/pages/Criteria/Graphics/rules/graphicsRoutes";
-import HeadingsRoutes from "../components/pages/Criteria/Headings/rules/headingsRoutes";
-import KeyboardRoutes from "../components/pages/Criteria/Keyboard/rules/KeyboardRoutes";
-import NavigationRoutes from "../components/pages/Criteria/Navigation/rules/navigationRoutes";
-import ReadabilityRoutes from "../components/pages/Criteria/Readability/rules/readabilityRoutes";
-import TablesRoutes from "../components/pages/Criteria/Tables/rules/tablesRoutes";
+const UnifiedRulePage = lazy(() => import("../components/layout/UnifiedRulePage"));
+const AllRulesWithRoutes = lazy(() => import("../components/pages/Criteria/AllRulesLinks"));
+const RuleLab = lazy(() => import("../pages/RuleLab/index"));
+const ProjectSelector = lazy(() => import("../pages/ProjectSelector"));
+const TestHistory = lazy(() => import("../pages/TestHistory"));
+const TestRunner = lazy(() => import("../pages/TestRunner"));
+const TestLibrary = lazy(() => import("../pages/TestLibrary/index"));
+const TestProgress = lazy(() => import("../pages/TestProgress/index"));
+const ResultsView = lazy(() => import("../pages/ResultsView/index"));
+const ValidationView = lazy(() =>
+  import("../pages/ValidationView").then((m) => ({ default: m.ValidationView }))
+);
+const AtomicTestLibrary = lazy(() => import("../pages/AtomicTestLibrary/index"));
+const EngineLibrary = lazy(() => import("../components/pages/Engine/EngineLibrary"));
 
-// Dynamic catch-all for legacy rule detail pages
-import AllRulesWithRoutes from "../components/pages/Criteria/AllRulesLinks";
-import EngineRoutes from "./engineRoutes";
+const wrap = (element) => <RouteSuspense>{element}</RouteSuspense>;
 
-// Rule Lab
-import RuleLab from "../pages/RuleLab/index";
+const AppRoutes = ({ navigate }) => {
+  const criteriaRoutes = useDeferredRouteElements(
+    () => import("./criteriaRoutesBundle"),
+    isCriteriaPath
+  );
+  const engineRoutes = useDeferredRouteElements(
+    () => import("./engineRoutes"),
+    "/engine"
+  );
 
-// Test Runner Pages
-import ProjectSelector from "../pages/ProjectSelector";
-import TestHistory from "../pages/TestHistory";
-import TestRunner from "../pages/TestRunner";
-import TestLibrary from "../pages/TestLibrary/index";
-import TestProgress from "../pages/TestProgress/index";
-import ResultsView from "../pages/ResultsView/index";
-import { ValidationView } from "../pages/ValidationView";
-import AtomicTestLibrary from "../pages/AtomicTestLibrary/index";
-import EngineLibrary from "../components/pages/Engine/EngineLibrary";
-
-const AppRoutes = ({ navigate }) => (
+  return (
   <Routes>
-    {/* Home / Dashboard */}
     <Route index element={<Home navigate={navigate} title="Home" />} />
 
-    {/* Test Runner Routes */}
-    <Route path="/test-runner" element={<ProjectSelector />} />
-    <Route path="/test-runner/validation" element={<ValidationView />} />
-    <Route path="/test-runner/history" element={<TestHistory />} />
-    <Route path="/test-runner/run" element={<TestRunner />} />
-    <Route path="/test-runner/library" element={<TestLibrary />} />
-    <Route path="/test-runner/progress/:runId" element={<TestProgress />} />
-    <Route path="/test-runner/results/:runId" element={<ResultsView />} />
-    <Route path="/test-runner/atomic-tests" element={<AtomicTestLibrary />} />
+    <Route path="/test-runner" element={wrap(<ProjectSelector />)} />
+    <Route path="/test-runner/validation" element={wrap(<ValidationView />)} />
+    <Route path="/test-runner/history" element={wrap(<TestHistory />)} />
+    <Route path="/test-runner/run" element={wrap(<TestRunner />)} />
+    <Route path="/test-runner/library" element={wrap(<TestLibrary />)} />
+    <Route path="/test-runner/progress/:runId" element={wrap(<TestProgress />)} />
+    <Route path="/test-runner/results/:runId" element={wrap(<ResultsView />)} />
+    <Route path="/test-runner/atomic-tests" element={wrap(<AtomicTestLibrary />)} />
 
-    {/* Rule Lab */}
-    <Route path="/rule-lab" element={<RuleLab />} />
+    <Route path="/rule-lab" element={wrap(<RuleLab />)} />
 
-    {/* Criteria landing pages redirect to dashboard (tree sidebar replaces them) */}
     <Route path="graphics" element={<Navigate to="/" replace />} />
     <Route path="forms" element={<Navigate to="/" replace />} />
     <Route path="keyboard" element={<Navigate to="/" replace />} />
@@ -67,41 +60,29 @@ const AppRoutes = ({ navigate }) => (
     <Route path="readability" element={<Navigate to="/" replace />} />
     <Route path="tables" element={<Navigate to="/" replace />} />
 
-    {/* Listing pages redirect to dashboard (tree sidebar replaces them) */}
     <Route path="rules" element={<Navigate to="/" replace />} />
     <Route path="/engine" element={<Navigate to="/engine/library" replace />} />
-    <Route path="/engine/library" element={<EngineLibrary />} />
+    <Route path="/engine/library" element={wrap(<EngineLibrary />)} />
 
-    {/* Individual criteria rule detail routes (keep working) */}
-    {ClickablesRoutes()}
-    {ContextRoutes()}
-    {KeyboardRoutes()}
-    {FormruleRoutes()}
-    {DocumentRoutes()}
-    {ErrorsRoutes()}
-    {ReadabilityRoutes()}
-    {GraphicsRoutes()}
-    {HeadingsRoutes()}
-    {CarouselsRoutes()}
-    {TablesRoutes()}
-    {NavigationRoutes()}
+    {criteriaRoutes}
+    {engineRoutes}
 
-    {/* Engine rule detail routes */}
-    {EngineRoutes()}
-
-    {/* Dynamic catch-all for legacy rule detail pages */}
-    <Route path="/*" element={<AllRulesWithRoutes navigate={navigate} />} />
+    <Route
+      path="/*"
+      element={wrap(<AllRulesWithRoutes navigate={navigate} />)}
+    />
 
     <Route
       path="/test-item"
-      element={
+      element={wrap(
         <UnifiedRulePage
           ruleType="legacy"
           ruleData={{ name: "Test Rule", description: "Testing ItemPage" }}
         />
-      }
+      )}
     />
   </Routes>
-);
+  );
+};
 
 export default AppRoutes;

@@ -1,26 +1,26 @@
-import { PerceivableTraitVisible, PerceivableTraitDirectText } from "@acsbe/core-engine-classifier";
+import { PerceivableTraitVisible, PerceivableTraitDirectText, CompliantComponentSuperscript, PerceivableComponentSuperscript, CompliantComponentSubscript, PerceivableComponentSubscript } from "@acsbe/core-engine-classifier";
 import type { Rule } from "~/rules/interfaces";
 import { PassCondition } from "~/rules/interfaces";
 
 export const FontSizes: Rule = {
   id: "font-sizes",
   metadata: {
-    category: "Lists",
-    profile: "Cognitive Disability",
+    category: "Text Content",
+    profile: ["Vision Impaired"],
     wcagVersion: "2.0",
     wcagLevel: "AA",
   },
-  impact: "moderate",
-  title: "Text should be scalable to 200% without loss of content or functionality",
-  description: "When text is scaled to 200%, content may be clipped, overlap, or overflow its container if styles like fixed heights, fixed widths, hidden overflow, or absolute positioning prevent proper reflow.",
-  advice: "Use flexible heights and widths, position elements in ways that allow text reflow, enable text wrapping, and avoid hidden overflow to ensure content remains readable when text is scaled to 200%.",
-  associatedDetectors: [PerceivableTraitVisible, PerceivableTraitDirectText],
+  impact: "minor",
+  title: "Using a minimum font size of at least 12px is recommended",
+  description: "A minimum font size of 12px helps keep text readable for users with low vision, older users, and people viewing content on small or high-density screens.",
+  advice: "Avoid using font sizes below 12px; ideally, use 14px or larger for better readability.",
+  associatedDetectors: [PerceivableTraitVisible, PerceivableTraitDirectText, CompliantComponentSuperscript, PerceivableComponentSuperscript, CompliantComponentSubscript, PerceivableComponentSubscript],
   refs: [
     {
       type: "WCAG",
-      id: "1.4.4",
+      id: "2.4.11",
       level: "AA",
-      link: "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1#resize-text",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html",
     },
     {
       type: "Non-Standard",
@@ -30,7 +30,24 @@ export const FontSizes: Rule = {
   passCondition: PassCondition.NoFailedNodes,
   async validate({ response, classifier }) {
     const elements = classifier.getMatched([PerceivableTraitVisible, PerceivableTraitDirectText]);
+
+    /** TODO: When something like getMatchedAny() is available, replace this spread with that method */
+    const subscriptAndSuperscriptElements = new Set([...classifier.getMatched([CompliantComponentSuperscript]), ...classifier.getMatched([PerceivableComponentSuperscript]), ...classifier.getMatched([CompliantComponentSubscript]), ...classifier.getMatched([PerceivableComponentSubscript])]);
+
     for (const element of elements) {
+      /*
+        Superscript and subscript elements (for example <sup>®</sup>) are valid semantic HTML and are
+        expected to render smaller by design. WCAG does not require a minimum font size for <sup> or
+        <sub> content, as long as text scales with zoom.
+
+        Flagging these as “too small” is a false positive and remediating them can override
+        intentional typography. So we exempt <sup> and <sub> from font size checks.
+      */
+      if (subscriptAndSuperscriptElements.has(element)) {
+        response.passedNodes.push(element);
+        continue;
+      }
+
       const {
         typographyInfo: { fontSize },
       } = classifier.getOperations(element);

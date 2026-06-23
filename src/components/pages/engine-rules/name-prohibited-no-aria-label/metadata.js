@@ -6,7 +6,7 @@ export const NameProhibitedNoAriaLabel = {
   title: `aria-label should be used with compatible roles`,
   description: `Using aria-label on elements that do not support the attribute can lead to the label being ignored, leaving users without the intended information.`,
   advice: `Use a visually hidden element to provide the name or description instead of an aria-label.`,
-  impact: "moderate",
+  impact: "serious",
   refs: [
     { type: "W3C", link: "https://www.w3.org/TR/html-aria/#docconformance" },
     { type: "Non-Standard", link: "https://www.freecodecamp.org/news/web-accessibility-common-aria-mistakes-to-avoid/#:~:text=Example%20of%20misusing%20ARIA%20labels%3A&text=In%20the%20first%20code%20snippet,the%20text%20inside%20it%20already." },

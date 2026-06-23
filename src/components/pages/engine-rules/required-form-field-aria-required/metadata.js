@@ -8,7 +8,7 @@ export const RequiredFormFieldAriaRequired = {
   advice: `Add required or aria-required="true" to required input fields.`,
   impact: "serious",
   refs: [
-    { type: "WCAG", id: "3.3.1", level: "AA", link: "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1&showtechniques=131%2C221%2C244%2C332%2C333%2C331#error-identification" },
+    { type: "WCAG", id: "3.3.1", level: "A", link: "https://www.w3.org/WAI/WCAG22/Understanding/error-identification.html" },
     { type: "WCAG Technique", link: "https://www.w3.org/TR/WCAG20-TECHS/ARIA2.html" },
     { type: "WAI", link: "https://www.w3.org/WAI/tutorials/forms/validation/#validating-required-input" },
     { type: "Non-Standard", link: "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-required" }

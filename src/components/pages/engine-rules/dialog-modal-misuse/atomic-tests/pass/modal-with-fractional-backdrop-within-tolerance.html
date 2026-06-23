@@ -1,0 +1,76 @@
+<!--testconfig
+    "testedClass": "Rules.DialogModalMisuse",
+    "expect": {
+        "passedNodes": ["#test-subject"]
+    }
+-->
+<!-- Tests that a dialog with a fixed backdrop that is within the 1px width tolerance of the total width of the dom rect is still recognized as modal. -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      .backdrop {
+        position: fixed;
+        top: 0.5px;
+        left: 0.5px;
+        width: calc(100vw - 0.5px);
+        height: 100vh;
+        background: rgba(15, 23, 42, 0.45);
+        z-index: 10;
+      }
+
+      #test-subject {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 320px;
+        min-height: 180px;
+        padding: 24px;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 16px 48px rgba(15, 23, 42, 0.25);
+        z-index: 11;
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: 24px;
+      }
+
+      p {
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="backdrop" aria-hidden="true"></div>
+    <div id="test-subject" role="dialog" aria-modal="true" aria-label="Product update dialog">
+      <h1>Stay updated</h1>
+      <p>Subscribe to get notified when this item is back in stock.</p>
+      <div class="actions">
+        <button type="button">Close</button>
+        <button type="button">Subscribe</button>
+      </div>
+    </div>
+  </body>
+</html>

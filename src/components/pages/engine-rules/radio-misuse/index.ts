@@ -5,8 +5,8 @@ import { CompliantComponentRadioButton, PerceivableComponentRadioButton } from "
 export const RadioMisuse: Rule = {
   id: "radio-misuse",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "Forms",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },

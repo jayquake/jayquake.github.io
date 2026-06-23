@@ -12,7 +12,7 @@ const PixelImageNotDiscernibleFailure = () => {
   "Test with screen readers"
   ];
   const htmlExamples = [
-  { filename: "pixel image 1x1", content: `<img src="http://127.0.0.1:9000/tracker.png" width="1" height="1" alt="in case there is an alt, empty alt will make it pass" />` }
+  { filename: "pixel image 1x1", content: `<img src="http://127.0.0.1:9002/tracker.png" width="1" height="1" alt="in case there is an alt, empty alt will make it pass" />` }
   ];
 
   return (

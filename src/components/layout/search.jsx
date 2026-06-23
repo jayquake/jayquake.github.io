@@ -16,8 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { AnimatePresence, motion } from "framer-motion";
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import engineRulesData from "../../data/engine-rules-metadata.json";
 import { getAllCachedResults } from "../../utils/analysisCache";
@@ -38,7 +37,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: theme.palette.text.primary,
 }));
 
-const StyledDropdown = styled(motion.div)(({ theme }) => ({
+const StyledDropdown = styled(Box)(({ theme }) => ({
   position: "absolute",
   top: "100%",
   left: 0,
@@ -87,8 +86,14 @@ function AuditBadge({ ruleId }) {
 
 const SearchComponent = ({ data }) => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const containerRef = useRef(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedQuery(searchQuery), 150);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -121,12 +126,16 @@ const SearchComponent = ({ data }) => {
     return [...legacyRules, ...engineRules];
   }, [data]);
 
-  const filteredData = combinedData.filter(
-    (item) =>
-      item.searchName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.id?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.description?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredData = useMemo(() => {
+    const q = debouncedQuery.toLowerCase().trim();
+    if (!q) return [];
+    return combinedData.filter(
+      (item) =>
+        item.searchName?.toLowerCase().includes(q) ||
+        item.id?.toLowerCase().includes(q) ||
+        item.description?.toLowerCase().includes(q)
+    );
+  }, [combinedData, debouncedQuery]);
 
   const handleInputChange = (e) => {
     const query = e.target.value;
@@ -164,14 +173,8 @@ const SearchComponent = ({ data }) => {
         )}
       </StyledSearchBar>
 
-      <AnimatePresence>
-        {showDropdown && (
-          <StyledDropdown
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-          >
+      {showDropdown && debouncedQuery && (
+          <StyledDropdown>
             <List>
               {filteredData.length > 0 ? (
                 filteredData.slice(0, 10).map((item, index) => (
@@ -288,8 +291,7 @@ const SearchComponent = ({ data }) => {
               )}
             </List>
           </StyledDropdown>
-        )}
-      </AnimatePresence>
+      )}
     </Box>
   );
 };

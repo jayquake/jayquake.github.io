@@ -14,7 +14,7 @@ describe("FormContextChangeWarning Rule Validation", () => {
 
   beforeEach(() => {
     validateMethodArguments = validationMethodArguments();
-    (validateMethodArguments.classifier.assert as jest.Mock).mockReturnValue(true);
+    (validateMethodArguments.classifier.assert as jest.Mock).mockReturnValue(false);
 
     jest.spyOn(validateMethodArguments.classifier, "getContext").mockReturnValue({
       data: {
@@ -197,6 +197,19 @@ describe("FormContextChangeWarning Rule Validation", () => {
     jest.spyOn(FormContextChangeWarningModule, "textContainsWordOrString").mockReturnValue(false);
     await FormContextChangeWarning.validate(validateMethodArguments);
     expect(response.failedNodes.length).toBe(1);
+  });
+
+  it(`passed/failed/inapplicable nodes should not contain search-form or newsletter-form elements`, async () => {
+    const { response, classifier } = validateMethodArguments;
+    const newsletterForm = document.createElement("form");
+    const searchForm = document.createElement("form");
+
+    jest.spyOn(classifier, "getMatched").mockReturnValueOnce([searchForm, newsletterForm]);
+    jest.spyOn(classifier, "assert").mockReturnValue(true);
+    await FormContextChangeWarning.validate(validateMethodArguments);
+    expect(response.inapplicableNodes.length).toBe(0);
+    expect(response.passedNodes.length).toBe(0);
+    expect(response.failedNodes.length).toBe(0);
   });
 
   describe("textContainsWordOrString", () => {

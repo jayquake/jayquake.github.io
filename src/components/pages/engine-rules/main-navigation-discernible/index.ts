@@ -5,8 +5,8 @@ import { PassCondition } from "../interfaces";
 export const MainNavigationDiscernible: Rule = {
   id: "main-navigation-discernible",
   metadata: {
-    category: "General",
-    profile: "Cognitive Disability",
+    category: "Landmarks",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
@@ -20,7 +20,7 @@ export const MainNavigationDiscernible: Rule = {
       type: "WCAG",
       id: "1.3.1",
       level: "A",
-      link: "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
     },
   ],
   passCondition: PassCondition.NoFailedNodes,

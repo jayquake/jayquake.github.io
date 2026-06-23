@@ -1,32 +1,63 @@
 import type { Rule } from "~/rules/interfaces";
 import { PassCondition } from "~/rules/interfaces";
-import type { SvgOrHtmlElement } from "@acsbe/core-engine-classifier";
-import type EngineClassifier from "@acsbe/core-engine-classifier";
 import { CompliantComponentHeader, PerceivableTraitSticky } from "@acsbe/core-engine-classifier";
 
+interface ScrollPaddingConfig {
+  styleId: string;
+  dataAttribute: string;
+  cssProperty: string;
+}
+
 /**
- * Checks if the given element has a valid `scroll-padding-top` value.
+ * Retrieves the scroll padding value from a specific style element in the document head.
  *
- * This function retrieves the computed `scroll-padding-top` value of the element
- * and compares it to the height of the header. It returns true if the `scroll-padding-top`
- * is greater than or equal to the header height.
- *
- * @param {SvgOrHtmlElement} element - The element to check for `scroll-padding-top`.
- * @param {SvgOrHtmlElement} header - The header element whose height is used for comparison.
- * @param {EngineClassifier} classifier - The classifier used to get the element's computed style and the header's layout information.
- * @returns {boolean} - True if the `scroll-padding-top` is valid, false otherwise.
+ * @param {ScrollPaddingConfig} config - Configuration object containing style ID, data attribute, and CSS property.
+ * @returns {number} - The parsed numeric value of the CSS property, or 0 if not found.
  */
-function hasValidScrollPaddingTop(element: SvgOrHtmlElement, header: SvgOrHtmlElement, classifier: EngineClassifier): boolean {
-  const { scrollPaddingTop } = classifier.getOperations(element).layoutInfo;
-  const headerHeight = classifier.getOperations(header).layoutInfo.height;
-  return scrollPaddingTop >= headerHeight;
+function getScrollPaddingFromHeadStyle(config: ScrollPaddingConfig): number {
+  const { styleId, dataAttribute, cssProperty } = config;
+  const el = document.head.querySelector(`style#${styleId}`);
+
+  if (!(el instanceof HTMLStyleElement) || !el.sheet) {
+    return 0;
+  }
+
+  for (const rule of el.sheet.cssRules) {
+    if (rule instanceof CSSStyleRule && rule.selectorText?.includes(`[${dataAttribute}="true"]`) && !rule.selectorText.includes(":has")) {
+      const value = rule.style.getPropertyValue(cssProperty);
+      return parseFloat(value) || 0;
+    }
+  }
+
+  return 0;
+}
+
+/**
+ * Checks if the scroll padding value is valid relative to a fixed element (header or footer).
+ *
+ * This function compares the computed scroll padding to the height of the fixed element.
+ * If the computed scroll padding is insufficient, it falls back to checking
+ * the scroll padding defined in a specific style element.
+ *
+ * @param {number} computedScrollPadding - The computed scroll padding value from the element's layout.
+ * @param {number} fixedElementHeight - The height of the fixed element (header or footer).
+ * @param {ScrollPaddingConfig} config - Configuration object for style element lookup.
+ * @returns {boolean} - True if the scroll padding is valid, false otherwise.
+ */
+export function hasValidScrollPadding(computedScrollPadding: number, fixedElementHeight: number, config: ScrollPaddingConfig): boolean {
+  if (computedScrollPadding >= fixedElementHeight) {
+    return true;
+  }
+
+  const scrollPaddingFromStyle = getScrollPaddingFromHeadStyle(config);
+  return scrollPaddingFromStyle >= fixedElementHeight;
 }
 
 export const FocusNotObscuredHeader: Rule = {
   id: "focus-not-obscured-header",
   metadata: {
-    category: "Lists",
-    profile: "Motor Impaired",
+    category: "Interactive Content",
+    profile: ["Motor Impaired"],
     wcagVersion: "2.2",
     wcagLevel: "AA",
   },
@@ -76,10 +107,19 @@ export const FocusNotObscuredHeader: Rule = {
   ],
   passCondition: PassCondition.NoFailedNodes,
   async validate({ classifier, response }) {
-    const stickyHeaders = classifier.getMatched([CompliantComponentHeader, PerceivableTraitSticky]);
-    for (const stickyHeader of stickyHeaders) {
+    const stickyHeader = classifier.getMatched([CompliantComponentHeader, PerceivableTraitSticky])[0];
+    if (stickyHeader) {
       const { firstScrollableParent } = classifier.getOperations(stickyHeader).layoutInfo;
-      if (!hasValidScrollPaddingTop(firstScrollableParent, stickyHeader, classifier)) {
+      const computedScrollPadding = classifier.getOperations(firstScrollableParent).layoutInfo.scrollPaddingTop;
+      const headerHeight = classifier.getOperations(stickyHeader).layoutInfo.height;
+
+      if (
+        !hasValidScrollPadding(computedScrollPadding, headerHeight, {
+          styleId: "acsb-focus-not-obscured-header-global",
+          dataAttribute: "data-acsb-header-first-scrollable-parent",
+          cssProperty: "scroll-padding-top",
+        })
+      ) {
         response.failedNodes.push(stickyHeader);
       }
     }

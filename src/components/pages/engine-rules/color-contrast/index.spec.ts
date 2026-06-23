@@ -2,7 +2,7 @@ import { ColorContrast } from ".";
 import type { ValidationMethodArguments } from "../../../test/unit/helpers/validation-method-arguments";
 import validationMethodArguments from "../../../test/unit/helpers/validation-method-arguments";
 
-const prepareMocks = (classifier: ValidationMethodArguments["classifier"], mocks: { fontSize: number; colorContrastRatio: number; visibleText?: string }) => {
+const prepareMocks = (classifier: ValidationMethodArguments["classifier"], mocks: { fontSize: number; colorContrastRatio: number | false; visibleText?: string }) => {
   const { fontSize, colorContrastRatio, visibleText = "Content" } = mocks;
 
   const div = document.createElement("div");
@@ -23,6 +23,16 @@ describe("ColorContrast Rule Validation", () => {
 
   beforeEach(() => {
     validateMethodArguments = validationMethodArguments();
+  });
+
+  it("should mark element as inapplicable when colorContrastRatio is false", async () => {
+    const { response, classifier } = validateMethodArguments;
+    const element = prepareMocks(classifier, { fontSize: 16, colorContrastRatio: false });
+    await ColorContrast.validate(validateMethodArguments);
+    expect(response.failedNodes.length).toBe(0);
+    expect(response.passedNodes.length).toBe(0);
+    expect(response.inapplicableNodes.length).toBe(1);
+    expect(response.inapplicableNodes[0]).toBe(element);
   });
 
   it("should have no failed nodes if there are no visible elements", async () => {

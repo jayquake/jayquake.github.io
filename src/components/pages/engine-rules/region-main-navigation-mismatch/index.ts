@@ -5,8 +5,8 @@ import { PerceivableComponentMainNavigation } from "@acsbe/core-engine-classifie
 export const RegionMainNavigation: Rule = {
   id: "region-main-navigation",
   metadata: {
-    category: "General",
-    profile: "Cognitive Disability",
+    category: "Landmarks",
+    profile: ["Cognitive Disability"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },

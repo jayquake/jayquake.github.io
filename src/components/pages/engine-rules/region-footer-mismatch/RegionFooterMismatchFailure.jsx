@@ -3,9 +3,9 @@ import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const RegionFooterMismatchFailure = () => {
   const ruleId = "region-footer-mismatch";
-  const title = `Footer region should be correctly marked up`;
-  const description = `Ensure that the footer region is correctly marked up.`;
-  const helpText = `Add a <footer> element to define the footer of the document.`;
+  const title = `Global site information that appears at the end of each page is contained in a contentinfo landmark (footer)`;
+  const description = `The contentinfo region, typically represented by the <footer> element, is found at the end of each page and provides screen reader users with information about the website, such as copyright, contact details, legal information, and navigation links.`;
+  const helpText = `Use a <footer> element or assign role="contentinfo" to the section that provides global information and consistently appears at the end of each page.`;
   const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",

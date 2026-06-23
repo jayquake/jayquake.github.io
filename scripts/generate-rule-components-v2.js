@@ -6,11 +6,16 @@ const ENGINE_RULES_DIR = path.join(
   "../src/components/pages/engine-rules"
 );
 
-// Helper to convert kebab-case to PascalCase
+// Helper to convert kebab-case to PascalCase (handles version segments like 2.0)
 function toPascalCase(str) {
   return str
     .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .map((word) => {
+      if (/^\d/.test(word)) {
+        return `V${word.replace(/\./g, "_")}`;
+      }
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
     .join("");
 }
 

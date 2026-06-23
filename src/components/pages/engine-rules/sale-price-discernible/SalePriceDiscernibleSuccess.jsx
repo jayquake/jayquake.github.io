@@ -139,6 +139,11 @@ const SalePriceDiscernibleSuccess = () => {
     <span id="original-price" class="sr-only">Original price</span>
     <span>\$100</span>
 </div>` },
+  { filename: "strike element with aria label regular price", content: `<div>
+  Price:
+  <strike aria-label="Product regular price">\$200</strike>
+  <span>\$100</span>
+</div>` },
   { filename: "strike element with aria label", content: `<div>
   Price:
   <strike aria-label="was">\$200</strike>

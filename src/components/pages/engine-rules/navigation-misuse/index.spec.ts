@@ -36,11 +36,13 @@ describe("NavigationMisuse Rule Validation", () => {
     expect(response.passedNodes[0]).toBe(navigationRegion);
   });
 
-  it("should have the failed element in failed nodes if navigation region is empty", async () => {
+  it("element should fail if not perceived as navigation or breadcrumbs or main-navigation or the parent of main-navigation", async () => {
     const { classifier, response } = validateMethodArguments;
     const navigationRegion = document.createElement("nav");
 
-    (classifier.getMatched as jest.Mock).mockReturnValue([navigationRegion]);
+    (classifier.getMatched as jest.Mock).mockReturnValueOnce([navigationRegion]); // CompliantComponentNavigation
+    (classifier.getMatched as jest.Mock).mockReturnValueOnce([]); // PerceivableComponentMainNavigation
+    (classifier.getMatchedDirect as jest.Mock).mockReturnValue([]); // No direct child breadcrumbs
     (classifier.assert as jest.Mock).mockReturnValue(false);
 
     await NavigationMisuse.validate(validateMethodArguments);
@@ -55,6 +57,7 @@ describe("NavigationMisuse Rule Validation", () => {
     breadcrumb.setAttribute("aria-label", "Breadcrumb");
 
     (classifier.getMatched as jest.Mock).mockReturnValue([breadcrumb]);
+    (classifier.getMatchedDirect as jest.Mock).mockReturnValue([]); // No direct child breadcrumbs
     (classifier.assert as jest.Mock).mockReturnValueOnce(false); // The element isn't PerceivableComponentNavigation
     (classifier.assert as jest.Mock).mockReturnValueOnce(true); // The element is PerceivableComponentBreadcrumb
 
@@ -62,6 +65,25 @@ describe("NavigationMisuse Rule Validation", () => {
 
     expect(response.inapplicableNodes).toHaveLength(1);
     expect(response.inapplicableNodes[0]).toBe(breadcrumb);
+    expect(response.failedNodes).toHaveLength(0);
+    expect(response.passedNodes).toHaveLength(0);
+  });
+
+  it("should mark elements with direct child breadcrumb as inapplicable nodes", async () => {
+    const { classifier, response } = validateMethodArguments;
+    const navElement = document.createElement("nav");
+    const breadcrumbChild = document.createElement("ol");
+    navElement.appendChild(breadcrumbChild);
+
+    (classifier.getMatched as jest.Mock).mockReturnValueOnce([navElement]); // CompliantComponentNavigation
+    (classifier.getMatched as jest.Mock).mockReturnValueOnce([]); // PerceivableComponentMainNavigation
+    (classifier.getMatchedDirect as jest.Mock).mockReturnValue([breadcrumbChild]); // Direct child is breadcrumb
+    (classifier.assert as jest.Mock).mockReturnValueOnce(false); // The element isn't PerceivableComponentNavigation
+
+    await NavigationMisuse.validate(validateMethodArguments);
+
+    expect(response.inapplicableNodes).toHaveLength(1);
+    expect(response.inapplicableNodes[0]).toBe(navElement);
     expect(response.failedNodes).toHaveLength(0);
     expect(response.passedNodes).toHaveLength(0);
   });
@@ -74,7 +96,9 @@ describe("NavigationMisuse Rule Validation", () => {
 
     (classifier.getMatched as jest.Mock).mockReturnValueOnce([parentElement]); // CompliantComponentNavigation
     (classifier.getMatched as jest.Mock).mockReturnValueOnce([mainNavigation]); // PerceivableComponentMainNavigation
-    (classifier.assert as jest.Mock).mockReturnValue(false); // Not PerceivableComponentNavigation
+    (classifier.getMatchedDirect as jest.Mock).mockReturnValue([]); // No direct child breadcrumbs
+    (classifier.assert as jest.Mock).mockReturnValueOnce(false); // Not PerceivableComponentNavigation
+    (classifier.assert as jest.Mock).mockReturnValueOnce(false); // Not PerceivableComponentBreadcrumb
 
     await NavigationMisuse.validate(validateMethodArguments);
 
@@ -83,13 +107,16 @@ describe("NavigationMisuse Rule Validation", () => {
     expect(response.passedNodes).toHaveLength(0);
   });
 
-  it("should fail if a navigation element is improperly tagged and not a breadcrumb or main navigation parent", async () => {
+  it("should fail if a navigation element is improperly tagged and not a breadcrumb or main navigation or main navigation parent", async () => {
     const { classifier, response } = validateMethodArguments;
     const navigationElement = document.createElement("div");
     navigationElement.setAttribute("role", "navigation");
 
-    (classifier.getMatched as jest.Mock).mockReturnValue([navigationElement]);
-    (classifier.assert as jest.Mock).mockReturnValue(false); // Not PerceivableComponentNavigation
+    (classifier.getMatched as jest.Mock).mockReturnValueOnce([navigationElement]); // CompliantComponentNavigation
+    (classifier.getMatched as jest.Mock).mockReturnValueOnce([]); // PerceivableComponentMainNavigation
+    (classifier.getMatchedDirect as jest.Mock).mockReturnValue([]); // No direct child breadcrumbs
+    (classifier.assert as jest.Mock).mockReturnValueOnce(false); // Not PerceivableComponentNavigation
+    (classifier.assert as jest.Mock).mockReturnValueOnce(false); // Not PerceivableComponentBreadcrumb
 
     await NavigationMisuse.validate(validateMethodArguments);
 

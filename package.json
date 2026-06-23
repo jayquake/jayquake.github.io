@@ -54,6 +54,8 @@
     "deploy:direct": "gh-pages -d build",
     "deploy:actions": "bash scripts/deploy-via-actions.sh",
     "deploy:trigger": "gh workflow run deploy.yml",
+    "sync:engine-rules": "node scripts/sync-engine-rules-from-core.js",
+    "validate:atomic-parity": "node scripts/validate-atomic-tests-parity.js",
     "prebuild": "node scripts/generate-static-projects.js",
     "build": "npm run prebuild && CI=false react-app-rewired build",
     "test": "react-app-rewired test",

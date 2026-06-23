@@ -1,0 +1,24 @@
+<!--testconfig
+    "testedClass": "Rules.SearchInputAnnouncement",
+    "expect": {
+        "failedNodes": ["input"]
+    }
+-->
+
+<html>
+  <head>
+    <script>
+      window.Shopify = {};
+    </script>
+    <script id="shopify-features">
+      {"predictiveSearch": true}
+    </script>
+  </head>
+  <body>
+    <div class="search-container">
+      <input type="search" />
+      <div class="sr-only">Results are good...</div>
+    </div>
+  </body>
+</html>
+

@@ -8,7 +8,7 @@ export const FormContextChangeWarning = {
   advice: `Make sure that forms can be manually submitted via a submit button, or provide instructions that notify users of the expected behavior before they interact with the control.`,
   impact: "critical",
   refs: [
-    { type: "WCAG", id: "3.2.2", level: "A", link: "https://www.w3.org/WAI/WCAG21/Understanding/on-input" },
+    { type: "WCAG", id: "3.2.2", level: "A", link: "https://www.w3.org/WAI/WCAG22/Understanding/on-input.html" },
     { type: "WCAG Technique", link: "https://www.w3.org/TR/2008/WD-WCAG20-TECHS-20080430/H32.html" },
     { type: "WCAG Technique", link: "https://www.w3.org/TR/2008/WD-WCAG20-TECHS-20080430/G80.html" },
     { type: "WCAG Technique", link: "https://www.w3.org/WAI/WCAG21/Techniques/general/G13" },

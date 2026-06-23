@@ -5,7 +5,7 @@ const HtmlLangSuccess = () => {
   const ruleId = "html-lang";
   const title = `Default page language should be defined`;
   const description = `Specifying a default page language ensures screen readers apply the correct pronunciation rules, voices, and braille output. Without it, screen readers may guess the language incorrectly, causing mispronunciations, confusion, and reduced comprehension for users.`;
-  const helpText = `Define the default language for the page by assigning a lang attribute to the html element.`;
+  const helpText = `Define the default language for the page by assigning a lang attribute to the <html> element.`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",

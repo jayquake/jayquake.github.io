@@ -8,6 +8,7 @@ export const RegionMainContentMisuse = {
   advice: `If the failing element is a custom main landmark, remove role="main". If the failing element is coded using a HTML <main> tag, change the tag to a <div> or an element with a suitable role.`,
   impact: "serious",
   refs: [
+    { type: "WCAG", id: "1.3.1", level: "A", link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html" },
     { type: "Non-Standard", link: "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/main_role" },
     { type: "WAI", link: "https://www.digitala11y.com/main-role/" }
   ]

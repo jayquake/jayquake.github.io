@@ -5,7 +5,7 @@ const RegionFooterSingleSuccess = () => {
   const ruleId = "region-footer-single";
   const title = `Each page should include at most one global contentinfo landmark (footer)`;
   const description = `Each page should normally include only one contentinfo landmark (usually the site footer) to keep landmark navigation simple and predictable. Additional contentinfo landmarks are permitted when clearly justified, but they must each have a unique accessible label.`;
-  const helpText = `Make sure each page has only one top-level contentinfo landmark for the global footer. For additional footer-like blocks, nest them inside sectioning elements, or use role="region" with a label instead of contentinfo.`;
+  const helpText = `Make sure each page has only one top-level contentinfo landmark (footer). For additional footer-like blocks, nest them inside sectioning elements, or use role="region" with a label instead of contentinfo.`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",

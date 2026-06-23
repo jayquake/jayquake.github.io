@@ -5,8 +5,8 @@ import { PassCondition } from "~/rules/interfaces";
 export const MenuTriggerClickable: Rule = {
   id: "menu-trigger-clickable",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "Interactive Content",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
@@ -18,9 +18,9 @@ export const MenuTriggerClickable: Rule = {
   refs: [
     {
       type: "WCAG",
-      id: "4.1.2",
+      id: "1.3.1",
       level: "A",
-      link: "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=211%2C412#name-role-value",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
     },
     {
       type: "Non-Standard",

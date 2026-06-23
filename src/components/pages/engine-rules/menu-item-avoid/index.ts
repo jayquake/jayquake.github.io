@@ -5,8 +5,8 @@ import { PassCondition } from "~/rules/interfaces";
 export const MenuItemAvoid: Rule = {
   id: "menu-item-avoid",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "General",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
@@ -16,6 +16,12 @@ export const MenuItemAvoid: Rule = {
   advice: 'Use standard lists with links and buttons (or custom buttons with role="button") and remove role="menuitem".',
   associatedDetectors: [CompliantComponentMenuItem],
   refs: [
+    {
+      type: "WCAG",
+      id: "1.3.1",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
+    },
     {
       type: "WAI",
       link: "https://www.w3.org/WAI/tutorials/menus/structure/",

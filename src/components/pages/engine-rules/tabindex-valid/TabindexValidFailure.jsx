@@ -5,7 +5,7 @@ const TabindexValidFailure = () => {
   const ruleId = "tabindex-valid";
   const title = `The tabindex attribute should be assigned a valid value`;
   const description = `Invalid tabindex values are ignored by browsers, while positive values override the natural focus order. Applying the tabindex attribute incorrectly can break the expected navigation flow for keyboard users.`;
-  const helpText = `Rina Volovich is there an advice to add here?`;
+  const helpText = `Restrict use of tabindex values to "0" or "-1", avoiding positive numbers and invalid value types, such as letters or decimals.`;
   const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",

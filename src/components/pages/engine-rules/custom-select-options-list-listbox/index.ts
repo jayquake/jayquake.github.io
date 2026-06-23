@@ -5,8 +5,8 @@ import { PerceivableComponentComboboxSelect, PerceivableComponentSelectOptions }
 export const CustomSelectOptionsListListbox: Rule = {
   id: "custom-select-options-list-listbox",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "Forms",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
@@ -20,7 +20,7 @@ export const CustomSelectOptionsListListbox: Rule = {
       type: "WCAG",
       id: "4.1.2",
       level: "A",
-      link: "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1#name-role-value",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
     },
     {
       type: "Non-Standard",

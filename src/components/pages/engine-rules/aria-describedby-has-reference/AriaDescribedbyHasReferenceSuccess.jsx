@@ -4,8 +4,8 @@ import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 const AriaDescribedbyHasReferenceSuccess = () => {
   const ruleId = "aria-describedby-has-reference";
   const title = `aria-describedby should reference a valid element id`;
-  const description = `The element’s aria-describedby attribute points to an id that does not exist or is not valid, preventing assistive technologies from announcing the intended description and causing users to miss important context.`;
-  const helpText = `Make the value of aria-describedby exactly match the id of an existing, unique element on the page. Remove or update the attribute if the target is missing or no longer relevant`;
+  const description = `If an element’s aria-describedby attribute points to an id that does not exist or is not valid, assistive technologies will not convey the intended description, causing users to miss important context.`;
+  const helpText = `Ensure aria-describedby references an existing, unique id on the page. Remove or update the attribute if the target element is missing or no longer relevant.`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",

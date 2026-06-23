@@ -1,0 +1,17 @@
+<!--testconfig
+    "testedClass": "Rules.BackgroundImageDiscernible",
+    "expect": {
+        "failedNodes": [],
+        "passedNodes": [],
+        "inapplicableNodes": ["div.background-image-element"]
+    }
+-->
+<style>
+  .background-image-element {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
+    background-size: cover;
+    width: 100px;
+    height: 100px;
+  }
+</style>
+<div class="background-image-element"><h1>Welcome to Our Website</h1></div>

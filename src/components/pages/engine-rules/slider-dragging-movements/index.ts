@@ -5,8 +5,8 @@ import { PerceivableComponentSlider, PerceivableComponentInput } from "@acsbe/co
 export const SliderDraggingMovements: Rule = {
   id: "slider-dragging-movements",
   metadata: {
-    category: "Dragging Alternative",
-    profile: "Motor Impaired",
+    category: "Forms",
+    profile: ["Motor Impaired"],
     wcagVersion: "2.2",
     wcagLevel: "AA",
   },

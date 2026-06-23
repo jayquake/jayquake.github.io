@@ -8,6 +8,7 @@ export const ListNotEmpty = {
   advice: `Remove the empty HTML list elements (<ul>/<ol>) or assign aria-hidden="true" to make sure they are ignored by screen readers.`,
   impact: "minor",
   refs: [
+    { type: "WCAG", id: "1.3.1", level: "A", link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html" },
     { type: "Non-Standard", link: "https://help.siteimprove.com/support/solutions/articles/80001051793-accessibility-rule-container-element-is-empty-explained" },
     { type: "W3C", link: "https://www.w3.org/WAI/standards-guidelines/act/rules/bc4a75/proposed/" },
     { type: "W3C", link: "https://www.w3.org/TR/wai-aria-1.2/#mustContain" }

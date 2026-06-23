@@ -12,6 +12,209 @@ const RadioMismatchSuccess = () => {
   "Test with assistive technologies"
   ];
   const htmlExamples = [
+  { filename: "custom radio button rating input as next or prev sibling", content: `<!--- This test is in skip because the perceivable custom radio buttons have compliant radio button inputs as siblings, not children -->
+<div class="radio-wrapper-18">
+  <input id="rating-18-5" type="radio" name="radio-examples" />
+  <label for="rating-18-5" title="text">
+    <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"
+      ></path>
+    </svg>
+  </label>
+  <input id="rating-18-4" type="radio" name="radio-examples" />
+  <label for="rating-18-4" title="text">
+    <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"
+      ></path>
+    </svg>
+  </label>
+  <input id="rating-18-3" type="radio" name="radio-examples" />
+  <label for="rating-18-3" title="text">
+    <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"
+      ></path>
+    </svg>
+  </label>
+  <input id="rating-18-2" type="radio" name="radio-examples" />
+  <label for="rating-18-2" title="text">
+    <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"
+      ></path>
+    </svg>
+  </label>
+  <input id="rating-18-1" type="radio" name="radio-examples" />
+  <label for="rating-18-1" title="text">
+    <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"
+      ></path>
+    </svg>
+  </label>
+</div>
+<style>
+  .radio-wrapper-18 {
+    width: 200px;
+    height: 30px;
+  }
+  .radio-wrapper-18 > input {
+    position: absolute;
+    appearance: none;
+  }
+
+  .radio-wrapper-18 > label {
+    float: right;
+    cursor: pointer;
+    font-size: 30px;
+    fill: #666;
+  }
+
+  .radio-wrapper-18 > label > svg {
+    fill: #666; /* Set default color for SVG */
+    transition: fill 0.3s ease; /* Add a transition effect */
+  }
+
+  .radio-wrapper-18 > input:checked + label:hover,
+  .radio-wrapper-18 > input:checked + label:hover ~ label,
+  .radio-wrapper-18 > input:checked ~ label:hover,
+  .radio-wrapper-18 > input:checked ~ label:hover ~ label,
+  .radio-wrapper-18 > label:hover ~ input:checked ~ label {
+    fill: #e58e09;
+  }
+
+  .radio-wrapper-18 > label:hover,
+  .radio-wrapper-18 > label:hover ~ label {
+    fill: #ff9e0b;
+  }
+
+  .radio-wrapper-18 > input:checked ~ label > svg {
+    fill: #ffa723; /* Set color for selected stars */
+  }
+</style>` },
+  { filename: "custom radio with compliant radio button as a direct child", content: `<div class="radio-wrapper">
+  <label for="example-1">
+    <input id="example-1" type="radio" name="radio-examples" />
+    <span class="inner-label">Radio 1</span>
+  </label>
+</div>
+<div class="radio-wrapper">
+  <label for="example-2">
+    <input id="example-2" type="radio" name="radio-examples" />
+    <span class="inner-label">Radio 2</span>
+  </label>
+</div>
+
+<style>
+  .radio-wrapper {
+    display: flex;
+    font-family: "Courier New", monospace;
+    font-weight: bold;
+  }
+  @media (max-width: 48em) {
+    .radio-wrapper {
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+    }
+  }
+
+  .radio-wrapper label {
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+  }
+  @media (max-width: 48em) {
+    .radio-wrapper label {
+      display: block;
+      margin: 10px 0;
+    }
+  }
+  .radio-wrapper label input {
+    opacity: 0;
+    position: absolute;
+  }
+  .radio-wrapper label .inner-label {
+    position: relative;
+    display: inline-block;
+    padding-left: 40px;
+  }
+  .radio-wrapper label .inner-label:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.25);
+    width: 30px;
+    transition: border-bottom 0.5s ease;
+  }
+  .radio-wrapper label input:focus ~ .inner-label:before {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.75);
+  }
+  .radio-wrapper label input:checked ~ .inner-label:after {
+    content: "✓";
+    color: #000;
+    position: absolute;
+    font-size: 1em;
+    left: 12px;
+    top: 1px;
+  }
+</style>` },
+  { filename: "custom radio with role radio with input display none", content: `<div class="radio-wrapper">
+  <div class="radio-inputs-19">
+    <label for="example-19-1" role="radio">
+      <input id="example-19-1" type="radio" name="radio-examples" />
+      <span class="name">Tab 1</span>
+    </label>
+    <label for="example-19-2" role="radio">
+      <input id="example-19-2" type="radio" name="radio-examples" />
+      <span class="name">Tab 2</span>
+    </label>
+  </div>
+</div>
+
+<style>
+  .radio-inputs-19 {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 0.5rem;
+    background-color: #eee;
+    box-sizing: border-box;
+    box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
+    padding: 0.25rem;
+    width: 150px;
+    font-size: 14px;
+  }
+
+  .radio-inputs-19 label {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+
+  .radio-inputs-19 label input {
+    display: none;
+  }
+
+  .radio-inputs-19 label .name {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    border: none;
+    padding: 0.5rem 0;
+    color: rgba(51, 65, 85, 1);
+    transition: all 0.15s ease-in-out;
+  }
+
+  .radio-inputs-19 label input:checked + .name {
+    background-color: #fff;
+    font-weight: 600;
+  }
+</style>` },
   { filename: "div as a custom radio", content: `<div class="radio-wrapper-1" tabindex="0" role="radio" aria-checked="false">
   <input id="example-1" class="substituted" type="radio" aria-hidden="true" />
   <label class="pointer" for="example-1">radio</label>

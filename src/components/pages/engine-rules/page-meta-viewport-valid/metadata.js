@@ -8,7 +8,7 @@ export const PageMetaViewportValid = {
   advice: `Set content="width=device-width, initial-scale=1" on the meta viewport element and avoid values like user-scalable=no or maximum-scale=1 to preserve zoom and text scaling.`,
   impact: "critical",
   refs: [
-    { type: "WCAG", id: "1.4.4", level: "AA", link: "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1#resize-text" },
+    { type: "WCAG", id: "2.4.11", level: "AA", link: "https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html" },
     { type: "W3C", link: "https://www.w3.org/TR/mobile-accessibility-mapping/#use-viewport-meta-tag-to-identify-visual-scale-properties" }
   ]
 };

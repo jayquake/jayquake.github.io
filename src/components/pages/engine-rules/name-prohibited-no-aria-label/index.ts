@@ -17,12 +17,12 @@ import { PassCondition } from "~/rules/interfaces";
 export const NameProhibitedNoAriaLabel: Rule = {
   id: "name-prohibited-no-aria-label",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "General",
+    profile: ["Blind"],
     wcagVersion: "General Guidelines",
     wcagLevel: "N/A",
   },
-  impact: "moderate",
+  impact: "serious",
   title: "aria-label should be used with compatible roles",
   description: "Using aria-label on elements that do not support the attribute can lead to the label being ignored, leaving users without the intended information.",
   advice: "Use a visually hidden element to provide the name or description instead of an aria-label.",

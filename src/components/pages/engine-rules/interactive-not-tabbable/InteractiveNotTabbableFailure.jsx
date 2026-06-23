@@ -300,6 +300,10 @@ const InteractiveNotTabbableFailure = () => {
   }
 </style>` },
   { filename: "interactive element without tabindex", content: `<span onclick="alert('Hello, user!')" style="cursor: pointer">Interactive but without tabindex - should not be included in the passedNodes array</span>` },
+  { filename: "label wrapping non tabbable input", content: `<label class="toggleButton" role="checkbox" aria-checked="false" style="cursor: pointer">
+  <input type="checkbox" tabindex="-1" />
+  <span>Accept terms and conditions</span>
+</label>` },
   { filename: "nested clickable elements", content: `<article
   class="theme theme-white cur-p bcssr-1o8xzez e1q5pid111"
   data-gem-id="box-container-box-1"

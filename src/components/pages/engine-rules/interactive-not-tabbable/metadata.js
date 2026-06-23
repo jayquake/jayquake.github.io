@@ -6,8 +6,9 @@ export const InteractiveNotTabbable = {
   title: `Interactive elements should be keyboard navigable`,
   description: `Interactive elements should be keyboard navigable. If a custom interactive element is not keyboard navigable, keyboard users will not be able to interact with it.`,
   advice: `Add tabindex="0" to the custom interactive element.`,
-  impact: "serious",
+  impact: "critical",
   refs: [
+    { type: "WCAG", id: "2.1.1", level: "A", link: "https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html" },
     { type: "Non-Standard", link: "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex#accessibility_concerns" },
     { type: "Non-Standard", link: "https://www.a11yproject.com/posts/how-to-use-the-tabindex-attribute/" },
     { type: "Non-Standard", link: "https://dequeuniversity.com/rules/axe/4.4/tabindex" },

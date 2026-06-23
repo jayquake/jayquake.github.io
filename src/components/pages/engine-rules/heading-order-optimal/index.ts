@@ -6,12 +6,12 @@ import { CompliantComponentHeading, PerceivableComponentHeading } from "@acsbe/c
 export const HeadingOrderOptimal: Rule = {
   id: "heading-order-optimal",
   metadata: {
-    category: "Landmarks",
-    profile: "Blind",
+    category: "Text Content",
+    profile: ["Blind"],
     wcagVersion: "2.0",
-    wcagLevel: "A",
+    wcagLevel: "N/A",
   },
-  impact: "moderate",
+  impact: "minor",
   title: "Heading levels should reflect the structure of the content",
   description: "Incorrect heading hierarchy can create a misleading page outline, disrupt navigation by heading shortcuts, and cause confusion about the structure and importance of content. Using the correct heading level preserves a logical structure, allowing users to understand how sections relate to each other.",
   advice: "Heading levels should reflect how each section relates to the main topic. Use <h1> for the overall subject,<h2> for major sections, and deeper levels, such as <h3> and <h4>, for subsections.",

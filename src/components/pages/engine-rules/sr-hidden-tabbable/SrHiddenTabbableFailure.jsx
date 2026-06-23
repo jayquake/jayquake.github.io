@@ -3,9 +3,9 @@ import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const SrHiddenTabbableFailure = () => {
   const ruleId = "sr-hidden-tabbable";
-  const title = `Elements hidden from screen-reader must not contain tabbable elements.`;
-  const description = `although the elements are hidden from assistive technologies, users can still navigate to any focusable child elements using the keyboard, but their content is inaccessible to people who use assistive technologies.`;
-  const helpText = `Remove the tabindex attribute from the non-interactive element or set it to -1. This will prevent the element from being focused on by keyboard users.`;
+  const title = `Hidden elements should not be keyboard navigable`;
+  const description = `Allowing hidden content to receive keyboard focus creates a confusing tab order, where keyboard users and screen reader users that navigate with the TAB key may encounter interactive controls that are unrelated to the current context.`;
+  const helpText = `Use tabindex="-1" to remove elements from the tab order when they should not be exposed to assistive technology. Consider using CSS techniques, such as display:none or visibility:hidden when the content should be hidden from all users.`;
   const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",

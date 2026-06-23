@@ -3,12 +3,11 @@
 
 export const RegionFooterMisuse = {
   id: "region-footer-misuse",
-  title: `Footer region should be correctly marked up`,
-  description: `Ensure that the footer region is correctly marked up.`,
-  advice: `Add a <footer> element to define the footer of the document.`,
+  title: `An element without global site information is tagged as a contentinfo landmark`,
+  description: `When a region without global site information is tagged as a contentinfo landmark, screen reader users may be misled about its purpose and expect website-level details, such as copyright or contact information.`,
+  advice: `If the failing element is a custom contentinfo region, remove role="contentinfo". If the failing element is coded using a HTML <footer> tag, change the tag to a <div> or an element with a suitable role.`,
   impact: "serious",
   refs: [
-    { type: "WCAG", id: "WCAG-1.1.1", level: "A", link: "https://www.w3.org/TR/WCAG20-TECHS/ARIA11.html" },
     { type: "W3C", link: "https://www.w3.org/WAI/tutorials/page-structure/regions/" }
   ]
 };

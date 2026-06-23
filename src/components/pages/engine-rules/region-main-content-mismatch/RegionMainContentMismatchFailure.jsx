@@ -5,7 +5,7 @@ const RegionMainContentMismatchFailure = () => {
   const ruleId = "region-main-content-mismatch";
   const title = `All of the main content on the page is contained in the main landmark`;
   const description = `The main landmark represents the primary content of a page. It should include only content unique to that page and must remain separate from repeated elements, such as navigation, header, or footer.`;
-  const helpText = `Add a role='main' attribute to the main content area so that it is correctly identified by assistive technologies.`;
+  const helpText = `Avoid nesting <main> or elements with role="main" and other landmark or sectioning elements such as <header>, <footer>, <nav>, <article>, or <aside> (including elements with respective ARIA roles). Ensure that the main landmark contains all of the main content, and it is not enclosing the entire HTML document or positioned outside the primary content area.`;
   const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",

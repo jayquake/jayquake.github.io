@@ -5,15 +5,15 @@ import { CompliantComponentSelectOption, PerceivableComponentSelectOption } from
 export const SelectOptionMismatch: Rule = {
   id: "select-option-mismatch",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "Forms",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
-  impact: "serious",
+  impact: "critical",
   title: "Custom select options should be tagged for assistive technology",
   description: "Native select elements automatically expose each option to screen readers, however roles for custom components must be explicitly defined. If custom option elements are not given the correct ARIA role and nested according to markup and accessibility guidelines, assistive technology may not recognize or interact with them.",
-  advice: 'Assign role="option" to each custom select option.\nEnsure that each option is directly contained in an element with role="listbox"',
+  advice: 'Assign role="option" to each custom select option. Ensure that each option is directly contained in an element with role="listbox"',
   associatedDetectors: [PerceivableComponentSelectOption, CompliantComponentSelectOption],
   refs: [
     {

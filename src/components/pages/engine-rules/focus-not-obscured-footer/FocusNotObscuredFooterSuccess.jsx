@@ -1059,6 +1059,228 @@ const FocusNotObscuredFooterSuccess = () => {
     </main>
   </body>
 </html>` },
+  { filename: "sticky footer 214px with global style button focused in the footer", content: `<!DOCTYPE html>
+<html lang="en" data-acsb-footer-first-scrollable-parent="true">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sticky Footer 214px with Global Style - Button Focused</title>
+    <style id="acsb-focus-not-obscured-footer-global">
+      [data-acsb-footer-first-scrollable-parent="true"] {
+        scroll-padding-bottom: 214px;
+      }
+      [data-acsb-footer-first-scrollable-parent="true"]:has(footer:focus-within),
+      [data-acsb-footer-first-scrollable-parent="true"]:has([role="contentinfo"]:focus-within) {
+        scroll-padding-bottom: 0px;
+      }
+    </style>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 200vh;
+      }
+      .sticky-footer {
+        background: #333;
+        color: white;
+        position: sticky;
+        bottom: 0;
+        height: 214px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 0 20px;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        margin-top: auto;
+      }
+      .footer-button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      .footer-button:hover {
+        background: #0056b3;
+      }
+      .footer-button:focus {
+        outline: 2px solid #ffc107;
+        outline-offset: 2px;
+      }
+      .content {
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+      .content ul {
+        list-style: none;
+        padding: 0;
+      }
+      .content li {
+        margin: 15px 0;
+      }
+      .content a {
+        color: #007bff;
+        text-decoration: none;
+        font-size: 18px;
+      }
+      .content a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <h1>Page Content</h1>
+      <ul>
+        <li><a href="#section1">Section 1</a></li>
+        <li><a href="#section2">Section 2</a></li>
+        <li><a href="#section3">Section 3</a></li>
+        <li><a href="#section4">Section 4</a></li>
+        <li><a href="#section5">Section 5</a></li>
+        <li><a href="#section6">Section 6</a></li>
+        <li><a href="#section7">Section 7</a></li>
+        <li><a href="#section8">Section 8</a></li>
+        <li><a href="#section9">Section 9</a></li>
+        <li><a href="#section10">Section 10</a></li>
+        <li><a href="#section11">Section 11</a></li>
+        <li><a href="#section12">Section 12</a></li>
+        <li><a href="#section13">Section 13</a></li>
+        <li><a href="#section14">Section 14</a></li>
+        <li><a href="#section15">Section 15</a></li>
+        <li><a href="#section16">Section 16</a></li>
+        <li><a href="#section17">Section 17</a></li>
+        <li><a href="#section18">Section 18</a></li>
+        <li><a href="#section19">Section 19</a></li>
+        <li><a href="#section20">Section 20</a></li>
+      </ul>
+    </div>
+    <footer class="sticky-footer">
+      <button class="footer-button">Privacy</button>
+      <button class="footer-button" autofocus>Terms</button>
+      <button class="footer-button">Contact</button>
+      <button class="footer-button">About</button>
+    </footer>
+  </body>
+</html>` },
+  { filename: "sticky footer 214px with global style footer not focused", content: `<!DOCTYPE html>
+<html lang="en" data-acsb-footer-first-scrollable-parent="true">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sticky Footer 214px with Global Style</title>
+    <style id="acsb-focus-not-obscured-footer-global">
+      [data-acsb-footer-first-scrollable-parent="true"] {
+        scroll-padding-bottom: 214px;
+      }
+      [data-acsb-footer-first-scrollable-parent="true"]:has(footer:focus-within),
+      [data-acsb-footer-first-scrollable-parent="true"]:has([role="contentinfo"]:focus-within) {
+        scroll-padding-bottom: 0px;
+      }
+    </style>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 200vh;
+      }
+      .sticky-footer {
+        background: #333;
+        color: white;
+        position: sticky;
+        bottom: 0;
+        height: 214px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 0 20px;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        margin-top: auto;
+      }
+      .footer-button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      .footer-button:hover {
+        background: #0056b3;
+      }
+      .footer-button:focus {
+        outline: 2px solid #ffc107;
+        outline-offset: 2px;
+      }
+      .content {
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+      .content ul {
+        list-style: none;
+        padding: 0;
+      }
+      .content li {
+        margin: 15px 0;
+      }
+      .content a {
+        color: #007bff;
+        text-decoration: none;
+        font-size: 18px;
+      }
+      .content a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <h1>Page Content</h1>
+      <ul>
+        <li><a href="#section1">Section 1</a></li>
+        <li><a href="#section2">Section 2</a></li>
+        <li><a href="#section3">Section 3</a></li>
+        <li><a href="#section4">Section 4</a></li>
+        <li><a href="#section5">Section 5</a></li>
+        <li><a href="#section6">Section 6</a></li>
+        <li><a href="#section7">Section 7</a></li>
+        <li><a href="#section8">Section 8</a></li>
+        <li><a href="#section9">Section 9</a></li>
+        <li><a href="#section10">Section 10</a></li>
+        <li><a href="#section11">Section 11</a></li>
+        <li><a href="#section12">Section 12</a></li>
+        <li><a href="#section13">Section 13</a></li>
+        <li><a href="#section14">Section 14</a></li>
+        <li><a href="#section15">Section 15</a></li>
+        <li><a href="#section16">Section 16</a></li>
+        <li><a href="#section17">Section 17</a></li>
+        <li><a href="#section18">Section 18</a></li>
+        <li><a href="#section19">Section 19</a></li>
+        <li><a href="#section20">Section 20</a></li>
+      </ul>
+    </div>
+    <footer class="sticky-footer">
+      <button class="footer-button">Privacy</button>
+      <button class="footer-button">Terms</button>
+      <button class="footer-button">Contact</button>
+      <button class="footer-button">About</button>
+    </footer>
+  </body>
+</html>` },
   { filename: "sticky footer position fixed html with scroll padding bottom greater than footer height", content: `<!DOCTYPE html>
 <html lang="en">
   <head>

@@ -6,24 +6,17 @@ import { textContainsWords } from "@acsbe/core-engine-dictionary";
 export const LinkHomepageWarning: Rule = {
   id: "link-homepage-warning",
   metadata: {
-    category: "Lists",
-    profile: "Cognitive Disability",
-    wcagVersion: "2.0",
-    wcagLevel: "A",
+    category: "Interactive Content",
+    profile: ["Blind"],
+    wcagVersion: "General Guidelines",
+    wcagLevel: "N/A",
   },
-  impact: "moderate",
-  title: "Links that redirect to the homepage shouldn't do so without warning the user",
-  description: "Standalone redirection links to the homepage can unexpectedly shift the user's context by redirecting them to the homepage. They should therefore display a clear warning so that the user is informed before proceeding",
-  advice: "Include a clear warning that will be visible for screen-readers, indicating that clicking the link will redirect the user to the homepage",
+  impact: "minor",
+  title: "Warning a user that a link navigates to the homepage is recommended",
+  description: "It's good practice to ensure that users can always identify links to the homepage.",
+  advice: "Add a visibly hidden text element that contains 'Home'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id. Alternatively, nest a visibly hidden element that contains additional context inside of the link.",
   associatedDetectors: [CompliantComponentLink],
-  refs: [
-    {
-      type: "WCAG",
-      id: "3.2.1",
-      level: "A",
-      link: "https://www.w3.org/WAI/WCAG21/Understanding/on-focus.html",
-    },
-  ],
+  refs: [],
   passCondition: PassCondition.NoFailedNodes,
   async validate({ classifier, response }) {
     const links = classifier.getMatched([CompliantComponentLink]);

@@ -8,6 +8,7 @@ export const CarouselAriaLive = {
   advice: `Remove the aria-live attribute and any live region roles, such as role="alert", from the carousel and its content.`,
   impact: "critical",
   refs: [
+    { type: "WCAG", id: "4.1.3", level: "AA", link: "https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html" },
     { type: "Non-Standard", link: "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-live" },
     { type: "Non-Standard", link: "https://www.tpgi.com/screen-reader-support-aria-live-regions/" }
   ]

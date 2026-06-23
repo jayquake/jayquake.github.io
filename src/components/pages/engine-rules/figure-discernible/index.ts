@@ -5,8 +5,8 @@ import { CompliantComponentFigure, PerceivableTraitDiscernibleText } from "@acsb
 export const FigureDiscernible: Rule = {
   id: "figure-discernible",
   metadata: {
-    category: "General",
-    profile: "Cognitive Disability",
+    category: "Graphics",
+    profile: ["Cognitive Disability"],
     wcagVersion: "General Guidelines",
     wcagLevel: "N/A",
   },

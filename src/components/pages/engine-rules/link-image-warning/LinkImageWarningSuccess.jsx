@@ -3,9 +3,9 @@ import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const LinkImageWarningSuccess = () => {
   const ruleId = "link-image-warning";
-  const title = `Links that open an image shouldn't do so without warning the user`;
-  const description = `Standalone image links can unexpectedly shift the user's context by redirecting them to an image. They should therefore display a clear warning so that the user is informed before proceeding`;
-  const helpText = `Include a clear warning that will be visible for screen-readers, indicating that clicking the link will open an image.`;
+  const title = `Warning a user when a link triggers an image to open is recommended`;
+  const description = `It's good practice to warn users about the expected behavior when activating a link triggers an image to appear.`;
+  const helpText = `Add a visibly hidden text element that contains 'Opens image'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id. Alternatively, nest a visibly hidden element that contains additional context inside of the link.`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",

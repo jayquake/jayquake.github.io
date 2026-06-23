@@ -5,8 +5,8 @@ import { PassCondition } from "~/rules/interfaces";
 export const VisibleTextPartOfAccessibleName: Rule = {
   id: "visible-text-part-of-accessible-name",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "Interactive Content",
+    profile: ["Blind"],
     wcagVersion: "2.1",
     wcagLevel: "A",
   },

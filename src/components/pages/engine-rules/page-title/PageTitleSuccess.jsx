@@ -4,8 +4,8 @@ import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 const PageTitleSuccess = () => {
   const ruleId = "page-title";
   const title = `Page should have a title`;
-  const description = `Screen readers rely heavily on page titles to announce the purpose of a page. If titles aren’t descriptive, users with low or no vision may not understand the context until they start navigating the page.`;
-  const helpText = `Make sure the title element inside the <head> is unique and describes the purpose of the page.`;
+  const description = `A missing page title makes it difficult for screen reader users and sighted users with multiple tabs open to identify the page, reducing orientation and usability.`;
+  const helpText = `Make sure each page has a unique, descriptive <title> element inside the <head> that reflects the purpose of the page.`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",

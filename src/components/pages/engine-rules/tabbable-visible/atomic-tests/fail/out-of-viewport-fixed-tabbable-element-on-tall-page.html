@@ -1,0 +1,33 @@
+<!--testconfig
+    "testedClass": "Rules.TabbableVisible",
+    "expect": {
+        "failedNodes": ["#target"]
+    }
+-->
+<!-- Tests that a fixed tabbable element positioned below the viewport still fails on a tall page because fixed bounds are measured against the viewport. -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        min-height: 4000px;
+        margin: 0;
+        background: linear-gradient(#f8fafc, #e2e8f0);
+      }
+
+      #target {
+        position: fixed;
+        top: calc(100vh + 24px);
+        left: 24px;
+        width: 220px;
+        height: 40px;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <input id="target" type="text" value="Below viewport fixed input" />
+  </body>
+</html>

@@ -1,0 +1,25 @@
+<!--testconfig
+    "testedClass": "Rules.HeadingSingleH1",
+    "expect": {
+        "passedNodes": ["#desktopHeading"],
+        "failedNodes": []
+    }
+-->
+<style>
+  #mobileHeading {
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    #mobileHeading {
+      display: block;
+    }
+
+    #desktopHeading {
+      display: none;
+    }
+  }
+</style>
+
+<h1 id="mobileHeading">Mobile heading</h1>
+<h1 id="desktopHeading">Desktop heading</h1>

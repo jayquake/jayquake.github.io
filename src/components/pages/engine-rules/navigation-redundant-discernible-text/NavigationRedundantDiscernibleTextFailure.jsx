@@ -2,10 +2,10 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const NavigationRedundantDiscernibleTextFailure = () => {
-  const ruleId = "navigation-redundant-discernible-text";
-  const title = `Navigation elements should have a label that doesn't contain the word navigation`;
-  const description = `Screen readers announce when a user encounters a navigation region, which is why including the word 'navigation' in a label is redundant.`;
-  const helpText = `Remove the word 'navigation' from assigned labels.`;
+  const ruleId = "N/A";
+  const title = `N/A`;
+  const description = `N/A`;
+  const helpText = `N/A`;
   const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",

@@ -19,7 +19,8 @@ describe("RadioMismatch Rule Validation", () => {
     `;
     const radio = document.querySelector("div");
 
-    jest.spyOn(classifier, "getMatched").mockReturnValue([radio]);
+    jest.spyOn(classifier, "getMatched").mockReturnValueOnce([radio]);
+    jest.spyOn(classifier, "getMatched").mockReturnValueOnce([]);
     jest.spyOn(classifier, "assert").mockReturnValue(true);
 
     await RadioMismatch.validate(validateMethodArguments);
@@ -37,11 +38,32 @@ describe("RadioMismatch Rule Validation", () => {
     `;
     const radio = document.querySelector("div");
 
-    jest.spyOn(classifier, "getMatched").mockReturnValue([radio]);
+    jest.spyOn(classifier, "getMatched").mockReturnValueOnce([radio]);
+    jest.spyOn(classifier, "getMatched").mockReturnValueOnce([]);
     jest.spyOn(classifier, "assert").mockReturnValue(false);
 
     await RadioMismatch.validate(validateMethodArguments);
     expect(response.failedNodes).toContain(radio);
+    expect(response.passedNodes).toHaveLength(0);
+  });
+
+  it("should mark as inapplicable when a perceivable radio has a compliant radio child", async () => {
+    const { document, response, classifier } = validateMethodArguments;
+    document.body.innerHTML = `
+          <div id="parent-radio" class="radio-wrapper">
+              <input id="child-radio" type="radio" name="option" />
+              <label for="child-radio">Option 1</label>
+          </div>
+    `;
+    const parentRadio = document.getElementById("parent-radio");
+    const childRadio = document.getElementById("child-radio");
+
+    jest.spyOn(classifier, "getMatched").mockReturnValueOnce([parentRadio]);
+    jest.spyOn(classifier, "getMatched").mockReturnValueOnce([childRadio]);
+
+    await RadioMismatch.validate(validateMethodArguments);
+    expect(response.inapplicableNodes).toContain(parentRadio);
+    expect(response.failedNodes).toHaveLength(0);
     expect(response.passedNodes).toHaveLength(0);
   });
 });

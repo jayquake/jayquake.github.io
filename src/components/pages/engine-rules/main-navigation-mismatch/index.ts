@@ -5,8 +5,8 @@ import { PassCondition } from "../interfaces";
 export const MainNavigationMismatch: Rule = {
   id: "main-navigation-mismatch",
   metadata: {
-    category: "Forms",
-    profile: "Blind",
+    category: "Landmarks",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
@@ -27,7 +27,7 @@ export const MainNavigationMismatch: Rule = {
   async validate({ response, classifier }) {
     const mainNav = (await classifier.getMatched([PerceivableComponentMainNavigation]))[0];
     if (mainNav && mainNav.parentElement) {
-      if (classifier.assert(mainNav.parentElement, CompliantComponentNavigation)) {
+      if (classifier.assert(mainNav.parentElement, CompliantComponentNavigation) || classifier.assert(mainNav, CompliantComponentNavigation)) {
         // The parent of the main navigation should be a compliant navigation element
         response.passedNodes.push(mainNav.parentElement);
       } else {

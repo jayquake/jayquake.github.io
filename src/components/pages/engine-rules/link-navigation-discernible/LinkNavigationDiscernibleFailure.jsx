@@ -3,9 +3,9 @@ import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const LinkNavigationDiscernibleFailure = () => {
   const ruleId = "link-navigation-discernible";
-  const title = `Link navigation discernible text`;
-  const description = `Links need discernible text that tells visitors where the link takes them.`;
-  const helpText = `Add discernible text to the button`;
+  const title = `Navigation links should have a descriptive label`;
+  const description = `Activating navigation links enables users to navigate to a different page within the site. Links that do not contain visible text or labeled images should be assigned labels that inform screen reader users of their destination.`;
+  const helpText = `If a navigation link does not contain a labeled image or visible text, assign an aria-label that describes the destination of the link.`;
   const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",

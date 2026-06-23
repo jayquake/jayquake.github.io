@@ -5,7 +5,7 @@ const UserRatingDiscernibleFailure = () => {
   const ruleId = "user-rating-discernible";
   const title = `User ratings should be tagged and labeled for assistive technology`;
   const description = `When a static star rating is presented using unlabeled icons, screen readers cannot interpret the symbols as meaningful content. Assigning a role and text alternative ensures the rating value is conveyed clearly, allowing non-visual users to understand the information.`;
-  const helpText = `Assign role="img" with an aria-label such as “4 out of 5 stars,” either directly on a single image or SVG, or on a container that holds the star elements.`;
+  const helpText = `Assign role="img" with an aria-label, such as “4 out of 5 stars,” to the image element, or to an enclosing container if each star is presented as a separate element.`;
   const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",

@@ -5,7 +5,7 @@ const ButtonMismatchFailure = () => {
   const ruleId = "button-mismatch";
   const title = `Buttons should be tagged for assistive technology`;
   const description = `If interactive elements cannot be identified as buttons, screen reader users may not realize the element is actionable, which can stop them from submitting forms, opening dialogs, or performing other intended actions.`;
-  const helpText = `Add role="button" to the custom navigation region, or use a HTML <button> element.`;
+  const helpText = `Add role="button" to the custom interactive element, or use a HTML <button> element.`;
   const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",

@@ -1,4 +1,4 @@
-import { PerceivableTraitVisible, CompliantTraitVisible, PerceivableComponentGraphic, CompliantTraitExplicitlyHidden } from "@acsbe/core-engine-classifier";
+import { PerceivableTraitVisible, CompliantTraitVisible, PerceivableComponentGraphic, CompliantTraitExplicitlyHidden, PerceivableTraitDiscernibleText, PerceivableTraitTabbable } from "@acsbe/core-engine-classifier";
 import type EngineClassifier from "@acsbe/core-engine-classifier";
 import type { SvgOrHtmlElement } from "@acsbe/core-engine-classifier";
 import type { Rule } from "~/rules/interfaces";
@@ -7,17 +7,23 @@ import { PassCondition } from "~/rules/interfaces";
 export const VisibilityMismatch: Rule = {
   id: "visibility-mismatch",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "General",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
-  impact: "serious",
+  impact: "critical",
   title: "Visible content should not be hidden from assistive technology",
   description: 'If content remains visible on the screen but assigned aria-hidden="true", it will be excluded from the accessibility tree. As a result, screen reader users will not have access to the same information as sighted users.',
   advice: 'Remove aria-hidden="true" from visible elements. Make sure that the attribute is only used to hide redundant or inactive content.',
-  associatedDetectors: [PerceivableTraitVisible, CompliantTraitVisible, PerceivableComponentGraphic, CompliantTraitExplicitlyHidden],
+  associatedDetectors: [PerceivableTraitVisible, CompliantTraitVisible, PerceivableComponentGraphic, CompliantTraitExplicitlyHidden, PerceivableTraitDiscernibleText, PerceivableTraitTabbable],
   refs: [
+    {
+      type: "WCAG",
+      id: "1.3.2",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/meaningful-sequence.html",
+    },
     {
       type: "Non-Standard",
       link: "https://www.tpgi.com/html5-accessibility-chops-hidden-and-aria-hidden/",
@@ -45,6 +51,20 @@ export const VisibilityMismatch: Rule = {
 
       const { visibilityInfo } = classifier.getOperations(element);
       if (!visibilityInfo.isExplicitlyHiddenFromScreenReader) {
+        response.inapplicableNodes.push(element);
+        continue;
+      }
+
+      /**
+       * if the element has a parent with discernible text, then it is likely that the aria-hidden attribute is being used to hide a decorative element within a interactive component
+       *
+       * related tests:
+       * - @see file://./atomic-tests/pass/aria-hidden-logo-labelled-by-parent.html
+       * - @see file://./atomic-tests/fail/aria-hidden-logo-labelled-by-parent-main.html
+       */
+      const tabbableParent = classifier.getParent(element, PerceivableTraitTabbable);
+      const parentHasContent = tabbableParent && classifier.assert(tabbableParent, PerceivableTraitDiscernibleText);
+      if (parentHasContent) {
         response.inapplicableNodes.push(element);
         continue;
       }

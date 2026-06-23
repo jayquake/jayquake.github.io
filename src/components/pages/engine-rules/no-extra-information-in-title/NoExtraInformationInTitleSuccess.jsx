@@ -3,7 +3,7 @@ import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const NoExtraInformationInTitleSuccess = () => {
   const ruleId = "no-extra-information-in-title";
-  const title = `The title attribute should not be the only method used of providing information`;
+  const title = `The title attribute should not be the only method used to provide information`;
   const description = `The title attribute is announced inconsistently across screen readers and browsers, making it unreliable for labeling interactive controls. Because many users may never hear the content, reliance on the attribute risks loss of information. Instead, it should be used to provide extra help text in addition to a valid label.`;
   const helpText = `Make sure that the title attribute is not the only means of providing a label by assigning an aria-label or aria-labelledby attribute to the interactive control.`;
   const bestPractices = [

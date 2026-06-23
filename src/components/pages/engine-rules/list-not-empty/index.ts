@@ -6,23 +6,6 @@ import type EngineClassifier from "@acsbe/core-engine-classifier";
 import { CompliantTraitVisible, CompliantComponentList } from "@acsbe/core-engine-classifier";
 
 /**
- * Checks if a list has any visible children.
- *
- * @param {SvgOrHtmlElement} list - The list element to check.
- * @param {EngineClassifier} classifier - The classifier used to assert visibility.
- * @returns {boolean} - Returns true if any child of the list is visible, otherwise false.
- */
-function hasVisibleChildren(list: SvgOrHtmlElement, classifier: EngineClassifier): boolean {
-  const children = Array.from(list.children) as SvgOrHtmlElement[];
-  for (const child of children) {
-    if (classifier.assert(child, CompliantTraitVisible)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-/**
  * Checks if a list has any list items.
  *
  * @param {SvgOrHtmlElement} list - The list element to check.
@@ -43,7 +26,7 @@ export const ListNotEmpty: Rule = {
   id: "list-not-empty",
   metadata: {
     category: "Lists",
-    profile: "Blind",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
@@ -53,6 +36,12 @@ export const ListNotEmpty: Rule = {
   advice: 'Remove the empty HTML list elements (<ul>/<ol>) or assign aria-hidden="true" to make sure they are ignored by screen readers.',
   associatedDetectors: [CompliantTraitVisible, CompliantComponentList],
   refs: [
+    {
+      type: "WCAG",
+      id: "1.3.1",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
+    },
     {
       type: "Non-Standard",
       link: "https://help.siteimprove.com/support/solutions/articles/80001051793-accessibility-rule-container-element-is-empty-explained",
@@ -71,10 +60,9 @@ export const ListNotEmpty: Rule = {
     const lists = classifier.getMatched([CompliantComponentList]);
 
     for (const list of lists) {
-      const visibleChildren = hasVisibleChildren(list, classifier);
       const listItems = hasListItems(list, classifier);
 
-      if (!visibleChildren || !listItems) {
+      if (!listItems) {
         response.failedNodes.push(list);
       } else {
         response.passedNodes.push(list);

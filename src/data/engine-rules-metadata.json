@@ -1,5 +1,89 @@
 [
   {
+    "id": "",
+    "kebabId": "background-image-discernible",
+    "title": "",
+    "description": "",
+    "advice": "",
+    "impact": "",
+    "refs": [],
+    "detailUrl": "/engine/background-image-discernible",
+    "successUrl": "/engine/background-image-discernible_success",
+    "failureUrl": "/engine/background-image-discernible_failure"
+  },
+  {
+    "id": "",
+    "kebabId": "color-contrast",
+    "title": "",
+    "description": "",
+    "advice": "",
+    "impact": "",
+    "refs": [],
+    "detailUrl": "/engine/color-contrast",
+    "successUrl": "/engine/color-contrast_success",
+    "failureUrl": "/engine/color-contrast_failure"
+  },
+  {
+    "id": "",
+    "kebabId": "font-sizes",
+    "title": "",
+    "description": "",
+    "advice": "",
+    "impact": "",
+    "refs": [],
+    "detailUrl": "/engine/font-sizes",
+    "successUrl": "/engine/font-sizes_success",
+    "failureUrl": "/engine/font-sizes_failure"
+  },
+  {
+    "id": "",
+    "kebabId": "navigation-redundant-discernible-text",
+    "title": "",
+    "description": "",
+    "advice": "",
+    "impact": "",
+    "refs": [],
+    "detailUrl": "/engine/navigation-redundant-discernible-text",
+    "successUrl": "/engine/navigation-redundant-discernible-text_success",
+    "failureUrl": "/engine/navigation-redundant-discernible-text_failure"
+  },
+  {
+    "id": "",
+    "kebabId": "table-header-not-empty",
+    "title": "",
+    "description": "",
+    "advice": "",
+    "impact": "",
+    "refs": [],
+    "detailUrl": "/engine/table-header-not-empty",
+    "successUrl": "/engine/table-header-not-empty_success",
+    "failureUrl": "/engine/table-header-not-empty_failure"
+  },
+  {
+    "id": "",
+    "kebabId": "text-spacing-paragraph-spacing",
+    "title": "",
+    "description": "",
+    "advice": "",
+    "impact": "",
+    "refs": [],
+    "detailUrl": "/engine/text-spacing-paragraph-spacing",
+    "successUrl": "/engine/text-spacing-paragraph-spacing_success",
+    "failureUrl": "/engine/text-spacing-paragraph-spacing_failure"
+  },
+  {
+    "id": "",
+    "kebabId": "visible-text-part-of-accessible-name",
+    "title": "",
+    "description": "",
+    "advice": "",
+    "impact": "",
+    "refs": [],
+    "detailUrl": "/engine/visible-text-part-of-accessible-name",
+    "successUrl": "/engine/visible-text-part-of-accessible-name_success",
+    "failureUrl": "/engine/visible-text-part-of-accessible-name_failure"
+  },
+  {
     "id": "alt-misuse",
     "kebabId": "alt-misuse",
     "title": "Elements other than image (Tag: IMG) should not have alt attribute",
@@ -39,12 +123,6 @@
     "impact": "minor",
     "refs": [
       {
-        "type": "WCAG",
-        "id": "1.3.1",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=131%2C411#parsing"
-      },
-      {
         "type": "WCAG Technique",
         "id": "",
         "level": "",
@@ -71,16 +149,10 @@
     "id": "aria-describedby-has-reference",
     "kebabId": "aria-describedby-has-reference",
     "title": "aria-describedby should reference a valid element id",
-    "description": "The element’s aria-describedby attribute points to an id that does not exist or is not valid, preventing assistive technologies from announcing the intended description and causing users to miss important context.",
-    "advice": "Make the value of aria-describedby exactly match the id of an existing, unique element on the page. Remove or update the attribute if the target is missing or no longer relevant",
+    "description": "If an element’s aria-describedby attribute points to an id that does not exist or is not valid, assistive technologies will not convey the intended description, causing users to miss important context.",
+    "advice": "Ensure aria-describedby references an existing, unique id on the page. Remove or update the attribute if the target element is missing or no longer relevant.",
     "impact": "serious",
     "refs": [
-      {
-        "type": "WCAG",
-        "id": "1.3.1",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=131%2C411#parsing"
-      },
       {
         "type": "WCAG Technique",
         "id": "",
@@ -108,8 +180,8 @@
     "id": "aria-invalid-mismatch",
     "kebabId": "aria-invalid-mismatch",
     "title": "Form fields should indicate validation errors to assistive technology",
-    "description": "Screen reader users rely on properly coded field validation status and associated errormessages. Otherwise, users have to browse around and search the page for clues as to why their submission attempt didn't work.",
-    "advice": "To make sure that screen readers are aware of form fields with invalid input, set aria-invalid=\"true\". Remove the attribute once the value becomes valid.",
+    "description": "Validation errors in forms must be exposed in a way that assistive technologies can detect and announce them, ensuring users who rely on assistive technology can identify and correct mistakes.",
+    "advice": "To make sure that screen reader users are aware of form fields with invalid input, set aria-invalid=\"true\". Remove the attribute once the value becomes valid.",
     "impact": "serious",
     "refs": [
       {
@@ -144,9 +216,9 @@
   {
     "id": "aria-invalid-misuse",
     "kebabId": "aria-invalid-misuse",
-    "title": "Fields must indicate validation errors to assistive technology",
-    "description": "Screen reader users rely on properly coded field validation status and associated validation messages. Otherwise, users would have to browse around and try to pick up clues on the page as to why their submission attempt did not work.",
-    "advice": "Include the aria-invalid=true attribute when the field validation shows on the page. Screen readers will pick that up and inform the user that this field is invalid. Make sure to change the aria-invalid to false when the field value becomes valid.",
+    "title": "Only input fields with validation errors should be assigned aria-invalid=\"true\"",
+    "description": "Using aria-invalid=\"true\" on an input field that does not have errors may cause confusion for users who rely on assistive technology, who may try to correct their already valid response.",
+    "advice": "To make sure that screen reader users can accurately identify form fields with invalid input, set aria-invalid=\"true\" only on input fields that have errors. Remove the attribute once the value becomes valid.",
     "impact": "serious",
     "refs": [
       {
@@ -183,15 +255,9 @@
     "kebabId": "aria-labelledby-has-reference",
     "title": "aria-labelledby should reference a valid element id",
     "description": "Since aria-labelledby relies on valid id references, screen readers can only announce the label if the target exists. If the id is missing or invalid, the label will not be conveyed, causing users to miss important context.",
-    "advice": "Make sure that aria-labeledby attribute point to an existing, screen-reader-visible element on the screen with proper text content.",
+    "advice": "Ensure aria-labelledby references an existing, unique id on the page. Remove or update the attribute if the target element is missing or no longer relevant.",
     "impact": "serious",
     "refs": [
-      {
-        "type": "WCAG",
-        "id": "1.3.1",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=131%2C411#parsing"
-      },
       {
         "type": "WCAG Technique",
         "id": "",
@@ -219,10 +285,16 @@
     "id": "article-misuse",
     "kebabId": "article-misuse",
     "title": "Only elements that function as articles should be tagged as article regions",
-    "description": "Coding elements that aren't full-featured text articles using the article HTML tag causes screen readers to announce incorrect information about the purpose and structure of the content.",
+    "description": "Using an <article> tag on content that is not self-contained and that cannot stand on its own outside the context of the page, such as a blog post, news story, or forum entry, causes screen readers to announce misleading information about the purpose the content in relation to the main subject of the page.",
     "advice": "Assign role=\"presentation\" to the failing element or use a different HTML tag that is more appropriate for the function of the element.",
     "impact": "minor",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
       {
         "type": "WAI",
         "id": "",
@@ -253,56 +325,19 @@
     "failureUrl": "/engine/article-misuse_failure"
   },
   {
-    "id": "background-image-discernible",
-    "kebabId": "background-image-discernible",
-    "title": "Non decorative Background images should be tagged and labeled",
-    "description": "Background images should receive alternative text just like regular images do unless used as decorative elements and do not provide any information or additional context to the users.",
-    "advice": "Use the screen-reader-only technique combined with the role=img and aria-label attributes to indicate to screen readers that there's an image and the description for that image. Make sure to include the embedded text of the image alongside the objects that comprise it in the aria-label description.",
-    "impact": "moderate",
-    "refs": [
-      {
-        "type": "W3C",
-        "id": "",
-        "level": "",
-        "link": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=211%2C412#non-text-content"
-      },
-      {
-        "type": "Non-Standard",
-        "id": "",
-        "level": "",
-        "link": "https://www.davidmacd.com/blog/alternate-text-for-css-background-images.html"
-      },
-      {
-        "type": "W3C",
-        "id": "",
-        "level": "",
-        "link": "https://www.w3.org/WAI/GL/wiki/ARIATechnique_usingImgRole_with_aria-label_forCSS-backgroundImage"
-      },
-      {
-        "type": "W3C",
-        "id": "",
-        "level": "",
-        "link": "https://www.w3.org/WAI/alt/"
-      },
-      {
-        "type": "W3C",
-        "id": "",
-        "level": "",
-        "link": "https://www.w3.org/WAI/tutorials/images/decorative/"
-      }
-    ],
-    "detailUrl": "/engine/background-image-discernible",
-    "successUrl": "/engine/background-image-discernible_success",
-    "failureUrl": "/engine/background-image-discernible_failure"
-  },
-  {
     "id": "background-image-discernible-image",
     "kebabId": "background-image-discernible-image",
-    "title": "Non decorative Background images should be tagged and labeled",
-    "description": "Background image alternative text should be labeled as image for screen reader.",
-    "advice": "Add role='img' to the first discernible sr-only element in the background image.",
-    "impact": "moderate",
+    "title": "Functional image displayed using CSS background properties should be tagged for assistive technology",
+    "description": "Functional images presented using CSS background or background-image properties should be marked up using role=\"img\" so that they can be identified as images by screen reader users.",
+    "advice": "Add role=\"img\" to elements that present functional images using CSS.",
+    "impact": "serious",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "1.1.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html"
+      },
       {
         "type": "W3C",
         "id": "",
@@ -362,9 +397,15 @@
     "kebabId": "breadcrumbs-mismatch",
     "title": "Breadcrumb navigation region should have a label",
     "description": "A breadcrumb region presents a trail of links showing the user’s current page in relation to higher-level pages on a site. Without a label, it may be announced by screen reades simply as \"navigation\", making it hard to distinguish from other navigation regions on the page.",
-    "advice": "Add an aria-label=Breadcrumbs attribute so screen readers can announce that to users.",
+    "advice": "Assign aria-label=\"Breadcrumbs\" to the navigation landmark that contains the breadcrumb links.",
     "impact": "serious",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
       {
         "type": "WAI",
         "id": "",
@@ -423,15 +464,21 @@
     "id": "button-discernible",
     "kebabId": "button-discernible",
     "title": "Buttons should have a label",
-    "description": "Buttons that do not contain visible text should be assigned labels that informs screen reader users of their purpose.",
+    "description": "Buttons that do not contain visible text should be assigned labels that inform screen reader users of their purpose.",
     "advice": "Add an aria-label or aria-labelledby attribute to the button.",
-    "impact": "critical",
+    "impact": "serious",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
       {
         "type": "WCAG",
         "id": "4.1.2",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
       },
       {
         "type": "ACT",
@@ -455,9 +502,21 @@
     "kebabId": "button-mismatch",
     "title": "Buttons should be tagged for assistive technology",
     "description": "If interactive elements cannot be identified as buttons, screen reader users may not realize the element is actionable, which can stop them from submitting forms, opening dialogs, or performing other intended actions.",
-    "advice": "Add role=\"button\" to the custom navigation region, or use a HTML <button> element.",
+    "advice": "Add role=\"button\" to the custom interactive element, or use a HTML <button> element.",
     "impact": "critical",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
+      {
+        "type": "WCAG",
+        "id": "4.1.2",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
+      },
       {
         "type": "ACT",
         "id": "",
@@ -476,11 +535,11 @@
     "failureUrl": "/engine/button-mismatch_failure"
   },
   {
-    "id": "captcha-accessible-provider",
-    "kebabId": "captcha-accessible-provider",
-    "title": "Non-standard Captcha challenges must be replaced with an Accessible Provider (such as Google Recaptcha)",
-    "description": "Non-standard Captcha mechanisms are inaccessible by design. Captchas are explicitly meant to be challenging to answer in order to trick bots. Non-standard Captchas prevent screen reader users from submitting the website's forms.",
-    "advice": "Replace all non-standard Captcha fields with Google Recaptcha (or other Accessible Provider) which is fully accessible for screen readers and assistive technology by default. Learn more about Google Recaptcha here: https://www.google.com/recaptcha/about/",
+    "id": "captcha-accessible-provider-v2.0",
+    "kebabId": "captcha-accessible-provider-2.0",
+    "title": "An alternative modality should be provided for CAPTCHA challenges",
+    "description": "Visual-only or audio-only CAPTCHA can block users who cannot perceive certain formats. Providing a text alternative and another equivalent modality ensures that people with different sensory needs can complete the challenge.",
+    "advice": "Ensure that both a text alternative and a second modality are available for CAPTCHA challenges. Use CAPTCHA services that offer strong accessibility support, such as Google reCaptcha v2 or v3.",
     "impact": "critical",
     "refs": [
       {
@@ -520,9 +579,34 @@
         "link": "https://friendlycaptcha.com/insights/create-an-accessible-website-how-it-works"
       }
     ],
-    "detailUrl": "/engine/captcha-accessible-provider",
-    "successUrl": "/engine/captcha-accessible-provider_success",
-    "failureUrl": "/engine/captcha-accessible-provider_failure"
+    "detailUrl": "/engine/captcha-accessible-provider-2.0",
+    "successUrl": "/engine/captcha-accessible-provider-2.0_success",
+    "failureUrl": "/engine/captcha-accessible-provider-2.0_failure"
+  },
+  {
+    "id": "captcha-accessible-provider-v2.2",
+    "kebabId": "captcha-accessible-provider-2.2",
+    "title": "CAPTCHA used in authentication should not involve cognitive function tests",
+    "description": "With the exception of challenges that require recognition of  objects that are generally familiar to users, CAPTCHA used during authentication should not require users to perform cognitive function tests, such as recalling site-specific passwords or solving a puzzle.",
+    "advice": "Provide an alternative authentication method that avoids cognitive tasks, such as a two-factor verification step. If CAPTCHA is required, use services that offer strong accessibility support, such as Google reCAPTCHA v3.",
+    "impact": "critical",
+    "refs": [
+      {
+        "type": "WCAG",
+        "id": "3.3.8",
+        "level": "AA",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/accessible-authentication-minimum.html"
+      },
+      {
+        "type": "WCAG Technique",
+        "id": "",
+        "level": "",
+        "link": "https://www.w3.org/WAI/WCAG22/Techniques/general/G218"
+      }
+    ],
+    "detailUrl": "/engine/captcha-accessible-provider-2.2",
+    "successUrl": "/engine/captcha-accessible-provider-2.2_success",
+    "failureUrl": "/engine/captcha-accessible-provider-2.2_failure"
   },
   {
     "id": "carousel-aria-live",
@@ -532,6 +616,12 @@
     "advice": "Remove the aria-live attribute and any live region roles, such as role=\"alert\", from the carousel and its content.",
     "impact": "critical",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "4.1.3",
+        "level": "AA",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html"
+      },
       {
         "type": "Non-Standard",
         "id": "",
@@ -555,7 +645,7 @@
     "title": "Carousels should have a descriptive label",
     "description": "Carousels need a label so assistive technology announces them with a clear name, such as “Featured products carousel”. This ensures screen reader users know the widget’s purpose and can differentiate it from other carousels on the page.",
     "advice": "Provide a clear label for the carousel using aria-labelledby to reference a visible heading or assign aria-label to the carousel container.",
-    "impact": "moderate",
+    "impact": "minor",
     "refs": [
       {
         "type": "WCAG",
@@ -579,7 +669,7 @@
     "kebabId": "carousel-dragging-movements",
     "title": "Carousels that require dragging movements should provide alternative methods of operation with a single pointer",
     "description": "Carousels that require dragging movements should provide alternative methods of operation with a single pointer for example prev and next buttons or pagination.",
-    "advice": "Ensure that the carousel can be operated with a single pointer. For example by providing 'previous' and 'next' buttons to navigate between slides, or pagination controls that allow direct access to specific slides.",
+    "advice": "The nodes in the failed nodes indicate that this carousel may not be operable with a single pointer. If this is the case, ensure that the carousel can be operated using a single pointer. For example, provide “Previous” and “Next” buttons to navigate between slides, or pagination controls that allow direct access to specific slides.",
     "impact": "serious",
     "refs": [
       {
@@ -599,7 +689,7 @@
     "title": "Carousels should be tagged for assistive technology",
     "description": "The carousel container should have a role so assistive technology treats it as a distinct section. Using role=\"region\" with a label exposes the carousel as a named region, allowing screen reader users to recognize the purpose of the component and navigate to it efficiently.",
     "advice": "Assign role=\"region\" to the carousel container. Make sure to provide a descriptive label using aria-label or aria-labelledby.",
-    "impact": "moderate",
+    "impact": "minor",
     "refs": [
       {
         "type": "WCAG",
@@ -774,13 +864,13 @@
     "title": "Checked state of custom checkbox controls should be exposed to assistive technology",
     "description": "If custom checkbox controls lack a defined checked state, screen reader users cannot determine which option is selected, resulting in confusion and loss of functionality.",
     "advice": "Assign \\\\",
-    "impact": "serious",
+    "impact": "critical",
     "refs": [
       {
         "type": "WCAG",
         "id": "4.1.2",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1#name-role-value"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
       },
       {
         "type": "Non-Standard",
@@ -799,13 +889,19 @@
     "title": "Checkbox controls should have a label",
     "description": "Screen readers rely on properly coded and associated labels to announce the purpose of a form field. A checkbox control without an identifiable label may prevent screen reader users from completing the form.",
     "advice": "Assign a label to each checkbox control using <label for> with a matching id (or by wrapping the <label> around the control), or using ARIA attributes such as aria-label or aria-labelledby.",
-    "impact": "serious",
+    "impact": "critical",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "4.1.2",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
+      },
       {
         "type": "WCAG",
         "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1&showtechniques=246#info-and-relationships"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "WAI",
@@ -828,15 +924,21 @@
     "id": "checkbox-mismatch",
     "kebabId": "checkbox-mismatch",
     "title": "Custom checkbox controls should be tagged for assistive technology",
-    "description": "Screen readers have built-in mechanisms to handle checkbox components. By default, screen reades don't support custom checkboxes and using them without exposing the appropriate role may prevent screen reader users from interacting as expected with the component.",
+    "description": "Screen readers have built-in mechanisms to handle checkbox components. By default, screen readers don't support custom checkboxes and using them without exposing the appropriate role may prevent screen reader users from interacting as expected with the component.",
     "advice": "Assign role=\"checkbox\" to the custom checkbox element.",
-    "impact": "serious",
+    "impact": "critical",
     "refs": [
       {
         "type": "WCAG",
         "id": "4.1.2",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1#name-role-value"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
+      },
+      {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "Non-Standard",
@@ -875,47 +977,41 @@
     "failureUrl": "/engine/checkbox-misuse_failure"
   },
   {
-    "id": "color-contrast",
-    "kebabId": "color-contrast",
-    "title": "The color contrast ratio between text and its background should provide a readable experience",
-    "description": "The color contrast between foreground text and its background must be at lease at least 4.5:1 for normal text. Large-scale text, equal to or greater than 24px font size, or bold text that is equal to or greater than 18px, may meet a lower ratio of 3:1. However, it is recommended to meet the ratio 4.5:1 in all cases for readability.",
-    "advice": "Work with the website's designers to choose colors that properly meet the minimum contrast ratio requirements. To check color contrast with different potential colors, use Webaim's contrast checker at https://webaim.org/resources/contrastchecker",
-    "impact": "serious",
+    "id": "control-field-visible-and-tabbable",
+    "kebabId": "control-field-visible-and-tabbable",
+    "title": "Custom checkboxes, radio buttons and file upload fields should be accessible to assistive technology",
+    "description": "Screen readers have built-in mechanisms to handle checkboxes, radio buttons, and file upload fields. By default, assistive technology does not support custom checkboxes, radio buttons, and file upload fields, and using those may prevent screen reader users from interacting with the fields and keyboard users from tabbing to the fields.",
+    "advice": "If using standard LABEL and INPUT fields with custom CSS styling, ensure the checkbox, radio button, or file input is fully visible to assistive technology but visually hidden using opacity, width, height, and positioning (never use display:none or visibility:hidden). Alternatively, create a standard checkbox, radio button, or file input field available only for screen readers using the screen reader only technique, and hide the custom checkbox, radio button, or file input from screen readers using aria-hidden=\"true\".",
+    "impact": "critical",
     "refs": [
       {
         "type": "WCAG",
-        "id": "1.4.3",
-        "level": "AA",
-        "link": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=144%2C1412%2C211%2C143#contrast-minimum"
+        "id": "4.1.2",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
       },
       {
-        "type": "WAI",
-        "id": "",
-        "level": "",
-        "link": "https://www.w3.org/WAI/GL/wiki/Relative_luminance"
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "Non-Standard",
         "id": "",
         "level": "",
-        "link": "https://dequeuniversity.com/rules/axe/4.7/color-contrast"
+        "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/checkbox_role"
       },
       {
-        "type": "ACT",
+        "type": "Non-Standard",
         "id": "",
         "level": "",
-        "link": "https://act-rules.github.io/rules/afw4f7"
-      },
-      {
-        "type": "ACT",
-        "id": "",
-        "level": "",
-        "link": "https://act-rules.github.io/rules/09o5cg"
+        "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/radio_role"
       }
     ],
-    "detailUrl": "/engine/color-contrast",
-    "successUrl": "/engine/color-contrast_success",
-    "failureUrl": "/engine/color-contrast_failure"
+    "detailUrl": "/engine/control-field-visible-and-tabbable",
+    "successUrl": "/engine/control-field-visible-and-tabbable_success",
+    "failureUrl": "/engine/control-field-visible-and-tabbable_failure"
   },
   {
     "id": "custom-select-options-list-listbox",
@@ -929,7 +1025,7 @@
         "type": "WCAG",
         "id": "4.1.2",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1#name-role-value"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
       },
       {
         "type": "Non-Standard",
@@ -948,13 +1044,13 @@
     "title": "Custom select triggers should be tagged for assistive technology",
     "description": "Screen readers provide built-in support for native select triggers, but custom triggers are not automatically recognized. Without assigning the appropriate ARIA role and ensuring the element is structured in accordance with accessibility standards, assistive technology may fail to announce or activate the trigger, preventing screen reader users from opening and interacting with the select component.",
     "advice": "Assign role=\"combobox\" to the custom select trigger.",
-    "impact": "serious",
+    "impact": "critical",
     "refs": [
       {
         "type": "WCAG",
         "id": "4.1.2",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1#name-role-value"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
       },
       {
         "type": "Non-Standard",
@@ -975,6 +1071,12 @@
     "advice": "When a dialog opens, use JavaScript to place keyboard focus on the first interactive element within the dialog. If static content, such as lists, tables, or paragraphs, appears before any interactive elements and it needs to be perceived in order to easily understand the content, tabindex=\"-1\" can be added to a static element at the start of the content to initially focus that element.",
     "impact": "critical",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "2.4.3",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html"
+      },
       {
         "type": "WAI",
         "id": "",
@@ -997,9 +1099,15 @@
     "kebabId": "dialog-modal-mismatch",
     "title": "Modal dialogs should be tagged for assistive technology",
     "description": "Content behind active modal dialogs should not be navigable, otherwise screen reader users may still encounter hidden or unrelated content, disrupting the intended workflow and making it harder to focus on the dialog’s purpose.",
-    "advice": "Add aria-modal=\"true\" alongside role=\"dialog\" to indicate to screen readers that the dialog is modal and that content outside of it should be treated as inactive. Screen readers will recognize this and adjust their behavior to keep the user’s focus inside the dialog, providing a clearer and more predictable experience.",
+    "advice": "Add aria-modal=\"true\" alongside role=\"dialog\" to indicate to screen readers that the dialog is modal and that content outside of it should be treated as inactive. Screen readers will recognize this and adjust their behavior to keep the user’s focus inside the dialog.",
     "impact": "critical",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "4.1.2",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
+      },
       {
         "type": "Non-Standard",
         "id": "",
@@ -1028,8 +1136,8 @@
     "kebabId": "dialog-modal-misuse",
     "title": "Only elements that function as dialogs should be tagged as dialog",
     "description": "Marking up elements as dialogs without actual dialog behavior causes screen readers to announce a dialog, misleading users into expecting modal interaction and restricted reading order that do not occur.",
-    "advice": "Remove role=\"dialog\" from the non-dialog element or add role=\"presentation\" if the HTML DIALOG element is used.",
-    "impact": "serious",
+    "advice": "Remove role=\"dialog\" from the non-dialog element or add role=\"presentation\" if the HTML <dialog> element is used.",
+    "impact": "critical",
     "refs": [
       {
         "type": "Non-Standard",
@@ -1097,7 +1205,7 @@
         "type": "WCAG",
         "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "WAI",
@@ -1178,12 +1286,6 @@
         "id": "2.4.11",
         "level": "AA",
         "link": "https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum.html"
-      },
-      {
-        "type": "WCAG",
-        "id": "2.4.12",
-        "level": "AAA",
-        "link": "https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-enhanced.html"
       },
       {
         "type": "WAI",
@@ -1296,7 +1398,7 @@
   {
     "id": "focus-noticeable",
     "kebabId": "focus-noticeable",
-    "title": "Focusable elements should have a visible focus indicator",
+    "title": "Focused elements should not be obscured by a sticky header",
     "description": "All focusable elements must have a visible focus indicator when they receive keyboard focus.",
     "advice": "Add a CSS outline or other visual indicator to focusable elements to ensure the currently focused element can be visibly distinguished.",
     "impact": "serious",
@@ -1331,29 +1433,35 @@
     "failureUrl": "/engine/focus-noticeable_failure"
   },
   {
-    "id": "font-sizes",
-    "kebabId": "font-sizes",
-    "title": "Text should be scalable to 200% without loss of content or functionality",
-    "description": "When text is scaled to 200%, content may be clipped, overlap, or overflow its container if styles like fixed heights, fixed widths, hidden overflow, or absolute positioning prevent proper reflow.",
-    "advice": "Use flexible heights and widths, position elements in ways that allow text reflow, enable text wrapping, and avoid hidden overflow to ensure content remains readable when text is scaled to 200%.",
-    "impact": "moderate",
+    "id": "footer-navigation-discernible",
+    "kebabId": "footer-navigation-discernible",
+    "title": "Footer navigation should be labelled properly",
+    "description": "Footer navigation elements should have text available for screen readers explaining that it is footer navigation.",
+    "advice": "Add an aria-label to the footer navigation elements",
+    "impact": "serious",
     "refs": [
       {
         "type": "WCAG",
-        "id": "1.4.4",
-        "level": "AA",
-        "link": "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1#resize-text"
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
-        "type": "Non-Standard",
+        "type": "WAI",
         "id": "",
         "level": "",
-        "link": "https://www.section508.gov/develop/fonts-typography/"
+        "link": "https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/"
+      },
+      {
+        "type": "W3C",
+        "id": "",
+        "level": "",
+        "link": "https://www.w3.org/WAI/ARIA/apg/patterns/landmarks/examples/navigation.html"
       }
     ],
-    "detailUrl": "/engine/font-sizes",
-    "successUrl": "/engine/font-sizes_success",
-    "failureUrl": "/engine/font-sizes_failure"
+    "detailUrl": "/engine/footer-navigation-discernible",
+    "successUrl": "/engine/footer-navigation-discernible_success",
+    "failureUrl": "/engine/footer-navigation-discernible_failure"
   },
   {
     "id": "form-context-change-warning",
@@ -1367,7 +1475,7 @@
         "type": "WCAG",
         "id": "3.2.2",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/on-input"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/on-input.html"
       },
       {
         "type": "WCAG Technique",
@@ -1448,8 +1556,14 @@
     "title": "Form submission controls should have type=\"submit\"",
     "description": "Adding type=\"submit\" to a control that submits a form ensures that screen readers users expect a change of context when they activate the control.",
     "advice": "Assign type=\"submit\" to <button> or <input> elements when they submit a form.",
-    "impact": "moderate",
+    "impact": "minor",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "3.2.2",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/on-input.html"
+      },
       {
         "type": "WCAG Technique",
         "id": "",
@@ -1481,19 +1595,44 @@
     "failureUrl": "/engine/page-meta-viewport_failure"
   },
   {
+    "id": "header-navigation-discernible",
+    "kebabId": "header-navigation-discernible",
+    "title": "Header navigation should be labelled properly",
+    "description": "Header navigation elements should have text available for screen readers explaining that it is header navigation.",
+    "advice": "Add an aria-label to the header navigation elements",
+    "impact": "serious",
+    "refs": [
+      {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
+      {
+        "type": "WAI",
+        "id": "",
+        "level": "",
+        "link": "https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/"
+      },
+      {
+        "type": "W3C",
+        "id": "",
+        "level": "",
+        "link": "https://www.w3.org/WAI/ARIA/apg/patterns/landmarks/examples/navigation.html"
+      }
+    ],
+    "detailUrl": "/engine/header-navigation-discernible",
+    "successUrl": "/engine/header-navigation-discernible_success",
+    "failureUrl": "/engine/header-navigation-discernible_failure"
+  },
+  {
     "id": "heading-discernible",
     "kebabId": "heading-discernible",
     "title": "Headings should not be empty",
     "description": "Empty heading elements break the document outline, making navigation by headings less effective for screen reader users and causing confusion due to the disrupted page hierarchy.",
     "advice": "Remove empty HTML heading elements or assign aria-hidden=\"true\" to make sure that they are ignored by screen readers.",
-    "impact": "critical",
+    "impact": "moderate",
     "refs": [
-      {
-        "type": "WCAG",
-        "id": "4.1.2",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html"
-      },
       {
         "type": "ACT",
         "id": "",
@@ -1523,13 +1662,7 @@
         "type": "WCAG",
         "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/quickref/#info-and-relationships"
-      },
-      {
-        "type": "WCAG",
-        "id": "2.4.1",
-        "level": "A",
-        "link": "https://www.w3.org/TR/2008/REC-WCAG20-20081211/#navigation-mechanisms-headings"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "WCAG Technique",
@@ -1573,7 +1706,7 @@
         "type": "WCAG",
         "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=131#info-and-relationships"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "Non-Standard",
@@ -1592,7 +1725,7 @@
     "title": "Only elements that function as headings should be tagged as heading",
     "description": "Accurate tagging allows screen readers to present content in a logical structure. Misidentifying an element as a heading disrupts navigation, creating confusion about the importance of content and page hierarchy.",
     "advice": "Remove ARIA heading attributes from the failing element, or if the element is marked up using a native HTML tag, update the role according to the function of the element.",
-    "impact": "serious",
+    "impact": "moderate",
     "refs": [
       {
         "type": "WCAG",
@@ -1623,7 +1756,7 @@
     "title": "Heading levels should follow a logical hierarchy",
     "description": "Incorrect heading hierarchy can create a misleading page outline, disrupt navigation by heading shortcuts, and cause confusion about the structure and importance of content. Skipping levels or using them inconsistently makes it harder for screen reader users and others who rely on structured navigation to understand the page.",
     "advice": "Use heading levels in a meaningful, hierarchical order that reflects the structure of the content. Start with a single <h1> for the main page title, then use <h2> for primary sections, <h3> for subsections, and so on. Best practice avoids skipping levels (for example, jumping from <h1> to <h3>) to maintain a logical sequence and ensure a clear, consistent outline for all users.",
-    "impact": "moderate",
+    "impact": "minor",
     "refs": [
       {
         "type": "WCAG",
@@ -1654,7 +1787,7 @@
     "title": "Heading levels should reflect the structure of the content",
     "description": "Incorrect heading hierarchy can create a misleading page outline, disrupt navigation by heading shortcuts, and cause confusion about the structure and importance of content. Using the correct heading level preserves a logical structure, allowing users to understand how sections relate to each other.",
     "advice": "Heading levels should reflect how each section relates to the main topic. Use <h1> for the overall subject,<h2> for major sections, and deeper levels, such as <h3> and <h4>, for subsections.",
-    "impact": "moderate",
+    "impact": "minor",
     "refs": [
       {
         "type": "WCAG",
@@ -1682,22 +1815,16 @@
   {
     "id": "heading-single-h1",
     "kebabId": "heading-single-h1",
-    "title": "Each page should not have more than one main heading",
+    "title": "A page should not have more than one main heading",
     "description": "Each web page should have only one h1 element so that screen reader users can identify the main topic or purpose of the page. Multiple h1s can confuse users by suggesting there are multiple primary topics, disrupting navigation by headings and making it harder to understand the overall page structure.",
     "advice": "Make sure that each web page has exactly one h1 element so that screen reader users can identify the main subject of the page.",
-    "impact": "serious",
+    "impact": "moderate",
     "refs": [
       {
         "type": "WCAG",
         "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/quickref/#info-and-relationships"
-      },
-      {
-        "type": "WCAG",
-        "id": "2.4.1",
-        "level": "A",
-        "link": "https://www.w3.org/TR/2008/REC-WCAG20-20081211/#navigation-mechanisms-headings"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "WCAG Technique",
@@ -1715,20 +1842,14 @@
     "kebabId": "html-lang",
     "title": "Default page language should be defined",
     "description": "Specifying a default page language ensures screen readers apply the correct pronunciation rules, voices, and braille output. Without it, screen readers may guess the language incorrectly, causing mispronunciations, confusion, and reduced comprehension for users.",
-    "advice": "Define the default language for the page by assigning a lang attribute to the html element.",
+    "advice": "Define the default language for the page by assigning a lang attribute to the <html> element.",
     "impact": "serious",
     "refs": [
       {
         "type": "WCAG",
         "id": "3.1.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/language-of-page.html"
-      },
-      {
-        "type": "ACT",
-        "id": "",
-        "level": "",
-        "link": "https://act-rules.github.io/rules/bf051a"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-page.html"
       },
       {
         "type": "ACT",
@@ -1751,16 +1872,10 @@
     "id": "html-lang-valid",
     "kebabId": "html-lang-valid",
     "title": "HTML lang attribute should have a valid value",
-    "description": "A valid ISO language value in the HTML lang attribute ensures that screen readers use the correct pronunciation rules, browsers apply proper spell-checking and translation, and search engines index the content in the appropriate language. Without it, assistive technologies may misinterpret the text and create a confusing experience.",
-    "advice": "Make sure that the lang attribute on the HTML element is assigned  a valid ISO language code that matches the default language of the page.",
-    "impact": "minor",
+    "description": "Assigning a valid ISO language value to the <html> lang attribute ensures that screen readers use the correct pronunciation rules, browsers apply proper spell-checking and translation, and search engines index the content in the appropriate language.",
+    "advice": "Make sure that the lang attribute on the <html> element is assigned a valid ISO language code that matches the default language of the page.",
+    "impact": "serious",
     "refs": [
-      {
-        "type": "WCAG",
-        "id": "3.1.1",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1&showtechniques=246#language-of-page"
-      },
       {
         "type": "ACT",
         "id": "",
@@ -1772,12 +1887,6 @@
         "id": "",
         "level": "",
         "link": "https://en.wikipedia.org/wiki/IETF_language_tag"
-      },
-      {
-        "type": "ACT",
-        "id": "",
-        "level": "",
-        "link": "https://act-rules.github.io/rules/off6ek"
       }
     ],
     "detailUrl": "/engine/html-lang-valid",
@@ -1787,16 +1896,16 @@
   {
     "id": "icon-discernible",
     "kebabId": "icon-discernible",
-    "title": "Icons should be labeled or excluded from assistive technology",
-    "description": "Icons used as decorative or complementary elements, like icons or illustrations that do not provide additional information, will often add unnecessary clutter to a screen reader user's browsing experience.",
-    "advice": "If the icon provides additional context or necessary information, provide an aria-label or a screen-reader-only text describing the functionality. If the element is used for decorative or complementary purposes, exclude it from assistive technology using role=presentation.",
-    "impact": "moderate",
+    "title": "Meaningful icons should have a label, while decorative icons should be hidden",
+    "description": "Smaller graphics used as decorative or complementary elements, such as icons, and that do not provide additional information will often add unnecessary clutter to a screen reader user's browsing experience.",
+    "advice": "If the image is meaningful, assign a text alternative with a description of the image content using the alt attribute for image elements, or aria-label for elements with role=\"img\". If the image is decorative, provide an empty alt attribute for image elements, or role=\"presentation\" for elements with role=\"img\".",
+    "impact": "critical",
     "refs": [
       {
         "type": "WCAG",
         "id": "1.1.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=211%2C412#non-text-content"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html"
       },
       {
         "type": "ACT",
@@ -1818,7 +1927,7 @@
   {
     "id": "iframe-discernible",
     "kebabId": "iframe-discernible",
-    "title": "Iframe needs a label",
+    "title": "Iframes should have a descriptive label",
     "description": "An iframe needs a label that describes its purpose to screen reader users.",
     "advice": "Assign an aria-label to the iframe element.",
     "impact": "critical",
@@ -1827,7 +1936,7 @@
         "type": "WCAG",
         "id": "4.1.2",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
       },
       {
         "type": "ACT",
@@ -1843,7 +1952,7 @@
   {
     "id": "image-discernible",
     "kebabId": "image-discernible",
-    "title": "Functional image should have a text alternative",
+    "title": "Functional images should have a text alternative",
     "description": "Images require a text alternative when the image conveys meaningful content or serves a functional purpose. If the image is decorative, it must be hidden from assistive technology.",
     "advice": "If the image is meaningful, assign a text alternative with a description of the image content using the alt attribute for image elements, or aria-label for elements with role=\"img\". If the image is decorative, provide an empty alt attribute for image elements, or role=\"presentation\" for elements with role=\"img\".",
     "impact": "critical",
@@ -1852,7 +1961,7 @@
         "type": "WCAG",
         "id": "1.1.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.0#non-text-content"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html"
       },
       {
         "type": "ACT",
@@ -1874,16 +1983,16 @@
   {
     "id": "image-discernible-correctly",
     "kebabId": "image-discernible-correctly",
-    "title": "Functional image should have an informative and accurate text alternative",
+    "title": "Functional images should have an informative and accurate text alternative",
     "description": "Text alternatives must provide accurate descriptions of the image. Incorrect text alternatives, such as filenames or other placeholder values, may cause screen reader users to either miss essential information or hear unnecessary content that disrupts navigation.",
     "advice": "Make sure that the assigned text alternative describes the content or function of the image.",
-    "impact": "critical",
+    "impact": "serious",
     "refs": [
       {
         "type": "WCAG",
         "id": "1.1.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/quickref/#non-text-content"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html"
       }
     ],
     "detailUrl": "/engine/image-discernible-correctly",
@@ -1924,11 +2033,17 @@
   {
     "id": "image-misuse",
     "kebabId": "image-misuse",
-    "title": "An element that does not function as an image should be assigned role=\"img\"",
-    "description": "Using an image tag for content that isn't an image can obscure relevant information and confuse screen readers and other assistive technologies. This can lead to a poor user experience for people with disabilities.",
+    "title": "Only elements that function as images should be tagged as image",
+    "description": "When non-graphical elements are marked up as images, screen reader users may misunderstand the intended purpose of the content.",
     "advice": "Remove role=\"img\" from the failing element.",
     "impact": "serious",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
       {
         "type": "Non-Standard",
         "id": "",
@@ -1947,9 +2062,40 @@
     "failureUrl": "/engine/image-misuse_failure"
   },
   {
+    "id": "inner-content-navigation-discernible",
+    "kebabId": "inner-content-navigation-discernible",
+    "title": "Inner content navigation should be labelled properly",
+    "description": "Navigation elements within the page content should have text available for screen readers explaining that it is inner-content navigation.",
+    "advice": "Add an aria-label to the inner-content navigation elements",
+    "impact": "serious",
+    "refs": [
+      {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
+      {
+        "type": "WAI",
+        "id": "",
+        "level": "",
+        "link": "https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/"
+      },
+      {
+        "type": "W3C",
+        "id": "",
+        "level": "",
+        "link": "https://www.w3.org/WAI/ARIA/apg/patterns/landmarks/examples/navigation.html"
+      }
+    ],
+    "detailUrl": "/engine/inner-content-navigation-discernible",
+    "successUrl": "/engine/inner-content-navigation-discernible_success",
+    "failureUrl": "/engine/inner-content-navigation-discernible_failure"
+  },
+  {
     "id": "input-discernible",
     "kebabId": "input-discernible",
-    "title": "Inputs must include a descriptive label",
+    "title": "Input controls should have a descriptive label",
     "description": "Screen readers rely on correctly coded and associated labels to announce the purpose of a form field. If a label isn't properly associated with its input field, screen reader users won't know the expected input.",
     "advice": "Provide a <label> element and associate it with the <input> using the for and id attributes. Alternatively, you can assign an aria-label attribute directly to the <input> element.",
     "impact": "critical",
@@ -1958,7 +2104,7 @@
         "type": "WCAG",
         "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "ACT",
@@ -1983,8 +2129,14 @@
     "title": "Interactive elements should be keyboard navigable",
     "description": "Interactive elements should be keyboard navigable. If a custom interactive element is not keyboard navigable, keyboard users will not be able to interact with it.",
     "advice": "Add tabindex=\"0\" to the custom interactive element.",
-    "impact": "serious",
+    "impact": "critical",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "2.1.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html"
+      },
       {
         "type": "Non-Standard",
         "id": "",
@@ -2069,13 +2221,13 @@
     "title": "Letter spacing should scale to at least 0.12 times the font size without loss of content or functionality",
     "description": "When letter spacing is increased to 0.12 times the font size, text may be clipped, overlap, or overflow its container if styles like fixed widths, fixed heights, hidden overflow, or forced no-wrap prevent proper reflow.",
     "advice": "Use flexible heights and widths, position elements in ways that allow text reflow, enable text wrapping, and avoid hidden overflow to ensure text remains readable when letter spacing is scaled to 0.12 times the font size.",
-    "impact": "critical",
+    "impact": "minor",
     "refs": [
       {
         "type": "WCAG",
         "id": "1.4.12",
         "level": "AA",
-        "link": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=144%2C211%2C1412#text-spacing"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/text-spacing.html"
       },
       {
         "type": "ACT",
@@ -2110,16 +2262,22 @@
   {
     "id": "link-anchor-discernible",
     "kebabId": "link-anchor-discernible",
-    "title": "Anchor links discernible text",
-    "description": "Anchors links need discernible text that tells visitors where the link takes them.",
-    "advice": "Add discernible text to the anchor",
+    "title": "Anchor links should have a descriptive label",
+    "description": "Activating anchor links enables users to navigate to a different section within the same page by scrolling and moving keyboard focus. Anchor links that do not contain visible text or labeled images should be assigned labels that inform screen reader users of their destination.",
+    "advice": "If an anchor link does not contain a labeled image or visible text, assign an aria-label that describes the destination of the link.",
     "impact": "critical",
     "refs": [
       {
         "type": "WCAG",
-        "id": "2.4.4",
+        "id": "4.1.2",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context.html"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
+      },
+      {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "ACT",
@@ -2156,14 +2314,14 @@
     "kebabId": "link-current-page",
     "title": "Visual indication that a link's destination is the current page should be announced by screen readers",
     "description": "Visual cues are often used by sighted users to indicate which link represents the current page within a set of links. This information should be made available to screen reader users by assigning aria-current='page' to the link.",
-    "advice": "Add aria-current=\"page\" to the  link within a list of navigation links whose destination matches the page the user is currently navigating.",
+    "advice": "Add aria-current=\"page\" to the link within a list of navigation links whose destination matches the page the user is currently navigating.",
     "impact": "moderate",
     "refs": [
       {
         "type": "WCAG",
-        "id": "1.3.1",
-        "level": "AAA",
-        "link": "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1&showtechniques=246#info-and-relationships"
+        "id": "4.1.2",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
       },
       {
         "type": "WAI",
@@ -2203,18 +2361,11 @@
   {
     "id": "link-homepage-warning",
     "kebabId": "link-homepage-warning",
-    "title": "Links that redirect to the homepage shouldn't do so without warning the user",
-    "description": "Standalone redirection links to the homepage can unexpectedly shift the user's context by redirecting them to the homepage. They should therefore display a clear warning so that the user is informed before proceeding",
-    "advice": "Include a clear warning that will be visible for screen-readers, indicating that clicking the link will redirect the user to the homepage",
-    "impact": "moderate",
-    "refs": [
-      {
-        "type": "WCAG",
-        "id": "3.2.1",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/on-focus.html"
-      }
-    ],
+    "title": "Warning a user that a link navigates to the homepage is recommended",
+    "description": "It's good practice to ensure that users can always identify links to the homepage.",
+    "advice": "Add a visibly hidden text element that contains 'Home'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id. Alternatively, nest a visibly hidden element that contains additional context inside of the link.",
+    "impact": "minor",
+    "refs": [],
     "detailUrl": "/engine/link-homepage-warning",
     "successUrl": "/engine/link-homepage-warning_success",
     "failureUrl": "/engine/link-homepage-warning_failure"
@@ -2222,18 +2373,11 @@
   {
     "id": "link-image-warning",
     "kebabId": "link-image-warning",
-    "title": "Links that open an image shouldn't do so without warning the user",
-    "description": "Standalone image links can unexpectedly shift the user's context by redirecting them to an image. They should therefore display a clear warning so that the user is informed before proceeding",
-    "advice": "Include a clear warning that will be visible for screen-readers, indicating that clicking the link will open an image.",
-    "impact": "moderate",
-    "refs": [
-      {
-        "type": "WCAG",
-        "id": "3.2.1",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/on-focus.html"
-      }
-    ],
+    "title": "Warning a user when a link triggers an image to open is recommended",
+    "description": "It's good practice to warn users about the expected behavior when activating a link triggers an image to appear.",
+    "advice": "Add a visibly hidden text element that contains 'Opens image'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id. Alternatively, nest a visibly hidden element that contains additional context inside of the link.",
+    "impact": "minor",
+    "refs": [],
     "detailUrl": "/engine/link-image-warning",
     "successUrl": "/engine/link-image-warning_success",
     "failureUrl": "/engine/link-image-warning_failure"
@@ -2243,33 +2387,63 @@
     "kebabId": "link-mailto-warning",
     "title": "Warning a user when a link triggers a mail application is recommended",
     "description": "It's good practice to warn users about the expected behavior when activating a link triggers a mail application.",
-    "advice": "Add a visibly hidden text element that contains 'Opens mail application'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id.",
+    "advice": "Add a visibly hidden text element that contains 'Opens mail application'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id. Alternatively, nest a visibly hidden element that contains additional context inside of the link.",
     "impact": "minor",
-    "refs": [
-      {
-        "type": "WCAG",
-        "id": "3.2.1",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/on-focus.html"
-      }
-    ],
+    "refs": [],
     "detailUrl": "/engine/link-mailto-warning",
     "successUrl": "/engine/link-mailto-warning_success",
     "failureUrl": "/engine/link-mailto-warning_failure"
   },
   {
+    "id": "link-mismatch",
+    "kebabId": "link-mismatch",
+    "title": "Links should be tagged properly",
+    "description": "Custom links should be tagged with role='link' for assistive technologies to identify them correctly.",
+    "advice": "Add role='link' to custom link elements or use a HTML <a> element to ensure they are recognized as links by assistive technologies.",
+    "impact": "serious",
+    "refs": [
+      {
+        "type": "WCAG",
+        "id": "4.1.2",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=211%2C412#name-role-value"
+      },
+      {
+        "type": "WAI",
+        "id": "",
+        "level": "",
+        "link": "https://www.w3.org/WAI/ARIA/apg/patterns/link/examples/link/"
+      },
+      {
+        "type": "Non-Standard",
+        "id": "",
+        "level": "",
+        "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/link_role"
+      },
+      {
+        "type": "Non-Standard",
+        "id": "",
+        "level": "",
+        "link": "https://vispero.com/resources/link-vs-button-choosing-the-right-element-for-the-right-job/"
+      }
+    ],
+    "detailUrl": "/engine/link-mismatch",
+    "successUrl": "/engine/link-mismatch_success",
+    "failureUrl": "/engine/link-mismatch_failure"
+  },
+  {
     "id": "link-navigation-ambiguous",
     "kebabId": "link-navigation-ambiguous",
-    "title": "Ambiguous links should include additional screen-reader description",
-    "description": "Ambiguous links like \"Learn More\", \"Shop Now\" and \"Start Here\" are often used as a call to action. However, screen-reader users, while using link navigation, do not interact with content above or below the link and therefore don\\\\",
-    "advice": "Add a screen-reader only text which gives additional context to the destination of the link. You can use the \\",
+    "title": "Link context should be exposed to assistive technology",
+    "description": "Screen reader users may find it difficult to distinguish between links when the purpose of each link cannot be determined from its text alone or together with its immediate context.",
+    "advice": "Assign a unique id to an existing element that contains additional context for the link, add aria-describedby to the link and reference the assigned id. Alternatively, nest a visibly hidden element that contains additional context inside of the link.",
     "impact": "serious",
     "refs": [
       {
         "type": "WCAG",
         "id": "2.4.4",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=211#link-purpose-in-context"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context.html"
       },
       {
         "type": "ACT",
@@ -2309,16 +2483,22 @@
   {
     "id": "link-navigation-discernible",
     "kebabId": "link-navigation-discernible",
-    "title": "Link navigation discernible text",
-    "description": "Links need discernible text that tells visitors where the link takes them.",
-    "advice": "Add discernible text to the button",
+    "title": "Navigation links should have a descriptive label",
+    "description": "Activating navigation links enables users to navigate to a different page within the site. Links that do not contain visible text or labeled images should be assigned labels that inform screen reader users of their destination.",
+    "advice": "If a navigation link does not contain a labeled image or visible text, assign an aria-label that describes the destination of the link.",
     "impact": "critical",
     "refs": [
       {
         "type": "WCAG",
-        "id": "2.4.4",
+        "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context.html"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
+      {
+        "type": "WCAG",
+        "id": "4.1.2",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
       },
       {
         "type": "ACT",
@@ -2336,16 +2516,9 @@
     "kebabId": "link-new-window-warning",
     "title": "Warning a user when a link triggers a new browser window is recommended",
     "description": "It's good practice to warn users about the expected behavior when activating a link triggers a new window.",
-    "advice": "Add a visibly hidden text element that contains 'Opens new window'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id.",
+    "advice": "Add a visibly hidden text element that contains 'Opens new window'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id. Alternatively, nest a visibly hidden element that contains additional context inside of the link.",
     "impact": "minor",
-    "refs": [
-      {
-        "type": "WCAG",
-        "id": "3.2.1",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/on-focus.html"
-      }
-    ],
+    "refs": [],
     "detailUrl": "/engine/link-new-window-warning",
     "successUrl": "/engine/link-new-window-warning_success",
     "failureUrl": "/engine/link-new-window-warning_failure"
@@ -2355,16 +2528,9 @@
     "kebabId": "link-pdf-warning",
     "title": "Warning a user when a link triggers a PDF file is recommended",
     "description": "It's good practice to warn users about the expected behavior when activating a link triggers a PDF reader.",
-    "advice": "Add a visibly hidden text element that contains 'Opens PDF reader'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id.",
+    "advice": "Add a visibly hidden text element that contains 'Opens PDF reader'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id. Alternatively, nest a visibly hidden element that contains additional context inside of the link.",
     "impact": "minor",
-    "refs": [
-      {
-        "type": "WCAG",
-        "id": "3.2.1",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/on-focus.html"
-      }
-    ],
+    "refs": [],
     "detailUrl": "/engine/link-pdf-warning",
     "successUrl": "/engine/link-pdf-warning_success",
     "failureUrl": "/engine/link-pdf-warning_failure"
@@ -2374,26 +2540,19 @@
     "kebabId": "link-telephone-warning",
     "title": "Warning a user when a link triggers a phone application is recommended",
     "description": "It's good practice to warn users about the expected behavior when activating a link triggers a phone application.",
-    "advice": "Add a visibly hidden text element that contains 'Opens phone application'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id.",
+    "advice": "Add a visibly hidden text element that contains 'Opens phone application'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id. Alternatively, nest a visibly hidden element that contains additional context inside of the link.",
     "impact": "minor",
-    "refs": [
-      {
-        "type": "WCAG",
-        "id": "3.2.1",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/on-focus.html"
-      }
-    ],
+    "refs": [],
     "detailUrl": "/engine/link-telephone-warning",
     "successUrl": "/engine/link-telephone-warning_success",
     "failureUrl": "/engine/link-telephone-warning_failure"
   },
   {
-    "id": "list-item-within-list",
-    "kebabId": "list-item-within-list",
-    "title": "List items should not exist outside of a list element",
-    "description": "When list items are not contained in a list element, screen readers will not announce them as list items, preventing users from understanding the content as part of a structured list.",
-    "advice": "Enclose the list items in an <ol>, <ul>, or an element with role=\"list\".",
+    "id": "list-item-missuse",
+    "kebabId": "list-item-misuse",
+    "title": "Orphaned list items with no direct list parent should not be tagged as list items",
+    "description": "Orphaned list items can be confusing for users of assistive technologies. If list items are used, they should be grouped within a list structure.",
+    "advice": "Tag the element as a role=\"presentation\" or remove the list item tag.",
     "impact": "serious",
     "refs": [
       {
@@ -2415,9 +2574,9 @@
         "link": "https://www.w3.org/TR/html401/struct/lists.html"
       }
     ],
-    "detailUrl": "/engine/list-item-within-list",
-    "successUrl": "/engine/list-item-within-list_success",
-    "failureUrl": "/engine/list-item-within-list_failure"
+    "detailUrl": "/engine/list-item-misuse",
+    "successUrl": "/engine/list-item-misuse_success",
+    "failureUrl": "/engine/list-item-misuse_failure"
   },
   {
     "id": "list-not-empty",
@@ -2427,6 +2586,12 @@
     "advice": "Remove the empty HTML list elements (<ul>/<ol>) or assign aria-hidden=\"true\" to make sure they are ignored by screen readers.",
     "impact": "minor",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
       {
         "type": "Non-Standard",
         "id": "",
@@ -2462,7 +2627,7 @@
         "type": "WCAG",
         "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       }
     ],
     "detailUrl": "/engine/main-navigation-discernible",
@@ -2494,7 +2659,7 @@
     "title": "Each area element within an image map should have a text alternative",
     "description": "Providing a text alternative for each area element inside a map element ensures that the content is announced by screen readers, enabling users to understand and navigate the content.",
     "advice": "Provide a text alternative to each <area> element using the alt attribute.",
-    "impact": "serious",
+    "impact": "critical",
     "refs": [
       {
         "type": "WAI",
@@ -2537,7 +2702,7 @@
         "type": "WCAG",
         "id": "2.2.2",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1&showtechniques=244#pause-stop-hide"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html"
       },
       {
         "type": "W3C",
@@ -2570,6 +2735,12 @@
     "advice": "Remove role=\"menu\" from the failing element.",
     "impact": "serious",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
       {
         "type": "W3C",
         "id": "",
@@ -2604,9 +2775,15 @@
     "kebabId": "menu-bar-avoid",
     "title": "Avoid using role=\"menubar\" for web navigation links",
     "description": "In most cases, using role=menubar on navigation elements within a web page can negatively impact screen reader users, especially those using JAWS. The attribute should be used for menu types that function like those found in desktop applications.",
-    "advice": "Remove role=\"menu\" from the failing element.",
+    "advice": "Remove role=\"menubar\" from the failing element.",
     "impact": "serious",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
       {
         "type": "W3C",
         "id": "",
@@ -2645,6 +2822,12 @@
     "impact": "serious",
     "refs": [
       {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
+      {
         "type": "WAI",
         "id": "",
         "level": "",
@@ -2677,9 +2860,9 @@
     "refs": [
       {
         "type": "WCAG",
-        "id": "4.1.2",
+        "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=211%2C412#name-role-value"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "Non-Standard",
@@ -2713,16 +2896,16 @@
   {
     "id": "menu-trigger-correct-state",
     "kebabId": "menu-trigger-correct-state",
-    "title": "Menu open/close states should be indicated to assistive technology",
-    "description": "Screen readers require properly coded states for interactive elements. Menus can be expanded or collapsed, and their state should be indicated to screen readers. Otherwise, users will lose orientation and get confused while browsing the menu.",
-    "advice": "When a button is a menu trigger, you should connected it to the menu it toggles using the \"aria-controls\" attribute on the button, where the value is the \"id\" of the menu. Use the the \"aria-expanded\" attribute to indicate whether the menu controlled by a menu-trigger button is expanded or collapsed (if it is visible or not). Set the value to dynamically to \"true\" when the menu is visible and \"false\" when it is not. Note: the aria-expanded attribute must be placed on the link or button menu items only. Otherwise, they won't work.",
-    "impact": "serious",
+    "title": "Triggers that expand additional content should expose their state to assistive technology",
+    "description": "When components such as accordions or navigation menus do not expose their state, screen reader users may not realize that additional content can be revealed or know whether it is currently visible.",
+    "advice": "Assign aria-expanded to common triggers, such as <button> or custom select elements to indicate whether their associated content is collapsed (false) or expanded (true). Ensure the value is updated as the state changes.",
+    "impact": "critical",
     "refs": [
       {
         "type": "WCAG",
         "id": "4.1.2",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=211%2C412#name-role-value"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
       },
       {
         "type": "Non-Standard",
@@ -2805,9 +2988,9 @@
   {
     "id": "menu-trigger-misuse",
     "kebabId": "menu-trigger-misuse",
-    "title": "Menu trigger buttons/links that aren't perceived as menu trigger should lose the \\",
-    "description": "Using menu trigger attributes for buttons/links that aren't menu triggers can confuse screen readers and other assistive technologies. This can lead to a poor user experience for people with disabilities.",
-    "advice": "Remove the \\",
+    "title": "Elements that do not expand additional content should not receive trigger attributes",
+    "description": "Only interactive elements that trigger additional content should have relationship and state ARIA attributes, such as aria-expanded and aria-controls, if they have interactive roles, such as button, tab, combobox and in rarer cases, link.",
+    "advice": "Remove ARIA relationship and state attributes that are reserved for triggers that expose additional content, such as aria-expanded or aria-controls, from the failing element",
     "impact": "serious",
     "refs": [
       {
@@ -2851,7 +3034,7 @@
     "title": "aria-label should be used with compatible roles",
     "description": "Using aria-label on elements that do not support the attribute can lead to the label being ignored, leaving users without the intended information.",
     "advice": "Use a visually hidden element to provide the name or description instead of an aria-label.",
-    "impact": "moderate",
+    "impact": "serious",
     "refs": [
       {
         "type": "W3C",
@@ -2903,7 +3086,7 @@
   {
     "id": "navigation-discernible",
     "kebabId": "navigation-discernible",
-    "title": "Navigation regions should have unique labels when there are multiple navigation regions",
+    "title": "Navigation regions should have unique labels when there are multiple navigation landmarks",
     "description": "When multiple navigation regions exist on a page, each navigation element should have a unique label so that each region can be differentiated by screen reader users.",
     "advice": "Provide a unique label for each navigation region using either the aria-label or aria-labelledby attribute.",
     "impact": "serious",
@@ -2912,7 +3095,7 @@
         "type": "WCAG",
         "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=131#info-and-relationships"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "W3C",
@@ -2934,16 +3117,16 @@
   {
     "id": "navigation-item-link",
     "kebabId": "navigation-item-link",
-    "title": "All leaf nodes in a navigation tree should contain a link element.",
-    "description": "Navigation items, whether their functionality is provided using JS (custom behavior), should always have a child that is a link and not as a clickable LI element with text.",
-    "advice": "Always include a link under navigation items and avoid using text elements even if functionality is provided using JS.",
+    "title": "List items in a navigation region should not be interactive",
+    "description": "Adding interactive behavior to <li> elements within a navigation list may prevent screen reader users from identifying the element as actionable, since <li> elements are announced as list items and expected to be static.",
+    "advice": "In order to maintain the semantic structure of the list, a properly formed <a> element should be nested inside the <li>.",
     "impact": "serious",
     "refs": [
       {
         "type": "WCAG",
         "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "W3C",
@@ -2973,15 +3156,9 @@
     "kebabId": "navigation-mismatch",
     "title": "A list of navigation links is not contained in a navigation landmark",
     "description": "Screen readers rely on accurate tagging and labeling to provide necessary context. If a navigation region is not tagged as a navigation landmark, screen reader users may lose orientation and find the page's structure difficult to understand.",
-    "advice": "Add role=navigation to the custom navigation region, or use a HTML <nav> element.",
-    "impact": "serious",
+    "advice": "Add role=\"navigation\" to the custom navigation region, or use a HTML <nav> element.",
+    "impact": "moderate",
     "refs": [
-      {
-        "type": "WCAG",
-        "id": "1.4.1",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html"
-      },
       {
         "type": "WAI",
         "id": "",
@@ -3020,16 +3197,22 @@
   {
     "id": "navigation-misuse",
     "kebabId": "navigation-misuse",
-    "title": "An element without navigation links is tagged as a navigation landmark",
-    "description": "Screen readers rely on accurate tagging and labeling to provide necessary context. If an element that does not contain navigation links is tagged as a navigation landmark, screen reader users may lose orientation and find the page's structure difficult to understand.",
-    "advice": "Add role=presentation to the incorrect <nav> element or remove role=navigation if a different element is used.",
+    "title": "Navigation landmark does not contain key site navigation links",
+    "description": "A navigation landmark should identify a section that contains primary links for moving through the site or page. Using navigation landmarks for minor or secondary link groups makes it harder for screen reader users to locate the page’s key navigation areas.",
+    "advice": "Use navigation landmarks only for key navigation sections, such as the main site menu, table of contents, breadcrumbs, or pagination. Avoid using them for general link lists, social links, related links, or other secondary link groups, and keep the number of navigation landmarks as limited as practical.",
     "impact": "serious",
     "refs": [
       {
         "type": "WCAG",
-        "id": "1.4.1",
+        "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
+      {
+        "type": "WAI",
+        "id": "",
+        "level": "",
+        "link": "https://www.w3.org/WAI/ARIA/apg/patterns/landmarks/"
       },
       {
         "type": "WAI",
@@ -3066,7 +3249,7 @@
         "type": "WCAG",
         "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "W3C",
@@ -3080,82 +3263,26 @@
     "failureUrl": "/engine/navigation-not-nested_failure"
   },
   {
-    "id": "navigation-redundant-discernible-text",
-    "kebabId": "navigation-redundant-discernible-text",
-    "title": "Navigation elements should have a label that doesn't contain the word navigation",
-    "description": "Screen readers announce when a user encounters a navigation region, which is why including the word 'navigation' in a label is redundant.",
-    "advice": "Remove the word 'navigation' from assigned labels.",
-    "impact": "serious",
-    "refs": [
-      {
-        "type": "WCAG",
-        "id": "1.3.1",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=131#info-and-relationships"
-      },
-      {
-        "type": "W3C",
-        "id": "",
-        "level": "",
-        "link": "https://www.w3.org/WAI/tutorials/page-structure/labels/"
-      },
-      {
-        "type": "W3C",
-        "id": "",
-        "level": "",
-        "link": "https://www.w3.org/TR/WCAG20-TECHS/ARIA11.html"
-      }
-    ],
-    "detailUrl": "/engine/navigation-redundant-discernible-text",
-    "successUrl": "/engine/navigation-redundant-discernible-text_success",
-    "failureUrl": "/engine/navigation-redundant-discernible-text_failure"
-  },
-  {
-    "id": "navigation-submenu-discernible",
-    "kebabId": "navigation-submenu-discernible",
-    "title": "Labeling submenus is recommended",
-    "description": "Complex menu structures that include nested submenus can unintentionally cause screen reader users to lose orientation. This can be mitigated by applying a unique label to each submenu to provide additional context for assistive technology.",
-    "advice": "Add an aria-label to each submenu region. Screen readers will announce the label to users when they navigate into the submenu.",
-    "impact": "serious",
-    "refs": [
-      {
-        "type": "WCAG",
-        "id": "1.3.1",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html"
-      }
-    ],
-    "detailUrl": "/engine/navigation-submenu-discernible",
-    "successUrl": "/engine/navigation-submenu-discernible_success",
-    "failureUrl": "/engine/navigation-submenu-discernible_failure"
-  },
-  {
-    "id": "navigation-submenu-region",
-    "kebabId": "navigation-submenu-region",
-    "title": "Tagging submenus is recommended",
-    "description": "Complex menu structures often contain multiple groups of links that can feel like undifferentiated page content to screen reader users. Assigning role=\"region\" with a label makes each submenu a distinct, named section, clarifying its relationship to the trigger and improving orientation.",
-    "advice": "Assign role=\"region\" to each menu panel so screen reader users can distinguish submenus from surrounding page content. Adding a label (e.g., with aria-labelledby) helps users quickly identify each panel within a complex menu structure.",
-    "impact": "serious",
-    "refs": [
-      {
-        "type": "WCAG",
-        "id": "1.3.1",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html"
-      }
-    ],
-    "detailUrl": "/engine/navigation-submenu-region",
-    "successUrl": "/engine/navigation-submenu-region_success",
-    "failureUrl": "/engine/navigation-submenu-region_failure"
-  },
-  {
     "id": "no-autofocus",
     "kebabId": "no-autofocus",
     "title": "Avoid using autofocus",
     "description": "Make sure that no element has an autofocus attribute.",
-    "advice": "Remove the autofocus attribute from the element.",
+    "advice": "Remove the autofocus attribute from the failing element.",
     "impact": "serious",
-    "refs": [],
+    "refs": [
+      {
+        "type": "WCAG",
+        "id": "2.4.3",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html"
+      },
+      {
+        "type": "WCAG",
+        "id": "1.3.2",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/meaningful-sequence.html"
+      }
+    ],
     "detailUrl": "/engine/no-autofocus",
     "successUrl": "/engine/no-autofocus_success",
     "failureUrl": "/engine/no-autofocus_failure"
@@ -3163,7 +3290,7 @@
   {
     "id": "no-extra-information-in-title",
     "kebabId": "no-extra-information-in-title",
-    "title": "The title attribute should not be the only method used of providing information",
+    "title": "The title attribute should not be the only method used to provide information",
     "description": "The title attribute is announced inconsistently across screen readers and browsers, making it unreliable for labeling interactive controls. Because many users may never hear the content, reliance on the attribute risks loss of information. Instead, it should be used to provide extra help text in addition to a valid label.",
     "advice": "Make sure that the title attribute is not the only means of providing a label by assigning an aria-label or aria-labelledby attribute to the interactive control.",
     "impact": "minor",
@@ -3193,6 +3320,12 @@
     "advice": "Remove role=\"application\" from the failing element.",
     "impact": "critical",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
       {
         "type": "Non-Standard",
         "id": "",
@@ -3258,9 +3391,9 @@
     "refs": [
       {
         "type": "WCAG",
-        "id": "1.4.4",
+        "id": "2.4.11",
         "level": "AA",
-        "link": "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1#resize-text"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html"
       },
       {
         "type": "W3C",
@@ -3276,22 +3409,22 @@
   {
     "id": "page-no-meta-http-equiv-refresh",
     "kebabId": "page-no-meta-http-equiv-refresh",
-    "title": "Pages should not contain <meta> elements with http-equiv='refresh' attribute",
-    "description": "<meta> elements with http-equiv='refresh' should be avoided as they can negatively impact accessibility and user experience. The <meta> element with http-equiv='refresh' specifies a delay in seconds before the page reloads or redirects to a provided URL. This can be disorienting for users, especially for those who rely on screen readers because the page content changes without any user interaction.",
-    "advice": "Remove <meta> elements with http-equiv=\"refresh\" and use server-side redirects or JavaScript for page refreshes or redirects.",
-    "impact": "serious",
+    "title": "Pages should not use <meta http-equiv=\"refresh\"> for automatic redirection or reloading",
+    "description": "A <meta> element with http-equiv=\"refresh\" is sometimes used to automatically redirect users after a time delay. These timed changes can interrupt and disorient users who rely on assistive technology",
+    "advice": "Remove <meta> elements with http-equiv=\"refresh\". If timed user sessions are necessary, ensure users can extend the session time limit.",
+    "impact": "critical",
     "refs": [
       {
-        "type": "W3C",
-        "id": "",
-        "level": "",
-        "link": "https://www.w3.org/TR/2008/REC-WCAG20-20081211/#consistent-behavior-no-extreme-changes-context"
+        "type": "WCAG",
+        "id": "2.2.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/timing-adjustable.html"
       },
       {
         "type": "W3C",
         "id": "",
         "level": "",
-        "link": "https://www.w3.org/TR/WCAG20-TECHS/H76.html"
+        "link": "https://www.w3.org/TR/2008/REC-WCAG20-20081211/#consistent-behavior-no-extreme-changes-context"
       },
       {
         "type": "W3C",
@@ -3310,6 +3443,18 @@
         "id": "",
         "level": "",
         "link": "https://act-rules.github.io/rules/bisz58"
+      },
+      {
+        "type": "W3C",
+        "id": "",
+        "level": "",
+        "link": "https://www.w3.org/TR/WCAG20-TECHS/H76.html"
+      },
+      {
+        "type": "WAI",
+        "id": "",
+        "level": "",
+        "link": "https://www.w3.org/WAI/WCAG21/Understanding/timing-adjustable.html"
       }
     ],
     "detailUrl": "/engine/page-no-meta-http-equiv-refresh",
@@ -3320,15 +3465,15 @@
     "id": "page-title",
     "kebabId": "page-title",
     "title": "Page should have a title",
-    "description": "Screen readers rely heavily on page titles to announce the purpose of a page. If titles aren’t descriptive, users with low or no vision may not understand the context until they start navigating the page.",
-    "advice": "Make sure the title element inside the <head> is unique and describes the purpose of the page.",
-    "impact": "minor",
+    "description": "A missing page title makes it difficult for screen reader users and sighted users with multiple tabs open to identify the page, reducing orientation and usability.",
+    "advice": "Make sure each page has a unique, descriptive <title> element inside the <head> that reflects the purpose of the page.",
+    "impact": "serious",
     "refs": [
       {
         "type": "WCAG",
         "id": "2.4.2",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/page-titled.html"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/page-titled.html"
       },
       {
         "type": "ACT",
@@ -3345,15 +3490,15 @@
     "id": "page-title-valid",
     "kebabId": "page-title-valid",
     "title": "Page title should be descriptive",
-    "description": "Providing a descriptive title helps users understand the content of the page.",
-    "advice": "Add a \\",
-    "impact": "minor",
+    "description": "Screen readers rely heavily on page titles to announce the purpose of a page. If titles aren’t descriptive, users with low or no vision may not understand the context until they start navigating the page.",
+    "advice": "Make sure the title element inside the <head> is unique and describes the purpose of the page.",
+    "impact": "moderate",
     "refs": [
       {
         "type": "WCAG",
         "id": "2.4.2",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/page-titled.html"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/page-titled.html"
       },
       {
         "type": "ACT",
@@ -3428,7 +3573,7 @@
     "title": "Checked state of custom radio controls should be indicated to assistive technology",
     "description": "If custom radio controls lack a defined checked state, screen reader users can't determine which option is selected, resulting in confusion and loss of functionality.",
     "advice": "Assign \\\\",
-    "impact": "serious",
+    "impact": "critical",
     "refs": [
       {
         "type": "WCAG",
@@ -3453,13 +3598,19 @@
     "title": "Radio controls should have a label",
     "description": "Screen readers rely on properly coded and associated labels to announce the purpose of a form field. A radio control without an identifiable label may prevent screen reader users from completing the form.",
     "advice": "Assign a label to each radio control using <label for> with a matching id (or wrapping the <label> around the control), or ARIA attributes such as aria-label or aria-labelledby.",
-    "impact": "serious",
+    "impact": "critical",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
       {
         "type": "WCAG",
         "id": "4.1.2",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1#name-role-value"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
       },
       {
         "type": "WAI",
@@ -3484,7 +3635,7 @@
     "title": "Custom radio controls should be tagged for assistive technology",
     "description": "Screen readers have built-in mechanisms to handle radio components. By default, assistive technology does not support custom radio controls and using them without exposing the appropriate role may prevent screen reader users from interacting as expected with the component.",
     "advice": "Assign role=\"radio\" to the custom radio control.",
-    "impact": "serious",
+    "impact": "critical",
     "refs": [
       {
         "type": "WCAG",
@@ -3536,12 +3687,6 @@
     "advice": "Remove the aria-label from the failing element.",
     "impact": "minor",
     "refs": [
-      {
-        "type": "WCAG",
-        "id": "2.5.3",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1#label-in-name"
-      },
       {
         "type": "Non-Standard",
         "id": "",
@@ -3605,17 +3750,11 @@
   {
     "id": "region-footer-mismatch",
     "kebabId": "region-footer-mismatch",
-    "title": "Footer region should be correctly marked up",
-    "description": "Ensure that the footer region is correctly marked up.",
-    "advice": "Add a <footer> element to define the footer of the document.",
-    "impact": "serious",
+    "title": "Global site information that appears at the end of each page is contained in a contentinfo landmark (footer)",
+    "description": "The contentinfo region, typically represented by the <footer> element, is found at the end of each page and provides screen reader users with information about the website, such as copyright, contact details, legal information, and navigation links.",
+    "advice": "Use a <footer> element or assign role=\"contentinfo\" to the section that provides global information and consistently appears at the end of each page.",
+    "impact": "moderate",
     "refs": [
-      {
-        "type": "WCAG",
-        "id": "WCAG-1.1.1",
-        "level": "A",
-        "link": "https://www.w3.org/TR/WCAG20-TECHS/ARIA11.html"
-      },
       {
         "type": "W3C",
         "id": "",
@@ -3630,17 +3769,11 @@
   {
     "id": "region-footer-misuse",
     "kebabId": "region-footer-misuse",
-    "title": "Footer region should be correctly marked up",
-    "description": "Ensure that the footer region is correctly marked up.",
-    "advice": "Add a <footer> element to define the footer of the document.",
+    "title": "An element without global site information is tagged as a contentinfo landmark",
+    "description": "When a region without global site information is tagged as a contentinfo landmark, screen reader users may be misled about its purpose and expect website-level details, such as copyright or contact information.",
+    "advice": "If the failing element is a custom contentinfo region, remove role=\"contentinfo\". If the failing element is coded using a HTML <footer> tag, change the tag to a <div> or an element with a suitable role.",
     "impact": "serious",
     "refs": [
-      {
-        "type": "WCAG",
-        "id": "WCAG-1.1.1",
-        "level": "A",
-        "link": "https://www.w3.org/TR/WCAG20-TECHS/ARIA11.html"
-      },
       {
         "type": "W3C",
         "id": "",
@@ -3657,15 +3790,9 @@
     "kebabId": "region-footer-single",
     "title": "Each page should include at most one global contentinfo landmark (footer)",
     "description": "Each page should normally include only one contentinfo landmark (usually the site footer) to keep landmark navigation simple and predictable. Additional contentinfo landmarks are permitted when clearly justified, but they must each have a unique accessible label.",
-    "advice": "Make sure each page has only one top-level contentinfo landmark for the global footer. For additional footer-like blocks, nest them inside sectioning elements, or use role=\"region\" with a label instead of contentinfo.",
+    "advice": "Make sure each page has only one top-level contentinfo landmark (footer). For additional footer-like blocks, nest them inside sectioning elements, or use role=\"region\" with a label instead of contentinfo.",
     "impact": "serious",
     "refs": [
-      {
-        "type": "WCAG",
-        "id": "WCAG-1.1.1",
-        "level": "A",
-        "link": "https://www.w3.org/TR/WCAG20-TECHS/ARIA11.html"
-      },
       {
         "type": "W3C",
         "id": "",
@@ -3701,13 +3828,13 @@
     "title": "Each web page that uses landmark regions should have a main landmark",
     "description": "A main landmark (e.g., <main>) lets screen reader users quickly skip past repeated elements and jump straight to the primary content, improving navigation and orientation.",
     "advice": "Enclose all of the primary content on the page in either a <main> element or any container with role=\"main\".",
-    "impact": "moderate",
+    "impact": "serious",
     "refs": [
       {
         "type": "WCAG",
         "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1&showtechniques=246#info-and-relationships"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "WCAG Technique",
@@ -3737,9 +3864,15 @@
     "kebabId": "region-main-content-mismatch",
     "title": "All of the main content on the page is contained in the main landmark",
     "description": "The main landmark represents the primary content of a page. It should include only content unique to that page and must remain separate from repeated elements, such as navigation, header, or footer.",
-    "advice": "Add a role='main' attribute to the main content area so that it is correctly identified by assistive technologies.",
+    "advice": "Avoid nesting <main> or elements with role=\"main\" and other landmark or sectioning elements such as <header>, <footer>, <nav>, <article>, or <aside> (including elements with respective ARIA roles). Ensure that the main landmark contains all of the main content, and it is not enclosing the entire HTML document or positioned outside the primary content area.",
     "impact": "serious",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
       {
         "type": "Non-Standard",
         "id": "",
@@ -3766,6 +3899,12 @@
     "impact": "serious",
     "refs": [
       {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
+      {
         "type": "Non-Standard",
         "id": "",
         "level": "",
@@ -3788,13 +3927,13 @@
     "title": "Each page should include at most one main landmark",
     "description": "A page typically presents one central subject, so a single main landmark establishes the boundaries of the primary content for screen reader users. Multiple main landmarks create uncertainty about the scope, leading to confusion and difficulty navigating the page.",
     "advice": "Keep only the true primary area as <main> or role=\"main\", and change others to suitable elements—such as <section>, <nav>, or a neutral <div>. In modular or single-page apps, only the active view should expose a main landmark; remove the role or unmount inactive modules, or hide them with hidden or display:none.",
-    "impact": "moderate",
+    "impact": "serious",
     "refs": [
       {
         "type": "WCAG",
         "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1&showtechniques=246#info-and-relationships"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "WCAG Technique",
@@ -3849,8 +3988,8 @@
       {
         "type": "WCAG",
         "id": "3.3.1",
-        "level": "AA",
-        "link": "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1&showtechniques=131%2C221%2C244%2C332%2C333%2C331#error-identification"
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/error-identification.html"
       },
       {
         "type": "WCAG Technique",
@@ -3887,7 +4026,7 @@
         "type": "WCAG",
         "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "Non-Standard",
@@ -3912,13 +4051,13 @@
     "title": "A search form should be tagged as a search landmark",
     "description": "Screen reader users rely on landmarks to quickly access important regions of a page. Defining a form as a search landmark ensures that users can quickly recognize and navigate to the search form.",
     "advice": "Enclose the search form in a <search> element or assign role=\"search\" to the <form> element.",
-    "impact": "serious",
+    "impact": "moderate",
     "refs": [
       {
         "type": "WCAG",
         "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=131#info-and-relationships"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "Non-Standard",
@@ -3938,12 +4077,31 @@
     "failureUrl": "/engine/search-form-mismatch_failure"
   },
   {
+    "id": "search-input-announcement",
+    "kebabId": "search-input-dynamic-results-announcement",
+    "title": "Search results should be announced when ready",
+    "description": "Before a blind user types text in a search form and a select-option combobox appears with results, screen readers should announce that results will be ready. Without this announcement, users may not know if search results will be available and ready to navigate.",
+    "advice": "Add an sr-only text that announces 'results are ready' or similar text when the user navigates to a search input element. The announcement should indicate that results will be available, not list the results themselves.",
+    "impact": "serious",
+    "refs": [
+      {
+        "type": "WCAG",
+        "id": "4.1.3",
+        "level": "AA",
+        "link": "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1#status-messages"
+      }
+    ],
+    "detailUrl": "/engine/search-input-dynamic-results-announcement",
+    "successUrl": "/engine/search-input-dynamic-results-announcement_success",
+    "failureUrl": "/engine/search-input-dynamic-results-announcement_failure"
+  },
+  {
     "id": "select-option-mismatch",
     "kebabId": "select-option-mismatch",
     "title": "Custom select options should be tagged for assistive technology",
     "description": "Native select elements automatically expose each option to screen readers, however roles for custom components must be explicitly defined. If custom option elements are not given the correct ARIA role and nested according to markup and accessibility guidelines, assistive technology may not recognize or interact with them.",
-    "advice": "Assign role=\"option\" to each custom select option.\\\\nEnsure that each option is directly contained in an element with role=\"listbox\"",
-    "impact": "serious",
+    "advice": "Assign role=\"option\" to each custom select option. Ensure that each option is directly contained in an element with role=\"listbox\"",
+    "impact": "critical",
     "refs": [
       {
         "type": "WCAG",
@@ -3995,6 +4153,12 @@
     "advice": "Add skip links as the first focusable elements on the page, directing users to regions marked with unique ids and appropriate landmarks such as <main>, <nav>, or <footer>. Keep them visually hidden until focused so they don’t clutter the layout, but ensure they remain accessible to screen readers by avoiding aria-hidden=\"true\" or CSS display:none.",
     "impact": "moderate",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "2.4.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/bypass-blocks.html"
+      },
       {
         "type": "Non-Standard",
         "id": "",
@@ -4083,11 +4247,17 @@
   {
     "id": "sr-hidden-tabbable",
     "kebabId": "sr-hidden-tabbable",
-    "title": "Elements hidden from screen-reader must not contain tabbable elements.",
-    "description": "although the elements are hidden from assistive technologies, users can still navigate to any focusable child elements using the keyboard, but their content is inaccessible to people who use assistive technologies.",
-    "advice": "Remove the tabindex attribute from the non-interactive element or set it to -1. This will prevent the element from being focused on by keyboard users.",
+    "title": "Hidden elements should not be keyboard navigable",
+    "description": "Allowing hidden content to receive keyboard focus creates a confusing tab order, where keyboard users and screen reader users that navigate with the TAB key may encounter interactive controls that are unrelated to the current context.",
+    "advice": "Use tabindex=\"-1\" to remove elements from the tab order when they should not be exposed to assistive technology. Consider using CSS techniques, such as display:none or visibility:hidden when the content should be hidden from all users.",
     "impact": "serious",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "2.4.3",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html"
+      },
       {
         "type": "Non-Standard",
         "id": "",
@@ -4123,7 +4293,7 @@
         "type": "WCAG",
         "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "WAI",
@@ -4197,8 +4367,20 @@
     "title": "Tablists should be tagged for assistive technology",
     "description": "A tablist without role=\"tablist\" is not announced as a group of related tabs, which prevents screen reader users from recognizing the structure and purpose of the component. This makes it harder to navigate between tabs and understand that the controls belong to a single set.",
     "advice": "Apply role=\"tablist\" to the container element that directly holds the tabs.",
-    "impact": "serious",
+    "impact": "critical",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "4.1.2",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
+      },
+      {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
       {
         "type": "Non-Standard",
         "id": "",
@@ -4231,6 +4413,12 @@
     "impact": "serious",
     "refs": [
       {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
+      {
         "type": "Non-Standard",
         "id": "",
         "level": "",
@@ -4259,8 +4447,20 @@
     "title": "Tab controls should be tagged for assistive technology",
     "description": "Custom tabs must be explicitly defined for screen readers since there are no native HTML tab elements. Without assigning role=\"tab\" to the interactive elements, assistive technology will not identify them as tabs, preventing users from understanding their function or navigating them as part of a tab interface.",
     "advice": "Apply role=\"tab\" to each tab control.",
-    "impact": "serious",
+    "impact": "critical",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "4.1.2",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
+      },
+      {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
       {
         "type": "Non-Standard",
         "id": "",
@@ -4293,6 +4493,12 @@
     "impact": "serious",
     "refs": [
       {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
+      {
         "type": "Non-Standard",
         "id": "",
         "level": "",
@@ -4321,8 +4527,20 @@
     "title": "Tab panels should be tagged for assistive technology",
     "description": "The role=\"tabpanel\" identifies an element as the content region of a tab interface. Without this role, panels are exposed only by their native role (such as a generic div or a named section) and screen reader users may not perceive them as part of the tab structure.",
     "advice": "Apply role=\"tabpanel\" to each container that is exposed when selecting a tab.",
-    "impact": "serious",
+    "impact": "critical",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "4.1.2",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
+      },
+      {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
       {
         "type": "Non-Standard",
         "id": "",
@@ -4355,6 +4573,12 @@
     "impact": "serious",
     "refs": [
       {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
+      {
         "type": "Non-Standard",
         "id": "",
         "level": "",
@@ -4386,6 +4610,12 @@
     "impact": "serious",
     "refs": [
       {
+        "type": "WCAG",
+        "id": "2.4.3",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html"
+      },
+      {
         "type": "Non-Standard",
         "id": "",
         "level": "",
@@ -4411,11 +4641,17 @@
   {
     "id": "tabbable-visible",
     "kebabId": "tabbable-visible",
-    "title": "Use tabindex attribute correctly to manage docus for custom interactive elements",
+    "title": "Use the tabindex attribute correctly to manage focus for visible and hidden interactive elements",
     "description": "When interactive elements remain focusable while they are visually hidden, keyboard users may encounter controls that they cannot see and that should not be available in the current interface.",
-    "advice": "Apply tabindex=\"0\" to custom interactive elements so they follow the natural tab sequence, and tabindex=\"-1\" when an element should only be reachable programmatically. Avoid positive numbers such as tabindex=\"1\" or higher, do not use invalid values such as letters or decimals, and ensure tabindex is not applied to static elements.Use tabindex=\"-1\" to remove elements from the tab order when they are offscreen. Consider using CSS techniques, such as display:none or visibility:hidden when content should be hidden from all users.",
-    "impact": "critical",
+    "advice": "Apply tabindex=\"0\" to custom interactive elements so they follow the natural tab sequence, and tabindex=\"-1\" when an element is offscreen or when it should only be reachable programmatically. Consider using CSS techniques, such as display:none or visibility:hidden when content should be hidden from all users.",
+    "impact": "serious",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "2.4.3",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html"
+      },
       {
         "type": "Non-Standard",
         "id": "",
@@ -4432,14 +4668,14 @@
     "kebabId": "tabindex-valid",
     "title": "The tabindex attribute should be assigned a valid value",
     "description": "Invalid tabindex values are ignored by browsers, while positive values override the natural focus order. Applying the tabindex attribute incorrectly can break the expected navigation flow for keyboard users.",
-    "advice": "Rina Volovich is there an advice to add here?",
+    "advice": "Restrict use of tabindex values to \"0\" or \"-1\", avoiding positive numbers and invalid value types, such as letters or decimals.",
     "impact": "serious",
     "refs": [
       {
         "type": "WCAG",
         "id": "2.1.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/keyboard.html"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html"
       },
       {
         "type": "W3C",
@@ -4464,7 +4700,7 @@
         "type": "WCAG",
         "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=131#info-and-relationships"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "W3C",
@@ -4488,31 +4724,6 @@
     "detailUrl": "/engine/table-column-header",
     "successUrl": "/engine/table-column-header_success",
     "failureUrl": "/engine/table-column-header_failure"
-  },
-  {
-    "id": "table-header-not-empty",
-    "kebabId": "table-header-not-empty",
-    "title": "Table header cells should not be empty",
-    "description": "If a table header cell is empty, screen reader users may only hear a generic label such as \"column 3\" or nothing at all. This makes it harder to understand what each column or row represents.",
-    "advice": "Provide meaningful text for all table header cells, using visible or hidden labels. If a cell is not a true header, use <td> or omit the header role.",
-    "impact": "serious",
-    "refs": [
-      {
-        "type": "WCAG",
-        "id": "1.3.1",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=131#info-and-relationships"
-      },
-      {
-        "type": "ACT",
-        "id": "d0f69e",
-        "level": "",
-        "link": "https://act-rules.github.io/rules/d0f69e"
-      }
-    ],
-    "detailUrl": "/engine/table-header-not-empty",
-    "successUrl": "/engine/table-header-not-empty_success",
-    "failureUrl": "/engine/table-header-not-empty_failure"
   },
   {
     "id": "table-headers",
@@ -4569,7 +4780,7 @@
         "type": "WCAG",
         "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=131#info-and-relationships"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "W3C",
@@ -4587,14 +4798,14 @@
     "kebabId": "table-not-nested",
     "title": "Tables should not be nested",
     "description": "Nested tables are often misinterpreted by screen readers, making it hard for users to follow the intended structure and meaning of the data.",
-    "advice": "Avoid nesting tables. Use separate tables with clear headings, and if tables are used for layout, assign  role=\"presentation\" or role=\"none\" to each table element.",
+    "advice": "Avoid nesting tables. Use separate tables with clear headings, and if tables are used for layout, assign role=\"presentation\" or role=\"none\" to each table element.",
     "impact": "serious",
     "refs": [
       {
         "type": "WCAG",
         "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "Non-Standard",
@@ -4625,7 +4836,7 @@
         "type": "WCAG",
         "id": "1.3.1",
         "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=131#info-and-relationships"
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
       },
       {
         "type": "W3C",
@@ -4656,7 +4867,7 @@
     "title": "Line height should scale to at least 1.5 times the font size without loss of content or functionality",
     "description": "When line height is increased to 1.5 times the font size, text may be clipped, overlap, or overflow its container if styles like fixed heights, fixed widths, hidden overflow, or absolute positioning prevent proper reflow",
     "advice": "Use flexible heights and widths, position elements in ways that allow text reflow, enable text wrapping, and avoid hidden overflow to make sure content remains readable when line spacing is scaled to 1.5 times the font size.",
-    "impact": "critical",
+    "impact": "minor",
     "refs": [
       {
         "type": "WCAG",
@@ -4676,31 +4887,12 @@
     "failureUrl": "/engine/text-spacing-line-height_failure"
   },
   {
-    "id": "text-spacing-paragraph-spacing",
-    "kebabId": "text-spacing-paragraph-spacing",
-    "title": "Paragraph spacing should scale to at least 2 times the font size without loss of content or functionality",
-    "description": "When paragraph spacing is increased to 2 times the font size, text may be clipped or overflow its container if styles like fixed heights, hidden overflow, or absolute positioning prevent proper reflow.",
-    "advice": "Use flexible heights and widths, position elements in ways that allow text reflow, enable text wrapping, and avoid hidden overflow to make sure content remains readable when paragraph spacing is scaled to 2 times the font size.",
-    "impact": "critical",
-    "refs": [
-      {
-        "type": "WCAG",
-        "id": "1.4.12",
-        "level": "AA",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/text-spacing.html"
-      }
-    ],
-    "detailUrl": "/engine/text-spacing-paragraph-spacing",
-    "successUrl": "/engine/text-spacing-paragraph-spacing_success",
-    "failureUrl": "/engine/text-spacing-paragraph-spacing_failure"
-  },
-  {
     "id": "text-spacing-word-spacing",
     "kebabId": "text-spacing-word-spacing",
-    "title": "Text spacing - word spacing",
-    "description": "Word spacing to at least 0.16 times the font size",
-    "advice": "Increase the word spacing to at least 0.16 times the font size.",
-    "impact": "critical",
+    "title": "Word spacing should scale to at least 0.16 times the font size without loss of content or functionality",
+    "description": "When word spacing is increased to 0.16 times the font size, text may be clipped, overlap, or overflow its container if styles like fixed heights, fixed widths, hidden overflow, forced no-wrap, or absolute positioning prevent proper reflow.",
+    "advice": "Use flexible heights and widths, position elements in ways that allow text reflow, enable text wrapping, and avoid hidden overflow to ensure content remains readable when word spacing is scaled to 0.16 times the font size.",
+    "impact": "minor",
     "refs": [
       {
         "type": "WCAG",
@@ -4725,7 +4917,7 @@
     "title": "The state of toggle buttons should be accurate",
     "description": "If the exposed state of a toggle button is not accurate, screen reader users may not know whether it is active or inactive, leading to confusion and unintended actions.",
     "advice": "Make sure the value of aria-pressed represents the visible state of the control.",
-    "impact": "serious",
+    "impact": "critical",
     "refs": [
       {
         "type": "WCAG",
@@ -4768,7 +4960,7 @@
     "title": "Toggle buttons should expose their state to assistive technology",
     "description": "When a toggle button fails to expose its pressed state, screen reader users cannot determine whether the control is active or inactive.",
     "advice": "Assign aria-pressed=\"true/false\" to a native <button>, or an element with role=\"button\". Make sure aria-pressed updates dynamically whenever the button is toggled.",
-    "impact": "serious",
+    "impact": "critical",
     "refs": [
       {
         "type": "WCAG",
@@ -4811,7 +5003,7 @@
     "title": "Only elements that function as toggle buttons should be assigned the aria-pressed attribute",
     "description": "The aria-pressed attribute is only announced by assistive technology when applied to button elements, including custom toggle controls with role=\"button\". If it is used on elements with other roles, the attribute is ignored, leaving users unaware of any intended pressed or unpressed state.",
     "advice": "Remove the aria-pressed attribute from the failing element.",
-    "impact": "minor",
+    "impact": "serious",
     "refs": [
       {
         "type": "WCAG",
@@ -4853,9 +5045,15 @@
     "kebabId": "user-rating-discernible",
     "title": "User ratings should be tagged and labeled for assistive technology",
     "description": "When a static star rating is presented using unlabeled icons, screen readers cannot interpret the symbols as meaningful content. Assigning a role and text alternative ensures the rating value is conveyed clearly, allowing non-visual users to understand the information.",
-    "advice": "Assign role=\"img\" with an aria-label such as “4 out of 5 stars,” either directly on a single image or SVG, or on a container that holds the star elements.",
+    "advice": "Assign role=\"img\" with an aria-label, such as “4 out of 5 stars,” to the image element, or to an enclosing container if each star is presented as a separate element.",
     "impact": "serious",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "1.1.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html"
+      },
       {
         "type": "WAI",
         "id": "",
@@ -4879,8 +5077,14 @@
     "title": "Visible content should not be hidden from assistive technology",
     "description": "If content remains visible on the screen but assigned aria-hidden=\"true\", it will be excluded from the accessibility tree. As a result, screen reader users will not have access to the same information as sighted users.",
     "advice": "Remove aria-hidden=\"true\" from visible elements. Make sure that the attribute is only used to hide redundant or inactive content.",
-    "impact": "serious",
+    "impact": "critical",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "1.3.2",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/meaningful-sequence.html"
+      },
       {
         "type": "Non-Standard",
         "id": "",
@@ -4910,8 +5114,14 @@
     "title": "Visibly hidden content should not be exposed to assistive technology",
     "description": "When elements are visually hidden but still exposed to assistive technology, screen reader users may encounter content that should not be available in the current interface. This can obscure the current state of the page and lead to confusion about what information or controls are available.",
     "advice": "Use aria-hidden=\"true\" to remove elements from the accessibility tree when they should not be exposed to assistive technology. Consider using CSS techniques, such as display:none or visibility:hidden when the content should be hidden from all users.",
-    "impact": "serious",
+    "impact": "critical",
     "refs": [
+      {
+        "type": "WCAG",
+        "id": "1.3.2",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/meaningful-sequence.html"
+      },
       {
         "type": "Non-Standard",
         "id": "",
@@ -4932,7 +5142,7 @@
       },
       {
         "type": "ACT",
-        "id": "6cfa84",
+        "id": "",
         "level": "",
         "link": "https://act-rules.github.io/rules/6cfa84"
       }
@@ -4940,36 +5150,5 @@
     "detailUrl": "/engine/visibility-misuse",
     "successUrl": "/engine/visibility-misuse_success",
     "failureUrl": "/engine/visibility-misuse_failure"
-  },
-  {
-    "id": "visible-text-part-of-accessible-name",
-    "kebabId": "visible-text-part-of-accessible-name",
-    "title": "Aria labels should not override or replace visible text",
-    "description": "Aria labels should describe elements that don't have proper text, like icons and field labels. It should not be used to override element texts. Screen reader users need to receive the exact text as visually on the screen, with more context if it is ambiguous. An exception applies to landmarks such as nav or other landmarks: here, ARIA labels can provide additional context or clarification.",
-    "advice": "Remove the aria-label. If you need to add context for screen reader users only because of the ambiguity of the text, use the screen-reader-only technique.",
-    "impact": "critical",
-    "refs": [
-      {
-        "type": "WCAG",
-        "id": "2.5.3",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG21/Understanding/label-in-name.html"
-      },
-      {
-        "type": "Non-Standard",
-        "id": "",
-        "level": "",
-        "link": "https://www.useragentman.com/enable/screen-reader-only-text.php"
-      },
-      {
-        "type": "ACT",
-        "id": "2ee8b8",
-        "level": "",
-        "link": "https://act-rules.github.io/rules/2ee8b8"
-      }
-    ],
-    "detailUrl": "/engine/visible-text-part-of-accessible-name",
-    "successUrl": "/engine/visible-text-part-of-accessible-name_success",
-    "failureUrl": "/engine/visible-text-part-of-accessible-name_failure"
   }
 ]

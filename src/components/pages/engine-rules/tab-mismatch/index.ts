@@ -5,17 +5,29 @@ import { PassCondition } from "../interfaces";
 export const TabMismatch: Rule = {
   id: "tab-mismatch",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "Tabs",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
   associatedDetectors: [CompliantComponentTab, PerceivableComponentTab],
-  impact: "serious",
+  impact: "critical",
   title: "Tab controls should be tagged for assistive technology",
   description: 'Custom tabs must be explicitly defined for screen readers since there are no native HTML tab elements. Without assigning role="tab" to the interactive elements, assistive technology will not identify them as tabs, preventing users from understanding their function or navigating them as part of a tab interface.',
   advice: 'Apply role="tab" to each tab control.',
   refs: [
+    {
+      type: "WCAG",
+      id: "4.1.2",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+    },
+    {
+      type: "WCAG",
+      id: "1.3.1",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
+    },
     {
       type: "Non-Standard",
       link: "https://www.digitala11y.com/tab-role/",

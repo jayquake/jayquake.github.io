@@ -5,9 +5,9 @@ export const LinkNewWindowWarning = {
   id: "link-new-window-warning",
   title: `Warning a user when a link triggers a new browser window is recommended`,
   description: `It's good practice to warn users about the expected behavior when activating a link triggers a new window.`,
-  advice: `Add a visibly hidden text element that contains 'Opens new window'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id.`,
+  advice: `Add a visibly hidden text element that contains 'Opens new window'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id. Alternatively, nest a visibly hidden element that contains additional context inside of the link.`,
   impact: "minor",
   refs: [
-    { type: "WCAG", id: "3.2.1", level: "A", link: "https://www.w3.org/WAI/WCAG21/Understanding/on-focus.html" }
+
   ]
 };

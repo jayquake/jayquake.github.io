@@ -5,8 +5,8 @@ import { CompliantComponentHeading, PerceivableComponentHeading } from "@acsbe/c
 export const HeadingMismatch: Rule = {
   id: "heading-mismatch",
   metadata: {
-    category: "Lists",
-    profile: "Blind",
+    category: "Text Content",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
@@ -21,7 +21,7 @@ export const HeadingMismatch: Rule = {
       type: "WCAG",
       id: "1.3.1",
       level: "A",
-      link: "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=131#info-and-relationships",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
     },
     {
       type: "Non-Standard",

@@ -8,6 +8,6 @@ export const MainNavigationDiscernible = {
   advice: `Add an aria-label to the main navigation elements`,
   impact: "serious",
   refs: [
-    { type: "WCAG", id: "1.3.1", level: "A", link: "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html" }
+    { type: "WCAG", id: "1.3.1", level: "A", link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html" }
   ]
 };

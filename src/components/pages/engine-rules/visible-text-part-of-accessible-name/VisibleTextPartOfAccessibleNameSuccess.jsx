@@ -2,10 +2,10 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const VisibleTextPartOfAccessibleNameSuccess = () => {
-  const ruleId = "visible-text-part-of-accessible-name";
-  const title = `Aria labels should not override or replace visible text`;
-  const description = `Aria labels should describe elements that don't have proper text, like icons and field labels. It should not be used to override element texts. Screen reader users need to receive the exact text as visually on the screen, with more context if it is ambiguous. An exception applies to landmarks such as nav or other landmarks: here, ARIA labels can provide additional context or clarification.`;
-  const helpText = `Remove the aria-label. If you need to add context for screen reader users only because of the ambiguity of the text, use the screen-reader-only technique.`;
+  const ruleId = "N/A";
+  const title = `N/A`;
+  const description = `N/A`;
+  const helpText = `N/A`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",

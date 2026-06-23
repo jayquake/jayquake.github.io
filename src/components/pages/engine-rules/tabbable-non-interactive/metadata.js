@@ -8,6 +8,7 @@ export const TabbableNonInteractive = {
   advice: `Remove the tabindex attribute from the static element.`,
   impact: "serious",
   refs: [
+    { type: "WCAG", id: "2.4.3", level: "A", link: "https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html" },
     { type: "Non-Standard", link: "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex#accessibility_concerns" },
     { type: "Non-Standard", link: "https://www.a11yproject.com/posts/how-to-use-the-tabindex-attribute/" },
     { type: "Non-Standard", link: "https://dequeuniversity.com/rules/axe/4.4/tabindex" }

@@ -5,17 +5,23 @@ import { PassCondition } from "~/rules/interfaces";
 export const ArticleMisuse: Rule = {
   id: "article-misuse",
   metadata: {
-    category: "Forms",
-    profile: "Blind",
+    category: "Landmarks",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
   impact: "minor",
   title: "Only elements that function as articles should be tagged as article regions",
-  description: "Coding elements that aren't full-featured text articles using the article HTML tag causes screen readers to announce incorrect information about the purpose and structure of the content.",
+  description: "Using an <article> tag on content that is not self-contained and that cannot stand on its own outside the context of the page, such as a blog post, news story, or forum entry, causes screen readers to announce misleading information about the purpose the content in relation to the main subject of the page.",
   advice: 'Assign role="presentation" to the failing element or use a different HTML tag that is more appropriate for the function of the element.',
   associatedDetectors: [CompliantComponentArticle, PerceivableComponentArticle],
   refs: [
+    {
+      type: "WCAG",
+      id: "1.3.1",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
+    },
     {
       type: "WAI",
       link: "https://www.w3.org/WAI/ARIA/apg/patterns/feed/examples/feed/",

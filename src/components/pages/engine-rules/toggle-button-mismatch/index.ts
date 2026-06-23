@@ -5,13 +5,13 @@ import { PassCondition } from "../interfaces";
 export const ToggleButtonMismatch: Rule = {
   id: "toggle-button-mismatch",
   metadata: {
-    category: "Forms",
-    profile: "Blind",
+    category: "Interactive Content",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
   associatedDetectors: [CompliantComponentToggleButton, PerceivableComponentToggleButton],
-  impact: "serious",
+  impact: "critical",
   title: "Toggle buttons should expose their state to assistive technology",
   description: "When a toggle button fails to expose its pressed state, screen reader users cannot determine whether the control is active or inactive.",
   advice: 'Assign aria-pressed="true/false" to a native <button>, or an element with role="button". Make sure aria-pressed updates dynamically whenever the button is toggled.',

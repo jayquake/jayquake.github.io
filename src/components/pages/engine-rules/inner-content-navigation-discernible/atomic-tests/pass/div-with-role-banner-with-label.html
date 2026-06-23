@@ -1,0 +1,16 @@
+<!--testconfig
+    "testedClass": "Rules.InnerContentNavigationDiscernible",
+    "expect": {
+        "inapplicableNodes": ["nav"],
+        "failedNodes": []
+    }
+-->
+<div role="banner" id="inner-content-banner">
+  <p>This is a inner-content with some navigation links.</p>
+  <nav aria-label="InnerContent Menu">
+    <ul>
+      <li><a href="/privacy">Privacy Policy</a></li>
+      <li><a href="/terms">Terms of Service</a></li>
+    </ul>
+  </nav>
+</div>

@@ -6,11 +6,11 @@ export const RegionMainContent: Rule = {
   id: "region-main-content",
   metadata: {
     category: "Landmarks",
-    profile: "Blind",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
-  impact: "moderate",
+  impact: "serious",
   title: "Each web page that uses landmark regions should have a main landmark",
   description: "A main landmark (e.g., <main>) lets screen reader users quickly skip past repeated elements and jump straight to the primary content, improving navigation and orientation.",
   advice: 'Enclose all of the primary content on the page in either a <main> element or any container with role="main".',
@@ -19,7 +19,7 @@ export const RegionMainContent: Rule = {
     {
       type: "WCAG",
       id: "1.3.1",
-      link: "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1&showtechniques=246#info-and-relationships",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
       level: "A",
     },
     {

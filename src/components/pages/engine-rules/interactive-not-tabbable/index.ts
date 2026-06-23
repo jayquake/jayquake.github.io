@@ -1,21 +1,22 @@
 import type { Rule } from "~/rules/interfaces";
 import { PassCondition } from "~/rules/interfaces";
-import { CompliantTraitInteractable, PerceivableTraitClickable, PerceivableTraitTabbable, PerceivableTraitVisible } from "@acsbe/core-engine-classifier";
+import { CompliantComponentInput, CompliantTraitInteractable, PerceivableTraitClickable, PerceivableTraitTabbable, PerceivableTraitVisible } from "@acsbe/core-engine-classifier";
 
 export const InteractiveNotTabbable: Rule = {
   id: "interactive-not-tabbable",
   metadata: {
-    category: "Lists",
-    profile: "Motor Impaired",
-    wcagVersion: "General Guidelines",
-    wcagLevel: "N/A",
+    category: "Interactive Content",
+    profile: ["Motor Impaired"],
+    wcagVersion: "2.0",
+    wcagLevel: "A",
   },
-  impact: "serious",
+  impact: "critical",
   title: "Interactive elements should be keyboard navigable",
   description: "Interactive elements should be keyboard navigable. If a custom interactive element is not keyboard navigable, keyboard users will not be able to interact with it.",
   advice: 'Add tabindex="0" to the custom interactive element.',
-  associatedDetectors: [PerceivableTraitTabbable, CompliantTraitInteractable, PerceivableTraitClickable, PerceivableTraitVisible],
+  associatedDetectors: [PerceivableTraitTabbable, CompliantTraitInteractable, PerceivableTraitClickable, PerceivableTraitVisible, CompliantComponentInput],
   refs: [
+    { type: "WCAG", id: "2.1.1", level: "A", link: "https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html" },
     {
       type: "Non-Standard",
       link: "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex#accessibility_concerns",
@@ -48,6 +49,16 @@ export const InteractiveNotTabbable: Rule = {
       // the parent likely handles the interaction, making the child redundant for accessibility purposes.
       const hasParentClickable = classifier.getParent(interactable, CompliantTraitInteractable) ?? classifier.getParent(interactable, PerceivableTraitClickable);
       if (hasParentClickable) {
+        response.inapplicableNodes.push(interactable);
+        continue;
+      }
+
+      // If an element has a tabbable input as a direct child,
+      // it is considered inapplicable because the input likely handles the interaction by itself
+      // making the parent redundant for being tabbable, such as label tags that wrap input tags
+      const tabbableInputDirectChildren = classifier.getMatchedDirect([CompliantComponentInput, PerceivableTraitTabbable], interactable);
+
+      if (tabbableInputDirectChildren.length) {
         response.inapplicableNodes.push(interactable);
         continue;
       }

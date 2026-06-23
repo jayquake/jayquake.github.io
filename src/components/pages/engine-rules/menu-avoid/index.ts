@@ -5,8 +5,8 @@ import { PassCondition } from "~/rules/interfaces";
 export const MenuAvoid: Rule = {
   id: "menu-avoid",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "General",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
@@ -16,6 +16,12 @@ export const MenuAvoid: Rule = {
   advice: 'Remove role="menu" from the failing element.',
   associatedDetectors: [CompliantComponentMenu],
   refs: [
+    {
+      type: "WCAG",
+      id: "1.3.1",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
+    },
     {
       type: "W3C",
       link: "https://www.w3.org/WAI/tutorials/menus/structure/",

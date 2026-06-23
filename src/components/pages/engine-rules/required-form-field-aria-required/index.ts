@@ -5,8 +5,8 @@ import { PassCondition } from "~/rules/interfaces";
 export const RequiredFormFieldAriaRequired: Rule = {
   id: "required-form-field-aria-required",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "Forms",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
@@ -19,8 +19,8 @@ export const RequiredFormFieldAriaRequired: Rule = {
     {
       type: "WCAG",
       id: "3.3.1",
-      level: "AA",
-      link: "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1&showtechniques=131%2C221%2C244%2C332%2C333%2C331#error-identification",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/error-identification.html",
     },
     {
       type: "WCAG Technique",

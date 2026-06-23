@@ -5,7 +5,7 @@ const BreadcrumbsMismatchFailure = () => {
   const ruleId = "breadcrumbs-mismatch";
   const title = `Breadcrumb navigation region should have a label`;
   const description = `A breadcrumb region presents a trail of links showing the user’s current page in relation to higher-level pages on a site. Without a label, it may be announced by screen reades simply as "navigation", making it hard to distinguish from other navigation regions on the page.`;
-  const helpText = `Add an aria-label=Breadcrumbs attribute so screen readers can announce that to users.`;
+  const helpText = `Assign aria-label="Breadcrumbs" to the navigation landmark that contains the breadcrumb links.`;
   const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",

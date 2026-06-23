@@ -4,8 +4,8 @@ import { CompliantComponentNavigation, PerceivableComponentBreadcrumb } from "@a
 export const BreadcrumbsNav: Rule = {
   id: "breadcrumbs-in-nav",
   metadata: {
-    category: "General",
-    profile: "Cognitive Disability",
+    category: "Breadcrumbs",
+    profile: ["Cognitive Disability"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },

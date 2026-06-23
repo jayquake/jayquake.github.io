@@ -3,9 +3,9 @@ import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const LinkHomepageWarningSuccess = () => {
   const ruleId = "link-homepage-warning";
-  const title = `Links that redirect to the homepage shouldn't do so without warning the user`;
-  const description = `Standalone redirection links to the homepage can unexpectedly shift the user's context by redirecting them to the homepage. They should therefore display a clear warning so that the user is informed before proceeding`;
-  const helpText = `Include a clear warning that will be visible for screen-readers, indicating that clicking the link will redirect the user to the homepage`;
+  const title = `Warning a user that a link navigates to the homepage is recommended`;
+  const description = `It's good practice to ensure that users can always identify links to the homepage.`;
+  const helpText = `Add a visibly hidden text element that contains 'Home'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id. Alternatively, nest a visibly hidden element that contains additional context inside of the link.`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
@@ -18,11 +18,11 @@ const LinkHomepageWarningSuccess = () => {
   <span data-acsb-sr-only="true" class="acsb-sr-only" style="position: absolute !important; width: 1px !important; height: 1px !important; padding: 0px !important; overflow: hidden !important; clip: rect(0px, 0px, 0px, 0px) !important; border: 0px !important"> | Redirecting user</span>
 </a>` },
   { filename: "link homepage full base url end with slash", content: `<p>
-  <a href="http://127.0.0.1:9000/" id="homepage-link" aria-describedby="homepage-desc">Homepage</a>
+  <a href="http://127.0.0.1:9002/" id="homepage-link" aria-describedby="homepage-desc">Homepage</a>
 </p>
 <p id="homepage-desc">Redirecting to the homepage</p>` },
   { filename: "link homepage full base url", content: `<p>
-  <a href="http://127.0.0.1:9000" id="homepage-link" aria-describedby="homepage-desc">Homepage</a>
+  <a href="http://127.0.0.1:9002" id="homepage-link" aria-describedby="homepage-desc">Homepage</a>
 </p>
 <p id="homepage-desc">Redirecting to the homepage</p>` },
   { filename: "link homepage sr element", content: `<style>

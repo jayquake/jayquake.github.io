@@ -5,13 +5,13 @@ import { CompliantComponentIframe, PerceivableTraitDiscernibleText } from "@acsb
 export const IframeDiscernible: Rule = {
   id: "iframe-discernible",
   metadata: {
-    category: "Forms",
-    profile: "Blind",
+    category: "General",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
   impact: "critical",
-  title: "Iframe needs a label",
+  title: "Iframes should have a descriptive label",
   description: "An iframe needs a label that describes its purpose to screen reader users.",
   advice: "Assign an aria-label to the iframe element.",
   associatedDetectors: [CompliantComponentIframe, PerceivableTraitDiscernibleText],
@@ -20,7 +20,7 @@ export const IframeDiscernible: Rule = {
       type: "WCAG",
       id: "4.1.2",
       level: "A",
-      link: "https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
     },
     {
       type: "ACT",

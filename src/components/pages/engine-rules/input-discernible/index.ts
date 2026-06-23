@@ -6,12 +6,12 @@ export const InputDiscernible: Rule = {
   id: "input-discernible",
   metadata: {
     category: "Forms",
-    profile: "Blind",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
   impact: "critical",
-  title: "Inputs must include a descriptive label",
+  title: "Input controls should have a descriptive label",
   description: "Screen readers rely on correctly coded and associated labels to announce the purpose of a form field. If a label isn't properly associated with its input field, screen reader users won't know the expected input.",
   advice: "Provide a <label> element and associate it with the <input> using the for and id attributes. Alternatively, you can assign an aria-label attribute directly to the <input> element.",
   associatedDetectors: [PerceivableTraitDiscernibleText, CompliantComponentInput],
@@ -20,7 +20,7 @@ export const InputDiscernible: Rule = {
       type: "WCAG",
       id: "1.3.1",
       level: "A",
-      link: "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
     },
     {
       type: "ACT",

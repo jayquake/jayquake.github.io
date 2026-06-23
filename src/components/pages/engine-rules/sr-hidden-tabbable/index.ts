@@ -5,17 +5,23 @@ import { PerceivableTraitTabbable, CompliantTraitVisible } from "@acsbe/core-eng
 export const SRHiddenTabbable: Rule = {
   id: "sr-hidden-tabbable",
   metadata: {
-    category: "Tabs",
-    profile: "Blind",
+    category: "General",
+    profile: ["Motor Impaired"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
   impact: "serious",
-  title: "Elements hidden from screen-reader must not contain tabbable elements.",
-  description: "although the elements are hidden from assistive technologies, users can still navigate to any focusable child elements using the keyboard, but their content is inaccessible to people who use assistive technologies.",
-  advice: "Remove the tabindex attribute from the non-interactive element or set it to -1. This will prevent the element from being focused on by keyboard users.",
+  title: "Hidden elements should not be keyboard navigable",
+  description: "Allowing hidden content to receive keyboard focus creates a confusing tab order, where keyboard users and screen reader users that navigate with the TAB key may encounter interactive controls that are unrelated to the current context.",
+  advice: 'Use tabindex="-1" to remove elements from the tab order when they should not be exposed to assistive technology. Consider using CSS techniques, such as display:none or visibility:hidden when the content should be hidden from all users.',
   associatedDetectors: [PerceivableTraitTabbable, CompliantTraitVisible],
   refs: [
+    {
+      type: "WCAG",
+      id: "2.4.3",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html",
+    },
     {
       type: "Non-Standard",
       link: "https://dequeuniversity.com/rules/axe/4.1/aria-hidden-focus",

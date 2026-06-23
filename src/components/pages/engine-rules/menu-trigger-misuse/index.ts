@@ -5,15 +5,15 @@ import { PassCondition } from "../interfaces";
 export const MenuTriggerMisuse: Rule = {
   id: "menu-trigger-misuse",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "Interactive Content",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
   impact: "serious",
-  title: "Menu trigger buttons/links that aren't perceived as menu trigger should lose the `aria-haspopup` attribute and the `aria-expanded` attribute",
-  description: "Using menu trigger attributes for buttons/links that aren't menu triggers can confuse screen readers and other assistive technologies. This can lead to a poor user experience for people with disabilities.",
-  advice: "Remove the `aria-haspopup` attribute and the `aria-expanded` attribute from the element.",
+  title: "Elements that do not expand additional content should not receive trigger attributes",
+  description: "Only interactive elements that trigger additional content should have relationship and state ARIA attributes, such as aria-expanded and aria-controls, if they have interactive roles, such as button, tab, combobox and in rarer cases, link.",
+  advice: "Remove ARIA relationship and state attributes that are reserved for triggers that expose additional content, such as aria-expanded or aria-controls, from the failing element",
   associatedDetectors: [PerceivableComponentMenuTrigger, CompliantComponentMenuTrigger],
   refs: [
     {

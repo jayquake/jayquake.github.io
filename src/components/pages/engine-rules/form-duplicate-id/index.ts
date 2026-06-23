@@ -7,7 +7,7 @@ export const FormDuplicateId: Rule = {
   id: "form-duplicate-id",
   metadata: {
     category: "General",
-    profile: "Cognitive Disability",
+    profile: ["Cognitive Disability"],
     wcagVersion: "General Guidelines",
     wcagLevel: "N/A",
   },

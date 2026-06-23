@@ -19,6 +19,17 @@ const ListNotEmptySuccess = () => {
     <ul aria-hidden="true"></ul>
   </body>
 </html>` },
+  { filename: "list with invisible items", content: `<html>
+<head> </head>
+<body>
+<ol>
+  <li style="display: none">Milk</li>
+</ol>
+<ul>
+  <li style="visibility: hidden">Coffee</li>
+</ul>
+</body>
+</html>` },
   { filename: "no empty lists", content: `<html>
   <head> </head>
   <body>

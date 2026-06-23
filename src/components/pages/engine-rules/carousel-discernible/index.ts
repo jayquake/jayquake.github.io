@@ -5,12 +5,12 @@ import { PassCondition } from "~/rules/interfaces";
 export const CarouselDiscernible: Rule = {
   id: "carousel-discernible",
   metadata: {
-    category: "Forms",
-    profile: "Blind",
+    category: "Carousels",
+    profile: ["Blind"],
     wcagVersion: "2.0",
-    wcagLevel: "A",
+    wcagLevel: "N/A",
   },
-  impact: "moderate",
+  impact: "minor",
   title: "Carousels should have a descriptive label",
   description: "Carousels need a label so assistive technology announces them with a clear name, such as “Featured products carousel”. This ensures screen reader users know the widget’s purpose and can differentiate it from other carousels on the page.",
   advice: "Provide a clear label for the carousel using aria-labelledby to reference a visible heading or assign aria-label to the carousel container.",

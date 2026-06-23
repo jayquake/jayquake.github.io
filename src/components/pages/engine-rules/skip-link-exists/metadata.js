@@ -8,6 +8,7 @@ export const SkipLinkExists = {
   advice: `Add skip links as the first focusable elements on the page, directing users to regions marked with unique ids and appropriate landmarks such as <main>, <nav>, or <footer>. Keep them visually hidden until focused so they don’t clutter the layout, but ensure they remain accessible to screen readers by avoiding aria-hidden="true" or CSS display:none.`,
   impact: "moderate",
   refs: [
+    { type: "WCAG", id: "2.4.1", level: "A", link: "https://www.w3.org/WAI/WCAG22/Understanding/bypass-blocks.html" },
     { type: "Non-Standard", link: "https://dequeuniversity.com/rules/axe/4.7/skip-link" },
     { type: "Non-Standard", link: "https://a11y-101.com/development/skip-link" },
     { type: "WAI", link: "https://www.w3.org/WAI/WCAG22/Understanding/bypass-blocks.html" },

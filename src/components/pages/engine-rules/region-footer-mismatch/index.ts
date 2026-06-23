@@ -5,23 +5,17 @@ import { PerceivableComponentFooter, CompliantComponentFooter } from "@acsbe/cor
 export const RegionFooterMismatch: Rule = {
   id: "region-footer-mismatch",
   metadata: {
-    category: "Forms",
-    profile: "Blind",
-    wcagVersion: "2.0",
-    wcagLevel: "A",
+    category: "Landmarks",
+    profile: ["Blind"],
+    wcagVersion: "General Guidelines",
+    wcagLevel: "N/A",
   },
-  impact: "serious",
-  title: "Footer region should be correctly marked up",
-  description: "Ensure that the footer region is correctly marked up.",
-  advice: "Add a <footer> element to define the footer of the document.",
+  impact: "moderate",
+  title: "Global site information that appears at the end of each page is contained in a contentinfo landmark (footer)",
+  description: "The contentinfo region, typically represented by the <footer> element, is found at the end of each page and provides screen reader users with information about the website, such as copyright, contact details, legal information, and navigation links.",
+  advice: 'Use a <footer> element or assign role="contentinfo" to the section that provides global information and consistently appears at the end of each page.',
   associatedDetectors: [PerceivableComponentFooter, CompliantComponentFooter],
   refs: [
-    {
-      id: "WCAG-1.1.1",
-      type: "WCAG",
-      level: "A",
-      link: "https://www.w3.org/TR/WCAG20-TECHS/ARIA11.html",
-    },
     {
       type: "W3C",
       link: "https://www.w3.org/WAI/tutorials/page-structure/regions/",

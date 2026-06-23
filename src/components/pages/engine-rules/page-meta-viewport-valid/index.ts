@@ -29,7 +29,7 @@ export const PageMetaViewportValid: Rule = {
   id: "page-meta-viewport-valid",
   metadata: {
     category: "Metadata",
-    profile: "Cognitive Disability",
+    profile: ["Vision Impaired"],
     wcagVersion: "2.0",
     wcagLevel: "AA",
   },
@@ -41,9 +41,9 @@ export const PageMetaViewportValid: Rule = {
   refs: [
     {
       type: "WCAG",
-      id: "1.4.4",
+      id: "2.4.11",
       level: "AA",
-      link: "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1#resize-text",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html",
     },
     {
       type: "W3C",

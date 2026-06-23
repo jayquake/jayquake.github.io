@@ -1,0 +1,148 @@
+import React from "react";
+import EngineIssueFailure from "../../../layout/engineIssueFailure";
+
+const ListItemMisuseFailure = () => {
+  const ruleId = "list-item-missuse";
+  const title = `Orphaned list items with no direct list parent should not be tagged as list items`;
+  const description = `Orphaned list items can be confusing for users of assistive technologies. If list items are used, they should be grouped within a list structure.`;
+  const helpText = `Tag the element as a role="presentation" or remove the list item tag.`;
+  const fixSteps = [
+  "Review the HTML structure",
+  "Apply proper accessibility attributes",
+  "Test with screen readers"
+  ];
+  const htmlExamples = [
+  { filename: "bellaallnatural isolated li", content: `<form method="post" action="/cart/add" id="AddToCartForm" accept-charset="UTF-8" enctype="multipart/form-data" class="shopify-product-form">
+  <input type="hidden" name="form_type" value="product" /><input type="hidden" name="utf8" value="✓" />
+  <div class="selector-wrapper js">
+    <div class="wetheme-dropdown fit-parent wetheme-dropdown--closed wetheme-dropdown--down">
+      <label for="SingleOptionSelector-0">which flavor?</label>
+      <div class="wetheme-dropdown__wrapper">
+        <button id="SingleOptionSelector-0" type="button" autocomplete="off" readonly="readonly" tabindex="0" aria-controls="SingleOptionSelector-0-dropdown">
+          <span class="header--supporting-text">original 🌿</span>
+          <span class="icon-dropdown"
+            ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg
+          ></span>
+        </button>
+        <ul id="SingleOptionSelector-0-dropdown">
+          <li value="original 🌿" class="selected">original 🌿</li>
+          <li value="pineapple 🍍" class="">pineapple 🍍</li>
+          <li value="mango 🥭" class="">mango 🥭</li>
+          <li value="papaya" class="">papaya</li>
+        </ul>
+      </div>
+      <select class="form-control" id="SingleOptionSelector-0" autocomplete="off" style="display: none">
+        <option selected="" value="original 🌿">original 🌿</option>
+
+        <option value="pineapple 🍍">pineapple 🍍</option>
+
+        <option value="mango 🥭">mango 🥭</option>
+
+        <option value="papaya">papaya</option>
+      </select>
+    </div>
+  </div>
+  <select name="id" id="productSelect-template--product" data-section="template--product" autocomplete="off" class="product-single__variants original-select no-js">
+    <option selected="selected" value="46010740277440">original 🌿 - \$28.00 USD</option>
+    <option value="46010740310208">pineapple 🍍 - \$28.00 USD</option>
+    <option value="46010740342976">mango 🥭 - \$28.00 USD</option>
+    <option value="47041719271616">papaya - \$28.00 USD</option>
+  </select>
+  <div class="selector-wrapper col-md-6 col-sm-12 col-xs-12">
+    <label for="Quantity" class="quantity-selector product-sub-label">Quantity</label>
+    <div class="js-qty">
+      <button type="button" class="js-qty__adjust js-qty__adjust--minus icon-fallback-text"><i aria-hidden="true" class="fa fa-minus"></i> <span class="fallback-text">−</span></button> <input type="text" value="1" min="1" aria-label="quantity" pattern="[0-9]*" name="quantity" id="Quantity" class="js-qty__num" />
+      <button type="button" class="js-qty__adjust js-qty__adjust--plus icon-fallback-text"><i aria-hidden="true" class="fa fa-plus"></i> <span class="fallback-text">+</span></button>
+    </div>
+  </div>
+  <span class="visually-hidden">Sale price</span>
+  <p id="ComparePrice"><span class="money">\$35.00</span></p>
+  <li class="product-page--pricing--discount">
+    <span class="variant-percentage-wrapper"> -<span class="variant-percentage">20%</span></span>
+  </li>
+  <span class="visually-hidden">Regular price</span> <span id="ProductPrice" itemprop="price" content="28" class="h2"><span class="money">\$28.00</span></span
+  ><square-placement
+    data-mpid="www-bellaallnatural-com.myshopify.com"
+    data-currency="USD"
+    data-platform="shopify-snippet"
+    data-consumer-locale="en_US"
+    data-show-upper-limit="true"
+    data-show-lower-limit="false"
+    data-show-if-outside-limits="true"
+    data-payment-amount-is-bold="true"
+    data-size="sm"
+    data-logo-type="compact-badge"
+    id="placement-1767013710578"
+    data-page-type="product"
+    data-item-skus="2796452032"
+    data-item-categories=""
+    data-amount="28"
+    style="margin-top: 0px; margin-bottom: 0px"
+  ></square-placement>
+  <!---->
+  <div class="paymentButtonsWrapper">
+    <button type="submit" name="add" id="AddToCart" class="btn add-to-cart--secondary" data-original-text="loading... Add to Cart   ">
+      <!----><span class="sr-only">loading...</span> <span class="js">Add to Cart</span>
+      <!---->
+      <!---->
+      <!---->
+    </button>
+    <div data-shopify="payment-button" class="shopify-payment-button">
+      <shopify-accelerated-checkout
+        recommended='{"name":"shop_pay","wallet_params":{"shopId":14035719,"merchantName":"Bella All Natural","personalized":true}}'
+        fallback='{"name":"buy_it_now","wallet_params":{}}'
+        access-token="de05bce66753302217c477fdd09f5c95"
+        buyer-country="US"
+        buyer-locale="en"
+        buyer-currency="USD"
+        variant-params='[{"id":46010740277440,"requiresShipping":true},{"id":46010740310208,"requiresShipping":true},{"id":46010740342976,"requiresShipping":true},{"id":47041719271616,"requiresShipping":true}]'
+        shop-id="14035719"
+        enabled-flags='["ae0f5bf6"]'
+        requires-shipping=""
+        ><shop-pay-wallet-button access-token="de05bce66753302217c477fdd09f5c95" buyer-country="US" buyer-currency="USD" wallet-params='{"shopId":14035719,"merchantName":"Bella All Natural","personalized":true}' page-type="product" slot="button" requires-shipping="" call-to-action="" personalized="true">&nbsp;</shop-pay-wallet-button
+        ><more-payment-options-link buyer-country="US" access-token="de05bce66753302217c477fdd09f5c95" recommended-instrument="ShopPay" slot="more-options"
+          ><a class="shopify-payment-button__more-options" id="more-payment-options-link" href="#">More payment options</a
+          ><style>
+            #more-payment-options-link {
+              cursor: pointer;
+            }
+          </style></more-payment-options-link
+        ></shopify-accelerated-checkout
+      >
+      <small id="shopify-buyer-consent" aria-hidden="true" data-consent-type="subscription" class="hidden">
+        This item is a recurring or deferred purchase. By continuing, I agree to the <span id="shopify-subscription-policy-button">cancellation policy</span> and authorize you to charge my payment method at the prices, frequency and dates listed on this page until my order is fulfilled or I cancel, if permitted.
+      </small>
+    </div>
+  </div>
+  <!---->
+  <input type="hidden" name="product-id" value="9641754438" /><input type="hidden" name="section-id" value="template--product" />
+</form>` },
+  { filename: "li orphans", content: `<div>
+  <li class="orphaned">item #1</li>
+  <li class="orphaned">item #2</li>
+</div>` },
+  { filename: "li outside list parent", content: `<div>
+  <li class="orphaned">item #1</li>
+</div>` },
+  { filename: "role listitem orphans", content: `<div>
+  <div role="listitem" class="orphaned">item #1</div>
+  <div role="listitem" class="orphaned">item #2</div>
+</div>` },
+  { filename: "role listitem outside list", content: `<div>
+  <div role="listitem" class="orphaned">item #1</div>
+</div>` }
+  ];
+
+  return (
+    <EngineIssueFailure
+      ruleId={ruleId}
+      title={title}
+      description={description}
+      helpText={helpText}
+      fixSteps={fixSteps}
+      htmlExamples={htmlExamples}
+    />
+  );
+};
+
+export default ListItemMisuseFailure;

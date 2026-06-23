@@ -5,17 +5,23 @@ import { PassCondition } from "~/rules/interfaces";
 export const UserRatingDiscernible: Rule = {
   id: "user-rating-discernible",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "Graphics",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
   impact: "serious",
   title: "User ratings should be tagged and labeled for assistive technology",
   description: "When a static star rating is presented using unlabeled icons, screen readers cannot interpret the symbols as meaningful content. Assigning a role and text alternative ensures the rating value is conveyed clearly, allowing non-visual users to understand the information.",
-  advice: 'Assign role="img" with an aria-label such as “4 out of 5 stars,” either directly on a single image or SVG, or on a container that holds the star elements.',
+  advice: 'Assign role="img" with an aria-label, such as “4 out of 5 stars,” to the image element, or to an enclosing container if each star is presented as a separate element.',
   associatedDetectors: [PerceivableTraitDiscernibleText, PerceivableComponentUserRating],
   refs: [
+    {
+      type: "WCAG",
+      id: "1.1.1",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html",
+    },
     {
       type: "WAI",
       link: "https://www.w3.org/WAI/ARIA/apg/patterns/radio/examples/radio-rating/",

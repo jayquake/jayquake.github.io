@@ -3,8 +3,8 @@ import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const ImageMisuseSuccess = () => {
   const ruleId = "image-misuse";
-  const title = `An element that does not function as an image should be assigned role="img"`;
-  const description = `Using an image tag for content that isn't an image can obscure relevant information and confuse screen readers and other assistive technologies. This can lead to a poor user experience for people with disabilities.`;
+  const title = `Only elements that function as images should be tagged as image`;
+  const description = `When non-graphical elements are marked up as images, screen reader users may misunderstand the intended purpose of the content.`;
   const helpText = `Remove role="img" from the failing element.`;
   const bestPractices = [
   "Follow proper HTML semantics",

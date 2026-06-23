@@ -4,10 +4,10 @@ import { PassCondition } from "~/rules/interfaces";
 export const NoRoleApplication: Rule = {
   id: "no-role-application",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
-    wcagVersion: "General Guidelines",
-    wcagLevel: "N/A",
+    category: "General",
+    profile: ["Blind"],
+    wcagVersion: "2.0",
+    wcagLevel: "A",
   },
   impact: "critical",
   title: 'Avoid using role="application"',
@@ -15,6 +15,12 @@ export const NoRoleApplication: Rule = {
   advice: 'Remove role="application" from the failing element.',
   associatedDetectors: [],
   refs: [
+    {
+      type: "WCAG",
+      id: "1.3.1",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
+    },
     {
       type: "Non-Standard",
       link: "https://stackoverflow.com/a/61693580",

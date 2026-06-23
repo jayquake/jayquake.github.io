@@ -3,9 +3,9 @@ import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const RegionFooterMisuseFailure = () => {
   const ruleId = "region-footer-misuse";
-  const title = `Footer region should be correctly marked up`;
-  const description = `Ensure that the footer region is correctly marked up.`;
-  const helpText = `Add a <footer> element to define the footer of the document.`;
+  const title = `An element without global site information is tagged as a contentinfo landmark`;
+  const description = `When a region without global site information is tagged as a contentinfo landmark, screen reader users may be misled about its purpose and expect website-level details, such as copyright or contact information.`;
+  const helpText = `If the failing element is a custom contentinfo region, remove role="contentinfo". If the failing element is coded using a HTML <footer> tag, change the tag to a <div> or an element with a suitable role.`;
   const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",

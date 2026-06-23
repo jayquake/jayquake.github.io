@@ -5,23 +5,17 @@ import { PerceivableComponentFooter, CompliantComponentFooter } from "@acsbe/cor
 export const RegionFooterMisuse: Rule = {
   id: "region-footer-misuse",
   metadata: {
-    category: "Forms",
-    profile: "Blind",
-    wcagVersion: "2.0",
-    wcagLevel: "A",
+    category: "Landmarks",
+    profile: ["Blind"],
+    wcagVersion: "General Guidelines",
+    wcagLevel: "N/A",
   },
   impact: "serious",
-  title: "Footer region should be correctly marked up",
-  description: "Ensure that the footer region is correctly marked up.",
-  advice: "Add a <footer> element to define the footer of the document.",
+  title: "An element without global site information is tagged as a contentinfo landmark",
+  description: "When a region without global site information is tagged as a contentinfo landmark, screen reader users may be misled about its purpose and expect website-level details, such as copyright or contact information.",
+  advice: 'If the failing element is a custom contentinfo region, remove role="contentinfo". If the failing element is coded using a HTML <footer> tag, change the tag to a <div> or an element with a suitable role.',
   associatedDetectors: [PerceivableComponentFooter, CompliantComponentFooter],
   refs: [
-    {
-      id: "WCAG-1.1.1",
-      type: "WCAG",
-      level: "A",
-      link: "https://www.w3.org/TR/WCAG20-TECHS/ARIA11.html",
-    },
     {
       type: "W3C",
       link: "https://www.w3.org/WAI/tutorials/page-structure/regions/",

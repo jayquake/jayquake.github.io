@@ -1,0 +1,33 @@
+<!--testconfig
+    "testedClass": "Rules.HeaderNavigationDiscernible",
+    "expect": {
+        "passedNodes": ["#nav1", "#nav2"],
+        "failedNodes": []
+    }
+-->
+<!-- This test checks for multiple navs in one header with labels. -->
+<header>
+  <nav id="nav1" aria-label="Header Navigation">
+    <ul>
+      <li>
+        <a href="/home">Home</a>
+      </li>
+      <li>
+        <a href="/about">About</a>
+      </li>
+      <li>
+        <a href="/pricing">Pricing</a>
+      </li>
+    </ul>
+  </nav>
+  <nav id="nav2" aria-label="Other Header Navigation">
+    <ul>
+      <li>
+        <a href="/someplace">Some Place</a>
+      </li>
+      <li>
+        <a href="/otherplace">A different place</a>
+      </li>
+    </ul>
+  </nav>
+</header>

@@ -5,8 +5,8 @@ import { CompliantComponentTable, PerceivableComponentTable } from "@acsbe/core-
 export const TableMisuse: Rule = {
   id: "table-misuse",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "Tables",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
@@ -20,7 +20,7 @@ export const TableMisuse: Rule = {
       type: "WCAG",
       id: "1.3.1",
       level: "A",
-      link: "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=131#info-and-relationships",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
     },
     {
       type: "W3C",

@@ -3,9 +3,9 @@ import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const BackgroundImageDiscernibleImageFailure = () => {
   const ruleId = "background-image-discernible-image";
-  const title = `Non decorative Background images should be tagged and labeled`;
-  const description = `Background image alternative text should be labeled as image for screen reader.`;
-  const helpText = `Add role='img' to the first discernible sr-only element in the background image.`;
+  const title = `Functional image displayed using CSS background properties should be tagged for assistive technology`;
+  const description = `Functional images presented using CSS background or background-image properties should be marked up using role="img" so that they can be identified as images by screen reader users.`;
+  const helpText = `Add role="img" to elements that present functional images using CSS.`;
   const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",

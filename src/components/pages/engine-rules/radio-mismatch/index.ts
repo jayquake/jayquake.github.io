@@ -5,12 +5,12 @@ import { CompliantComponentRadioButton, PerceivableComponentRadioButton } from "
 export const RadioMismatch: Rule = {
   id: "radio-mismatch",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "Forms",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
-  impact: "serious",
+  impact: "critical",
   title: "Custom radio controls should be tagged for assistive technology",
   description: "Screen readers have built-in mechanisms to handle radio components. By default, assistive technology does not support custom radio controls and using them without exposing the appropriate role may prevent screen reader users from interacting as expected with the component.",
   advice: 'Assign role="radio" to the custom radio control.',
@@ -32,6 +32,12 @@ export const RadioMismatch: Rule = {
     const radioButtons = classifier.getMatched([PerceivableComponentRadioButton]);
 
     for (const radio of radioButtons) {
+      // If the perceivable radio has a compliant radio as a child, screen readers will already announce it as a radio, making the parent inapplicable for this rule (adding role="radio" to the parent would be redundant).
+      const compliantRadioChildren = classifier.getMatched([CompliantComponentRadioButton], radio);
+      if (compliantRadioChildren.length > 0) {
+        response.inapplicableNodes.push(radio);
+        continue;
+      }
       if (classifier.assert(radio, CompliantComponentRadioButton)) {
         response.passedNodes.push(radio);
       } else {

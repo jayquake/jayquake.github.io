@@ -5,8 +5,8 @@ import { PassCondition } from "~/rules/interfaces";
 export const CarouselSlidePickerDiscernible: Rule = {
   id: "carousel-slide-picker-discernible",
   metadata: {
-    category: "Forms",
-    profile: "Blind",
+    category: "Carousels",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },

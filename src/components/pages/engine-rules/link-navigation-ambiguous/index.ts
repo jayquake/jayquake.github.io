@@ -5,22 +5,22 @@ import { PassCondition } from "../interfaces";
 export const LinkNavigationAmbiguous: Rule = {
   id: "link-navigation-ambiguous",
   metadata: {
-    category: "Lists",
-    profile: "Blind",
+    category: "Interactive Content",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
   impact: "serious",
-  title: "Ambiguous links should include additional screen-reader description",
-  description: 'Ambiguous links like "Learn More", "Shop Now" and "Start Here" are often used as a call to action. However, screen-reader users, while using link navigation, do not interact with content above or below the link and therefore don\'t have the same context as to what they will learn more about.',
-  advice: "Add a screen-reader only text which gives additional context to the destination of the link. You can use the `aria-label` attribute to provide a description of the link's purpose.",
+  title: "Link context should be exposed to assistive technology",
+  description: "Screen reader users may find it difficult to distinguish between links when the purpose of each link cannot be determined from its text alone or together with its immediate context.",
+  advice: "Assign a unique id to an existing element that contains additional context for the link, add aria-describedby to the link and reference the assigned id. Alternatively, nest a visibly hidden element that contains additional context inside of the link.",
   associatedDetectors: [PerceivableComponentLinkNavigation],
   refs: [
     {
       type: "WCAG",
       id: "2.4.4",
       level: "A",
-      link: "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=211#link-purpose-in-context",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context.html",
     },
     {
       type: "ACT",

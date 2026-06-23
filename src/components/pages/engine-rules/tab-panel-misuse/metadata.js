@@ -8,6 +8,7 @@ export const TabPanelMisuse = {
   advice: `Remove role="tabpanel" from the failing element.`,
   impact: "serious",
   refs: [
+    { type: "WCAG", id: "1.3.1", level: "A", link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html" },
     { type: "Non-Standard", link: "https://www.digitala11y.com/tabpanel-role/" },
     { type: "Non-Standard", link: "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/tabpanel_role" },
     { type: "W3C", link: "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/examples/tabs-automatic/" }

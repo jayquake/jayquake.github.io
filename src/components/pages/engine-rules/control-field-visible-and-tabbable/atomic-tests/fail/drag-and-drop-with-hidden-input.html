@@ -1,0 +1,87 @@
+<!--testconfig
+    "testedClass": "Rules.ControlFieldVisibleAndTabbable",
+    "expect": {
+        "failedNodes": ["div#drop-zone"]
+    }
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drag and Drop Image Upload</title>
+    <style>
+      .drop-zone {
+        width: 100%;
+        padding: 20px;
+        border: 2px dashed #ccc;
+        border-radius: 10px;
+        text-align: center;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      .drop-zone.dragover {
+        background-color: #f0f0f0;
+      }
+      .image-preview {
+        margin-top: 10px;
+        max-width: 100%;
+        height: auto;
+        display: none;
+      }
+      input[type="file"] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <form method="post" enctype="multipart/form-data">
+      <div class="drop-zone" id="drop-zone">
+        <p>Drag & Drop an image here or <span style="color: blue; text-decoration: underline">Browse</span></p>
+        <input type="file" id="image" name="image" accept="image/*" />
+      </div>
+      <img id="image-preview" class="image-preview" alt="Image Preview" />
+      <div>
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+
+    <script>
+      const dropZone = document.getElementById("drop-zone");
+      const fileInput = document.getElementById("image");
+      const imagePreview = document.getElementById("image-preview");
+
+      dropZone.addEventListener("click", () => fileInput.click());
+
+      dropZone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropZone.classList.add("dragover");
+      });
+
+      dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
+
+      dropZone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dropZone.classList.remove("dragover");
+        const file = e.dataTransfer.files[0];
+        handleFile(file);
+      });
+
+      fileInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        handleFile(file);
+      });
+
+      function handleFile(file) {
+        if (file && file.type.startsWith("image/")) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            imagePreview.src = e.target.result;
+            imagePreview.style.display = "block";
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+    </script>
+  </body>
+</html>

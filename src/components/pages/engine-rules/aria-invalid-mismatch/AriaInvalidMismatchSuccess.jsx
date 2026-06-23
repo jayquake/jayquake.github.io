@@ -4,8 +4,8 @@ import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 const AriaInvalidMismatchSuccess = () => {
   const ruleId = "aria-invalid-mismatch";
   const title = `Form fields should indicate validation errors to assistive technology`;
-  const description = `Screen reader users rely on properly coded field validation status and associated errormessages. Otherwise, users have to browse around and search the page for clues as to why their submission attempt didn't work.`;
-  const helpText = `To make sure that screen readers are aware of form fields with invalid input, set aria-invalid="true". Remove the attribute once the value becomes valid.`;
+  const description = `Validation errors in forms must be exposed in a way that assistive technologies can detect and announce them, ensuring users who rely on assistive technology can identify and correct mistakes.`;
+  const helpText = `To make sure that screen reader users are aware of form fields with invalid input, set aria-invalid="true". Remove the attribute once the value becomes valid.`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",

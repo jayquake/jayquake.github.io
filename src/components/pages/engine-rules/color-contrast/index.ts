@@ -5,23 +5,23 @@ import { PassCondition } from "~/rules/interfaces";
 export const ColorContrast: Rule = {
   id: "color-contrast",
   metadata: {
-    category: "Graphics",
-    profile: "Vision Impaired",
-    wcagVersion: "2.1",
+    category: "Text Content",
+    profile: ["Vision Impaired"],
+    wcagVersion: "2.0",
     wcagLevel: "AA",
   },
   impact: "serious",
   title: "The color contrast ratio between text and its background should provide a readable experience",
   description:
     "The color contrast between foreground text and its background must be at lease at least 4.5:1 for normal text. Large-scale text, equal to or greater than 24px font size, or bold text that is equal to or greater than 18px, may meet a lower ratio of 3:1. However, it is recommended to meet the ratio 4.5:1 in all cases for readability.",
-  advice: "Work with the website's designers to choose colors that properly meet the minimum contrast ratio requirements. To check color contrast with different potential colors, use Webaim's contrast checker at https://webaim.org/resources/contrastchecker",
+  advice: "Work with designers to choose colors that properly meet the minimum contrast ratio requirements. To check color contrast with different color combinations, use Webaim's contrast checker at http:///webaim.org/resources/contrastcheckerhttp:///webaim.org/resources/contrastchecker",
   associatedDetectors: [CompliantTraitVisible],
   refs: [
     {
       type: "WCAG",
       id: "1.4.3",
       level: "AA",
-      link: "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=144%2C1412%2C211%2C143#contrast-minimum",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
     },
     {
       type: "WAI",
@@ -56,6 +56,16 @@ export const ColorContrast: Rule = {
       if (!visibleText || !directText) continue;
 
       const { colorContrastRatio } = colorInfo;
+
+      if (colorContrastRatio === false) {
+        /*
+         Unsupported background colors: can't reliably compute contrast for this element.
+         TODO: change to `null` check if we turn on strict null checks in the classifier/auditor
+         */
+        response.inapplicableNodes.push(element);
+        continue;
+      }
+
       const { fontSize } = typographyInfo;
 
       // WCAG recommendation for color contrast.

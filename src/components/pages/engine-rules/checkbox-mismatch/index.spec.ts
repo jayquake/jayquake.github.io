@@ -19,7 +19,8 @@ describe("CheckboxMismatch Rule Validation", () => {
     `;
     const checkbox = document.getElementById("custom-checkbox");
 
-    jest.spyOn(classifier, "getMatched").mockReturnValue([checkbox]);
+    jest.spyOn(classifier, "getMatched").mockReturnValueOnce([checkbox]);
+    jest.spyOn(classifier, "getMatched").mockReturnValueOnce([]);
     jest.spyOn(classifier, "assert").mockReturnValue(true);
 
     await CheckboxMismatch.validate(validateMethodArguments);
@@ -37,11 +38,32 @@ describe("CheckboxMismatch Rule Validation", () => {
     `;
     const checkbox = document.getElementById("custom-checkbox");
 
-    jest.spyOn(classifier, "getMatched").mockReturnValue([checkbox]);
+    jest.spyOn(classifier, "getMatched").mockReturnValueOnce([checkbox]);
+    jest.spyOn(classifier, "getMatched").mockReturnValueOnce([]);
     jest.spyOn(classifier, "assert").mockReturnValue(false);
 
     await CheckboxMismatch.validate(validateMethodArguments);
     expect(response.failedNodes).toContain(checkbox);
+    expect(response.passedNodes).toHaveLength(0);
+  });
+
+  it("should mark as inapplicable when a perceivable checkbox has a compliant checkbox child", async () => {
+    const { document, response, classifier } = validateMethodArguments;
+    document.body.innerHTML = `
+          <div id="parent-checkbox" class="checkbox-wrapper">
+              <input id="child-checkbox" type="checkbox" />
+              <label for="child-checkbox">Checkbox</label>
+          </div>
+    `;
+    const parentCheckbox = document.getElementById("parent-checkbox");
+    const childCheckbox = document.getElementById("child-checkbox");
+
+    jest.spyOn(classifier, "getMatched").mockReturnValueOnce([parentCheckbox]);
+    jest.spyOn(classifier, "getMatched").mockReturnValueOnce([childCheckbox]);
+
+    await CheckboxMismatch.validate(validateMethodArguments);
+    expect(response.inapplicableNodes).toContain(parentCheckbox);
+    expect(response.failedNodes).toHaveLength(0);
     expect(response.passedNodes).toHaveLength(0);
   });
 });

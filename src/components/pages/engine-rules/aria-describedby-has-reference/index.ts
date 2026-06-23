@@ -4,23 +4,17 @@ import { PassCondition } from "~/rules/interfaces";
 export const AriaDescribedByHasReference: Rule = {
   id: "aria-describedby-has-reference",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
-    wcagVersion: "2.0",
-    wcagLevel: "A",
+    category: "General",
+    profile: ["Blind"],
+    wcagVersion: "General Guidelines",
+    wcagLevel: "N/A",
   },
   impact: "serious",
   title: "aria-describedby should reference a valid element id",
-  description: "The element’s aria-describedby attribute points to an id that does not exist or is not valid, preventing assistive technologies from announcing the intended description and causing users to miss important context.",
-  advice: "Make the value of aria-describedby exactly match the id of an existing, unique element on the page. Remove or update the attribute if the target is missing or no longer relevant",
+  description: "If an element’s aria-describedby attribute points to an id that does not exist or is not valid, assistive technologies will not convey the intended description, causing users to miss important context.",
+  advice: "Ensure aria-describedby references an existing, unique id on the page. Remove or update the attribute if the target element is missing or no longer relevant.",
   associatedDetectors: [],
   refs: [
-    {
-      type: "WCAG",
-      id: "1.3.1",
-      level: "A",
-      link: "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=131%2C411#parsing",
-    },
     {
       type: "WCAG Technique",
       link: "https://www.w3.org/WAI/WCAG22/Techniques/aria/ARIA1",

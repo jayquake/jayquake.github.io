@@ -3,9 +3,9 @@ import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const NavigationItemLinkSuccess = () => {
   const ruleId = "navigation-item-link";
-  const title = `All leaf nodes in a navigation tree should contain a link element.`;
-  const description = `Navigation items, whether their functionality is provided using JS (custom behavior), should always have a child that is a link and not as a clickable LI element with text.`;
-  const helpText = `Always include a link under navigation items and avoid using text elements even if functionality is provided using JS.`;
+  const title = `List items in a navigation region should not be interactive`;
+  const description = `Adding interactive behavior to <li> elements within a navigation list may prevent screen reader users from identifying the element as actionable, since <li> elements are announced as list items and expected to be static.`;
+  const helpText = `In order to maintain the semantic structure of the list, a properly formed <a> element should be nested inside the <li>.`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",

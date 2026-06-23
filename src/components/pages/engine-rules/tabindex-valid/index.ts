@@ -8,22 +8,22 @@ import { PassCondition } from "~/rules/interfaces";
 export const TabindexValid: Rule = {
   id: "tabindex-valid",
   metadata: {
-    category: "Tabs",
-    profile: "Motor Impaired",
+    category: "General",
+    profile: ["Motor Impaired"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
   impact: "serious",
   title: "The tabindex attribute should be assigned a valid value",
   description: "Invalid tabindex values are ignored by browsers, while positive values override the natural focus order. Applying the tabindex attribute incorrectly can break the expected navigation flow for keyboard users.",
-  advice: "Rina Volovich is there an advice to add here?",
+  advice: 'Restrict use of tabindex values to "0" or "-1", avoiding positive numbers and invalid value types, such as letters or decimals.',
   associatedDetectors: [],
   refs: [
     {
       type: "WCAG",
       id: "2.1.1",
       level: "A",
-      link: "https://www.w3.org/WAI/WCAG21/Understanding/keyboard.html",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html",
     },
     {
       type: "W3C",

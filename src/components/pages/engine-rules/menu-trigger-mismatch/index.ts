@@ -5,8 +5,8 @@ import { PassCondition } from "../interfaces";
 export const MenuTriggerMismatch: Rule = {
   id: "menu-trigger-mismatch",
   metadata: {
-    category: "General",
-    profile: "Cognitive Disability",
+    category: "Interactive Content",
+    profile: ["Cognitive Disability"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },

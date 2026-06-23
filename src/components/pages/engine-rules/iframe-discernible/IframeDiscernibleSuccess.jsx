@@ -3,7 +3,7 @@ import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const IframeDiscernibleSuccess = () => {
   const ruleId = "iframe-discernible";
-  const title = `Iframe needs a label`;
+  const title = `Iframes should have a descriptive label`;
   const description = `An iframe needs a label that describes its purpose to screen reader users.`;
   const helpText = `Assign an aria-label to the iframe element.`;
   const bestPractices = [

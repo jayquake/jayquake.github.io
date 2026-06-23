@@ -6,10 +6,10 @@ import { PassCondition } from "~/rules/interfaces";
 export const CarouselAriaLive: Rule = {
   id: "carousel-aria-live",
   metadata: {
-    category: "Lists",
-    profile: "Blind",
-    wcagVersion: "General Guidelines",
-    wcagLevel: "N/A",
+    category: "Carousels",
+    profile: ["Blind"],
+    wcagVersion: "2.1",
+    wcagLevel: "AA",
   },
   impact: "critical",
   title: "Carousels should not be tagged as live regions",
@@ -17,6 +17,12 @@ export const CarouselAriaLive: Rule = {
   advice: 'Remove the aria-live attribute and any live region roles, such as role="alert", from the carousel and its content.',
   associatedDetectors: [PerceivableComponentCarousel],
   refs: [
+    {
+      type: "WCAG",
+      id: "4.1.3",
+      level: "AA",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html",
+    },
     {
       type: "Non-Standard",
       link: "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-live",

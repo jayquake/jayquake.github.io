@@ -3,11 +3,11 @@
 
 export const LinkImageWarning = {
   id: "link-image-warning",
-  title: `Links that open an image shouldn't do so without warning the user`,
-  description: `Standalone image links can unexpectedly shift the user's context by redirecting them to an image. They should therefore display a clear warning so that the user is informed before proceeding`,
-  advice: `Include a clear warning that will be visible for screen-readers, indicating that clicking the link will open an image.`,
-  impact: "moderate",
+  title: `Warning a user when a link triggers an image to open is recommended`,
+  description: `It's good practice to warn users about the expected behavior when activating a link triggers an image to appear.`,
+  advice: `Add a visibly hidden text element that contains 'Opens image'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id. Alternatively, nest a visibly hidden element that contains additional context inside of the link.`,
+  impact: "minor",
   refs: [
-    { type: "WCAG", id: "3.2.1", level: "A", link: "https://www.w3.org/WAI/WCAG21/Understanding/on-focus.html" }
+
   ]
 };

@@ -60,6 +60,7 @@ interface RuleReferenceWAI {
 }
 
 type RuleReference = RuleReferenceWCAG | RuleReferenceNonStandard | RuleReferenceW3C | RuleReferenceWCAGTechnique | RuleReferenceACT | RuleReferenceWAI;
+type AccessibilityProfile = "Blind" | "Vision Impaired" | "Cognitive Disability" | "Motor Impaired";
 
 export type Rule = {
   validate: ({ classifier, root, document, response }: { classifier: EngineClassifier; root: SvgOrHtmlElement; response: Omit<RuleValidateResponse, "passed">; document: Document }) => Promise<void>;
@@ -73,8 +74,8 @@ export type Rule = {
   description: string;
   isBackendOnly?: boolean;
   metadata: {
-    category: "ARIA" | "Forms" | "General" | "Graphics" | "Interactive Content" | "Landmarks" | "Lists" | "Metadata" | "Tables" | "Tabs" | "Dragging Alternative";
-    profile: "Blind" | "Vision Impaired" | "Cognitive Disability" | "Motor Impaired";
+    category: "Forms" | "General" | "Graphics" | "Interactive Content" | "Landmarks" | "Lists" | "Metadata" | "Tables" | "Tabs" | "Breadcrumbs" | "Carousels" | "Text Content" | "Dialogs" | "Moving Content";
+    profile: AccessibilityProfile[];
     wcagVersion: "2.0" | "2.1" | "2.2" | "General Guidelines";
     wcagLevel: "A" | "AA" | "AAA" | "N/A";
   };

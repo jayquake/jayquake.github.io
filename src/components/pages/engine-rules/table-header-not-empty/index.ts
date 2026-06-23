@@ -5,8 +5,8 @@ import { PassCondition } from "~/rules/interfaces";
 export const TableHeaderNotEmpty: Rule = {
   id: "table-header-not-empty",
   metadata: {
-    category: "Forms",
-    profile: "Blind",
+    category: "Tables",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
@@ -20,7 +20,7 @@ export const TableHeaderNotEmpty: Rule = {
       type: "WCAG",
       id: "1.3.1",
       level: "A",
-      link: "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=131#info-and-relationships",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
     },
     {
       type: "ACT",

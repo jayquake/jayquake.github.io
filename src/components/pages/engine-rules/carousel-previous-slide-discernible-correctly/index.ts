@@ -8,10 +8,10 @@ const EXPECTED_CONTROL_WORDS = ["previous", "back"] as const;
 export const CarouselPreviousSlideDiscernibleCorrectly: Rule = {
   id: "carousel-previous-slide-discernible-correctly",
   metadata: {
-    category: "Forms",
-    profile: "Blind",
+    category: "Carousels",
+    profile: ["Blind"],
     wcagVersion: "2.0",
-    wcagLevel: "A",
+    wcagLevel: "AA",
   },
   impact: "serious",
   title: "Carousel Previous pagination control should have an accurate and descriptive label",

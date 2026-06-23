@@ -3,9 +3,9 @@ import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const LinkAnchorDiscernibleFailure = () => {
   const ruleId = "link-anchor-discernible";
-  const title = `Anchor links discernible text`;
-  const description = `Anchors links need discernible text that tells visitors where the link takes them.`;
-  const helpText = `Add discernible text to the anchor`;
+  const title = `Anchor links should have a descriptive label`;
+  const description = `Activating anchor links enables users to navigate to a different section within the same page by scrolling and moving keyboard focus. Anchor links that do not contain visible text or labeled images should be assigned labels that inform screen reader users of their destination.`;
+  const helpText = `If an anchor link does not contain a labeled image or visible text, assign an aria-label that describes the destination of the link.`;
   const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",

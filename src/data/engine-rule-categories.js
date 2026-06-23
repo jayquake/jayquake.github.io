@@ -1,6 +1,6 @@
 /**
  * Engine rule category mapping.
- * Groups all 162 engine rules into 8 high-level categories for tree-view navigation.
+ * Groups all 167 engine rules into 8 high-level categories for tree-view navigation.
  * Each category has an icon name (MUI icon), a color accent, and an ordered list of rule IDs.
  */
 
@@ -16,7 +16,7 @@ const ENGINE_RULE_CATEGORIES = [
       "aria-invalid-mismatch",
       "aria-invalid-misuse",
       "aria-labelledby-has-reference",
-      "broken-aria-references",
+      "broken-aria-reference",
       "name-prohibited-no-aria-label",
       "no-role-application",
       "sr-hidden-tabbable",
@@ -28,10 +28,13 @@ const ENGINE_RULE_CATEGORIES = [
     icon: "EditNote",
     color: "#2196f3",
     rules: [
+      "captcha-accessible-provider-2.0",
+      "captcha-accessible-provider-2.2",
       "checkbox-aria-checked",
       "checkbox-discernible",
       "checkbox-mismatch",
       "checkbox-misuse",
+      "control-field-visible-and-tabbable",
       "custom-select-options-list-listbox",
       "custom-select-trigger-combobox",
       "form-context-change-warning",
@@ -44,6 +47,7 @@ const ENGINE_RULE_CATEGORIES = [
       "radio-mismatch",
       "radio-misuse",
       "required-form-field-aria-required",
+      "search-input-dynamic-results-announcement",
       "select-option-mismatch",
       "select-option-misuse",
       "slider-dragging-movements",
@@ -58,7 +62,7 @@ const ENGINE_RULE_CATEGORIES = [
     icon: "Link",
     color: "#9c27b0",
     rules: [
-      "breadcrumbs-in-nav",
+      "breadcrumbs-nav",
       "breadcrumbs-mismatch",
       "link-anchor-ambiguous",
       "link-anchor-discernible",
@@ -67,6 +71,7 @@ const ENGINE_RULE_CATEGORIES = [
       "link-homepage-warning",
       "link-image-warning",
       "link-mailto-warning",
+      "link-mismatch",
       "link-navigation-ambiguous",
       "link-navigation-discernible",
       "link-new-window-warning",
@@ -87,8 +92,6 @@ const ENGINE_RULE_CATEGORIES = [
       "navigation-misuse",
       "navigation-not-nested",
       "navigation-redundant-discernible-text",
-      "navigation-submenu-discernible",
-      "navigation-submenu-region",
       "skip-link-exists",
       "skip-link-first",
       "tab-list-mismatch",
@@ -108,7 +111,6 @@ const ENGINE_RULE_CATEGORIES = [
       "alt-misuse",
       "background-image-discernible",
       "background-image-discernible-image",
-      "captcha-accessible-provider",
       "figure-discernible",
       "icon-discernible",
       "image-discernible",
@@ -127,6 +129,8 @@ const ENGINE_RULE_CATEGORIES = [
     color: "#ff9800",
     rules: [
       "article-misuse",
+      "footer-navigation-discernible",
+      "header-navigation-discernible",
       "heading-discernible",
       "heading-h1",
       "heading-lengthy",
@@ -135,7 +139,8 @@ const ENGINE_RULE_CATEGORIES = [
       "heading-order",
       "heading-order-optimal",
       "heading-single-h1",
-      "list-item-within-list",
+      "inner-content-navigation-discernible",
+      "list-item-misuse",
       "list-not-empty",
       "region-footer",
       "region-footer-mismatch",
@@ -145,7 +150,7 @@ const ENGINE_RULE_CATEGORIES = [
       "region-main-content-mismatch",
       "region-main-content-misuse",
       "region-main-content-single",
-      "region-main-navigation",
+      "region-main-navigation-mismatch",
       "table-column-header",
       "table-header-not-empty",
       "table-headers",
@@ -213,7 +218,6 @@ const ENGINE_RULE_CATEGORIES = [
     color: "#607d8b",
     rules: [
       "duplicate-id",
-      "had-meta-viewport",
       "html-lang",
       "html-lang-valid",
       "iframe-discernible",
@@ -221,6 +225,7 @@ const ENGINE_RULE_CATEGORIES = [
       "no-autofocus",
       "no-extra-information-in-title",
       "page-meta-description",
+      "page-meta-viewport",
       "page-meta-viewport-valid",
       "page-no-meta-http-equiv-refresh",
       "page-title",

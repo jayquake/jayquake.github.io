@@ -6,8 +6,8 @@ import { PassCondition } from "~/rules/interfaces";
 export const CarouselRedundantDiscernibleText: Rule = {
   id: "carousel-redundant-discernible-text",
   metadata: {
-    category: "General",
-    profile: "Cognitive Disability",
+    category: "Carousels",
+    profile: ["Cognitive Disability"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },

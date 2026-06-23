@@ -5,8 +5,8 @@ import { CompliantComponentHeading } from "@acsbe/core-engine-classifier";
 export const HeadingLengthy: Rule = {
   id: "heading-lengthy",
   metadata: {
-    category: "General",
-    profile: "Cognitive Disability",
+    category: "Text Content",
+    profile: ["Cognitive Disability"],
     wcagVersion: "General Guidelines",
     wcagLevel: "N/A",
   },

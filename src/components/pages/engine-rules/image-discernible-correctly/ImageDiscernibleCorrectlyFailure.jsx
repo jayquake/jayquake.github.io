@@ -3,7 +3,7 @@ import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const ImageDiscernibleCorrectlyFailure = () => {
   const ruleId = "image-discernible-correctly";
-  const title = `Functional image should have an informative and accurate text alternative`;
+  const title = `Functional images should have an informative and accurate text alternative`;
   const description = `Text alternatives must provide accurate descriptions of the image. Incorrect text alternatives, such as filenames or other placeholder values, may cause screen reader users to either miss essential information or hear unnecessary content that disrupts navigation.`;
   const helpText = `Make sure that the assigned text alternative describes the content or function of the image.`;
   const fixSteps = [

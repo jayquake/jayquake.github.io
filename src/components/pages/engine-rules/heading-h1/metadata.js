@@ -8,8 +8,7 @@ export const HeadingH1 = {
   advice: `Add a h1 element at the start of the main content on the page.`,
   impact: "serious",
   refs: [
-    { type: "WCAG", id: "1.3.1", level: "A", link: "https://www.w3.org/WAI/WCAG21/quickref/#info-and-relationships" },
-    { type: "WCAG", id: "2.4.1", level: "A", link: "https://www.w3.org/TR/2008/REC-WCAG20-20081211/#navigation-mechanisms-headings" },
+    { type: "WCAG", id: "1.3.1", level: "A", link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html" },
     { type: "WCAG Technique", link: "https://www.w3.org/TR/2008/REC-WCAG20-20081211/#content-structure-separation-programmatic" }
   ]
 };

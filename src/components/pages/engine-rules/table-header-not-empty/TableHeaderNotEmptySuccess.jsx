@@ -2,10 +2,10 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const TableHeaderNotEmptySuccess = () => {
-  const ruleId = "table-header-not-empty";
-  const title = `Table header cells should not be empty`;
-  const description = `If a table header cell is empty, screen reader users may only hear a generic label such as "column 3" or nothing at all. This makes it harder to understand what each column or row represents.`;
-  const helpText = `Provide meaningful text for all table header cells, using visible or hidden labels. If a cell is not a true header, use <td> or omit the header role.`;
+  const ruleId = "N/A";
+  const title = `N/A`;
+  const description = `N/A`;
+  const helpText = `N/A`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",

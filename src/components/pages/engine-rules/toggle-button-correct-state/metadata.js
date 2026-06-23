@@ -6,7 +6,7 @@ export const ToggleButtonCorrectState = {
   title: `The state of toggle buttons should be accurate`,
   description: `If the exposed state of a toggle button is not accurate, screen reader users may not know whether it is active or inactive, leading to confusion and unintended actions.`,
   advice: `Make sure the value of aria-pressed represents the visible state of the control.`,
-  impact: "serious",
+  impact: "critical",
   refs: [
     { type: "WCAG", id: "4.1.2", level: "A", link: "https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html" },
     { type: "W3C", link: "https://www.w3.org/WAI/standards-guidelines/act/rules/6a7281/" },

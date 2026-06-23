@@ -5,8 +5,8 @@ import { PassCondition } from "../interfaces";
 export const LinkContext: Rule = {
   id: "link-context",
   metadata: {
-    category: "General",
-    profile: "Cognitive Disability",
+    category: "Interactive Content",
+    profile: ["Cognitive Disability"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },

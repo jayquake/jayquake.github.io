@@ -132,8 +132,8 @@ function isUndersized(element: SvgOrHtmlElement, classifier: EngineClassifier): 
 export const InteractiveTargetSize: Rule = {
   id: "interactive-target-size",
   metadata: {
-    category: "Forms",
-    profile: "Motor Impaired",
+    category: "Interactive Content",
+    profile: ["Motor Impaired"],
     wcagVersion: "2.2",
     wcagLevel: "AA",
   },

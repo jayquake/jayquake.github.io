@@ -8,10 +8,10 @@ const EXPECTED_CONTROL_WORDS = ["next", "forward"] as const;
 export const CarouselNextSlideDiscernibleCorrectly: Rule = {
   id: "carousel-next-slide-discernible-correctly",
   metadata: {
-    category: "Forms",
-    profile: "Blind",
+    category: "Carousels",
+    profile: ["Blind"],
     wcagVersion: "2.0",
-    wcagLevel: "A",
+    wcagLevel: "AA",
   },
   impact: "serious",
   title: "Carousel Next pagination control should have an accurate and descriptive label",

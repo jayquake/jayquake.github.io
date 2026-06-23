@@ -5,13 +5,13 @@ import { PassCondition } from "../interfaces";
 export const ToggleButtonCorrectState: Rule = {
   id: "toggle-button-correct-state",
   metadata: {
-    category: "Forms",
-    profile: "Blind",
+    category: "Interactive Content",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
   associatedDetectors: [CompliantComponentToggleButton, PerceivableComponentToggleButton],
-  impact: "serious",
+  impact: "critical",
   title: "The state of toggle buttons should be accurate",
   description: "If the exposed state of a toggle button is not accurate, screen reader users may not know whether it is active or inactive, leading to confusion and unintended actions.",
   advice: "Make sure the value of aria-pressed represents the visible state of the control.",

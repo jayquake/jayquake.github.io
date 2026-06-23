@@ -5,8 +5,8 @@ import { CompliantComponentFooter } from "@acsbe/core-engine-classifier";
 export const RegionFooter: Rule = {
   id: "region-footer",
   metadata: {
-    category: "General",
-    profile: "Cognitive Disability",
+    category: "Landmarks",
+    profile: ["Cognitive Disability"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },

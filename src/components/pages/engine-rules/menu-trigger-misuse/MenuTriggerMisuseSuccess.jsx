@@ -3,9 +3,9 @@ import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const MenuTriggerMisuseSuccess = () => {
   const ruleId = "menu-trigger-misuse";
-  const title = `Menu trigger buttons/links that aren't perceived as menu trigger should lose the \\`;
-  const description = `Using menu trigger attributes for buttons/links that aren't menu triggers can confuse screen readers and other assistive technologies. This can lead to a poor user experience for people with disabilities.`;
-  const helpText = `Remove the \\`;
+  const title = `Elements that do not expand additional content should not receive trigger attributes`;
+  const description = `Only interactive elements that trigger additional content should have relationship and state ARIA attributes, such as aria-expanded and aria-controls, if they have interactive roles, such as button, tab, combobox and in rarer cases, link.`;
+  const helpText = `Remove ARIA relationship and state attributes that are reserved for triggers that expose additional content, such as aria-expanded or aria-controls, from the failing element`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",

@@ -1,0 +1,59 @@
+<!--testconfig
+    "testedClass": "Rules.TabbableVisible",
+    "expect": {
+        "passedNodes": ["#target"]
+    }
+-->
+<!-- Tests that a fixed tabbable element inside clipped shadow-DOM containers still passes because fixed visibility is based on the viewport, not ancestor clipping. -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        margin: 0;
+        min-height: 1200px;
+      }
+
+      #clipped-host-container {
+        margin-top: 600px;
+        overflow: hidden;
+        height: 5px;
+      }
+    </style>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        const host = document.getElementById("shadow-host");
+        const shadowRoot = host.attachShadow({ mode: "open" });
+
+        shadowRoot.innerHTML = `
+          <style>
+            #wrapper {
+              overflow: hidden;
+              height: 5px;
+            }
+
+            #target {
+              position: fixed;
+              top: 0;
+              left: 0;
+              width: 180px;
+              height: 40px;
+              box-sizing: border-box;
+              font-size: 16px;
+            }
+          </style>
+          <div id="wrapper">
+            <input id="target" type="text" value="Shadow DOM fixed input" />
+          </div>
+        `;
+      });
+    </script>
+  </head>
+  <body>
+    <div id="clipped-host-container">
+      <div id="shadow-host"></div>
+    </div>
+  </body>
+</html>

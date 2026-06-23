@@ -3,9 +3,9 @@ import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const LinkNavigationAmbiguousSuccess = () => {
   const ruleId = "link-navigation-ambiguous";
-  const title = `Ambiguous links should include additional screen-reader description`;
-  const description = `Ambiguous links like "Learn More", "Shop Now" and "Start Here" are often used as a call to action. However, screen-reader users, while using link navigation, do not interact with content above or below the link and therefore don\\\\`;
-  const helpText = `Add a screen-reader only text which gives additional context to the destination of the link. You can use the \\`;
+  const title = `Link context should be exposed to assistive technology`;
+  const description = `Screen reader users may find it difficult to distinguish between links when the purpose of each link cannot be determined from its text alone or together with its immediate context.`;
+  const helpText = `Assign a unique id to an existing element that contains additional context for the link, add aria-describedby to the link and reference the assigned id. Alternatively, nest a visibly hidden element that contains additional context inside of the link.`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",

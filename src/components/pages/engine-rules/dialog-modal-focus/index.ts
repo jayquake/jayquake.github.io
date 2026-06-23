@@ -5,8 +5,8 @@ import { PassCondition } from "~/rules/interfaces";
 export const DialogModalFocus: Rule = {
   id: "dialog-modal-focus",
   metadata: {
-    category: "Lists",
-    profile: "Blind",
+    category: "Dialogs",
+    profile: ["Motor Impaired"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
@@ -16,6 +16,12 @@ export const DialogModalFocus: Rule = {
   advice:
     'When a dialog opens, use JavaScript to place keyboard focus on the first interactive element within the dialog. If static content, such as lists, tables, or paragraphs, appears before any interactive elements and it needs to be perceived in order to easily understand the content, tabindex="-1" can be added to a static element at the start of the content to initially focus that element.',
   refs: [
+    {
+      type: "WCAG",
+      id: "2.4.3",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html",
+    },
     {
       type: "WAI",
       link: "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/dialog/",

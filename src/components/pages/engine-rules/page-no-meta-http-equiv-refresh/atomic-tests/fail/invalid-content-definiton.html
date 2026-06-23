@@ -1,0 +1,17 @@
+<!--testconfig
+    "testedClass": "Rules.PageNoMetaHttpEquivRefresh",
+    "expect": {
+      "failedNodes": ["meta[http-equiv=refresh]"]
+    }
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--uses : instead of ;-->
+    <meta http-equiv="refresh" content="0: https://w3.org" />
+    <title>Atomic Test Page</title>
+  </head>
+  <body>
+    <p>Content of the page</p>
+  </body>
+</html>

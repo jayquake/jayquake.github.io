@@ -8,7 +8,7 @@ export const MarqueeDeprecated = {
   advice: `Remove the <marquee> element from the page. If you need to display scrolling text, use CSS animations or JavaScript to create a similar effect.`,
   impact: "minor",
   refs: [
-    { type: "WCAG", id: "2.2.2", level: "A", link: "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1&showtechniques=244#pause-stop-hide" },
+    { type: "WCAG", id: "2.2.2", level: "A", link: "https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html" },
     { type: "W3C", link: "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/marquee" },
     { type: "W3C", link: "https://www.w3.org/TR/html52/obsolete.html#the-marquee-element" },
     { type: "ACT", link: "https://act-rules.github.io/rules/efbfc7" }

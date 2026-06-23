@@ -5,8 +5,8 @@ import { PassCondition } from "../interfaces";
 export const TabMisuse: Rule = {
   id: "tab-misuse",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "Tabs",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
@@ -16,6 +16,12 @@ export const TabMisuse: Rule = {
   description: 'Applying role="tab" to an element that is not part of a functioning tab interface misleads screen reader users by presenting it as a tab without a corresponding panel.',
   advice: 'Remove role="tab" from the failing element.',
   refs: [
+    {
+      type: "WCAG",
+      id: "1.3.1",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
+    },
     {
       type: "Non-Standard",
       link: "https://www.digitala11y.com/tab-role/",

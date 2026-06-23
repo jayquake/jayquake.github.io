@@ -5,7 +5,7 @@ const NoAutofocusFailure = () => {
   const ruleId = "no-autofocus";
   const title = `Avoid using autofocus`;
   const description = `Make sure that no element has an autofocus attribute.`;
-  const helpText = `Remove the autofocus attribute from the element.`;
+  const helpText = `Remove the autofocus attribute from the failing element.`;
   const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",

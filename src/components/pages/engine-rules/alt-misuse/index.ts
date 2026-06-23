@@ -5,7 +5,7 @@ export const AltMisuse: Rule = {
   id: "alt-misuse",
   metadata: {
     category: "General",
-    profile: "Cognitive Disability",
+    profile: ["Cognitive Disability"],
     wcagVersion: "2.1",
     wcagLevel: "A",
   },

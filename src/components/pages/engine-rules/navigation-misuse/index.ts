@@ -5,22 +5,26 @@ import { PassCondition } from "../interfaces";
 export const NavigationMisuse: Rule = {
   id: "navigation-misuse",
   metadata: {
-    category: "Forms",
-    profile: "Blind",
+    category: "Landmarks",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
   associatedDetectors: [CompliantComponentNavigation, PerceivableComponentNavigation, PerceivableComponentBreadcrumb, PerceivableComponentMainNavigation],
   impact: "serious",
-  title: "An element without navigation links is tagged as a navigation landmark",
-  description: "Screen readers rely on accurate tagging and labeling to provide necessary context. If an element that does not contain navigation links is tagged as a navigation landmark, screen reader users may lose orientation and find the page's structure difficult to understand.",
-  advice: "Add role=presentation to the incorrect <nav> element or remove role=navigation if a different element is used.",
+  title: "Navigation landmark does not contain key site navigation links",
+  description: "A navigation landmark should identify a section that contains primary links for moving through the site or page. Using navigation landmarks for minor or secondary link groups makes it harder for screen reader users to locate the page’s key navigation areas.",
+  advice: "Use navigation landmarks only for key navigation sections, such as the main site menu, table of contents, breadcrumbs, or pagination. Avoid using them for general link lists, social links, related links, or other secondary link groups, and keep the number of navigation landmarks as limited as practical.",
   refs: [
     {
       type: "WCAG",
-      id: "1.4.1",
+      id: "1.3.1",
       level: "A",
-      link: "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
+    },
+    {
+      type: "WAI",
+      link: "https://www.w3.org/WAI/ARIA/apg/patterns/landmarks/",
     },
     {
       type: "WAI",
@@ -43,8 +47,17 @@ export const NavigationMisuse: Rule = {
     for (const element of elements) {
       const isElementPerceivedAsNavigation = classifier.assert(element, PerceivableComponentNavigation);
       if (!isElementPerceivedAsNavigation) {
-        if (classifier.assert(element, PerceivableComponentBreadcrumb) || (mainNavigation && mainNavigation.parentElement === element)) {
-          // To avoid conflicts with the BreadcrumbsNav and MainNavigationMismatch rules, we will not mark it as failed
+        /**  To avoid conflicts with the BreadcrumbsNav rule, we will not mark it as failed
+         * If the element is a perceivable breadcrumb, we put it as inapplicable
+         * @see src/rules/navigation-misuse/atomic-tests/pass/breadcrumb-nav-list-items-mixed-inline-displays.html
+         * If the element has a direct child that is a perceivable breadcrumb, we put it as inapplicable
+         * @see src/rules/navigation-misuse/atomic-tests/pass/shop.qorpak.com-nav-has-direct-child-breadcrumb.html
+         * */
+        const isBreadcrumbOrHasDirectChildBreadcrumb = classifier.assert(element, PerceivableComponentBreadcrumb) || classifier.getMatchedDirect([PerceivableComponentBreadcrumb], element).length > 0;
+        if (isBreadcrumbOrHasDirectChildBreadcrumb) {
+          response.inapplicableNodes.push(element);
+          /** To avoid conflicts with the MainNavigationMismatch rule, we will not mark it as failed */
+        } else if ((mainNavigation && mainNavigation.parentElement === element) || mainNavigation === element) {
           response.inapplicableNodes.push(element);
         } else {
           response.failedNodes.push(element);

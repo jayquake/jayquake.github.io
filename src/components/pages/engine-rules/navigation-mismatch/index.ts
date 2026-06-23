@@ -5,23 +5,17 @@ import { PassCondition } from "../interfaces";
 export const NavigationMismatch: Rule = {
   id: "navigation-mismatch",
   metadata: {
-    category: "Forms",
-    profile: "Blind",
-    wcagVersion: "2.0",
-    wcagLevel: "A",
+    category: "Landmarks",
+    profile: ["Blind"],
+    wcagVersion: "General Guidelines",
+    wcagLevel: "N/A",
   },
   associatedDetectors: [CompliantComponentNavigation, PerceivableComponentNavigation],
-  impact: "serious",
+  impact: "moderate",
   title: "A list of navigation links is not contained in a navigation landmark",
   description: "Screen readers rely on accurate tagging and labeling to provide necessary context. If a navigation region is not tagged as a navigation landmark, screen reader users may lose orientation and find the page's structure difficult to understand.",
-  advice: "Add role=navigation to the custom navigation region, or use a HTML <nav> element.",
+  advice: 'Add role="navigation" to the custom navigation region, or use a HTML <nav> element.',
   refs: [
-    {
-      type: "WCAG",
-      id: "1.4.1",
-      level: "A",
-      link: "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html",
-    },
     {
       type: "WAI",
       link: "https://www.w3.org/WAI/ARIA/apg/patterns/menubar/examples/menubar-navigation/",

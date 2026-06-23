@@ -1,0 +1,12 @@
+<!--testconfig
+    "testedClass": "Rules.InteractiveNotTabbable",
+    "expect": {
+        "failedNodes": ["label"],
+        "inapplicableNodes": ["input"]
+    }
+-->
+
+<label class="toggleButton" role="checkbox" aria-checked="false" style="cursor: pointer">
+  <input type="checkbox" tabindex="-1" />
+  <span>Accept terms and conditions</span>
+</label>

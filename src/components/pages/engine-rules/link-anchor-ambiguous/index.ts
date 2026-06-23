@@ -5,8 +5,8 @@ import { PassCondition } from "../interfaces";
 export const LinkAnchorAmbiguous: Rule = {
   id: "link-anchor-ambiguous",
   metadata: {
-    category: "General",
-    profile: "Cognitive Disability",
+    category: "Interactive Content",
+    profile: ["Cognitive Disability"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },

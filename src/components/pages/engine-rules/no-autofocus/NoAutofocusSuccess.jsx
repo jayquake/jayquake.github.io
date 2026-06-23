@@ -5,7 +5,7 @@ const NoAutofocusSuccess = () => {
   const ruleId = "no-autofocus";
   const title = `Avoid using autofocus`;
   const description = `Make sure that no element has an autofocus attribute.`;
-  const helpText = `Remove the autofocus attribute from the element.`;
+  const helpText = `Remove the autofocus attribute from the failing element.`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",

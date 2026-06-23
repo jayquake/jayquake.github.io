@@ -1,0 +1,24 @@
+<!--testconfig
+    "testedClass": "Rules.ColorContrast",
+    "expect": {
+        "failedNodes": [".bg-wicked-black"]
+    }
+-->
+<style>
+    :root {
+        --color-wicked-black: lab(14.9042% -15.339 28.5532);
+        --color-noir-black: lab(0% 0 0);
+    }
+
+    .bg-wicked-black {
+        background-color: var(--color-wicked-black);
+    }
+
+    .text-noir-black {
+        color: var(--color-noir-black);
+    }
+</style>
+
+<div class="bg-wicked-black text-noir-black">
+  “Dressing in one color—head-to-toe—is less complicated... it is just bold and fierce, for lack of a better word.”
+</div>

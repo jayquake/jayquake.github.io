@@ -35,8 +35,8 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import SearchComponent from "./components/layout/search";
 import RuleTreeSidebar from "./components/layout/RuleTreeSidebar";
-import engineRulesData from "./data/engine-rules-metadata.json";
 import AppRoutes from "./routes/AppRoutes";
+import { ENGINE_RULE_COUNT } from "./utils/engineRuleCount";
 const drawerWidth = 300;
 const collapsedDrawerWidth = 60;
 
@@ -91,8 +91,6 @@ export default function App() {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const pathnames = location.pathname.split("/").filter((x) => x);
   const isTestRunnerRoute = location.pathname.startsWith("/test-runner");
-  const isRuleLabRoute = location.pathname.startsWith("/rule-lab");
-
   // UI State
   const [open, setOpen] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
@@ -102,8 +100,6 @@ export default function App() {
 
   // Data State
   const [data, setData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const handleDrawerToggle = () => setOpen(!open);
@@ -122,8 +118,6 @@ export default function App() {
       })
       .then((jsonData) => {
         setData(jsonData);
-        setFilteredData(jsonData);
-        setLoading(false);
 
         // Initialize test notifications
         setNotifications([
@@ -149,7 +143,6 @@ export default function App() {
       })
       .catch((error) => {
         setError(error.message);
-        setLoading(false);
         setNotifications([
           {
             id: 1,
@@ -160,18 +153,6 @@ export default function App() {
         ]);
       });
   }, []);
-
-  // Handle search query
-  const handleSearchChange = (query) => {
-    const lowerCaseQuery = query.toLowerCase();
-    const filtered = data.filter(
-      (item) =>
-        item.name?.toLowerCase().includes(lowerCaseQuery) ||
-        item.criteria?.toLowerCase().includes(lowerCaseQuery) ||
-        item.shortDescription?.toLowerCase().includes(lowerCaseQuery)
-    );
-    setFilteredData(filtered);
-  };
 
   // Calculate current page stats for header
   const getCurrentPageInfo = () => {
@@ -188,14 +169,14 @@ export default function App() {
     if (currentCriteria === "engine" && pathnames[1] === "library") {
       return {
         title: "Engine Rules Library",
-        subtitle: `${engineRulesData.length} automated engine rules`,
+        subtitle: `${ENGINE_RULE_COUNT} automated engine rules`,
       };
     }
 
     if (currentCriteria === "engine" && pathnames.length === 1) {
       return {
         title: "Engine Rules",
-        subtitle: `${engineRulesData.length} testing rules available`,
+        subtitle: `${ENGINE_RULE_COUNT} testing rules available`,
       };
     }
 
@@ -297,10 +278,7 @@ export default function App() {
             justifySelf: "center",
             display: { xs: "none", md: "block" },
           }}>
-            <SearchComponent
-              data={data}
-              onSearchChange={(e) => handleSearchChange(e.target.value)}
-            />
+            <SearchComponent data={data} />
           </Box>
 
           {/* Right Section - Actions */}
@@ -600,31 +578,14 @@ export default function App() {
         }}
       >
         <Toolbar />
-        {loading ? (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              minHeight: "50vh",
-            }}
-          >
-            <Typography>Loading...</Typography>
+        {error && (
+          <Box sx={{ px: 2, py: 1 }}>
+            <Typography variant="body2" color="error">
+              Rules data unavailable: {error}
+            </Typography>
           </Box>
-        ) : error ? (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              minHeight: "50vh",
-            }}
-          >
-            <Typography color="error">Error: {error}</Typography>
-          </Box>
-        ) : (
-          <AppRoutes navigate={navigate} />
         )}
+        <AppRoutes navigate={navigate} />
       </Box>
 
       {/* Mobile Bottom Navigation */}

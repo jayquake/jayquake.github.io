@@ -238,4 +238,68 @@ describe("ImageDiscernibleCorrectly Rule Validation", () => {
     expect(response.passedNodes.length).toBe(0);
     expect(response.failedNodes.length).toBe(0);
   });
+
+  it("should mark image as inapplicable when src is base64", async () => {
+    const { document, classifier, response } = validateMethodArguments;
+
+    document.body.innerHTML = `<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" alt="Test image"/>`;
+
+    const images = document.querySelectorAll("img");
+    jest.spyOn(classifier, "getMatched").mockReturnValue(images);
+    jest.spyOn(classifier, "assert").mockReturnValue(true);
+
+    await ImageDiscernibleCorrectly.validate(validateMethodArguments);
+
+    expect(response.inapplicableNodes).toEqual(Array.from(images));
+    expect(response.passedNodes.length).toBe(0);
+    expect(response.failedNodes.length).toBe(0);
+  });
+
+  it("should mark image as inapplicable when src is svg data uri", async () => {
+    const { document, classifier, response } = validateMethodArguments;
+
+    document.body.innerHTML = `<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E" alt="SVG image"/>`;
+
+    const images = document.querySelectorAll("img");
+    jest.spyOn(classifier, "getMatched").mockReturnValue(images);
+    jest.spyOn(classifier, "assert").mockReturnValue(true);
+
+    await ImageDiscernibleCorrectly.validate(validateMethodArguments);
+
+    expect(response.inapplicableNodes).toEqual(Array.from(images));
+    expect(response.passedNodes.length).toBe(0);
+    expect(response.failedNodes.length).toBe(0);
+  });
+
+  it("should mark image as inapplicable when src is svg file", async () => {
+    const { document, classifier, response } = validateMethodArguments;
+
+    document.body.innerHTML = `<img src="image.svg" alt="SVG file"/>`;
+
+    const images = document.querySelectorAll("img");
+    jest.spyOn(classifier, "getMatched").mockReturnValue(images);
+    jest.spyOn(classifier, "assert").mockReturnValue(true);
+
+    await ImageDiscernibleCorrectly.validate(validateMethodArguments);
+
+    expect(response.inapplicableNodes).toEqual(Array.from(images));
+    expect(response.passedNodes.length).toBe(0);
+    expect(response.failedNodes.length).toBe(0);
+  });
+
+  it("should mark image as inapplicable when src contains linear-gradient", async () => {
+    const { document, classifier, response } = validateMethodArguments;
+
+    document.body.innerHTML = `<img src="linear-gradient(to right, red, blue)" alt="Gradient"/>`;
+
+    const images = document.querySelectorAll("img");
+    jest.spyOn(classifier, "getMatched").mockReturnValue(images);
+    jest.spyOn(classifier, "assert").mockReturnValue(true);
+
+    await ImageDiscernibleCorrectly.validate(validateMethodArguments);
+
+    expect(response.inapplicableNodes).toEqual(Array.from(images));
+    expect(response.passedNodes.length).toBe(0);
+    expect(response.failedNodes.length).toBe(0);
+  });
 });

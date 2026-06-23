@@ -3,12 +3,11 @@
 
 export const RegionFooterMismatch = {
   id: "region-footer-mismatch",
-  title: `Footer region should be correctly marked up`,
-  description: `Ensure that the footer region is correctly marked up.`,
-  advice: `Add a <footer> element to define the footer of the document.`,
-  impact: "serious",
+  title: `Global site information that appears at the end of each page is contained in a contentinfo landmark (footer)`,
+  description: `The contentinfo region, typically represented by the <footer> element, is found at the end of each page and provides screen reader users with information about the website, such as copyright, contact details, legal information, and navigation links.`,
+  advice: `Use a <footer> element or assign role="contentinfo" to the section that provides global information and consistently appears at the end of each page.`,
+  impact: "moderate",
   refs: [
-    { type: "WCAG", id: "WCAG-1.1.1", level: "A", link: "https://www.w3.org/TR/WCAG20-TECHS/ARIA11.html" },
     { type: "W3C", link: "https://www.w3.org/WAI/tutorials/page-structure/regions/" }
   ]
 };

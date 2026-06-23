@@ -1,0 +1,23 @@
+<!--testconfig
+    "testedClass": "Rules.HeaderNavigationDiscernible",
+    "expect": {
+        "passedNodes": [],
+        "failedNodes": ["#header-nav"]
+    }
+-->
+<!-- This test checks for a header navigation inside a div with role="banner" that doesn't have an accessible name. -->
+<div role="banner">
+<nav id="header-nav">
+  <ul>
+    <li>
+      <a href="/home">Home</a>
+    </li>
+    <li>
+      <a href="/about">About</a>
+    </li>
+    <li>
+      <a href="/pricing">Pricing</a>
+    </li>
+  </ul>
+</nav>
+</div>

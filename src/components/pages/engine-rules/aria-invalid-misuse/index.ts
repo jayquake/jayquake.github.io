@@ -5,15 +5,15 @@ import { PerceivableTraitFormFieldInteracted } from "@acsbe/core-engine-classifi
 export const AriaInvalidMisuse: Rule = {
   id: "aria-invalid-misuse",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
-    wcagVersion: "2.2",
+    category: "Forms",
+    profile: ["Blind"],
+    wcagVersion: "2.0",
     wcagLevel: "A",
   },
   impact: "serious",
-  title: "Fields must indicate validation errors to assistive technology",
-  description: "Screen reader users rely on properly coded field validation status and associated validation messages. Otherwise, users would have to browse around and try to pick up clues on the page as to why their submission attempt did not work.",
-  advice: "Include the aria-invalid=true attribute when the field validation shows on the page. Screen readers will pick that up and inform the user that this field is invalid. Make sure to change the aria-invalid to false when the field value becomes valid.",
+  title: 'Only input fields with validation errors should be assigned aria-invalid="true"',
+  description: 'Using aria-invalid="true" on an input field that does not have errors may cause confusion for users who rely on assistive technology, who may try to correct their already valid response.',
+  advice: 'To make sure that screen reader users can accurately identify form fields with invalid input, set aria-invalid="true" only on input fields that have errors. Remove the attribute once the value becomes valid.',
   associatedDetectors: [PerceivableTraitFormFieldInteracted],
   refs: [
     {

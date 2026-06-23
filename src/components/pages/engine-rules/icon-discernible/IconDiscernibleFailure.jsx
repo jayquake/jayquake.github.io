@@ -3,9 +3,9 @@ import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const IconDiscernibleFailure = () => {
   const ruleId = "icon-discernible";
-  const title = `Icons should be labeled or excluded from assistive technology`;
-  const description = `Icons used as decorative or complementary elements, like icons or illustrations that do not provide additional information, will often add unnecessary clutter to a screen reader user's browsing experience.`;
-  const helpText = `If the icon provides additional context or necessary information, provide an aria-label or a screen-reader-only text describing the functionality. If the element is used for decorative or complementary purposes, exclude it from assistive technology using role=presentation.`;
+  const title = `Meaningful icons should have a label, while decorative icons should be hidden`;
+  const description = `Smaller graphics used as decorative or complementary elements, such as icons, and that do not provide additional information will often add unnecessary clutter to a screen reader user's browsing experience.`;
+  const helpText = `If the image is meaningful, assign a text alternative with a description of the image content using the alt attribute for image elements, or aria-label for elements with role="img". If the image is decorative, provide an empty alt attribute for image elements, or role="presentation" for elements with role="img".`;
   const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",

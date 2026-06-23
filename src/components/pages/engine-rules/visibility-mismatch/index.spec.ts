@@ -151,4 +151,59 @@ describe("VisibilityMismatch Rule Validation", () => {
     await VisibilityMismatch.validate(validateMethodArguments);
     expect(response.failedNodes).toEqual([element]);
   });
+
+  it("should add explicitly hidden element with tabbable parent having discernible text to inapplicable nodes", async () => {
+    const element = document.createElement("div");
+    const parentElement = document.createElement("button");
+    element.setAttribute("aria-hidden", "true");
+
+    jest.spyOn(classifier, "getMatched").mockReturnValueOnce([element]);
+    jest.spyOn(classifier, "getMatched").mockReturnValueOnce([]);
+    jest
+      .spyOn(classifier, "assert")
+      .mockReturnValueOnce(false) // CompliantTraitVisible
+      .mockReturnValueOnce(true); // PerceivableTraitDiscernibleText on parent
+    jest.spyOn(classifier, "getOperations").mockReturnValue({
+      visibilityInfo: {
+        isExplicitlyHiddenFromScreenReader: true,
+      },
+      contentInfo: {
+        hasVisibleText: false,
+      },
+      colorInfo: {
+        backgroundImage: "none",
+      },
+    });
+    jest.spyOn(classifier, "getParent").mockReturnValue(parentElement);
+
+    await VisibilityMismatch.validate(validateMethodArguments);
+    expect(response.inapplicableNodes).toEqual([element]);
+  });
+
+  it("should not add explicitly hidden element with no tabbable parent", async () => {
+    const element = document.createElement("div");
+    element.setAttribute("aria-hidden", "true");
+
+    jest.spyOn(classifier, "getMatched").mockReturnValueOnce([element]);
+    jest.spyOn(classifier, "getMatched").mockReturnValueOnce([]);
+    jest
+      .spyOn(classifier, "assert")
+      .mockReturnValueOnce(false) // CompliantTraitVisible
+      .mockReturnValueOnce(true); // PerceivableTraitDiscernibleText on parent
+    jest.spyOn(classifier, "getOperations").mockReturnValue({
+      visibilityInfo: {
+        isExplicitlyHiddenFromScreenReader: true,
+      },
+      contentInfo: {
+        hasVisibleText: false,
+      },
+      colorInfo: {
+        backgroundImage: "none",
+      },
+    });
+    jest.spyOn(classifier, "getParent").mockReturnValue(null);
+
+    await VisibilityMismatch.validate(validateMethodArguments);
+    expect(response.inapplicableNodes).toEqual([]);
+  });
 });

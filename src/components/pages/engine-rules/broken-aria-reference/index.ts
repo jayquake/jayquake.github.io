@@ -5,7 +5,7 @@ export const BrokenAriaReference: Rule = {
   id: "broken-aria-references",
   metadata: {
     category: "General",
-    profile: "Cognitive Disability",
+    profile: ["Cognitive Disability"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },

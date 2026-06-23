@@ -1,0 +1,23 @@
+<!--testconfig
+    "testedClass": "Rules.SearchInputAnnouncement",
+    "expect": {
+        "passedNodes": ["input"]
+    }
+-->
+
+<html>
+  <head>
+    <!-- Another way to identify shopify sites is by this meta tag and specific name -->
+    <meta name="shopify-checkout-api-token" content="test-token" />
+    <script id="shopify-features">
+      {"predictiveSearch": true}
+    </script>
+  </head>
+  <body>
+    <div class="search-container">
+      <input type="search" aria-describedby="announcement" />
+      <div id="announcement" class="sr-only">Search results are available</div>
+    </div>
+  </body>
+</html>
+

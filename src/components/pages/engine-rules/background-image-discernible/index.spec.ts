@@ -12,6 +12,9 @@ describe("BackgroundImageDiscernible Rule Validation", () => {
       visibilityInfo: {
         isExplicitlyHiddenFromScreenReader: false,
       },
+      colorInfo: {
+        backgroundImage: "url('image.png')",
+      },
     });
   });
 
@@ -21,6 +24,9 @@ describe("BackgroundImageDiscernible Rule Validation", () => {
     jest.spyOn(classifier, "getOperations").mockReturnValue({
       visibilityInfo: {
         isExplicitlyHiddenFromScreenReader: true,
+      },
+      colorInfo: {
+        backgroundImage: "url('image.png')",
       },
     });
     (classifier.getMatched as jest.Mock).mockReturnValueOnce([mockImage]);
@@ -66,5 +72,85 @@ describe("BackgroundImageDiscernible Rule Validation", () => {
 
     expect(response.failedNodes).not.toContain(mockImage);
     expect(response.passedNodes).toContain(mockImage);
+  });
+
+  it("should mark background image as inapplicable when backgroundImage is base64", async () => {
+    const { response, classifier } = validateMethodArguments;
+    const mockImage = document.createElement("div");
+    jest.spyOn(classifier, "getOperations").mockReturnValue({
+      visibilityInfo: {
+        isExplicitlyHiddenFromScreenReader: false,
+      },
+      colorInfo: {
+        backgroundImage: 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==")',
+      },
+    });
+    (classifier.getMatched as jest.Mock).mockReturnValueOnce([mockImage]);
+
+    await BackgroundImageDiscernible.validate(validateMethodArguments);
+
+    expect(response.inapplicableNodes).toContain(mockImage);
+    expect(response.failedNodes).not.toContain(mockImage);
+    expect(response.passedNodes).not.toContain(mockImage);
+  });
+
+  it("should mark background image as inapplicable when backgroundImage is svg data uri", async () => {
+    const { response, classifier } = validateMethodArguments;
+    const mockImage = document.createElement("div");
+    jest.spyOn(classifier, "getOperations").mockReturnValue({
+      visibilityInfo: {
+        isExplicitlyHiddenFromScreenReader: false,
+      },
+      colorInfo: {
+        backgroundImage: "url('data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E')",
+      },
+    });
+    (classifier.getMatched as jest.Mock).mockReturnValueOnce([mockImage]);
+
+    await BackgroundImageDiscernible.validate(validateMethodArguments);
+
+    expect(response.inapplicableNodes).toContain(mockImage);
+    expect(response.failedNodes).not.toContain(mockImage);
+    expect(response.passedNodes).not.toContain(mockImage);
+  });
+
+  it("should mark background image as inapplicable when backgroundImage is svg file", async () => {
+    const { response, classifier } = validateMethodArguments;
+    const mockImage = document.createElement("div");
+    jest.spyOn(classifier, "getOperations").mockReturnValue({
+      visibilityInfo: {
+        isExplicitlyHiddenFromScreenReader: false,
+      },
+      colorInfo: {
+        backgroundImage: "url('image.svg')",
+      },
+    });
+    (classifier.getMatched as jest.Mock).mockReturnValueOnce([mockImage]);
+
+    await BackgroundImageDiscernible.validate(validateMethodArguments);
+
+    expect(response.inapplicableNodes).toContain(mockImage);
+    expect(response.failedNodes).not.toContain(mockImage);
+    expect(response.passedNodes).not.toContain(mockImage);
+  });
+
+  it("should fail background images when backgroundImage is null or undefined", async () => {
+    const { response, classifier } = validateMethodArguments;
+    const mockImage = document.createElement("div");
+    jest.spyOn(classifier, "getOperations").mockReturnValue({
+      visibilityInfo: {
+        isExplicitlyHiddenFromScreenReader: false,
+      },
+      colorInfo: {
+        backgroundImage: null,
+      },
+    });
+    (classifier.getMatched as jest.Mock).mockReturnValueOnce([mockImage]);
+    (classifier.getMatchedDirect as jest.Mock).mockReturnValueOnce([]);
+
+    await BackgroundImageDiscernible.validate(validateMethodArguments);
+
+    expect(response.failedNodes).toContain(mockImage);
+    expect(response.inapplicableNodes).not.toContain(mockImage);
   });
 });

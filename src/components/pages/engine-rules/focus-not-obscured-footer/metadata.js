@@ -9,7 +9,6 @@ export const FocusNotObscuredFooter = {
   impact: "serious",
   refs: [
     { type: "WCAG", id: "2.4.11", level: "AA", link: "https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum.html" },
-    { type: "WCAG", id: "2.4.12", level: "AAA", link: "https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-enhanced.html" },
     { type: "WAI", link: "https://www.w3.org/TR/WCAG22/#focus-not-obscured-minimum" },
     { type: "WAI", link: "https://www.w3.org/WAI/WCAG22/Techniques/css/C43" },
     { type: "Non-Standard", link: "https://www.w3.org/WAI/WCAG22/Techniques/failures/F110" },

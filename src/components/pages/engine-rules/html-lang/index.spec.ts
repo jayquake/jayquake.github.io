@@ -8,14 +8,14 @@ describe("HtmlLang Rule Validation", () => {
   beforeEach(() => {
     validateMethodArguments = validationMethodArguments();
     // Reset the documentElement lang attribute before each test
-    document.documentElement.lang = "";
+    validateMethodArguments.document.documentElement.removeAttribute("lang");
   });
 
-  it("should pass when the HTML element has a lang attribute", async () => {
+  it.each(["en", " fr "])("should pass when the HTML element has a non-empty lang attribute: %s", async (lang) => {
     const { response, document } = validateMethodArguments;
 
     // Simulate a document with a lang attribute
-    document.documentElement.lang = "en";
+    document.documentElement.setAttribute("lang", lang);
 
     await HtmlLang.validate(validateMethodArguments);
 
@@ -33,6 +33,16 @@ describe("HtmlLang Rule Validation", () => {
     await HtmlLang.validate(validateMethodArguments);
 
     // Expect the HTML element to be identified as a failed node
+    expect(response.failedNodes).toContain(document.documentElement);
+    expect(response.passedNodes).toHaveLength(0);
+  });
+
+  it.each(["", "   ", "\n\t "])("should fail when the lang attribute is empty or whitespace-only: %j", async (lang) => {
+    const { response, document } = validateMethodArguments;
+    document.documentElement.setAttribute("lang", lang);
+
+    await HtmlLang.validate(validateMethodArguments);
+
     expect(response.failedNodes).toContain(document.documentElement);
     expect(response.passedNodes).toHaveLength(0);
   });

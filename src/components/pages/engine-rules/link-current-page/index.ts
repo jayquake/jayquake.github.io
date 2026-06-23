@@ -5,22 +5,22 @@ import { CompliantComponentLink } from "@acsbe/core-engine-classifier";
 export const LinkCurrentPage: Rule = {
   id: "link-current-page",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "Interactive Content",
+    profile: ["Blind"],
     wcagVersion: "2.0",
-    wcagLevel: "AAA",
+    wcagLevel: "A",
   },
   impact: "moderate",
   title: "Visual indication that a link's destination is the current page should be announced by screen readers",
   description: "Visual cues are often used by sighted users to indicate which link represents the current page within a set of links. This information should be made available to screen reader users by assigning aria-current='page' to the link.",
-  advice: 'Add aria-current="page" to the  link within a list of navigation links whose destination matches the page the user is currently navigating.',
+  advice: 'Add aria-current="page" to the link within a list of navigation links whose destination matches the page the user is currently navigating.',
   associatedDetectors: [CompliantComponentLink],
   refs: [
     {
       type: "WCAG",
-      id: "1.3.1",
-      level: "AAA",
-      link: "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1&showtechniques=246#info-and-relationships",
+      id: "4.1.2",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
     },
     {
       type: "WAI",

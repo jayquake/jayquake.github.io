@@ -34,12 +34,12 @@ function getHeadingHierarchyConsistentNodes(headings: SvgOrHtmlElement[], classi
 export const HeadingOrder: Rule = {
   id: "heading-order",
   metadata: {
-    category: "Landmarks",
-    profile: "Blind",
+    category: "Text Content",
+    profile: ["Blind"],
     wcagVersion: "2.0",
-    wcagLevel: "A",
+    wcagLevel: "N/A",
   },
-  impact: "moderate",
+  impact: "minor",
   title: "Heading levels should follow a logical hierarchy",
   description: "Incorrect heading hierarchy can create a misleading page outline, disrupt navigation by heading shortcuts, and cause confusion about the structure and importance of content. Skipping levels or using them inconsistently makes it harder for screen reader users and others who rely on structured navigation to understand the page.",
   advice:

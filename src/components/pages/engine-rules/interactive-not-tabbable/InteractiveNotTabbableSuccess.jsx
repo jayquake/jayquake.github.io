@@ -171,6 +171,10 @@ const InteractiveNotTabbableSuccess = () => {
 </body>` },
   { filename: "interactive element with tabindex", content: `<button>Click here</button>
 <div role="button" onclick="alert('Hello, user!')" tabindex="0">or here</div>` },
+  { filename: "label wrapping tabbable checkbox", content: `<label class="toggleButton" role="checkbox" aria-checked="false" style="cursor: pointer">
+  <input type="checkbox" tabindex="0" />
+  <span>Accept terms and conditions</span>
+</label>` },
   { filename: "non visible text area element without tabindex", content: `<textarea placeholder="comment.." style="opacity: 0;" tabindex="-1"></textarea>` },
   { filename: "role link", content: `<div role="link" tabindex="0" aria-label="Go to next page" onclick="location.href='next.html'">Next Page</div>` },
   { filename: "select element without tabindex", content: `<select>

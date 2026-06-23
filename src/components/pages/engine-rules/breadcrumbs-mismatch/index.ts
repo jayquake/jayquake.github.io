@@ -4,17 +4,23 @@ import { CompliantComponentBreadcrumb, PerceivableComponentBreadcrumb } from "@a
 export const BreadcrumbsMismatch: Rule = {
   id: "breadcrumbs-mismatch",
   metadata: {
-    category: "Forms",
-    profile: "Blind",
+    category: "Breadcrumbs",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
   impact: "serious",
   title: "Breadcrumb navigation region should have a label",
   description: 'A breadcrumb region presents a trail of links showing the user’s current page in relation to higher-level pages on a site. Without a label, it may be announced by screen reades simply as "navigation", making it hard to distinguish from other navigation regions on the page.',
-  advice: "Add an aria-label=Breadcrumbs attribute so screen readers can announce that to users.",
+  advice: 'Assign aria-label="Breadcrumbs" to the navigation landmark that contains the breadcrumb links.',
   associatedDetectors: [CompliantComponentBreadcrumb, PerceivableComponentBreadcrumb],
   refs: [
+    {
+      type: "WCAG",
+      id: "1.3.1",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
+    },
     {
       type: "WAI",
       link: "https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/examples/breadcrumb/",

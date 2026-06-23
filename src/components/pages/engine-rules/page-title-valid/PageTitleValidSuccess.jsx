@@ -4,8 +4,8 @@ import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 const PageTitleValidSuccess = () => {
   const ruleId = "page-title-valid";
   const title = `Page title should be descriptive`;
-  const description = `Providing a descriptive title helps users understand the content of the page.`;
-  const helpText = `Add a \\`;
+  const description = `Screen readers rely heavily on page titles to announce the purpose of a page. If titles aren’t descriptive, users with low or no vision may not understand the context until they start navigating the page.`;
+  const helpText = `Make sure the title element inside the <head> is unique and describes the purpose of the page.`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",

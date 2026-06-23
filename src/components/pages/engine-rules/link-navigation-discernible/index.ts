@@ -1,25 +1,31 @@
 import type { Rule } from "~/rules/interfaces";
 import { PassCondition } from "~/rules/interfaces";
-import { PerceivableTraitDiscernibleText, PerceivableComponentLinkNavigation, CompliantTraitVisible } from "@acsbe/core-engine-classifier";
+import { PerceivableTraitDiscernibleText, PerceivableComponentLinkNavigation, CompliantTraitExposed } from "@acsbe/core-engine-classifier";
 
 export const LinkNavigationDiscernible: Rule = {
   id: "link-navigation-discernible",
   metadata: {
-    category: "Forms",
-    profile: "Blind",
+    category: "Interactive Content",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
   impact: "critical",
-  title: "Link navigation discernible text",
-  description: "Links need discernible text that tells visitors where the link takes them.",
-  associatedDetectors: [PerceivableTraitDiscernibleText, PerceivableComponentLinkNavigation, CompliantTraitVisible],
+  title: "Navigation links should have a descriptive label",
+  description: "Activating navigation links enables users to navigate to a different page within the site. Links that do not contain visible text or labeled images should be assigned labels that inform screen reader users of their destination.",
+  associatedDetectors: [PerceivableTraitDiscernibleText, PerceivableComponentLinkNavigation, CompliantTraitExposed],
   refs: [
     {
       type: "WCAG",
-      id: "2.4.4",
+      id: "1.3.1",
       level: "A",
-      link: "https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context.html",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
+    },
+    {
+      type: "WCAG",
+      id: "4.1.2",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
     },
     {
       type: "ACT",
@@ -27,10 +33,11 @@ export const LinkNavigationDiscernible: Rule = {
       link: "https://act-rules.github.io/rules/c487ae",
     },
   ],
-  advice: "Add discernible text to the button",
+  advice: "If a navigation link does not contain a labeled image or visible text, assign an aria-label that describes the destination of the link.",
   passCondition: PassCondition.NoFailedNodes,
   async validate({ response, classifier }) {
-    const links = classifier.getMatched([PerceivableComponentLinkNavigation, CompliantTraitVisible]);
+    // CompliantTraitExposed filters out non-visible links (e.g., hover-only) to prevent false failures
+    const links = classifier.getMatched([PerceivableComponentLinkNavigation, CompliantTraitExposed]);
 
     for (const link of links) {
       if (classifier.assert(link, PerceivableTraitDiscernibleText)) {

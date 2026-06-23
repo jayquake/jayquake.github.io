@@ -5,8 +5,8 @@ import { PassCondition } from "~/rules/interfaces";
 export const CarouselPreviousSlideDiscernible: Rule = {
   id: "carousel-previous-slide-discernible",
   metadata: {
-    category: "General",
-    profile: "Cognitive Disability",
+    category: "Carousels",
+    profile: ["Cognitive Disability"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },

@@ -5,8 +5,8 @@ import { CompliantComponentSelectOption, PerceivableComponentSelectOption } from
 export const SelectOptionMisuse: Rule = {
   id: "select-option-misuse",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "Forms",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },

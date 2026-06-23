@@ -18,6 +18,7 @@ describe("InteractiveNotTabbable rule validation", () => {
     document.body.appendChild(div);
 
     jest.spyOn(classifier, "getMatched").mockReturnValue([div]);
+    jest.spyOn(classifier, "getMatchedDirect").mockReturnValue([]);
     jest.spyOn(classifier, "assert").mockReturnValue(true);
 
     await InteractiveNotTabbable.validate(validateMethodArguments);
@@ -33,6 +34,7 @@ describe("InteractiveNotTabbable rule validation", () => {
     document.body.appendChild(button);
 
     jest.spyOn(classifier, "getMatched").mockReturnValue([button]);
+    jest.spyOn(classifier, "getMatchedDirect").mockReturnValue([]);
     jest.spyOn(classifier, "assert").mockReturnValue(true);
 
     await InteractiveNotTabbable.validate(validateMethodArguments);
@@ -49,6 +51,7 @@ describe("InteractiveNotTabbable rule validation", () => {
     document.body.appendChild(button);
 
     jest.spyOn(classifier, "getMatched").mockReturnValue([button]);
+    jest.spyOn(classifier, "getMatchedDirect").mockReturnValue([]);
     jest.spyOn(classifier, "assert").mockReturnValueOnce(true); // First assert for visibility
     jest.spyOn(classifier, "assert").mockReturnValueOnce(false); // Second assert for tabbable
 
@@ -67,6 +70,7 @@ describe("InteractiveNotTabbable rule validation", () => {
     document.body.appendChild(div);
 
     jest.spyOn(classifier, "getMatched").mockReturnValue([div]);
+    jest.spyOn(classifier, "getMatchedDirect").mockReturnValue([]);
     jest.spyOn(classifier, "assert").mockReturnValueOnce(true); // First assert for visibility
     jest.spyOn(classifier, "assert").mockReturnValueOnce(false); // Second assert for tabbable
 
@@ -93,6 +97,29 @@ describe("InteractiveNotTabbable rule validation", () => {
     await InteractiveNotTabbable.validate(validateMethodArguments);
 
     expect(response.inapplicableNodes).toContain(div);
+  });
+
+  it("should mark label as inapplicable when it wraps a tabbable input", async () => {
+    const { response, document, classifier } = validateMethodArguments;
+
+    const label = document.createElement("label");
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.setAttribute("tabindex", "0");
+    label.appendChild(checkbox);
+    label.appendChild(document.createTextNode("Accept terms"));
+    document.body.appendChild(label);
+
+    jest.spyOn(classifier, "getMatched").mockReturnValue([label]);
+    jest.spyOn(classifier, "assert").mockReturnValueOnce(true); // visible
+    jest.spyOn(classifier, "getParent").mockReturnValue(null);
+    jest.spyOn(classifier, "getMatchedDirect").mockReturnValue([checkbox]); // tabbable input child
+
+    await InteractiveNotTabbable.validate(validateMethodArguments);
+
+    expect(response.inapplicableNodes).toContain(label);
+    expect(response.failedNodes).toHaveLength(0);
+    expect(response.passedNodes).toHaveLength(0);
   });
 
   it("should mark an interactive element as inapplicable if it has a clickable parent", async () => {

@@ -4,8 +4,8 @@ import { PassCondition } from "~/rules/interfaces";
 export const HeadingH1: Rule = {
   id: "heading-h1",
   metadata: {
-    category: "Lists",
-    profile: "Blind",
+    category: "Text Content",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
@@ -19,13 +19,7 @@ export const HeadingH1: Rule = {
       type: "WCAG",
       id: "1.3.1",
       level: "A",
-      link: "https://www.w3.org/WAI/WCAG21/quickref/#info-and-relationships",
-    },
-    {
-      type: "WCAG",
-      id: "2.4.1",
-      level: "A",
-      link: "https://www.w3.org/TR/2008/REC-WCAG20-20081211/#navigation-mechanisms-headings",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
     },
     {
       type: "WCAG Technique",

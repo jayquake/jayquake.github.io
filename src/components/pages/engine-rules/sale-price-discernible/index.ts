@@ -9,8 +9,8 @@ import { textContainsWord } from "@acsbe/core-engine-dictionary";
 export const SalePriceDiscernible: Rule = {
   id: "sale-price-discernible",
   metadata: {
-    category: "Lists",
-    profile: "Blind",
+    category: "Text Content",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
@@ -24,7 +24,7 @@ export const SalePriceDiscernible: Rule = {
       type: "WCAG",
       id: "1.3.1",
       level: "A",
-      link: "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
     },
     {
       type: "Non-Standard",
@@ -40,9 +40,10 @@ export const SalePriceDiscernible: Rule = {
     const priceElements = classifier.getMatched([PerceivableComponentSalePrice]);
 
     for (const priceElement of priceElements) {
-      const isCrossedOut = classifier.assert(priceElement, PerceivableTraitCrossedOutText) || classifier.assert(priceElement, CompliantTraitCrossedOutText);
+      const isPerceivableCrossedOut = classifier.assert(priceElement, PerceivableTraitCrossedOutText);
+      const isCompliantCrossedOut = classifier.assert(priceElement, CompliantTraitCrossedOutText);
 
-      if (isCrossedOut) {
+      if (isPerceivableCrossedOut || isCompliantCrossedOut) {
         if (someElementsImplySalePrice([priceElement], classifier)) {
           response.passedNodes.push(priceElement);
           continue;
@@ -66,7 +67,7 @@ export const SalePriceDiscernible: Rule = {
   },
 };
 
-const keywords: Array<keyof typeof dictionary> = ["original_price", "was", "before", "old_price", "previously", "formerly", "reduced_from", "discounted_from", "was_originally", "last_sold_at", "marked_down_from", "sale_from", "originally_priced_at", "pre_sale_price", "previous_price", "used_to_be"];
+const keywords: Array<keyof typeof dictionary> = ["original_price", "was", "before", "old_price", "previously", "formerly", "reduced_from", "discounted_from", "was_originally", "last_sold_at", "marked_down_from", "sale_from", "originally_priced_at", "pre_sale_price", "previous_price", "used_to_be", "regular_price"];
 /**
  *  Check if the text implies a sale price by checking if the text contains any of the keywords in the dictionary
  * */

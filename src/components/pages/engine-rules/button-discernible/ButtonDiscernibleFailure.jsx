@@ -4,7 +4,7 @@ import EngineIssueFailure from "../../../layout/engineIssueFailure";
 const ButtonDiscernibleFailure = () => {
   const ruleId = "button-discernible";
   const title = `Buttons should have a label`;
-  const description = `Buttons that do not contain visible text should be assigned labels that informs screen reader users of their purpose.`;
+  const description = `Buttons that do not contain visible text should be assigned labels that inform screen reader users of their purpose.`;
   const helpText = `Add an aria-label or aria-labelledby attribute to the button.`;
   const fixSteps = [
   "Review the HTML structure",

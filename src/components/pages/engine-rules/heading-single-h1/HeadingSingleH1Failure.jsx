@@ -3,7 +3,7 @@ import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const HeadingSingleH1Failure = () => {
   const ruleId = "heading-single-h1";
-  const title = `Each page should not have more than one main heading`;
+  const title = `A page should not have more than one main heading`;
   const description = `Each web page should have only one h1 element so that screen reader users can identify the main topic or purpose of the page. Multiple h1s can confuse users by suggesting there are multiple primary topics, disrupting navigation by headings and making it harder to understand the overall page structure.`;
   const helpText = `Make sure that each web page has exactly one h1 element so that screen reader users can identify the main subject of the page.`;
   const fixSteps = [

@@ -6,11 +6,11 @@ export const RadioAriaChecked: Rule = {
   id: "radio-aria-checked",
   metadata: {
     category: "Forms",
-    profile: "Blind",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
-  impact: "serious",
+  impact: "critical",
   title: "Checked state of custom radio controls should be indicated to assistive technology",
   description: "If custom radio controls lack a defined checked state, screen reader users can't determine which option is selected, resulting in confusion and loss of functionality.",
   advice: 'Assign \'aria-checked="true" to the active radio control and aria-checked="false" to other controls in the group, updating values as the selection changes.',

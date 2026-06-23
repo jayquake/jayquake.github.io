@@ -1,0 +1,74 @@
+<!--testconfig
+    "testedClass": "Rules.ControlFieldVisibleAndTabbable",
+    "expect": {
+        "passedNodes": ["label", "label"]
+    }
+-->
+<div class="radio-wrapper">
+  <label for="example-1">
+    <input id="example-1" type="radio" name="radio-examples" />
+    <span class="inner-label">Radio 1</span>
+  </label>
+</div>
+<div class="radio-wrapper">
+  <label for="example-2">
+    <input id="example-2" type="radio" name="radio-examples" />
+    <span class="inner-label">Radio 2</span>
+  </label>
+</div>
+
+<style>
+  .radio-wrapper {
+    display: flex;
+    font-family: "Courier New", monospace;
+    font-weight: bold;
+  }
+  @media (max-width: 48em) {
+    .radio-wrapper {
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+    }
+  }
+
+  .radio-wrapper label {
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+  }
+  @media (max-width: 48em) {
+    .radio-wrapper label {
+      display: block;
+      margin: 10px 0;
+    }
+  }
+  .radio-wrapper label input {
+    opacity: 0;
+    position: absolute;
+  }
+  .radio-wrapper label .inner-label {
+    position: relative;
+    display: inline-block;
+    padding-left: 40px;
+  }
+  .radio-wrapper label .inner-label:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.25);
+    width: 30px;
+    transition: border-bottom 0.5s ease;
+  }
+  .radio-wrapper label input:focus ~ .inner-label:before {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.75);
+  }
+  .radio-wrapper label input:checked ~ .inner-label:after {
+    content: "✓";
+    color: #000;
+    position: absolute;
+    font-size: 1em;
+    left: 12px;
+    top: 1px;
+  }
+</style>

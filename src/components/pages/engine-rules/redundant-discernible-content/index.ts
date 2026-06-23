@@ -5,10 +5,10 @@ import { PassCondition } from "~/rules/interfaces";
 export const RedundantDiscernibleContent: Rule = {
   id: "redundant-discernible-content",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
-    wcagVersion: "2.1",
-    wcagLevel: "A",
+    category: "Interactive Content",
+    profile: ["Blind"],
+    wcagVersion: "General Guidelines",
+    wcagLevel: "N/A",
   },
   impact: "minor",
   title: "Assigned label should not be redundant",
@@ -16,12 +16,6 @@ export const RedundantDiscernibleContent: Rule = {
   advice: "Remove the aria-label from the failing element.",
   associatedDetectors: [PerceivableTraitVisible, PerceivableTraitDiscernibleText],
   refs: [
-    {
-      type: "WCAG",
-      id: "2.5.3",
-      level: "A",
-      link: "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1#label-in-name",
-    },
     {
       type: "Non-Standard",
       link: "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label",

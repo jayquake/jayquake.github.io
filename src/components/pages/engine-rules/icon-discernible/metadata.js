@@ -3,12 +3,12 @@
 
 export const IconDiscernible = {
   id: "icon-discernible",
-  title: `Icons should be labeled or excluded from assistive technology`,
-  description: `Icons used as decorative or complementary elements, like icons or illustrations that do not provide additional information, will often add unnecessary clutter to a screen reader user's browsing experience.`,
-  advice: `If the icon provides additional context or necessary information, provide an aria-label or a screen-reader-only text describing the functionality. If the element is used for decorative or complementary purposes, exclude it from assistive technology using role=presentation.`,
-  impact: "moderate",
+  title: `Meaningful icons should have a label, while decorative icons should be hidden`,
+  description: `Smaller graphics used as decorative or complementary elements, such as icons, and that do not provide additional information will often add unnecessary clutter to a screen reader user's browsing experience.`,
+  advice: `If the image is meaningful, assign a text alternative with a description of the image content using the alt attribute for image elements, or aria-label for elements with role="img". If the image is decorative, provide an empty alt attribute for image elements, or role="presentation" for elements with role="img".`,
+  impact: "critical",
   refs: [
-    { type: "WCAG", id: "1.1.1", level: "A", link: "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=211%2C412#non-text-content" },
+    { type: "WCAG", id: "1.1.1", level: "A", link: "https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html" },
     { type: "ACT", link: "https://act-rules.github.io/rules/46ca7f" },
     { type: "ACT", link: "https://act-rules.github.io/rules/e88epe" }
   ]

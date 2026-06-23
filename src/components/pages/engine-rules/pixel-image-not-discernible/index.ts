@@ -6,7 +6,7 @@ export const PixelImageNotDiscernible: Rule = {
   id: "pixel-image-not-discernible",
   metadata: {
     category: "Graphics",
-    profile: "Blind",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },

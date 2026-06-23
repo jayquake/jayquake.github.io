@@ -3,9 +3,9 @@ import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const LinkHomepageWarningFailure = () => {
   const ruleId = "link-homepage-warning";
-  const title = `Links that redirect to the homepage shouldn't do so without warning the user`;
-  const description = `Standalone redirection links to the homepage can unexpectedly shift the user's context by redirecting them to the homepage. They should therefore display a clear warning so that the user is informed before proceeding`;
-  const helpText = `Include a clear warning that will be visible for screen-readers, indicating that clicking the link will redirect the user to the homepage`;
+  const title = `Warning a user that a link navigates to the homepage is recommended`;
+  const description = `It's good practice to ensure that users can always identify links to the homepage.`;
+  const helpText = `Add a visibly hidden text element that contains 'Home'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id. Alternatively, nest a visibly hidden element that contains additional context inside of the link.`;
   const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",

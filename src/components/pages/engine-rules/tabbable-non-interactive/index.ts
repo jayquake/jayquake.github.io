@@ -5,8 +5,8 @@ import { PerceivableTraitTabbable, CompliantTraitInteractable } from "@acsbe/cor
 export const TabbableNonInteractive: Rule = {
   id: "tabbable-non-interactive",
   metadata: {
-    category: "Tabs",
-    profile: "Motor Impaired",
+    category: "General",
+    profile: ["Motor Impaired"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
@@ -16,6 +16,12 @@ export const TabbableNonInteractive: Rule = {
   advice: "Remove the tabindex attribute from the static element.",
   associatedDetectors: [PerceivableTraitTabbable, CompliantTraitInteractable],
   refs: [
+    {
+      type: "WCAG",
+      id: "2.4.3",
+      level: "A",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html",
+    },
     {
       type: "Non-Standard",
       link: "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex#accessibility_concerns",

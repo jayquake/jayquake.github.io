@@ -8,7 +8,12 @@ const OUTPUT_FILE = path.join(__dirname, '../src/routes/engineRoutes.jsx');
 function toPascalCase(str) {
   return str
     .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .map(word => {
+      if (/^\d/.test(word)) {
+        return `V${word.replace(/\./g, '_')}`;
+      }
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
     .join('');
 }
 

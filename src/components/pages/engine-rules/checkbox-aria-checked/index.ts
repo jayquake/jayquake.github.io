@@ -6,11 +6,11 @@ export const CheckboxAriaChecked: Rule = {
   id: "checkbox-aria-checked",
   metadata: {
     category: "Forms",
-    profile: "Blind",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
-  impact: "serious",
+  impact: "critical",
   title: "Checked state of custom checkbox controls should be exposed to assistive technology",
   description: "If custom checkbox controls lack a defined checked state, screen reader users cannot determine which option is selected, resulting in confusion and loss of functionality.",
   advice: 'Assign \'aria-checked="true" to active checkbox controls and aria-checked="false" to other controls in the group, updating values as selection changes.',
@@ -20,7 +20,7 @@ export const CheckboxAriaChecked: Rule = {
       type: "WCAG",
       id: "4.1.2",
       level: "A",
-      link: "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1#name-role-value",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
     },
     {
       type: "Non-Standard",

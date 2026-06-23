@@ -17,8 +17,8 @@ interface NoUiSliderElement extends HTMLElement {
 export const NoUiSliderSinglePointer: Rule = {
   id: "no-ui-slider-single-pointer",
   metadata: {
-    category: "Dragging Alternative",
-    profile: "Motor Impaired",
+    category: "Forms",
+    profile: ["Motor Impaired"],
     wcagVersion: "2.2",
     wcagLevel: "AA",
   },

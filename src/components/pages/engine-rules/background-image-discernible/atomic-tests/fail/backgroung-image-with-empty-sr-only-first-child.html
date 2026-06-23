@@ -1,0 +1,30 @@
+<!--testconfig
+    "testedClass": "Rules.BackgroundImageDiscernible",
+    "expect": {
+        "failedNodes": ["div"]
+    }
+-->
+<style>
+  .background-image {
+    background-image: url("path/to/your/image.jpg");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    height: 250px;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+</style>
+
+<div id="test-case-1" class="test-case background-image pass">
+  <span class="sr-only" role="img"></span>
+  <p>Test Case 1: Pass</p>
+</div>

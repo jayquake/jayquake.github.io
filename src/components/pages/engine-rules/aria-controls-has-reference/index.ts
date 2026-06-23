@@ -4,10 +4,10 @@ import { PassCondition } from "~/rules/interfaces";
 export const AriaControlsHasReference: Rule = {
   id: "aria-controls-has-reference",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
-    wcagVersion: "2.1",
-    wcagLevel: "A",
+    category: "Interactive Content",
+    profile: ["Blind"],
+    wcagVersion: "General Guidelines",
+    wcagLevel: "N/A",
   },
   impact: "minor",
   title: "aria-controls should reference a valid element id",
@@ -15,12 +15,6 @@ export const AriaControlsHasReference: Rule = {
   advice: "Make the value of aria-controls exactly match an existing, unique id of an element on the page. Remove or update the attribute if the target element is missing or no longer relevant.",
   associatedDetectors: [],
   refs: [
-    {
-      type: "WCAG",
-      id: "1.3.1",
-      level: "A",
-      link: "https://www.w3.org/WAI/WCAG21/quickref/?showtechniques=131%2C411#parsing",
-    },
     {
       type: "WCAG Technique",
       link: "https://www.w3.org/TR/wai-aria-1.1/#aria-controls",

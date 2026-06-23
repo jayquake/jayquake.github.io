@@ -3,9 +3,9 @@ import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const NavigationMisuseFailure = () => {
   const ruleId = "navigation-misuse";
-  const title = `An element without navigation links is tagged as a navigation landmark`;
-  const description = `Screen readers rely on accurate tagging and labeling to provide necessary context. If an element that does not contain navigation links is tagged as a navigation landmark, screen reader users may lose orientation and find the page's structure difficult to understand.`;
-  const helpText = `Add role=presentation to the incorrect <nav> element or remove role=navigation if a different element is used.`;
+  const title = `Navigation landmark does not contain key site navigation links`;
+  const description = `A navigation landmark should identify a section that contains primary links for moving through the site or page. Using navigation landmarks for minor or secondary link groups makes it harder for screen reader users to locate the page’s key navigation areas.`;
+  const helpText = `Use navigation landmarks only for key navigation sections, such as the main site menu, table of contents, breadcrumbs, or pagination. Avoid using them for general link lists, social links, related links, or other secondary link groups, and keep the number of navigation landmarks as limited as practical.`;
   const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",

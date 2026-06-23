@@ -5,8 +5,8 @@ import { PassCondition } from "~/rules/interfaces";
 export const FormMismatch: Rule = {
   id: "form-mismatch",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "Forms",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },

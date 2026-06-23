@@ -6,7 +6,7 @@ export const NavigationNotNested: Rule = {
   id: "navigation-not-nested",
   metadata: {
     category: "Landmarks",
-    profile: "Blind",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
@@ -20,7 +20,7 @@ export const NavigationNotNested: Rule = {
       type: "WCAG",
       id: "1.3.1",
       level: "A",
-      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
     },
     {
       type: "W3C",

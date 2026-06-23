@@ -5,12 +5,12 @@ import { PerceivableComponentComboboxSelect, PerceivableTraitClickable } from "@
 export const CustomSelectTriggerCombobox: Rule = {
   id: "custom-select-trigger-combobox",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "Forms",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
-  impact: "serious",
+  impact: "critical",
   title: "Custom select triggers should be tagged for assistive technology",
   description:
     "Screen readers provide built-in support for native select triggers, but custom triggers are not automatically recognized. Without assigning the appropriate ARIA role and ensuring the element is structured in accordance with accessibility standards, assistive technology may fail to announce or activate the trigger, preventing screen reader users from opening and interacting with the select component.",
@@ -21,7 +21,7 @@ export const CustomSelectTriggerCombobox: Rule = {
       type: "WCAG",
       id: "4.1.2",
       level: "A",
-      link: "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1#name-role-value",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
     },
     {
       type: "Non-Standard",

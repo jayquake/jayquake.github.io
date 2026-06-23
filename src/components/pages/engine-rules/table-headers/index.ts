@@ -5,8 +5,8 @@ import { CompliantComponentTable, CompliantComponentTableColumnHeader, Compliant
 export const TableHeaders: Rule = {
   id: "table-headers",
   metadata: {
-    category: "General",
-    profile: "Cognitive Disability",
+    category: "Tables",
+    profile: ["Cognitive Disability"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },

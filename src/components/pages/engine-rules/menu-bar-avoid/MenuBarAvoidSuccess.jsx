@@ -5,7 +5,7 @@ const MenuBarAvoidSuccess = () => {
   const ruleId = "menu-bar-avoid";
   const title = `Avoid using role="menubar" for web navigation links`;
   const description = `In most cases, using role=menubar on navigation elements within a web page can negatively impact screen reader users, especially those using JAWS. The attribute should be used for menu types that function like those found in desktop applications.`;
-  const helpText = `Remove role="menu" from the failing element.`;
+  const helpText = `Remove role="menubar" from the failing element.`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",

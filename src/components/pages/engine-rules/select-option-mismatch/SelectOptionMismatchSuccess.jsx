@@ -5,7 +5,7 @@ const SelectOptionMismatchSuccess = () => {
   const ruleId = "select-option-mismatch";
   const title = `Custom select options should be tagged for assistive technology`;
   const description = `Native select elements automatically expose each option to screen readers, however roles for custom components must be explicitly defined. If custom option elements are not given the correct ARIA role and nested according to markup and accessibility guidelines, assistive technology may not recognize or interact with them.`;
-  const helpText = `Assign role="option" to each custom select option.\\\\nEnsure that each option is directly contained in an element with role="listbox"`;
+  const helpText = `Assign role="option" to each custom select option. Ensure that each option is directly contained in an element with role="listbox"`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",

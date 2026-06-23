@@ -6,16 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="Accessibility rules testing" />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="preload" href="%PUBLIC_URL%/data.json" as="fetch" crossorigin="anonymous" />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -50,24 +47,25 @@
     -->
     <script>
       (function () {
-        const s = document.createElement("script");
-        const h = document.querySelector("head") || document.body;
-        s.src = "https://acsbapp.com/app-flow.js";
-        s.async = true;
-        h.appendChild(s);
-      })();
-    </script>
+        function loadAccessFlowScripts() {
+          var flow = document.createElement("script");
+          flow.src = "https://acsbapp.com/app-flow.js";
+          flow.async = true;
+          (document.head || document.body).appendChild(flow);
 
-    <script>
-      (function () {
-        var s = document.createElement("script");
-        var h = document.querySelector("head") || document.body;
-        s.src = "https://acsbapp.com/apps/app/dist/js/app.js";
-        s.async = true;
-        s.onload = function () {
-          acsbJS.init();
-        };
-        h.appendChild(s);
+          var app = document.createElement("script");
+          app.src = "https://acsbapp.com/apps/app/dist/js/app.js";
+          app.async = true;
+          app.onload = function () {
+            if (window.acsbJS) window.acsbJS.init();
+          };
+          (document.head || document.body).appendChild(app);
+        }
+        if ("requestIdleCallback" in window) {
+          requestIdleCallback(loadAccessFlowScripts, { timeout: 4000 });
+        } else {
+          window.addEventListener("load", loadAccessFlowScripts);
+        }
       })();
     </script>
   </body>

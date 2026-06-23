@@ -3,15 +3,35 @@ import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const PageNoMetaHttpEquivRefreshSuccess = () => {
   const ruleId = "page-no-meta-http-equiv-refresh";
-  const title = `Pages should not contain <meta> elements with http-equiv='refresh' attribute`;
-  const description = `<meta> elements with http-equiv='refresh' should be avoided as they can negatively impact accessibility and user experience. The <meta> element with http-equiv='refresh' specifies a delay in seconds before the page reloads or redirects to a provided URL. This can be disorienting for users, especially for those who rely on screen readers because the page content changes without any user interaction.`;
-  const helpText = `Remove <meta> elements with http-equiv="refresh" and use server-side redirects or JavaScript for page refreshes or redirects.`;
+  const title = `Pages should not use <meta http-equiv="refresh"> for automatic redirection or reloading`;
+  const description = `A <meta> element with http-equiv="refresh" is sometimes used to automatically redirect users after a time delay. These timed changes can interrupt and disorient users who rely on assistive technology`;
+  const helpText = `Remove <meta> elements with http-equiv="refresh". If timed user sessions are necessary, ensure users can extend the session time limit.`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
   "Test with assistive technologies"
   ];
   const htmlExamples = [
+  { filename: "content above 72000 with js url", content: `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="refresh" content="72001; URL='javascript:#'" />
+    <title>Atomic Test Page</title>
+  </head>
+  <body>
+    <p>Content of the page</p>
+  </body>
+</html>` },
+  { filename: "content above 72000 with url", content: `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="refresh" content="72001; URL='#'" />
+    <title>Atomic Test Page</title>
+  </head>
+  <body>
+    <p>Content of the page</p>
+  </body>
+</html>` },
   { filename: "page with no meta with http equiv refresh", content: `<!DOCTYPE html>
 <html lang="en">
   <head>

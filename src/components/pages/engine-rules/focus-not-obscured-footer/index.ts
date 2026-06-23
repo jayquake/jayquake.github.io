@@ -1,32 +1,13 @@
 import type { Rule } from "~/rules/interfaces";
 import { PassCondition } from "~/rules/interfaces";
-import type { SvgOrHtmlElement } from "@acsbe/core-engine-classifier";
-import type EngineClassifier from "@acsbe/core-engine-classifier";
 import { CompliantComponentFooter, PerceivableTraitSticky } from "@acsbe/core-engine-classifier";
-
-/**
- * Checks if the given element has a valid `scroll-padding-bottom` value.
- *
- * This function retrieves the computed `scroll-padding-bottom` value of the element
- * and compares it to the height of the footer. It returns true if the `scroll-padding-bottom`
- * is greater than or equal to the footer height.
- *
- * @param {SvgOrHtmlElement} element - The element to check for `scroll-padding-bottom`.
- * @param {SvgOrHtmlElement} footer - The footer element whose height is used for comparison.
- * @param {EngineClassifier} classifier - The classifier used to get the element's computed style and the footer's layout information.
- * @returns {boolean} - True if the `scroll-padding-bottom` is valid, false otherwise.
- */
-function hasValidScrollPaddingBottom(element: SvgOrHtmlElement, footer: SvgOrHtmlElement, classifier: EngineClassifier): boolean {
-  const { scrollPaddingBottom } = classifier.getOperations(element).layoutInfo;
-  const footerHeight = classifier.getOperations(footer).layoutInfo.height;
-  return scrollPaddingBottom >= footerHeight;
-}
+import { hasValidScrollPadding } from "~/rules/focus-not-obscured-header";
 
 export const FocusNotObscuredFooter: Rule = {
   id: "focus-not-obscured-footer",
   metadata: {
-    category: "Landmarks",
-    profile: "Motor Impaired",
+    category: "Interactive Content",
+    profile: ["Motor Impaired"],
     wcagVersion: "2.2",
     wcagLevel: "AA",
   },
@@ -36,18 +17,7 @@ export const FocusNotObscuredFooter: Rule = {
   advice: "When a page has a sticky footer, make sure that any element receiving focus is not fully covered by the footer. One way to achieve this is by using the CSS property scroll-padding-bottom.",
   associatedDetectors: [CompliantComponentFooter, PerceivableTraitSticky],
   refs: [
-    {
-      type: "WCAG",
-      id: "2.4.11",
-      level: "AA",
-      link: "https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum.html",
-    },
-    {
-      type: "WCAG",
-      id: "2.4.12",
-      level: "AAA",
-      link: "https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-enhanced.html",
-    },
+    { type: "WCAG", level: "AA", id: "2.4.11", link: "https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum.html" },
     {
       type: "WAI",
       link: "https://www.w3.org/TR/WCAG22/#focus-not-obscured-minimum",
@@ -80,10 +50,19 @@ export const FocusNotObscuredFooter: Rule = {
   ],
   passCondition: PassCondition.NoFailedNodes,
   async validate({ classifier, response }) {
-    const stickyFooters = classifier.getMatched([CompliantComponentFooter, PerceivableTraitSticky]);
-    for (const stickyFooter of stickyFooters) {
+    const stickyFooter = classifier.getMatched([CompliantComponentFooter, PerceivableTraitSticky])[0];
+    if (stickyFooter) {
       const { firstScrollableParent } = classifier.getOperations(stickyFooter).layoutInfo;
-      if (!hasValidScrollPaddingBottom(firstScrollableParent, stickyFooter, classifier)) {
+      const computedScrollPadding = classifier.getOperations(firstScrollableParent).layoutInfo.scrollPaddingBottom;
+      const footerHeight = classifier.getOperations(stickyFooter).layoutInfo.height;
+
+      if (
+        !hasValidScrollPadding(computedScrollPadding, footerHeight, {
+          styleId: "acsb-focus-not-obscured-footer-global",
+          dataAttribute: "data-acsb-footer-first-scrollable-parent",
+          cssProperty: "scroll-padding-bottom",
+        })
+      ) {
         response.failedNodes.push(stickyFooter);
       }
     }

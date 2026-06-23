@@ -5,7 +5,7 @@ const TableNotNestedSuccess = () => {
   const ruleId = "table-not-nested";
   const title = `Tables should not be nested`;
   const description = `Nested tables are often misinterpreted by screen readers, making it hard for users to follow the intended structure and meaning of the data.`;
-  const helpText = `Avoid nesting tables. Use separate tables with clear headings, and if tables are used for layout, assign  role="presentation" or role="none" to each table element.`;
+  const helpText = `Avoid nesting tables. Use separate tables with clear headings, and if tables are used for layout, assign role="presentation" or role="none" to each table element.`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",

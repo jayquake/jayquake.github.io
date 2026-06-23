@@ -4,8 +4,8 @@ import { PassCondition } from "~/rules/interfaces";
 export const MarqueeDeprecated: Rule = {
   id: "marquee-deprecated",
   metadata: {
-    category: "ARIA",
-    profile: "Blind",
+    category: "Moving Content",
+    profile: ["Cognitive Disability"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
@@ -19,7 +19,7 @@ export const MarqueeDeprecated: Rule = {
       type: "WCAG",
       id: "2.2.2",
       level: "A",
-      link: "https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1&showtechniques=244#pause-stop-hide",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html",
     },
     {
       type: "W3C",

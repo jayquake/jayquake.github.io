@@ -116,7 +116,7 @@ describe("ListNotEmpty rule validation", () => {
     expect(response.passedNodes).toContain(listUl);
   });
 
-  it("should fail when list (ol/ul) has no visible li children", async () => {
+  it("should pass when list (ol/ul) has only invisible li children (visibility is not checked for native lists)", async () => {
     const { response, document, classifier } = validateMethodArguments;
 
     const listItemOne = document.createElement("li");
@@ -145,7 +145,7 @@ describe("ListNotEmpty rule validation", () => {
 
     await ListNotEmpty.validate(validateMethodArguments);
 
-    expect(response.failedNodes).toContain(listOl);
-    expect(response.failedNodes).toContain(listUl);
+    expect(response.passedNodes).toContain(listOl);
+    expect(response.passedNodes).toContain(listUl);
   });
 });

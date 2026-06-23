@@ -1,6 +1,7 @@
 import type { Rule } from "~/rules/interfaces";
 import { PassCondition } from "~/rules/interfaces";
 import { CompliantComponentImage, PerceivableTraitDiscernibleText } from "@acsbe/core-engine-classifier";
+import { isIrrelevantImage } from "~/rules/image-discernible";
 
 /**
  * Determines if the related text for an image is incorrect based on various criteria.
@@ -53,13 +54,13 @@ function isRelatedTextIncorrect(relatedText: string): boolean {
 export const ImageDiscernibleCorrectly: Rule = {
   id: "image-discernible-correctly",
   metadata: {
-    category: "Forms",
-    profile: "Blind",
+    category: "Graphics",
+    profile: ["Blind"],
     wcagVersion: "2.0",
     wcagLevel: "A",
   },
-  impact: "critical",
-  title: "Functional image should have an informative and accurate text alternative",
+  impact: "serious",
+  title: "Functional images should have an informative and accurate text alternative",
   description: "Text alternatives must provide accurate descriptions of the image. Incorrect text alternatives, such as filenames or other placeholder values, may cause screen reader users to either miss essential information or hear unnecessary content that disrupts navigation.",
   advice: "Make sure that the assigned text alternative describes the content or function of the image.",
   associatedDetectors: [CompliantComponentImage, PerceivableTraitDiscernibleText],
@@ -68,7 +69,7 @@ export const ImageDiscernibleCorrectly: Rule = {
       type: "WCAG",
       id: "1.1.1",
       level: "A",
-      link: "https://www.w3.org/WAI/WCAG21/quickref/#non-text-content",
+      link: "https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html",
     },
   ],
   passCondition: PassCondition.NoFailedNodes,
@@ -80,6 +81,11 @@ export const ImageDiscernibleCorrectly: Rule = {
        * Non-discernible images are handled in a different rule (image-discernible)
        */
       if (!classifier.assert(image, PerceivableTraitDiscernibleText)) {
+        continue;
+      }
+
+      if (isIrrelevantImage(image.getAttribute("src") || "")) {
+        response.inapplicableNodes.push(image);
         continue;
       }
 
