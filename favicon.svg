@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Accessibility Rules">
+  <defs>
+    <linearGradient id="base" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f5fd4"/>
+      <stop offset="45%" stop-color="#667eea"/>
+      <stop offset="100%" stop-color="#8b3fa8"/>
+    </linearGradient>
+    <radialGradient id="orbPink" cx="30%" cy="25%" r="55%">
+      <stop offset="0%" stop-color="#f472b6" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#f472b6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orbCyan" cx="78%" cy="78%" r="50%">
+      <stop offset="0%" stop-color="#67e8f9" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#67e8f9" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orbViolet" cx="85%" cy="20%" r="40%">
+      <stop offset="0%" stop-color="#c4b5fd" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#c4b5fd" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="glass" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.42"/>
+      <stop offset="55%" stop-color="#ffffff" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.06"/>
+    </linearGradient>
+    <linearGradient id="icon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e0e7ff"/>
+    </linearGradient>
+    <linearGradient id="badge" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="0.6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <clipPath id="round">
+      <rect width="32" height="32" rx="8"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#round)">
+    <rect width="32" height="32" fill="url(#base)"/>
+    <rect width="32" height="32" fill="url(#orbPink)"/>
+    <rect width="32" height="32" fill="url(#orbCyan)"/>
+    <rect width="32" height="32" fill="url(#orbViolet)"/>
+
+    <!-- Glass panel -->
+    <rect x="4.5" y="4.5" width="23" height="23" rx="6.5" fill="url(#glass)" stroke="#ffffff" stroke-opacity="0.55" stroke-width="0.55"/>
+    <path d="M7.5 7.2 Q16 8.6 24.5 7.2" fill="none" stroke="#ffffff" stroke-opacity="0.38" stroke-width="0.7" stroke-linecap="round"/>
+    <path d="M8 23.5 Q16 21.8 24 23.5" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.5" stroke-linecap="round"/>
+
+    <!-- Accessibility figure -->
+    <g filter="url(#softGlow)" fill="none" stroke="url(#icon)" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="16" cy="10.2" r="2.15" fill="url(#icon)" stroke="none"/>
+      <path d="M16 12.6V16.8" stroke-width="1.85"/>
+      <path d="M12.1 14.6H19.9" stroke-width="1.85"/>
+      <path d="M13.2 20.2L16 16.8L18.8 20.2" stroke-width="1.85"/>
+    </g>
+
+    <!-- Validation check badge -->
+    <circle cx="23.2" cy="23.2" r="3.6" fill="url(#badge)" stroke="#ffffff" stroke-opacity="0.75" stroke-width="0.55"/>
+    <path d="M21.5 23.2 L22.6 24.3 L25 21.7" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Sparkle accent -->
+    <path d="M8.2 8.8 L8.6 9.8 L9.6 10.2 L8.6 10.6 L8.2 11.6 L7.8 10.6 L6.8 10.2 L7.8 9.8 Z" fill="#ffffff" fill-opacity="0.75"/>
+  </g>
+</svg>
