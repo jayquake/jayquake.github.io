@@ -1,6 +1,7 @@
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { Breadcrumbs, MenuItem, Paper, Select } from "@mui/material";
-import React from "react";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Breadcrumbs, Button, Menu, MenuItem, Paper } from "@mui/material";
+import React, { useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 function capitalizeFirstLetter(string) {
@@ -10,6 +11,7 @@ function capitalizeFirstLetter(string) {
 const CustomizedBreadcrumbs = ({ selectedOption, handleOptionChange }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [variantMenuAnchor, setVariantMenuAnchor] = useState(null);
   const pathnames = location.pathname.split("/").filter((x) => x);
 
   const hasVariant = /(_success|_failure)$/.test(location.pathname);
@@ -23,7 +25,11 @@ const CustomizedBreadcrumbs = ({ selectedOption, handleOptionChange }) => {
     const basePath = location.pathname.replace(/(_success|_failure)$/, "");
     const newURL = `${basePath}_${selectedValue.toLowerCase()}`;
     navigate(newURL);
+    setVariantMenuAnchor(null);
   };
+
+  const variantMenuOpen = Boolean(variantMenuAnchor);
+  const variantLabel = lastPart === "failure" ? "Failure" : "Success";
 
   return (
     <>
@@ -128,36 +134,59 @@ const CustomizedBreadcrumbs = ({ selectedOption, handleOptionChange }) => {
           })}
 
           {hasVariant && (
-            <Select
-              value={lastPart}
-              onChange={(event) => handleOptionSelection(event.target.value)}
-              aria-label="Select variant type"
-              size="small"
-              sx={{
-                ml: 1,
-                minWidth: 90,
-                background: "rgba(255, 255, 255, 0.4)",
-                backdropFilter: "blur(10px)",
-                border: "1px solid rgba(25, 118, 210, 0.25)",
-                borderRadius: 2,
-                fontWeight: 600,
-                fontSize: "0.8rem",
-                color: "#1976d2",
-                "& .MuiSelect-select": { py: 0.5, px: 1.5 },
-                "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                "&:hover .MuiOutlinedInput-notchedOutline": { border: "none" },
-                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                  border: "2px solid rgba(25, 118, 210, 0.4)",
-                },
-              }}
-            >
-              <MenuItem aria-label="Option failure" value="failure">
-                Failure
-              </MenuItem>
-              <MenuItem aria-label="Option success" value="success">
-                Success
-              </MenuItem>
-            </Select>
+            <>
+              <Button
+                type="button"
+                onClick={(event) => setVariantMenuAnchor(event.currentTarget)}
+                aria-haspopup="listbox"
+                aria-expanded={variantMenuOpen}
+                aria-label="Select variant type"
+                size="small"
+                endIcon={<ExpandMoreIcon sx={{ fontSize: 16 }} />}
+                sx={{
+                  ml: 1,
+                  minWidth: 90,
+                  background: "rgba(255, 255, 255, 0.4)",
+                  backdropFilter: "blur(10px)",
+                  border: "1px solid rgba(25, 118, 210, 0.25)",
+                  borderRadius: 2,
+                  fontWeight: 600,
+                  fontSize: "0.8rem",
+                  color: "#1976d2",
+                  textTransform: "none",
+                  py: 0.5,
+                  px: 1.5,
+                  "&:hover": {
+                    background: "rgba(255, 255, 255, 0.55)",
+                    border: "1px solid rgba(25, 118, 210, 0.35)",
+                  },
+                }}
+              >
+                {variantLabel}
+              </Button>
+              <Menu
+                anchorEl={variantMenuAnchor}
+                open={variantMenuOpen}
+                onClose={() => setVariantMenuAnchor(null)}
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                transformOrigin={{ vertical: "top", horizontal: "left" }}
+              >
+                <MenuItem
+                  aria-label="Option failure"
+                  selected={lastPart === "failure"}
+                  onClick={() => handleOptionSelection("failure")}
+                >
+                  Failure
+                </MenuItem>
+                <MenuItem
+                  aria-label="Option success"
+                  selected={lastPart === "success"}
+                  onClick={() => handleOptionSelection("success")}
+                >
+                  Success
+                </MenuItem>
+              </Menu>
+            </>
           )}
         </Breadcrumbs>
       </Paper>
