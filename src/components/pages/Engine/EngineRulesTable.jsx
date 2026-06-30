@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import { memo, useCallback } from "react";
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
-import { mgsFonts } from "../../../theme/mgsTokens";
+import { MGS, mgsFonts, raidenType } from "../../../theme/mgsTokens";
 import {
   getRuleSlug,
   impactToSeverityLabel,
@@ -56,6 +56,88 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
     prefetchEngineExample(slug, "success");
   }, [slug]);
 
+  if (!isLibrary) {
+    return (
+      <TableRow
+        hover
+        selected={selected}
+        onClick={() => onSelect(slug)}
+        onMouseDown={handleWarm}
+        sx={{
+          cursor: "pointer",
+          "&.Mui-selected td": {
+            bgcolor: MGS.selectionStrong,
+            borderColor: "primary.dark",
+          },
+          "&.Mui-selected td:first-of-type": {
+            boxShadow: (t) => `inset 3px 0 0 ${t.palette.primary.main}`,
+          },
+          "&:hover td": { bgcolor: "action.hover" },
+          "& td": {
+            py: 1,
+            borderColor: "divider",
+            whiteSpace: "normal",
+          },
+        }}
+      >
+        <TableCell>
+          <Typography
+            variant="caption"
+            sx={{
+              display: "block",
+              fontFamily: mgsFonts.hud,
+              color: "primary.main",
+              fontSize: "0.68rem",
+              letterSpacing: "0.04em",
+              mb: 0.35,
+            }}
+          >
+            {slug}
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              fontSize: "0.8rem",
+              fontWeight: selected ? 600 : 500,
+              color: selected ? MGS.raidenWhite : "text.primary",
+              lineHeight: 1.45,
+              overflowWrap: "anywhere",
+            }}
+          >
+            {rule.title}
+          </Typography>
+          {(severity !== "—" || wcagRefs[0]) && (
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, mt: 0.6 }}>
+              {severity !== "—" && (
+                <Chip
+                  label={severity}
+                  size="small"
+                  variant="outlined"
+                  sx={{
+                    height: 20,
+                    fontSize: "0.58rem",
+                    fontFamily: mgsFonts.hud,
+                    borderColor: "primary.main",
+                    color: "primary.main",
+                    borderRadius: 0,
+                  }}
+                />
+              )}
+              {wcagRefs[0] && (
+                <Chip
+                  label={wcagRefs[0].id}
+                  size="small"
+                  variant="outlined"
+                  sx={{ height: 20, fontSize: "0.58rem" }}
+                />
+              )}
+            </Box>
+          )}
+        </TableCell>
+      </TableRow>
+    );
+  }
+
   return (
     <TableRow
       hover
@@ -69,7 +151,7 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
           boxShadow: (t) => `inset 2px 0 0 ${t.palette.primary.main}`,
         },
         "& td": {
-          py: isLibrary ? 1 : 0.65,
+          py: isLibrary ? 1.1 : 0.65,
           borderColor: "divider",
           whiteSpace: "nowrap",
           overflow: "hidden",
@@ -78,15 +160,7 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
       }}
     >
       <TableCell title={slug}>
-        <Typography
-          variant="caption"
-          noWrap
-          sx={{
-            fontFamily: mgsFonts.hud,
-            color: "primary.main",
-            fontSize: isLibrary ? "0.72rem" : "0.68rem",
-          }}
-        >
+        <Typography variant="caption" noWrap sx={{ ...raidenType.ruleId, fontSize: isLibrary ? "0.72rem" : "0.68rem" }}>
           {isLibrary ? `[ ${slug} ]` : slug}
         </Typography>
       </TableCell>
@@ -95,9 +169,9 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
           variant="body2"
           noWrap
           sx={{
-            fontSize: isLibrary ? "0.82rem" : "0.78rem",
-            fontWeight: selected ? 600 : 400,
-            color: "text.primary",
+            fontSize: isLibrary ? "0.84rem" : "0.78rem",
+            fontWeight: selected ? 600 : 500,
+            color: isLibrary ? MGS.raidenWhite : "text.primary",
           }}
         >
           {rule.title}
@@ -105,8 +179,15 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
       </TableCell>
       {isLibrary && (
         <TableCell>
-          <Typography variant="caption" sx={{ ...hudLabelSx, fontSize: "0.62rem", color: "primary.dark" }}>
-            {category}
+          <Typography
+            variant="caption"
+            sx={{
+              ...raidenType.tableHead,
+              fontSize: "0.6rem",
+              color: "text.secondary",
+            }}
+          >
+            {(category || "—").toUpperCase()}
           </Typography>
         </TableCell>
       )}
@@ -222,12 +303,12 @@ export default function EngineRulesTable({
           <Box sx={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 2, mb: 2 }}>
             <Box>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>
-                <DescriptionOutlinedIcon sx={{ color: "primary.main", fontSize: 22 }} />
-                <Typography variant="h6" sx={{ ...hudLabelSx, fontSize: "0.85rem", color: "primary.main" }}>
+                <DescriptionOutlinedIcon sx={{ color: "primary.light", fontSize: 24 }} />
+                <Typography component="h1" sx={raidenType.pageTitle}>
                   Engine Rules Library
                 </Typography>
               </Box>
-              <Typography variant="body2" color="text.secondary" sx={{ fontSize: "0.8rem", maxWidth: 520 }}>
+              <Typography sx={{ ...raidenType.bodyHud, fontSize: "0.8rem", maxWidth: 520 }}>
                 Manage and configure accessibility rules used by the RAIDEN engine.
               </Typography>
             </Box>
@@ -367,13 +448,13 @@ export default function EngineRulesTable({
             stickyHeader
             sx={{
               width: "100%",
-              tableLayout: isLibrary ? "fixed" : "auto",
+              tableLayout: "fixed",
               "& .MuiTableCell-head": {
                 bgcolor: "background.default",
                 borderBottom: 2,
                 borderColor: "primary.dark",
-                py: 1,
-                ...hudLabelSx,
+                py: 1.25,
+                ...raidenType.tableHead,
               },
               "& .MuiTableCell-body": {
                 borderBottom: 1,
@@ -383,24 +464,24 @@ export default function EngineRulesTable({
           >
             <TableHead>
               <TableRow>
-                <TableCell sx={{ width: isLibrary ? "18%" : 130 }}>RULE ID</TableCell>
-                <TableCell>NAME</TableCell>
-                {isLibrary && <TableCell sx={{ width: "14%" }}>CATEGORY</TableCell>}
-                <TableCell sx={{ width: isLibrary ? "10%" : 72 }}>SEVERITY</TableCell>
                 {isLibrary ? (
                   <>
+                    <TableCell sx={{ width: "18%" }}>RULE ID</TableCell>
+                    <TableCell>NAME</TableCell>
+                    <TableCell sx={{ width: "14%" }}>CATEGORY</TableCell>
+                    <TableCell sx={{ width: "10%" }}>SEVERITY</TableCell>
                     <TableCell sx={{ width: "10%" }}>STATUS</TableCell>
                     <TableCell sx={{ width: "10%" }}>WCAG</TableCell>
                   </>
                 ) : (
-                  <TableCell sx={{ width: 64 }}>WCAG</TableCell>
+                  <TableCell>RULE</TableCell>
                 )}
               </TableRow>
             </TableHead>
             <TableBody>
               {loading ? (
                 <TableRow>
-                  <TableCell colSpan={isLibrary ? 6 : 4}>
+                  <TableCell colSpan={isLibrary ? 6 : 1}>
                     <Typography variant="caption" color="text.secondary" sx={{ fontFamily: mgsFonts.hud }}>
                       Loading rules…
                     </Typography>

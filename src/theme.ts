@@ -45,15 +45,24 @@ export const theme = createTheme({
     },
     h6: { fontFamily: mgsFonts.tactical, fontWeight: 600 },
     subtitle2: {
-      fontFamily: mgsFonts.tactical,
+      fontFamily: mgsFonts.display,
       fontSize: '0.7rem',
-      fontWeight: 500,
+      fontWeight: 600,
       letterSpacing: '0.14em',
       textTransform: 'uppercase',
-      color: MGS.raidenCyanDim,
+      color: MGS.raidenCyanBright,
     },
-    caption: { color: MGS.textMuted, fontFamily: mgsFonts.tactical },
-    body2: { color: MGS.textSecondary },
+    overline: {
+      fontFamily: mgsFonts.display,
+      fontSize: '0.68rem',
+      fontWeight: 600,
+      letterSpacing: '0.12em',
+      textTransform: 'uppercase',
+      color: MGS.raidenCyanBright,
+      lineHeight: 1.4,
+    },
+    caption: { color: MGS.textSecondary, fontFamily: mgsFonts.tactical },
+    body2: { color: MGS.textSecondary, lineHeight: 1.55 },
   },
   components: {
     MuiCssBaseline: {
@@ -122,7 +131,7 @@ export const theme = createTheme({
       defaultProps: { size: 'small', variant: 'outlined' },
       styleOverrides: {
         root: { fontFamily: mgsFonts.tactical, fontSize: '0.7rem' },
-        outlined: { borderColor: MGS.borderBright, color: MGS.textSecondary },
+        outlined: { borderColor: MGS.borderBright, color: MGS.raidenSilver },
       },
     },
     MuiTextField: {
@@ -150,7 +159,7 @@ export const theme = createTheme({
           fontFamily: mgsFonts.tactical,
           fontSize: '0.8rem',
         },
-        head: { color: MGS.raidenCyanBright, fontWeight: 600, letterSpacing: '0.1em' },
+        head: { fontFamily: mgsFonts.display, color: MGS.raidenCyanBright, fontWeight: 600, letterSpacing: '0.12em' },
       },
     },
     MuiLinearProgress: {
@@ -204,4 +213,4 @@ export const theme = createTheme({
   },
 });
 
-export { MGS, mgsFonts, carbonWeave };
+export { MGS, mgsFonts, carbonWeave, raidenType } from './theme/mgsTokens';

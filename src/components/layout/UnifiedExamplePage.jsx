@@ -24,7 +24,7 @@ import {
 import ExampleCard from "./ExampleCard";
 import ExamplePageNav from "./ExamplePageNav";
 import { HUD_PANEL, PAGE_SHELL } from "../../theme/layout";
-import { MGS, mgsFonts } from "../../theme/mgsTokens";
+import { MGS, mgsFonts, raidenType } from "../../theme/mgsTokens";
 
 const PALETTE = {
   success: {
@@ -44,11 +44,7 @@ const PALETTE = {
 };
 
 const sectionLabelSx = {
-  fontFamily: mgsFonts.hud,
-  letterSpacing: "0.1em",
-  textTransform: "uppercase",
-  fontSize: "0.7rem",
-  fontWeight: 600,
+  ...raidenType.sectionLabel,
 };
 
 export default function UnifiedExamplePage({
@@ -73,17 +69,27 @@ export default function UnifiedExamplePage({
     <Box sx={{ ...PAGE_SHELL, display: "flex", flexDirection: "column", gap: 1.5 }}>
       <ExamplePageNav ruleId={ruleId} ruleType={ruleType} variant={variant} />
 
-      <Paper elevation={0} sx={{ ...HUD_PANEL, p: { xs: 2, sm: 2.5 }, width: "100%" }}>
+      <Paper
+        elevation={0}
+        sx={{
+          ...HUD_PANEL,
+          p: { xs: 2, sm: 2.5 },
+          width: "100%",
+          borderLeft: `3px solid ${pal.primary}`,
+        }}
+      >
         {title && (
           <Typography
             variant="subtitle1"
             component="h1"
             sx={{
+              fontFamily: mgsFonts.display,
               fontWeight: 700,
               color: pal.primary,
               lineHeight: 1.35,
-              fontSize: { xs: "0.95rem", sm: "1.1rem" },
+              fontSize: { xs: "0.95rem", sm: "1.05rem" },
               textTransform: "uppercase",
+              letterSpacing: "0.08em",
               mb: description ? 0.75 : 1,
               overflowWrap: "break-word",
             }}
@@ -93,15 +99,7 @@ export default function UnifiedExamplePage({
         )}
 
         {description && (
-          <Typography
-            variant="body2"
-            sx={{
-              color: "text.secondary",
-              mb: 1,
-              lineHeight: 1.6,
-              fontSize: "0.85rem",
-            }}
-          >
+          <Typography variant="body2" sx={{ ...raidenType.bodyHud, mb: 1 }}>
             {description}
           </Typography>
         )}
@@ -144,21 +142,21 @@ export default function UnifiedExamplePage({
           <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: "text.secondary" }} />}>
             <Stack direction="row" alignItems="center" spacing={1}>
               <LightbulbIcon sx={{ color: pal.primary, fontSize: 18 }} />
-              <Typography variant="subtitle2" sx={{ ...sectionLabelSx, color: "primary.dark" }}>
+              <Typography variant="subtitle2" sx={sectionLabelSx}>
                 Best Practices
               </Typography>
             </Stack>
           </AccordionSummary>
           <AccordionDetails sx={{ pt: 0 }}>
             {helpText && helpText !== "N/A" && (
-              <Typography variant="body2" sx={{ mb: bestPractices?.length ? 1.5 : 0, lineHeight: 1.65, color: "text.secondary" }}>
+              <Typography variant="body2" sx={{ mb: bestPractices?.length ? 1.5 : 0, ...raidenType.bodyHud }}>
                 {helpText}
               </Typography>
             )}
             {bestPractices && bestPractices.length > 0 && (
               <Stack spacing={0.75}>
                 {bestPractices.map((practice, i) => (
-                  <Typography key={i} variant="body2" sx={{ lineHeight: 1.55, color: "text.secondary", fontSize: "0.85rem" }}>
+                  <Typography key={i} variant="body2" sx={{ ...raidenType.bodyHud, fontSize: "0.85rem" }}>
                     {i + 1}. {practice}
                   </Typography>
                 ))}
@@ -182,21 +180,21 @@ export default function UnifiedExamplePage({
           <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: "text.secondary" }} />}>
             <Stack direction="row" alignItems="center" spacing={1}>
               <InfoIcon sx={{ color: "primary.main", fontSize: 18 }} />
-              <Typography variant="subtitle2" sx={{ ...sectionLabelSx, color: "primary.dark" }}>
+              <Typography variant="subtitle2" sx={sectionLabelSx}>
                 How to Fix
               </Typography>
             </Stack>
           </AccordionSummary>
           <AccordionDetails sx={{ pt: 0 }}>
             {helpText && helpText !== "N/A" && (
-              <Typography variant="body2" sx={{ mb: fixSteps?.length ? 1.5 : 0, lineHeight: 1.65, color: "text.secondary" }}>
+              <Typography variant="body2" sx={{ mb: fixSteps?.length ? 1.5 : 0, ...raidenType.bodyHud }}>
                 {helpText}
               </Typography>
             )}
             {fixSteps && fixSteps.length > 0 && (
               <Stack spacing={0.75}>
                 {fixSteps.map((step, i) => (
-                  <Typography key={i} variant="body2" sx={{ lineHeight: 1.55, color: "text.secondary", fontSize: "0.85rem" }}>
+                  <Typography key={i} variant="body2" sx={{ ...raidenType.bodyHud, fontSize: "0.85rem" }}>
                     {i + 1}. {step}
                   </Typography>
                 ))}

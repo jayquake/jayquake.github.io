@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { fetchEngineRulesFull } from "../utils/engineRulesDataService";
-import { getRuleSlug, isPopulatedRule } from "../components/pages/Engine/engineLibraryUtils";
+import {
+  fetchEngineRuleById,
+  getEngineRulesCatalogCache,
+} from "../utils/engineRulesDataService";
 
 export function useEngineRuleFull(slug) {
-  const [rule, setRule] = useState(null);
-  const [loading, setLoading] = useState(Boolean(slug));
+  const cached = slug ? getEngineRulesCatalogCache()?.byId[slug] : null;
+  const [rule, setRule] = useState(cached ?? null);
+  const [loading, setLoading] = useState(Boolean(slug) && !cached);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -14,15 +17,22 @@ export function useEngineRuleFull(slug) {
       return undefined;
     }
 
+    const fromCache = getEngineRulesCatalogCache()?.byId[slug];
+    if (fromCache) {
+      setRule(fromCache);
+      setLoading(false);
+      return undefined;
+    }
+
     let cancelled = false;
     setLoading(true);
 
-    fetchEngineRulesFull()
-      .then((data) => {
-        if (cancelled) return;
-        const found = data.filter(isPopulatedRule).find((r) => getRuleSlug(r) === slug) ?? null;
-        setRule(found);
-        setLoading(false);
+    fetchEngineRuleById(slug)
+      .then((found) => {
+        if (!cancelled) {
+          setRule(found);
+          setLoading(false);
+        }
       })
       .catch((e) => {
         if (!cancelled) {

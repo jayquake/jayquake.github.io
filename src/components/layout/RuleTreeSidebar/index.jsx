@@ -31,7 +31,7 @@ import {
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import ENGINE_RULE_CATEGORIES from "../../../data/engine-rule-categories";
-import { fetchEngineRulesIndex } from "../../../utils/engineRulesDataService";
+import { fetchEngineRulesCatalog, getEngineRulesCatalogCache } from "../../../utils/engineRulesDataService";
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
 import { DataService } from "../../util/dataService";
 import { getAllCachedResults } from "../../../utils/analysisCache";
@@ -70,14 +70,6 @@ function capitalize(str) {
 
 const DEFAULT_EXPANDED = {
   "tier-engine": true,
-  "cat-engine-aria-roles": true,
-  "cat-engine-forms-inputs": true,
-  "cat-engine-links-navigation": true,
-  "cat-engine-images-media": true,
-  "cat-engine-structure-semantics": true,
-  "cat-engine-interactive-widgets": true,
-  "cat-engine-text-content": true,
-  "cat-engine-page-document": true,
 };
 
 function loadExpanded() {
@@ -96,51 +88,66 @@ function saveExpanded(state) {
 }
 
 const LEAF_ITEMS = [
-  { key: "success", label: "Success", icon: CheckCircleIcon, color: "#6ee7b7" },
-  { key: "failure", label: "Failure", icon: CancelIcon, color: "#f44336" },
-  { key: "rule-lab", label: "Rule Lab", icon: ScienceIcon, color: "#5c6bc0" },
-  { key: "mcp-debug", label: "MCP Debug", icon: BugReportIcon, color: "#ff9800" },
+  { key: "success", label: "Success examples", icon: CheckCircleIcon, color: "#6ee7b7" },
+  { key: "failure", label: "Failure examples", icon: CancelIcon, color: "#ff6b6b" },
+  { key: "rule-lab", label: "Rule Lab", icon: ScienceIcon, color: "#8b9cf6" },
+  { key: "mcp-debug", label: "MCP Debug", icon: BugReportIcon, color: "#ffb74d" },
 ];
 
-function LeafItem({ item, to, onClick, isActive, isOpen, onWarm }) {
-  const Icon = item.icon;
+function RuleActionBar({ items, leafPaths, ruleId, ruleType, onNavigate, location, isOpen }) {
+  if (!isOpen) return null;
+
   return (
-    <ListItemButton
-      component={RouterLink}
-      to={to}
-      onClick={onClick}
-      onMouseEnter={onWarm}
-      onFocus={onWarm}
-      selected={isActive}
+    <Box
       sx={{
-        pl: isOpen ? 8 : 2,
-        py: 0.3,
-        minHeight: 28,
-        borderRadius: 1,
-        mx: isOpen ? 0.5 : 0,
-        textDecoration: "none",
-        color: "inherit",
-        "&.Mui-selected": {
-          bgcolor: alpha(item.color, 0.12),
-          "&:hover": { bgcolor: alpha(item.color, 0.18) },
-        },
-        "&:hover": { bgcolor: alpha(item.color, 0.08) },
+        display: "flex",
+        alignItems: "center",
+        gap: 0.25,
+        pl: 6.5,
+        pr: 1,
+        py: 0.25,
+        mb: 0.25,
       }}
     >
-      <ListItemIcon sx={{ minWidth: 24, mr: isOpen ? 1 : 0 }}>
-        <Icon sx={{ fontSize: 14, color: item.color }} />
-      </ListItemIcon>
-      {isOpen && (
-        <ListItemText
-          primary={item.label}
-          primaryTypographyProps={{
-            fontSize: "0.7rem",
-            fontWeight: 500,
-            color: "text.secondary",
-          }}
-        />
-      )}
-    </ListItemButton>
+      {items.map((item) => {
+        const Icon = item.icon;
+        const to = leafPaths[item.key];
+        const isActive =
+          item.key === "mcp-debug"
+            ? location.pathname + location.search === to
+            : location.pathname === to;
+        return (
+          <Tooltip key={item.key} title={item.label} placement="top">
+            <IconButton
+              component={RouterLink}
+              to={to}
+              size="small"
+              onClick={() => onNavigate(to)}
+              onMouseEnter={
+                ruleType === "engine" && (item.key === "success" || item.key === "failure")
+                  ? () => prefetchEngineExample(ruleId, item.key)
+                  : undefined
+              }
+              aria-label={item.label}
+              sx={{
+                p: 0.4,
+                border: 1,
+                borderColor: isActive ? item.color : "divider",
+                borderRadius: 0.5,
+                bgcolor: isActive ? alpha(item.color, 0.15) : "transparent",
+                color: item.color,
+                "&:hover": {
+                  bgcolor: alpha(item.color, 0.12),
+                  borderColor: item.color,
+                },
+              }}
+            >
+              <Icon sx={{ fontSize: 13 }} />
+            </IconButton>
+          </Tooltip>
+        );
+      })}
+    </Box>
   );
 }
 
@@ -175,9 +182,14 @@ function HealthDot({ status }) {
 
 function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, expanded, onToggle, onNavigate, location, healthStatus }) {
   const nodeKey = `rule-${ruleType}-${ruleId}`;
-  const isExpanded = nodeKey in expanded ? expanded[nodeKey] : true;
+  const isExpanded = expanded[nodeKey] ?? false;
   const basePath = ruleType === "engine" ? `/engine/${ruleId}` : `/${criteriaOrCategory}/${ruleId}`;
-  const isRuleActive = location.pathname === basePath;
+  const isRuleActive =
+    location.pathname === basePath ||
+    location.pathname.startsWith(`${basePath}_`);
+
+  const displayLabel = ruleType === "engine" ? ruleId : ruleLabel;
+  const tooltipTitle = ruleType === "engine" ? ruleLabel : ruleId;
 
   const handleClick = () => {
     onNavigate(basePath);
@@ -192,82 +204,75 @@ function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, exp
     success: `${basePath}_success`,
     failure: `${basePath}_failure`,
     "rule-lab": `/rule-lab?rule=${ruleId}&type=${ruleType}`,
-    "mcp-debug": `/rule-lab?rule=${ruleId}&type=${ruleType}&mode=mcp`,
+    "mcp-debug":
+      ruleType === "engine"
+        ? `${basePath}?debug=mcp`
+        : `/rule-lab?rule=${ruleId}&type=${ruleType}&mode=mcp`,
   }), [basePath, ruleId, ruleType]);
-
-  const handleLeafClick = (leafKey) => {
-    onNavigate(leafPaths[leafKey]);
-  };
 
   return (
     <>
-      <ListItemButton
-        component={RouterLink}
-        to={basePath}
-        onClick={handleClick}
-        selected={isRuleActive}
-        sx={{
-          pl: isOpen ? 6 : 2,
-          py: 0.4,
-          minHeight: 30,
-          borderRadius: 1,
-          mx: isOpen ? 0.5 : 0,
-          textDecoration: "none",
-          color: "inherit",
-        "&.Mui-selected": {
-          bgcolor: "action.selected",
-        },
-        "&:hover": { bgcolor: "action.hover" },
-      }}
-    >
-        {isOpen && (
-          <IconButton
-            size="small"
-            onClick={handleToggle}
-            sx={{ p: 0, mr: 0.5, width: 18, height: 18 }}
-          >
-            {isExpanded ? (
-              <ExpandMoreIcon sx={{ fontSize: 14 }} />
-            ) : (
-              <ChevronRightIcon sx={{ fontSize: 14 }} />
-            )}
-          </IconButton>
-        )}
-        {isOpen && (
-          <>
-            <ListItemText
-              primary={ruleLabel}
-              primaryTypographyProps={{
-                fontSize: "0.75rem",
-                fontWeight: isRuleActive ? 600 : 400,
-                color: isRuleActive ? "primary.main" : "text.primary",
-                overflowWrap: "anywhere",
-              }}
-            />
-            <HealthDot status={healthStatus || "gray"} />
-          </>
-        )}
-      </ListItemButton>
-      {isOpen && (
-        <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-          <List disablePadding>
-            {LEAF_ITEMS.map((item) => (
-              <LeafItem
-                key={item.key}
-                item={item}
-                to={leafPaths[item.key]}
-                onClick={() => handleLeafClick(item.key)}
-                onWarm={
-                  ruleType === "engine" && (item.key === "success" || item.key === "failure")
-                    ? () => prefetchEngineExample(ruleId, item.key)
-                    : undefined
-                }
-                isActive={false}
-                isOpen={isOpen}
+      <Tooltip title={isOpen ? tooltipTitle : displayLabel} placement="right" disableHoverListener={!isOpen}>
+        <ListItemButton
+          component={RouterLink}
+          to={basePath}
+          onClick={handleClick}
+          selected={isRuleActive}
+          sx={{
+            pl: isOpen ? 5.5 : 2,
+            py: 0.25,
+            minHeight: 26,
+            borderRadius: 1,
+            mx: isOpen ? 0.5 : 0,
+            textDecoration: "none",
+            color: "inherit",
+            "&.Mui-selected": {
+              bgcolor: "action.selected",
+            },
+            "&:hover": { bgcolor: "action.hover" },
+          }}
+        >
+          {isOpen && (
+            <IconButton
+              size="small"
+              onClick={handleToggle}
+              aria-label={isExpanded ? "Collapse rule actions" : "Expand rule actions"}
+              sx={{ p: 0, mr: 0.25, width: 16, height: 16, flexShrink: 0 }}
+            >
+              {isExpanded ? (
+                <ExpandMoreIcon sx={{ fontSize: 13, color: "text.secondary" }} />
+              ) : (
+                <ChevronRightIcon sx={{ fontSize: 13, color: "text.secondary" }} />
+              )}
+            </IconButton>
+          )}
+          {isOpen && (
+            <>
+              <ListItemText
+                primary={displayLabel}
+                primaryTypographyProps={{
+                  fontFamily: ruleType === "engine" ? '"IBM Plex Mono", monospace' : undefined,
+                  fontSize: ruleType === "engine" ? "0.68rem" : "0.74rem",
+                  fontWeight: isRuleActive ? 600 : 500,
+                  color: isRuleActive ? "primary.light" : "text.primary",
+                  noWrap: true,
+                }}
               />
-            ))}
-          </List>
-        </Collapse>
+              <HealthDot status={healthStatus || "gray"} />
+            </>
+          )}
+        </ListItemButton>
+      </Tooltip>
+      {isOpen && (isExpanded || isRuleActive) && (
+        <RuleActionBar
+          items={LEAF_ITEMS}
+          leafPaths={leafPaths}
+          ruleId={ruleId}
+          ruleType={ruleType}
+          onNavigate={onNavigate}
+          location={location}
+          isOpen={isOpen}
+        />
       )}
     </>
   );
@@ -281,10 +286,16 @@ function CategoryNode({ categoryId, label, color, icon, rules, ruleType, isOpen,
     if (!search) return rules;
     const q = search.toLowerCase();
     return rules.filter((r) => {
-      const label = r.label || r.id || r;
-      return label.toLowerCase().includes(q);
+      const ruleId = typeof r === "string" ? r : r.id || r.route;
+      const label =
+        typeof r === "string"
+          ? ruleType === "engine"
+            ? getEngineRuleTitle(r)
+            : r
+          : r.name || r.label || ruleId;
+      return ruleId.toLowerCase().includes(q) || String(label).toLowerCase().includes(q);
     });
-  }, [rules, search]);
+  }, [rules, search, ruleType, getEngineRuleTitle]);
 
   if (search && filteredRules.length === 0) return null;
 
@@ -313,12 +324,12 @@ function CategoryNode({ categoryId, label, color, icon, rules, ruleType, isOpen,
             <ListItemText
               primary={label}
               primaryTypographyProps={{
-                fontSize: "0.78rem",
+                fontSize: "0.76rem",
                 fontWeight: 600,
-                color: "text.secondary",
+                color: "text.primary",
               }}
             />
-            <Typography variant="caption" sx={{ color: "text.secondary", fontSize: "0.65rem", fontWeight: 600 }}>
+            <Typography variant="caption" sx={{ color: "primary.light", fontSize: "0.65rem", fontWeight: 600 }}>
               {filteredRules.length}
             </Typography>
             {isExpanded ? (
@@ -441,16 +452,27 @@ export default function RuleTreeSidebar({
   );
 
   useEffect(() => {
+    const cached = getEngineRulesCatalogCache();
+    if (cached) {
+      const titles = {};
+      cached.rules.forEach((row) => {
+        titles[row.id] = row.title;
+      });
+      setEngineTitles(titles);
+      setEngineRuleCount(cached.rules.length);
+      return undefined;
+    }
+
     let cancelled = false;
-    fetchEngineRulesIndex()
-      .then((rows) => {
+    fetchEngineRulesCatalog()
+      .then((catalog) => {
         if (cancelled) return;
         const titles = {};
-        rows.forEach((row) => {
+        catalog.rules.forEach((row) => {
           titles[row.id] = row.title;
         });
         setEngineTitles(titles);
-        setEngineRuleCount(rows.length);
+        setEngineRuleCount(catalog.rules.length);
       })
       .catch(() => {
         if (!cancelled) {
@@ -480,6 +502,20 @@ export default function RuleTreeSidebar({
   useEffect(() => {
     saveExpanded(expanded);
   }, [expanded]);
+
+  useEffect(() => {
+    const engineMatch = location.pathname.match(/^\/engine\/([^_/?]+)/);
+    if (!engineMatch) return;
+    const ruleId = engineMatch[1];
+    const category = ENGINE_RULE_CATEGORIES.find((cat) => cat.rules.includes(ruleId));
+    if (!category) return;
+    setExpanded((prev) => ({
+      ...prev,
+      "tier-engine": true,
+      [`cat-engine-${category.id}`]: true,
+      [`rule-engine-${ruleId}`]: true,
+    }));
+  }, [location.pathname]);
 
   const handleToggle = useCallback((nodeId) => {
     setExpanded((prev) => {
@@ -604,7 +640,7 @@ export default function RuleTreeSidebar({
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <SearchIcon sx={{ fontSize: 16, color: "text.secondary" }} />
+                  <SearchIcon sx={{ fontSize: 16, color: "primary.main" }} />
                 </InputAdornment>
               ),
               endAdornment: search && (

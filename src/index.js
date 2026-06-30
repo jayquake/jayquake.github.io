@@ -12,6 +12,9 @@ import { ToastProvider } from "./components/standalone/ToastContainer";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { theme } from "./theme";
+import { prefetchEngineRulesCatalog } from "./utils/engineRulesDataService";
+
+prefetchEngineRulesCatalog();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

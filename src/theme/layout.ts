@@ -17,8 +17,9 @@ export function mainShellMetrics(drawerOpen: boolean) {
 /** Column 2 + 3 split inside the main workspace */
 export const LIBRARY_LAYOUT = {
   detailCollapsedPx: 32,
-  /** Detail pane: at least 320px, up to ~52% of main workspace */
-  detailColumn: "minmax(320px, 52%)",
+  /** Detail pane: ~40% of main workspace */
+  detailColumn: "minmax(300px, 40%)",
+  listColumn: "minmax(260px, 1fr)",
 } as const;
 
 /** Full-width left-aligned scroll region for example / detail pages */

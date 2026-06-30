@@ -81,7 +81,7 @@ export function useEngineLibraryRules() {
         );
       }
 
-      const haystack = [ruleId, rule.title, rule.description, rule.advice]
+      const haystack = rule.search || [ruleId, rule.title, rule.description, rule.advice]
         .filter(Boolean)
         .join(" ")
         .toLowerCase();

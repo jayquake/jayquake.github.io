@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
-import { fetchEngineRulesIndex, indexRowToRule } from "../utils/engineRulesDataService";
+import {
+  fetchEngineRulesCatalog,
+  getEngineRulesCatalogCache,
+} from "../utils/engineRulesDataService";
 
 export function useEngineRulesIndex() {
-  const [rules, setRules] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const cached = getEngineRulesCatalogCache();
+  const [rules, setRules] = useState(() => cached?.rules ?? []);
+  const [loading, setLoading] = useState(() => !cached);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
-    fetchEngineRulesIndex()
-      .then((rows) => {
+
+    fetchEngineRulesCatalog()
+      .then((catalog) => {
         if (!cancelled) {
-          setRules(rows.map(indexRowToRule));
+          setRules(catalog.rules);
           setLoading(false);
         }
       })
@@ -21,6 +26,7 @@ export function useEngineRulesIndex() {
           setLoading(false);
         }
       });
+
     return () => {
       cancelled = true;
     };

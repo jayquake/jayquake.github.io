@@ -69,7 +69,7 @@ export default function EngineLibraryShell() {
     <Box
       sx={{
         display: "grid",
-        gridTemplateColumns: isMobile ? "1fr" : `${detailCol} minmax(240px, 1fr)`,
+        gridTemplateColumns: isMobile ? "1fr" : `${detailCol} ${LIBRARY_LAYOUT.listColumn}`,
         justifyContent: "stretch",
         alignContent: "stretch",
         flex: 1,
@@ -90,6 +90,8 @@ export default function EngineLibraryShell() {
             overflow: "hidden",
             justifySelf: "stretch",
             alignSelf: "stretch",
+            borderRight: 1,
+            borderColor: "primary.dark",
           }}
         >
           <EngineRuleDetailPane

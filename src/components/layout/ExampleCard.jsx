@@ -256,8 +256,8 @@ export default function ExampleCard({
         mb: 2,
         bgcolor: "background.default",
         border: `1px solid ${fpFlagged ? "rgba(255, 193, 77, 0.5)" : cfg.borderColor}`,
-        borderLeft: `4px solid ${fpFlagged ? "#ffc14d" : cfg.color}`,
-        borderRadius: 1,
+        borderLeft: `3px solid ${fpFlagged ? "#ffc14d" : cfg.color}`,
+        borderRadius: 0,
         boxShadow: "none",
         transition: "border-color 0.2s ease",
         "&:hover": {
@@ -289,12 +289,13 @@ export default function ExampleCard({
                 label={filename}
                 size="small"
                 sx={{
-                  fontFamily: "monospace",
-                  fontSize: "0.7rem",
+                  fontFamily: '"IBM Plex Mono", monospace',
+                  fontSize: "0.65rem",
                   height: 22,
-                  background: cfg.bgTint,
+                  background: "transparent",
                   color: cfg.darkColor,
                   border: `1px solid ${cfg.borderColor}`,
+                  borderRadius: 0,
                 }}
               />
             )}

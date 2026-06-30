@@ -1,10 +1,10 @@
 import React, { lazy } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+import EngineLibraryHome from "../components/pages/Engine/EngineLibraryHome";
 import { useDeferredRouteElements } from "../components/util/DeferredRouteGroup";
 import RouteSuspense from "../components/util/RouteSuspense";
 import { isCriteriaPath } from "./criteriaPathUtils";
 
-const EngineLibraryHome = lazy(() => import("../components/pages/Engine/EngineLibraryHome"));
 const EngineSlugOutlet = lazy(() => import("../components/routes/EngineSlugOutlet"));
 
 const UnifiedRulePage = lazy(() => import("../components/layout/UnifiedRulePage"));
@@ -31,7 +31,7 @@ const AppRoutes = ({ navigate }) => {
 
   return (
   <Routes>
-    <Route index element={wrap(<EngineLibraryHome />)} />
+    <Route index element={<EngineLibraryHome />} />
     <Route path="/engine/:ruleId" element={wrap(<EngineSlugOutlet />)} />
 
     <Route path="/test-runner" element={wrap(<ProjectSelector />)} />

@@ -17,6 +17,26 @@ import { Link as RouterLink } from "react-router-dom";
 import { LIBRARY_LAYOUT } from "../../../theme/layout";
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
 import { getRuleSlug } from "./engineLibraryUtils";
+import { MGS, mgsFonts, raidenType } from "../../../theme/mgsTokens";
+
+const sectionLabelSx = {
+  display: "block",
+  fontFamily: mgsFonts.hud,
+  fontSize: "0.65rem",
+  fontWeight: 600,
+  letterSpacing: "0.14em",
+  textTransform: "uppercase",
+  color: "primary.light",
+  mb: 0.75,
+};
+
+const bodyTextSx = {
+  color: MGS.raidenSilver,
+  lineHeight: 1.65,
+  fontSize: "0.875rem",
+  textAlign: "left",
+  overflowWrap: "break-word",
+};
 
 export default function EngineRuleDetailPane({
   rule,
@@ -95,27 +115,26 @@ export default function EngineRuleDetailPane({
       <Box
         sx={{
           px: { xs: 2, sm: 2.5 },
-          py: 1.5,
+          py: 1.25,
           display: "flex",
           alignItems: "flex-start",
           justifyContent: "flex-start",
           gap: 1,
           borderBottom: 1,
-          borderColor: "divider",
+          borderColor: "primary.dark",
           flexShrink: 0,
           width: "100%",
+          bgcolor: "background.paper",
         }}
       >
         <Box sx={{ minWidth: 0, flex: 1, pr: 1 }}>
+          <Typography sx={{ ...raidenType.sectionLabel, fontSize: "0.58rem", mb: 0.5 }}>
+            Tactical HUD · Engine Rule
+          </Typography>
           <Typography
-            variant="caption"
             sx={{
-              display: "block",
-              fontFamily: '"IBM Plex Mono", monospace',
-              letterSpacing: "0.12em",
-              color: "primary.main",
+              ...raidenType.ruleId,
               mb: 0.75,
-              textAlign: "left",
             }}
           >
             [ {slug} ]
@@ -162,59 +181,39 @@ export default function EngineRuleDetailPane({
           <Chip
             label={rule.impact.toUpperCase()}
             size="small"
-            variant="outlined"
             sx={{
               mb: 2,
-              borderColor: "primary.main",
-              color: "primary.main",
-              fontFamily: '"IBM Plex Mono", monospace',
+              bgcolor: "primary.dark",
+              color: MGS.raidenWhite,
+              border: `1px solid ${MGS.raidenCyan}`,
+              fontFamily: mgsFonts.hud,
               fontSize: "0.65rem",
+              fontWeight: 600,
             }}
           />
         )}
 
-        <Typography
-          variant="body2"
-          sx={{
-            color: "text.secondary",
-            lineHeight: 1.65,
-            mb: 2,
-            fontSize: "0.875rem",
-            textAlign: "left",
-            overflowWrap: "break-word",
-          }}
-        >
+        <Typography variant="body2" sx={{ ...bodyTextSx, mb: 2 }}>
           {rule.description}
         </Typography>
 
         {rule.advice && (
-          <>
-            <Typography variant="caption" color="primary.dark" sx={{ letterSpacing: "0.1em" }}>
-              ADVICE
+          <Box sx={{ mb: 2 }}>
+            <Typography component="span" sx={sectionLabelSx}>
+              Advice
             </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                color: "text.secondary",
-                lineHeight: 1.6,
-                mb: 2,
-                mt: 0.5,
-                fontSize: "0.875rem",
-                textAlign: "left",
-                overflowWrap: "break-word",
-              }}
-            >
+            <Typography variant="body2" sx={bodyTextSx}>
               {rule.advice}
             </Typography>
-          </>
+          </Box>
         )}
 
         {wcagRefs.length > 0 && (
           <Box sx={{ mb: 2 }}>
-            <Typography variant="caption" color="primary.dark" sx={{ letterSpacing: "0.1em" }}>
+            <Typography component="span" sx={sectionLabelSx}>
               WCAG
             </Typography>
-            <Stack direction="row" flexWrap="wrap" gap={0.5} sx={{ mt: 0.75 }}>
+            <Stack direction="row" flexWrap="wrap" gap={0.5} sx={{ mt: 0.25 }}>
               {wcagRefs.map((ref, i) => (
                 <Chip
                   key={i}
@@ -225,17 +224,22 @@ export default function EngineRuleDetailPane({
                   href={ref.link}
                   target={ref.link ? "_blank" : undefined}
                   rel={ref.link ? "noopener noreferrer" : undefined}
-                  sx={{ fontSize: "0.65rem", height: 22 }}
+                  sx={{
+                    fontSize: "0.65rem",
+                    height: 22,
+                    borderColor: "primary.main",
+                    color: MGS.raidenSilver,
+                  }}
                 />
               ))}
             </Stack>
           </Box>
         )}
 
-        <Divider sx={{ my: 2 }} />
+        <Divider sx={{ my: 2, borderColor: "primary.dark" }} />
 
-        <Typography variant="caption" color="primary.dark" sx={{ letterSpacing: "0.1em", display: "block", mb: 1 }}>
-          ACTIONS
+        <Typography component="span" sx={{ ...sectionLabelSx, mb: 1 }}>
+          Actions
         </Typography>
         <Stack spacing={1} sx={{ width: "100%", alignItems: "stretch" }}>
           <Button
@@ -247,7 +251,12 @@ export default function EngineRuleDetailPane({
             fullWidth
             onMouseEnter={() => prefetchEngineExample(slug, "success")}
             onFocus={() => prefetchEngineExample(slug, "success")}
-            sx={{ justifyContent: "flex-start" }}
+            sx={{
+              justifyContent: "flex-start",
+              borderColor: "primary.main",
+              color: MGS.raidenWhite,
+              "&:hover": { borderColor: "primary.light", bgcolor: "action.selected" },
+            }}
           >
             Success examples
           </Button>
@@ -260,7 +269,12 @@ export default function EngineRuleDetailPane({
             fullWidth
             onMouseEnter={() => prefetchEngineExample(slug, "failure")}
             onFocus={() => prefetchEngineExample(slug, "failure")}
-            sx={{ justifyContent: "flex-start" }}
+            sx={{
+              justifyContent: "flex-start",
+              borderColor: "primary.main",
+              color: MGS.raidenWhite,
+              "&:hover": { borderColor: "primary.light", bgcolor: "action.selected" },
+            }}
           >
             Failure examples
           </Button>
@@ -271,7 +285,12 @@ export default function EngineRuleDetailPane({
             variant="outlined"
             startIcon={<ScienceIcon />}
             fullWidth
-            sx={{ justifyContent: "flex-start" }}
+            sx={{
+              justifyContent: "flex-start",
+              borderColor: "divider",
+              color: MGS.raidenSilver,
+              "&:hover": { borderColor: "primary.main", color: MGS.raidenWhite },
+            }}
           >
             Rule Lab
           </Button>
@@ -282,7 +301,12 @@ export default function EngineRuleDetailPane({
             variant="outlined"
             startIcon={<BugReportIcon />}
             fullWidth
-            sx={{ justifyContent: "flex-start" }}
+            sx={{
+              justifyContent: "flex-start",
+              borderColor: "divider",
+              color: MGS.raidenSilver,
+              "&:hover": { borderColor: "primary.main", color: MGS.raidenWhite },
+            }}
           >
             MCP Debug
           </Button>
