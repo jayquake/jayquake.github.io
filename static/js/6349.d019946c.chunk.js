@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkaccessibility_rule_testing=self.webpackChunkaccessibility_rule_testing||[]).push([[6349],{6349(e,s,t){t.r(s),t.d(s,{default:()=>c});var i=t(18292),u=t(70579);function c(){return(0,u.jsx)(i.default,{})}}}]);
+//# sourceMappingURL=6349.d019946c.chunk.js.map
