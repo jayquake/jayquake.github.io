@@ -4,15 +4,12 @@
       <stop offset="0%" stop-color="#4fd1ed"/>
       <stop offset="100%" stop-color="#00a38d"/>
     </linearGradient>
-    <pattern id="weave" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-      <rect width="4" height="4" fill="#141414"/>
-      <line x1="0" y1="0" x2="0" y2="4" stroke="#fff" stroke-opacity="0.06"/>
-    </pattern>
+    <linearGradient id="metal" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e8ecef"/>
+      <stop offset="100%" stop-color="#a8b4be"/>
+    </linearGradient>
   </defs>
   <rect width="32" height="32" rx="4" fill="#0d0d0d"/>
-  <rect width="32" height="32" rx="4" fill="url(#weave)"/>
-  <rect x="6" y="5" width="2" height="22" fill="url(#teal)"/>
-  <text x="11" y="14" fill="#d4dce4" font-family="monospace" font-size="7" font-weight="700" letter-spacing="0.5">R</text>
-  <text x="11" y="22" fill="#00a38d" font-family="monospace" font-size="4.5" letter-spacing="0.3">HUD</text>
-  <rect x="6" y="27" width="20" height="1" fill="#00a38d" fill-opacity="0.5"/>
+  <rect x="5" y="5" width="3" height="22" fill="url(#teal)" rx="0.5"/>
+  <text x="11" y="22" fill="url(#metal)" font-family="Rajdhani, sans-serif" font-size="16" font-weight="700">R</text>
 </svg>
