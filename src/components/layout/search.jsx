@@ -16,25 +16,33 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import engineRulesData from "../../data/engine-rules-metadata.json";
+import { DataService } from "../util/dataService";
 import { getAllCachedResults } from "../../utils/analysisCache";
 
 const StyledSearchBar = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor: "#08080a",
+  backgroundImage: `repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255,255,255,0.02) 2px, rgba(255,255,255,0.02) 3px)`,
   borderRadius: theme.shape.borderRadius,
-  boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
-  padding: theme.spacing(0.5, 2),
+  border: `1px solid ${theme.palette.divider}`,
+  padding: theme.spacing(0.5, 1.5),
   gap: theme.spacing(1),
+  "&:focus-within": {
+    borderColor: theme.palette.primary.main,
+    boxShadow: `0 0 0 1px ${theme.palette.primary.main}, 0 0 12px rgba(94,200,232,0.2)`,
+  },
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   flex: 1,
-  fontSize: "1rem",
-  color: theme.palette.text.primary,
+  fontSize: "0.82rem",
+  fontFamily: '"IBM Plex Mono", monospace',
+  color: theme.palette.secondary.main,
+  "& input::placeholder": { color: "#5c636b", opacity: 1 },
 }));
 
 const StyledDropdown = styled(Box)(({ theme }) => ({
@@ -43,10 +51,12 @@ const StyledDropdown = styled(Box)(({ theme }) => ({
   left: 0,
   right: 0,
   zIndex: 1,
-  backgroundColor: theme.palette.background.paper,
-  boxShadow: "0px 4px 10px rgba(0,0,0,0.2)",
+  backgroundColor: "#0e0e11",
+  border: `1px solid rgba(94, 200, 232, 0.28)`,
   borderRadius: theme.shape.borderRadius,
   overflow: "hidden",
+  marginTop: theme.spacing(0.5),
+  boxShadow: "0 8px 24px rgba(0,0,0,0.45)",
 }));
 
 function AuditBadge({ ruleId }) {
@@ -72,7 +82,7 @@ function AuditBadge({ ruleId }) {
   if (status === "pass") {
     return (
       <Tooltip title="No critical/serious issues">
-        <CheckCircleIcon sx={{ fontSize: 16, color: "#4caf50", flexShrink: 0 }} />
+        <CheckCircleIcon sx={{ fontSize: 16, color: "#6ee7b7", flexShrink: 0 }} />
       </Tooltip>
     );
   }
@@ -84,11 +94,22 @@ function AuditBadge({ ruleId }) {
   );
 }
 
-const SearchComponent = ({ data }) => {
+const SearchComponent = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
+  const [legacyData, setLegacyData] = useState([]);
   const containerRef = useRef(null);
+
+  const loadLegacyData = useCallback(async () => {
+    if (legacyData.length > 0) return;
+    try {
+      const data = await DataService.getData();
+      setLegacyData(data);
+    } catch {
+      setLegacyData([]);
+    }
+  }, [legacyData.length]);
 
   useEffect(() => {
     const timer = setTimeout(() => setDebouncedQuery(searchQuery), 150);
@@ -108,7 +129,7 @@ const SearchComponent = ({ data }) => {
 
   // Combine legacy rules and engine rules
   const combinedData = useMemo(() => {
-    const legacyRules = (data || []).map((item) => ({
+    const legacyRules = legacyData.map((item) => ({
       ...item,
       type: "legacy",
       searchName: item.name,
@@ -124,7 +145,7 @@ const SearchComponent = ({ data }) => {
     }));
 
     return [...legacyRules, ...engineRules];
-  }, [data]);
+  }, [legacyData]);
 
   const filteredData = useMemo(() => {
     const q = debouncedQuery.toLowerCase().trim();
@@ -161,7 +182,10 @@ const SearchComponent = ({ data }) => {
           placeholder="Search Here"
           value={searchQuery}
           onChange={handleInputChange}
-          onFocus={() => setShowDropdown(searchQuery.length > 0)}
+          onFocus={() => {
+            loadLegacyData();
+            setShowDropdown(searchQuery.length > 0);
+          }}
           inputProps={{
             "aria-label": "Search for rules and criteria",
           }}
@@ -189,16 +213,9 @@ const SearchComponent = ({ data }) => {
                     onClick={handleSelectResult}
                     button
                     sx={{
-                      borderLeft:
-                        item.type === "engine"
-                          ? "4px solid #673ab7"
-                          : "4px solid #2196f3",
-                      "&:hover": {
-                        backgroundColor:
-                          item.type === "engine"
-                            ? "rgba(103, 58, 183, 0.08)"
-                            : "rgba(33, 150, 243, 0.08)",
-                      },
+                      borderLeft: 3,
+                      borderColor: item.type === "engine" ? "text.primary" : "divider",
+                      "&:hover": { bgcolor: "action.hover" },
                     }}
                   >
                     <Box sx={{ display: "flex", alignItems: "center", mr: 2 }}>
@@ -221,14 +238,6 @@ const SearchComponent = ({ data }) => {
                           <Chip
                             label={item.type === "engine" ? "Engine" : "Legacy"}
                             size="small"
-                            sx={{
-                              height: 20,
-                              fontSize: "0.7rem",
-                              backgroundColor:
-                                item.type === "engine" ? "#673ab7" : "#2196f3",
-                              color: "white",
-                              fontWeight: 600,
-                            }}
                           />
                           <Box sx={{ flex: 1 }} />
                           <AuditBadge ruleId={item.id || item.route} />

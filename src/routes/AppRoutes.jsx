@@ -1,6 +1,5 @@
 import React, { lazy } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import Home from "../components/pages/Home";
 import { useDeferredRouteElements } from "../components/util/DeferredRouteGroup";
 import RouteSuspense from "../components/util/RouteSuspense";
 import { isCriteriaPath } from "./criteriaRoutesBundle";
@@ -34,7 +33,7 @@ const AppRoutes = ({ navigate }) => {
 
   return (
   <Routes>
-    <Route index element={<Home navigate={navigate} title="Home" />} />
+    <Route index element={wrap(<EngineLibrary />)} />
 
     <Route path="/test-runner" element={wrap(<ProjectSelector />)} />
     <Route path="/test-runner/validation" element={wrap(<ValidationView />)} />
@@ -61,8 +60,8 @@ const AppRoutes = ({ navigate }) => {
     <Route path="tables" element={<Navigate to="/" replace />} />
 
     <Route path="rules" element={<Navigate to="/" replace />} />
-    <Route path="/engine" element={<Navigate to="/engine/library" replace />} />
-    <Route path="/engine/library" element={wrap(<EngineLibrary />)} />
+    <Route path="/engine" element={<Navigate to="/" replace />} />
+    <Route path="/engine/library" element={<Navigate to="/" replace />} />
 
     {criteriaRoutes}
     {engineRoutes}

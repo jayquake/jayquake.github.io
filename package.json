@@ -18,7 +18,6 @@
     "accessflow-mcp-server": "^1.0.15",
     "ansi-to-html": "^0.7.2",
     "dompurify": "^3.2.3",
-    "framer-motion": "^11.15.0",
     "prismjs": "^1.30.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",

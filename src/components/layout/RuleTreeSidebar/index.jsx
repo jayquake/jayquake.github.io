@@ -34,6 +34,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import ENGINE_RULE_CATEGORIES from "../../../data/engine-rule-categories";
 import engineRulesData from "../../../data/engine-rules-metadata.json";
+import { DataService } from "../../util/dataService";
 import { getAllCachedResults } from "../../../utils/analysisCache";
 
 const STORAGE_KEY = "ruleTreeExpanded";
@@ -50,7 +51,7 @@ const ICON_MAP = {
 };
 
 const LEGACY_CRITERIA_COLORS = {
-  graphics: "#4caf50",
+  graphics: "#5ec8e8",
   forms: "#2196f3",
   keyboard: "#ff9800",
   navigation: "#9c27b0",
@@ -101,7 +102,7 @@ function saveExpanded(state) {
 }
 
 const LEAF_ITEMS = [
-  { key: "success", label: "Success", icon: CheckCircleIcon, color: "#4caf50" },
+  { key: "success", label: "Success", icon: CheckCircleIcon, color: "#6ee7b7" },
   { key: "failure", label: "Failure", icon: CancelIcon, color: "#f44336" },
   { key: "rule-lab", label: "Rule Lab", icon: ScienceIcon, color: "#5c6bc0" },
   { key: "mcp-debug", label: "MCP Debug", icon: BugReportIcon, color: "#ff9800" },
@@ -149,7 +150,7 @@ function LeafItem({ item, to, onClick, isActive, isOpen }) {
 
 function HealthDot({ status }) {
   const colors = {
-    green: "#4caf50",
+    green: "#5ec8e8",
     yellow: "#ff9800",
     red: "#f44336",
     gray: "#cbd5e1",
@@ -217,13 +218,12 @@ function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, exp
           mx: isOpen ? 0.5 : 0,
           textDecoration: "none",
           color: "inherit",
-          "&.Mui-selected": {
-            bgcolor: "rgba(102, 126, 234, 0.12)",
-            "&:hover": { bgcolor: "rgba(102, 126, 234, 0.18)" },
-          },
-          "&:hover": { bgcolor: "rgba(102, 126, 234, 0.06)" },
-        }}
-      >
+        "&.Mui-selected": {
+          bgcolor: "action.selected",
+        },
+        "&:hover": { bgcolor: "action.hover" },
+      }}
+    >
         {isOpen && (
           <IconButton
             size="small"
@@ -420,11 +420,31 @@ function TierNode({ tierId, label, icon: Icon, count, color, isOpen, expanded, o
   );
 }
 
-export default function RuleTreeSidebar({ data = [], isOpen = true, onRequestOpen, onCloseMobile }) {
+export default function RuleTreeSidebar({
+  isOpen = true,
+  showDashboardLink = true,
+  onRequestOpen,
+  onCloseMobile,
+}) {
   const navigate = useNavigate();
   const location = useLocation();
   const [expanded, setExpanded] = useState(loadExpanded);
   const [search, setSearch] = useState("");
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    DataService.getData()
+      .then((json) => {
+        if (!cancelled) setData(json);
+      })
+      .catch(() => {
+        if (!cancelled) setData([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     saveExpanded(expanded);
@@ -509,7 +529,7 @@ export default function RuleTreeSidebar({ data = [], isOpen = true, onRequestOpe
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100%", overflow: "hidden" }}>
-      {/* Dashboard link */}
+      {showDashboardLink && (
       <Box sx={{ mb: 0.5, mt: 0.5 }}>
         <Tooltip title={!isOpen ? "Dashboard" : ""} placement="right">
           <ListItemButton
@@ -519,41 +539,27 @@ export default function RuleTreeSidebar({ data = [], isOpen = true, onRequestOpe
               pl: isOpen ? 2 : 1.5,
               py: isOpen ? 0.8 : 1,
               minHeight: isOpen ? 40 : 44,
-              borderRadius: 2,
               mx: isOpen ? 0.5 : 0.25,
-              "&.Mui-selected": {
-                bgcolor: "rgba(102, 126, 234, 0.12)",
-                "&:hover": { bgcolor: "rgba(102, 126, 234, 0.18)" },
-              },
-              "&:hover": { bgcolor: "rgba(102, 126, 234, 0.06)" },
+              "&.Mui-selected": { bgcolor: "action.selected" },
             }}
           >
             <ListItemIcon sx={{ minWidth: isOpen ? 32 : 28, mr: isOpen ? 1 : 0 }}>
-              <DashboardIcon sx={{ fontSize: isOpen ? 20 : 22, color: "#667eea" }} />
+              <DashboardIcon sx={{ fontSize: isOpen ? 20 : 22, color: "text.secondary" }} />
             </ListItemIcon>
             {isOpen && (
               <ListItemText
                 primary="Dashboard"
-                primaryTypographyProps={{
-                  fontSize: "0.85rem",
-                  fontWeight: 700,
-                  color: "#1e293b",
-                }}
+                primaryTypographyProps={{ fontSize: "0.85rem", fontWeight: 600 }}
               />
             )}
           </ListItemButton>
         </Tooltip>
       </Box>
+      )}
 
-      {/* Divider */}
-      <Box
-        sx={{
-          height: "1px",
-          bgcolor: "rgba(102, 126, 234, 0.15)",
-          mx: isOpen ? 2 : 0.5,
-          my: 0.5,
-        }}
-      />
+      {showDashboardLink && (
+      <Box sx={{ height: "1px", bgcolor: "divider", mx: isOpen ? 2 : 0.5, my: 0.5 }} />
+      )}
 
       {/* Search (only when drawer is open) */}
       {isOpen && (
@@ -577,22 +583,7 @@ export default function RuleTreeSidebar({ data = [], isOpen = true, onRequestOpe
                   </IconButton>
                 </InputAdornment>
               ),
-              sx: {
-                fontSize: "0.75rem",
-                height: 30,
-                borderRadius: 2,
-                bgcolor: "rgba(255,255,255,0.4)",
-                backdropFilter: "blur(8px)",
-                "& fieldset": {
-                  borderColor: "rgba(148, 163, 184, 0.3)",
-                },
-                "&:hover fieldset": {
-                  borderColor: "rgba(102, 126, 234, 0.4) !important",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "rgba(102, 126, 234, 0.6) !important",
-                },
-              },
+              sx: { fontSize: "0.75rem", height: 30 },
             }}
           />
         </Box>
@@ -648,14 +639,7 @@ export default function RuleTreeSidebar({ data = [], isOpen = true, onRequestOpe
           </TierNode>
 
           {/* Divider between tiers */}
-          <Box
-            sx={{
-              height: "1px",
-              bgcolor: "rgba(102, 126, 234, 0.1)",
-              mx: isOpen ? 2 : 0.5,
-              my: 0.5,
-            }}
-          />
+          <Box sx={{ height: "1px", bgcolor: "divider", mx: isOpen ? 2 : 0.5, my: 0.5 }} />
 
           {/* Legacy Rules Tier */}
           <TierNode
