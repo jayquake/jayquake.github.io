@@ -1,0 +1,518 @@
+[
+  {
+    "key": "checkbox-aria-checked",
+    "action": "create",
+    "ruleId": "checkbox-aria-checked",
+    "payload": {
+      "ruleId": "checkbox-aria-checked",
+      "title": "Unified Engine: checkbox-aria-checked — Checked state of custom checkbox controls should be exposed to assistive technology",
+      "description": "**Engine rule ID:** `checkbox-aria-checked`\n**RAIDEN routes:** `/engine/checkbox-aria-checked`, `/engine/checkbox-aria-checked_success`, `/engine/checkbox-aria-checked_failure`\n**Atomic tests:** `src/components/pages/engine-rules/checkbox-aria-checked/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** If custom checkbox controls lack a defined checked state, screen reader users cannot determine which option is selected, resulting in confusion and loss of functionality.\n**Remediation advice:** Assign \\\\\n**Fixtures:** 3 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `checkbox-aria-checked` examples published at `/engine/checkbox-aria-checked_success` and `/engine/checkbox-aria-checked_failure`.\n5. **Fixture count:** 3 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "checkbox-aria-checked"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/checkbox-aria-checked` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → checkbox-aria-checked.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/checkbox-aria-checked\nruleId = checkbox-aria-checked\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/checkbox-aria-checked_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/checkbox-aria-checked_success\npassFixtures = 3\natomic-tests/pass/div-as-a-custom-checkbox.html\natomic-tests/pass/input-checkbox.html\natomic-tests/pass/label-as-a-custom-checkbox.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/checkbox-aria-checked_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/checkbox-aria-checked_failure\nfailFixtures = 1\natomic-tests/fail/custom-checkbox-no-aria-checked.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for checkbox-aria-checked\n- pass/div-as-a-custom-checkbox.html → Passed node\n- pass/input-checkbox.html → Passed node\n- pass/label-as-a-custom-checkbox.html → Passed node\n- fail/custom-checkbox-no-aria-checked.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `checkbox-aria-checked` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = checkbox-aria-checked\nissueSource = RAIDEN examples at /engine/checkbox-aria-checked_success and /engine/checkbox-aria-checked_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: div as a custom checkbox (div-as-a-custom-checkbox.html)",
+          "pass: input checkbox (input-checkbox.html)",
+          "pass: label as a custom checkbox (label-as-a-custom-checkbox.html)",
+          "fail: custom checkbox no aria checked (custom-checkbox-no-aria-checked.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/div-as-a-custom-checkbox.html",
+          "atomic-tests/pass/input-checkbox.html",
+          "atomic-tests/pass/label-as-a-custom-checkbox.html",
+          "atomic-tests/fail/custom-checkbox-no-aria-checked.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 3,
+        "fail": 1,
+        "total": 4
+      }
+    }
+  },
+  {
+    "key": "checkbox-discernible",
+    "action": "create",
+    "ruleId": "checkbox-discernible",
+    "payload": {
+      "ruleId": "checkbox-discernible",
+      "title": "Unified Engine: checkbox-discernible — Checkbox controls should have a label",
+      "description": "**Engine rule ID:** `checkbox-discernible`\n**RAIDEN routes:** `/engine/checkbox-discernible`, `/engine/checkbox-discernible_success`, `/engine/checkbox-discernible_failure`\n**Atomic tests:** `src/components/pages/engine-rules/checkbox-discernible/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Screen readers rely on properly coded and associated labels to announce the purpose of a form field. A checkbox control without an identifiable label may prevent screen reader users from completing the form.\n**Remediation advice:** Assign a label to each checkbox control using <label for> with a matching id (or by wrapping the <label> around the control), or using ARIA attributes such as aria-label or aria-labelledby.\n**Fixtures:** 8 pass, 2 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `checkbox-discernible` examples published at `/engine/checkbox-discernible_success` and `/engine/checkbox-discernible_failure`.\n5. **Fixture count:** 8 pass, 2 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "checkbox-discernible"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/checkbox-discernible` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → checkbox-discernible.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/checkbox-discernible\nruleId = checkbox-discernible\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/checkbox-discernible_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/checkbox-discernible_success\npassFixtures = 8\natomic-tests/pass/button-role-checkbox-with-label.html\natomic-tests/pass/div-as-a-custom-checkbox-with-aria-label.html\natomic-tests/pass/div-as-a-custom-checkbox-with-aria-labelledby.html\natomic-tests/pass/div-as-a-custom-checkbox-with-label.html\natomic-tests/pass/div-as-a-custom-checkbox.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/checkbox-discernible_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/checkbox-discernible_failure\nfailFixtures = 2\natomic-tests/fail/button-role-checkbox-no-label.html\natomic-tests/fail/custom-checkbox-no-label.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for checkbox-discernible\n- pass/button-role-checkbox-with-label.html → Passed node\n- pass/div-as-a-custom-checkbox-with-aria-label.html → Passed node\n- pass/div-as-a-custom-checkbox-with-aria-labelledby.html → Passed node\n- pass/div-as-a-custom-checkbox-with-label.html → Passed node\n- pass/div-as-a-custom-checkbox.html → Passed node\n- pass/input-checkbox-with-aria-labelledby.html → Passed node\n- pass/input-checkbox-with-label.html → Passed node\n- pass/label-as-a-custom-checkbox.html → Passed node\n- fail/button-role-checkbox-no-label.html → Failed node\n- fail/custom-checkbox-no-label.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `checkbox-discernible` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = checkbox-discernible\nissueSource = RAIDEN examples at /engine/checkbox-discernible_success and /engine/checkbox-discernible_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: button role checkbox with label (button-role-checkbox-with-label.html)",
+          "pass: div as a custom checkbox with aria label (div-as-a-custom-checkbox-with-aria-label.html)",
+          "pass: div as a custom checkbox with aria labelledby (div-as-a-custom-checkbox-with-aria-labelledby.html)",
+          "pass: div as a custom checkbox with label (div-as-a-custom-checkbox-with-label.html)",
+          "pass: div as a custom checkbox (div-as-a-custom-checkbox.html)",
+          "pass: input checkbox with aria labelledby (input-checkbox-with-aria-labelledby.html)",
+          "pass: input checkbox with label (input-checkbox-with-label.html)",
+          "pass: label as a custom checkbox (label-as-a-custom-checkbox.html)",
+          "fail: button role checkbox no label (button-role-checkbox-no-label.html)",
+          "fail: custom checkbox no label (custom-checkbox-no-label.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/button-role-checkbox-with-label.html",
+          "atomic-tests/pass/div-as-a-custom-checkbox-with-aria-label.html",
+          "atomic-tests/pass/div-as-a-custom-checkbox-with-aria-labelledby.html",
+          "atomic-tests/pass/div-as-a-custom-checkbox-with-label.html",
+          "atomic-tests/pass/div-as-a-custom-checkbox.html",
+          "atomic-tests/pass/input-checkbox-with-aria-labelledby.html",
+          "atomic-tests/pass/input-checkbox-with-label.html",
+          "atomic-tests/pass/label-as-a-custom-checkbox.html",
+          "atomic-tests/fail/button-role-checkbox-no-label.html",
+          "atomic-tests/fail/custom-checkbox-no-label.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 8,
+        "fail": 2,
+        "total": 10
+      }
+    }
+  },
+  {
+    "key": "checkbox-mismatch",
+    "action": "create",
+    "ruleId": "checkbox-mismatch",
+    "payload": {
+      "ruleId": "checkbox-mismatch",
+      "title": "Unified Engine: checkbox-mismatch — Custom checkbox controls should be tagged for assistive technology",
+      "description": "**Engine rule ID:** `checkbox-mismatch`\n**RAIDEN routes:** `/engine/checkbox-mismatch`, `/engine/checkbox-mismatch_success`, `/engine/checkbox-mismatch_failure`\n**Atomic tests:** `src/components/pages/engine-rules/checkbox-mismatch/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Screen readers have built-in mechanisms to handle checkbox components. By default, screen readers don't support custom checkboxes and using them without exposing the appropriate role may prevent screen reader users from interacting as expected with the component.\n**Remediation advice:** Assign role=\"checkbox\" to the custom checkbox element.\n**Fixtures:** 9 pass, 2 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `checkbox-mismatch` examples published at `/engine/checkbox-mismatch_success` and `/engine/checkbox-mismatch_failure`.\n5. **Fixture count:** 9 pass, 2 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "checkbox-mismatch"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/checkbox-mismatch` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → checkbox-mismatch.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/checkbox-mismatch\nruleId = checkbox-mismatch\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/checkbox-mismatch_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/checkbox-mismatch_success\npassFixtures = 9\natomic-tests/pass/custom-checkbox-with-compliant-checkbox-as-a-direct-child.html\natomic-tests/pass/custom-checkbox-with-role-checkbox-input-visibility-hidden.html\natomic-tests/pass/div-as-a-custom-checkbox.html\natomic-tests/pass/label-as-a-custom-checkbox.html\natomic-tests/pass/material-ui-custom-checkbox-label-span-input.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/checkbox-mismatch_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/checkbox-mismatch_failure\nfailFixtures = 2\natomic-tests/fail/custom-checkbox-no-role-input-visibility-hidden.html\natomic-tests/fail/custom-checkbox-no-role.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for checkbox-mismatch\n- pass/custom-checkbox-with-compliant-checkbox-as-a-direct-child.html → Passed node\n- pass/custom-checkbox-with-role-checkbox-input-visibility-hidden.html → Passed node\n- pass/div-as-a-custom-checkbox.html → Passed node\n- pass/label-as-a-custom-checkbox.html → Passed node\n- pass/material-ui-custom-checkbox-label-span-input.html → Passed node\n- pass/material-ui-custom-checkbox-span.html → Passed node\n- pass/radix-ui-custom-checkbox-without-input.html → Passed node\n- pass/radix-ui-custom-checkbox.html → Passed node\n- pass/sentry-custom-checkbox.html → Passed node\n- fail/custom-checkbox-no-role-input-visibility-hidden.html → Failed node\n- fail/custom-checkbox-no-role.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `checkbox-mismatch` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = checkbox-mismatch\nissueSource = RAIDEN examples at /engine/checkbox-mismatch_success and /engine/checkbox-mismatch_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: custom checkbox with compliant checkbox as a direct child (custom-checkbox-with-compliant-checkbox-as-a-direct-child.html)",
+          "pass: custom checkbox with role checkbox input visibility hidden (custom-checkbox-with-role-checkbox-input-visibility-hidden.html)",
+          "pass: div as a custom checkbox (div-as-a-custom-checkbox.html)",
+          "pass: label as a custom checkbox (label-as-a-custom-checkbox.html)",
+          "pass: material ui custom checkbox label span input (material-ui-custom-checkbox-label-span-input.html)",
+          "pass: material ui custom checkbox span (material-ui-custom-checkbox-span.html)",
+          "pass: radix ui custom checkbox without input (radix-ui-custom-checkbox-without-input.html)",
+          "pass: radix ui custom checkbox (radix-ui-custom-checkbox.html)",
+          "pass: sentry custom checkbox (sentry-custom-checkbox.html)",
+          "fail: custom checkbox no role input visibility hidden (custom-checkbox-no-role-input-visibility-hidden.html)",
+          "fail: custom checkbox no role (custom-checkbox-no-role.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/custom-checkbox-with-compliant-checkbox-as-a-direct-child.html",
+          "atomic-tests/pass/custom-checkbox-with-role-checkbox-input-visibility-hidden.html",
+          "atomic-tests/pass/div-as-a-custom-checkbox.html",
+          "atomic-tests/pass/label-as-a-custom-checkbox.html",
+          "atomic-tests/pass/material-ui-custom-checkbox-label-span-input.html",
+          "atomic-tests/pass/material-ui-custom-checkbox-span.html",
+          "atomic-tests/pass/radix-ui-custom-checkbox-without-input.html",
+          "atomic-tests/pass/radix-ui-custom-checkbox.html",
+          "atomic-tests/pass/sentry-custom-checkbox.html",
+          "atomic-tests/fail/custom-checkbox-no-role-input-visibility-hidden.html",
+          "atomic-tests/fail/custom-checkbox-no-role.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 9,
+        "fail": 2,
+        "total": 11
+      }
+    }
+  },
+  {
+    "key": "checkbox-misuse",
+    "action": "create",
+    "ruleId": "checkbox-misuse",
+    "payload": {
+      "ruleId": "checkbox-misuse",
+      "title": "Unified Engine: checkbox-misuse — Only elements that function as checkbox controls should receive role=\"checkbox\"",
+      "description": "**Engine rule ID:** `checkbox-misuse`\n**RAIDEN routes:** `/engine/checkbox-misuse`, `/engine/checkbox-misuse_success`, `/engine/checkbox-misuse_failure`\n**Atomic tests:** `src/components/pages/engine-rules/checkbox-misuse/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Setting role=\"checkbox\" on elements that do not function as checkbox controls can mislead screen reader users by announcing them as selectable options in a group, causing unreliable navigation and interaction.\n**Remediation advice:** Remove role=\"checkbox\" from the failing element.\n**Fixtures:** 1 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `checkbox-misuse` examples published at `/engine/checkbox-misuse_success` and `/engine/checkbox-misuse_failure`.\n5. **Fixture count:** 1 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "checkbox-misuse"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/checkbox-misuse` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → checkbox-misuse.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/checkbox-misuse\nruleId = checkbox-misuse\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/checkbox-misuse_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/checkbox-misuse_success\npassFixtures = 1\natomic-tests/pass/label-as-a-custom-checkbox.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/checkbox-misuse_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/checkbox-misuse_failure\nfailFixtures = 1\natomic-tests/fail/incorrect-element-with-role-checkbox.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for checkbox-misuse\n- pass/label-as-a-custom-checkbox.html → Passed node\n- fail/incorrect-element-with-role-checkbox.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `checkbox-misuse` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = checkbox-misuse\nissueSource = RAIDEN examples at /engine/checkbox-misuse_success and /engine/checkbox-misuse_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: label as a custom checkbox (label-as-a-custom-checkbox.html)",
+          "fail: incorrect element with role checkbox (incorrect-element-with-role-checkbox.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/label-as-a-custom-checkbox.html",
+          "atomic-tests/fail/incorrect-element-with-role-checkbox.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 1,
+        "fail": 1,
+        "total": 2
+      }
+    }
+  },
+  {
+    "key": "color-contrast",
+    "action": "create",
+    "ruleId": "color-contrast",
+    "payload": {
+      "ruleId": "color-contrast",
+      "title": "Unified Engine: color-contrast — color-contrast",
+      "description": "**Engine rule ID:** `color-contrast`\n**RAIDEN routes:** `/engine/color-contrast`, `/engine/color-contrast_success`, `/engine/color-contrast_failure`\n**Atomic tests:** `src/components/pages/engine-rules/color-contrast/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Fixtures:** 9 pass, 6 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `color-contrast` examples published at `/engine/color-contrast_success` and `/engine/color-contrast_failure`.\n5. **Fixture count:** 9 pass, 6 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "color-contrast"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/color-contrast` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`medium`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → color-contrast.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/color-contrast\nruleId = color-contrast\nimpact = medium",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/color-contrast_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/color-contrast_success\npassFixtures = 9\natomic-tests/pass/div-with-background-black-and-color-white.html\natomic-tests/pass/div-with-background-image.html\natomic-tests/pass/div-with-background-transparent-and-color-black-and-parent-non-transparent.html\natomic-tests/pass/div-with-background-transparent-and-color-black.html\natomic-tests/pass/div-with-background-white-and-color-black.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/color-contrast_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/color-contrast_failure\nfailFixtures = 6\natomic-tests/fail/div-with-background-black-and-color-black.html\natomic-tests/fail/div-with-background-transparent-and-color-white-and-parent-transparent.html\natomic-tests/fail/div-with-background-transparent-and-color-white.html\natomic-tests/fail/div-with-background-white-and-color-white.html\natomic-tests/fail/div-with-font-size-16px-with-ratio-3.5.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for color-contrast\n- pass/div-with-background-black-and-color-white.html → Passed node\n- pass/div-with-background-image.html → Passed node\n- pass/div-with-background-transparent-and-color-black-and-parent-non-transparent.html → Passed node\n- pass/div-with-background-transparent-and-color-black.html → Passed node\n- pass/div-with-background-white-and-color-black.html → Passed node\n- pass/div-with-font-size-16px-with-ratio-bigger-than-4.5.html → Passed node\n- pass/div-with-font-size-26px-with-ratio-smaller-than-4.5.html → Passed node\n- pass/lab-color-background-contrast.html → Passed node\n- pass/muliple-div-with-font-size-16px-with-ratio-bigger-than-4.5.html → Passed node\n- fail/div-with-background-black-and-color-black.html → Failed node\n- fail/div-with-background-transparent-and-color-white-and-parent-transparent.html → Failed node\n- fail/div-with-background-transparent-and-color-white.html → Failed node\n- fail/div-with-background-white-and-color-white.html → Failed node\n- fail/div-with-font-size-16px-with-ratio-3.5.html → Failed node\n- fail/lab-color-background-contrast-too-dark.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `color-contrast` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = color-contrast\nissueSource = RAIDEN examples at /engine/color-contrast_success and /engine/color-contrast_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: div with background black and color white (div-with-background-black-and-color-white.html)",
+          "pass: div with background image (div-with-background-image.html)",
+          "pass: div with background transparent and color black and parent non transparent (div-with-background-transparent-and-color-black-and-parent-non-transparent.html)",
+          "pass: div with background transparent and color black (div-with-background-transparent-and-color-black.html)",
+          "pass: div with background white and color black (div-with-background-white-and-color-black.html)",
+          "pass: div with font size 16px with ratio bigger than 4.5 (div-with-font-size-16px-with-ratio-bigger-than-4.5.html)",
+          "pass: div with font size 26px with ratio smaller than 4.5 (div-with-font-size-26px-with-ratio-smaller-than-4.5.html)",
+          "pass: lab color background contrast (lab-color-background-contrast.html)",
+          "pass: muliple div with font size 16px with ratio bigger than 4.5 (muliple-div-with-font-size-16px-with-ratio-bigger-than-4.5.html)",
+          "fail: div with background black and color black (div-with-background-black-and-color-black.html)",
+          "fail: div with background transparent and color white and parent transparent (div-with-background-transparent-and-color-white-and-parent-transparent.html)",
+          "fail: div with background transparent and color white (div-with-background-transparent-and-color-white.html)",
+          "fail: div with background white and color white (div-with-background-white-and-color-white.html)",
+          "fail: div with font size 16px with ratio 3.5 (div-with-font-size-16px-with-ratio-3.5.html)",
+          "fail: lab color background contrast too dark (lab-color-background-contrast-too-dark.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/div-with-background-black-and-color-white.html",
+          "atomic-tests/pass/div-with-background-image.html",
+          "atomic-tests/pass/div-with-background-transparent-and-color-black-and-parent-non-transparent.html",
+          "atomic-tests/pass/div-with-background-transparent-and-color-black.html",
+          "atomic-tests/pass/div-with-background-white-and-color-black.html",
+          "atomic-tests/pass/div-with-font-size-16px-with-ratio-bigger-than-4.5.html",
+          "atomic-tests/pass/div-with-font-size-26px-with-ratio-smaller-than-4.5.html",
+          "atomic-tests/pass/lab-color-background-contrast.html",
+          "atomic-tests/pass/muliple-div-with-font-size-16px-with-ratio-bigger-than-4.5.html",
+          "atomic-tests/fail/div-with-background-black-and-color-black.html",
+          "atomic-tests/fail/div-with-background-transparent-and-color-white-and-parent-transparent.html",
+          "atomic-tests/fail/div-with-background-transparent-and-color-white.html",
+          "atomic-tests/fail/div-with-background-white-and-color-white.html",
+          "atomic-tests/fail/div-with-font-size-16px-with-ratio-3.5.html",
+          "atomic-tests/fail/lab-color-background-contrast-too-dark.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 9,
+        "fail": 6,
+        "total": 15
+      }
+    }
+  }
+]

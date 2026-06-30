@@ -1,0 +1,551 @@
+[
+  {
+    "key": "background-image-discernible",
+    "action": "create",
+    "ruleId": "background-image-discernible",
+    "payload": {
+      "ruleId": "background-image-discernible",
+      "title": "Unified Engine: background-image-discernible — background-image-discernible",
+      "description": "**Engine rule ID:** `background-image-discernible`\n**RAIDEN routes:** `/engine/background-image-discernible`, `/engine/background-image-discernible_success`, `/engine/background-image-discernible_failure`\n**Atomic tests:** `src/components/pages/engine-rules/background-image-discernible/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Fixtures:** 7 pass, 3 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `background-image-discernible` examples published at `/engine/background-image-discernible_success` and `/engine/background-image-discernible_failure`.\n5. **Fixture count:** 7 pass, 3 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "background-image-discernible"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/background-image-discernible` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`medium`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → background-image-discernible.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/background-image-discernible\nruleId = background-image-discernible\nimpact = medium",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/background-image-discernible_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/background-image-discernible_success\npassFixtures = 7\natomic-tests/pass/background-image-with-base64-src.html\natomic-tests/pass/background-image-with-role-presentation.html\natomic-tests/pass/background-image-with-svg-data-uri.html\natomic-tests/pass/background-image-with-svg-src.html\natomic-tests/pass/backgroung-image--with-base64-src-with-empty-sr-only-first-child.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/background-image-discernible_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/background-image-discernible_failure\nfailFixtures = 3\natomic-tests/fail/background-image-without-discernible-elements.html\natomic-tests/fail/backgroung-image-with-empty-sr-only-first-child.html\natomic-tests/fail/backgroung-image-with-first-child-discernible-that-is-not-sr-only.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for background-image-discernible\n- pass/background-image-with-base64-src.html → Passed node\n- pass/background-image-with-role-presentation.html → Passed node\n- pass/background-image-with-svg-data-uri.html → Passed node\n- pass/background-image-with-svg-src.html → Passed node\n- pass/backgroung-image--with-base64-src-with-empty-sr-only-first-child.html → Passed node\n- pass/backgroung-image-with-first-child-discernible-that-is-sr-only.html → Passed node\n- pass/non-url()-background-image.html → Passed node\n- fail/background-image-without-discernible-elements.html → Failed node\n- fail/backgroung-image-with-empty-sr-only-first-child.html → Failed node\n- fail/backgroung-image-with-first-child-discernible-that-is-not-sr-only.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `background-image-discernible` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = background-image-discernible\nissueSource = RAIDEN examples at /engine/background-image-discernible_success and /engine/background-image-discernible_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: background image with base64 src (background-image-with-base64-src.html)",
+          "pass: background image with role presentation (background-image-with-role-presentation.html)",
+          "pass: background image with svg data uri (background-image-with-svg-data-uri.html)",
+          "pass: background image with svg src (background-image-with-svg-src.html)",
+          "pass: backgroung image  with base64 src with empty sr only first child (backgroung-image--with-base64-src-with-empty-sr-only-first-child.html)",
+          "pass: backgroung image with first child discernible that is sr only (backgroung-image-with-first-child-discernible-that-is-sr-only.html)",
+          "pass: non url() background image (non-url()-background-image.html)",
+          "fail: background image without discernible elements (background-image-without-discernible-elements.html)",
+          "fail: backgroung image with empty sr only first child (backgroung-image-with-empty-sr-only-first-child.html)",
+          "fail: backgroung image with first child discernible that is not sr only (backgroung-image-with-first-child-discernible-that-is-not-sr-only.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/background-image-with-base64-src.html",
+          "atomic-tests/pass/background-image-with-role-presentation.html",
+          "atomic-tests/pass/background-image-with-svg-data-uri.html",
+          "atomic-tests/pass/background-image-with-svg-src.html",
+          "atomic-tests/pass/backgroung-image--with-base64-src-with-empty-sr-only-first-child.html",
+          "atomic-tests/pass/backgroung-image-with-first-child-discernible-that-is-sr-only.html",
+          "atomic-tests/pass/non-url()-background-image.html",
+          "atomic-tests/fail/background-image-without-discernible-elements.html",
+          "atomic-tests/fail/backgroung-image-with-empty-sr-only-first-child.html",
+          "atomic-tests/fail/backgroung-image-with-first-child-discernible-that-is-not-sr-only.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 7,
+        "fail": 3,
+        "total": 10
+      }
+    }
+  },
+  {
+    "key": "background-image-discernible-image",
+    "action": "create",
+    "ruleId": "background-image-discernible-image",
+    "payload": {
+      "ruleId": "background-image-discernible-image",
+      "title": "Unified Engine: background-image-discernible-image — Functional image displayed using CSS background properties should be tagged for assistive technology",
+      "description": "**Engine rule ID:** `background-image-discernible-image`\n**RAIDEN routes:** `/engine/background-image-discernible-image`, `/engine/background-image-discernible-image_success`, `/engine/background-image-discernible-image_failure`\n**Atomic tests:** `src/components/pages/engine-rules/background-image-discernible-image/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Functional images presented using CSS background or background-image properties should be marked up using role=\"img\" so that they can be identified as images by screen reader users.\n**Remediation advice:** Add role=\"img\" to elements that present functional images using CSS.\n**Fixtures:** 4 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `background-image-discernible-image` examples published at `/engine/background-image-discernible-image_success` and `/engine/background-image-discernible-image_failure`.\n5. **Fixture count:** 4 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "background-image-discernible-image"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/background-image-discernible-image` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → background-image-discernible-image.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/background-image-discernible-image\nruleId = background-image-discernible-image\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/background-image-discernible-image_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/background-image-discernible-image_success\npassFixtures = 4\natomic-tests/pass/background-image-with-first-child-discernible-sr-only-that-has-role-img.html\natomic-tests/pass/background-image-with-first-child-discernible-that-is-not-sr-only.html\natomic-tests/pass/background-image-with-role-presentation.html\natomic-tests/pass/background-image-without-discernible-elements.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/background-image-discernible-image_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/background-image-discernible-image_failure\nfailFixtures = 1\natomic-tests/fail/background-image-with-first-child-discernible-sr-only-that-doesnt-have-role-img.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for background-image-discernible-image\n- pass/background-image-with-first-child-discernible-sr-only-that-has-role-img.html → Passed node\n- pass/background-image-with-first-child-discernible-that-is-not-sr-only.html → Passed node\n- pass/background-image-with-role-presentation.html → Passed node\n- pass/background-image-without-discernible-elements.html → Passed node\n- fail/background-image-with-first-child-discernible-sr-only-that-doesnt-have-role-img.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `background-image-discernible-image` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = background-image-discernible-image\nissueSource = RAIDEN examples at /engine/background-image-discernible-image_success and /engine/background-image-discernible-image_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: background image with first child discernible sr only that has role img (background-image-with-first-child-discernible-sr-only-that-has-role-img.html)",
+          "pass: background image with first child discernible that is not sr only (background-image-with-first-child-discernible-that-is-not-sr-only.html)",
+          "pass: background image with role presentation (background-image-with-role-presentation.html)",
+          "pass: background image without discernible elements (background-image-without-discernible-elements.html)",
+          "fail: background image with first child discernible sr only that doesnt have role img (background-image-with-first-child-discernible-sr-only-that-doesnt-have-role-img.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/background-image-with-first-child-discernible-sr-only-that-has-role-img.html",
+          "atomic-tests/pass/background-image-with-first-child-discernible-that-is-not-sr-only.html",
+          "atomic-tests/pass/background-image-with-role-presentation.html",
+          "atomic-tests/pass/background-image-without-discernible-elements.html",
+          "atomic-tests/fail/background-image-with-first-child-discernible-sr-only-that-doesnt-have-role-img.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 4,
+        "fail": 1,
+        "total": 5
+      }
+    }
+  },
+  {
+    "key": "breadcrumbs-nav",
+    "action": "create",
+    "ruleId": "breadcrumbs-nav",
+    "payload": {
+      "ruleId": "breadcrumbs-nav",
+      "title": "Unified Engine: breadcrumbs-nav — breadcrumbs-nav",
+      "description": "**Engine rule ID:** `breadcrumbs-nav`\n**RAIDEN routes:** `/engine/breadcrumbs-nav`, `/engine/breadcrumbs-nav_success`, `/engine/breadcrumbs-nav_failure`\n**Atomic tests:** `src/components/pages/engine-rules/breadcrumbs-nav/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Fixtures:** 5 pass, 3 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `breadcrumbs-nav` examples published at `/engine/breadcrumbs-nav_success` and `/engine/breadcrumbs-nav_failure`.\n5. **Fixture count:** 5 pass, 3 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "breadcrumbs-nav"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/breadcrumbs-nav` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`medium`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → breadcrumbs-nav.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/breadcrumbs-nav\nruleId = breadcrumbs-nav\nimpact = medium",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/breadcrumbs-nav_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/breadcrumbs-nav_success\npassFixtures = 5\natomic-tests/pass/breadcrumbs-nav.html\natomic-tests/pass/breadcrumbs-parent-nav.html\natomic-tests/pass/breadcrumbs-parent-role-nav.html\natomic-tests/pass/breadcrumbs-role-nav.html\natomic-tests/pass/div-no-breadcrumbs.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/breadcrumbs-nav_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/breadcrumbs-nav_failure\nfailFixtures = 3\natomic-tests/fail/breadcrumbs-not-nav.html\natomic-tests/fail/breadcrumbs-parent-div-no-role.html\natomic-tests/fail/breadcrumbs-parent-nav-role-presentation.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for breadcrumbs-nav\n- pass/breadcrumbs-nav.html → Passed node\n- pass/breadcrumbs-parent-nav.html → Passed node\n- pass/breadcrumbs-parent-role-nav.html → Passed node\n- pass/breadcrumbs-role-nav.html → Passed node\n- pass/div-no-breadcrumbs.html → Passed node\n- fail/breadcrumbs-not-nav.html → Failed node\n- fail/breadcrumbs-parent-div-no-role.html → Failed node\n- fail/breadcrumbs-parent-nav-role-presentation.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `breadcrumbs-nav` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = breadcrumbs-nav\nissueSource = RAIDEN examples at /engine/breadcrumbs-nav_success and /engine/breadcrumbs-nav_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: breadcrumbs nav (breadcrumbs-nav.html)",
+          "pass: breadcrumbs parent nav (breadcrumbs-parent-nav.html)",
+          "pass: breadcrumbs parent role nav (breadcrumbs-parent-role-nav.html)",
+          "pass: breadcrumbs role nav (breadcrumbs-role-nav.html)",
+          "pass: div no breadcrumbs (div-no-breadcrumbs.html)",
+          "fail: breadcrumbs not nav (breadcrumbs-not-nav.html)",
+          "fail: breadcrumbs parent div no role (breadcrumbs-parent-div-no-role.html)",
+          "fail: breadcrumbs parent nav role presentation (breadcrumbs-parent-nav-role-presentation.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/breadcrumbs-nav.html",
+          "atomic-tests/pass/breadcrumbs-parent-nav.html",
+          "atomic-tests/pass/breadcrumbs-parent-role-nav.html",
+          "atomic-tests/pass/breadcrumbs-role-nav.html",
+          "atomic-tests/pass/div-no-breadcrumbs.html",
+          "atomic-tests/fail/breadcrumbs-not-nav.html",
+          "atomic-tests/fail/breadcrumbs-parent-div-no-role.html",
+          "atomic-tests/fail/breadcrumbs-parent-nav-role-presentation.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 5,
+        "fail": 3,
+        "total": 8
+      }
+    }
+  },
+  {
+    "key": "broken-aria-reference",
+    "action": "create",
+    "ruleId": "broken-aria-reference",
+    "payload": {
+      "ruleId": "broken-aria-reference",
+      "title": "Unified Engine: broken-aria-reference — broken-aria-reference",
+      "description": "**Engine rule ID:** `broken-aria-reference`\n**RAIDEN routes:** `/engine/broken-aria-reference`, `/engine/broken-aria-reference_success`, `/engine/broken-aria-reference_failure`\n**Atomic tests:** `src/components/pages/engine-rules/broken-aria-reference/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Fixtures:** 5 pass, 7 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `broken-aria-reference` examples published at `/engine/broken-aria-reference_success` and `/engine/broken-aria-reference_failure`.\n5. **Fixture count:** 5 pass, 7 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "broken-aria-reference"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/broken-aria-reference` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`medium`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → broken-aria-reference.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/broken-aria-reference\nruleId = broken-aria-reference\nimpact = medium",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/broken-aria-reference_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/broken-aria-reference_success\npassFixtures = 5\natomic-tests/pass/input-both-valid-aria-labelledby-and-valid-aria-describedby.html\natomic-tests/pass/input-with-aria-describedby-and-matching-element.html\natomic-tests/pass/input-with-aria-labelledby-and-matching-element.html\natomic-tests/pass/input-without-aria-references.html\natomic-tests/pass/multiple-inputs-with-labelledby-and-describedby-with-matching-element.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/broken-aria-reference_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/broken-aria-reference_failure\nfailFixtures = 7\natomic-tests/fail/input-with-aria-describedby-but-no-matching-element-id.html\natomic-tests/fail/input-with-aria-describedby-but-no-matching-element.html\natomic-tests/fail/input-with-aria-labelledby-but-no-matching-element-id.html\natomic-tests/fail/input-with-aria-labelledby-but-no-matching-element.html\natomic-tests/fail/input-with-valid-aria-describedby-and-invalid-aria-labelledby.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for broken-aria-reference\n- pass/input-both-valid-aria-labelledby-and-valid-aria-describedby.html → Passed node\n- pass/input-with-aria-describedby-and-matching-element.html → Passed node\n- pass/input-with-aria-labelledby-and-matching-element.html → Passed node\n- pass/input-without-aria-references.html → Passed node\n- pass/multiple-inputs-with-labelledby-and-describedby-with-matching-element.html → Passed node\n- fail/input-with-aria-describedby-but-no-matching-element-id.html → Failed node\n- fail/input-with-aria-describedby-but-no-matching-element.html → Failed node\n- fail/input-with-aria-labelledby-but-no-matching-element-id.html → Failed node\n- fail/input-with-aria-labelledby-but-no-matching-element.html → Failed node\n- fail/input-with-valid-aria-describedby-and-invalid-aria-labelledby.html → Failed node\n- fail/input-with-valid-aria-labelledby-and-invalid-aria-describedby.html → Failed node\n- fail/multiple-inputs-with-labelledby-and-describedby-but-no-fitting-element.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `broken-aria-reference` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = broken-aria-reference\nissueSource = RAIDEN examples at /engine/broken-aria-reference_success and /engine/broken-aria-reference_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: input both valid aria labelledby and valid aria describedby (input-both-valid-aria-labelledby-and-valid-aria-describedby.html)",
+          "pass: input with aria describedby and matching element (input-with-aria-describedby-and-matching-element.html)",
+          "pass: input with aria labelledby and matching element (input-with-aria-labelledby-and-matching-element.html)",
+          "pass: input without aria references (input-without-aria-references.html)",
+          "pass: multiple inputs with labelledby and describedby with matching element (multiple-inputs-with-labelledby-and-describedby-with-matching-element.html)",
+          "fail: input with aria describedby but no matching element id (input-with-aria-describedby-but-no-matching-element-id.html)",
+          "fail: input with aria describedby but no matching element (input-with-aria-describedby-but-no-matching-element.html)",
+          "fail: input with aria labelledby but no matching element id (input-with-aria-labelledby-but-no-matching-element-id.html)",
+          "fail: input with aria labelledby but no matching element (input-with-aria-labelledby-but-no-matching-element.html)",
+          "fail: input with valid aria describedby and invalid aria labelledby (input-with-valid-aria-describedby-and-invalid-aria-labelledby.html)",
+          "fail: input with valid aria labelledby and invalid aria describedby (input-with-valid-aria-labelledby-and-invalid-aria-describedby.html)",
+          "fail: multiple inputs with labelledby and describedby but no fitting element (multiple-inputs-with-labelledby-and-describedby-but-no-fitting-element.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/input-both-valid-aria-labelledby-and-valid-aria-describedby.html",
+          "atomic-tests/pass/input-with-aria-describedby-and-matching-element.html",
+          "atomic-tests/pass/input-with-aria-labelledby-and-matching-element.html",
+          "atomic-tests/pass/input-without-aria-references.html",
+          "atomic-tests/pass/multiple-inputs-with-labelledby-and-describedby-with-matching-element.html",
+          "atomic-tests/fail/input-with-aria-describedby-but-no-matching-element-id.html",
+          "atomic-tests/fail/input-with-aria-describedby-but-no-matching-element.html",
+          "atomic-tests/fail/input-with-aria-labelledby-but-no-matching-element-id.html",
+          "atomic-tests/fail/input-with-aria-labelledby-but-no-matching-element.html",
+          "atomic-tests/fail/input-with-valid-aria-describedby-and-invalid-aria-labelledby.html",
+          "atomic-tests/fail/input-with-valid-aria-labelledby-and-invalid-aria-describedby.html",
+          "atomic-tests/fail/multiple-inputs-with-labelledby-and-describedby-but-no-fitting-element.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 5,
+        "fail": 7,
+        "total": 12
+      }
+    }
+  },
+  {
+    "key": "button-discernible",
+    "action": "create",
+    "ruleId": "button-discernible",
+    "payload": {
+      "ruleId": "button-discernible",
+      "title": "Unified Engine: button-discernible — Buttons should have a label",
+      "description": "**Engine rule ID:** `button-discernible`\n**RAIDEN routes:** `/engine/button-discernible`, `/engine/button-discernible_success`, `/engine/button-discernible_failure`\n**Atomic tests:** `src/components/pages/engine-rules/button-discernible/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Buttons that do not contain visible text should be assigned labels that inform screen reader users of their purpose.\n**Remediation advice:** Add an aria-label or aria-labelledby attribute to the button.\n**Fixtures:** 9 pass, 9 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `button-discernible` examples published at `/engine/button-discernible_success` and `/engine/button-discernible_failure`.\n5. **Fixture count:** 9 pass, 9 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "button-discernible"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/button-discernible` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → button-discernible.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/button-discernible\nruleId = button-discernible\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/button-discernible_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/button-discernible_success\npassFixtures = 9\natomic-tests/pass/button-for-other-element.html\natomic-tests/pass/button-labled-by-other-element.html\natomic-tests/pass/button-no-text-with-aria-label.html\natomic-tests/pass/button-svg-icon-labelled.html\natomic-tests/pass/button-with-discernible-image.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/button-discernible_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/button-discernible_failure\nfailFixtures = 9\natomic-tests/fail/button-aria-hidden-child-with-text.html\natomic-tests/fail/button-display-none-child-with-text.html\natomic-tests/fail/button-no-text.html\natomic-tests/fail/button-non-interactable-child.html\natomic-tests/fail/button-svg-icon.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for button-discernible\n- pass/button-for-other-element.html → Passed node\n- pass/button-labled-by-other-element.html → Passed node\n- pass/button-no-text-with-aria-label.html → Passed node\n- pass/button-svg-icon-labelled.html → Passed node\n- pass/button-with-discernible-image.html → Passed node\n- pass/button-with-text.html → Passed node\n- pass/cart-button-with-aria-label.html → Passed node\n- pass/invisible-button-with-text.html → Passed node\n- pass/plus-minus-buttons-with-aria-labels.html → Passed node\n- fail/button-aria-hidden-child-with-text.html → Failed node\n- fail/button-display-none-child-with-text.html → Failed node\n- fail/button-no-text.html → Failed node\n- fail/button-non-interactable-child.html → Failed node\n- fail/button-svg-icon.html → Failed node\n- fail/button-with-non-discernible-image.html → Failed node\n- fail/cart-button-without-aria-label.html → Failed node\n- fail/plus-minus-buttons-without-aria-labels.html → Failed node\n- fail/role-button-with-hidden-text.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `button-discernible` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = button-discernible\nissueSource = RAIDEN examples at /engine/button-discernible_success and /engine/button-discernible_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: button for other element (button-for-other-element.html)",
+          "pass: button labled by other element (button-labled-by-other-element.html)",
+          "pass: button no text with aria label (button-no-text-with-aria-label.html)",
+          "pass: button svg icon labelled (button-svg-icon-labelled.html)",
+          "pass: button with discernible image (button-with-discernible-image.html)",
+          "pass: button with text (button-with-text.html)",
+          "pass: cart button with aria label (cart-button-with-aria-label.html)",
+          "pass: invisible button with text (invisible-button-with-text.html)",
+          "pass: plus minus buttons with aria labels (plus-minus-buttons-with-aria-labels.html)",
+          "fail: button aria hidden child with text (button-aria-hidden-child-with-text.html)",
+          "fail: button display none child with text (button-display-none-child-with-text.html)",
+          "fail: button no text (button-no-text.html)",
+          "fail: button non interactable child (button-non-interactable-child.html)",
+          "fail: button svg icon (button-svg-icon.html)",
+          "fail: button with non discernible image (button-with-non-discernible-image.html)",
+          "fail: cart button without aria label (cart-button-without-aria-label.html)",
+          "fail: plus minus buttons without aria labels (plus-minus-buttons-without-aria-labels.html)",
+          "fail: role button with hidden text (role-button-with-hidden-text.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/button-for-other-element.html",
+          "atomic-tests/pass/button-labled-by-other-element.html",
+          "atomic-tests/pass/button-no-text-with-aria-label.html",
+          "atomic-tests/pass/button-svg-icon-labelled.html",
+          "atomic-tests/pass/button-with-discernible-image.html",
+          "atomic-tests/pass/button-with-text.html",
+          "atomic-tests/pass/cart-button-with-aria-label.html",
+          "atomic-tests/pass/invisible-button-with-text.html",
+          "atomic-tests/pass/plus-minus-buttons-with-aria-labels.html",
+          "atomic-tests/fail/button-aria-hidden-child-with-text.html",
+          "atomic-tests/fail/button-display-none-child-with-text.html",
+          "atomic-tests/fail/button-no-text.html",
+          "atomic-tests/fail/button-non-interactable-child.html",
+          "atomic-tests/fail/button-svg-icon.html",
+          "atomic-tests/fail/button-with-non-discernible-image.html",
+          "atomic-tests/fail/cart-button-without-aria-label.html",
+          "atomic-tests/fail/plus-minus-buttons-without-aria-labels.html",
+          "atomic-tests/fail/role-button-with-hidden-text.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 9,
+        "fail": 9,
+        "total": 18
+      }
+    }
+  }
+]

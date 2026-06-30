@@ -1,19 +1,16 @@
 import { useMemo, useState } from "react";
-import engineRulesData from "../../../data/engine-rules-metadata.json";
+import { useEngineRulesIndex } from "../../../hooks/useEngineRulesIndex";
 import legacyEngineMapping from "../../../data/legacy-engine-mapping";
-import { getRuleSlug, isPopulatedRule } from "./engineLibraryUtils";
+import { getRuleSlug, ruleInCategory } from "./engineLibraryUtils";
 
 export function useEngineLibraryRules() {
+  const { rules: populatedRules, loading, error } = useEngineRulesIndex();
   const [searchTerm, setSearchTerm] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
   const [impactFilter, setImpactFilter] = useState("all");
   const [wcagLevelFilter, setWcagLevelFilter] = useState("all");
   const [wcagCriteriaFilter, setWcagCriteriaFilter] = useState("all");
   const [legacyRuleFilter, setLegacyRuleFilter] = useState("all");
-
-  const populatedRules = useMemo(
-    () => engineRulesData.filter(isPopulatedRule),
-    []
-  );
 
   const hasLegacyEquivalent = (ruleId) =>
     Object.values(legacyEngineMapping).some((legacyRules) =>
@@ -58,6 +55,8 @@ export function useEngineLibraryRules() {
         impactFilter === "all" ||
         (rule.impact || "").toLowerCase() === impactFilter.toLowerCase();
 
+      const matchesCategory = ruleInCategory(ruleId, categoryFilter);
+
       const matchesWcagLevel =
         wcagLevelFilter === "all" ||
         (rule.refs?.filter((r) => r.type === "WCAG") || []).some(
@@ -77,7 +76,9 @@ export function useEngineLibraryRules() {
           : !hasLegacyEquivalent(ruleId));
 
       if (!term) {
-        return matchesImpact && matchesWcagLevel && matchesWcagCriteria && matchesLegacy;
+        return (
+          matchesCategory && matchesImpact && matchesWcagLevel && matchesWcagCriteria && matchesLegacy
+        );
       }
 
       const haystack = [ruleId, rule.title, rule.description, rule.advice]
@@ -86,6 +87,7 @@ export function useEngineLibraryRules() {
         .toLowerCase();
 
       return (
+        matchesCategory &&
         matchesImpact &&
         matchesWcagLevel &&
         matchesWcagCriteria &&
@@ -96,6 +98,7 @@ export function useEngineLibraryRules() {
   }, [
     populatedRules,
     searchTerm,
+    categoryFilter,
     impactFilter,
     wcagLevelFilter,
     wcagCriteriaFilter,
@@ -109,8 +112,12 @@ export function useEngineLibraryRules() {
     populatedRules,
     filteredRules,
     findRuleBySlug,
+    loading,
+    error,
     searchTerm,
     setSearchTerm,
+    categoryFilter,
+    setCategoryFilter,
     impactFilter,
     setImpactFilter,
     wcagLevelFilter,

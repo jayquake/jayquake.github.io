@@ -1,6 +1,7 @@
-import React, { useMemo } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import UnifiedExamplePage from "./UnifiedExamplePage";
+import { useResolvedHtmlExamples } from "../../hooks/useResolvedHtmlExamples";
 
 const EngineIssueFailure = ({
   ruleId,
@@ -10,14 +11,11 @@ const EngineIssueFailure = ({
   fixSteps,
   htmlExamples,
 }) => {
-  const examples = useMemo(
-    () =>
-      (htmlExamples || []).map((ex) => ({
-        html: typeof ex === "string" ? ex : ex.content,
-        filename: typeof ex === "string" ? null : ex.filename,
-      })),
-    [htmlExamples]
-  );
+  const examples = useResolvedHtmlExamples(htmlExamples);
+
+  if (!examples) {
+    return null;
+  }
 
   return (
     <UnifiedExamplePage
@@ -42,7 +40,11 @@ EngineIssueFailure.propTypes = {
   htmlExamples: PropTypes.arrayOf(
     PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.shape({ filename: PropTypes.string, content: PropTypes.string }),
+      PropTypes.shape({
+        filename: PropTypes.string,
+        content: PropTypes.string,
+        fixture: PropTypes.string,
+      }),
     ])
   ).isRequired,
 };

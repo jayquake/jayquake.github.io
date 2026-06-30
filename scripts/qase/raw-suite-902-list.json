@@ -1,0 +1,3215 @@
+{
+  "total": 6956,
+  "filtered": 27,
+  "count": 27,
+  "entities": [
+    {
+      "id": 2966,
+      "position": 1,
+      "title": "accessFlow-Engine Integration: heading-lengthy",
+      "description": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+      "preconditions": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 1,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "f6764cce8d501a0d5c5278f3d4b35e39f8afae84",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "5b480da12a8e0d17c803bff0b2fec4b6f85eaa26",
+          "position": 2,
+          "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+          "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "2e23aa301d07df0c353868f3dd2a62da81688563",
+          "position": 3,
+          "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+          "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "heading length > 160 chars (WEBSITE_EXAMPLE)",
+          "heading length == 160 chars (WEBSITE_EXAMPLE)",
+          "heading length < 160 chars (WEBSITE_EXAMPLE)"
+        ],
+        "expectedResult": [
+          "Failed node",
+          "Passed node",
+          "Passed node"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "scenario",
+              "values": [
+                "heading length > 160 chars (WEBSITE_EXAMPLE)",
+                "heading length == 160 chars (WEBSITE_EXAMPLE)",
+                "heading length < 160 chars (WEBSITE_EXAMPLE)"
+              ]
+            },
+            {
+              "title": "expectedResult",
+              "values": [
+                "Failed node",
+                "Passed node",
+                "Passed node"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 2,
+      "author_id": 32255,
+      "author_uuid": "c2e170cf-31e6-4db9-a191-18507fd597bd",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2024-12-30T14:10:45.000000Z",
+      "updated": "2024-12-30T14:15:32.000000Z",
+      "created_at": "2024-12-30T14:10:45+00:00",
+      "updated_at": "2024-12-30T14:15:32+00:00"
+    },
+    {
+      "id": 2967,
+      "position": 2,
+      "title": "accessFlow-Engine Integration: carouselPagination",
+      "description": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+      "preconditions": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 1,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "f6764cce8d501a0d5c5278f3d4b35e39f8afae84",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "5b480da12a8e0d17c803bff0b2fec4b6f85eaa26",
+          "position": 2,
+          "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+          "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "2e23aa301d07df0c353868f3dd2a62da81688563",
+          "position": 3,
+          "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+          "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "buttons inside carousels items not consider as a pagination dots (https://firsticbank.com/index.php?id=en)",
+          "dots buttons in carousels with role=button",
+          "dots buttons in carousels without role=button"
+        ],
+        "expectedResult": [
+          "neutral",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "scenario",
+              "values": [
+                "buttons inside carousels items not consider as a pagination dots (https://firsticbank.com/index.php?id=en)",
+                "dots buttons in carousels with role=button",
+                "dots buttons in carousels without role=button"
+              ]
+            },
+            {
+              "title": "expectedResult",
+              "values": [
+                "neutral",
+                "Passed node",
+                "Failed node"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 6,
+      "author_id": 83247,
+      "author_uuid": "f592cdc0-2d68-4f33-a281-840a0fcb4728",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2024-12-30T14:52:47.000000Z",
+      "updated": "2024-12-30T15:02:18.000000Z",
+      "created_at": "2024-12-30T14:52:47+00:00",
+      "updated_at": "2024-12-30T15:02:18+00:00"
+    },
+    {
+      "id": 2968,
+      "position": 3,
+      "title": "accessFlow-Engine Integration: skipLinks",
+      "description": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+      "preconditions": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 1,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "f6764cce8d501a0d5c5278f3d4b35e39f8afae84",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "5b480da12a8e0d17c803bff0b2fec4b6f85eaa26",
+          "position": 2,
+          "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+          "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "2e23aa301d07df0c353868f3dd2a62da81688563",
+          "position": 3,
+          "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+          "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "TBD",
+          "bypass Blocks & skip link exist ( userway.com)",
+          "bypass Blocks & skip link not exist (https://adizimhi.github.io/pageTestDomain/skipLinksFailures.html)"
+        ],
+        "expectedResult": [
+          "neutral",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "scenario",
+              "values": [
+                "TBD",
+                "bypass Blocks & skip link exist ( userway.com)",
+                "bypass Blocks & skip link not exist (https://adizimhi.github.io/pageTestDomain/skipLinksFailures.html)"
+              ]
+            },
+            {
+              "title": "expectedResult",
+              "values": [
+                "neutral",
+                "Passed node",
+                "Failed node"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 6,
+      "author_id": 83247,
+      "author_uuid": "f592cdc0-2d68-4f33-a281-840a0fcb4728",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2024-12-30T15:33:11.000000Z",
+      "updated": "2024-12-30T15:36:41.000000Z",
+      "created_at": "2024-12-30T15:33:11+00:00",
+      "updated_at": "2024-12-30T15:36:41+00:00"
+    },
+    {
+      "id": 2969,
+      "position": 4,
+      "title": "accessFlow-Engine Integration: articleSetup",
+      "description": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+      "preconditions": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 1,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "f6764cce8d501a0d5c5278f3d4b35e39f8afae84",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "5b480da12a8e0d17c803bff0b2fec4b6f85eaa26",
+          "position": 2,
+          "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+          "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "2e23aa301d07df0c353868f3dd2a62da81688563",
+          "position": 3,
+          "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+          "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "TBD",
+          "<div role=\"presentation\"></div> adding to <article>",
+          "Without <div role=\"presentation\"></div>",
+          "<h1> inside the article"
+        ],
+        "expectedResult": [
+          "neutral",
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "scenario",
+              "values": [
+                "TBD",
+                "<div role=\"presentation\"></div> adding to <article>",
+                "Without <div role=\"presentation\"></div>",
+                "<h1> inside the article"
+              ]
+            },
+            {
+              "title": "expectedResult",
+              "values": [
+                "neutral",
+                "Passed node",
+                "Failed node",
+                "Failed node"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 6,
+      "author_id": 83247,
+      "author_uuid": "f592cdc0-2d68-4f33-a281-840a0fcb4728",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2024-12-31T16:18:47.000000Z",
+      "updated": "2024-12-31T16:20:47.000000Z",
+      "created_at": "2024-12-31T16:18:47+00:00",
+      "updated_at": "2024-12-31T16:20:47+00:00"
+    },
+    {
+      "id": 2970,
+      "position": 5,
+      "title": "accessFlow-Engine Integration: Page Title",
+      "description": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+      "preconditions": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 1,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "f6764cce8d501a0d5c5278f3d4b35e39f8afae84",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "5b480da12a8e0d17c803bff0b2fec4b6f85eaa26",
+          "position": 2,
+          "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+          "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "2e23aa301d07df0c353868f3dd2a62da81688563",
+          "position": 3,
+          "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+          "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "Adding <title> under <head>",
+          "no <title> tagg",
+          "<title> have contain min 2 words"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Failed node",
+          "Passed node"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "scenario",
+              "values": [
+                "Adding <title> under <head>",
+                "no <title> tagg",
+                "<title> have contain min 2 words"
+              ]
+            },
+            {
+              "title": "expectedResult",
+              "values": [
+                "Passed node",
+                "Failed node",
+                "Passed node"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 6,
+      "author_id": 83247,
+      "author_uuid": "f592cdc0-2d68-4f33-a281-840a0fcb4728",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-01-01T09:51:38.000000Z",
+      "updated": "2025-01-09T10:10:39.000000Z",
+      "created_at": "2025-01-01T09:51:38+00:00",
+      "updated_at": "2025-01-09T10:10:39+00:00"
+    },
+    {
+      "id": 2971,
+      "position": 6,
+      "title": "accessFlow-Engine Integration: BrokenAriaReference",
+      "description": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+      "preconditions": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 1,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "f6764cce8d501a0d5c5278f3d4b35e39f8afae84",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "5b480da12a8e0d17c803bff0b2fec4b6f85eaa26",
+          "position": 2,
+          "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+          "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "2e23aa301d07df0c353868f3dd2a62da81688563",
+          "position": 3,
+          "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+          "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "TBD",
+          "Adding <strong>aria-describedby",
+          "<strong>aria-labeledby</strong>",
+          "Without any  aria for the screen  reader"
+        ],
+        "expectedResult": [
+          "neutral",
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "scenario",
+              "values": [
+                "TBD",
+                "Adding <strong>aria-describedby",
+                "<strong>aria-labeledby</strong>",
+                "Without any  aria for the screen  reader"
+              ]
+            },
+            {
+              "title": "expectedResult",
+              "values": [
+                "neutral",
+                "Passed node",
+                "Passed node",
+                "Failed node"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 6,
+      "author_id": 83247,
+      "author_uuid": "f592cdc0-2d68-4f33-a281-840a0fcb4728",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-01-01T11:08:47.000000Z",
+      "updated": "2025-01-02T09:32:22.000000Z",
+      "created_at": "2025-01-01T11:08:47+00:00",
+      "updated_at": "2025-01-02T09:32:22+00:00"
+    },
+    {
+      "id": 2972,
+      "position": 7,
+      "title": "accessflow-engine integration: Role Application",
+      "description": "Testing the behavior of the applications role and the unified engine compatability",
+      "preconditions": "Load the example website: [https://jayquake.github.io/audit-rules/#/errors/role-applications_failure](https://jayquake.github.io/audit-rules/#/errors/role-applications_failure)",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 0,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "084f23dfea9bff164d8646849773ae14aead8ad2",
+          "shared_step_hash": "2ac572b0a9443ba792ed1ce2b675b3206549ca67",
+          "shared_step_nested_hash": "d3b6425ca3a8ec84fe130b62cfe612c34f438c63",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "Scenario": [
+          "A div is used as a container but improperly assigned role=\"application\"",
+          "A main landmark improperly given role=\"application\", overriding its native semantics.",
+          "A header element is incorrectly assigned role=\"application\"",
+          "A content section with additional headings is wrapped with role=\"application\".",
+          "An aside for complementary content improperly uses role=\"application\".",
+          "A form used for user input is wrapped with role=\"application\".",
+          "A table meant for data display is given role=\"application\".",
+          "A figure containing an image and caption is given role=\"application\".",
+          "A footer is improperly assigned role=\"application\".",
+          "A dialog box is given role=\"application\"."
+        ],
+        "HTML": [
+          "<div role=\"application\">   <h1>Title</h1>   <p>Content in a generic container.</p> </div>",
+          "<main role=\"application\">   <h1>Main Heading</h1>   <p>Main content area.</p> </main>",
+          "<header role=\"application\">   <h1>Website Header</h1>   <nav>     <a href=\"#home\">Home</a>     <a href=\"#about\">About</a>   </nav> </header>",
+          "<section role=\"application\">   <h2>Section Heading</h2>   <p>Details about the section.</p> </section>",
+          "<aside role=\"application\">   <h3>Related Content</h3>   <ul>     <li>Point 1</li>     <li>Point 2</li>   </ul> </aside>",
+          "<form role=\"application\">   <label for=\"email\">Email:</label>   <input id=\"email\" type=\"email\">   <button type=\"submit\">Submit</button> </form>",
+          "<table role=\"application\">   <thead>     <tr><th>Column 1</th><th>Column 2</th></tr>   </thead>   <tbody>     <tr><td>Row 1</td><td>Row 2</td></tr>   </tbody> </table>",
+          "<figure role=\"application\">   <img src=\"example.jpg\" alt=\"Example image\">   <figcaption>Caption for the image.</figcaption> </figure>",
+          "<footer role=\"application\">   <p>&copy; 2025 Accessible Web</p> </footer>",
+          "<dialog role=\"application\" open>   <p>Dialog content.</p>   <button>Close</button> </dialog>"
+        ],
+        "Expected Result": [
+          "Screen readers should announce content normally, but the role=\"application\" forces a custom interaction mode, confusing users.",
+          "Screen readers will not recognize the main region as a landmark, leading to navigation issues.",
+          "The header loses its semantic meaning, and screen readers may not navigate its content effectively.",
+          "The section is no longer recognized as a grouping element, causing confusion in screen reader navigation.",
+          "Screen readers cannot identify the aside as complementary, impacting user understanding of the page’s hierarchy.",
+          "Screen readers fail to properly handle input fields, potentially skipping them or reading them incorrectly.",
+          "Screen readers cannot identify table headers or row associations, making the data inaccessible.",
+          "The image and caption lose their semantic association, reducing the effectiveness of descriptions for screen readers.",
+          "The footer is no longer recognized as the page’s footer, impacting screen reader navigation.",
+          "The dialog’s focus management and interaction behavior are overridden, making it difficult to use with assistive technology."
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "Scenario",
+              "values": [
+                "A div is used as a container but improperly assigned role=\"application\"",
+                "A main landmark improperly given role=\"application\", overriding its native semantics.",
+                "A header element is incorrectly assigned role=\"application\"",
+                "A content section with additional headings is wrapped with role=\"application\".",
+                "An aside for complementary content improperly uses role=\"application\".",
+                "A form used for user input is wrapped with role=\"application\".",
+                "A table meant for data display is given role=\"application\".",
+                "A figure containing an image and caption is given role=\"application\".",
+                "A footer is improperly assigned role=\"application\".",
+                "A dialog box is given role=\"application\"."
+              ]
+            },
+            {
+              "title": "HTML",
+              "values": [
+                "<div role=\"application\">   <h1>Title</h1>   <p>Content in a generic container.</p> </div>",
+                "<main role=\"application\">   <h1>Main Heading</h1>   <p>Main content area.</p> </main>",
+                "<header role=\"application\">   <h1>Website Header</h1>   <nav>     <a href=\"#home\">Home</a>     <a href=\"#about\">About</a>   </nav> </header>",
+                "<section role=\"application\">   <h2>Section Heading</h2>   <p>Details about the section.</p> </section>",
+                "<aside role=\"application\">   <h3>Related Content</h3>   <ul>     <li>Point 1</li>     <li>Point 2</li>   </ul> </aside>",
+                "<form role=\"application\">   <label for=\"email\">Email:</label>   <input id=\"email\" type=\"email\">   <button type=\"submit\">Submit</button> </form>",
+                "<table role=\"application\">   <thead>     <tr><th>Column 1</th><th>Column 2</th></tr>   </thead>   <tbody>     <tr><td>Row 1</td><td>Row 2</td></tr>   </tbody> </table>",
+                "<figure role=\"application\">   <img src=\"example.jpg\" alt=\"Example image\">   <figcaption>Caption for the image.</figcaption> </figure>",
+                "<footer role=\"application\">   <p>&copy; 2025 Accessible Web</p> </footer>",
+                "<dialog role=\"application\" open>   <p>Dialog content.</p>   <button>Close</button> </dialog>"
+              ]
+            },
+            {
+              "title": "Expected Result",
+              "values": [
+                "Screen readers should announce content normally, but the role=\"application\" forces a custom interaction mode, confusing users.",
+                "Screen readers will not recognize the main region as a landmark, leading to navigation issues.",
+                "The header loses its semantic meaning, and screen readers may not navigate its content effectively.",
+                "The section is no longer recognized as a grouping element, causing confusion in screen reader navigation.",
+                "Screen readers cannot identify the aside as complementary, impacting user understanding of the page’s hierarchy.",
+                "Screen readers fail to properly handle input fields, potentially skipping them or reading them incorrectly.",
+                "Screen readers cannot identify table headers or row associations, making the data inaccessible.",
+                "The image and caption lose their semantic association, reducing the effectiveness of descriptions for screen readers.",
+                "The footer is no longer recognized as the page’s footer, impacting screen reader navigation.",
+                "The dialog’s focus management and interaction behavior are overridden, making it difficult to use with assistive technology."
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 10,
+      "author_id": 113042,
+      "author_uuid": "590969ee-ffd0-4499-a190-f4e6bdd27e08",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-01-02T15:40:25.000000Z",
+      "updated": "2025-01-02T15:49:11.000000Z",
+      "created_at": "2025-01-02T15:40:25+00:00",
+      "updated_at": "2025-01-02T15:49:11+00:00"
+    },
+    {
+      "id": 2976,
+      "position": 8,
+      "title": "accessFlow-Engine Integration:  Row Table Headers",
+      "description": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+      "preconditions": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 1,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "f6764cce8d501a0d5c5278f3d4b35e39f8afae84",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "5b480da12a8e0d17c803bff0b2fec4b6f85eaa26",
+          "position": 2,
+          "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+          "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "2e23aa301d07df0c353868f3dd2a62da81688563",
+          "position": 3,
+          "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+          "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "TBD",
+          "Adding   <td role=\"rowheader\">I'm a row header</td>",
+          "<li class=\"list-item\" id=\"rowTableHeaders-success-2\">",
+          "Without   <td role=\"rowheader\">I'm a row header</td>"
+        ],
+        "expectedResult": [
+          "neutral",
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "scenario",
+              "values": [
+                "TBD",
+                "Adding   <td role=\"rowheader\">I'm a row header</td>",
+                "<li class=\"list-item\" id=\"rowTableHeaders-success-2\">",
+                "Without   <td role=\"rowheader\">I'm a row header</td>"
+              ]
+            },
+            {
+              "title": "expectedResult",
+              "values": [
+                "neutral",
+                "Passed node",
+                "Passed node",
+                "Failed node"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 6,
+      "author_id": 83247,
+      "author_uuid": "f592cdc0-2d68-4f33-a281-840a0fcb4728",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-01-06T09:46:09.000000Z",
+      "updated": "2025-01-06T09:53:55.000000Z",
+      "created_at": "2025-01-06T09:46:09+00:00",
+      "updated_at": "2025-01-06T09:53:55+00:00"
+    },
+    {
+      "id": 2977,
+      "position": 9,
+      "title": "accessFlow-Engine Integration: Breadcrumbs",
+      "description": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+      "preconditions": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 1,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "f6764cce8d501a0d5c5278f3d4b35e39f8afae84",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "5b480da12a8e0d17c803bff0b2fec4b6f85eaa26",
+          "position": 2,
+          "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+          "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "2e23aa301d07df0c353868f3dd2a62da81688563",
+          "position": 3,
+          "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+          "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "TBD",
+          "Adding   <nav aria-label=\"Breadcrumbs\"></nav>",
+          "<li class=\"list-item\" id=\"breadcrumbs-success-1\">",
+          "Without   <nav aria-label=\"Breadcrumbs\"></nav>"
+        ],
+        "expectedResult": [
+          "neutral",
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "scenario",
+              "values": [
+                "TBD",
+                "Adding   <nav aria-label=\"Breadcrumbs\"></nav>",
+                "<li class=\"list-item\" id=\"breadcrumbs-success-1\">",
+                "Without   <nav aria-label=\"Breadcrumbs\"></nav>"
+              ]
+            },
+            {
+              "title": "expectedResult",
+              "values": [
+                "neutral",
+                "Passed node",
+                "Passed node",
+                "Failed node"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 6,
+      "author_id": 83247,
+      "author_uuid": "f592cdc0-2d68-4f33-a281-840a0fcb4728",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-01-06T11:17:21.000000Z",
+      "updated": "2025-01-06T13:10:08.000000Z",
+      "created_at": "2025-01-06T11:17:21+00:00",
+      "updated_at": "2025-01-06T13:10:08+00:00"
+    },
+    {
+      "id": 2978,
+      "position": 10,
+      "title": "accessFlow-Engine Integration:  Column Table Headers",
+      "description": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+      "preconditions": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 1,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "f6764cce8d501a0d5c5278f3d4b35e39f8afae84",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "5b480da12a8e0d17c803bff0b2fec4b6f85eaa26",
+          "position": 2,
+          "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+          "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "2e23aa301d07df0c353868f3dd2a62da81688563",
+          "position": 3,
+          "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+          "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "TBD",
+          "<td role=\"columnheader\"><strong>I'm visually a column header</strong></td>",
+          "<li class=\"list-item\" id=\"rowTableHeaders-success-2\">",
+          "Without   <td role=\"rowheader\">I'm a row header</td>"
+        ],
+        "expectedResult": [
+          "neutral",
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "scenario",
+              "values": [
+                "TBD",
+                "<td role=\"columnheader\"><strong>I'm visually a column header</strong></td>",
+                "<li class=\"list-item\" id=\"rowTableHeaders-success-2\">",
+                "Without   <td role=\"rowheader\">I'm a row header</td>"
+              ]
+            },
+            {
+              "title": "expectedResult",
+              "values": [
+                "neutral",
+                "Passed node",
+                "Passed node",
+                "Failed node"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 6,
+      "author_id": 83247,
+      "author_uuid": "f592cdc0-2d68-4f33-a281-840a0fcb4728",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-01-06T13:44:45.000000Z",
+      "updated": "2025-01-06T13:45:30.000000Z",
+      "created_at": "2025-01-06T13:44:45+00:00",
+      "updated_at": "2025-01-06T13:45:30+00:00"
+    },
+    {
+      "id": 2979,
+      "position": 11,
+      "title": "accessFlow-Engine Integration:  Footer Landmark",
+      "description": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+      "preconditions": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 1,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "f6764cce8d501a0d5c5278f3d4b35e39f8afae84",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "5b480da12a8e0d17c803bff0b2fec4b6f85eaa26",
+          "position": 2,
+          "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+          "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "2e23aa301d07df0c353868f3dd2a62da81688563",
+          "position": 3,
+          "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+          "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "TBD",
+          "<div role=\"contentinfo\" aria-label=\"footer\"></div>",
+          "<footer role=\"contentinfo\">",
+          "Without   <div role=\"contentinfo\" aria-label=\"footer\"></div>"
+        ],
+        "expectedResult": [
+          "neutral",
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "scenario",
+              "values": [
+                "TBD",
+                "<div role=\"contentinfo\" aria-label=\"footer\"></div>",
+                "<footer role=\"contentinfo\">",
+                "Without   <div role=\"contentinfo\" aria-label=\"footer\"></div>"
+              ]
+            },
+            {
+              "title": "expectedResult",
+              "values": [
+                "neutral",
+                "Passed node",
+                "Passed node",
+                "Failed node"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 6,
+      "author_id": 83247,
+      "author_uuid": "f592cdc0-2d68-4f33-a281-840a0fcb4728",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-01-06T16:17:47.000000Z",
+      "updated": "2025-01-06T16:18:42.000000Z",
+      "created_at": "2025-01-06T16:17:47+00:00",
+      "updated_at": "2025-01-06T16:18:42+00:00"
+    },
+    {
+      "id": 2997,
+      "position": 12,
+      "title": "accessFlow-Engine Integration:  Submenu State",
+      "description": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+      "preconditions": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 1,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "f6764cce8d501a0d5c5278f3d4b35e39f8afae84",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "5b480da12a8e0d17c803bff0b2fec4b6f85eaa26",
+          "position": 2,
+          "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+          "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "2e23aa301d07df0c353868f3dd2a62da81688563",
+          "position": 3,
+          "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+          "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "TBD",
+          "<a href=\"...\" aria-expanded=\"true/false\" aria-haspopup=\"true\">Products</a>",
+          "without  <a href=\"...\" aria-expanded=\"true/false\" aria-haspopup=\"true\">Products</a>"
+        ],
+        "expectedResult": [
+          "neutral",
+          "Passed node",
+          "Passed node"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "scenario",
+              "values": [
+                "TBD",
+                "<a href=\"...\" aria-expanded=\"true/false\" aria-haspopup=\"true\">Products</a>",
+                "without  <a href=\"...\" aria-expanded=\"true/false\" aria-haspopup=\"true\">Products</a>"
+              ]
+            },
+            {
+              "title": "expectedResult",
+              "values": [
+                "neutral",
+                "Passed node",
+                "Passed node"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 6,
+      "author_id": 83247,
+      "author_uuid": "f592cdc0-2d68-4f33-a281-840a0fcb4728",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-01-13T14:17:13.000000Z",
+      "updated": "2025-01-16T10:55:02.000000Z",
+      "created_at": "2025-01-13T14:17:13+00:00",
+      "updated_at": "2025-01-16T10:55:02+00:00"
+    },
+    {
+      "id": 3025,
+      "position": 13,
+      "title": "accessflow-engine integration: Aria label misuse / name-prohibited-no-aria-label",
+      "description": "Testing the behavior of the rule \"Aria Label Missuse\" and the unified engine compatability",
+      "preconditions": "Load the example website: [https://jayquake.github.io/#/errors/aria-label-missuse](https://jayquake.github.io/#/errors/aria-label-missuse)",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 0,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "084f23dfea9bff164d8646849773ae14aead8ad2",
+          "shared_step_hash": "2ac572b0a9443ba792ed1ce2b675b3206549ca67",
+          "shared_step_nested_hash": "d3b6425ca3a8ec84fe130b62cfe612c34f438c63",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "Scenario": [
+          "A <div> with visible text should not have an aria-label. The screen reader will ignore the aria-label because visible text is present.",
+          "A <span> with visible error text should not use aria-label. The screen reader will read the visible text and ignore the aria-label.",
+          "A <p> with visible error text should not use aria-label. The visible text already provides a description.",
+          "An empty <div> with an aria-label adds no value because there is no visible or functional content."
+        ],
+        "HTML": [
+          "<div aria-label=\"Error message\">Failure: A &lt;div&gt; with visible text should not have an <code>aria-label</code>. The screen reader will ignore the <code>aria-label</code> because visible text is present.</div>",
+          "<span aria-label=\"Error label\">Failure: A &lt;span&gt; with visible error text should not use <code>aria-label</code>. The screen reader will read the visible text and ignore the <code>aria-label</code>.</span>",
+          "<p aria-label=\"Error description\">Failure: A &lt;p&gt; with visible error text should not use <code>aria-label</code>. The visible text already provides a description.</p>",
+          "<div aria-label=\"Broken field\">Failure: An empty &lt;div&gt; with an <code>aria-label</code> adds no value because there is no visible or functional content.</div>"
+        ],
+        "Expected Result": [
+          "Failure: The screen reader will ignore the aria-label because visible text is present.",
+          "Failure: The screen reader will read the visible text and ignore the aria-label.",
+          "Failure: The visible text already provides a description.",
+          "Failure:  there is no visible or functional content."
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "Scenario",
+              "values": [
+                "A <div> with visible text should not have an aria-label. The screen reader will ignore the aria-label because visible text is present.",
+                "A <span> with visible error text should not use aria-label. The screen reader will read the visible text and ignore the aria-label.",
+                "A <p> with visible error text should not use aria-label. The visible text already provides a description.",
+                "An empty <div> with an aria-label adds no value because there is no visible or functional content."
+              ]
+            },
+            {
+              "title": "HTML",
+              "values": [
+                "<div aria-label=\"Error message\">Failure: A &lt;div&gt; with visible text should not have an <code>aria-label</code>. The screen reader will ignore the <code>aria-label</code> because visible text is present.</div>",
+                "<span aria-label=\"Error label\">Failure: A &lt;span&gt; with visible error text should not use <code>aria-label</code>. The screen reader will read the visible text and ignore the <code>aria-label</code>.</span>",
+                "<p aria-label=\"Error description\">Failure: A &lt;p&gt; with visible error text should not use <code>aria-label</code>. The visible text already provides a description.</p>",
+                "<div aria-label=\"Broken field\">Failure: An empty &lt;div&gt; with an <code>aria-label</code> adds no value because there is no visible or functional content.</div>"
+              ]
+            },
+            {
+              "title": "Expected Result",
+              "values": [
+                "Failure: The screen reader will ignore the aria-label because visible text is present.",
+                "Failure: The screen reader will read the visible text and ignore the aria-label.",
+                "Failure: The visible text already provides a description.",
+                "Failure:  there is no visible or functional content."
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 10,
+      "author_id": 113042,
+      "author_uuid": "590969ee-ffd0-4499-a190-f4e6bdd27e08",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-01-16T07:19:49.000000Z",
+      "updated": "2025-01-20T12:02:42.000000Z",
+      "created_at": "2025-01-16T07:19:49+00:00",
+      "updated_at": "2025-01-20T12:02:42+00:00"
+    },
+    {
+      "id": 3027,
+      "position": 14,
+      "title": "accessFlow-Engine Integration: Table Layouts",
+      "description": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+      "preconditions": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 1,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "f6764cce8d501a0d5c5278f3d4b35e39f8afae84",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "5b480da12a8e0d17c803bff0b2fec4b6f85eaa26",
+          "position": 2,
+          "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+          "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "2e23aa301d07df0c353868f3dd2a62da81688563",
+          "position": 3,
+          "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+          "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "TBD",
+          "Adding <table role=\"presentation\" inside <div> for better layout",
+          "using <table> without  role=\"presentation\" for layout"
+        ],
+        "expectedResult": [
+          "neutral",
+          "Passed node",
+          "fail node"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "scenario",
+              "values": [
+                "TBD",
+                "Adding <table role=\"presentation\" inside <div> for better layout",
+                "using <table> without  role=\"presentation\" for layout"
+              ]
+            },
+            {
+              "title": "expectedResult",
+              "values": [
+                "neutral",
+                "Passed node",
+                "fail node"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 6,
+      "author_id": 83247,
+      "author_uuid": "f592cdc0-2d68-4f33-a281-840a0fcb4728",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-01-20T16:08:43.000000Z",
+      "updated": "2025-01-21T10:40:29.000000Z",
+      "created_at": "2025-01-20T16:08:43+00:00",
+      "updated_at": "2025-01-21T10:40:29+00:00"
+    },
+    {
+      "id": 3028,
+      "position": 15,
+      "title": "accessflow-engine integration: Broken Submenu Indication /menu-trigger-clickable",
+      "description": "Testing the behavior of the rule \"Broken Submenu Indication\" and the unified engine compatability",
+      "preconditions": "**Load the example website:** [https://jayquake.github.io/#/navigation/broken-submenu-indication_failure](https://jayquake.github.io/#/navigation/broken-submenu-indication_failure)",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 0,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "084f23dfea9bff164d8646849773ae14aead8ad2",
+          "shared_step_hash": "2ac572b0a9443ba792ed1ce2b675b3206549ca67",
+          "shared_step_nested_hash": "d3b6425ca3a8ec84fe130b62cfe612c34f438c63",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "Scenario": [
+          "A div is used as a menu trigger, which is non-interactive by default and lacks keyboard focusability.",
+          "A span is used as a menu trigger, which is non-interactive and not appropriate for accessibility.",
+          "An img is used as a menu trigger, which is not inherently interactive or keyboard-accessible.",
+          "A p element is used as a menu trigger, which is semantically incorrect and not focusable.",
+          "A section is used as a menu trigger, which is inappropriate for this purpose."
+        ],
+        "HTML": [
+          "<div aria-haspopup=\"menu\" aria-expanded=\"false\" aria-controls=\"submenu1\">Options</div>",
+          "<span aria-haspopup=\"menu\" aria-expanded=\"false\" aria-controls=\"submenu2\">Options</span>",
+          "<img src=\"menu-icon.png\" alt=\"Options\" aria-haspopup=\"menu\" aria-expanded=\"false\" aria-controls=\"submenu3\">",
+          "<p aria-haspopup=\"menu\" aria-expanded=\"false\" aria-controls=\"submenu4\">Options</p>",
+          "<section aria-haspopup=\"menu\" aria-expanded=\"false\" aria-controls=\"submenu5\">Options</section>"
+        ],
+        "Expected Result": [
+          "Failure: The <div> which is non-interactive by default and lacks keyboard focusability.",
+          "Failure: The <span> which is non-interactive by default and lacks keyboard focusability.",
+          "Failure: The <img> which is non-interactive by default and lacks keyboard focusability.",
+          "Failure: The <p> which is non-interactive by default and lacks keyboard focusability.",
+          "Failure: The <section> invalid usage"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "Scenario",
+              "values": [
+                "A div is used as a menu trigger, which is non-interactive by default and lacks keyboard focusability.",
+                "A span is used as a menu trigger, which is non-interactive and not appropriate for accessibility.",
+                "An img is used as a menu trigger, which is not inherently interactive or keyboard-accessible.",
+                "A p element is used as a menu trigger, which is semantically incorrect and not focusable.",
+                "A section is used as a menu trigger, which is inappropriate for this purpose."
+              ]
+            },
+            {
+              "title": "HTML",
+              "values": [
+                "<div aria-haspopup=\"menu\" aria-expanded=\"false\" aria-controls=\"submenu1\">Options</div>",
+                "<span aria-haspopup=\"menu\" aria-expanded=\"false\" aria-controls=\"submenu2\">Options</span>",
+                "<img src=\"menu-icon.png\" alt=\"Options\" aria-haspopup=\"menu\" aria-expanded=\"false\" aria-controls=\"submenu3\">",
+                "<p aria-haspopup=\"menu\" aria-expanded=\"false\" aria-controls=\"submenu4\">Options</p>",
+                "<section aria-haspopup=\"menu\" aria-expanded=\"false\" aria-controls=\"submenu5\">Options</section>"
+              ]
+            },
+            {
+              "title": "Expected Result",
+              "values": [
+                "Failure: The <div> which is non-interactive by default and lacks keyboard focusability.",
+                "Failure: The <span> which is non-interactive by default and lacks keyboard focusability.",
+                "Failure: The <img> which is non-interactive by default and lacks keyboard focusability.",
+                "Failure: The <p> which is non-interactive by default and lacks keyboard focusability.",
+                "Failure: The <section> invalid usage"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 10,
+      "author_id": 113042,
+      "author_uuid": "590969ee-ffd0-4499-a190-f4e6bdd27e08",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-01-20T16:53:20.000000Z",
+      "updated": "2025-01-20T17:01:56.000000Z",
+      "created_at": "2025-01-20T16:53:20+00:00",
+      "updated_at": "2025-01-20T17:01:56+00:00"
+    },
+    {
+      "id": 3030,
+      "position": 16,
+      "title": "accessFlow-Engine Integration: Live Carousels",
+      "description": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+      "preconditions": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 1,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "f6764cce8d501a0d5c5278f3d4b35e39f8afae84",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "5b480da12a8e0d17c803bff0b2fec4b6f85eaa26",
+          "position": 2,
+          "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+          "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "2e23aa301d07df0c353868f3dd2a62da81688563",
+          "position": 3,
+          "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+          "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "TBD",
+          "Adding <table role=\"presentation\" inside <div> for better layout",
+          "using <table> without  role=\"presentation\" for layout"
+        ],
+        "expectedResult": [
+          "neutral",
+          "Passed node",
+          "fail node"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "scenario",
+              "values": [
+                "TBD",
+                "Adding <table role=\"presentation\" inside <div> for better layout",
+                "using <table> without  role=\"presentation\" for layout"
+              ]
+            },
+            {
+              "title": "expectedResult",
+              "values": [
+                "neutral",
+                "Passed node",
+                "fail node"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 6,
+      "author_id": 83247,
+      "author_uuid": "f592cdc0-2d68-4f33-a281-840a0fcb4728",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-01-21T10:53:20.000000Z",
+      "updated": "2025-01-21T10:53:34.000000Z",
+      "created_at": "2025-01-21T10:53:20+00:00",
+      "updated_at": "2025-01-21T10:53:34+00:00"
+    },
+    {
+      "id": 3031,
+      "position": 17,
+      "title": "accessFlow-Engine Integration: Search Form Tagging",
+      "description": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+      "preconditions": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 1,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "f6764cce8d501a0d5c5278f3d4b35e39f8afae84",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "5b480da12a8e0d17c803bff0b2fec4b6f85eaa26",
+          "position": 2,
+          "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+          "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "2e23aa301d07df0c353868f3dd2a62da81688563",
+          "position": 3,
+          "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+          "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "not using forms",
+          "Adding  <div role=\"search\" style=\"width: 800px;\">",
+          "<div role=\"search\" style=\"width: 850px;\">"
+        ],
+        "expectedResult": [
+          "neutral",
+          "Passed node",
+          "fail node"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "scenario",
+              "values": [
+                "not using forms",
+                "Adding  <div role=\"search\" style=\"width: 800px;\">",
+                "<div role=\"search\" style=\"width: 850px;\">"
+              ]
+            },
+            {
+              "title": "expectedResult",
+              "values": [
+                "neutral",
+                "Passed node",
+                "fail node"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 6,
+      "author_id": 83247,
+      "author_uuid": "f592cdc0-2d68-4f33-a281-840a0fcb4728",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-01-21T10:54:05.000000Z",
+      "updated": "2025-01-27T11:51:49.000000Z",
+      "created_at": "2025-01-21T10:54:05+00:00",
+      "updated_at": "2025-01-27T11:51:49+00:00"
+    },
+    {
+      "id": 3045,
+      "position": 18,
+      "title": "accessFlow-Engine Integration:  Missing Nav Items",
+      "description": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+      "preconditions": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 1,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "f6764cce8d501a0d5c5278f3d4b35e39f8afae84",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "5b480da12a8e0d17c803bff0b2fec4b6f85eaa26",
+          "position": 2,
+          "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+          "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "2e23aa301d07df0c353868f3dd2a62da81688563",
+          "position": 3,
+          "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+          "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "TBD",
+          "<li><button>Correct: direct HTML element</button></li>",
+          "<li>Wrong: direct text node</li>"
+        ],
+        "expectedResult": [
+          "neutral",
+          "Passed node",
+          "fail node"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "scenario",
+              "values": [
+                "TBD",
+                "<li><button>Correct: direct HTML element</button></li>",
+                "<li>Wrong: direct text node</li>"
+              ]
+            },
+            {
+              "title": "expectedResult",
+              "values": [
+                "neutral",
+                "Passed node",
+                "fail node"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 6,
+      "author_id": 83247,
+      "author_uuid": "f592cdc0-2d68-4f33-a281-840a0fcb4728",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-01-26T09:50:44.000000Z",
+      "updated": "2025-01-27T16:04:48.000000Z",
+      "created_at": "2025-01-26T09:50:44+00:00",
+      "updated_at": "2025-01-27T16:04:48+00:00"
+    },
+    {
+      "id": 3046,
+      "position": 19,
+      "title": "accessFlow-Engine Integration:  Viewport scalability",
+      "description": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+      "preconditions": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 1,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "f6764cce8d501a0d5c5278f3d4b35e39f8afae84",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "5b480da12a8e0d17c803bff0b2fec4b6f85eaa26",
+          "position": 2,
+          "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+          "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "2e23aa301d07df0c353868f3dd2a62da81688563",
+          "position": 3,
+          "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+          "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "TBD",
+          "Adding <table role=\"presentation\" inside <div> for better layout",
+          "using <table> without  role=\"presentation\" for layout"
+        ],
+        "expectedResult": [
+          "neutral",
+          "Passed node",
+          "fail node"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "scenario",
+              "values": [
+                "TBD",
+                "Adding <table role=\"presentation\" inside <div> for better layout",
+                "using <table> without  role=\"presentation\" for layout"
+              ]
+            },
+            {
+              "title": "expectedResult",
+              "values": [
+                "neutral",
+                "Passed node",
+                "fail node"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 6,
+      "author_id": 83247,
+      "author_uuid": "f592cdc0-2d68-4f33-a281-840a0fcb4728",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-01-26T11:01:02.000000Z",
+      "updated": "2025-01-26T11:01:11.000000Z",
+      "created_at": "2025-01-26T11:01:02+00:00",
+      "updated_at": "2025-01-26T11:01:11+00:00"
+    },
+    {
+      "id": 3047,
+      "position": 20,
+      "title": "accessflow-engine integration: Misused Nav Tagging / navigation-misuse",
+      "description": "Testing the behavior of the rule \"Misused Nav Tagging\" and the unified engine compatability",
+      "preconditions": "**Load the example website:** [https://jayquake.github.io/#/navigation/misused-nav-tagging_failure](https://jayquake.github.io/#/navigation/misused-nav-tagging_failure)",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 0,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "084f23dfea9bff164d8646849773ae14aead8ad2",
+          "shared_step_hash": "2ac572b0a9443ba792ed1ce2b675b3206549ca67",
+          "shared_step_nested_hash": "d3b6425ca3a8ec84fe130b62cfe612c34f438c63",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "Scenario": [
+          "<nav> with <p>",
+          "<nav> with button",
+          "Empty <nav>",
+          "Unlabeled, non-functional <div> inside a <nav>",
+          "Unlabeled, non-functional <span> inside a <nav>",
+          "<header> misplaced inside a <nav>"
+        ],
+        "HTML": [
+          "<nav><p>This is not navigation content.</p></nav>",
+          "<nav><button>Click Me</button></nav>",
+          "<nav></nav>",
+          "<nav><div>Unlabeled, non-functional div inside a nav.</div></nav>",
+          "<nav><span>Random text in a nav.</span></nav>",
+          "<nav><header>This header is misplaced inside a nav.</header></nav>"
+        ],
+        "Expected Result": [
+          "Failure: Misuse of the nav tag single button",
+          "Failure: Misuse of the nav tag button without any functionality",
+          "Failure: Misuse of the nav tag Empty content",
+          "Failure: Misuse of the nav tag non interactive div",
+          "Failure: Misuse of the nav tag non interactive span",
+          "Failure: Misuse of the nav tag invalid header content"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "Scenario",
+              "values": [
+                "<nav> with <p>",
+                "<nav> with button",
+                "Empty <nav>",
+                "Unlabeled, non-functional <div> inside a <nav>",
+                "Unlabeled, non-functional <span> inside a <nav>",
+                "<header> misplaced inside a <nav>"
+              ]
+            },
+            {
+              "title": "HTML",
+              "values": [
+                "<nav><p>This is not navigation content.</p></nav>",
+                "<nav><button>Click Me</button></nav>",
+                "<nav></nav>",
+                "<nav><div>Unlabeled, non-functional div inside a nav.</div></nav>",
+                "<nav><span>Random text in a nav.</span></nav>",
+                "<nav><header>This header is misplaced inside a nav.</header></nav>"
+              ]
+            },
+            {
+              "title": "Expected Result",
+              "values": [
+                "Failure: Misuse of the nav tag single button",
+                "Failure: Misuse of the nav tag button without any functionality",
+                "Failure: Misuse of the nav tag Empty content",
+                "Failure: Misuse of the nav tag non interactive div",
+                "Failure: Misuse of the nav tag non interactive span",
+                "Failure: Misuse of the nav tag invalid header content"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 10,
+      "author_id": 113042,
+      "author_uuid": "590969ee-ffd0-4499-a190-f4e6bdd27e08",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-01-27T09:31:21.000000Z",
+      "updated": "2025-01-27T09:42:12.000000Z",
+      "created_at": "2025-01-27T09:31:21+00:00",
+      "updated_at": "2025-01-27T09:42:12+00:00"
+    },
+    {
+      "id": 3048,
+      "position": 21,
+      "title": "accessflow-engine integration: Empty Headings / heading-discernible",
+      "description": "Testing the behavior of the rule \"Empty Headings\" and the unified engine compatability",
+      "preconditions": "**Load the example website:** [https://jayquake.github.io/#/headings/empty-headings_success](https://jayquake.github.io/#/headings/empty-headings_success)",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 0,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "084f23dfea9bff164d8646849773ae14aead8ad2",
+          "shared_step_hash": "2ac572b0a9443ba792ed1ce2b675b3206549ca67",
+          "shared_step_nested_hash": "d3b6425ca3a8ec84fe130b62cfe612c34f438c63",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "Scenario": [
+          "empty - h1",
+          "empty - h2",
+          "empty - h3",
+          "aria-level 2 on h1",
+          "aria-level 3 on div",
+          "Customer Portal example using for attribute"
+        ],
+        "HTML": [
+          "<h1></h1>",
+          "<h2></h2>",
+          "<h3></h3>",
+          "<h1 aria-level=\"2\"></h1>",
+          "<div role=\"heading\" aria-level=\"3\"></div>",
+          "<div className=\"list-item\" id=\"empty-headings-labelfor-failure-5\">"
+        ],
+        "Expected Result": [
+          "Failure: Misuse of the nav tag single button",
+          "Failure: Misuse of the nav tag button without any functionality",
+          "Failure: Misuse of the nav tag Empty content",
+          "Failure: Misuse of the nav tag non interactive div",
+          "Failure: Misuse of the nav tag non interactive span",
+          "Failure: Misuse of the nav tag invalid header content"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "Scenario",
+              "values": [
+                "empty - h1",
+                "empty - h2",
+                "empty - h3",
+                "aria-level 2 on h1",
+                "aria-level 3 on div",
+                "Customer Portal example using for attribute"
+              ]
+            },
+            {
+              "title": "HTML",
+              "values": [
+                "<h1></h1>",
+                "<h2></h2>",
+                "<h3></h3>",
+                "<h1 aria-level=\"2\"></h1>",
+                "<div role=\"heading\" aria-level=\"3\"></div>",
+                "<div className=\"list-item\" id=\"empty-headings-labelfor-failure-5\">"
+              ]
+            },
+            {
+              "title": "Expected Result",
+              "values": [
+                "Failure: Misuse of the nav tag single button",
+                "Failure: Misuse of the nav tag button without any functionality",
+                "Failure: Misuse of the nav tag Empty content",
+                "Failure: Misuse of the nav tag non interactive div",
+                "Failure: Misuse of the nav tag non interactive span",
+                "Failure: Misuse of the nav tag invalid header content"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 10,
+      "author_id": 113042,
+      "author_uuid": "590969ee-ffd0-4499-a190-f4e6bdd27e08",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-01-27T10:32:00.000000Z",
+      "updated": "2025-01-27T11:28:51.000000Z",
+      "created_at": "2025-01-27T10:32:00+00:00",
+      "updated_at": "2025-01-27T11:28:51+00:00"
+    },
+    {
+      "id": 3073,
+      "position": 22,
+      "title": "accessFlow-Engine Integration: IframeLabeling(New: IframeDiscernible)",
+      "description": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+      "preconditions": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 1,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "f6764cce8d501a0d5c5278f3d4b35e39f8afae84",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "5b480da12a8e0d17c803bff0b2fec4b6f85eaa26",
+          "position": 2,
+          "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+          "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "2e23aa301d07df0c353868f3dd2a62da81688563",
+          "position": 3,
+          "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+          "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "TBD",
+          "<iframe src=\"...\" aria-label=\"YouTube tutorial video\"></iframe>",
+          "<iframe src=\"...\" aria-label=\"\"></iframe>",
+          "<iframe src=\"dfmnsdnfj\"></iframe>"
+        ],
+        "expectedResult": [
+          "neutral",
+          "Passed node",
+          "fail node",
+          "fail node"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "scenario",
+              "values": [
+                "TBD",
+                "<iframe src=\"...\" aria-label=\"YouTube tutorial video\"></iframe>",
+                "<iframe src=\"...\" aria-label=\"\"></iframe>",
+                "<iframe src=\"dfmnsdnfj\"></iframe>"
+              ]
+            },
+            {
+              "title": "expectedResult",
+              "values": [
+                "neutral",
+                "Passed node",
+                "fail node",
+                "fail node"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 6,
+      "author_id": 83247,
+      "author_uuid": "f592cdc0-2d68-4f33-a281-840a0fcb4728",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-01-28T09:38:09.000000Z",
+      "updated": "2025-01-28T09:39:52.000000Z",
+      "created_at": "2025-01-28T09:38:09+00:00",
+      "updated_at": "2025-01-28T09:39:52+00:00"
+    },
+    {
+      "id": 3074,
+      "position": 23,
+      "title": "accessFlow-Engine Integration:  Load autoFocus",
+      "description": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+      "preconditions": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 1,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "f6764cce8d501a0d5c5278f3d4b35e39f8afae84",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "5b480da12a8e0d17c803bff0b2fec4b6f85eaa26",
+          "position": 2,
+          "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+          "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        },
+        {
+          "hash": "e8cbd6fc100e8ade29603b0dd4660ddb3929926f",
+          "shared_step_hash": "f07e3a03eb9a77eaae10877a68700b6dd9c7c7c3",
+          "shared_step_nested_hash": "2e23aa301d07df0c353868f3dd2a62da81688563",
+          "position": 3,
+          "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+          "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "<input type=\"number\" role=\"autofocus\">",
+          "<input type=\"password\"> ( without role-autofocus)",
+          "role=\"autofocus\""
+        ],
+        "expectedResult": [
+          "neutral",
+          "Passed node",
+          "fail node"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "scenario",
+              "values": [
+                "<input type=\"number\" role=\"autofocus\">",
+                "<input type=\"password\"> ( without role-autofocus)",
+                "role=\"autofocus\""
+              ]
+            },
+            {
+              "title": "expectedResult",
+              "values": [
+                "neutral",
+                "Passed node",
+                "fail node"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 6,
+      "author_id": 83247,
+      "author_uuid": "f592cdc0-2d68-4f33-a281-840a0fcb4728",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-01-29T14:41:20.000000Z",
+      "updated": "2025-01-29T14:42:48.000000Z",
+      "created_at": "2025-01-29T14:41:20+00:00",
+      "updated_at": "2025-01-29T14:42:48+00:00"
+    },
+    {
+      "id": 3075,
+      "position": 24,
+      "title": "accessflow-engine integration: Field Required /RequiredFormFieldAriaRequired",
+      "description": "Testing the behavior of the rule \"Field Required\" and the unified engine compatability",
+      "preconditions": "Load the example website: [https://jayquake.github.io/#/forms/field-required_failure](https://jayquake.github.io/#/forms/field-required_failure)",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 0,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "084f23dfea9bff164d8646849773ae14aead8ad2",
+          "shared_step_hash": "2ac572b0a9443ba792ed1ce2b675b3206549ca67",
+          "shared_step_nested_hash": "d3b6425ca3a8ec84fe130b62cfe612c34f438c63",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "Scenario": [
+          "❌ Visual-only \"required\" indicator. The label mentions required, but it’s not programmatically enforced.",
+          "❌ Missing `required` attribute. The field is not programmatically enforced as required.",
+          "❌ Visually marked required, but no `required` attribute. Assistive technology won’t recognize it.",
+          "❌ The label indicates required, but there is no `required` attribute."
+        ],
+        "HTML": [
+          "<label htmlFor=\"zipcode\">Zip Code (required)</label>               <input type=\"text\" id=\"zipcode\" name=\"zipcode\" />",
+          "<div><p>❌ <strong>Missing `required` attribute.</strong> The field is not programmatically enforced as required.</p><label for=\"fullname2\">Full Name *</label><input type=\"text\" id=\"fullname2\"></div>",
+          "<div><p>❌ <strong>Visually marked required, but no `required` attribute.</strong> Assistive technology won’t recognize it.</p><label for=\"password2\">Password *</label><input type=\"password\" id=\"password2\"></div>",
+          "<div><p>❌ <strong>The label indicates required, but there is no `required` attribute.</strong></p><label for=\"dob2\">Date of Birth *</label><input type=\"date\" id=\"dob2\"></div>"
+        ],
+        "Expected Result": [
+          "Failure: The screen reader will ignore the aria-label because visible text is present.",
+          "Failure:  there is no required attribute",
+          "Failure:  there is no required attribute",
+          "Failure:  there is no required attribute"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "Scenario",
+              "values": [
+                "❌ Visual-only \"required\" indicator. The label mentions required, but it’s not programmatically enforced.",
+                "❌ Missing `required` attribute. The field is not programmatically enforced as required.",
+                "❌ Visually marked required, but no `required` attribute. Assistive technology won’t recognize it.",
+                "❌ The label indicates required, but there is no `required` attribute."
+              ]
+            },
+            {
+              "title": "HTML",
+              "values": [
+                "<label htmlFor=\"zipcode\">Zip Code (required)</label>               <input type=\"text\" id=\"zipcode\" name=\"zipcode\" />",
+                "<div><p>❌ <strong>Missing `required` attribute.</strong> The field is not programmatically enforced as required.</p><label for=\"fullname2\">Full Name *</label><input type=\"text\" id=\"fullname2\"></div>",
+                "<div><p>❌ <strong>Visually marked required, but no `required` attribute.</strong> Assistive technology won’t recognize it.</p><label for=\"password2\">Password *</label><input type=\"password\" id=\"password2\"></div>",
+                "<div><p>❌ <strong>The label indicates required, but there is no `required` attribute.</strong></p><label for=\"dob2\">Date of Birth *</label><input type=\"date\" id=\"dob2\"></div>"
+              ]
+            },
+            {
+              "title": "Expected Result",
+              "values": [
+                "Failure: The screen reader will ignore the aria-label because visible text is present.",
+                "Failure:  there is no required attribute",
+                "Failure:  there is no required attribute",
+                "Failure:  there is no required attribute"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 10,
+      "author_id": 113042,
+      "author_uuid": "590969ee-ffd0-4499-a190-f4e6bdd27e08",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-02-10T09:36:18.000000Z",
+      "updated": "2025-02-10T11:42:09.000000Z",
+      "created_at": "2025-02-10T09:36:18+00:00",
+      "updated_at": "2025-02-10T11:42:09+00:00"
+    },
+    {
+      "id": 3076,
+      "position": 25,
+      "title": "accessflow-engine integration: Button Roles / button-mismatch",
+      "description": "Testing the behavior of the rule \"Button Roles\" and the unified engine compatability",
+      "preconditions": "Load the example website: [https://jayquake.github.io/#/clickables/button-roles_failure](https://jayquake.github.io/#/clickables/button-roles_failure)",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 0,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "084f23dfea9bff164d8646849773ae14aead8ad2",
+          "shared_step_hash": "2ac572b0a9443ba792ed1ce2b675b3206549ca67",
+          "shared_step_nested_hash": "d3b6425ca3a8ec84fe130b62cfe612c34f438c63",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "Scenario": [
+          "❌ Button with role link",
+          "❌ Missing `required` attribute. The field is not programmatically enforced as required.",
+          "❌ Visually marked required, but no `required` attribute. Assistive technology won’t recognize it.",
+          "❌The label indicates required, but there is no `required` attribute."
+        ],
+        "HTML": [
+          "<button scale=\"primary\" aria-labelledby=\":r5:\" role=\"link\" class=\"sc-cGXZpB kksyIA\"><span>Enter</span><i aria-hidden=\"true\" role=\"presentation\" class=\"sc-ldgYGE gMHHqG\">",
+          "<label for=\"fullname2\">Full Name *</label><input type=\"text\" id=\"fullname2\"></div>",
+          "<label for=\"password2\">Password *</label><input type=\"password\" id=\"password2\"></div>",
+          "<label for=\"dob2\">Date of Birth *</label><input type=\"date\" id=\"dob2\"></div>"
+        ],
+        "Expected Result": [
+          "Failure: The screen reader will ignore the aria-label because visible text is present.",
+          "Failure:  there is no required attribute",
+          "Failure:  there is no required attribute",
+          "Failure:  there is no required attribute"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "Scenario",
+              "values": [
+                "❌ Button with role link",
+                "❌ Missing `required` attribute. The field is not programmatically enforced as required.",
+                "❌ Visually marked required, but no `required` attribute. Assistive technology won’t recognize it.",
+                "❌The label indicates required, but there is no `required` attribute."
+              ]
+            },
+            {
+              "title": "HTML",
+              "values": [
+                "<button scale=\"primary\" aria-labelledby=\":r5:\" role=\"link\" class=\"sc-cGXZpB kksyIA\"><span>Enter</span><i aria-hidden=\"true\" role=\"presentation\" class=\"sc-ldgYGE gMHHqG\">",
+                "<label for=\"fullname2\">Full Name *</label><input type=\"text\" id=\"fullname2\"></div>",
+                "<label for=\"password2\">Password *</label><input type=\"password\" id=\"password2\"></div>",
+                "<label for=\"dob2\">Date of Birth *</label><input type=\"date\" id=\"dob2\"></div>"
+              ]
+            },
+            {
+              "title": "Expected Result",
+              "values": [
+                "Failure: The screen reader will ignore the aria-label because visible text is present.",
+                "Failure:  there is no required attribute",
+                "Failure:  there is no required attribute",
+                "Failure:  there is no required attribute"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 10,
+      "author_id": 113042,
+      "author_uuid": "590969ee-ffd0-4499-a190-f4e6bdd27e08",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-02-10T11:46:57.000000Z",
+      "updated": "2025-02-12T08:44:24.000000Z",
+      "created_at": "2025-02-10T11:46:57+00:00",
+      "updated_at": "2025-02-12T08:44:24+00:00"
+    },
+    {
+      "id": 3177,
+      "position": 26,
+      "title": "accessflow-engine integration: Navigation Tagging / navigation-discernible,  navigation-mismatch",
+      "description": "Testing the behavior of the rule \" Navigation Tagging \" and the unified engine compatability",
+      "preconditions": "**Load the example website:** [https://jayquake.github.io/#/navigation/navigation-tagging_failure](https://jayquake.github.io/#/navigation/navigation-tagging_failure)",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 0,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "084f23dfea9bff164d8646849773ae14aead8ad2",
+          "shared_step_hash": "2ac572b0a9443ba792ed1ce2b675b3206549ca67",
+          "shared_step_nested_hash": "d3b6425ca3a8ec84fe130b62cfe612c34f438c63",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "Scenario": [
+          "navigation-discernible-failure 1: <nav> missing aria-label, aria-labelledby, or aria-describedby",
+          "navigation-discernible-failure 2: Empty aria-label",
+          "navigation-discernible-failure 3: aria-labelledby points to a non-existent ID",
+          "navigation-discernible-failure 4: aria-describedby points to a hidden element",
+          "navigation-discernible-failure 5: aria-label placed incorrectly on <ul>",
+          "navigation-mismatch-failure 1: <div> without role='navigation'",
+          "navigation-mismatch-failure 2: <section> used without role='navigation'",
+          "navigation-mismatch-failure 3: <article> used as a navigation landmark",
+          "navigation-mismatch-failure 4: <div role='banner'> misused as navigation",
+          "navigation-mismatch-failure 5: <header> without navigation role"
+        ],
+        "HTML page": [
+          "https://jayquake.github.io/#/navigation/navigation-tagging_failure/navigation-discernible-failure-1",
+          "https://jayquake.github.io/#/navigation/navigation-tagging_failure/navigation-discernible-failure-2",
+          "https://jayquake.github.io/#/navigation/navigation-tagging_failure/navigation-discernible-failure-3",
+          "https://jayquake.github.io/#/navigation/navigation-tagging_failure/navigation-discernible-failure-4",
+          "https://jayquake.github.io/#/navigation/navigation-tagging_failure/navigation-discernible-failure-5",
+          "https://jayquake.github.io/#/navigation/navigation-tagging_failure/navigation-mismatch-failure-1",
+          "https://jayquake.github.io/#/navigation/navigation-tagging_failure/navigation-mismatch-failure-2",
+          "https://jayquake.github.io/#/navigation/navigation-tagging_failure/navigation-mismatch-failure-3",
+          "https://jayquake.github.io/#/navigation/navigation-tagging_failure/navigation-mismatch-failure-4",
+          "https://jayquake.github.io/#/navigation/navigation-tagging_failure/navigation-mismatch-failure-5"
+        ],
+        "Expected Result": [
+          "Missing aria labels",
+          "Enpty Aria Label",
+          "Broken Aria Reference - No ID",
+          "Aria described by points to a hidden",
+          "Aria label placed on the <ul>",
+          "Unrecognized <nav> because <div> has no role",
+          "Unrecognized <nav> because <section> has no role",
+          "Unrecognized <nav> because <article> used as navigation",
+          "Unrecognized <nav> because <div> has banner role",
+          "Unrecognized <nav> because <header> has no role"
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "Scenario",
+              "values": [
+                "navigation-discernible-failure 1: <nav> missing aria-label, aria-labelledby, or aria-describedby",
+                "navigation-discernible-failure 2: Empty aria-label",
+                "navigation-discernible-failure 3: aria-labelledby points to a non-existent ID",
+                "navigation-discernible-failure 4: aria-describedby points to a hidden element",
+                "navigation-discernible-failure 5: aria-label placed incorrectly on <ul>",
+                "navigation-mismatch-failure 1: <div> without role='navigation'",
+                "navigation-mismatch-failure 2: <section> used without role='navigation'",
+                "navigation-mismatch-failure 3: <article> used as a navigation landmark",
+                "navigation-mismatch-failure 4: <div role='banner'> misused as navigation",
+                "navigation-mismatch-failure 5: <header> without navigation role"
+              ]
+            },
+            {
+              "title": "HTML page",
+              "values": [
+                "https://jayquake.github.io/#/navigation/navigation-tagging_failure/navigation-discernible-failure-1",
+                "https://jayquake.github.io/#/navigation/navigation-tagging_failure/navigation-discernible-failure-2",
+                "https://jayquake.github.io/#/navigation/navigation-tagging_failure/navigation-discernible-failure-3",
+                "https://jayquake.github.io/#/navigation/navigation-tagging_failure/navigation-discernible-failure-4",
+                "https://jayquake.github.io/#/navigation/navigation-tagging_failure/navigation-discernible-failure-5",
+                "https://jayquake.github.io/#/navigation/navigation-tagging_failure/navigation-mismatch-failure-1",
+                "https://jayquake.github.io/#/navigation/navigation-tagging_failure/navigation-mismatch-failure-2",
+                "https://jayquake.github.io/#/navigation/navigation-tagging_failure/navigation-mismatch-failure-3",
+                "https://jayquake.github.io/#/navigation/navigation-tagging_failure/navigation-mismatch-failure-4",
+                "https://jayquake.github.io/#/navigation/navigation-tagging_failure/navigation-mismatch-failure-5"
+              ]
+            },
+            {
+              "title": "Expected Result",
+              "values": [
+                "Missing aria labels",
+                "Enpty Aria Label",
+                "Broken Aria Reference - No ID",
+                "Aria described by points to a hidden",
+                "Aria label placed on the <ul>",
+                "Unrecognized <nav> because <div> has no role",
+                "Unrecognized <nav> because <section> has no role",
+                "Unrecognized <nav> because <article> used as navigation",
+                "Unrecognized <nav> because <div> has banner role",
+                "Unrecognized <nav> because <header> has no role"
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 10,
+      "author_id": 113042,
+      "author_uuid": "590969ee-ffd0-4499-a190-f4e6bdd27e08",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-02-20T07:31:17.000000Z",
+      "updated": "2025-02-20T08:42:17.000000Z",
+      "created_at": "2025-02-20T07:31:17+00:00",
+      "updated_at": "2025-02-20T08:42:17+00:00"
+    },
+    {
+      "id": 3333,
+      "position": 27,
+      "title": "accessflow-engine integration: Fake Hidden Content / visibility-misuse",
+      "description": "Testing the behavior of the rule *\"Fake Hidden Content\"* and the unified engine compatability",
+      "preconditions": "**Load the example website:** [https://jayquake.github.io/#/errors/fake-hidden-content_failure](https://jayquake.github.io/#/errors/fake-hidden-content_failure)",
+      "postconditions": null,
+      "severity": 0,
+      "priority": 1,
+      "type": 1,
+      "layer": 0,
+      "is_flaky": 0,
+      "is_muted": false,
+      "behavior": 1,
+      "automation": 0,
+      "isManual": true,
+      "isToBeAutomated": false,
+      "status": 0,
+      "milestone_id": null,
+      "suite_id": 902,
+      "links": [],
+      "custom_fields": [
+        {
+          "id": 2,
+          "value": "8"
+        }
+      ],
+      "attachments": [],
+      "steps_type": "classic",
+      "steps": [
+        {
+          "hash": "084f23dfea9bff164d8646849773ae14aead8ad2",
+          "shared_step_hash": "2ac572b0a9443ba792ed1ce2b675b3206549ca67",
+          "shared_step_nested_hash": "d3b6425ca3a8ec84fe130b62cfe612c34f438c63",
+          "position": 1,
+          "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+          "expected_result": "The website will be ready for testing this scenario",
+          "data": "",
+          "attachments": [],
+          "steps": []
+        }
+      ],
+      "params": {
+        "Scenario": [
+          "Popup content is visible but marked hidden.",
+          "Modal content is hidden visually but not for assistive tech.",
+          "No visible space, but still accessible.",
+          "Just cause the class is \"hidden\" doesnt mean that the element is hidden from screen readers"
+        ],
+        "HTML": [
+          "<div class=\"list-item\" id=\"fake-hidden-failure-1\"><div class=\"popup\" aria-hidden=\"true\"></div></div>",
+          "<div class=\"list-item\" id=\"fake-hidden-failure-12\"><button>Close Modal</button><div id=\"modal\" style=\"display: none;\"></div></div>",
+          "<div class=\"list-item\" id=\"fake-hidden-failure-11\"><div style=\"width: 0px; height: 0px;\"><p>No visible space, but still accessible.</p></div></div>",
+          "<div class=\"list-item\" id=\"fake-hidden-failure-6\"><ul class=\"hidden\"><li>Option 1</li><li>Option 2</li></ul></div>"
+        ],
+        "Expected": [
+          "Failure",
+          "**Failure Reason:** `display: none` is applied dynamically, but `aria-hidden=\"true\"` should also be added to ensure full removal from screen readers.",
+          "**Failure Reason:** Content with zero width and height is still read by assistive tech.",
+          ">**Failure Reason:** Class-based hiding methods (`hidden`) do not necessarily remove content from screen readers. Proper `aria-hidden=\"true\"` or `display: none` should be used."
+        ]
+      },
+      "parameters": [
+        {
+          "shared_id": null,
+          "type": "group",
+          "items": [
+            {
+              "title": "Scenario",
+              "values": [
+                "Popup content is visible but marked hidden.",
+                "Modal content is hidden visually but not for assistive tech.",
+                "No visible space, but still accessible.",
+                "Just cause the class is \"hidden\" doesnt mean that the element is hidden from screen readers"
+              ]
+            },
+            {
+              "title": "HTML",
+              "values": [
+                "<div class=\"list-item\" id=\"fake-hidden-failure-1\"><div class=\"popup\" aria-hidden=\"true\"></div></div>",
+                "<div class=\"list-item\" id=\"fake-hidden-failure-12\"><button>Close Modal</button><div id=\"modal\" style=\"display: none;\"></div></div>",
+                "<div class=\"list-item\" id=\"fake-hidden-failure-11\"><div style=\"width: 0px; height: 0px;\"><p>No visible space, but still accessible.</p></div></div>",
+                "<div class=\"list-item\" id=\"fake-hidden-failure-6\"><ul class=\"hidden\"><li>Option 1</li><li>Option 2</li></ul></div>"
+              ]
+            },
+            {
+              "title": "Expected",
+              "values": [
+                "Failure",
+                "**Failure Reason:** `display: none` is applied dynamically, but `aria-hidden=\"true\"` should also be added to ensure full removal from screen readers.",
+                "**Failure Reason:** Content with zero width and height is still read by assistive tech.",
+                ">**Failure Reason:** Class-based hiding methods (`hidden`) do not necessarily remove content from screen readers. Proper `aria-hidden=\"true\"` or `display: none` should be used."
+              ]
+            }
+          ]
+        }
+      ],
+      "member_id": 10,
+      "author_id": 113042,
+      "author_uuid": "590969ee-ffd0-4499-a190-f4e6bdd27e08",
+      "tags": [
+        {
+          "title": "unified-engine",
+          "internal_id": 134
+        }
+      ],
+      "deleted": null,
+      "created": "2025-03-03T12:30:50.000000Z",
+      "updated": "2025-03-03T13:40:06.000000Z",
+      "created_at": "2025-03-03T12:30:50+00:00",
+      "updated_at": "2025-03-03T13:40:06+00:00"
+    }
+  ]
+}

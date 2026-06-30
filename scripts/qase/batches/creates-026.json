@@ -1,0 +1,548 @@
+[
+  {
+    "key": "tabbable-non-interactive",
+    "action": "create",
+    "ruleId": "tabbable-non-interactive",
+    "payload": {
+      "ruleId": "tabbable-non-interactive",
+      "title": "Unified Engine: tabbable-non-interactive — Non-interactive elements should not be keyboard navigable",
+      "description": "**Engine rule ID:** `tabbable-non-interactive`\n**RAIDEN routes:** `/engine/tabbable-non-interactive`, `/engine/tabbable-non-interactive_success`, `/engine/tabbable-non-interactive_failure`\n**Atomic tests:** `src/components/pages/engine-rules/tabbable-non-interactive/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Allowing static content to receive keyboard focus creates unnecessary stops in the tab order, forcing users to tab through elements that provide no action and making keyboard navigation less intuitive.\n**Remediation advice:** Remove the tabindex attribute from the static element.\n**Fixtures:** 7 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `tabbable-non-interactive` examples published at `/engine/tabbable-non-interactive_success` and `/engine/tabbable-non-interactive_failure`.\n5. **Fixture count:** 7 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "tabbable-non-interactive"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/tabbable-non-interactive` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → tabbable-non-interactive.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/tabbable-non-interactive\nruleId = tabbable-non-interactive\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/tabbable-non-interactive_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/tabbable-non-interactive_success\npassFixtures = 7\natomic-tests/pass/input-element-without-tabindex.html\natomic-tests/pass/interactive-element-with-tabindex.html\natomic-tests/pass/interactive-element-without-tabindex.html\natomic-tests/pass/role-button.html\natomic-tests/pass/role-link.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/tabbable-non-interactive_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/tabbable-non-interactive_failure\nfailFixtures = 1\natomic-tests/fail/non-interactive-element-with-tabindex.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for tabbable-non-interactive\n- pass/input-element-without-tabindex.html → Passed node\n- pass/interactive-element-with-tabindex.html → Passed node\n- pass/interactive-element-without-tabindex.html → Passed node\n- pass/role-button.html → Passed node\n- pass/role-link.html → Passed node\n- pass/select-element-without-tabindex.html → Passed node\n- pass/text-area-element-without-tabindex.html → Passed node\n- fail/non-interactive-element-with-tabindex.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `tabbable-non-interactive` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = tabbable-non-interactive\nissueSource = RAIDEN examples at /engine/tabbable-non-interactive_success and /engine/tabbable-non-interactive_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: input element without tabindex (input-element-without-tabindex.html)",
+          "pass: interactive element with tabindex (interactive-element-with-tabindex.html)",
+          "pass: interactive element without tabindex (interactive-element-without-tabindex.html)",
+          "pass: role button (role-button.html)",
+          "pass: role link (role-link.html)",
+          "pass: select element without tabindex (select-element-without-tabindex.html)",
+          "pass: text area element without tabindex (text-area-element-without-tabindex.html)",
+          "fail: non interactive element with tabindex (non-interactive-element-with-tabindex.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/input-element-without-tabindex.html",
+          "atomic-tests/pass/interactive-element-with-tabindex.html",
+          "atomic-tests/pass/interactive-element-without-tabindex.html",
+          "atomic-tests/pass/role-button.html",
+          "atomic-tests/pass/role-link.html",
+          "atomic-tests/pass/select-element-without-tabindex.html",
+          "atomic-tests/pass/text-area-element-without-tabindex.html",
+          "atomic-tests/fail/non-interactive-element-with-tabindex.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 7,
+        "fail": 1,
+        "total": 8
+      }
+    }
+  },
+  {
+    "key": "tabbable-visible",
+    "action": "create",
+    "ruleId": "tabbable-visible",
+    "payload": {
+      "ruleId": "tabbable-visible",
+      "title": "Unified Engine: tabbable-visible — Use the tabindex attribute correctly to manage focus for visible and hidden interactive elements",
+      "description": "**Engine rule ID:** `tabbable-visible`\n**RAIDEN routes:** `/engine/tabbable-visible`, `/engine/tabbable-visible_success`, `/engine/tabbable-visible_failure`\n**Atomic tests:** `src/components/pages/engine-rules/tabbable-visible/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** When interactive elements remain focusable while they are visually hidden, keyboard users may encounter controls that they cannot see and that should not be available in the current interface.\n**Remediation advice:** Apply tabindex=\"0\" to custom interactive elements so they follow the natural tab sequence, and tabindex=\"-1\" when an element is offscreen or when it should only be reachable programmatically. Consider using CSS techniques, such as display:none or visibility:hidden when content should be hidden from all users.\n**Fixtures:** 6 pass, 5 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `tabbable-visible` examples published at `/engine/tabbable-visible_success` and `/engine/tabbable-visible_failure`.\n5. **Fixture count:** 6 pass, 5 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "tabbable-visible"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/tabbable-visible` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → tabbable-visible.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/tabbable-visible\nruleId = tabbable-visible\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/tabbable-visible_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/tabbable-visible_success\npassFixtures = 6\natomic-tests/pass/element-negative-tabindex.html\natomic-tests/pass/fixed-tabbable-element-inside-clipped-shadow-dom.html\natomic-tests/pass/in-viewport-fixed-tabbable-element-on-tall-page.html\natomic-tests/pass/overflow-dimensions-nested-tabbable-element.html\natomic-tests/pass/skip-link.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/tabbable-visible_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/tabbable-visible_failure\nfailFixtures = 5\natomic-tests/fail/hidden-dimensions-tabbable-element.html\natomic-tests/fail/no-content-tabbable.html\natomic-tests/fail/opacity-zero-tabbable-element.html\natomic-tests/fail/out-of-viewport-fixed-tabbable-element-on-tall-page.html\natomic-tests/fail/out-of-viewport-tabbable-element.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for tabbable-visible\n- pass/element-negative-tabindex.html → Passed node\n- pass/fixed-tabbable-element-inside-clipped-shadow-dom.html → Passed node\n- pass/in-viewport-fixed-tabbable-element-on-tall-page.html → Passed node\n- pass/overflow-dimensions-nested-tabbable-element.html → Passed node\n- pass/skip-link.html → Passed node\n- pass/visible-tabbable-element.html → Passed node\n- fail/hidden-dimensions-tabbable-element.html → Failed node\n- fail/no-content-tabbable.html → Failed node\n- fail/opacity-zero-tabbable-element.html → Failed node\n- fail/out-of-viewport-fixed-tabbable-element-on-tall-page.html → Failed node\n- fail/out-of-viewport-tabbable-element.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `tabbable-visible` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = tabbable-visible\nissueSource = RAIDEN examples at /engine/tabbable-visible_success and /engine/tabbable-visible_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: element negative tabindex (element-negative-tabindex.html)",
+          "pass: fixed tabbable element inside clipped shadow dom (fixed-tabbable-element-inside-clipped-shadow-dom.html)",
+          "pass: in viewport fixed tabbable element on tall page (in-viewport-fixed-tabbable-element-on-tall-page.html)",
+          "pass: overflow dimensions nested tabbable element (overflow-dimensions-nested-tabbable-element.html)",
+          "pass: skip link (skip-link.html)",
+          "pass: visible tabbable element (visible-tabbable-element.html)",
+          "fail: hidden dimensions tabbable element (hidden-dimensions-tabbable-element.html)",
+          "fail: no content tabbable (no-content-tabbable.html)",
+          "fail: opacity zero tabbable element (opacity-zero-tabbable-element.html)",
+          "fail: out of viewport fixed tabbable element on tall page (out-of-viewport-fixed-tabbable-element-on-tall-page.html)",
+          "fail: out of viewport tabbable element (out-of-viewport-tabbable-element.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/element-negative-tabindex.html",
+          "atomic-tests/pass/fixed-tabbable-element-inside-clipped-shadow-dom.html",
+          "atomic-tests/pass/in-viewport-fixed-tabbable-element-on-tall-page.html",
+          "atomic-tests/pass/overflow-dimensions-nested-tabbable-element.html",
+          "atomic-tests/pass/skip-link.html",
+          "atomic-tests/pass/visible-tabbable-element.html",
+          "atomic-tests/fail/hidden-dimensions-tabbable-element.html",
+          "atomic-tests/fail/no-content-tabbable.html",
+          "atomic-tests/fail/opacity-zero-tabbable-element.html",
+          "atomic-tests/fail/out-of-viewport-fixed-tabbable-element-on-tall-page.html",
+          "atomic-tests/fail/out-of-viewport-tabbable-element.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 6,
+        "fail": 5,
+        "total": 11
+      }
+    }
+  },
+  {
+    "key": "tabindex-valid",
+    "action": "create",
+    "ruleId": "tabindex-valid",
+    "payload": {
+      "ruleId": "tabindex-valid",
+      "title": "Unified Engine: tabindex-valid — The tabindex attribute should be assigned a valid value",
+      "description": "**Engine rule ID:** `tabindex-valid`\n**RAIDEN routes:** `/engine/tabindex-valid`, `/engine/tabindex-valid_success`, `/engine/tabindex-valid_failure`\n**Atomic tests:** `src/components/pages/engine-rules/tabindex-valid/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Invalid tabindex values are ignored by browsers, while positive values override the natural focus order. Applying the tabindex attribute incorrectly can break the expected navigation flow for keyboard users.\n**Remediation advice:** Restrict use of tabindex values to \"0\" or \"-1\", avoiding positive numbers and invalid value types, such as letters or decimals.\n**Fixtures:** 3 pass, 2 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `tabindex-valid` examples published at `/engine/tabindex-valid_success` and `/engine/tabindex-valid_failure`.\n5. **Fixture count:** 3 pass, 2 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "tabindex-valid"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/tabindex-valid` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → tabindex-valid.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/tabindex-valid\nruleId = tabindex-valid\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/tabindex-valid_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/tabindex-valid_success\npassFixtures = 3\natomic-tests/pass/div-with-tabindex--1.html\natomic-tests/pass/div-with-tabindex-0.html\natomic-tests/pass/svg-with-tabindex-6.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/tabindex-valid_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/tabindex-valid_failure\nfailFixtures = 2\natomic-tests/fail/div-with-tabindex--2.html\natomic-tests/fail/div-with-tabindex-2.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for tabindex-valid\n- pass/div-with-tabindex--1.html → Passed node\n- pass/div-with-tabindex-0.html → Passed node\n- pass/svg-with-tabindex-6.html → Passed node\n- fail/div-with-tabindex--2.html → Failed node\n- fail/div-with-tabindex-2.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `tabindex-valid` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = tabindex-valid\nissueSource = RAIDEN examples at /engine/tabindex-valid_success and /engine/tabindex-valid_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: div with tabindex  1 (div-with-tabindex--1.html)",
+          "pass: div with tabindex 0 (div-with-tabindex-0.html)",
+          "pass: svg with tabindex 6 (svg-with-tabindex-6.html)",
+          "fail: div with tabindex  2 (div-with-tabindex--2.html)",
+          "fail: div with tabindex 2 (div-with-tabindex-2.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/div-with-tabindex--1.html",
+          "atomic-tests/pass/div-with-tabindex-0.html",
+          "atomic-tests/pass/svg-with-tabindex-6.html",
+          "atomic-tests/fail/div-with-tabindex--2.html",
+          "atomic-tests/fail/div-with-tabindex-2.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 3,
+        "fail": 2,
+        "total": 5
+      }
+    }
+  },
+  {
+    "key": "table-header-not-empty",
+    "action": "create",
+    "ruleId": "table-header-not-empty",
+    "payload": {
+      "ruleId": "table-header-not-empty",
+      "title": "Unified Engine: table-header-not-empty — table-header-not-empty",
+      "description": "**Engine rule ID:** `table-header-not-empty`\n**RAIDEN routes:** `/engine/table-header-not-empty`, `/engine/table-header-not-empty_success`, `/engine/table-header-not-empty_failure`\n**Atomic tests:** `src/components/pages/engine-rules/table-header-not-empty/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Fixtures:** 9 pass, 8 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `table-header-not-empty` examples published at `/engine/table-header-not-empty_success` and `/engine/table-header-not-empty_failure`.\n5. **Fixture count:** 9 pass, 8 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "table-header-not-empty"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/table-header-not-empty` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`medium`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → table-header-not-empty.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/table-header-not-empty\nruleId = table-header-not-empty\nimpact = medium",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/table-header-not-empty_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/table-header-not-empty_success\npassFixtures = 9\natomic-tests/pass/remediated-table.html\natomic-tests/pass/role-table-headers-with-elements.html\natomic-tests/pass/role-table-with-headers.html\natomic-tests/pass/role-table-without-headers.html\natomic-tests/pass/table-col-headers-and-empty-cells.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/table-header-not-empty_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/table-header-not-empty_failure\nfailFixtures = 8\natomic-tests/fail/role-table-empty-columnheaders.html\natomic-tests/fail/role-table-empty-headers-with-elements.html\natomic-tests/fail/role-table-empty-headers.html\natomic-tests/fail/role-table-empty-row-headers.html\natomic-tests/fail/table-empty-columnheaders.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for table-header-not-empty\n- pass/remediated-table.html → Passed node\n- pass/role-table-headers-with-elements.html → Passed node\n- pass/role-table-with-headers.html → Passed node\n- pass/role-table-without-headers.html → Passed node\n- pass/table-col-headers-and-empty-cells.html → Passed node\n- pass/table-headers-with-elements.html → Passed node\n- pass/table-row-headers-and-empty-cell.html → Passed node\n- pass/table-with-headers.html → Passed node\n- pass/table-without-headers.html → Passed node\n- fail/role-table-empty-columnheaders.html → Failed node\n- fail/role-table-empty-headers-with-elements.html → Failed node\n- fail/role-table-empty-headers.html → Failed node\n- fail/role-table-empty-row-headers.html → Failed node\n- fail/table-empty-columnheaders.html → Failed node\n- fail/table-empty-headers-with-elements.html → Failed node\n- fail/table-empty-headers.html → Failed node\n- fail/table-empty-row-headers.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `table-header-not-empty` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = table-header-not-empty\nissueSource = RAIDEN examples at /engine/table-header-not-empty_success and /engine/table-header-not-empty_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: remediated table (remediated-table.html)",
+          "pass: role table headers with elements (role-table-headers-with-elements.html)",
+          "pass: role table with headers (role-table-with-headers.html)",
+          "pass: role table without headers (role-table-without-headers.html)",
+          "pass: table col headers and empty cells (table-col-headers-and-empty-cells.html)",
+          "pass: table headers with elements (table-headers-with-elements.html)",
+          "pass: table row headers and empty cell (table-row-headers-and-empty-cell.html)",
+          "pass: table with headers (table-with-headers.html)",
+          "pass: table without headers (table-without-headers.html)",
+          "fail: role table empty columnheaders (role-table-empty-columnheaders.html)",
+          "fail: role table empty headers with elements (role-table-empty-headers-with-elements.html)",
+          "fail: role table empty headers (role-table-empty-headers.html)",
+          "fail: role table empty row headers (role-table-empty-row-headers.html)",
+          "fail: table empty columnheaders (table-empty-columnheaders.html)",
+          "fail: table empty headers with elements (table-empty-headers-with-elements.html)",
+          "fail: table empty headers (table-empty-headers.html)",
+          "fail: table empty row headers (table-empty-row-headers.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/remediated-table.html",
+          "atomic-tests/pass/role-table-headers-with-elements.html",
+          "atomic-tests/pass/role-table-with-headers.html",
+          "atomic-tests/pass/role-table-without-headers.html",
+          "atomic-tests/pass/table-col-headers-and-empty-cells.html",
+          "atomic-tests/pass/table-headers-with-elements.html",
+          "atomic-tests/pass/table-row-headers-and-empty-cell.html",
+          "atomic-tests/pass/table-with-headers.html",
+          "atomic-tests/pass/table-without-headers.html",
+          "atomic-tests/fail/role-table-empty-columnheaders.html",
+          "atomic-tests/fail/role-table-empty-headers-with-elements.html",
+          "atomic-tests/fail/role-table-empty-headers.html",
+          "atomic-tests/fail/role-table-empty-row-headers.html",
+          "atomic-tests/fail/table-empty-columnheaders.html",
+          "atomic-tests/fail/table-empty-headers-with-elements.html",
+          "atomic-tests/fail/table-empty-headers.html",
+          "atomic-tests/fail/table-empty-row-headers.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 9,
+        "fail": 8,
+        "total": 17
+      }
+    }
+  },
+  {
+    "key": "table-headers",
+    "action": "create",
+    "ruleId": "table-headers",
+    "payload": {
+      "ruleId": "table-headers",
+      "title": "Unified Engine: table-headers — Tables should include table header tags",
+      "description": "**Engine rule ID:** `table-headers`\n**RAIDEN routes:** `/engine/table-headers`, `/engine/table-headers_success`, `/engine/table-headers_failure`\n**Atomic tests:** `src/components/pages/engine-rules/table-headers/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Screen readers can't match columns and cells without properly coded table header tags (TH). Without table headers, screen readers won't announce the table's content properly to users, leaving them unable to consume information.\n**Remediation advice:** Add a THEAD element to indicate a table heading section, and include TH elements for every column, describing the purpose of that table column.\n**Fixtures:** 4 pass, 7 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `table-headers` examples published at `/engine/table-headers_success` and `/engine/table-headers_failure`.\n5. **Fixture count:** 4 pass, 7 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "table-headers"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/table-headers` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → table-headers.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/table-headers\nruleId = table-headers\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/table-headers_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/table-headers_success\npassFixtures = 4\natomic-tests/pass/role-table-with-role-columnheaders.html\natomic-tests/pass/role-table-with-role-rowheaders.html\natomic-tests/pass/table-with-column-headers.html\natomic-tests/pass/table-with-row-headers.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/table-headers_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/table-headers_failure\nfailFixtures = 7\natomic-tests/fail/multi-role-table-without-headers.html\natomic-tests/fail/multi-table-without-th.html\natomic-tests/fail/role-table-without-headers.html\natomic-tests/fail/role-tables-with-and-without-headers.html\natomic-tests/fail/table-and-role-table-without-headers.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for table-headers\n- pass/role-table-with-role-columnheaders.html → Passed node\n- pass/role-table-with-role-rowheaders.html → Passed node\n- pass/table-with-column-headers.html → Passed node\n- pass/table-with-row-headers.html → Passed node\n- fail/multi-role-table-without-headers.html → Failed node\n- fail/multi-table-without-th.html → Failed node\n- fail/role-table-without-headers.html → Failed node\n- fail/role-tables-with-and-without-headers.html → Failed node\n- fail/table-and-role-table-without-headers.html → Failed node\n- fail/table-without-th.html → Failed node\n- fail/tables-with-and-without-th.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `table-headers` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = table-headers\nissueSource = RAIDEN examples at /engine/table-headers_success and /engine/table-headers_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: role table with role columnheaders (role-table-with-role-columnheaders.html)",
+          "pass: role table with role rowheaders (role-table-with-role-rowheaders.html)",
+          "pass: table with column headers (table-with-column-headers.html)",
+          "pass: table with row headers (table-with-row-headers.html)",
+          "fail: multi role table without headers (multi-role-table-without-headers.html)",
+          "fail: multi table without th (multi-table-without-th.html)",
+          "fail: role table without headers (role-table-without-headers.html)",
+          "fail: role tables with and without headers (role-tables-with-and-without-headers.html)",
+          "fail: table and role table without headers (table-and-role-table-without-headers.html)",
+          "fail: table without th (table-without-th.html)",
+          "fail: tables with and without th (tables-with-and-without-th.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/role-table-with-role-columnheaders.html",
+          "atomic-tests/pass/role-table-with-role-rowheaders.html",
+          "atomic-tests/pass/table-with-column-headers.html",
+          "atomic-tests/pass/table-with-row-headers.html",
+          "atomic-tests/fail/multi-role-table-without-headers.html",
+          "atomic-tests/fail/multi-table-without-th.html",
+          "atomic-tests/fail/role-table-without-headers.html",
+          "atomic-tests/fail/role-tables-with-and-without-headers.html",
+          "atomic-tests/fail/table-and-role-table-without-headers.html",
+          "atomic-tests/fail/table-without-th.html",
+          "atomic-tests/fail/tables-with-and-without-th.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 4,
+        "fail": 7,
+        "total": 11
+      }
+    }
+  }
+]

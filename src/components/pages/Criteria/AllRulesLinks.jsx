@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Box, Container, Typography, Alert } from "@mui/material";
-import { useSearch } from "../../util/SearchContext"; // Adjust path as needed
-import UnifiedRulePage from "../../layout/UnifiedRulePage";
+import { useSearch } from "../../util/SearchContext";
 import { useLoading } from "../../util/LoadingContext";
+import { DataService } from "../../util/dataService";
 import GlassSpinner, { GlassSkeleton } from "../../util/GlassSpinner";
+
+const UnifiedRulePage = lazy(() => import("../../layout/UnifiedRulePage"));
 
 function AllRulesWithRoutes({ filters }) {
   const { query } = useSearch();
@@ -35,13 +37,8 @@ function AllRulesWithRoutes({ filters }) {
           });
         }, 200);
 
-        const response = await fetch("/data.json");
+        const data = await DataService.getData();
         setLoadingProgress(95);
-        
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
-        const data = await response.json();
 
         // If filters exist, apply them
         let filteredData = data;
@@ -179,7 +176,11 @@ function AllRulesWithRoutes({ filters }) {
         <Route
           key={`${formRule.id}-${formRule.criteria}-${formRule.route}`}
           path={`${formRule.criteria}/${formRule.route}`}
-          element={<UnifiedRulePage ruleData={formRule} ruleType="legacy" />}
+          element={
+            <React.Suspense fallback={null}>
+              <UnifiedRulePage ruleData={formRule} ruleType="legacy" />
+            </React.Suspense>
+          }
         />
       ))}
     </Routes>

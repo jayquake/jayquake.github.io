@@ -1,0 +1,596 @@
+[
+  {
+    "key": "focus-not-obscured-header",
+    "action": "create",
+    "ruleId": "focus-not-obscured-header",
+    "payload": {
+      "ruleId": "focus-not-obscured-header",
+      "title": "Unified Engine: focus-not-obscured-header — Focused elements should not be obscured by a sticky header",
+      "description": "**Engine rule ID:** `focus-not-obscured-header`\n**RAIDEN routes:** `/engine/focus-not-obscured-header`, `/engine/focus-not-obscured-header_success`, `/engine/focus-not-obscured-header_failure`\n**Atomic tests:** `src/components/pages/engine-rules/focus-not-obscured-header/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** A sticky header remains anchored to the top of the screen while the rest of the page content can be scrolled. If it is not offset from interactive elements, it can overlap and obscure the item in focus.\n**Remediation advice:** When a page has a sticky header, make sure that any element receiving focus is not fully covered by the header. One way to achieve this is by using the CSS property scroll-padding-top.\n**Fixtures:** 9 pass, 10 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `focus-not-obscured-header` examples published at `/engine/focus-not-obscured-header_success` and `/engine/focus-not-obscured-header_failure`.\n5. **Fixture count:** 9 pass, 10 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "focus-not-obscured-header"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/focus-not-obscured-header` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → focus-not-obscured-header.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/focus-not-obscured-header\nruleId = focus-not-obscured-header\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/focus-not-obscured-header_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/focus-not-obscured-header_success\npassFixtures = 9\natomic-tests/pass/fixed-header-with-scrollable-parent-with-scroll-padding-top-greater-than-header-height.html\natomic-tests/pass/header-ancestor-position-sticky-with-padding-inside-static-div-html-with-scroll-padding-top.html\natomic-tests/pass/header-ancestors-position-not-fixed-and-not-sticky.html\natomic-tests/pass/header-position-static.html\natomic-tests/pass/no-header.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/focus-not-obscured-header_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/focus-not-obscured-header_failure\nfailFixtures = 10\natomic-tests/fail/header-ancestor-position-fixed-with-padding.html\natomic-tests/fail/header-ancestor-position-fixed.html\natomic-tests/fail/header-ancestor-position-sticky-with-padding-inside-static-div.html\natomic-tests/fail/header-ancestor-position-sticky-with-padding.html\natomic-tests/fail/header-ancestor-position-sticky.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for focus-not-obscured-header\n- pass/fixed-header-with-scrollable-parent-with-scroll-padding-top-greater-than-header-height.html → Passed node\n- pass/header-ancestor-position-sticky-with-padding-inside-static-div-html-with-scroll-padding-top.html → Passed node\n- pass/header-ancestors-position-not-fixed-and-not-sticky.html → Passed node\n- pass/header-position-static.html → Passed node\n- pass/no-header.html → Passed node\n- pass/sticky-header-214px-with-global-style-button-focused-in-the-header.html → Passed node\n- pass/sticky-header-214px-with-global-style-header-not-focused.html → Passed node\n- pass/sticky-header-position-fixed-html-with-scroll-padding-top-greater-than-header-height.html → Passed node\n- pass/sticky-header-with-scrollable-parent-with-scroll-padding-top-greater-than-header-height.html → Passed node\n- fail/header-ancestor-position-fixed-with-padding.html → Failed node\n- fail/header-ancestor-position-fixed.html → Failed node\n- fail/header-ancestor-position-sticky-with-padding-inside-static-div.html → Failed node\n- fail/header-ancestor-position-sticky-with-padding.html → Failed node\n- fail/header-ancestor-position-sticky.html → Failed node\n- fail/sticky-header-position-fixed-html-with-scroll-padding-top-less-than-header-height.html → Failed node\n- fail/sticky-header-position-fixed-is-hiding-focused-elements.html → Failed node\n- fail/sticky-header-position-sticky-is-hiding-focused-elements.html → Failed node\n- fail/sticky-header-with-scrollable-parent-with-scroll-padding-top-less-than-header-height.html → Failed node\n- fail/sticky-header-with-scrollable-parent-without-scroll-padding-top.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `focus-not-obscured-header` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = focus-not-obscured-header\nissueSource = RAIDEN examples at /engine/focus-not-obscured-header_success and /engine/focus-not-obscured-header_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: fixed header with scrollable parent with scroll padding top greater than header height (fixed-header-with-scrollable-parent-with-scroll-padding-top-greater-than-header-height.html)",
+          "pass: header ancestor position sticky with padding inside static div html with scroll padding top (header-ancestor-position-sticky-with-padding-inside-static-div-html-with-scroll-padding-top.html)",
+          "pass: header ancestors position not fixed and not sticky (header-ancestors-position-not-fixed-and-not-sticky.html)",
+          "pass: header position static (header-position-static.html)",
+          "pass: no header (no-header.html)",
+          "pass: sticky header 214px with global style button focused in the header (sticky-header-214px-with-global-style-button-focused-in-the-header.html)",
+          "pass: sticky header 214px with global style header not focused (sticky-header-214px-with-global-style-header-not-focused.html)",
+          "pass: sticky header position fixed html with scroll padding top greater than header height (sticky-header-position-fixed-html-with-scroll-padding-top-greater-than-header-height.html)",
+          "pass: sticky header with scrollable parent with scroll padding top greater than header height (sticky-header-with-scrollable-parent-with-scroll-padding-top-greater-than-header-height.html)",
+          "fail: header ancestor position fixed with padding (header-ancestor-position-fixed-with-padding.html)",
+          "fail: header ancestor position fixed (header-ancestor-position-fixed.html)",
+          "fail: header ancestor position sticky with padding inside static div (header-ancestor-position-sticky-with-padding-inside-static-div.html)",
+          "fail: header ancestor position sticky with padding (header-ancestor-position-sticky-with-padding.html)",
+          "fail: header ancestor position sticky (header-ancestor-position-sticky.html)",
+          "fail: sticky header position fixed html with scroll padding top less than header height (sticky-header-position-fixed-html-with-scroll-padding-top-less-than-header-height.html)",
+          "fail: sticky header position fixed is hiding focused elements (sticky-header-position-fixed-is-hiding-focused-elements.html)",
+          "fail: sticky header position sticky is hiding focused elements (sticky-header-position-sticky-is-hiding-focused-elements.html)",
+          "fail: sticky header with scrollable parent with scroll padding top less than header height (sticky-header-with-scrollable-parent-with-scroll-padding-top-less-than-header-height.html)",
+          "fail: sticky header with scrollable parent without scroll padding top (sticky-header-with-scrollable-parent-without-scroll-padding-top.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/fixed-header-with-scrollable-parent-with-scroll-padding-top-greater-than-header-height.html",
+          "atomic-tests/pass/header-ancestor-position-sticky-with-padding-inside-static-div-html-with-scroll-padding-top.html",
+          "atomic-tests/pass/header-ancestors-position-not-fixed-and-not-sticky.html",
+          "atomic-tests/pass/header-position-static.html",
+          "atomic-tests/pass/no-header.html",
+          "atomic-tests/pass/sticky-header-214px-with-global-style-button-focused-in-the-header.html",
+          "atomic-tests/pass/sticky-header-214px-with-global-style-header-not-focused.html",
+          "atomic-tests/pass/sticky-header-position-fixed-html-with-scroll-padding-top-greater-than-header-height.html",
+          "atomic-tests/pass/sticky-header-with-scrollable-parent-with-scroll-padding-top-greater-than-header-height.html",
+          "atomic-tests/fail/header-ancestor-position-fixed-with-padding.html",
+          "atomic-tests/fail/header-ancestor-position-fixed.html",
+          "atomic-tests/fail/header-ancestor-position-sticky-with-padding-inside-static-div.html",
+          "atomic-tests/fail/header-ancestor-position-sticky-with-padding.html",
+          "atomic-tests/fail/header-ancestor-position-sticky.html",
+          "atomic-tests/fail/sticky-header-position-fixed-html-with-scroll-padding-top-less-than-header-height.html",
+          "atomic-tests/fail/sticky-header-position-fixed-is-hiding-focused-elements.html",
+          "atomic-tests/fail/sticky-header-position-sticky-is-hiding-focused-elements.html",
+          "atomic-tests/fail/sticky-header-with-scrollable-parent-with-scroll-padding-top-less-than-header-height.html",
+          "atomic-tests/fail/sticky-header-with-scrollable-parent-without-scroll-padding-top.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 9,
+        "fail": 10,
+        "total": 19
+      }
+    }
+  },
+  {
+    "key": "focus-noticeable",
+    "action": "create",
+    "ruleId": "focus-noticeable",
+    "payload": {
+      "ruleId": "focus-noticeable",
+      "title": "Unified Engine: focus-noticeable — Focused elements should not be obscured by a sticky header",
+      "description": "**Engine rule ID:** `focus-noticeable`\n**RAIDEN routes:** `/engine/focus-noticeable`, `/engine/focus-noticeable_success`, `/engine/focus-noticeable_failure`\n**Atomic tests:** `src/components/pages/engine-rules/focus-noticeable/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** All focusable elements must have a visible focus indicator when they receive keyboard focus.\n**Remediation advice:** Add a CSS outline or other visual indicator to focusable elements to ensure the currently focused element can be visibly distinguished.\n**Fixtures:** 4 pass, 4 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `focus-noticeable` examples published at `/engine/focus-noticeable_success` and `/engine/focus-noticeable_failure`.\n5. **Fixture count:** 4 pass, 4 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "focus-noticeable"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/focus-noticeable` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → focus-noticeable.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/focus-noticeable\nruleId = focus-noticeable\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/focus-noticeable_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/focus-noticeable_success\npassFixtures = 4\natomic-tests/pass/simple-anchor.html\natomic-tests/pass/simple-button.html\natomic-tests/pass/simple-div.html\natomic-tests/pass/simple-input.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/focus-noticeable_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/focus-noticeable_failure\nfailFixtures = 4\natomic-tests/fail/anchor-with-overridden-outline.html\natomic-tests/fail/button-with-overridden-outline.html\natomic-tests/fail/div-with-tabindex-with-overridden-outline.html\natomic-tests/fail/input-with-overridden-outline.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for focus-noticeable\n- pass/simple-anchor.html → Passed node\n- pass/simple-button.html → Passed node\n- pass/simple-div.html → Passed node\n- pass/simple-input.html → Passed node\n- fail/anchor-with-overridden-outline.html → Failed node\n- fail/button-with-overridden-outline.html → Failed node\n- fail/div-with-tabindex-with-overridden-outline.html → Failed node\n- fail/input-with-overridden-outline.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `focus-noticeable` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = focus-noticeable\nissueSource = RAIDEN examples at /engine/focus-noticeable_success and /engine/focus-noticeable_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: simple anchor (simple-anchor.html)",
+          "pass: simple button (simple-button.html)",
+          "pass: simple div (simple-div.html)",
+          "pass: simple input (simple-input.html)",
+          "fail: anchor with overridden outline (anchor-with-overridden-outline.html)",
+          "fail: button with overridden outline (button-with-overridden-outline.html)",
+          "fail: div with tabindex with overridden outline (div-with-tabindex-with-overridden-outline.html)",
+          "fail: input with overridden outline (input-with-overridden-outline.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/simple-anchor.html",
+          "atomic-tests/pass/simple-button.html",
+          "atomic-tests/pass/simple-div.html",
+          "atomic-tests/pass/simple-input.html",
+          "atomic-tests/fail/anchor-with-overridden-outline.html",
+          "atomic-tests/fail/button-with-overridden-outline.html",
+          "atomic-tests/fail/div-with-tabindex-with-overridden-outline.html",
+          "atomic-tests/fail/input-with-overridden-outline.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 4,
+        "fail": 4,
+        "total": 8
+      }
+    }
+  },
+  {
+    "key": "font-sizes",
+    "action": "create",
+    "ruleId": "font-sizes",
+    "payload": {
+      "ruleId": "font-sizes",
+      "title": "Unified Engine: font-sizes — font-sizes",
+      "description": "**Engine rule ID:** `font-sizes`\n**RAIDEN routes:** `/engine/font-sizes`, `/engine/font-sizes_success`, `/engine/font-sizes_failure`\n**Atomic tests:** `src/components/pages/engine-rules/font-sizes/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Fixtures:** 8 pass, 5 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `font-sizes` examples published at `/engine/font-sizes_success` and `/engine/font-sizes_failure`.\n5. **Fixture count:** 8 pass, 5 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "font-sizes"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/font-sizes` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`medium`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → font-sizes.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/font-sizes\nruleId = font-sizes\nimpact = medium",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/font-sizes_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/font-sizes_success\npassFixtures = 8\natomic-tests/pass/div-with-good-font-size-in-style-attribute.html\natomic-tests/pass/nested-with-good-font-size-in-css-class.html\natomic-tests/pass/paragraph-with-good-font-size-in-css-class.html\natomic-tests/pass/paragraph-with-good-font-size-in-css-selector.html\natomic-tests/pass/paragraph-with-good-font-size-in-style-attribute.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/font-sizes_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/font-sizes_failure\nfailFixtures = 5\natomic-tests/fail/div-with-bad-font-size-in-style-attribute.html\natomic-tests/fail/nested-with-bad-font-size-in-css-class.html\natomic-tests/fail/paragraph-with-bad-font-size-in-css-class.html\natomic-tests/fail/paragraph-with-bad-font-size-in-css-selector.html\natomic-tests/fail/paragraph-with-bad-font-size-in-style-attribute.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for font-sizes\n- pass/div-with-good-font-size-in-style-attribute.html → Passed node\n- pass/nested-with-good-font-size-in-css-class.html → Passed node\n- pass/paragraph-with-good-font-size-in-css-class.html → Passed node\n- pass/paragraph-with-good-font-size-in-css-selector.html → Passed node\n- pass/paragraph-with-good-font-size-in-style-attribute.html → Passed node\n- pass/paragraph-with-no-content.html → Passed node\n- pass/subscript-element-is-exempt.html → Passed node\n- pass/superscript-element-is-exempt.html → Passed node\n- fail/div-with-bad-font-size-in-style-attribute.html → Failed node\n- fail/nested-with-bad-font-size-in-css-class.html → Failed node\n- fail/paragraph-with-bad-font-size-in-css-class.html → Failed node\n- fail/paragraph-with-bad-font-size-in-css-selector.html → Failed node\n- fail/paragraph-with-bad-font-size-in-style-attribute.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `font-sizes` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = font-sizes\nissueSource = RAIDEN examples at /engine/font-sizes_success and /engine/font-sizes_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: div with good font size in style attribute (div-with-good-font-size-in-style-attribute.html)",
+          "pass: nested with good font size in css class (nested-with-good-font-size-in-css-class.html)",
+          "pass: paragraph with good font size in css class (paragraph-with-good-font-size-in-css-class.html)",
+          "pass: paragraph with good font size in css selector (paragraph-with-good-font-size-in-css-selector.html)",
+          "pass: paragraph with good font size in style attribute (paragraph-with-good-font-size-in-style-attribute.html)",
+          "pass: paragraph with no content (paragraph-with-no-content.html)",
+          "pass: subscript element is exempt (subscript-element-is-exempt.html)",
+          "pass: superscript element is exempt (superscript-element-is-exempt.html)",
+          "fail: div with bad font size in style attribute (div-with-bad-font-size-in-style-attribute.html)",
+          "fail: nested with bad font size in css class (nested-with-bad-font-size-in-css-class.html)",
+          "fail: paragraph with bad font size in css class (paragraph-with-bad-font-size-in-css-class.html)",
+          "fail: paragraph with bad font size in css selector (paragraph-with-bad-font-size-in-css-selector.html)",
+          "fail: paragraph with bad font size in style attribute (paragraph-with-bad-font-size-in-style-attribute.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/div-with-good-font-size-in-style-attribute.html",
+          "atomic-tests/pass/nested-with-good-font-size-in-css-class.html",
+          "atomic-tests/pass/paragraph-with-good-font-size-in-css-class.html",
+          "atomic-tests/pass/paragraph-with-good-font-size-in-css-selector.html",
+          "atomic-tests/pass/paragraph-with-good-font-size-in-style-attribute.html",
+          "atomic-tests/pass/paragraph-with-no-content.html",
+          "atomic-tests/pass/subscript-element-is-exempt.html",
+          "atomic-tests/pass/superscript-element-is-exempt.html",
+          "atomic-tests/fail/div-with-bad-font-size-in-style-attribute.html",
+          "atomic-tests/fail/nested-with-bad-font-size-in-css-class.html",
+          "atomic-tests/fail/paragraph-with-bad-font-size-in-css-class.html",
+          "atomic-tests/fail/paragraph-with-bad-font-size-in-css-selector.html",
+          "atomic-tests/fail/paragraph-with-bad-font-size-in-style-attribute.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 8,
+        "fail": 5,
+        "total": 13
+      }
+    }
+  },
+  {
+    "key": "footer-navigation-discernible",
+    "action": "create",
+    "ruleId": "footer-navigation-discernible",
+    "payload": {
+      "ruleId": "footer-navigation-discernible",
+      "title": "Unified Engine: footer-navigation-discernible — Footer navigation should be labelled properly",
+      "description": "**Engine rule ID:** `footer-navigation-discernible`\n**RAIDEN routes:** `/engine/footer-navigation-discernible`, `/engine/footer-navigation-discernible_success`, `/engine/footer-navigation-discernible_failure`\n**Atomic tests:** `src/components/pages/engine-rules/footer-navigation-discernible/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Footer navigation elements should have text available for screen readers explaining that it is footer navigation.\n**Remediation advice:** Add an aria-label to the footer navigation elements\n**Fixtures:** 8 pass, 7 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `footer-navigation-discernible` examples published at `/engine/footer-navigation-discernible_success` and `/engine/footer-navigation-discernible_failure`.\n5. **Fixture count:** 8 pass, 7 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "footer-navigation-discernible"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/footer-navigation-discernible` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → footer-navigation-discernible.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/footer-navigation-discernible\nruleId = footer-navigation-discernible\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/footer-navigation-discernible_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/footer-navigation-discernible_success\npassFixtures = 8\natomic-tests/pass/footer-div-labelledby-heading.html\natomic-tests/pass/footer-div-with-text-content.html\natomic-tests/pass/footer-menu-div-role-contentinfo-with-aria-label.html\natomic-tests/pass/footer-menu-with-aria-label.html\natomic-tests/pass/footer-without-navigation.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/footer-navigation-discernible_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/footer-navigation-discernible_failure\nfailFixtures = 7\natomic-tests/fail/footer-div-labelledby-nonexistent-heading.html\natomic-tests/fail/footer-menu-div-role-contentinfo-without-aria-label.html\natomic-tests/fail/footer-menu-without-aria-label.html\natomic-tests/fail/footer-with-empty-aria-label.html\natomic-tests/fail/footer-with-whitespace-aria-label.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for footer-navigation-discernible\n- pass/footer-div-labelledby-heading.html → Passed node\n- pass/footer-div-with-text-content.html → Passed node\n- pass/footer-menu-div-role-contentinfo-with-aria-label.html → Passed node\n- pass/footer-menu-with-aria-label.html → Passed node\n- pass/footer-without-navigation.html → Passed node\n- pass/multiple-footers-in-page-with-labels.html → Passed node\n- pass/multiple-navs-in-one-footer-with-labels.html → Passed node\n- pass/skip-breadcrumb-nav.html → Passed node\n- fail/footer-div-labelledby-nonexistent-heading.html → Failed node\n- fail/footer-menu-div-role-contentinfo-without-aria-label.html → Failed node\n- fail/footer-menu-without-aria-label.html → Failed node\n- fail/footer-with-empty-aria-label.html → Failed node\n- fail/footer-with-whitespace-aria-label.html → Failed node\n- fail/multiple-footers-in-page-without-labels.html → Failed node\n- fail/multiple-navs-in-one-footer-without-labels.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `footer-navigation-discernible` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = footer-navigation-discernible\nissueSource = RAIDEN examples at /engine/footer-navigation-discernible_success and /engine/footer-navigation-discernible_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: footer div labelledby heading (footer-div-labelledby-heading.html)",
+          "pass: footer div with text content (footer-div-with-text-content.html)",
+          "pass: footer menu div role contentinfo with aria label (footer-menu-div-role-contentinfo-with-aria-label.html)",
+          "pass: footer menu with aria label (footer-menu-with-aria-label.html)",
+          "pass: footer without navigation (footer-without-navigation.html)",
+          "pass: multiple footers in page with labels (multiple-footers-in-page-with-labels.html)",
+          "pass: multiple navs in one footer with labels (multiple-navs-in-one-footer-with-labels.html)",
+          "pass: skip breadcrumb nav (skip-breadcrumb-nav.html)",
+          "fail: footer div labelledby nonexistent heading (footer-div-labelledby-nonexistent-heading.html)",
+          "fail: footer menu div role contentinfo without aria label (footer-menu-div-role-contentinfo-without-aria-label.html)",
+          "fail: footer menu without aria label (footer-menu-without-aria-label.html)",
+          "fail: footer with empty aria label (footer-with-empty-aria-label.html)",
+          "fail: footer with whitespace aria label (footer-with-whitespace-aria-label.html)",
+          "fail: multiple footers in page without labels (multiple-footers-in-page-without-labels.html)",
+          "fail: multiple navs in one footer without labels (multiple-navs-in-one-footer-without-labels.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/footer-div-labelledby-heading.html",
+          "atomic-tests/pass/footer-div-with-text-content.html",
+          "atomic-tests/pass/footer-menu-div-role-contentinfo-with-aria-label.html",
+          "atomic-tests/pass/footer-menu-with-aria-label.html",
+          "atomic-tests/pass/footer-without-navigation.html",
+          "atomic-tests/pass/multiple-footers-in-page-with-labels.html",
+          "atomic-tests/pass/multiple-navs-in-one-footer-with-labels.html",
+          "atomic-tests/pass/skip-breadcrumb-nav.html",
+          "atomic-tests/fail/footer-div-labelledby-nonexistent-heading.html",
+          "atomic-tests/fail/footer-menu-div-role-contentinfo-without-aria-label.html",
+          "atomic-tests/fail/footer-menu-without-aria-label.html",
+          "atomic-tests/fail/footer-with-empty-aria-label.html",
+          "atomic-tests/fail/footer-with-whitespace-aria-label.html",
+          "atomic-tests/fail/multiple-footers-in-page-without-labels.html",
+          "atomic-tests/fail/multiple-navs-in-one-footer-without-labels.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 8,
+        "fail": 7,
+        "total": 15
+      }
+    }
+  },
+  {
+    "key": "form-context-change-warning",
+    "action": "create",
+    "ruleId": "form-context-change-warning",
+    "payload": {
+      "ruleId": "form-context-change-warning",
+      "title": "Unified Engine: form-context-change-warning — Interacting with form controls should not cause a change in context unless a user is notified beforehand",
+      "description": "**Engine rule ID:** `form-context-change-warning`\n**RAIDEN routes:** `/engine/form-context-change-warning`, `/engine/form-context-change-warning_success`, `/engine/form-context-change-warning_failure`\n**Atomic tests:** `src/components/pages/engine-rules/form-context-change-warning/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Interacting with form controls shouldn't automatically submit a form or cause any other change in context without notifying the user in advance. Form controls that cause a context change on input can disorient a user, since the behavior is not expected.\n**Remediation advice:** Make sure that forms can be manually submitted via a submit button, or provide instructions that notify users of the expected behavior before they interact with the control.\n**Fixtures:** 5 pass, 8 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `form-context-change-warning` examples published at `/engine/form-context-change-warning_success` and `/engine/form-context-change-warning_failure`.\n5. **Fixture count:** 5 pass, 8 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "form-context-change-warning"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/form-context-change-warning` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → form-context-change-warning.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/form-context-change-warning\nruleId = form-context-change-warning\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/form-context-change-warning_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/form-context-change-warning_success\npassFixtures = 5\natomic-tests/pass/button-not-inside-form-but-associated-to-it.html\natomic-tests/pass/form-with-submit-button.html\natomic-tests/pass/form-with-submit-input.html\natomic-tests/pass/hidden-form-without-submit-button.html\natomic-tests/pass/input-type-image.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/form-context-change-warning_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/form-context-change-warning_failure\nfailFixtures = 8\natomic-tests/fail/button-outside-div-role-form--associated-to-it-but-its-not-native-form.html\natomic-tests/fail/form-with-button-not-calssified-as-submit.html\natomic-tests/fail/form-without-submit-button.html\natomic-tests/fail/multiple-forms--associated-button-inside-another-div-role-form.html\natomic-tests/fail/multiple-forms--associated-button-inside-another-form.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for form-context-change-warning\n- pass/button-not-inside-form-but-associated-to-it.html → Passed node\n- pass/form-with-submit-button.html → Passed node\n- pass/form-with-submit-input.html → Passed node\n- pass/hidden-form-without-submit-button.html → Passed node\n- pass/input-type-image.html → Passed node\n- fail/button-outside-div-role-form--associated-to-it-but-its-not-native-form.html → Failed node\n- fail/form-with-button-not-calssified-as-submit.html → Failed node\n- fail/form-without-submit-button.html → Failed node\n- fail/multiple-forms--associated-button-inside-another-div-role-form.html → Failed node\n- fail/multiple-forms--associated-button-inside-another-form.html → Failed node\n- fail/multiple-forms-one-without-submit-button.html → Failed node\n- fail/multiple-forms-only-one-with-associated-submit-button.html → Failed node\n- fail/multiple-forms-without-submit-button.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `form-context-change-warning` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = form-context-change-warning\nissueSource = RAIDEN examples at /engine/form-context-change-warning_success and /engine/form-context-change-warning_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: button not inside form but associated to it (button-not-inside-form-but-associated-to-it.html)",
+          "pass: form with submit button (form-with-submit-button.html)",
+          "pass: form with submit input (form-with-submit-input.html)",
+          "pass: hidden form without submit button (hidden-form-without-submit-button.html)",
+          "pass: input type image (input-type-image.html)",
+          "fail: button outside div role form  associated to it but its not native form (button-outside-div-role-form--associated-to-it-but-its-not-native-form.html)",
+          "fail: form with button not calssified as submit (form-with-button-not-calssified-as-submit.html)",
+          "fail: form without submit button (form-without-submit-button.html)",
+          "fail: multiple forms  associated button inside another div role form (multiple-forms--associated-button-inside-another-div-role-form.html)",
+          "fail: multiple forms  associated button inside another form (multiple-forms--associated-button-inside-another-form.html)",
+          "fail: multiple forms one without submit button (multiple-forms-one-without-submit-button.html)",
+          "fail: multiple forms only one with associated submit button (multiple-forms-only-one-with-associated-submit-button.html)",
+          "fail: multiple forms without submit button (multiple-forms-without-submit-button.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/button-not-inside-form-but-associated-to-it.html",
+          "atomic-tests/pass/form-with-submit-button.html",
+          "atomic-tests/pass/form-with-submit-input.html",
+          "atomic-tests/pass/hidden-form-without-submit-button.html",
+          "atomic-tests/pass/input-type-image.html",
+          "atomic-tests/fail/button-outside-div-role-form--associated-to-it-but-its-not-native-form.html",
+          "atomic-tests/fail/form-with-button-not-calssified-as-submit.html",
+          "atomic-tests/fail/form-without-submit-button.html",
+          "atomic-tests/fail/multiple-forms--associated-button-inside-another-div-role-form.html",
+          "atomic-tests/fail/multiple-forms--associated-button-inside-another-form.html",
+          "atomic-tests/fail/multiple-forms-one-without-submit-button.html",
+          "atomic-tests/fail/multiple-forms-only-one-with-associated-submit-button.html",
+          "atomic-tests/fail/multiple-forms-without-submit-button.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 5,
+        "fail": 8,
+        "total": 13
+      }
+    }
+  }
+]

@@ -2,6 +2,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { Box, Button, Stack } from "@mui/material";
 import PropTypes from "prop-types";
 import { Link as RouterLink, useLocation } from "react-router-dom";
+import { prefetchEngineExample } from "../../utils/engineExampleUtils";
 import { mgsFonts } from "../../theme/mgsTokens";
 
 const tabSx = {
@@ -21,7 +22,11 @@ const tabSx = {
 export default function ExamplePageNav({ ruleId, ruleType, variant }) {
   const location = useLocation();
   const basePath = location.pathname.replace(/(_success|_failure)$/, "");
-  const backPath = ruleType === "engine" ? `/engine/${ruleId}` : basePath;
+  const backPath = ruleType === "engine" ? "/" : basePath;
+
+  const warm = (v) => {
+    if (ruleType === "engine" && ruleId) prefetchEngineExample(ruleId, v);
+  };
 
   return (
     <Box
@@ -56,7 +61,7 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
           px: 0.5,
         }}
       >
-        {ruleId}
+        {ruleType === "engine" ? "Library" : ruleId}
       </Button>
 
       <Stack
@@ -80,6 +85,8 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
           variant={variant === "success" ? "contained" : "text"}
           color={variant === "success" ? "primary" : "inherit"}
           disableElevation
+          onMouseEnter={() => warm("success")}
+          onFocus={() => warm("success")}
           sx={tabSx}
         >
           Success
@@ -93,6 +100,8 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
           variant={variant === "failure" ? "contained" : "text"}
           color={variant === "failure" ? "error" : "inherit"}
           disableElevation
+          onMouseEnter={() => warm("failure")}
+          onFocus={() => warm("failure")}
           sx={tabSx}
         >
           Failure

@@ -1,0 +1,739 @@
+{
+  "updatesApplied": [
+    2971,
+    2977,
+    3076,
+    3030,
+    2967,
+    3048,
+    2966,
+    3073,
+    3028,
+    2997,
+    3025,
+    3177,
+    3045,
+    3047,
+    3074,
+    2972,
+    3046,
+    2970,
+    2979,
+    3075,
+    3031,
+    2968,
+    2978,
+    3027,
+    2976,
+    3333
+  ],
+  "updatesFailed": [],
+  "updatesSkipped": [
+    2969
+  ],
+  "createsApplied": [
+    {
+      "title": "Unified Engine: alt-misuse — Elements other than image (Tag: IMG) should not have alt attribute",
+      "id": 8801
+    },
+    {
+      "title": "Unified Engine: aria-controls-has-reference — aria-controls should reference a valid element id",
+      "id": 8802
+    },
+    {
+      "title": "Unified Engine: aria-describedby-has-reference — aria-describedby should reference a valid element id",
+      "id": 8803
+    },
+    {
+      "title": "Unified Engine: aria-invalid-mismatch — Form fields should indicate validation errors to assistive technology",
+      "id": 8804
+    },
+    {
+      "title": "Unified Engine: aria-invalid-misuse — Only input fields with validation errors should be assigned aria-invalid=\"true\"",
+      "id": 8805
+    },
+    {
+      "title": "Unified Engine: background-image-discernible — background-image-discernible",
+      "id": 8811
+    },
+    {
+      "title": "Unified Engine: background-image-discernible-image — Functional image displayed using CSS background properties should be tagged for assistive technology",
+      "id": 8812
+    },
+    {
+      "title": "Unified Engine: breadcrumbs-nav — breadcrumbs-nav",
+      "id": 8813
+    },
+    {
+      "title": "Unified Engine: broken-aria-reference — broken-aria-reference",
+      "id": 8814
+    },
+    {
+      "title": "Unified Engine: button-discernible — Buttons should have a label",
+      "id": 8815
+    },
+    {
+      "title": "Unified Engine: captcha-accessible-provider-2.0 — captcha-accessible-provider-2.0",
+      "id": 8821
+    },
+    {
+      "title": "Unified Engine: captcha-accessible-provider-2.2 — captcha-accessible-provider-2.2",
+      "id": 8822
+    },
+    {
+      "title": "Unified Engine: carousel-discernible — Carousels should have a descriptive label",
+      "id": 8823
+    },
+    {
+      "title": "Unified Engine: carousel-dragging-movements — Carousels that require dragging movements should provide alternative methods of operation with a single pointer",
+      "id": 8824
+    },
+    {
+      "title": "Unified Engine: carousel-mismatch — Carousels should be tagged for assistive technology",
+      "id": 8825
+    },
+    {
+      "title": "Unified Engine: carousel-next-slide-discernible — Carousel navigation next arrow should be labelled for assistive technology",
+      "id": 8831
+    },
+    {
+      "title": "Unified Engine: carousel-next-slide-discernible-correctly — Carousel Next pagination control should have an accurate and descriptive label",
+      "id": 8832
+    },
+    {
+      "title": "Unified Engine: carousel-previous-slide-discernible — Carousel navigation previous arrows should be labelled for assistive technology",
+      "id": 8833
+    },
+    {
+      "title": "Unified Engine: carousel-previous-slide-discernible-correctly — Carousel Previous pagination control should have an accurate and descriptive label",
+      "id": 8834
+    },
+    {
+      "title": "Unified Engine: carousel-redundant-discernible-text — Carousels should be labelled properly without redundancy",
+      "id": 8835
+    },
+    {
+      "title": "Unified Engine: checkbox-aria-checked — Checked state of custom checkbox controls should be exposed to assistive technology",
+      "id": 8841
+    },
+    {
+      "title": "Unified Engine: checkbox-discernible — Checkbox controls should have a label",
+      "id": 8842
+    },
+    {
+      "title": "Unified Engine: checkbox-mismatch — Custom checkbox controls should be tagged for assistive technology",
+      "id": 8843
+    },
+    {
+      "title": "Unified Engine: checkbox-misuse — Only elements that function as checkbox controls should receive role=\"checkbox\"",
+      "id": 8844
+    },
+    {
+      "title": "Unified Engine: color-contrast — color-contrast",
+      "id": 8845
+    },
+    {
+      "title": "Unified Engine: control-field-visible-and-tabbable — Custom checkboxes, radio buttons and file upload fields should be accessible to assistive technology",
+      "id": 8851
+    },
+    {
+      "title": "Unified Engine: custom-select-options-list-listbox — Custom select options lists should be tagged for assistive technology",
+      "id": 8852
+    },
+    {
+      "title": "Unified Engine: custom-select-trigger-combobox — Custom select triggers should be tagged for assistive technology",
+      "id": 8853
+    },
+    {
+      "title": "Unified Engine: dialog-modal-focus — Keyboard focus should move into and lock inside active dialogs",
+      "id": 8854
+    },
+    {
+      "title": "Unified Engine: dialog-modal-mismatch — Modal dialogs should be tagged for assistive technology",
+      "id": 8855
+    },
+    {
+      "title": "Unified Engine: dialog-modal-misuse — Only elements that function as dialogs should be tagged as dialog",
+      "id": 8861
+    },
+    {
+      "title": "Unified Engine: duplicate-id — The id attribute should have a unique value",
+      "id": 8862
+    },
+    {
+      "title": "Unified Engine: emphasis-mismatch — Emphasis should be tagged properly for assistive technology",
+      "id": 8863
+    },
+    {
+      "title": "Unified Engine: figure-discernible — Figure elements should receive text description or lose figure role",
+      "id": 8864
+    },
+    {
+      "title": "Unified Engine: focus-not-obscured-footer — Focused elements should not be obscured by a sticky footer",
+      "id": 8865
+    },
+    {
+      "title": "Unified Engine: focus-not-obscured-header — Focused elements should not be obscured by a sticky header",
+      "id": 8871
+    },
+    {
+      "title": "Unified Engine: focus-noticeable — Focused elements should not be obscured by a sticky header",
+      "id": 8872
+    },
+    {
+      "title": "Unified Engine: font-sizes — font-sizes",
+      "id": 8873
+    },
+    {
+      "title": "Unified Engine: footer-navigation-discernible — Footer navigation should be labelled properly",
+      "id": 8874
+    },
+    {
+      "title": "Unified Engine: form-context-change-warning — Interacting with form controls should not cause a change in context unless a user is notified beforehand",
+      "id": 8875
+    },
+    {
+      "title": "Unified Engine: form-duplicate-id — Forms and form fields must have unique ID attributes",
+      "id": 8881
+    },
+    {
+      "title": "Unified Engine: form-mismatch — A container of input elements should be tagged as a form",
+      "id": 8882
+    },
+    {
+      "title": "Unified Engine: form-submit-button-mismatch — Form submission controls should have type=\"submit\"",
+      "id": 8883
+    },
+    {
+      "title": "Unified Engine: header-navigation-discernible — Header navigation should be labelled properly",
+      "id": 8884
+    },
+    {
+      "title": "Unified Engine: heading-h1 — Each page should have a main heading",
+      "id": 8885
+    },
+    {
+      "title": "Unified Engine: heading-mismatch — Headings should be tagged for assistive technology",
+      "id": 8891
+    },
+    {
+      "title": "Unified Engine: heading-misuse — Only elements that function as headings should be tagged as heading",
+      "id": 8892
+    },
+    {
+      "title": "Unified Engine: heading-order — Heading levels should follow a logical hierarchy",
+      "id": 8893
+    },
+    {
+      "title": "Unified Engine: heading-order-optimal — Heading levels should reflect the structure of the content",
+      "id": 8894
+    },
+    {
+      "title": "Unified Engine: heading-single-h1 — A page should not have more than one main heading",
+      "id": 8895
+    },
+    {
+      "title": "Unified Engine: html-lang — Default page language should be defined",
+      "id": 8901
+    },
+    {
+      "title": "Unified Engine: html-lang-valid — HTML lang attribute should have a valid value",
+      "id": 8902
+    },
+    {
+      "title": "Unified Engine: icon-discernible — Meaningful icons should have a label, while decorative icons should be hidden",
+      "id": 8903
+    },
+    {
+      "title": "Unified Engine: image-discernible — Functional images should have a text alternative",
+      "id": 8904
+    },
+    {
+      "title": "Unified Engine: image-discernible-correctly — Functional images should have an informative and accurate text alternative",
+      "id": 8905
+    },
+    {
+      "title": "Unified Engine: image-mismatch — Images should be tagged for assistive technology",
+      "id": 8911
+    },
+    {
+      "title": "Unified Engine: image-misuse — Only elements that function as images should be tagged as image",
+      "id": 8912
+    },
+    {
+      "title": "Unified Engine: inner-content-navigation-discernible — Inner content navigation should be labelled properly",
+      "id": 8913
+    },
+    {
+      "title": "Unified Engine: input-discernible — Input controls should have a descriptive label",
+      "id": 8914
+    },
+    {
+      "title": "Unified Engine: interactive-not-tabbable — Interactive elements should be keyboard navigable",
+      "id": 8915
+    },
+    {
+      "title": "Unified Engine: interactive-target-size — Targets for interactive elements should meet a minimum size (at least 24 by 24 CSS pixels) or have enough spacing around them",
+      "id": 8921
+    },
+    {
+      "title": "Unified Engine: letter-spacing-positive — Letter spacing should scale to at least 0.12 times the font size without loss of content or functionality",
+      "id": 8922
+    },
+    {
+      "title": "Unified Engine: link-anchor-ambiguous — Ambiguous links should have additional descriptions for screen readers.",
+      "id": 8923
+    },
+    {
+      "title": "Unified Engine: link-anchor-discernible — Anchor links should have a descriptive label",
+      "id": 8924
+    },
+    {
+      "title": "Unified Engine: link-context — Links should indicate their functionality and destination to assistive technology",
+      "id": 8925
+    },
+    {
+      "title": "Unified Engine: link-current-page — Visual indication that a link's destination is the current page should be announced by screen readers",
+      "id": 8931
+    },
+    {
+      "title": "Unified Engine: link-homepage-warning — Warning a user that a link navigates to the homepage is recommended",
+      "id": 8932
+    },
+    {
+      "title": "Unified Engine: link-image-warning — Warning a user when a link triggers an image to open is recommended",
+      "id": 8933
+    },
+    {
+      "title": "Unified Engine: link-mailto-warning — Warning a user when a link triggers a mail application is recommended",
+      "id": 8934
+    },
+    {
+      "title": "Unified Engine: link-mismatch — Links should be tagged properly",
+      "id": 8935
+    },
+    {
+      "title": "Unified Engine: link-navigation-ambiguous — Link context should be exposed to assistive technology",
+      "id": 8941
+    },
+    {
+      "title": "Unified Engine: link-navigation-discernible — Navigation links should have a descriptive label",
+      "id": 8942
+    },
+    {
+      "title": "Unified Engine: link-new-window-warning — Warning a user when a link triggers a new browser window is recommended",
+      "id": 8943
+    },
+    {
+      "title": "Unified Engine: link-pdf-warning — Warning a user when a link triggers a PDF file is recommended",
+      "id": 8944
+    },
+    {
+      "title": "Unified Engine: link-telephone-warning — Warning a user when a link triggers a phone application is recommended",
+      "id": 8945
+    },
+    {
+      "title": "Unified Engine: list-item-misuse — list-item-misuse",
+      "id": 8951
+    },
+    {
+      "title": "Unified Engine: list-not-empty — Lists should contain at least one list item",
+      "id": 8952
+    },
+    {
+      "title": "Unified Engine: main-navigation-discernible — Main navigation should be labelled properly",
+      "id": 8953
+    },
+    {
+      "title": "Unified Engine: main-navigation-mismatch — Main navigation should have role navigation",
+      "id": 8954
+    },
+    {
+      "title": "Unified Engine: map-area-discernible — Each area element within an image map should have a text alternative",
+      "id": 8955
+    },
+    {
+      "title": "Unified Engine: marquee-deprecated — <marquee> elements are deprecated",
+      "id": 8961
+    },
+    {
+      "title": "Unified Engine: menu-avoid — Avoid using role=\"menu\" for web navigation links",
+      "id": 8962
+    },
+    {
+      "title": "Unified Engine: menu-bar-avoid — Avoid using role=\"menubar\" for web navigation links",
+      "id": 8963
+    },
+    {
+      "title": "Unified Engine: menu-item-avoid — Avoid using role=\"menuitem\" for web navigation links",
+      "id": 8964
+    },
+    {
+      "title": "Unified Engine: menu-trigger-mismatch — Menu trigger buttons/links should be tagged properly",
+      "id": 8965
+    },
+    {
+      "title": "Unified Engine: menu-trigger-misuse — Elements that do not expand additional content should not receive trigger attributes",
+      "id": 8971
+    },
+    {
+      "title": "Unified Engine: navigation-mismatch — A list of navigation links is not contained in a navigation landmark",
+      "id": 8972
+    },
+    {
+      "title": "Unified Engine: navigation-not-nested — Avoid using nested navigation structure",
+      "id": 8973
+    },
+    {
+      "title": "Unified Engine: navigation-redundant-discernible-text — navigation-redundant-discernible-text",
+      "id": 8974
+    },
+    {
+      "title": "Unified Engine: no-extra-information-in-title — The title attribute should not be the only method used to provide information",
+      "id": 8975
+    },
+    {
+      "title": "Unified Engine: no-ui-slider-single-pointer — A slider should be operated with a single pointer",
+      "id": 8981
+    },
+    {
+      "title": "Unified Engine: page-meta-description — Page has a meta description",
+      "id": 8982
+    },
+    {
+      "title": "Unified Engine: page-meta-viewport — page-meta-viewport",
+      "id": 8983
+    },
+    {
+      "title": "Unified Engine: page-no-meta-http-equiv-refresh — Pages should not use <meta http-equiv=\"refresh\"> for automatic redirection or reloading",
+      "id": 8984
+    },
+    {
+      "title": "Unified Engine: page-title-valid — Page title should be descriptive",
+      "id": 8985
+    },
+    {
+      "title": "Unified Engine: pixel-image-not-discernible — Pixels should be hidden from assistive technology",
+      "id": 8991
+    },
+    {
+      "title": "Unified Engine: popup-focus — Keyboard focus should move into and lock inside active dialogs",
+      "id": 8992
+    },
+    {
+      "title": "Unified Engine: radio-aria-checked — Checked state of custom radio controls should be indicated to assistive technology",
+      "id": 8993
+    },
+    {
+      "title": "Unified Engine: radio-discernible — Radio controls should have a label",
+      "id": 8994
+    },
+    {
+      "title": "Unified Engine: radio-mismatch — Custom radio controls should be tagged for assistive technology",
+      "id": 8995
+    },
+    {
+      "title": "Unified Engine: radio-misuse — Only elements that function as radio controls should receive role=\"radio\"",
+      "id": 9001
+    },
+    {
+      "title": "Unified Engine: redundant-discernible-content — Assigned label should not be redundant",
+      "id": 9002
+    },
+    {
+      "title": "Unified Engine: region-footer-mismatch — Global site information that appears at the end of each page is contained in a contentinfo landmark (footer)",
+      "id": 9003
+    },
+    {
+      "title": "Unified Engine: region-footer-misuse — An element without global site information is tagged as a contentinfo landmark",
+      "id": 9004
+    },
+    {
+      "title": "Unified Engine: region-footer-single — Each page should include at most one global contentinfo landmark (footer)",
+      "id": 9005
+    },
+    {
+      "title": "Unified Engine: region-main-content — Each web page that uses landmark regions should have a main landmark",
+      "id": 9011
+    },
+    {
+      "title": "Unified Engine: region-main-content-mismatch — All of the main content on the page is contained in the main landmark",
+      "id": 9012
+    },
+    {
+      "title": "Unified Engine: region-main-content-misuse — An element without main content is tagged as a main landmark",
+      "id": 9013
+    },
+    {
+      "title": "Unified Engine: region-main-content-single — Each page should include at most one main landmark",
+      "id": 9014
+    },
+    {
+      "title": "Unified Engine: region-main-navigation-mismatch — region-main-navigation-mismatch",
+      "id": 9015
+    },
+    {
+      "title": "Unified Engine: sale-price-discernible — Original and discounted prices should be indicated to assistive technology",
+      "id": 9021
+    },
+    {
+      "title": "Unified Engine: search-input-dynamic-results-announcement — search-input-dynamic-results-announcement",
+      "id": 9022
+    },
+    {
+      "title": "Unified Engine: select-option-mismatch — Custom select options should be tagged for assistive technology",
+      "id": 9023
+    },
+    {
+      "title": "Unified Engine: select-option-misuse — Only elements that function as select options should be tagged as option",
+      "id": 9024
+    },
+    {
+      "title": "Unified Engine: skip-link-first — Skip links should be the first elements on a page",
+      "id": 9025
+    },
+    {
+      "title": "Unified Engine: slider-dragging-movements — Sliders requiring dragging movements must offer alternative single-pointer operation methods",
+      "id": 9031
+    },
+    {
+      "title": "Unified Engine: sr-hidden-tabbable — Hidden elements should not be keyboard navigable",
+      "id": 9032
+    },
+    {
+      "title": "Unified Engine: strong-mismatch — Strong should be tagged properly for assistive technology",
+      "id": 9033
+    },
+    {
+      "title": "Unified Engine: svg-discernible — SVG discernible",
+      "id": 9034
+    },
+    {
+      "title": "Unified Engine: tab-list-mismatch — Tablists should be tagged for assistive technology",
+      "id": 9035
+    },
+    {
+      "title": "Unified Engine: tab-list-misuse — Only elements that function as tablists should receive role=\"tablist\"",
+      "id": 9041
+    },
+    {
+      "title": "Unified Engine: tab-mismatch — Tab controls should be tagged for assistive technology",
+      "id": 9042
+    },
+    {
+      "title": "Unified Engine: tab-misuse — Only elements that function as tabs should receive role=\"tab\"",
+      "id": 9043
+    },
+    {
+      "title": "Unified Engine: tab-panel-mismatch — Tab panels should be tagged for assistive technology",
+      "id": 9044
+    },
+    {
+      "title": "Unified Engine: tab-panel-misuse — Only elements that function as tab panels should receive role=\"tabpanel\"",
+      "id": 9045
+    },
+    {
+      "title": "Unified Engine: tabbable-non-interactive — Non-interactive elements should not be keyboard navigable",
+      "id": 9051
+    },
+    {
+      "title": "Unified Engine: tabbable-visible — Use the tabindex attribute correctly to manage focus for visible and hidden interactive elements",
+      "id": 9052
+    },
+    {
+      "title": "Unified Engine: tabindex-valid — The tabindex attribute should be assigned a valid value",
+      "id": 9053
+    },
+    {
+      "title": "Unified Engine: table-header-not-empty — table-header-not-empty",
+      "id": 9054
+    },
+    {
+      "title": "Unified Engine: table-headers — Tables should include table header tags",
+      "id": 9055
+    },
+    {
+      "title": "Unified Engine: table-not-nested — Tables should not be nested",
+      "id": 9061
+    },
+    {
+      "title": "Unified Engine: text-spacing-line-height — Line height should scale to at least 1.5 times the font size without loss of content or functionality",
+      "id": 9062
+    },
+    {
+      "title": "Unified Engine: text-spacing-paragraph-spacing — text-spacing-paragraph-spacing",
+      "id": 9063
+    },
+    {
+      "title": "Unified Engine: text-spacing-word-spacing — Word spacing should scale to at least 0.16 times the font size without loss of content or functionality",
+      "id": 9064
+    },
+    {
+      "title": "Unified Engine: toggle-button-correct-state — The state of toggle buttons should be accurate",
+      "id": 9065
+    },
+    {
+      "title": "Unified Engine: toggle-button-mismatch — Toggle buttons should expose their state to assistive technology",
+      "id": 9071
+    },
+    {
+      "title": "Unified Engine: toggle-button-misuse — Only elements that function as toggle buttons should be assigned the aria-pressed attribute",
+      "id": 9072
+    },
+    {
+      "title": "Unified Engine: user-rating-discernible — User ratings should be tagged and labeled for assistive technology",
+      "id": 9073
+    },
+    {
+      "title": "Unified Engine: visibility-mismatch — Visible content should not be hidden from assistive technology",
+      "id": 9074
+    },
+    {
+      "title": "Unified Engine: visible-text-part-of-accessible-name — visible-text-part-of-accessible-name",
+      "id": 9075
+    }
+  ],
+  "createsFailed": [],
+  "createdIds": [
+    8801,
+    8802,
+    8803,
+    8804,
+    8805,
+    8811,
+    8812,
+    8813,
+    8814,
+    8815,
+    8821,
+    8822,
+    8823,
+    8824,
+    8825,
+    8831,
+    8832,
+    8833,
+    8834,
+    8835,
+    8841,
+    8842,
+    8843,
+    8844,
+    8845,
+    8851,
+    8852,
+    8853,
+    8854,
+    8855,
+    8861,
+    8862,
+    8863,
+    8864,
+    8865,
+    8871,
+    8872,
+    8873,
+    8874,
+    8875,
+    8881,
+    8882,
+    8883,
+    8884,
+    8885,
+    8891,
+    8892,
+    8893,
+    8894,
+    8895,
+    8901,
+    8902,
+    8903,
+    8904,
+    8905,
+    8911,
+    8912,
+    8913,
+    8914,
+    8915,
+    8921,
+    8922,
+    8923,
+    8924,
+    8925,
+    8931,
+    8932,
+    8933,
+    8934,
+    8935,
+    8941,
+    8942,
+    8943,
+    8944,
+    8945,
+    8951,
+    8952,
+    8953,
+    8954,
+    8955,
+    8961,
+    8962,
+    8963,
+    8964,
+    8965,
+    8971,
+    8972,
+    8973,
+    8974,
+    8975,
+    8981,
+    8982,
+    8983,
+    8984,
+    8985,
+    8991,
+    8992,
+    8993,
+    8994,
+    8995,
+    9001,
+    9002,
+    9003,
+    9004,
+    9005,
+    9011,
+    9012,
+    9013,
+    9014,
+    9015,
+    9021,
+    9022,
+    9023,
+    9024,
+    9025,
+    9031,
+    9032,
+    9033,
+    9034,
+    9035,
+    9041,
+    9042,
+    9043,
+    9044,
+    9045,
+    9051,
+    9052,
+    9053,
+    9054,
+    9055,
+    9061,
+    9062,
+    9063,
+    9064,
+    9065,
+    9071,
+    9072,
+    9073,
+    9074,
+    9075
+  ]
+}

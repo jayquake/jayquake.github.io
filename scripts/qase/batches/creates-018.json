@@ -1,0 +1,572 @@
+[
+  {
+    "key": "menu-trigger-misuse",
+    "action": "create",
+    "ruleId": "menu-trigger-misuse",
+    "payload": {
+      "ruleId": "menu-trigger-misuse",
+      "title": "Unified Engine: menu-trigger-misuse — Elements that do not expand additional content should not receive trigger attributes",
+      "description": "**Engine rule ID:** `menu-trigger-misuse`\n**RAIDEN routes:** `/engine/menu-trigger-misuse`, `/engine/menu-trigger-misuse_success`, `/engine/menu-trigger-misuse_failure`\n**Atomic tests:** `src/components/pages/engine-rules/menu-trigger-misuse/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Only interactive elements that trigger additional content should have relationship and state ARIA attributes, such as aria-expanded and aria-controls, if they have interactive roles, such as button, tab, combobox and in rarer cases, link.\n**Remediation advice:** Remove ARIA relationship and state attributes that are reserved for triggers that expose additional content, such as aria-expanded or aria-controls, from the failing element\n**Fixtures:** 6 pass, 3 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `menu-trigger-misuse` examples published at `/engine/menu-trigger-misuse_success` and `/engine/menu-trigger-misuse_failure`.\n5. **Fixture count:** 6 pass, 3 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "menu-trigger-misuse"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/menu-trigger-misuse` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → menu-trigger-misuse.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/menu-trigger-misuse\nruleId = menu-trigger-misuse\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/menu-trigger-misuse_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/menu-trigger-misuse_success\npassFixtures = 6\natomic-tests/pass/bootstrap-dropdown-menu.html\natomic-tests/pass/content-index-open-links-menu.html\natomic-tests/pass/mui-react-menu.html\natomic-tests/pass/no-compliant-menu-trigger.html\natomic-tests/pass/partner-co-il-link-in-packages.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/menu-trigger-misuse_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/menu-trigger-misuse_failure\nfailFixtures = 3\natomic-tests/fail/koffeekult-not-menu-trigger-li-aria-expanded-false.html\natomic-tests/fail/koffeekult-not-menu-trigger-li-aria-expanded-true.html\natomic-tests/fail/link-in-nav.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for menu-trigger-misuse\n- pass/bootstrap-dropdown-menu.html → Passed node\n- pass/content-index-open-links-menu.html → Passed node\n- pass/mui-react-menu.html → Passed node\n- pass/no-compliant-menu-trigger.html → Passed node\n- pass/partner-co-il-link-in-packages.html → Passed node\n- pass/search-dialog-trigger.html → Passed node\n- fail/koffeekult-not-menu-trigger-li-aria-expanded-false.html → Failed node\n- fail/koffeekult-not-menu-trigger-li-aria-expanded-true.html → Failed node\n- fail/link-in-nav.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `menu-trigger-misuse` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = menu-trigger-misuse\nissueSource = RAIDEN examples at /engine/menu-trigger-misuse_success and /engine/menu-trigger-misuse_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: bootstrap dropdown menu (bootstrap-dropdown-menu.html)",
+          "pass: content index open links menu (content-index-open-links-menu.html)",
+          "pass: mui react menu (mui-react-menu.html)",
+          "pass: no compliant menu trigger (no-compliant-menu-trigger.html)",
+          "pass: partner co il link in packages (partner-co-il-link-in-packages.html)",
+          "pass: search dialog trigger (search-dialog-trigger.html)",
+          "fail: koffeekult not menu trigger li aria expanded false (koffeekult-not-menu-trigger-li-aria-expanded-false.html)",
+          "fail: koffeekult not menu trigger li aria expanded true (koffeekult-not-menu-trigger-li-aria-expanded-true.html)",
+          "fail: link in nav (link-in-nav.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/bootstrap-dropdown-menu.html",
+          "atomic-tests/pass/content-index-open-links-menu.html",
+          "atomic-tests/pass/mui-react-menu.html",
+          "atomic-tests/pass/no-compliant-menu-trigger.html",
+          "atomic-tests/pass/partner-co-il-link-in-packages.html",
+          "atomic-tests/pass/search-dialog-trigger.html",
+          "atomic-tests/fail/koffeekult-not-menu-trigger-li-aria-expanded-false.html",
+          "atomic-tests/fail/koffeekult-not-menu-trigger-li-aria-expanded-true.html",
+          "atomic-tests/fail/link-in-nav.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 6,
+        "fail": 3,
+        "total": 9
+      }
+    }
+  },
+  {
+    "key": "navigation-mismatch",
+    "action": "create",
+    "ruleId": "navigation-mismatch",
+    "payload": {
+      "ruleId": "navigation-mismatch",
+      "title": "Unified Engine: navigation-mismatch — A list of navigation links is not contained in a navigation landmark",
+      "description": "**Engine rule ID:** `navigation-mismatch`\n**RAIDEN routes:** `/engine/navigation-mismatch`, `/engine/navigation-mismatch_success`, `/engine/navigation-mismatch_failure`\n**Atomic tests:** `src/components/pages/engine-rules/navigation-mismatch/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Screen readers rely on accurate tagging and labeling to provide necessary context. If a navigation region is not tagged as a navigation landmark, screen reader users may lose orientation and find the page's structure difficult to understand.\n**Remediation advice:** Add role=\"navigation\" to the custom navigation region, or use a HTML <nav> element.\n**Fixtures:** 3 pass, 6 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `navigation-mismatch` examples published at `/engine/navigation-mismatch_success` and `/engine/navigation-mismatch_failure`.\n5. **Fixture count:** 3 pass, 6 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "navigation-mismatch"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/navigation-mismatch` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`moderate`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → navigation-mismatch.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/navigation-mismatch\nruleId = navigation-mismatch\nimpact = moderate",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/navigation-mismatch_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/navigation-mismatch_success\npassFixtures = 3\natomic-tests/pass/nav-role-is-container-of-multiple-list-menus-nav-links.html\natomic-tests/pass/nav-role-is-container-of-multiple-list-menus.html\natomic-tests/pass/nav-role-is-container-of-single-list-menu.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/navigation-mismatch_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/navigation-mismatch_failure\nfailFixtures = 6\natomic-tests/fail/hotmobile-co-il-main-nav.html\natomic-tests/fail/isabelbernard-com-navigation-with-images.html\natomic-tests/fail/navigation-no-role.html\natomic-tests/fail/nested-nav-element-with-divs.html\natomic-tests/fail/nested-nav-element-with-lists.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for navigation-mismatch\n- pass/nav-role-is-container-of-multiple-list-menus-nav-links.html → Passed node\n- pass/nav-role-is-container-of-multiple-list-menus.html → Passed node\n- pass/nav-role-is-container-of-single-list-menu.html → Passed node\n- fail/hotmobile-co-il-main-nav.html → Failed node\n- fail/isabelbernard-com-navigation-with-images.html → Failed node\n- fail/navigation-no-role.html → Failed node\n- fail/nested-nav-element-with-divs.html → Failed node\n- fail/nested-nav-element-with-lists.html → Failed node\n- fail/partner-co-il-main-nav.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `navigation-mismatch` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = navigation-mismatch\nissueSource = RAIDEN examples at /engine/navigation-mismatch_success and /engine/navigation-mismatch_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: nav role is container of multiple list menus nav links (nav-role-is-container-of-multiple-list-menus-nav-links.html)",
+          "pass: nav role is container of multiple list menus (nav-role-is-container-of-multiple-list-menus.html)",
+          "pass: nav role is container of single list menu (nav-role-is-container-of-single-list-menu.html)",
+          "fail: hotmobile co il main nav (hotmobile-co-il-main-nav.html)",
+          "fail: isabelbernard com navigation with images (isabelbernard-com-navigation-with-images.html)",
+          "fail: navigation no role (navigation-no-role.html)",
+          "fail: nested nav element with divs (nested-nav-element-with-divs.html)",
+          "fail: nested nav element with lists (nested-nav-element-with-lists.html)",
+          "fail: partner co il main nav (partner-co-il-main-nav.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/nav-role-is-container-of-multiple-list-menus-nav-links.html",
+          "atomic-tests/pass/nav-role-is-container-of-multiple-list-menus.html",
+          "atomic-tests/pass/nav-role-is-container-of-single-list-menu.html",
+          "atomic-tests/fail/hotmobile-co-il-main-nav.html",
+          "atomic-tests/fail/isabelbernard-com-navigation-with-images.html",
+          "atomic-tests/fail/navigation-no-role.html",
+          "atomic-tests/fail/nested-nav-element-with-divs.html",
+          "atomic-tests/fail/nested-nav-element-with-lists.html",
+          "atomic-tests/fail/partner-co-il-main-nav.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 3,
+        "fail": 6,
+        "total": 9
+      }
+    }
+  },
+  {
+    "key": "navigation-not-nested",
+    "action": "create",
+    "ruleId": "navigation-not-nested",
+    "payload": {
+      "ruleId": "navigation-not-nested",
+      "title": "Unified Engine: navigation-not-nested — Avoid using nested navigation structure",
+      "description": "**Engine rule ID:** `navigation-not-nested`\n**RAIDEN routes:** `/engine/navigation-not-nested`, `/engine/navigation-not-nested_success`, `/engine/navigation-not-nested_failure`\n**Atomic tests:** `src/components/pages/engine-rules/navigation-not-nested/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Complex navigation components can be difficult for screen readers to handle. This is especially true if submenus or other complex structures exist. Nesting navigation regions makes it harder for screen reader users to understand a page's structure and disrupts orientation.\n**Remediation advice:** If the failing element is a custom navigation region, remove role=\"navigation\". If the failing element is coded using a HTML <nav> tag, apply role=\"presentation\" or a role that is suitable for the function of the element.\n**Fixtures:** 5 pass, 5 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `navigation-not-nested` examples published at `/engine/navigation-not-nested_success` and `/engine/navigation-not-nested_failure`.\n5. **Fixture count:** 5 pass, 5 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "navigation-not-nested"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/navigation-not-nested` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`moderate`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → navigation-not-nested.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/navigation-not-nested\nruleId = navigation-not-nested\nimpact = moderate",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/navigation-not-nested_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/navigation-not-nested_success\npassFixtures = 5\natomic-tests/pass/nav-nested-presentation.html\natomic-tests/pass/nav-no-nested-multi.html\natomic-tests/pass/nav-no-nested.html\natomic-tests/pass/nav-role-nested-presentation.html\natomic-tests/pass/nav-role-no-nested.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/navigation-not-nested_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/navigation-not-nested_failure\nfailFixtures = 5\natomic-tests/fail/nav-nested-nav-multi.html\natomic-tests/fail/nav-nested-nav-role.html\natomic-tests/fail/nav-nested-nav.html\natomic-tests/fail/nav-role-nested-nav-role.html\natomic-tests/fail/nav-role-nested-nav.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for navigation-not-nested\n- pass/nav-nested-presentation.html → Passed node\n- pass/nav-no-nested-multi.html → Passed node\n- pass/nav-no-nested.html → Passed node\n- pass/nav-role-nested-presentation.html → Passed node\n- pass/nav-role-no-nested.html → Passed node\n- fail/nav-nested-nav-multi.html → Failed node\n- fail/nav-nested-nav-role.html → Failed node\n- fail/nav-nested-nav.html → Failed node\n- fail/nav-role-nested-nav-role.html → Failed node\n- fail/nav-role-nested-nav.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `navigation-not-nested` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = navigation-not-nested\nissueSource = RAIDEN examples at /engine/navigation-not-nested_success and /engine/navigation-not-nested_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: nav nested presentation (nav-nested-presentation.html)",
+          "pass: nav no nested multi (nav-no-nested-multi.html)",
+          "pass: nav no nested (nav-no-nested.html)",
+          "pass: nav role nested presentation (nav-role-nested-presentation.html)",
+          "pass: nav role no nested (nav-role-no-nested.html)",
+          "fail: nav nested nav multi (nav-nested-nav-multi.html)",
+          "fail: nav nested nav role (nav-nested-nav-role.html)",
+          "fail: nav nested nav (nav-nested-nav.html)",
+          "fail: nav role nested nav role (nav-role-nested-nav-role.html)",
+          "fail: nav role nested nav (nav-role-nested-nav.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/nav-nested-presentation.html",
+          "atomic-tests/pass/nav-no-nested-multi.html",
+          "atomic-tests/pass/nav-no-nested.html",
+          "atomic-tests/pass/nav-role-nested-presentation.html",
+          "atomic-tests/pass/nav-role-no-nested.html",
+          "atomic-tests/fail/nav-nested-nav-multi.html",
+          "atomic-tests/fail/nav-nested-nav-role.html",
+          "atomic-tests/fail/nav-nested-nav.html",
+          "atomic-tests/fail/nav-role-nested-nav-role.html",
+          "atomic-tests/fail/nav-role-nested-nav.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 5,
+        "fail": 5,
+        "total": 10
+      }
+    }
+  },
+  {
+    "key": "navigation-redundant-discernible-text",
+    "action": "create",
+    "ruleId": "navigation-redundant-discernible-text",
+    "payload": {
+      "ruleId": "navigation-redundant-discernible-text",
+      "title": "Unified Engine: navigation-redundant-discernible-text — navigation-redundant-discernible-text",
+      "description": "**Engine rule ID:** `navigation-redundant-discernible-text`\n**RAIDEN routes:** `/engine/navigation-redundant-discernible-text`, `/engine/navigation-redundant-discernible-text_success`, `/engine/navigation-redundant-discernible-text_failure`\n**Atomic tests:** `src/components/pages/engine-rules/navigation-redundant-discernible-text/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Fixtures:** 10 pass, 4 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `navigation-redundant-discernible-text` examples published at `/engine/navigation-redundant-discernible-text_success` and `/engine/navigation-redundant-discernible-text_failure`.\n5. **Fixture count:** 10 pass, 4 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "navigation-redundant-discernible-text"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/navigation-redundant-discernible-text` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`medium`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → navigation-redundant-discernible-text.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/navigation-redundant-discernible-text\nruleId = navigation-redundant-discernible-text\nimpact = medium",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/navigation-redundant-discernible-text_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/navigation-redundant-discernible-text_success\npassFixtures = 10\natomic-tests/pass/nav-no-aria-label.html\natomic-tests/pass/nav-with-aria-label.html\natomic-tests/pass/nav-with-aria-labelledby.html\natomic-tests/pass/nav-with-empty-aria-labelledby.html\natomic-tests/pass/nav-with-no-aria-labelledby.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/navigation-redundant-discernible-text_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/navigation-redundant-discernible-text_failure\nfailFixtures = 4\natomic-tests/fail/nav-wrong-label.html\natomic-tests/fail/nav-wrong-labelledby.html\natomic-tests/fail/role-nav-wrong-label.html\natomic-tests/fail/role-nav-wrong-labelledby.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for navigation-redundant-discernible-text\n- pass/nav-no-aria-label.html → Passed node\n- pass/nav-with-aria-label.html → Passed node\n- pass/nav-with-aria-labelledby.html → Passed node\n- pass/nav-with-empty-aria-labelledby.html → Passed node\n- pass/nav-with-no-aria-labelledby.html → Passed node\n- pass/role-nav-correct-label.html → Passed node\n- pass/role-nav-multi-aria-labelledby.html → Passed node\n- pass/role-nav-no-aria-label.html → Passed node\n- pass/role-nav-with-aria-label.html → Passed node\n- pass/role-nav-with-aria-labelledby.html → Passed node\n- fail/nav-wrong-label.html → Failed node\n- fail/nav-wrong-labelledby.html → Failed node\n- fail/role-nav-wrong-label.html → Failed node\n- fail/role-nav-wrong-labelledby.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `navigation-redundant-discernible-text` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = navigation-redundant-discernible-text\nissueSource = RAIDEN examples at /engine/navigation-redundant-discernible-text_success and /engine/navigation-redundant-discernible-text_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: nav no aria label (nav-no-aria-label.html)",
+          "pass: nav with aria label (nav-with-aria-label.html)",
+          "pass: nav with aria labelledby (nav-with-aria-labelledby.html)",
+          "pass: nav with empty aria labelledby (nav-with-empty-aria-labelledby.html)",
+          "pass: nav with no aria labelledby (nav-with-no-aria-labelledby.html)",
+          "pass: role nav correct label (role-nav-correct-label.html)",
+          "pass: role nav multi aria labelledby (role-nav-multi-aria-labelledby.html)",
+          "pass: role nav no aria label (role-nav-no-aria-label.html)",
+          "pass: role nav with aria label (role-nav-with-aria-label.html)",
+          "pass: role nav with aria labelledby (role-nav-with-aria-labelledby.html)",
+          "fail: nav wrong label (nav-wrong-label.html)",
+          "fail: nav wrong labelledby (nav-wrong-labelledby.html)",
+          "fail: role nav wrong label (role-nav-wrong-label.html)",
+          "fail: role nav wrong labelledby (role-nav-wrong-labelledby.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/nav-no-aria-label.html",
+          "atomic-tests/pass/nav-with-aria-label.html",
+          "atomic-tests/pass/nav-with-aria-labelledby.html",
+          "atomic-tests/pass/nav-with-empty-aria-labelledby.html",
+          "atomic-tests/pass/nav-with-no-aria-labelledby.html",
+          "atomic-tests/pass/role-nav-correct-label.html",
+          "atomic-tests/pass/role-nav-multi-aria-labelledby.html",
+          "atomic-tests/pass/role-nav-no-aria-label.html",
+          "atomic-tests/pass/role-nav-with-aria-label.html",
+          "atomic-tests/pass/role-nav-with-aria-labelledby.html",
+          "atomic-tests/fail/nav-wrong-label.html",
+          "atomic-tests/fail/nav-wrong-labelledby.html",
+          "atomic-tests/fail/role-nav-wrong-label.html",
+          "atomic-tests/fail/role-nav-wrong-labelledby.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 10,
+        "fail": 4,
+        "total": 14
+      }
+    }
+  },
+  {
+    "key": "no-extra-information-in-title",
+    "action": "create",
+    "ruleId": "no-extra-information-in-title",
+    "payload": {
+      "ruleId": "no-extra-information-in-title",
+      "title": "Unified Engine: no-extra-information-in-title — The title attribute should not be the only method used to provide information",
+      "description": "**Engine rule ID:** `no-extra-information-in-title`\n**RAIDEN routes:** `/engine/no-extra-information-in-title`, `/engine/no-extra-information-in-title_success`, `/engine/no-extra-information-in-title_failure`\n**Atomic tests:** `src/components/pages/engine-rules/no-extra-information-in-title/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** The title attribute is announced inconsistently across screen readers and browsers, making it unreliable for labeling interactive controls. Because many users may never hear the content, reliance on the attribute risks loss of information. Instead, it should be used to provide extra help text in addition to a valid label.\n**Remediation advice:** Make sure that the title attribute is not the only means of providing a label by assigning an aria-label or aria-labelledby attribute to the interactive control.\n**Fixtures:** 13 pass, 5 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `no-extra-information-in-title` examples published at `/engine/no-extra-information-in-title_success` and `/engine/no-extra-information-in-title_failure`.\n5. **Fixture count:** 13 pass, 5 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 5,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "no-extra-information-in-title"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/no-extra-information-in-title` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`minor`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → no-extra-information-in-title.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/no-extra-information-in-title\nruleId = no-extra-information-in-title\nimpact = minor",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/no-extra-information-in-title_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/no-extra-information-in-title_success\npassFixtures = 13\natomic-tests/pass/i-srVisibleText-contains-the-title.html\natomic-tests/pass/img-with-alt-contains-the-title.html\natomic-tests/pass/img-with-title-and-alt-aria-hidden-true.html\natomic-tests/pass/img-with-title-and-empty-alt.html\natomic-tests/pass/img-with-title-without-alt.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/no-extra-information-in-title_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/no-extra-information-in-title_failure\nfailFixtures = 5\natomic-tests/fail/h1-with-srVisibleText-does-not-contain-title.html\natomic-tests/fail/img-with-title-and-alt.html\natomic-tests/fail/input-with-title-and-aria-label.html\natomic-tests/fail/title-has-content-no-children.html\natomic-tests/fail/title-has-content-with-children.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for no-extra-information-in-title\n- pass/i-srVisibleText-contains-the-title.html → Passed node\n- pass/img-with-alt-contains-the-title.html → Passed node\n- pass/img-with-title-and-alt-aria-hidden-true.html → Passed node\n- pass/img-with-title-and-empty-alt.html → Passed node\n- pass/img-with-title-without-alt.html → Passed node\n- pass/input-with-aria-label-contains-the-title.html → Passed node\n- pass/input-with-title-with-empty-aria-label.html → Passed node\n- pass/input-with-title-without-aria-label.html → Passed node\n- pass/srVisibleText-contains-the-trim-title.html → Passed node\n- pass/title-and-alt-content-are-the-same.html → Passed node\n- pass/title-content-is-empty.html → Passed node\n- pass/title-has-content-no-children-with-sr-only.html → Passed node\n- pass/title-has-content-with-children-with-sr-only.html → Passed node\n- fail/h1-with-srVisibleText-does-not-contain-title.html → Failed node\n- fail/img-with-title-and-alt.html → Failed node\n- fail/input-with-title-and-aria-label.html → Failed node\n- fail/title-has-content-no-children.html → Failed node\n- fail/title-has-content-with-children.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `no-extra-information-in-title` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = no-extra-information-in-title\nissueSource = RAIDEN examples at /engine/no-extra-information-in-title_success and /engine/no-extra-information-in-title_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: i srVisibleText contains the title (i-srVisibleText-contains-the-title.html)",
+          "pass: img with alt contains the title (img-with-alt-contains-the-title.html)",
+          "pass: img with title and alt aria hidden true (img-with-title-and-alt-aria-hidden-true.html)",
+          "pass: img with title and empty alt (img-with-title-and-empty-alt.html)",
+          "pass: img with title without alt (img-with-title-without-alt.html)",
+          "pass: input with aria label contains the title (input-with-aria-label-contains-the-title.html)",
+          "pass: input with title with empty aria label (input-with-title-with-empty-aria-label.html)",
+          "pass: input with title without aria label (input-with-title-without-aria-label.html)",
+          "pass: srVisibleText contains the trim title (srVisibleText-contains-the-trim-title.html)",
+          "pass: title and alt content are the same (title-and-alt-content-are-the-same.html)",
+          "pass: title content is empty (title-content-is-empty.html)",
+          "pass: title has content no children with sr only (title-has-content-no-children-with-sr-only.html)",
+          "pass: title has content with children with sr only (title-has-content-with-children-with-sr-only.html)",
+          "fail: h1 with srVisibleText does not contain title (h1-with-srVisibleText-does-not-contain-title.html)",
+          "fail: img with title and alt (img-with-title-and-alt.html)",
+          "fail: input with title and aria label (input-with-title-and-aria-label.html)",
+          "fail: title has content no children (title-has-content-no-children.html)",
+          "fail: title has content with children (title-has-content-with-children.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/i-srVisibleText-contains-the-title.html",
+          "atomic-tests/pass/img-with-alt-contains-the-title.html",
+          "atomic-tests/pass/img-with-title-and-alt-aria-hidden-true.html",
+          "atomic-tests/pass/img-with-title-and-empty-alt.html",
+          "atomic-tests/pass/img-with-title-without-alt.html",
+          "atomic-tests/pass/input-with-aria-label-contains-the-title.html",
+          "atomic-tests/pass/input-with-title-with-empty-aria-label.html",
+          "atomic-tests/pass/input-with-title-without-aria-label.html",
+          "atomic-tests/pass/srVisibleText-contains-the-trim-title.html",
+          "atomic-tests/pass/title-and-alt-content-are-the-same.html",
+          "atomic-tests/pass/title-content-is-empty.html",
+          "atomic-tests/pass/title-has-content-no-children-with-sr-only.html",
+          "atomic-tests/pass/title-has-content-with-children-with-sr-only.html",
+          "atomic-tests/fail/h1-with-srVisibleText-does-not-contain-title.html",
+          "atomic-tests/fail/img-with-title-and-alt.html",
+          "atomic-tests/fail/input-with-title-and-aria-label.html",
+          "atomic-tests/fail/title-has-content-no-children.html",
+          "atomic-tests/fail/title-has-content-with-children.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 13,
+        "fail": 5,
+        "total": 18
+      }
+    }
+  }
+]

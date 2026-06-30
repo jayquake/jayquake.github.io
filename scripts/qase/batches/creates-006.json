@@ -1,0 +1,491 @@
+[
+  {
+    "key": "control-field-visible-and-tabbable",
+    "action": "create",
+    "ruleId": "control-field-visible-and-tabbable",
+    "payload": {
+      "ruleId": "control-field-visible-and-tabbable",
+      "title": "Unified Engine: control-field-visible-and-tabbable — Custom checkboxes, radio buttons and file upload fields should be accessible to assistive technology",
+      "description": "**Engine rule ID:** `control-field-visible-and-tabbable`\n**RAIDEN routes:** `/engine/control-field-visible-and-tabbable`, `/engine/control-field-visible-and-tabbable_success`, `/engine/control-field-visible-and-tabbable_failure`\n**Atomic tests:** `src/components/pages/engine-rules/control-field-visible-and-tabbable/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Screen readers have built-in mechanisms to handle checkboxes, radio buttons, and file upload fields. By default, assistive technology does not support custom checkboxes, radio buttons, and file upload fields, and using those may prevent screen reader users from interacting with the fields and keyboard users from tabbing to the fields.\n**Remediation advice:** If using standard LABEL and INPUT fields with custom CSS styling, ensure the checkbox, radio button, or file input is fully visible to assistive technology but visually hidden using opacity, width, height, and positioning (never use display:none or visibility:hidden). Alternatively, create a standard checkbox, radio button, or file input field available only for screen readers using the screen reader only technique, and hide the custom checkbox, radio button, or file input from screen readers using aria-hidden=\"true\".\n**Fixtures:** 8 pass, 9 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `control-field-visible-and-tabbable` examples published at `/engine/control-field-visible-and-tabbable_success` and `/engine/control-field-visible-and-tabbable_failure`.\n5. **Fixture count:** 8 pass, 9 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "control-field-visible-and-tabbable"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/control-field-visible-and-tabbable` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → control-field-visible-and-tabbable.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/control-field-visible-and-tabbable\nruleId = control-field-visible-and-tabbable\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/control-field-visible-and-tabbable_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/control-field-visible-and-tabbable_success\npassFixtures = 8\natomic-tests/pass/custom-radio-button-1.html\natomic-tests/pass/custom-radio-button-2.html\natomic-tests/pass/custom-radio-button-rating.html\natomic-tests/pass/custom-radio-button-sketch.html\natomic-tests/pass/filepond-library.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/control-field-visible-and-tabbable_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/control-field-visible-and-tabbable_failure\nfailFixtures = 9\natomic-tests/fail/custom-checkbox-1.html\natomic-tests/fail/custom-checkbox-2.html\natomic-tests/fail/custom-checkbox-3.html\natomic-tests/fail/custom-checkbox-switch.html\natomic-tests/fail/custom-checkbox-toggle-1.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for control-field-visible-and-tabbable\n- pass/custom-radio-button-1.html → Passed node\n- pass/custom-radio-button-2.html → Passed node\n- pass/custom-radio-button-rating.html → Passed node\n- pass/custom-radio-button-sketch.html → Passed node\n- pass/filepond-library.html → Passed node\n- pass/next-ui-checkbox.html → Passed node\n- pass/regular-input-checkbox.html → Passed node\n- pass/regular-input-radio-button.html → Passed node\n- fail/custom-checkbox-1.html → Failed node\n- fail/custom-checkbox-2.html → Failed node\n- fail/custom-checkbox-3.html → Failed node\n- fail/custom-checkbox-switch.html → Failed node\n- fail/custom-checkbox-toggle-1.html → Failed node\n- fail/custom-checkbox-toggle-2.html → Failed node\n- fail/custom-radio-button-range.html → Failed node\n- fail/custom-radio-button-tab.html → Failed node\n- fail/drag-and-drop-with-hidden-input.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `control-field-visible-and-tabbable` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = control-field-visible-and-tabbable\nissueSource = RAIDEN examples at /engine/control-field-visible-and-tabbable_success and /engine/control-field-visible-and-tabbable_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: custom radio button 1 (custom-radio-button-1.html)",
+          "pass: custom radio button 2 (custom-radio-button-2.html)",
+          "pass: custom radio button rating (custom-radio-button-rating.html)",
+          "pass: custom radio button sketch (custom-radio-button-sketch.html)",
+          "pass: filepond library (filepond-library.html)",
+          "pass: next ui checkbox (next-ui-checkbox.html)",
+          "pass: regular input checkbox (regular-input-checkbox.html)",
+          "pass: regular input radio button (regular-input-radio-button.html)",
+          "fail: custom checkbox 1 (custom-checkbox-1.html)",
+          "fail: custom checkbox 2 (custom-checkbox-2.html)",
+          "fail: custom checkbox 3 (custom-checkbox-3.html)",
+          "fail: custom checkbox switch (custom-checkbox-switch.html)",
+          "fail: custom checkbox toggle 1 (custom-checkbox-toggle-1.html)",
+          "fail: custom checkbox toggle 2 (custom-checkbox-toggle-2.html)",
+          "fail: custom radio button range (custom-radio-button-range.html)",
+          "fail: custom radio button tab (custom-radio-button-tab.html)",
+          "fail: drag and drop with hidden input (drag-and-drop-with-hidden-input.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/custom-radio-button-1.html",
+          "atomic-tests/pass/custom-radio-button-2.html",
+          "atomic-tests/pass/custom-radio-button-rating.html",
+          "atomic-tests/pass/custom-radio-button-sketch.html",
+          "atomic-tests/pass/filepond-library.html",
+          "atomic-tests/pass/next-ui-checkbox.html",
+          "atomic-tests/pass/regular-input-checkbox.html",
+          "atomic-tests/pass/regular-input-radio-button.html",
+          "atomic-tests/fail/custom-checkbox-1.html",
+          "atomic-tests/fail/custom-checkbox-2.html",
+          "atomic-tests/fail/custom-checkbox-3.html",
+          "atomic-tests/fail/custom-checkbox-switch.html",
+          "atomic-tests/fail/custom-checkbox-toggle-1.html",
+          "atomic-tests/fail/custom-checkbox-toggle-2.html",
+          "atomic-tests/fail/custom-radio-button-range.html",
+          "atomic-tests/fail/custom-radio-button-tab.html",
+          "atomic-tests/fail/drag-and-drop-with-hidden-input.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 8,
+        "fail": 9,
+        "total": 17
+      }
+    }
+  },
+  {
+    "key": "custom-select-options-list-listbox",
+    "action": "create",
+    "ruleId": "custom-select-options-list-listbox",
+    "payload": {
+      "ruleId": "custom-select-options-list-listbox",
+      "title": "Unified Engine: custom-select-options-list-listbox — Custom select options lists should be tagged for assistive technology",
+      "description": "**Engine rule ID:** `custom-select-options-list-listbox`\n**RAIDEN routes:** `/engine/custom-select-options-list-listbox`, `/engine/custom-select-options-list-listbox_success`, `/engine/custom-select-options-list-listbox_failure`\n**Atomic tests:** `src/components/pages/engine-rules/custom-select-options-list-listbox/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Native select elements automatically expose their option lists to screen readers, but custom implementations must be explicitly defined. Without exposing the correct roles and nesting them in line with established markup and accessibility standards, screen reader users may not be able to make a selection.\n**Remediation advice:** Assign role=\"listbox\" to the container element that directly holds the list options.\n**Fixtures:** 2 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `custom-select-options-list-listbox` examples published at `/engine/custom-select-options-list-listbox_success` and `/engine/custom-select-options-list-listbox_failure`.\n5. **Fixture count:** 2 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "custom-select-options-list-listbox"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/custom-select-options-list-listbox` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → custom-select-options-list-listbox.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/custom-select-options-list-listbox\nruleId = custom-select-options-list-listbox\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/custom-select-options-list-listbox_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/custom-select-options-list-listbox_success\npassFixtures = 2\natomic-tests/pass/role-listbox.html\natomic-tests/pass/select-native.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/custom-select-options-list-listbox_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/custom-select-options-list-listbox_failure\nfailFixtures = 1\natomic-tests/fail/no-role.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for custom-select-options-list-listbox\n- pass/role-listbox.html → Passed node\n- pass/select-native.html → Passed node\n- fail/no-role.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `custom-select-options-list-listbox` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = custom-select-options-list-listbox\nissueSource = RAIDEN examples at /engine/custom-select-options-list-listbox_success and /engine/custom-select-options-list-listbox_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: role listbox (role-listbox.html)",
+          "pass: select native (select-native.html)",
+          "fail: no role (no-role.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/role-listbox.html",
+          "atomic-tests/pass/select-native.html",
+          "atomic-tests/fail/no-role.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 2,
+        "fail": 1,
+        "total": 3
+      }
+    }
+  },
+  {
+    "key": "custom-select-trigger-combobox",
+    "action": "create",
+    "ruleId": "custom-select-trigger-combobox",
+    "payload": {
+      "ruleId": "custom-select-trigger-combobox",
+      "title": "Unified Engine: custom-select-trigger-combobox — Custom select triggers should be tagged for assistive technology",
+      "description": "**Engine rule ID:** `custom-select-trigger-combobox`\n**RAIDEN routes:** `/engine/custom-select-trigger-combobox`, `/engine/custom-select-trigger-combobox_success`, `/engine/custom-select-trigger-combobox_failure`\n**Atomic tests:** `src/components/pages/engine-rules/custom-select-trigger-combobox/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Screen readers provide built-in support for native select triggers, but custom triggers are not automatically recognized. Without assigning the appropriate ARIA role and ensuring the element is structured in accordance with accessibility standards, assistive technology may fail to announce or activate the trigger, preventing screen reader users from opening and interacting with the select component.\n**Remediation advice:** Assign role=\"combobox\" to the custom select trigger.\n**Fixtures:** 3 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `custom-select-trigger-combobox` examples published at `/engine/custom-select-trigger-combobox_success` and `/engine/custom-select-trigger-combobox_failure`.\n5. **Fixture count:** 3 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "custom-select-trigger-combobox"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/custom-select-trigger-combobox` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → custom-select-trigger-combobox.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/custom-select-trigger-combobox\nruleId = custom-select-trigger-combobox\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/custom-select-trigger-combobox_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/custom-select-trigger-combobox_success\npassFixtures = 3\natomic-tests/pass/role-combobox.html\natomic-tests/pass/select-native.html\natomic-tests/pass/style-element-under-select.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/custom-select-trigger-combobox_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/custom-select-trigger-combobox_failure\nfailFixtures = 1\natomic-tests/fail/no-role.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for custom-select-trigger-combobox\n- pass/role-combobox.html → Passed node\n- pass/select-native.html → Passed node\n- pass/style-element-under-select.html → Passed node\n- fail/no-role.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `custom-select-trigger-combobox` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = custom-select-trigger-combobox\nissueSource = RAIDEN examples at /engine/custom-select-trigger-combobox_success and /engine/custom-select-trigger-combobox_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: role combobox (role-combobox.html)",
+          "pass: select native (select-native.html)",
+          "pass: style element under select (style-element-under-select.html)",
+          "fail: no role (no-role.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/role-combobox.html",
+          "atomic-tests/pass/select-native.html",
+          "atomic-tests/pass/style-element-under-select.html",
+          "atomic-tests/fail/no-role.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 3,
+        "fail": 1,
+        "total": 4
+      }
+    }
+  },
+  {
+    "key": "dialog-modal-focus",
+    "action": "create",
+    "ruleId": "dialog-modal-focus",
+    "payload": {
+      "ruleId": "dialog-modal-focus",
+      "title": "Unified Engine: dialog-modal-focus — Keyboard focus should move into and lock inside active dialogs",
+      "description": "**Engine rule ID:** `dialog-modal-focus`\n**RAIDEN routes:** `/engine/dialog-modal-focus`, `/engine/dialog-modal-focus_success`, `/engine/dialog-modal-focus_failure`\n**Atomic tests:** `src/components/pages/engine-rules/dialog-modal-focus/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Dialogs that appear on pages without receiving keyboard focus immediately on interaction often leave users navigating content behind the dialog and make it difficult or impossible for keyboard and screen reader users to access the dialog itself.\n**Remediation advice:** When a dialog opens, use JavaScript to place keyboard focus on the first interactive element within the dialog. If static content, such as lists, tables, or paragraphs, appears before any interactive elements and it needs to be perceived in order to easily understand the content, tabindex=\"-1\" can be added to a static element at the start of the content to initially focus that element.\n**Fixtures:** 1 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `dialog-modal-focus` examples published at `/engine/dialog-modal-focus_success` and `/engine/dialog-modal-focus_failure`.\n5. **Fixture count:** 1 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "dialog-modal-focus"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/dialog-modal-focus` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → dialog-modal-focus.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/dialog-modal-focus\nruleId = dialog-modal-focus\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/dialog-modal-focus_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/dialog-modal-focus_success\npassFixtures = 1\natomic-tests/pass/dialog-with-autofocus.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/dialog-modal-focus_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/dialog-modal-focus_failure\nfailFixtures = 1\natomic-tests/fail/dialog-without-autofocus.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for dialog-modal-focus\n- pass/dialog-with-autofocus.html → Passed node\n- fail/dialog-without-autofocus.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `dialog-modal-focus` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = dialog-modal-focus\nissueSource = RAIDEN examples at /engine/dialog-modal-focus_success and /engine/dialog-modal-focus_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: dialog with autofocus (dialog-with-autofocus.html)",
+          "fail: dialog without autofocus (dialog-without-autofocus.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/dialog-with-autofocus.html",
+          "atomic-tests/fail/dialog-without-autofocus.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 1,
+        "fail": 1,
+        "total": 2
+      }
+    }
+  },
+  {
+    "key": "dialog-modal-mismatch",
+    "action": "create",
+    "ruleId": "dialog-modal-mismatch",
+    "payload": {
+      "ruleId": "dialog-modal-mismatch",
+      "title": "Unified Engine: dialog-modal-mismatch — Modal dialogs should be tagged for assistive technology",
+      "description": "**Engine rule ID:** `dialog-modal-mismatch`\n**RAIDEN routes:** `/engine/dialog-modal-mismatch`, `/engine/dialog-modal-mismatch_success`, `/engine/dialog-modal-mismatch_failure`\n**Atomic tests:** `src/components/pages/engine-rules/dialog-modal-mismatch/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Content behind active modal dialogs should not be navigable, otherwise screen reader users may still encounter hidden or unrelated content, disrupting the intended workflow and making it harder to focus on the dialog’s purpose.\n**Remediation advice:** Add aria-modal=\"true\" alongside role=\"dialog\" to indicate to screen readers that the dialog is modal and that content outside of it should be treated as inactive. Screen readers will recognize this and adjust their behavior to keep the user’s focus inside the dialog.\n**Fixtures:** 3 pass, 4 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `dialog-modal-mismatch` examples published at `/engine/dialog-modal-mismatch_success` and `/engine/dialog-modal-mismatch_failure`.\n5. **Fixture count:** 3 pass, 4 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "dialog-modal-mismatch"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/dialog-modal-mismatch` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → dialog-modal-mismatch.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/dialog-modal-mismatch\nruleId = dialog-modal-mismatch\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/dialog-modal-mismatch_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/dialog-modal-mismatch_success\npassFixtures = 3\natomic-tests/pass/dialog-not-open-display-block.html\natomic-tests/pass/dialog-open.html\natomic-tests/pass/modal-with-attributes.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/dialog-modal-mismatch_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/dialog-modal-mismatch_failure\nfailFixtures = 4\natomic-tests/fail/70-precents-height-backdrop.html\natomic-tests/fail/modal-no-attributes.html\natomic-tests/fail/popup-no-aria-modal.html\natomic-tests/fail/popup-no-dialog-role.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for dialog-modal-mismatch\n- pass/dialog-not-open-display-block.html → Passed node\n- pass/dialog-open.html → Passed node\n- pass/modal-with-attributes.html → Passed node\n- fail/70-precents-height-backdrop.html → Failed node\n- fail/modal-no-attributes.html → Failed node\n- fail/popup-no-aria-modal.html → Failed node\n- fail/popup-no-dialog-role.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `dialog-modal-mismatch` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = dialog-modal-mismatch\nissueSource = RAIDEN examples at /engine/dialog-modal-mismatch_success and /engine/dialog-modal-mismatch_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: dialog not open display block (dialog-not-open-display-block.html)",
+          "pass: dialog open (dialog-open.html)",
+          "pass: modal with attributes (modal-with-attributes.html)",
+          "fail: 70 precents height backdrop (70-precents-height-backdrop.html)",
+          "fail: modal no attributes (modal-no-attributes.html)",
+          "fail: popup no aria modal (popup-no-aria-modal.html)",
+          "fail: popup no dialog role (popup-no-dialog-role.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/dialog-not-open-display-block.html",
+          "atomic-tests/pass/dialog-open.html",
+          "atomic-tests/pass/modal-with-attributes.html",
+          "atomic-tests/fail/70-precents-height-backdrop.html",
+          "atomic-tests/fail/modal-no-attributes.html",
+          "atomic-tests/fail/popup-no-aria-modal.html",
+          "atomic-tests/fail/popup-no-dialog-role.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 3,
+        "fail": 4,
+        "total": 7
+      }
+    }
+  }
+]

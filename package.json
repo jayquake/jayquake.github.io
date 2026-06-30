@@ -44,7 +44,8 @@
     "react-app-rewired": "^2.2.1",
     "selenium-webdriver": "^4.32.0",
     "serve": "^14.2.6",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "webpack-bundle-analyzer": "^4.10.2"
   },
   "scripts": {
     "start": "PORT=3003 react-app-rewired start",
@@ -55,8 +56,10 @@
     "deploy:trigger": "gh workflow run deploy.yml",
     "sync:engine-rules": "node scripts/sync-engine-rules-from-core.js",
     "validate:atomic-parity": "node scripts/validate-atomic-tests-parity.js",
-    "prebuild": "node scripts/generate-static-projects.js",
+    "prebuild": "node scripts/generate-static-projects.js && node scripts/generate-engine-rules-index.js",
     "build": "npm run prebuild && CI=false react-app-rewired build",
+    "build:analyze": "npm run prebuild && ANALYZE=true CI=false react-app-rewired build",
+    "perf:retrace": "node scripts/retrace/raiden-perf-parity.cjs",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "test:e2e": "cd sdk/tests/selenium/node && npx jest --config jest.config.js",
@@ -84,7 +87,28 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "no-restricted-imports": [
+        "error",
+        {
+          "paths": [
+            {
+              "name": "../routes/engineRoutes",
+              "message": "Use engineExampleUtils dynamic imports instead of the monolithic engineRoutes bundle."
+            },
+            {
+              "name": "../../routes/engineRoutes",
+              "message": "Use engineExampleUtils dynamic imports instead of the monolithic engineRoutes bundle."
+            }
+          ],
+          "patterns": [
+            "**/routes/engineRoutes",
+            "**/routes/engineRoutes.jsx"
+          ]
+        }
+      ]
+    }
   },
   "browserslist": {
     "production": [

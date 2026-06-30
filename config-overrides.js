@@ -8,10 +8,6 @@ module.exports = function override(config) {
     path.resolve(__dirname, "shared"),
   ])(config);
 
-  // Webpack 5 cannot statically analyze react-dom's conditional CJS require
-  // when MUI v7 ESM files do `import * as ReactDOM from 'react-dom'`.
-  // Pointing directly to the CJS source exposes exports.createPortal etc.
-  // which webpack CAN analyze, eliminating the "module has no exports" error.
   const isProduction = process.env.NODE_ENV === "production";
   config.resolve.alias = {
     ...config.resolve.alias,
@@ -21,6 +17,20 @@ module.exports = function override(config) {
       isProduction ? "react-dom.production.min.js" : "react-dom.development.js",
     ),
   };
+
+  if (process.env.ANALYZE === "true") {
+    const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+    config.plugins.push(
+      new BundleAnalyzerPlugin({
+        analyzerMode: "static",
+        openAnalyzer: false,
+        reportFilename: path.resolve(
+          __dirname,
+          "docs/test-plans/performance/bundle-report.html"
+        ),
+      })
+    );
+  }
 
   return config;
 };

@@ -1,0 +1,467 @@
+[
+  {
+    "key": "no-ui-slider-single-pointer",
+    "action": "create",
+    "ruleId": "no-ui-slider-single-pointer",
+    "payload": {
+      "ruleId": "no-ui-slider-single-pointer",
+      "title": "Unified Engine: no-ui-slider-single-pointer — A slider should be operated with a single pointer",
+      "description": "**Engine rule ID:** `no-ui-slider-single-pointer`\n**RAIDEN routes:** `/engine/no-ui-slider-single-pointer`, `/engine/no-ui-slider-single-pointer_success`, `/engine/no-ui-slider-single-pointer_failure`\n**Atomic tests:** `src/components/pages/engine-rules/no-ui-slider-single-pointer/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** A slider should be operable with a single pointer\n**Remediation advice:** Ensure that the slider can be operated with a single pointer. For example by using the \\\n**Fixtures:** 2 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `no-ui-slider-single-pointer` examples published at `/engine/no-ui-slider-single-pointer_success` and `/engine/no-ui-slider-single-pointer_failure`.\n5. **Fixture count:** 2 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "no-ui-slider-single-pointer"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/no-ui-slider-single-pointer` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → no-ui-slider-single-pointer.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/no-ui-slider-single-pointer\nruleId = no-ui-slider-single-pointer\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/no-ui-slider-single-pointer_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/no-ui-slider-single-pointer_success\npassFixtures = 2\natomic-tests/pass/no-ui-slider-behaviour-default.html\natomic-tests/pass/no-ui-slider-behaviour-tap.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/no-ui-slider-single-pointer_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/no-ui-slider-single-pointer_failure\nfailFixtures = 1\natomic-tests/fail/no-ui-slider-behaviour-drag.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for no-ui-slider-single-pointer\n- pass/no-ui-slider-behaviour-default.html → Passed node\n- pass/no-ui-slider-behaviour-tap.html → Passed node\n- fail/no-ui-slider-behaviour-drag.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `no-ui-slider-single-pointer` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = no-ui-slider-single-pointer\nissueSource = RAIDEN examples at /engine/no-ui-slider-single-pointer_success and /engine/no-ui-slider-single-pointer_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: no ui slider behaviour default (no-ui-slider-behaviour-default.html)",
+          "pass: no ui slider behaviour tap (no-ui-slider-behaviour-tap.html)",
+          "fail: no ui slider behaviour drag (no-ui-slider-behaviour-drag.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/no-ui-slider-behaviour-default.html",
+          "atomic-tests/pass/no-ui-slider-behaviour-tap.html",
+          "atomic-tests/fail/no-ui-slider-behaviour-drag.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 2,
+        "fail": 1,
+        "total": 3
+      }
+    }
+  },
+  {
+    "key": "page-meta-description",
+    "action": "create",
+    "ruleId": "page-meta-description",
+    "payload": {
+      "ruleId": "page-meta-description",
+      "title": "Unified Engine: page-meta-description — Page has a meta description",
+      "description": "**Engine rule ID:** `page-meta-description`\n**RAIDEN routes:** `/engine/page-meta-description`, `/engine/page-meta-description_success`, `/engine/page-meta-description_failure`\n**Atomic tests:** `src/components/pages/engine-rules/page-meta-description/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Page has a meta description\n**Remediation advice:** Add meta description to the page\n**Fixtures:** 1 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `page-meta-description` examples published at `/engine/page-meta-description_success` and `/engine/page-meta-description_failure`.\n5. **Fixture count:** 1 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 5,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "page-meta-description"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/page-meta-description` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`minor`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → page-meta-description.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/page-meta-description\nruleId = page-meta-description\nimpact = minor",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/page-meta-description_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/page-meta-description_success\npassFixtures = 1\natomic-tests/pass/page-with-meta-description.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/page-meta-description_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/page-meta-description_failure\nfailFixtures = 1\natomic-tests/fail/page-no-meta-description.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for page-meta-description\n- pass/page-with-meta-description.html → Passed node\n- fail/page-no-meta-description.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `page-meta-description` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = page-meta-description\nissueSource = RAIDEN examples at /engine/page-meta-description_success and /engine/page-meta-description_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: page with meta description (page-with-meta-description.html)",
+          "fail: page no meta description (page-no-meta-description.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/page-with-meta-description.html",
+          "atomic-tests/fail/page-no-meta-description.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 1,
+        "fail": 1,
+        "total": 2
+      }
+    }
+  },
+  {
+    "key": "page-meta-viewport",
+    "action": "create",
+    "ruleId": "page-meta-viewport",
+    "payload": {
+      "ruleId": "page-meta-viewport",
+      "title": "Unified Engine: page-meta-viewport — page-meta-viewport",
+      "description": "**Engine rule ID:** `page-meta-viewport`\n**RAIDEN routes:** `/engine/page-meta-viewport`, `/engine/page-meta-viewport_success`, `/engine/page-meta-viewport_failure`\n**Atomic tests:** `src/components/pages/engine-rules/page-meta-viewport/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Fixtures:** 1 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `page-meta-viewport` examples published at `/engine/page-meta-viewport_success` and `/engine/page-meta-viewport_failure`.\n5. **Fixture count:** 1 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "page-meta-viewport"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/page-meta-viewport` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`medium`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → page-meta-viewport.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/page-meta-viewport\nruleId = page-meta-viewport\nimpact = medium",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/page-meta-viewport_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/page-meta-viewport_success\npassFixtures = 1\natomic-tests/pass/page-with-meta.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/page-meta-viewport_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/page-meta-viewport_failure\nfailFixtures = 1\natomic-tests/fail/page-with-no-meta.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for page-meta-viewport\n- pass/page-with-meta.html → Passed node\n- fail/page-with-no-meta.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `page-meta-viewport` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = page-meta-viewport\nissueSource = RAIDEN examples at /engine/page-meta-viewport_success and /engine/page-meta-viewport_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: page with meta (page-with-meta.html)",
+          "fail: page with no meta (page-with-no-meta.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/page-with-meta.html",
+          "atomic-tests/fail/page-with-no-meta.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 1,
+        "fail": 1,
+        "total": 2
+      }
+    }
+  },
+  {
+    "key": "page-no-meta-http-equiv-refresh",
+    "action": "create",
+    "ruleId": "page-no-meta-http-equiv-refresh",
+    "payload": {
+      "ruleId": "page-no-meta-http-equiv-refresh",
+      "title": "Unified Engine: page-no-meta-http-equiv-refresh — Pages should not use <meta http-equiv=\"refresh\"> for automatic redirection or reloading",
+      "description": "**Engine rule ID:** `page-no-meta-http-equiv-refresh`\n**RAIDEN routes:** `/engine/page-no-meta-http-equiv-refresh`, `/engine/page-no-meta-http-equiv-refresh_success`, `/engine/page-no-meta-http-equiv-refresh_failure`\n**Atomic tests:** `src/components/pages/engine-rules/page-no-meta-http-equiv-refresh/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** A <meta> element with http-equiv=\"refresh\" is sometimes used to automatically redirect users after a time delay. These timed changes can interrupt and disorient users who rely on assistive technology\n**Remediation advice:** Remove <meta> elements with http-equiv=\"refresh\". If timed user sessions are necessary, ensure users can extend the session time limit.\n**Fixtures:** 4 pass, 11 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `page-no-meta-http-equiv-refresh` examples published at `/engine/page-no-meta-http-equiv-refresh_success` and `/engine/page-no-meta-http-equiv-refresh_failure`.\n5. **Fixture count:** 4 pass, 11 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "page-no-meta-http-equiv-refresh"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/page-no-meta-http-equiv-refresh` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → page-no-meta-http-equiv-refresh.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/page-no-meta-http-equiv-refresh\nruleId = page-no-meta-http-equiv-refresh\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/page-no-meta-http-equiv-refresh_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/page-no-meta-http-equiv-refresh_success\npassFixtures = 4\natomic-tests/pass/content-above-72000-with-js-url.html\natomic-tests/pass/content-above-72000-with-url.html\natomic-tests/pass/page-with-no-meta-with-http-equiv-refresh.html\natomic-tests/pass/page-with-no-meta.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/page-no-meta-http-equiv-refresh_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/page-no-meta-http-equiv-refresh_failure\nfailFixtures = 11\natomic-tests/fail/content-above-0-and-under-72000.html\natomic-tests/fail/content-above-72000-no-url-defined.html\natomic-tests/fail/content-exactly-72000.html\natomic-tests/fail/content-has-empty-value.html\natomic-tests/fail/content-has-non-numeric-value.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for page-no-meta-http-equiv-refresh\n- pass/content-above-72000-with-js-url.html → Passed node\n- pass/content-above-72000-with-url.html → Passed node\n- pass/page-with-no-meta-with-http-equiv-refresh.html → Passed node\n- pass/page-with-no-meta.html → Passed node\n- fail/content-above-0-and-under-72000.html → Failed node\n- fail/content-above-72000-no-url-defined.html → Failed node\n- fail/content-exactly-72000.html → Failed node\n- fail/content-has-empty-value.html → Failed node\n- fail/content-has-non-numeric-value.html → Failed node\n- fail/content-no-time-with-url-defined.html → Failed node\n- fail/content-timed-at-20-seconds.html → Failed node\n- fail/invalid-content-definiton.html → Failed node\n- fail/page-with-meta-with-http-equiv-refresh-with-url.html → Failed node\n- fail/page-with-meta-with-http-equiv-refresh-without-url.html → Failed node\n- fail/page-with-multiple-meta-with-http-equiv-refresh.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `page-no-meta-http-equiv-refresh` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = page-no-meta-http-equiv-refresh\nissueSource = RAIDEN examples at /engine/page-no-meta-http-equiv-refresh_success and /engine/page-no-meta-http-equiv-refresh_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: content above 72000 with js url (content-above-72000-with-js-url.html)",
+          "pass: content above 72000 with url (content-above-72000-with-url.html)",
+          "pass: page with no meta with http equiv refresh (page-with-no-meta-with-http-equiv-refresh.html)",
+          "pass: page with no meta (page-with-no-meta.html)",
+          "fail: content above 0 and under 72000 (content-above-0-and-under-72000.html)",
+          "fail: content above 72000 no url defined (content-above-72000-no-url-defined.html)",
+          "fail: content exactly 72000 (content-exactly-72000.html)",
+          "fail: content has empty value (content-has-empty-value.html)",
+          "fail: content has non numeric value (content-has-non-numeric-value.html)",
+          "fail: content no time with url defined (content-no-time-with-url-defined.html)",
+          "fail: content timed at 20 seconds (content-timed-at-20-seconds.html)",
+          "fail: invalid content definiton (invalid-content-definiton.html)",
+          "fail: page with meta with http equiv refresh with url (page-with-meta-with-http-equiv-refresh-with-url.html)",
+          "fail: page with meta with http equiv refresh without url (page-with-meta-with-http-equiv-refresh-without-url.html)",
+          "fail: page with multiple meta with http equiv refresh (page-with-multiple-meta-with-http-equiv-refresh.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/content-above-72000-with-js-url.html",
+          "atomic-tests/pass/content-above-72000-with-url.html",
+          "atomic-tests/pass/page-with-no-meta-with-http-equiv-refresh.html",
+          "atomic-tests/pass/page-with-no-meta.html",
+          "atomic-tests/fail/content-above-0-and-under-72000.html",
+          "atomic-tests/fail/content-above-72000-no-url-defined.html",
+          "atomic-tests/fail/content-exactly-72000.html",
+          "atomic-tests/fail/content-has-empty-value.html",
+          "atomic-tests/fail/content-has-non-numeric-value.html",
+          "atomic-tests/fail/content-no-time-with-url-defined.html",
+          "atomic-tests/fail/content-timed-at-20-seconds.html",
+          "atomic-tests/fail/invalid-content-definiton.html",
+          "atomic-tests/fail/page-with-meta-with-http-equiv-refresh-with-url.html",
+          "atomic-tests/fail/page-with-meta-with-http-equiv-refresh-without-url.html",
+          "atomic-tests/fail/page-with-multiple-meta-with-http-equiv-refresh.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 4,
+        "fail": 11,
+        "total": 15
+      }
+    }
+  },
+  {
+    "key": "page-title-valid",
+    "action": "create",
+    "ruleId": "page-title-valid",
+    "payload": {
+      "ruleId": "page-title-valid",
+      "title": "Unified Engine: page-title-valid — Page title should be descriptive",
+      "description": "**Engine rule ID:** `page-title-valid`\n**RAIDEN routes:** `/engine/page-title-valid`, `/engine/page-title-valid_success`, `/engine/page-title-valid_failure`\n**Atomic tests:** `src/components/pages/engine-rules/page-title-valid/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Screen readers rely heavily on page titles to announce the purpose of a page. If titles aren’t descriptive, users with low or no vision may not understand the context until they start navigating the page.\n**Remediation advice:** Make sure the title element inside the <head> is unique and describes the purpose of the page.\n**Fixtures:** 2 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `page-title-valid` examples published at `/engine/page-title-valid_success` and `/engine/page-title-valid_failure`.\n5. **Fixture count:** 2 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "page-title-valid"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/page-title-valid` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`moderate`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → page-title-valid.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/page-title-valid\nruleId = page-title-valid\nimpact = moderate",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/page-title-valid_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/page-title-valid_success\npassFixtures = 2\natomic-tests/pass/page-no-title-element.html\natomic-tests/pass/page-title-element.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/page-title-valid_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/page-title-valid_failure\nfailFixtures = 1\natomic-tests/fail/page-title-one-word.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for page-title-valid\n- pass/page-no-title-element.html → Passed node\n- pass/page-title-element.html → Passed node\n- fail/page-title-one-word.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `page-title-valid` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = page-title-valid\nissueSource = RAIDEN examples at /engine/page-title-valid_success and /engine/page-title-valid_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: page no title element (page-no-title-element.html)",
+          "pass: page title element (page-title-element.html)",
+          "fail: page title one word (page-title-one-word.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/page-no-title-element.html",
+          "atomic-tests/pass/page-title-element.html",
+          "atomic-tests/fail/page-title-one-word.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 2,
+        "fail": 1,
+        "total": 3
+      }
+    }
+  }
+]

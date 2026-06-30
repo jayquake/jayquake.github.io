@@ -1,0 +1,1220 @@
+[
+  {
+    "key": "required-form-field-aria-required",
+    "action": "update",
+    "id": 3075,
+    "ruleId": "required-form-field-aria-required",
+    "changes": {
+      "title": {
+        "from": "accessflow-engine integration: Field Required /RequiredFormFieldAriaRequired",
+        "to": "Unified Engine: required-form-field-aria-required — Mandatory form fields should indicate that they are required"
+      },
+      "description": {
+        "from": "Testing the behavior of the rule \"Field Required\" and the unified engine compatability",
+        "to": "**Engine rule ID:** `required-form-field-aria-required`\n**RAIDEN routes:** `/engine/required-form-field-aria-required`, `/engine/required-form-field-aria-required_success`, `/engine/required-form-field-aria-required_failure`\n**Atomic tests:** `src/components/pages/engine-rules/required-form-field-aria-required/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** If a field is marked as required only through visual cues, but lacks the required attribute or aria-required=\"true\", screen readers will not announce it as mandatory. As a result, users may experience unnecessary delays or confusion when trying to submit the form.\n**Remediation advice:** Add required or aria-required=\"true\" to required input fields.\n**Fixtures:** 5 pass, 4 fail"
+      },
+      "preconditions": {
+        "from": "Load the example website: [https://jayquake.github.io/#/forms/field-required_failure](https://jayquake.github.io/#/forms/field-required_failure)",
+        "to": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `required-form-field-aria-required` examples published at `/engine/required-form-field-aria-required_success` and `/engine/required-form-field-aria-required_failure`.\n5. **Fixture count:** 5 pass, 4 fail atomic HTML files."
+      },
+      "postconditions": {
+        "from": null,
+        "to": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes."
+      },
+      "severity": {
+        "from": 0,
+        "to": 4
+      },
+      "type": {
+        "from": 1,
+        "to": 8
+      },
+      "layer": {
+        "from": 0,
+        "to": 1
+      },
+      "behavior": {
+        "from": 1,
+        "to": 2
+      },
+      "automation": {
+        "from": 0,
+        "to": 1
+      },
+      "status": {
+        "from": 0,
+        "to": 3
+      },
+      "tags": {
+        "from": [
+          "unified-engine"
+        ],
+        "to": [
+          "unified-engine",
+          "e2e",
+          "engine",
+          "audit",
+          "regression",
+          "required-form-field-aria-required"
+        ]
+      },
+      "steps": {
+        "from": [
+          {
+            "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+            "expected_result": "The website will be ready for testing this scenario",
+            "data": "",
+            "attachments": []
+          }
+        ],
+        "to": [
+          {
+            "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/required-form-field-aria-required` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → required-form-field-aria-required.",
+            "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+            "data": "Data:\nBASE_URL/engine/required-form-field-aria-required\nruleId = required-form-field-aria-required\nimpact = serious",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/required-form-field-aria-required_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+            "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+            "data": "Data:\nBASE_URL/engine/required-form-field-aria-required_success\npassFixtures = 5\natomic-tests/pass/native-required-form-field-aria-required-true.html\natomic-tests/pass/native-required-form-field-required-false.html\natomic-tests/pass/native-required-form-field-required-no-value.html\natomic-tests/pass/native-required-form-field-required-true.html\natomic-tests/pass/non-native-required-form-field-aria-required-true.html",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/required-form-field-aria-required_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+            "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+            "data": "Data:\nBASE_URL/engine/required-form-field-aria-required_failure\nfailFixtures = 4\natomic-tests/fail/native-required-form-field-no-required.html\natomic-tests/fail/non-native-required-form-field-aria-required-false.html\natomic-tests/fail/non-native-required-form-field-aria-required-no-value.html\natomic-tests/fail/non-native-required-form-field-no-aria-required.html",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+            "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+            "data": "Data:\ntestedClass from index.ts for required-form-field-aria-required\n- pass/native-required-form-field-aria-required-true.html → Passed node\n- pass/native-required-form-field-required-false.html → Passed node\n- pass/native-required-form-field-required-no-value.html → Passed node\n- pass/native-required-form-field-required-true.html → Passed node\n- pass/non-native-required-form-field-aria-required-true.html → Passed node\n- fail/native-required-form-field-no-required.html → Failed node\n- fail/non-native-required-form-field-aria-required-false.html → Failed node\n- fail/non-native-required-form-field-aria-required-no-value.html → Failed node\n- fail/non-native-required-form-field-no-aria-required.html → Failed node",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `required-form-field-aria-required` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+            "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+            "data": "Data:\nruleId = required-form-field-aria-required\nissueSource = RAIDEN examples at /engine/required-form-field-aria-required_success and /engine/required-form-field-aria-required_failure",
+            "attachments": []
+          }
+        ]
+      },
+      "params": {
+        "from": {
+          "Scenario": [
+            "❌ Visual-only \"required\" indicator. The label mentions required, but it’s not programmatically enforced.",
+            "❌ Missing `required` attribute. The field is not programmatically enforced as required.",
+            "❌ Visually marked required, but no `required` attribute. Assistive technology won’t recognize it.",
+            "❌ The label indicates required, but there is no `required` attribute."
+          ],
+          "HTML": [
+            "<label htmlFor=\"zipcode\">Zip Code (required)</label>               <input type=\"text\" id=\"zipcode\" name=\"zipcode\" />",
+            "<div><p>❌ <strong>Missing `required` attribute.</strong> The field is not programmatically enforced as required.</p><label for=\"fullname2\">Full Name *</label><input type=\"text\" id=\"fullname2\"></div>",
+            "<div><p>❌ <strong>Visually marked required, but no `required` attribute.</strong> Assistive technology won’t recognize it.</p><label for=\"password2\">Password *</label><input type=\"password\" id=\"password2\"></div>",
+            "<div><p>❌ <strong>The label indicates required, but there is no `required` attribute.</strong></p><label for=\"dob2\">Date of Birth *</label><input type=\"date\" id=\"dob2\"></div>"
+          ],
+          "Expected Result": [
+            "Failure: The screen reader will ignore the aria-label because visible text is present.",
+            "Failure:  there is no required attribute",
+            "Failure:  there is no required attribute",
+            "Failure:  there is no required attribute"
+          ]
+        },
+        "to": {
+          "scenario": [
+            "pass: native required form field aria required true (native-required-form-field-aria-required-true.html)",
+            "pass: native required form field required false (native-required-form-field-required-false.html)",
+            "pass: native required form field required no value (native-required-form-field-required-no-value.html)",
+            "pass: native required form field required true (native-required-form-field-required-true.html)",
+            "pass: non native required form field aria required true (non-native-required-form-field-aria-required-true.html)",
+            "fail: native required form field no required (native-required-form-field-no-required.html)",
+            "fail: non native required form field aria required false (non-native-required-form-field-aria-required-false.html)",
+            "fail: non native required form field aria required no value (non-native-required-form-field-aria-required-no-value.html)",
+            "fail: non native required form field no aria required (non-native-required-form-field-no-aria-required.html)"
+          ],
+          "fixturePath": [
+            "atomic-tests/pass/native-required-form-field-aria-required-true.html",
+            "atomic-tests/pass/native-required-form-field-required-false.html",
+            "atomic-tests/pass/native-required-form-field-required-no-value.html",
+            "atomic-tests/pass/native-required-form-field-required-true.html",
+            "atomic-tests/pass/non-native-required-form-field-aria-required-true.html",
+            "atomic-tests/fail/native-required-form-field-no-required.html",
+            "atomic-tests/fail/non-native-required-form-field-aria-required-false.html",
+            "atomic-tests/fail/non-native-required-form-field-aria-required-no-value.html",
+            "atomic-tests/fail/non-native-required-form-field-no-aria-required.html"
+          ],
+          "expectedResult": [
+            "Passed node",
+            "Passed node",
+            "Passed node",
+            "Passed node",
+            "Passed node",
+            "Failed node",
+            "Failed node",
+            "Failed node",
+            "Failed node"
+          ]
+        }
+      }
+    },
+    "payload": {
+      "ruleId": "required-form-field-aria-required",
+      "title": "Unified Engine: required-form-field-aria-required — Mandatory form fields should indicate that they are required",
+      "description": "**Engine rule ID:** `required-form-field-aria-required`\n**RAIDEN routes:** `/engine/required-form-field-aria-required`, `/engine/required-form-field-aria-required_success`, `/engine/required-form-field-aria-required_failure`\n**Atomic tests:** `src/components/pages/engine-rules/required-form-field-aria-required/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** If a field is marked as required only through visual cues, but lacks the required attribute or aria-required=\"true\", screen readers will not announce it as mandatory. As a result, users may experience unnecessary delays or confusion when trying to submit the form.\n**Remediation advice:** Add required or aria-required=\"true\" to required input fields.\n**Fixtures:** 5 pass, 4 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `required-form-field-aria-required` examples published at `/engine/required-form-field-aria-required_success` and `/engine/required-form-field-aria-required_failure`.\n5. **Fixture count:** 5 pass, 4 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "required-form-field-aria-required"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/required-form-field-aria-required` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → required-form-field-aria-required.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/required-form-field-aria-required\nruleId = required-form-field-aria-required\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/required-form-field-aria-required_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/required-form-field-aria-required_success\npassFixtures = 5\natomic-tests/pass/native-required-form-field-aria-required-true.html\natomic-tests/pass/native-required-form-field-required-false.html\natomic-tests/pass/native-required-form-field-required-no-value.html\natomic-tests/pass/native-required-form-field-required-true.html\natomic-tests/pass/non-native-required-form-field-aria-required-true.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/required-form-field-aria-required_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/required-form-field-aria-required_failure\nfailFixtures = 4\natomic-tests/fail/native-required-form-field-no-required.html\natomic-tests/fail/non-native-required-form-field-aria-required-false.html\natomic-tests/fail/non-native-required-form-field-aria-required-no-value.html\natomic-tests/fail/non-native-required-form-field-no-aria-required.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for required-form-field-aria-required\n- pass/native-required-form-field-aria-required-true.html → Passed node\n- pass/native-required-form-field-required-false.html → Passed node\n- pass/native-required-form-field-required-no-value.html → Passed node\n- pass/native-required-form-field-required-true.html → Passed node\n- pass/non-native-required-form-field-aria-required-true.html → Passed node\n- fail/native-required-form-field-no-required.html → Failed node\n- fail/non-native-required-form-field-aria-required-false.html → Failed node\n- fail/non-native-required-form-field-aria-required-no-value.html → Failed node\n- fail/non-native-required-form-field-no-aria-required.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `required-form-field-aria-required` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = required-form-field-aria-required\nissueSource = RAIDEN examples at /engine/required-form-field-aria-required_success and /engine/required-form-field-aria-required_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: native required form field aria required true (native-required-form-field-aria-required-true.html)",
+          "pass: native required form field required false (native-required-form-field-required-false.html)",
+          "pass: native required form field required no value (native-required-form-field-required-no-value.html)",
+          "pass: native required form field required true (native-required-form-field-required-true.html)",
+          "pass: non native required form field aria required true (non-native-required-form-field-aria-required-true.html)",
+          "fail: native required form field no required (native-required-form-field-no-required.html)",
+          "fail: non native required form field aria required false (non-native-required-form-field-aria-required-false.html)",
+          "fail: non native required form field aria required no value (non-native-required-form-field-aria-required-no-value.html)",
+          "fail: non native required form field no aria required (non-native-required-form-field-no-aria-required.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/native-required-form-field-aria-required-true.html",
+          "atomic-tests/pass/native-required-form-field-required-false.html",
+          "atomic-tests/pass/native-required-form-field-required-no-value.html",
+          "atomic-tests/pass/native-required-form-field-required-true.html",
+          "atomic-tests/pass/non-native-required-form-field-aria-required-true.html",
+          "atomic-tests/fail/native-required-form-field-no-required.html",
+          "atomic-tests/fail/non-native-required-form-field-aria-required-false.html",
+          "atomic-tests/fail/non-native-required-form-field-aria-required-no-value.html",
+          "atomic-tests/fail/non-native-required-form-field-no-aria-required.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 5,
+        "fail": 4,
+        "total": 9
+      }
+    }
+  },
+  {
+    "key": "search-form-mismatch",
+    "action": "update",
+    "id": 3031,
+    "ruleId": "search-form-mismatch",
+    "changes": {
+      "title": {
+        "from": "accessFlow-Engine Integration: Search Form Tagging",
+        "to": "Unified Engine: search-form-mismatch — A search form should be tagged as a search landmark"
+      },
+      "description": {
+        "from": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+        "to": "**Engine rule ID:** `search-form-mismatch`\n**RAIDEN routes:** `/engine/search-form-mismatch`, `/engine/search-form-mismatch_success`, `/engine/search-form-mismatch_failure`\n**Atomic tests:** `src/components/pages/engine-rules/search-form-mismatch/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Screen reader users rely on landmarks to quickly access important regions of a page. Defining a form as a search landmark ensures that users can quickly recognize and navigate to the search form.\n**Remediation advice:** Enclose the search form in a <search> element or assign role=\"search\" to the <form> element.\n**Fixtures:** 3 pass, 2 fail"
+      },
+      "preconditions": {
+        "from": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+        "to": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `search-form-mismatch` examples published at `/engine/search-form-mismatch_success` and `/engine/search-form-mismatch_failure`.\n5. **Fixture count:** 3 pass, 2 fail atomic HTML files."
+      },
+      "postconditions": {
+        "from": null,
+        "to": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes."
+      },
+      "severity": {
+        "from": 0,
+        "to": 4
+      },
+      "type": {
+        "from": 1,
+        "to": 8
+      },
+      "behavior": {
+        "from": 1,
+        "to": 2
+      },
+      "automation": {
+        "from": 0,
+        "to": 1
+      },
+      "status": {
+        "from": 0,
+        "to": 3
+      },
+      "tags": {
+        "from": [
+          "unified-engine"
+        ],
+        "to": [
+          "unified-engine",
+          "e2e",
+          "engine",
+          "audit",
+          "regression",
+          "search-form-mismatch"
+        ]
+      },
+      "steps": {
+        "from": [
+          {
+            "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+            "expected_result": "The website will be ready for testing this scenario",
+            "data": "",
+            "attachments": []
+          },
+          {
+            "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+            "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+            "data": "",
+            "attachments": []
+          },
+          {
+            "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+            "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+            "data": "",
+            "attachments": []
+          }
+        ],
+        "to": [
+          {
+            "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/search-form-mismatch` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`moderate`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → search-form-mismatch.",
+            "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+            "data": "Data:\nBASE_URL/engine/search-form-mismatch\nruleId = search-form-mismatch\nimpact = moderate",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/search-form-mismatch_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+            "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+            "data": "Data:\nBASE_URL/engine/search-form-mismatch_success\npassFixtures = 3\natomic-tests/pass/search-form-parent-role-search.html\natomic-tests/pass/search-form-parent-search-landmark.html\natomic-tests/pass/search-form-role-search.html",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/search-form-mismatch_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+            "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+            "data": "Data:\nBASE_URL/engine/search-form-mismatch_failure\nfailFixtures = 2\natomic-tests/fail/search-form-no-role.html\natomic-tests/fail/search-form-parent-no-role.html",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+            "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+            "data": "Data:\ntestedClass from index.ts for search-form-mismatch\n- pass/search-form-parent-role-search.html → Passed node\n- pass/search-form-parent-search-landmark.html → Passed node\n- pass/search-form-role-search.html → Passed node\n- fail/search-form-no-role.html → Failed node\n- fail/search-form-parent-no-role.html → Failed node",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `search-form-mismatch` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+            "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+            "data": "Data:\nruleId = search-form-mismatch\nissueSource = RAIDEN examples at /engine/search-form-mismatch_success and /engine/search-form-mismatch_failure",
+            "attachments": []
+          }
+        ]
+      },
+      "params": {
+        "from": {
+          "scenario": [
+            "not using forms",
+            "Adding  <div role=\"search\" style=\"width: 800px;\">",
+            "<div role=\"search\" style=\"width: 850px;\">"
+          ],
+          "expectedResult": [
+            "neutral",
+            "Passed node",
+            "fail node"
+          ]
+        },
+        "to": {
+          "scenario": [
+            "pass: search form parent role search (search-form-parent-role-search.html)",
+            "pass: search form parent search landmark (search-form-parent-search-landmark.html)",
+            "pass: search form role search (search-form-role-search.html)",
+            "fail: search form no role (search-form-no-role.html)",
+            "fail: search form parent no role (search-form-parent-no-role.html)"
+          ],
+          "fixturePath": [
+            "atomic-tests/pass/search-form-parent-role-search.html",
+            "atomic-tests/pass/search-form-parent-search-landmark.html",
+            "atomic-tests/pass/search-form-role-search.html",
+            "atomic-tests/fail/search-form-no-role.html",
+            "atomic-tests/fail/search-form-parent-no-role.html"
+          ],
+          "expectedResult": [
+            "Passed node",
+            "Passed node",
+            "Passed node",
+            "Failed node",
+            "Failed node"
+          ]
+        }
+      }
+    },
+    "payload": {
+      "ruleId": "search-form-mismatch",
+      "title": "Unified Engine: search-form-mismatch — A search form should be tagged as a search landmark",
+      "description": "**Engine rule ID:** `search-form-mismatch`\n**RAIDEN routes:** `/engine/search-form-mismatch`, `/engine/search-form-mismatch_success`, `/engine/search-form-mismatch_failure`\n**Atomic tests:** `src/components/pages/engine-rules/search-form-mismatch/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Screen reader users rely on landmarks to quickly access important regions of a page. Defining a form as a search landmark ensures that users can quickly recognize and navigate to the search form.\n**Remediation advice:** Enclose the search form in a <search> element or assign role=\"search\" to the <form> element.\n**Fixtures:** 3 pass, 2 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `search-form-mismatch` examples published at `/engine/search-form-mismatch_success` and `/engine/search-form-mismatch_failure`.\n5. **Fixture count:** 3 pass, 2 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "search-form-mismatch"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/search-form-mismatch` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`moderate`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → search-form-mismatch.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/search-form-mismatch\nruleId = search-form-mismatch\nimpact = moderate",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/search-form-mismatch_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/search-form-mismatch_success\npassFixtures = 3\natomic-tests/pass/search-form-parent-role-search.html\natomic-tests/pass/search-form-parent-search-landmark.html\natomic-tests/pass/search-form-role-search.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/search-form-mismatch_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/search-form-mismatch_failure\nfailFixtures = 2\natomic-tests/fail/search-form-no-role.html\natomic-tests/fail/search-form-parent-no-role.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for search-form-mismatch\n- pass/search-form-parent-role-search.html → Passed node\n- pass/search-form-parent-search-landmark.html → Passed node\n- pass/search-form-role-search.html → Passed node\n- fail/search-form-no-role.html → Failed node\n- fail/search-form-parent-no-role.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `search-form-mismatch` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = search-form-mismatch\nissueSource = RAIDEN examples at /engine/search-form-mismatch_success and /engine/search-form-mismatch_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: search form parent role search (search-form-parent-role-search.html)",
+          "pass: search form parent search landmark (search-form-parent-search-landmark.html)",
+          "pass: search form role search (search-form-role-search.html)",
+          "fail: search form no role (search-form-no-role.html)",
+          "fail: search form parent no role (search-form-parent-no-role.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/search-form-parent-role-search.html",
+          "atomic-tests/pass/search-form-parent-search-landmark.html",
+          "atomic-tests/pass/search-form-role-search.html",
+          "atomic-tests/fail/search-form-no-role.html",
+          "atomic-tests/fail/search-form-parent-no-role.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 3,
+        "fail": 2,
+        "total": 5
+      }
+    }
+  },
+  {
+    "key": "skip-link-exists",
+    "action": "update",
+    "id": 2968,
+    "ruleId": "skip-link-exists",
+    "changes": {
+      "title": {
+        "from": "accessFlow-Engine Integration: skipLinks",
+        "to": "Unified Engine: skip-link-exists — Skip links are the preferred technique for bypassing repeated content"
+      },
+      "description": {
+        "from": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+        "to": "**Engine rule ID:** `skip-link-exists`\n**RAIDEN routes:** `/engine/skip-link-exists`, `/engine/skip-link-exists_success`, `/engine/skip-link-exists_failure`\n**Atomic tests:** `src/components/pages/engine-rules/skip-link-exists/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Skip links let keyboard and screen reader users bypass repetitive navigation and jump directly to important sections such as main content, navigation, or footer. This improves efficiency, reduces keystrokes, and makes pages easier to use for those relying on assistive technology.\n**Remediation advice:** Add skip links as the first focusable elements on the page, directing users to regions marked with unique ids and appropriate landmarks such as <main>, <nav>, or <footer>. Keep them visually hidden until focused so they don’t clutter the layout, but ensure they remain accessible to screen readers by avoiding aria-hidden=\"true\" or CSS display:none.\n**Fixtures:** 1 pass, 1 fail"
+      },
+      "preconditions": {
+        "from": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+        "to": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `skip-link-exists` examples published at `/engine/skip-link-exists_success` and `/engine/skip-link-exists_failure`.\n5. **Fixture count:** 1 pass, 1 fail atomic HTML files."
+      },
+      "postconditions": {
+        "from": null,
+        "to": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes."
+      },
+      "severity": {
+        "from": 0,
+        "to": 4
+      },
+      "type": {
+        "from": 1,
+        "to": 8
+      },
+      "behavior": {
+        "from": 1,
+        "to": 2
+      },
+      "automation": {
+        "from": 0,
+        "to": 1
+      },
+      "status": {
+        "from": 0,
+        "to": 3
+      },
+      "tags": {
+        "from": [
+          "unified-engine"
+        ],
+        "to": [
+          "unified-engine",
+          "e2e",
+          "engine",
+          "audit",
+          "regression",
+          "skip-link-exists"
+        ]
+      },
+      "steps": {
+        "from": [
+          {
+            "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+            "expected_result": "The website will be ready for testing this scenario",
+            "data": "",
+            "attachments": []
+          },
+          {
+            "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+            "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+            "data": "",
+            "attachments": []
+          },
+          {
+            "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+            "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+            "data": "",
+            "attachments": []
+          }
+        ],
+        "to": [
+          {
+            "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/skip-link-exists` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`moderate`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → skip-link-exists.",
+            "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+            "data": "Data:\nBASE_URL/engine/skip-link-exists\nruleId = skip-link-exists\nimpact = moderate",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/skip-link-exists_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+            "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+            "data": "Data:\nBASE_URL/engine/skip-link-exists_success\npassFixtures = 1\natomic-tests/pass/page-with-skip-link.html",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/skip-link-exists_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+            "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+            "data": "Data:\nBASE_URL/engine/skip-link-exists_failure\nfailFixtures = 1\natomic-tests/fail/page-without-skip-link.html",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+            "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+            "data": "Data:\ntestedClass from index.ts for skip-link-exists\n- pass/page-with-skip-link.html → Passed node\n- fail/page-without-skip-link.html → Failed node",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `skip-link-exists` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+            "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+            "data": "Data:\nruleId = skip-link-exists\nissueSource = RAIDEN examples at /engine/skip-link-exists_success and /engine/skip-link-exists_failure",
+            "attachments": []
+          }
+        ]
+      },
+      "params": {
+        "from": {
+          "scenario": [
+            "TBD",
+            "bypass Blocks & skip link exist ( userway.com)",
+            "bypass Blocks & skip link not exist (https://adizimhi.github.io/pageTestDomain/skipLinksFailures.html)"
+          ],
+          "expectedResult": [
+            "neutral",
+            "Passed node",
+            "Failed node"
+          ]
+        },
+        "to": {
+          "scenario": [
+            "pass: page with skip link (page-with-skip-link.html)",
+            "fail: page without skip link (page-without-skip-link.html)"
+          ],
+          "fixturePath": [
+            "atomic-tests/pass/page-with-skip-link.html",
+            "atomic-tests/fail/page-without-skip-link.html"
+          ],
+          "expectedResult": [
+            "Passed node",
+            "Failed node"
+          ]
+        }
+      }
+    },
+    "payload": {
+      "ruleId": "skip-link-exists",
+      "title": "Unified Engine: skip-link-exists — Skip links are the preferred technique for bypassing repeated content",
+      "description": "**Engine rule ID:** `skip-link-exists`\n**RAIDEN routes:** `/engine/skip-link-exists`, `/engine/skip-link-exists_success`, `/engine/skip-link-exists_failure`\n**Atomic tests:** `src/components/pages/engine-rules/skip-link-exists/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Skip links let keyboard and screen reader users bypass repetitive navigation and jump directly to important sections such as main content, navigation, or footer. This improves efficiency, reduces keystrokes, and makes pages easier to use for those relying on assistive technology.\n**Remediation advice:** Add skip links as the first focusable elements on the page, directing users to regions marked with unique ids and appropriate landmarks such as <main>, <nav>, or <footer>. Keep them visually hidden until focused so they don’t clutter the layout, but ensure they remain accessible to screen readers by avoiding aria-hidden=\"true\" or CSS display:none.\n**Fixtures:** 1 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `skip-link-exists` examples published at `/engine/skip-link-exists_success` and `/engine/skip-link-exists_failure`.\n5. **Fixture count:** 1 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "skip-link-exists"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/skip-link-exists` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`moderate`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → skip-link-exists.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/skip-link-exists\nruleId = skip-link-exists\nimpact = moderate",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/skip-link-exists_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/skip-link-exists_success\npassFixtures = 1\natomic-tests/pass/page-with-skip-link.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/skip-link-exists_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/skip-link-exists_failure\nfailFixtures = 1\natomic-tests/fail/page-without-skip-link.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for skip-link-exists\n- pass/page-with-skip-link.html → Passed node\n- fail/page-without-skip-link.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `skip-link-exists` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = skip-link-exists\nissueSource = RAIDEN examples at /engine/skip-link-exists_success and /engine/skip-link-exists_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: page with skip link (page-with-skip-link.html)",
+          "fail: page without skip link (page-without-skip-link.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/page-with-skip-link.html",
+          "atomic-tests/fail/page-without-skip-link.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 1,
+        "fail": 1,
+        "total": 2
+      }
+    }
+  },
+  {
+    "key": "table-column-header",
+    "action": "update",
+    "id": 2978,
+    "ruleId": "table-column-header",
+    "changes": {
+      "title": {
+        "from": "accessFlow-Engine Integration:  Column Table Headers",
+        "to": "Unified Engine: table-column-header — Table column headers should be tagged for assistive technology"
+      },
+      "description": {
+        "from": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+        "to": "**Engine rule ID:** `table-column-header`\n**RAIDEN routes:** `/engine/table-column-header`, `/engine/table-column-header_success`, `/engine/table-column-header_failure`\n**Atomic tests:** `src/components/pages/engine-rules/table-column-header/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** If a column header is not marked up with the correct role or scope, screen reader users cannot determine which header applies to each cell.\n**Remediation advice:** Use <th scope=\"col\"> or assign role=\"columnheader\" when building custom tables. Make sure each data cell is programmatically associated with the correct header so relationships are clear to assistive technology.\n**Fixtures:** 2 pass, 3 fail"
+      },
+      "preconditions": {
+        "from": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+        "to": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `table-column-header` examples published at `/engine/table-column-header_success` and `/engine/table-column-header_failure`.\n5. **Fixture count:** 2 pass, 3 fail atomic HTML files."
+      },
+      "postconditions": {
+        "from": null,
+        "to": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes."
+      },
+      "severity": {
+        "from": 0,
+        "to": 2
+      },
+      "type": {
+        "from": 1,
+        "to": 8
+      },
+      "behavior": {
+        "from": 1,
+        "to": 2
+      },
+      "automation": {
+        "from": 0,
+        "to": 1
+      },
+      "status": {
+        "from": 0,
+        "to": 3
+      },
+      "tags": {
+        "from": [
+          "unified-engine"
+        ],
+        "to": [
+          "unified-engine",
+          "e2e",
+          "engine",
+          "audit",
+          "regression",
+          "table-column-header"
+        ]
+      },
+      "steps": {
+        "from": [
+          {
+            "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+            "expected_result": "The website will be ready for testing this scenario",
+            "data": "",
+            "attachments": []
+          },
+          {
+            "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+            "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+            "data": "",
+            "attachments": []
+          },
+          {
+            "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+            "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+            "data": "",
+            "attachments": []
+          }
+        ],
+        "to": [
+          {
+            "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/table-column-header` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → table-column-header.",
+            "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+            "data": "Data:\nBASE_URL/engine/table-column-header\nruleId = table-column-header\nimpact = critical",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/table-column-header_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+            "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+            "data": "Data:\nBASE_URL/engine/table-column-header_success\npassFixtures = 2\natomic-tests/pass/table-headers-native-th.html\natomic-tests/pass/table-roles-headers-with-role-column-header.html",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/table-column-header_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+            "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+            "data": "Data:\nBASE_URL/engine/table-column-header_failure\nfailFixtures = 3\natomic-tests/fail/table-native-tds-styled-as-headers-no-thead-or-tbody.html\natomic-tests/fail/table-native-tds-styled-as-headers-with-thead.html\natomic-tests/fail/table-roles-cell-role-styled-as-headers.html",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+            "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+            "data": "Data:\ntestedClass from index.ts for table-column-header\n- pass/table-headers-native-th.html → Passed node\n- pass/table-roles-headers-with-role-column-header.html → Passed node\n- fail/table-native-tds-styled-as-headers-no-thead-or-tbody.html → Failed node\n- fail/table-native-tds-styled-as-headers-with-thead.html → Failed node\n- fail/table-roles-cell-role-styled-as-headers.html → Failed node",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `table-column-header` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+            "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+            "data": "Data:\nruleId = table-column-header\nissueSource = RAIDEN examples at /engine/table-column-header_success and /engine/table-column-header_failure",
+            "attachments": []
+          }
+        ]
+      },
+      "params": {
+        "from": {
+          "scenario": [
+            "TBD",
+            "<td role=\"columnheader\"><strong>I'm visually a column header</strong></td>",
+            "<li class=\"list-item\" id=\"rowTableHeaders-success-2\">",
+            "Without   <td role=\"rowheader\">I'm a row header</td>"
+          ],
+          "expectedResult": [
+            "neutral",
+            "Passed node",
+            "Passed node",
+            "Failed node"
+          ]
+        },
+        "to": {
+          "scenario": [
+            "pass: table headers native th (table-headers-native-th.html)",
+            "pass: table roles headers with role column header (table-roles-headers-with-role-column-header.html)",
+            "fail: table native tds styled as headers no thead or tbody (table-native-tds-styled-as-headers-no-thead-or-tbody.html)",
+            "fail: table native tds styled as headers with thead (table-native-tds-styled-as-headers-with-thead.html)",
+            "fail: table roles cell role styled as headers (table-roles-cell-role-styled-as-headers.html)"
+          ],
+          "fixturePath": [
+            "atomic-tests/pass/table-headers-native-th.html",
+            "atomic-tests/pass/table-roles-headers-with-role-column-header.html",
+            "atomic-tests/fail/table-native-tds-styled-as-headers-no-thead-or-tbody.html",
+            "atomic-tests/fail/table-native-tds-styled-as-headers-with-thead.html",
+            "atomic-tests/fail/table-roles-cell-role-styled-as-headers.html"
+          ],
+          "expectedResult": [
+            "Passed node",
+            "Passed node",
+            "Failed node",
+            "Failed node",
+            "Failed node"
+          ]
+        }
+      }
+    },
+    "payload": {
+      "ruleId": "table-column-header",
+      "title": "Unified Engine: table-column-header — Table column headers should be tagged for assistive technology",
+      "description": "**Engine rule ID:** `table-column-header`\n**RAIDEN routes:** `/engine/table-column-header`, `/engine/table-column-header_success`, `/engine/table-column-header_failure`\n**Atomic tests:** `src/components/pages/engine-rules/table-column-header/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** If a column header is not marked up with the correct role or scope, screen reader users cannot determine which header applies to each cell.\n**Remediation advice:** Use <th scope=\"col\"> or assign role=\"columnheader\" when building custom tables. Make sure each data cell is programmatically associated with the correct header so relationships are clear to assistive technology.\n**Fixtures:** 2 pass, 3 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `table-column-header` examples published at `/engine/table-column-header_success` and `/engine/table-column-header_failure`.\n5. **Fixture count:** 2 pass, 3 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "table-column-header"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/table-column-header` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → table-column-header.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/table-column-header\nruleId = table-column-header\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/table-column-header_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/table-column-header_success\npassFixtures = 2\natomic-tests/pass/table-headers-native-th.html\natomic-tests/pass/table-roles-headers-with-role-column-header.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/table-column-header_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/table-column-header_failure\nfailFixtures = 3\natomic-tests/fail/table-native-tds-styled-as-headers-no-thead-or-tbody.html\natomic-tests/fail/table-native-tds-styled-as-headers-with-thead.html\natomic-tests/fail/table-roles-cell-role-styled-as-headers.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for table-column-header\n- pass/table-headers-native-th.html → Passed node\n- pass/table-roles-headers-with-role-column-header.html → Passed node\n- fail/table-native-tds-styled-as-headers-no-thead-or-tbody.html → Failed node\n- fail/table-native-tds-styled-as-headers-with-thead.html → Failed node\n- fail/table-roles-cell-role-styled-as-headers.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `table-column-header` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = table-column-header\nissueSource = RAIDEN examples at /engine/table-column-header_success and /engine/table-column-header_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: table headers native th (table-headers-native-th.html)",
+          "pass: table roles headers with role column header (table-roles-headers-with-role-column-header.html)",
+          "fail: table native tds styled as headers no thead or tbody (table-native-tds-styled-as-headers-no-thead-or-tbody.html)",
+          "fail: table native tds styled as headers with thead (table-native-tds-styled-as-headers-with-thead.html)",
+          "fail: table roles cell role styled as headers (table-roles-cell-role-styled-as-headers.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/table-headers-native-th.html",
+          "atomic-tests/pass/table-roles-headers-with-role-column-header.html",
+          "atomic-tests/fail/table-native-tds-styled-as-headers-no-thead-or-tbody.html",
+          "atomic-tests/fail/table-native-tds-styled-as-headers-with-thead.html",
+          "atomic-tests/fail/table-roles-cell-role-styled-as-headers.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 2,
+        "fail": 3,
+        "total": 5
+      }
+    }
+  },
+  {
+    "key": "table-misuse",
+    "action": "update",
+    "id": 3027,
+    "ruleId": "table-misuse",
+    "changes": {
+      "title": {
+        "from": "accessFlow-Engine Integration: Table Layouts",
+        "to": "Unified Engine: table-misuse — Only elements that function as data tables should be tagged as table"
+      },
+      "description": {
+        "from": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+        "to": "**Engine rule ID:** `table-misuse`\n**RAIDEN routes:** `/engine/table-misuse`, `/engine/table-misuse_success`, `/engine/table-misuse_failure`\n**Atomic tests:** `src/components/pages/engine-rules/table-misuse/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** When a layout table is marked up with HTML elements like <table> or <tr>, or assigned table ARIA roles, screen readers announce a data table structure with rows, columns, and headers, even though the table is only used for page layout.\n**Remediation advice:** Avoid using table markup or roles for visual layout. Use CSS for page structure, and if a table must be used for layout, remove semantic roles by adding role=\"presentation\" or role=\"none\".\n**Fixtures:** 2 pass, 8 fail"
+      },
+      "preconditions": {
+        "from": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+        "to": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `table-misuse` examples published at `/engine/table-misuse_success` and `/engine/table-misuse_failure`.\n5. **Fixture count:** 2 pass, 8 fail atomic HTML files."
+      },
+      "postconditions": {
+        "from": null,
+        "to": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes."
+      },
+      "severity": {
+        "from": 0,
+        "to": 4
+      },
+      "type": {
+        "from": 1,
+        "to": 8
+      },
+      "behavior": {
+        "from": 1,
+        "to": 2
+      },
+      "automation": {
+        "from": 0,
+        "to": 1
+      },
+      "status": {
+        "from": 0,
+        "to": 3
+      },
+      "tags": {
+        "from": [
+          "unified-engine"
+        ],
+        "to": [
+          "unified-engine",
+          "e2e",
+          "engine",
+          "audit",
+          "regression",
+          "table-misuse"
+        ]
+      },
+      "steps": {
+        "from": [
+          {
+            "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+            "expected_result": "The website will be ready for testing this scenario",
+            "data": "",
+            "attachments": []
+          },
+          {
+            "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+            "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+            "data": "",
+            "attachments": []
+          },
+          {
+            "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+            "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+            "data": "",
+            "attachments": []
+          }
+        ],
+        "to": [
+          {
+            "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/table-misuse` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → table-misuse.",
+            "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+            "data": "Data:\nBASE_URL/engine/table-misuse\nruleId = table-misuse\nimpact = serious",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/table-misuse_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+            "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+            "data": "Data:\nBASE_URL/engine/table-misuse_success\npassFixtures = 2\natomic-tests/pass/complex-data-table-with-lists.html\natomic-tests/pass/complex-data-table.html",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/table-misuse_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+            "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+            "data": "Data:\nBASE_URL/engine/table-misuse_failure\nfailFixtures = 8\natomic-tests/fail/books.html\natomic-tests/fail/footer-amazon.html\natomic-tests/fail/table-as-article-layout.html\natomic-tests/fail/table-as-breadcrumbs-layout.html\natomic-tests/fail/table-as-layout.html",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+            "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+            "data": "Data:\ntestedClass from index.ts for table-misuse\n- pass/complex-data-table-with-lists.html → Passed node\n- pass/complex-data-table.html → Passed node\n- fail/books.html → Failed node\n- fail/footer-amazon.html → Failed node\n- fail/table-as-article-layout.html → Failed node\n- fail/table-as-breadcrumbs-layout.html → Failed node\n- fail/table-as-layout.html → Failed node\n- fail/table-as-profile-layout.html → Failed node\n- fail/ubl-com.html → Failed node\n- fail/weather-component.html → Failed node",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `table-misuse` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+            "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+            "data": "Data:\nruleId = table-misuse\nissueSource = RAIDEN examples at /engine/table-misuse_success and /engine/table-misuse_failure",
+            "attachments": []
+          }
+        ]
+      },
+      "params": {
+        "from": {
+          "scenario": [
+            "TBD",
+            "Adding <table role=\"presentation\" inside <div> for better layout",
+            "using <table> without  role=\"presentation\" for layout"
+          ],
+          "expectedResult": [
+            "neutral",
+            "Passed node",
+            "fail node"
+          ]
+        },
+        "to": {
+          "scenario": [
+            "pass: complex data table with lists (complex-data-table-with-lists.html)",
+            "pass: complex data table (complex-data-table.html)",
+            "fail: books (books.html)",
+            "fail: footer amazon (footer-amazon.html)",
+            "fail: table as article layout (table-as-article-layout.html)",
+            "fail: table as breadcrumbs layout (table-as-breadcrumbs-layout.html)",
+            "fail: table as layout (table-as-layout.html)",
+            "fail: table as profile layout (table-as-profile-layout.html)",
+            "fail: ubl com (ubl-com.html)",
+            "fail: weather component (weather-component.html)"
+          ],
+          "fixturePath": [
+            "atomic-tests/pass/complex-data-table-with-lists.html",
+            "atomic-tests/pass/complex-data-table.html",
+            "atomic-tests/fail/books.html",
+            "atomic-tests/fail/footer-amazon.html",
+            "atomic-tests/fail/table-as-article-layout.html",
+            "atomic-tests/fail/table-as-breadcrumbs-layout.html",
+            "atomic-tests/fail/table-as-layout.html",
+            "atomic-tests/fail/table-as-profile-layout.html",
+            "atomic-tests/fail/ubl-com.html",
+            "atomic-tests/fail/weather-component.html"
+          ],
+          "expectedResult": [
+            "Passed node",
+            "Passed node",
+            "Failed node",
+            "Failed node",
+            "Failed node",
+            "Failed node",
+            "Failed node",
+            "Failed node",
+            "Failed node",
+            "Failed node"
+          ]
+        }
+      }
+    },
+    "payload": {
+      "ruleId": "table-misuse",
+      "title": "Unified Engine: table-misuse — Only elements that function as data tables should be tagged as table",
+      "description": "**Engine rule ID:** `table-misuse`\n**RAIDEN routes:** `/engine/table-misuse`, `/engine/table-misuse_success`, `/engine/table-misuse_failure`\n**Atomic tests:** `src/components/pages/engine-rules/table-misuse/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** When a layout table is marked up with HTML elements like <table> or <tr>, or assigned table ARIA roles, screen readers announce a data table structure with rows, columns, and headers, even though the table is only used for page layout.\n**Remediation advice:** Avoid using table markup or roles for visual layout. Use CSS for page structure, and if a table must be used for layout, remove semantic roles by adding role=\"presentation\" or role=\"none\".\n**Fixtures:** 2 pass, 8 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `table-misuse` examples published at `/engine/table-misuse_success` and `/engine/table-misuse_failure`.\n5. **Fixture count:** 2 pass, 8 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "table-misuse"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/table-misuse` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → table-misuse.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/table-misuse\nruleId = table-misuse\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/table-misuse_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/table-misuse_success\npassFixtures = 2\natomic-tests/pass/complex-data-table-with-lists.html\natomic-tests/pass/complex-data-table.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/table-misuse_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/table-misuse_failure\nfailFixtures = 8\natomic-tests/fail/books.html\natomic-tests/fail/footer-amazon.html\natomic-tests/fail/table-as-article-layout.html\natomic-tests/fail/table-as-breadcrumbs-layout.html\natomic-tests/fail/table-as-layout.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for table-misuse\n- pass/complex-data-table-with-lists.html → Passed node\n- pass/complex-data-table.html → Passed node\n- fail/books.html → Failed node\n- fail/footer-amazon.html → Failed node\n- fail/table-as-article-layout.html → Failed node\n- fail/table-as-breadcrumbs-layout.html → Failed node\n- fail/table-as-layout.html → Failed node\n- fail/table-as-profile-layout.html → Failed node\n- fail/ubl-com.html → Failed node\n- fail/weather-component.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `table-misuse` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = table-misuse\nissueSource = RAIDEN examples at /engine/table-misuse_success and /engine/table-misuse_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: complex data table with lists (complex-data-table-with-lists.html)",
+          "pass: complex data table (complex-data-table.html)",
+          "fail: books (books.html)",
+          "fail: footer amazon (footer-amazon.html)",
+          "fail: table as article layout (table-as-article-layout.html)",
+          "fail: table as breadcrumbs layout (table-as-breadcrumbs-layout.html)",
+          "fail: table as layout (table-as-layout.html)",
+          "fail: table as profile layout (table-as-profile-layout.html)",
+          "fail: ubl com (ubl-com.html)",
+          "fail: weather component (weather-component.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/complex-data-table-with-lists.html",
+          "atomic-tests/pass/complex-data-table.html",
+          "atomic-tests/fail/books.html",
+          "atomic-tests/fail/footer-amazon.html",
+          "atomic-tests/fail/table-as-article-layout.html",
+          "atomic-tests/fail/table-as-breadcrumbs-layout.html",
+          "atomic-tests/fail/table-as-layout.html",
+          "atomic-tests/fail/table-as-profile-layout.html",
+          "atomic-tests/fail/ubl-com.html",
+          "atomic-tests/fail/weather-component.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 2,
+        "fail": 8,
+        "total": 10
+      }
+    }
+  }
+]

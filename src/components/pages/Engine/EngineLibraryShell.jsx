@@ -1,6 +1,8 @@
 import { Box, Drawer, useMediaQuery, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useEngineRuleFull } from "../../../hooks/useEngineRuleFull";
+import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
 import { LIBRARY_LAYOUT } from "../../../theme/layout";
 import EngineRuleDetailPane from "./EngineRuleDetailPane";
 import EngineRulesTable from "./EngineRulesTable";
@@ -17,16 +19,30 @@ export default function EngineLibraryShell() {
   const [mobileDetailOpen, setMobileDetailOpen] = useState(false);
 
   const library = useEngineLibraryRules();
-  const { findRuleBySlug, populatedRules, filteredRules, ...tableProps } = library;
+  const { populatedRules, filteredRules, findRuleBySlug, ...tableProps } = library;
 
   const selectedRuleId = paramRuleId || DEFAULT_RULE_ID;
-  const selectedRule = findRuleBySlug(selectedRuleId);
+  const indexRule = findRuleBySlug(selectedRuleId);
+  const { rule: selectedRule } = useEngineRuleFull(selectedRuleId);
+
+  const detailRule = selectedRule || indexRule;
 
   useEffect(() => {
-    if (paramRuleId && !selectedRule) {
-      navigate(`/engine/${DEFAULT_RULE_ID}`, { replace: true });
+    if (paramRuleId && !indexRule && !library.loading) {
+      navigate("/", { replace: true });
     }
-  }, [paramRuleId, selectedRule, navigate]);
+  }, [paramRuleId, indexRule, library.loading, navigate]);
+
+  useEffect(() => {
+    if (!selectedRuleId || typeof window === "undefined") return undefined;
+    const run = () => prefetchEngineExample(selectedRuleId, "success");
+    if ("requestIdleCallback" in window) {
+      const id = window.requestIdleCallback(run, { timeout: 2500 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const timer = setTimeout(run, 400);
+    return () => clearTimeout(timer);
+  }, [selectedRuleId]);
 
   const handleSelectRule = (slug) => {
     navigate(`/engine/${slug}`);
@@ -41,7 +57,7 @@ export default function EngineLibraryShell() {
     return <Navigate to={`/engine/${DEFAULT_RULE_ID}`} replace />;
   }
 
-  if (!selectedRule) {
+  if (!indexRule) {
     return null;
   }
 
@@ -77,7 +93,7 @@ export default function EngineLibraryShell() {
           }}
         >
           <EngineRuleDetailPane
-            rule={selectedRule}
+            rule={detailRule}
             collapsed={detailCollapsed}
             onToggleCollapse={() => setDetailCollapsed((c) => !c)}
           />
@@ -85,10 +101,12 @@ export default function EngineLibraryShell() {
       )}
 
       <EngineRulesTable
+        layout="compact"
         filteredRules={filteredRules}
         populatedCount={populatedRules.length}
         selectedRuleId={selectedRuleId}
         onSelectRule={handleSelectRule}
+        loading={library.loading}
         {...tableProps}
       />
 
@@ -106,7 +124,7 @@ export default function EngineLibraryShell() {
         }}
       >
         <EngineRuleDetailPane
-          rule={selectedRule}
+          rule={detailRule}
           collapsed={false}
           onToggleCollapse={() => setMobileDetailOpen(false)}
           compact

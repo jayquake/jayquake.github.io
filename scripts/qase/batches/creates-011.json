@@ -1,0 +1,560 @@
+[
+  {
+    "key": "html-lang",
+    "action": "create",
+    "ruleId": "html-lang",
+    "payload": {
+      "ruleId": "html-lang",
+      "title": "Unified Engine: html-lang — Default page language should be defined",
+      "description": "**Engine rule ID:** `html-lang`\n**RAIDEN routes:** `/engine/html-lang`, `/engine/html-lang_success`, `/engine/html-lang_failure`\n**Atomic tests:** `src/components/pages/engine-rules/html-lang/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Specifying a default page language ensures screen readers apply the correct pronunciation rules, voices, and braille output. Without it, screen readers may guess the language incorrectly, causing mispronunciations, confusion, and reduced comprehension for users.\n**Remediation advice:** Define the default language for the page by assigning a lang attribute to the <html> element.\n**Fixtures:** 2 pass, 2 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `html-lang` examples published at `/engine/html-lang_success` and `/engine/html-lang_failure`.\n5. **Fixture count:** 2 pass, 2 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "html-lang"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/html-lang` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → html-lang.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/html-lang\nruleId = html-lang\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/html-lang_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/html-lang_success\npassFixtures = 2\natomic-tests/pass/page-with-lang-attribute.html\natomic-tests/pass/page-with-lang-set-from-js-api.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/html-lang_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/html-lang_failure\nfailFixtures = 2\natomic-tests/fail/page-no-lang-attribute.html\natomic-tests/fail/page-whitespace-lang-attribute.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for html-lang\n- pass/page-with-lang-attribute.html → Passed node\n- pass/page-with-lang-set-from-js-api.html → Passed node\n- fail/page-no-lang-attribute.html → Failed node\n- fail/page-whitespace-lang-attribute.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `html-lang` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = html-lang\nissueSource = RAIDEN examples at /engine/html-lang_success and /engine/html-lang_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: page with lang attribute (page-with-lang-attribute.html)",
+          "pass: page with lang set from js api (page-with-lang-set-from-js-api.html)",
+          "fail: page no lang attribute (page-no-lang-attribute.html)",
+          "fail: page whitespace lang attribute (page-whitespace-lang-attribute.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/page-with-lang-attribute.html",
+          "atomic-tests/pass/page-with-lang-set-from-js-api.html",
+          "atomic-tests/fail/page-no-lang-attribute.html",
+          "atomic-tests/fail/page-whitespace-lang-attribute.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 2,
+        "fail": 2,
+        "total": 4
+      }
+    }
+  },
+  {
+    "key": "html-lang-valid",
+    "action": "create",
+    "ruleId": "html-lang-valid",
+    "payload": {
+      "ruleId": "html-lang-valid",
+      "title": "Unified Engine: html-lang-valid — HTML lang attribute should have a valid value",
+      "description": "**Engine rule ID:** `html-lang-valid`\n**RAIDEN routes:** `/engine/html-lang-valid`, `/engine/html-lang-valid_success`, `/engine/html-lang-valid_failure`\n**Atomic tests:** `src/components/pages/engine-rules/html-lang-valid/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Assigning a valid ISO language value to the <html> lang attribute ensures that screen readers use the correct pronunciation rules, browsers apply proper spell-checking and translation, and search engines index the content in the appropriate language.\n**Remediation advice:** Make sure that the lang attribute on the <html> element is assigned a valid ISO language code that matches the default language of the page.\n**Fixtures:** 8 pass, 7 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `html-lang-valid` examples published at `/engine/html-lang-valid_success` and `/engine/html-lang-valid_failure`.\n5. **Fixture count:** 8 pass, 7 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "html-lang-valid"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/html-lang-valid` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → html-lang-valid.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/html-lang-valid\nruleId = html-lang-valid\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/html-lang-valid_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/html-lang-valid_success\npassFixtures = 8\natomic-tests/pass/act-test-case-lang-en-US-GB.html\natomic-tests/pass/lang-with-3-tags.html\natomic-tests/pass/page-with-language-and-region.html\natomic-tests/pass/page-with-language-and-script-and-region-and-variant.html\natomic-tests/pass/page-with-language-and-script-and-region.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/html-lang-valid_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/html-lang-valid_failure\nfailFixtures = 7\natomic-tests/fail/act-test-case-lang-em-US.html\natomic-tests/fail/act-test-case-lang-eng.html\natomic-tests/fail/act-test-case-lang-hashtag-1.html\natomic-tests/fail/act-test-case-lang-i-lux.html\natomic-tests/fail/page-no-lang-attribute.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for html-lang-valid\n- pass/act-test-case-lang-en-US-GB.html → Passed node\n- pass/lang-with-3-tags.html → Passed node\n- pass/page-with-language-and-region.html → Passed node\n- pass/page-with-language-and-script-and-region-and-variant.html → Passed node\n- pass/page-with-language-and-script-and-region.html → Passed node\n- pass/page-with-language-and-script.html → Passed node\n- pass/page-with-language-and-variant.html → Passed node\n- pass/page-with-language-only.html → Passed node\n- fail/act-test-case-lang-em-US.html → Failed node\n- fail/act-test-case-lang-eng.html → Failed node\n- fail/act-test-case-lang-hashtag-1.html → Failed node\n- fail/act-test-case-lang-i-lux.html → Failed node\n- fail/page-no-lang-attribute.html → Failed node\n- fail/page-with-invalid-value-1.html → Failed node\n- fail/page-with-invalid-value-2.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `html-lang-valid` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = html-lang-valid\nissueSource = RAIDEN examples at /engine/html-lang-valid_success and /engine/html-lang-valid_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: act test case lang en US GB (act-test-case-lang-en-US-GB.html)",
+          "pass: lang with 3 tags (lang-with-3-tags.html)",
+          "pass: page with language and region (page-with-language-and-region.html)",
+          "pass: page with language and script and region and variant (page-with-language-and-script-and-region-and-variant.html)",
+          "pass: page with language and script and region (page-with-language-and-script-and-region.html)",
+          "pass: page with language and script (page-with-language-and-script.html)",
+          "pass: page with language and variant (page-with-language-and-variant.html)",
+          "pass: page with language only (page-with-language-only.html)",
+          "fail: act test case lang em US (act-test-case-lang-em-US.html)",
+          "fail: act test case lang eng (act-test-case-lang-eng.html)",
+          "fail: act test case lang hashtag 1 (act-test-case-lang-hashtag-1.html)",
+          "fail: act test case lang i lux (act-test-case-lang-i-lux.html)",
+          "fail: page no lang attribute (page-no-lang-attribute.html)",
+          "fail: page with invalid value 1 (page-with-invalid-value-1.html)",
+          "fail: page with invalid value 2 (page-with-invalid-value-2.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/act-test-case-lang-en-US-GB.html",
+          "atomic-tests/pass/lang-with-3-tags.html",
+          "atomic-tests/pass/page-with-language-and-region.html",
+          "atomic-tests/pass/page-with-language-and-script-and-region-and-variant.html",
+          "atomic-tests/pass/page-with-language-and-script-and-region.html",
+          "atomic-tests/pass/page-with-language-and-script.html",
+          "atomic-tests/pass/page-with-language-and-variant.html",
+          "atomic-tests/pass/page-with-language-only.html",
+          "atomic-tests/fail/act-test-case-lang-em-US.html",
+          "atomic-tests/fail/act-test-case-lang-eng.html",
+          "atomic-tests/fail/act-test-case-lang-hashtag-1.html",
+          "atomic-tests/fail/act-test-case-lang-i-lux.html",
+          "atomic-tests/fail/page-no-lang-attribute.html",
+          "atomic-tests/fail/page-with-invalid-value-1.html",
+          "atomic-tests/fail/page-with-invalid-value-2.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 8,
+        "fail": 7,
+        "total": 15
+      }
+    }
+  },
+  {
+    "key": "icon-discernible",
+    "action": "create",
+    "ruleId": "icon-discernible",
+    "payload": {
+      "ruleId": "icon-discernible",
+      "title": "Unified Engine: icon-discernible — Meaningful icons should have a label, while decorative icons should be hidden",
+      "description": "**Engine rule ID:** `icon-discernible`\n**RAIDEN routes:** `/engine/icon-discernible`, `/engine/icon-discernible_success`, `/engine/icon-discernible_failure`\n**Atomic tests:** `src/components/pages/engine-rules/icon-discernible/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Smaller graphics used as decorative or complementary elements, such as icons, and that do not provide additional information will often add unnecessary clutter to a screen reader user's browsing experience.\n**Remediation advice:** If the image is meaningful, assign a text alternative with a description of the image content using the alt attribute for image elements, or aria-label for elements with role=\"img\". If the image is decorative, provide an empty alt attribute for image elements, or role=\"presentation\" for elements with role=\"img\".\n**Fixtures:** 6 pass, 3 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `icon-discernible` examples published at `/engine/icon-discernible_success` and `/engine/icon-discernible_failure`.\n5. **Fixture count:** 6 pass, 3 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "icon-discernible"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/icon-discernible` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → icon-discernible.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/icon-discernible\nruleId = icon-discernible\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/icon-discernible_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/icon-discernible_success\npassFixtures = 6\natomic-tests/pass/font-awesome-icon-aria-label.html\natomic-tests/pass/font-awesome-icon-role-presentation.html\natomic-tests/pass/img-aria-label.html\natomic-tests/pass/img-role-presentation.html\natomic-tests/pass/svg-aria-label.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/icon-discernible_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/icon-discernible_failure\nfailFixtures = 3\natomic-tests/fail/font-awesome-icon.html\natomic-tests/fail/img.html\natomic-tests/fail/svg.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for icon-discernible\n- pass/font-awesome-icon-aria-label.html → Passed node\n- pass/font-awesome-icon-role-presentation.html → Passed node\n- pass/img-aria-label.html → Passed node\n- pass/img-role-presentation.html → Passed node\n- pass/svg-aria-label.html → Passed node\n- pass/svg-role-presentation.html → Passed node\n- fail/font-awesome-icon.html → Failed node\n- fail/img.html → Failed node\n- fail/svg.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `icon-discernible` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = icon-discernible\nissueSource = RAIDEN examples at /engine/icon-discernible_success and /engine/icon-discernible_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: font awesome icon aria label (font-awesome-icon-aria-label.html)",
+          "pass: font awesome icon role presentation (font-awesome-icon-role-presentation.html)",
+          "pass: img aria label (img-aria-label.html)",
+          "pass: img role presentation (img-role-presentation.html)",
+          "pass: svg aria label (svg-aria-label.html)",
+          "pass: svg role presentation (svg-role-presentation.html)",
+          "fail: font awesome icon (font-awesome-icon.html)",
+          "fail: img (img.html)",
+          "fail: svg (svg.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/font-awesome-icon-aria-label.html",
+          "atomic-tests/pass/font-awesome-icon-role-presentation.html",
+          "atomic-tests/pass/img-aria-label.html",
+          "atomic-tests/pass/img-role-presentation.html",
+          "atomic-tests/pass/svg-aria-label.html",
+          "atomic-tests/pass/svg-role-presentation.html",
+          "atomic-tests/fail/font-awesome-icon.html",
+          "atomic-tests/fail/img.html",
+          "atomic-tests/fail/svg.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 6,
+        "fail": 3,
+        "total": 9
+      }
+    }
+  },
+  {
+    "key": "image-discernible",
+    "action": "create",
+    "ruleId": "image-discernible",
+    "payload": {
+      "ruleId": "image-discernible",
+      "title": "Unified Engine: image-discernible — Functional images should have a text alternative",
+      "description": "**Engine rule ID:** `image-discernible`\n**RAIDEN routes:** `/engine/image-discernible`, `/engine/image-discernible_success`, `/engine/image-discernible_failure`\n**Atomic tests:** `src/components/pages/engine-rules/image-discernible/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Images require a text alternative when the image conveys meaningful content or serves a functional purpose. If the image is decorative, it must be hidden from assistive technology.\n**Remediation advice:** If the image is meaningful, assign a text alternative with a description of the image content using the alt attribute for image elements, or aria-label for elements with role=\"img\". If the image is decorative, provide an empty alt attribute for image elements, or role=\"presentation\" for elements with role=\"img\".\n**Fixtures:** 4 pass, 3 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `image-discernible` examples published at `/engine/image-discernible_success` and `/engine/image-discernible_failure`.\n5. **Fixture count:** 4 pass, 3 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "image-discernible"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/image-discernible` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → image-discernible.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/image-discernible\nruleId = image-discernible\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/image-discernible_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/image-discernible_success\npassFixtures = 4\natomic-tests/pass/img-with-aria-label.html\natomic-tests/pass/picture-with-alt-on-child-img.html\natomic-tests/pass/picture-with-aria-label.html\natomic-tests/pass/role-img-with-aria-label.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/image-discernible_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/image-discernible_failure\nfailFixtures = 3\natomic-tests/fail/img.html\natomic-tests/fail/picture.html\natomic-tests/fail/role-img.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for image-discernible\n- pass/img-with-aria-label.html → Passed node\n- pass/picture-with-alt-on-child-img.html → Passed node\n- pass/picture-with-aria-label.html → Passed node\n- pass/role-img-with-aria-label.html → Passed node\n- fail/img.html → Failed node\n- fail/picture.html → Failed node\n- fail/role-img.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `image-discernible` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = image-discernible\nissueSource = RAIDEN examples at /engine/image-discernible_success and /engine/image-discernible_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: img with aria label (img-with-aria-label.html)",
+          "pass: picture with alt on child img (picture-with-alt-on-child-img.html)",
+          "pass: picture with aria label (picture-with-aria-label.html)",
+          "pass: role img with aria label (role-img-with-aria-label.html)",
+          "fail: img (img.html)",
+          "fail: picture (picture.html)",
+          "fail: role img (role-img.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/img-with-aria-label.html",
+          "atomic-tests/pass/picture-with-alt-on-child-img.html",
+          "atomic-tests/pass/picture-with-aria-label.html",
+          "atomic-tests/pass/role-img-with-aria-label.html",
+          "atomic-tests/fail/img.html",
+          "atomic-tests/fail/picture.html",
+          "atomic-tests/fail/role-img.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 4,
+        "fail": 3,
+        "total": 7
+      }
+    }
+  },
+  {
+    "key": "image-discernible-correctly",
+    "action": "create",
+    "ruleId": "image-discernible-correctly",
+    "payload": {
+      "ruleId": "image-discernible-correctly",
+      "title": "Unified Engine: image-discernible-correctly — Functional images should have an informative and accurate text alternative",
+      "description": "**Engine rule ID:** `image-discernible-correctly`\n**RAIDEN routes:** `/engine/image-discernible-correctly`, `/engine/image-discernible-correctly_success`, `/engine/image-discernible-correctly_failure`\n**Atomic tests:** `src/components/pages/engine-rules/image-discernible-correctly/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Text alternatives must provide accurate descriptions of the image. Incorrect text alternatives, such as filenames or other placeholder values, may cause screen reader users to either miss essential information or hear unnecessary content that disrupts navigation.\n**Remediation advice:** Make sure that the assigned text alternative describes the content or function of the image.\n**Fixtures:** 10 pass, 11 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `image-discernible-correctly` examples published at `/engine/image-discernible-correctly_success` and `/engine/image-discernible-correctly_failure`.\n5. **Fixture count:** 10 pass, 11 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "image-discernible-correctly"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/image-discernible-correctly` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → image-discernible-correctly.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/image-discernible-correctly\nruleId = image-discernible-correctly\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/image-discernible-correctly_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/image-discernible-correctly_success\npassFixtures = 10\natomic-tests/pass/easyfinancial.com-image-with-svg-src.html\natomic-tests/pass/image-with-base64-src.html\natomic-tests/pass/image-with-linear-gradient.html\natomic-tests/pass/image-with-meaningful-alt-text-hebrew.html\natomic-tests/pass/image-with-meaningful-alt-text.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/image-discernible-correctly_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/image-discernible-correctly_failure\nfailFixtures = 11\natomic-tests/fail/image-with-alt-text-containing-a-long-single-word.html\natomic-tests/fail/image-with-alt-text-containing-a-single-word.html\natomic-tests/fail/image-with-alt-text-containing-more-numbers-than-non-numbers.html\natomic-tests/fail/image-with-alt-text-containing-only-dimensions.html\natomic-tests/fail/image-with-alt-text-containing-only-non-alphabetic-characters.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for image-discernible-correctly\n- pass/easyfinancial.com-image-with-svg-src.html → Passed node\n- pass/image-with-base64-src.html → Passed node\n- pass/image-with-linear-gradient.html → Passed node\n- pass/image-with-meaningful-alt-text-hebrew.html → Passed node\n- pass/image-with-meaningful-alt-text.html → Passed node\n- pass/image-with-meaningful-aria-label-hebrew.html → Passed node\n- pass/image-with-meaningful-aria-label.html → Passed node\n- pass/image-with-not-meaningful-alt-text-and-meaningful-aria-label.html → Passed node\n- pass/image-with-svg-data-uri.html → Passed node\n- pass/image-with-svg-src.html → Passed node\n- fail/image-with-alt-text-containing-a-long-single-word.html → Failed node\n- fail/image-with-alt-text-containing-a-single-word.html → Failed node\n- fail/image-with-alt-text-containing-more-numbers-than-non-numbers.html → Failed node\n- fail/image-with-alt-text-containing-only-dimensions.html → Failed node\n- fail/image-with-alt-text-containing-only-non-alphabetic-characters.html → Failed node\n- fail/image-with-aria-label-containing-a-long-single-word.html → Failed node\n- fail/image-with-aria-label-containing-a-single-word.html → Failed node\n- fail/image-with-aria-label-containing-more-numbers-than-non-numbers.html → Failed node\n- fail/image-with-aria-label-containing-only-dimensions.html → Failed node\n- fail/image-with-aria-label-containing-only-non-alphabetic-characters.html → Failed node\n- fail/image-with-not-meaningful-alt-text-and-not-meaningful-aria-label.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `image-discernible-correctly` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = image-discernible-correctly\nissueSource = RAIDEN examples at /engine/image-discernible-correctly_success and /engine/image-discernible-correctly_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: easyfinancial.com image with svg src (easyfinancial.com-image-with-svg-src.html)",
+          "pass: image with base64 src (image-with-base64-src.html)",
+          "pass: image with linear gradient (image-with-linear-gradient.html)",
+          "pass: image with meaningful alt text hebrew (image-with-meaningful-alt-text-hebrew.html)",
+          "pass: image with meaningful alt text (image-with-meaningful-alt-text.html)",
+          "pass: image with meaningful aria label hebrew (image-with-meaningful-aria-label-hebrew.html)",
+          "pass: image with meaningful aria label (image-with-meaningful-aria-label.html)",
+          "pass: image with not meaningful alt text and meaningful aria label (image-with-not-meaningful-alt-text-and-meaningful-aria-label.html)",
+          "pass: image with svg data uri (image-with-svg-data-uri.html)",
+          "pass: image with svg src (image-with-svg-src.html)",
+          "fail: image with alt text containing a long single word (image-with-alt-text-containing-a-long-single-word.html)",
+          "fail: image with alt text containing a single word (image-with-alt-text-containing-a-single-word.html)",
+          "fail: image with alt text containing more numbers than non numbers (image-with-alt-text-containing-more-numbers-than-non-numbers.html)",
+          "fail: image with alt text containing only dimensions (image-with-alt-text-containing-only-dimensions.html)",
+          "fail: image with alt text containing only non alphabetic characters (image-with-alt-text-containing-only-non-alphabetic-characters.html)",
+          "fail: image with aria label containing a long single word (image-with-aria-label-containing-a-long-single-word.html)",
+          "fail: image with aria label containing a single word (image-with-aria-label-containing-a-single-word.html)",
+          "fail: image with aria label containing more numbers than non numbers (image-with-aria-label-containing-more-numbers-than-non-numbers.html)",
+          "fail: image with aria label containing only dimensions (image-with-aria-label-containing-only-dimensions.html)",
+          "fail: image with aria label containing only non alphabetic characters (image-with-aria-label-containing-only-non-alphabetic-characters.html)",
+          "fail: image with not meaningful alt text and not meaningful aria label (image-with-not-meaningful-alt-text-and-not-meaningful-aria-label.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/easyfinancial.com-image-with-svg-src.html",
+          "atomic-tests/pass/image-with-base64-src.html",
+          "atomic-tests/pass/image-with-linear-gradient.html",
+          "atomic-tests/pass/image-with-meaningful-alt-text-hebrew.html",
+          "atomic-tests/pass/image-with-meaningful-alt-text.html",
+          "atomic-tests/pass/image-with-meaningful-aria-label-hebrew.html",
+          "atomic-tests/pass/image-with-meaningful-aria-label.html",
+          "atomic-tests/pass/image-with-not-meaningful-alt-text-and-meaningful-aria-label.html",
+          "atomic-tests/pass/image-with-svg-data-uri.html",
+          "atomic-tests/pass/image-with-svg-src.html",
+          "atomic-tests/fail/image-with-alt-text-containing-a-long-single-word.html",
+          "atomic-tests/fail/image-with-alt-text-containing-a-single-word.html",
+          "atomic-tests/fail/image-with-alt-text-containing-more-numbers-than-non-numbers.html",
+          "atomic-tests/fail/image-with-alt-text-containing-only-dimensions.html",
+          "atomic-tests/fail/image-with-alt-text-containing-only-non-alphabetic-characters.html",
+          "atomic-tests/fail/image-with-aria-label-containing-a-long-single-word.html",
+          "atomic-tests/fail/image-with-aria-label-containing-a-single-word.html",
+          "atomic-tests/fail/image-with-aria-label-containing-more-numbers-than-non-numbers.html",
+          "atomic-tests/fail/image-with-aria-label-containing-only-dimensions.html",
+          "atomic-tests/fail/image-with-aria-label-containing-only-non-alphabetic-characters.html",
+          "atomic-tests/fail/image-with-not-meaningful-alt-text-and-not-meaningful-aria-label.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 10,
+        "fail": 11,
+        "total": 21
+      }
+    }
+  }
+]

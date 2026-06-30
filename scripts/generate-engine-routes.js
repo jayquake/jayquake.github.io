@@ -4,6 +4,10 @@ const path = require('path');
 const ENGINE_RULES_DIR = path.join(__dirname, '../src/components/pages/engine-rules');
 const OUTPUT_FILE = path.join(__dirname, '../src/routes/engineRoutes.jsx');
 
+// NOTE: App routing no longer uses engineRoutes.jsx — examples load via
+// src/utils/engineExampleUtils.js (per-rule dynamic import). This script is
+// kept for reference / migration only.
+
 // Helper to convert kebab-case to PascalCase
 function toPascalCase(str) {
   return str

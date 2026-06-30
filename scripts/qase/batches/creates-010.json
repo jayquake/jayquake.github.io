@@ -1,0 +1,551 @@
+[
+  {
+    "key": "heading-mismatch",
+    "action": "create",
+    "ruleId": "heading-mismatch",
+    "payload": {
+      "ruleId": "heading-mismatch",
+      "title": "Unified Engine: heading-mismatch — Headings should be tagged for assistive technology",
+      "description": "**Engine rule ID:** `heading-mismatch`\n**RAIDEN routes:** `/engine/heading-mismatch`, `/engine/heading-mismatch_success`, `/engine/heading-mismatch_failure`\n**Atomic tests:** `src/components/pages/engine-rules/heading-mismatch/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Text that visually functions as a heading for sighted users should also be tagged as a heading for screen reader users.\n**Remediation advice:** If you specifically coded headings without native HTML tags (like h1, h2, etc.) for SEO reasons or otherwise, use role=\"heading\" and aria-level=\"1/2/3/4/5/6\" (the appropriate heading level) to make sure that screen readers announce them as headings. For example, role=\"heading\" aria-level=\"3\" will be treated by screen readers as a h3 heading. Alternatively, you can directly code those elements as native HTML headings.\n**Fixtures:** 7 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `heading-mismatch` examples published at `/engine/heading-mismatch_success` and `/engine/heading-mismatch_failure`.\n5. **Fixture count:** 7 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "heading-mismatch"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/heading-mismatch` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → heading-mismatch.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/heading-mismatch\nruleId = heading-mismatch\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/heading-mismatch_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/heading-mismatch_success\npassFixtures = 7\natomic-tests/pass/h1-sr-only.html\natomic-tests/pass/native-html-headers.html\natomic-tests/pass/no-perceivable-heading-too-long.html\natomic-tests/pass/no-perceivable-heading-too-small.html\natomic-tests/pass/perceivable-heading-has-role-heading-and-aria-level.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/heading-mismatch_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/heading-mismatch_failure\nfailFixtures = 1\natomic-tests/fail/perceivable-heading-no-role-heading.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for heading-mismatch\n- pass/h1-sr-only.html → Passed node\n- pass/native-html-headers.html → Passed node\n- pass/no-perceivable-heading-too-long.html → Passed node\n- pass/no-perceivable-heading-too-small.html → Passed node\n- pass/perceivable-heading-has-role-heading-and-aria-level.html → Passed node\n- pass/perceivable-heading-has-role-heading-but-no-aria-level.html → Passed node\n- pass/perceivable-heading-with-native-header-tag.html → Passed node\n- fail/perceivable-heading-no-role-heading.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `heading-mismatch` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = heading-mismatch\nissueSource = RAIDEN examples at /engine/heading-mismatch_success and /engine/heading-mismatch_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: h1 sr only (h1-sr-only.html)",
+          "pass: native html headers (native-html-headers.html)",
+          "pass: no perceivable heading too long (no-perceivable-heading-too-long.html)",
+          "pass: no perceivable heading too small (no-perceivable-heading-too-small.html)",
+          "pass: perceivable heading has role heading and aria level (perceivable-heading-has-role-heading-and-aria-level.html)",
+          "pass: perceivable heading has role heading but no aria level (perceivable-heading-has-role-heading-but-no-aria-level.html)",
+          "pass: perceivable heading with native header tag (perceivable-heading-with-native-header-tag.html)",
+          "fail: perceivable heading no role heading (perceivable-heading-no-role-heading.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/h1-sr-only.html",
+          "atomic-tests/pass/native-html-headers.html",
+          "atomic-tests/pass/no-perceivable-heading-too-long.html",
+          "atomic-tests/pass/no-perceivable-heading-too-small.html",
+          "atomic-tests/pass/perceivable-heading-has-role-heading-and-aria-level.html",
+          "atomic-tests/pass/perceivable-heading-has-role-heading-but-no-aria-level.html",
+          "atomic-tests/pass/perceivable-heading-with-native-header-tag.html",
+          "atomic-tests/fail/perceivable-heading-no-role-heading.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 7,
+        "fail": 1,
+        "total": 8
+      }
+    }
+  },
+  {
+    "key": "heading-misuse",
+    "action": "create",
+    "ruleId": "heading-misuse",
+    "payload": {
+      "ruleId": "heading-misuse",
+      "title": "Unified Engine: heading-misuse — Only elements that function as headings should be tagged as heading",
+      "description": "**Engine rule ID:** `heading-misuse`\n**RAIDEN routes:** `/engine/heading-misuse`, `/engine/heading-misuse_success`, `/engine/heading-misuse_failure`\n**Atomic tests:** `src/components/pages/engine-rules/heading-misuse/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Accurate tagging allows screen readers to present content in a logical structure. Misidentifying an element as a heading disrupts navigation, creating confusion about the importance of content and page hierarchy.\n**Remediation advice:** Remove ARIA heading attributes from the failing element, or if the element is marked up using a native HTML tag, update the role according to the function of the element.\n**Fixtures:** 9 pass, 5 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `heading-misuse` examples published at `/engine/heading-misuse_success` and `/engine/heading-misuse_failure`.\n5. **Fixture count:** 9 pass, 5 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "heading-misuse"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/heading-misuse` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`moderate`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → heading-misuse.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/heading-misuse\nruleId = heading-misuse\nimpact = moderate",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/heading-misuse_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/heading-misuse_success\npassFixtures = 9\natomic-tests/pass/exact-length-heading.html\natomic-tests/pass/h1-sr-only.html\natomic-tests/pass/heading-with-icon.html\natomic-tests/pass/large-uppercase-heading.html\natomic-tests/pass/no-compliant-heading.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/heading-misuse_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/heading-misuse_failure\nfailFixtures = 5\natomic-tests/fail/font-size-too-small.html\natomic-tests/fail/insufficient-font-weight-and-line-height.html\natomic-tests/fail/no-visible-text.html\natomic-tests/fail/semantic-headings.html\natomic-tests/fail/too-long-heading.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for heading-misuse\n- pass/exact-length-heading.html → Passed node\n- pass/h1-sr-only.html → Passed node\n- pass/heading-with-icon.html → Passed node\n- pass/large-uppercase-heading.html → Passed node\n- pass/no-compliant-heading.html → Passed node\n- pass/semantic-headings.html → Passed node\n- pass/slightly-heavier-font-weight.html → Passed node\n- pass/slightly-larger-font-heading.html → Passed node\n- pass/slightly-larger-line-height.html → Passed node\n- fail/font-size-too-small.html → Failed node\n- fail/insufficient-font-weight-and-line-height.html → Failed node\n- fail/no-visible-text.html → Failed node\n- fail/semantic-headings.html → Failed node\n- fail/too-long-heading.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `heading-misuse` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = heading-misuse\nissueSource = RAIDEN examples at /engine/heading-misuse_success and /engine/heading-misuse_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: exact length heading (exact-length-heading.html)",
+          "pass: h1 sr only (h1-sr-only.html)",
+          "pass: heading with icon (heading-with-icon.html)",
+          "pass: large uppercase heading (large-uppercase-heading.html)",
+          "pass: no compliant heading (no-compliant-heading.html)",
+          "pass: semantic headings (semantic-headings.html)",
+          "pass: slightly heavier font weight (slightly-heavier-font-weight.html)",
+          "pass: slightly larger font heading (slightly-larger-font-heading.html)",
+          "pass: slightly larger line height (slightly-larger-line-height.html)",
+          "fail: font size too small (font-size-too-small.html)",
+          "fail: insufficient font weight and line height (insufficient-font-weight-and-line-height.html)",
+          "fail: no visible text (no-visible-text.html)",
+          "fail: semantic headings (semantic-headings.html)",
+          "fail: too long heading (too-long-heading.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/exact-length-heading.html",
+          "atomic-tests/pass/h1-sr-only.html",
+          "atomic-tests/pass/heading-with-icon.html",
+          "atomic-tests/pass/large-uppercase-heading.html",
+          "atomic-tests/pass/no-compliant-heading.html",
+          "atomic-tests/pass/semantic-headings.html",
+          "atomic-tests/pass/slightly-heavier-font-weight.html",
+          "atomic-tests/pass/slightly-larger-font-heading.html",
+          "atomic-tests/pass/slightly-larger-line-height.html",
+          "atomic-tests/fail/font-size-too-small.html",
+          "atomic-tests/fail/insufficient-font-weight-and-line-height.html",
+          "atomic-tests/fail/no-visible-text.html",
+          "atomic-tests/fail/semantic-headings.html",
+          "atomic-tests/fail/too-long-heading.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 9,
+        "fail": 5,
+        "total": 14
+      }
+    }
+  },
+  {
+    "key": "heading-order",
+    "action": "create",
+    "ruleId": "heading-order",
+    "payload": {
+      "ruleId": "heading-order",
+      "title": "Unified Engine: heading-order — Heading levels should follow a logical hierarchy",
+      "description": "**Engine rule ID:** `heading-order`\n**RAIDEN routes:** `/engine/heading-order`, `/engine/heading-order_success`, `/engine/heading-order_failure`\n**Atomic tests:** `src/components/pages/engine-rules/heading-order/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Incorrect heading hierarchy can create a misleading page outline, disrupt navigation by heading shortcuts, and cause confusion about the structure and importance of content. Skipping levels or using them inconsistently makes it harder for screen reader users and others who rely on structured navigation to understand the page.\n**Remediation advice:** Use heading levels in a meaningful, hierarchical order that reflects the structure of the content. Start with a single <h1> for the main page title, then use <h2> for primary sections, <h3> for subsections, and so on. Best practice avoids skipping levels (for example, jumping from <h1> to <h3>) to maintain a logical sequence and ensure a clear, consistent outline for all users.\n**Fixtures:** 8 pass, 7 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `heading-order` examples published at `/engine/heading-order_success` and `/engine/heading-order_failure`.\n5. **Fixture count:** 8 pass, 7 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 5,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "heading-order"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/heading-order` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`minor`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → heading-order.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/heading-order\nruleId = heading-order\nimpact = minor",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/heading-order_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/heading-order_success\npassFixtures = 8\natomic-tests/pass/heading-levels-consistent-hierarchy-1-to-2.html\natomic-tests/pass/heading-levels-consistent-hierarchy-1-to-3.html\natomic-tests/pass/heading-levels-consistent-hierarchy-1-to-4.html\natomic-tests/pass/heading-levels-consistent-hierarchy-1-to-5.html\natomic-tests/pass/heading-levels-consistent-hierarchy-1-to-6.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/heading-order_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/heading-order_failure\nfailFixtures = 7\natomic-tests/fail/first-heading-h2.html\natomic-tests/fail/first-heading-h3.html\natomic-tests/fail/h3-after-h1.html\natomic-tests/fail/heading-skipped-level-1.html\natomic-tests/fail/heading-skipped-level-2.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for heading-order\n- pass/heading-levels-consistent-hierarchy-1-to-2.html → Passed node\n- pass/heading-levels-consistent-hierarchy-1-to-3.html → Passed node\n- pass/heading-levels-consistent-hierarchy-1-to-4.html → Passed node\n- pass/heading-levels-consistent-hierarchy-1-to-5.html → Passed node\n- pass/heading-levels-consistent-hierarchy-1-to-6.html → Passed node\n- pass/heading-levels-consistent-hierarchy-1.html → Passed node\n- pass/heading-levels-consistent-hierarchy.html → Passed node\n- pass/no-headings.html → Passed node\n- fail/first-heading-h2.html → Failed node\n- fail/first-heading-h3.html → Failed node\n- fail/h3-after-h1.html → Failed node\n- fail/heading-skipped-level-1.html → Failed node\n- fail/heading-skipped-level-2.html → Failed node\n- fail/heading-skipped-level-4.html → Failed node\n- fail/heading-skipped-levels-3-and-5.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `heading-order` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = heading-order\nissueSource = RAIDEN examples at /engine/heading-order_success and /engine/heading-order_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: heading levels consistent hierarchy 1 to 2 (heading-levels-consistent-hierarchy-1-to-2.html)",
+          "pass: heading levels consistent hierarchy 1 to 3 (heading-levels-consistent-hierarchy-1-to-3.html)",
+          "pass: heading levels consistent hierarchy 1 to 4 (heading-levels-consistent-hierarchy-1-to-4.html)",
+          "pass: heading levels consistent hierarchy 1 to 5 (heading-levels-consistent-hierarchy-1-to-5.html)",
+          "pass: heading levels consistent hierarchy 1 to 6 (heading-levels-consistent-hierarchy-1-to-6.html)",
+          "pass: heading levels consistent hierarchy 1 (heading-levels-consistent-hierarchy-1.html)",
+          "pass: heading levels consistent hierarchy (heading-levels-consistent-hierarchy.html)",
+          "pass: no headings (no-headings.html)",
+          "fail: first heading h2 (first-heading-h2.html)",
+          "fail: first heading h3 (first-heading-h3.html)",
+          "fail: h3 after h1 (h3-after-h1.html)",
+          "fail: heading skipped level 1 (heading-skipped-level-1.html)",
+          "fail: heading skipped level 2 (heading-skipped-level-2.html)",
+          "fail: heading skipped level 4 (heading-skipped-level-4.html)",
+          "fail: heading skipped levels 3 and 5 (heading-skipped-levels-3-and-5.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/heading-levels-consistent-hierarchy-1-to-2.html",
+          "atomic-tests/pass/heading-levels-consistent-hierarchy-1-to-3.html",
+          "atomic-tests/pass/heading-levels-consistent-hierarchy-1-to-4.html",
+          "atomic-tests/pass/heading-levels-consistent-hierarchy-1-to-5.html",
+          "atomic-tests/pass/heading-levels-consistent-hierarchy-1-to-6.html",
+          "atomic-tests/pass/heading-levels-consistent-hierarchy-1.html",
+          "atomic-tests/pass/heading-levels-consistent-hierarchy.html",
+          "atomic-tests/pass/no-headings.html",
+          "atomic-tests/fail/first-heading-h2.html",
+          "atomic-tests/fail/first-heading-h3.html",
+          "atomic-tests/fail/h3-after-h1.html",
+          "atomic-tests/fail/heading-skipped-level-1.html",
+          "atomic-tests/fail/heading-skipped-level-2.html",
+          "atomic-tests/fail/heading-skipped-level-4.html",
+          "atomic-tests/fail/heading-skipped-levels-3-and-5.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 8,
+        "fail": 7,
+        "total": 15
+      }
+    }
+  },
+  {
+    "key": "heading-order-optimal",
+    "action": "create",
+    "ruleId": "heading-order-optimal",
+    "payload": {
+      "ruleId": "heading-order-optimal",
+      "title": "Unified Engine: heading-order-optimal — Heading levels should reflect the structure of the content",
+      "description": "**Engine rule ID:** `heading-order-optimal`\n**RAIDEN routes:** `/engine/heading-order-optimal`, `/engine/heading-order-optimal_success`, `/engine/heading-order-optimal_failure`\n**Atomic tests:** `src/components/pages/engine-rules/heading-order-optimal/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Incorrect heading hierarchy can create a misleading page outline, disrupt navigation by heading shortcuts, and cause confusion about the structure and importance of content. Using the correct heading level preserves a logical structure, allowing users to understand how sections relate to each other.\n**Remediation advice:** Heading levels should reflect how each section relates to the main topic. Use <h1> for the overall subject,<h2> for major sections, and deeper levels, such as <h3> and <h4>, for subsections.\n**Fixtures:** 4 pass, 3 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `heading-order-optimal` examples published at `/engine/heading-order-optimal_success` and `/engine/heading-order-optimal_failure`.\n5. **Fixture count:** 4 pass, 3 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 5,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "heading-order-optimal"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/heading-order-optimal` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`minor`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → heading-order-optimal.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/heading-order-optimal\nruleId = heading-order-optimal\nimpact = minor",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/heading-order-optimal_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/heading-order-optimal_success\npassFixtures = 4\natomic-tests/pass/aria-level-1-2-3.html\natomic-tests/pass/h1-aria-level-2-h3.html\natomic-tests/pass/h1-h2-h3-h2-h3.html\natomic-tests/pass/h1-h2-h3.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/heading-order-optimal_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/heading-order-optimal_failure\nfailFixtures = 3\natomic-tests/fail/aria-level-1-3.html\natomic-tests/fail/h1-div-h3.html\natomic-tests/fail/h1-h3.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for heading-order-optimal\n- pass/aria-level-1-2-3.html → Passed node\n- pass/h1-aria-level-2-h3.html → Passed node\n- pass/h1-h2-h3-h2-h3.html → Passed node\n- pass/h1-h2-h3.html → Passed node\n- fail/aria-level-1-3.html → Failed node\n- fail/h1-div-h3.html → Failed node\n- fail/h1-h3.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `heading-order-optimal` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = heading-order-optimal\nissueSource = RAIDEN examples at /engine/heading-order-optimal_success and /engine/heading-order-optimal_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: aria level 1 2 3 (aria-level-1-2-3.html)",
+          "pass: h1 aria level 2 h3 (h1-aria-level-2-h3.html)",
+          "pass: h1 h2 h3 h2 h3 (h1-h2-h3-h2-h3.html)",
+          "pass: h1 h2 h3 (h1-h2-h3.html)",
+          "fail: aria level 1 3 (aria-level-1-3.html)",
+          "fail: h1 div h3 (h1-div-h3.html)",
+          "fail: h1 h3 (h1-h3.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/aria-level-1-2-3.html",
+          "atomic-tests/pass/h1-aria-level-2-h3.html",
+          "atomic-tests/pass/h1-h2-h3-h2-h3.html",
+          "atomic-tests/pass/h1-h2-h3.html",
+          "atomic-tests/fail/aria-level-1-3.html",
+          "atomic-tests/fail/h1-div-h3.html",
+          "atomic-tests/fail/h1-h3.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 4,
+        "fail": 3,
+        "total": 7
+      }
+    }
+  },
+  {
+    "key": "heading-single-h1",
+    "action": "create",
+    "ruleId": "heading-single-h1",
+    "payload": {
+      "ruleId": "heading-single-h1",
+      "title": "Unified Engine: heading-single-h1 — A page should not have more than one main heading",
+      "description": "**Engine rule ID:** `heading-single-h1`\n**RAIDEN routes:** `/engine/heading-single-h1`, `/engine/heading-single-h1_success`, `/engine/heading-single-h1_failure`\n**Atomic tests:** `src/components/pages/engine-rules/heading-single-h1/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Each web page should have only one h1 element so that screen reader users can identify the main topic or purpose of the page. Multiple h1s can confuse users by suggesting there are multiple primary topics, disrupting navigation by headings and making it harder to understand the overall page structure.\n**Remediation advice:** Make sure that each web page has exactly one h1 element so that screen reader users can identify the main subject of the page.\n**Fixtures:** 6 pass, 3 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `heading-single-h1` examples published at `/engine/heading-single-h1_success` and `/engine/heading-single-h1_failure`.\n5. **Fixture count:** 6 pass, 3 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "heading-single-h1"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/heading-single-h1` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`moderate`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → heading-single-h1.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/heading-single-h1\nruleId = heading-single-h1\nimpact = moderate",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/heading-single-h1_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/heading-single-h1_success\npassFixtures = 6\natomic-tests/pass/no-h1.html\natomic-tests/pass/single-aria-level-1.html\natomic-tests/pass/single-h1.html\natomic-tests/pass/two-h1-first-visibility-hidden-second-visible.html\natomic-tests/pass/two-h1-one-with-aria-level-2.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/heading-single-h1_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/heading-single-h1_failure\nfailFixtures = 3\natomic-tests/fail/h1-and-aria-level-1.html\natomic-tests/fail/multiple-h1.html\natomic-tests/fail/multiple-role-heading-aria-level-1.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for heading-single-h1\n- pass/no-h1.html → Passed node\n- pass/single-aria-level-1.html → Passed node\n- pass/single-h1.html → Passed node\n- pass/two-h1-first-visibility-hidden-second-visible.html → Passed node\n- pass/two-h1-one-with-aria-level-2.html → Passed node\n- pass/two-h1-switch-visibility-between-desktop-and-mobile.html → Passed node\n- fail/h1-and-aria-level-1.html → Failed node\n- fail/multiple-h1.html → Failed node\n- fail/multiple-role-heading-aria-level-1.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `heading-single-h1` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = heading-single-h1\nissueSource = RAIDEN examples at /engine/heading-single-h1_success and /engine/heading-single-h1_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: no h1 (no-h1.html)",
+          "pass: single aria level 1 (single-aria-level-1.html)",
+          "pass: single h1 (single-h1.html)",
+          "pass: two h1 first visibility hidden second visible (two-h1-first-visibility-hidden-second-visible.html)",
+          "pass: two h1 one with aria level 2 (two-h1-one-with-aria-level-2.html)",
+          "pass: two h1 switch visibility between desktop and mobile (two-h1-switch-visibility-between-desktop-and-mobile.html)",
+          "fail: h1 and aria level 1 (h1-and-aria-level-1.html)",
+          "fail: multiple h1 (multiple-h1.html)",
+          "fail: multiple role heading aria level 1 (multiple-role-heading-aria-level-1.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/no-h1.html",
+          "atomic-tests/pass/single-aria-level-1.html",
+          "atomic-tests/pass/single-h1.html",
+          "atomic-tests/pass/two-h1-first-visibility-hidden-second-visible.html",
+          "atomic-tests/pass/two-h1-one-with-aria-level-2.html",
+          "atomic-tests/pass/two-h1-switch-visibility-between-desktop-and-mobile.html",
+          "atomic-tests/fail/h1-and-aria-level-1.html",
+          "atomic-tests/fail/multiple-h1.html",
+          "atomic-tests/fail/multiple-role-heading-aria-level-1.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 6,
+        "fail": 3,
+        "total": 9
+      }
+    }
+  }
+]

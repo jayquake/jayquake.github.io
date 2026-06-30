@@ -1,0 +1,548 @@
+[
+  {
+    "key": "dialog-modal-misuse",
+    "action": "create",
+    "ruleId": "dialog-modal-misuse",
+    "payload": {
+      "ruleId": "dialog-modal-misuse",
+      "title": "Unified Engine: dialog-modal-misuse — Only elements that function as dialogs should be tagged as dialog",
+      "description": "**Engine rule ID:** `dialog-modal-misuse`\n**RAIDEN routes:** `/engine/dialog-modal-misuse`, `/engine/dialog-modal-misuse_success`, `/engine/dialog-modal-misuse_failure`\n**Atomic tests:** `src/components/pages/engine-rules/dialog-modal-misuse/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Marking up elements as dialogs without actual dialog behavior causes screen readers to announce a dialog, misleading users into expecting modal interaction and restricted reading order that do not occur.\n**Remediation advice:** Remove role=\"dialog\" from the non-dialog element or add role=\"presentation\" if the HTML <dialog> element is used.\n**Fixtures:** 4 pass, 2 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `dialog-modal-misuse` examples published at `/engine/dialog-modal-misuse_success` and `/engine/dialog-modal-misuse_failure`.\n5. **Fixture count:** 4 pass, 2 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "dialog-modal-misuse"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/dialog-modal-misuse` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → dialog-modal-misuse.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/dialog-modal-misuse\nruleId = dialog-modal-misuse\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/dialog-modal-misuse_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/dialog-modal-misuse_success\npassFixtures = 4\natomic-tests/pass/dialog-not-open-display-block.html\natomic-tests/pass/dialog-open.html\natomic-tests/pass/div-with-role-dialog-modal.html\natomic-tests/pass/modal-with-fractional-backdrop-within-tolerance.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/dialog-modal-misuse_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/dialog-modal-misuse_failure\nfailFixtures = 2\natomic-tests/fail/backdrop-width-outside-tolerance.html\natomic-tests/fail/simple-div-role-dialog-modal.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for dialog-modal-misuse\n- pass/dialog-not-open-display-block.html → Passed node\n- pass/dialog-open.html → Passed node\n- pass/div-with-role-dialog-modal.html → Passed node\n- pass/modal-with-fractional-backdrop-within-tolerance.html → Passed node\n- fail/backdrop-width-outside-tolerance.html → Failed node\n- fail/simple-div-role-dialog-modal.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `dialog-modal-misuse` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = dialog-modal-misuse\nissueSource = RAIDEN examples at /engine/dialog-modal-misuse_success and /engine/dialog-modal-misuse_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: dialog not open display block (dialog-not-open-display-block.html)",
+          "pass: dialog open (dialog-open.html)",
+          "pass: div with role dialog modal (div-with-role-dialog-modal.html)",
+          "pass: modal with fractional backdrop within tolerance (modal-with-fractional-backdrop-within-tolerance.html)",
+          "fail: backdrop width outside tolerance (backdrop-width-outside-tolerance.html)",
+          "fail: simple div role dialog modal (simple-div-role-dialog-modal.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/dialog-not-open-display-block.html",
+          "atomic-tests/pass/dialog-open.html",
+          "atomic-tests/pass/div-with-role-dialog-modal.html",
+          "atomic-tests/pass/modal-with-fractional-backdrop-within-tolerance.html",
+          "atomic-tests/fail/backdrop-width-outside-tolerance.html",
+          "atomic-tests/fail/simple-div-role-dialog-modal.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 4,
+        "fail": 2,
+        "total": 6
+      }
+    }
+  },
+  {
+    "key": "duplicate-id",
+    "action": "create",
+    "ruleId": "duplicate-id",
+    "payload": {
+      "ruleId": "duplicate-id",
+      "title": "Unified Engine: duplicate-id — The id attribute should have a unique value",
+      "description": "**Engine rule ID:** `duplicate-id`\n**RAIDEN routes:** `/engine/duplicate-id`, `/engine/duplicate-id_success`, `/engine/duplicate-id_failure`\n**Atomic tests:** `src/components/pages/engine-rules/duplicate-id/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** The id attribute is a unique identifier in the DOM, and using the same value more than once creates ambiguity. This can cause styles and scripts to behave unpredictably, and may also disrupt label or ARIA references that depend on unique IDs.\n**Remediation advice:** Make sure all id attributes on a page have unique values.\n**Fixtures:** 2 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `duplicate-id` examples published at `/engine/duplicate-id_success` and `/engine/duplicate-id_failure`.\n5. **Fixture count:** 2 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 5,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "duplicate-id"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/duplicate-id` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`minor`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → duplicate-id.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/duplicate-id\nruleId = duplicate-id\nimpact = minor",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/duplicate-id_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/duplicate-id_success\npassFixtures = 2\natomic-tests/pass/distinct-id.html\natomic-tests/pass/multiple-elements-no-id.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/duplicate-id_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/duplicate-id_failure\nfailFixtures = 1\natomic-tests/fail/multuple-same-id.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for duplicate-id\n- pass/distinct-id.html → Passed node\n- pass/multiple-elements-no-id.html → Passed node\n- fail/multuple-same-id.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `duplicate-id` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = duplicate-id\nissueSource = RAIDEN examples at /engine/duplicate-id_success and /engine/duplicate-id_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: distinct id (distinct-id.html)",
+          "pass: multiple elements no id (multiple-elements-no-id.html)",
+          "fail: multuple same id (multuple-same-id.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/distinct-id.html",
+          "atomic-tests/pass/multiple-elements-no-id.html",
+          "atomic-tests/fail/multuple-same-id.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 2,
+        "fail": 1,
+        "total": 3
+      }
+    }
+  },
+  {
+    "key": "emphasis-mismatch",
+    "action": "create",
+    "ruleId": "emphasis-mismatch",
+    "payload": {
+      "ruleId": "emphasis-mismatch",
+      "title": "Unified Engine: emphasis-mismatch — Emphasis should be tagged properly for assistive technology",
+      "description": "**Engine rule ID:** `emphasis-mismatch`\n**RAIDEN routes:** `/engine/emphasis-mismatch`, `/engine/emphasis-mismatch_success`, `/engine/emphasis-mismatch_failure`\n**Atomic tests:** `src/components/pages/engine-rules/emphasis-mismatch/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Elements with emphasis importance should have the emphasis role. If not, screen reader users may not understand the emphasis of the text.\n**Remediation advice:** Add role=emphasis to the elements that are perceived as emphasis importance.\n**Fixtures:** 4 pass, 2 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `emphasis-mismatch` examples published at `/engine/emphasis-mismatch_success` and `/engine/emphasis-mismatch_failure`.\n5. **Fixture count:** 4 pass, 2 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "emphasis-mismatch"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/emphasis-mismatch` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → emphasis-mismatch.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/emphasis-mismatch\nruleId = emphasis-mismatch\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/emphasis-mismatch_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/emphasis-mismatch_success\npassFixtures = 4\natomic-tests/pass/button-has-direct-text-no-element-children-font-style-italic.html\natomic-tests/pass/em-has-direct-text-no-element-children-font-style-italic.html\natomic-tests/pass/not-perceivable-emphasis.html\natomic-tests/pass/role-emphasis-has-direct-text-no-element-children-font-style-italic.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/emphasis-mismatch_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/emphasis-mismatch_failure\nfailFixtures = 2\natomic-tests/fail/has-direct-text-no-element-children-font-style-italic.html\natomic-tests/fail/i-has-direct-text-no-element-children.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for emphasis-mismatch\n- pass/button-has-direct-text-no-element-children-font-style-italic.html → Passed node\n- pass/em-has-direct-text-no-element-children-font-style-italic.html → Passed node\n- pass/not-perceivable-emphasis.html → Passed node\n- pass/role-emphasis-has-direct-text-no-element-children-font-style-italic.html → Passed node\n- fail/has-direct-text-no-element-children-font-style-italic.html → Failed node\n- fail/i-has-direct-text-no-element-children.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `emphasis-mismatch` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = emphasis-mismatch\nissueSource = RAIDEN examples at /engine/emphasis-mismatch_success and /engine/emphasis-mismatch_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: button has direct text no element children font style italic (button-has-direct-text-no-element-children-font-style-italic.html)",
+          "pass: em has direct text no element children font style italic (em-has-direct-text-no-element-children-font-style-italic.html)",
+          "pass: not perceivable emphasis (not-perceivable-emphasis.html)",
+          "pass: role emphasis has direct text no element children font style italic (role-emphasis-has-direct-text-no-element-children-font-style-italic.html)",
+          "fail: has direct text no element children font style italic (has-direct-text-no-element-children-font-style-italic.html)",
+          "fail: i has direct text no element children (i-has-direct-text-no-element-children.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/button-has-direct-text-no-element-children-font-style-italic.html",
+          "atomic-tests/pass/em-has-direct-text-no-element-children-font-style-italic.html",
+          "atomic-tests/pass/not-perceivable-emphasis.html",
+          "atomic-tests/pass/role-emphasis-has-direct-text-no-element-children-font-style-italic.html",
+          "atomic-tests/fail/has-direct-text-no-element-children-font-style-italic.html",
+          "atomic-tests/fail/i-has-direct-text-no-element-children.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 4,
+        "fail": 2,
+        "total": 6
+      }
+    }
+  },
+  {
+    "key": "figure-discernible",
+    "action": "create",
+    "ruleId": "figure-discernible",
+    "payload": {
+      "ruleId": "figure-discernible",
+      "title": "Unified Engine: figure-discernible — Figure elements should receive text description or lose figure role",
+      "description": "**Engine rule ID:** `figure-discernible`\n**RAIDEN routes:** `/engine/figure-discernible`, `/engine/figure-discernible_success`, `/engine/figure-discernible_failure`\n**Atomic tests:** `src/components/pages/engine-rules/figure-discernible/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Figure elements are often incorrectly used to display images on the screen. Incorrectly using the figure tag, without providing a proper figcaption, adds unnecessary clutter to the screen reader user's experience.\n**Remediation advice:** Standard images should be coded regularly without having a figure parent element. The figure tag should only be used for images you wish to provide additional visual descriptions for, like the date and time a photo was taken or other metadata. To make a figure tag non-cluttering for screen-readers, add the role=presentation attribute to replace it with another element like DIV. Alternatively, if you did intend to use the figure tag, make sure to add a figcaption tag with the additional metadata\n**Fixtures:** 10 pass, 8 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `figure-discernible` examples published at `/engine/figure-discernible_success` and `/engine/figure-discernible_failure`.\n5. **Fixture count:** 10 pass, 8 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 5,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "figure-discernible"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/figure-discernible` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`minor`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → figure-discernible.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/figure-discernible\nruleId = figure-discernible\nimpact = minor",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/figure-discernible_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/figure-discernible_success\npassFixtures = 10\natomic-tests/pass/figure-and-image-with-alt.html\natomic-tests/pass/figure-with-aria-labelledby.html\natomic-tests/pass/figure-with-figcaption-child.html\natomic-tests/pass/figure-with-multiple-captions-one-valid.html\natomic-tests/pass/figure-with-multiple-images-and-one-alt.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/figure-discernible_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/figure-discernible_failure\nfailFixtures = 8\natomic-tests/fail/figure-with-aria-labelledby-but-no-valid-caption.html\natomic-tests/fail/figure-with-empty-alt-and-no-figcaption.html\natomic-tests/fail/figure-without-figcaption-child-and-image-alt.html\natomic-tests/fail/figure-without-image-and-empty-aria-labelledby.html\natomic-tests/fail/figure-without-image-and-no-figcaption.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for figure-discernible\n- pass/figure-and-image-with-alt.html → Passed node\n- pass/figure-with-aria-labelledby.html → Passed node\n- pass/figure-with-figcaption-child.html → Passed node\n- pass/figure-with-multiple-captions-one-valid.html → Passed node\n- pass/figure-with-multiple-images-and-one-alt.html → Passed node\n- pass/figure-with-svg.html → Passed node\n- pass/figure-with-text-node.html → Passed node\n- pass/role-figure-and-image-with-alt.html → Passed node\n- pass/role-figure-with-alt-image-and-figcaption.html → Passed node\n- pass/role-figure-with-aria-labelledby.html → Passed node\n- fail/figure-with-aria-labelledby-but-no-valid-caption.html → Failed node\n- fail/figure-with-empty-alt-and-no-figcaption.html → Failed node\n- fail/figure-without-figcaption-child-and-image-alt.html → Failed node\n- fail/figure-without-image-and-empty-aria-labelledby.html → Failed node\n- fail/figure-without-image-and-no-figcaption.html → Failed node\n- fail/figure-witht-empty-figcaption-child.html → Failed node\n- fail/role-figure-with-no-alt-and-no-aria-labelledby.html → Failed node\n- fail/role-figure-without-aria-labelledby-and-image-alt.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `figure-discernible` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = figure-discernible\nissueSource = RAIDEN examples at /engine/figure-discernible_success and /engine/figure-discernible_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: figure and image with alt (figure-and-image-with-alt.html)",
+          "pass: figure with aria labelledby (figure-with-aria-labelledby.html)",
+          "pass: figure with figcaption child (figure-with-figcaption-child.html)",
+          "pass: figure with multiple captions one valid (figure-with-multiple-captions-one-valid.html)",
+          "pass: figure with multiple images and one alt (figure-with-multiple-images-and-one-alt.html)",
+          "pass: figure with svg (figure-with-svg.html)",
+          "pass: figure with text node (figure-with-text-node.html)",
+          "pass: role figure and image with alt (role-figure-and-image-with-alt.html)",
+          "pass: role figure with alt image and figcaption (role-figure-with-alt-image-and-figcaption.html)",
+          "pass: role figure with aria labelledby (role-figure-with-aria-labelledby.html)",
+          "fail: figure with aria labelledby but no valid caption (figure-with-aria-labelledby-but-no-valid-caption.html)",
+          "fail: figure with empty alt and no figcaption (figure-with-empty-alt-and-no-figcaption.html)",
+          "fail: figure without figcaption child and image alt (figure-without-figcaption-child-and-image-alt.html)",
+          "fail: figure without image and empty aria labelledby (figure-without-image-and-empty-aria-labelledby.html)",
+          "fail: figure without image and no figcaption (figure-without-image-and-no-figcaption.html)",
+          "fail: figure witht empty figcaption child (figure-witht-empty-figcaption-child.html)",
+          "fail: role figure with no alt and no aria labelledby (role-figure-with-no-alt-and-no-aria-labelledby.html)",
+          "fail: role figure without aria labelledby and image alt (role-figure-without-aria-labelledby-and-image-alt.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/figure-and-image-with-alt.html",
+          "atomic-tests/pass/figure-with-aria-labelledby.html",
+          "atomic-tests/pass/figure-with-figcaption-child.html",
+          "atomic-tests/pass/figure-with-multiple-captions-one-valid.html",
+          "atomic-tests/pass/figure-with-multiple-images-and-one-alt.html",
+          "atomic-tests/pass/figure-with-svg.html",
+          "atomic-tests/pass/figure-with-text-node.html",
+          "atomic-tests/pass/role-figure-and-image-with-alt.html",
+          "atomic-tests/pass/role-figure-with-alt-image-and-figcaption.html",
+          "atomic-tests/pass/role-figure-with-aria-labelledby.html",
+          "atomic-tests/fail/figure-with-aria-labelledby-but-no-valid-caption.html",
+          "atomic-tests/fail/figure-with-empty-alt-and-no-figcaption.html",
+          "atomic-tests/fail/figure-without-figcaption-child-and-image-alt.html",
+          "atomic-tests/fail/figure-without-image-and-empty-aria-labelledby.html",
+          "atomic-tests/fail/figure-without-image-and-no-figcaption.html",
+          "atomic-tests/fail/figure-witht-empty-figcaption-child.html",
+          "atomic-tests/fail/role-figure-with-no-alt-and-no-aria-labelledby.html",
+          "atomic-tests/fail/role-figure-without-aria-labelledby-and-image-alt.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 10,
+        "fail": 8,
+        "total": 18
+      }
+    }
+  },
+  {
+    "key": "focus-not-obscured-footer",
+    "action": "create",
+    "ruleId": "focus-not-obscured-footer",
+    "payload": {
+      "ruleId": "focus-not-obscured-footer",
+      "title": "Unified Engine: focus-not-obscured-footer — Focused elements should not be obscured by a sticky footer",
+      "description": "**Engine rule ID:** `focus-not-obscured-footer`\n**RAIDEN routes:** `/engine/focus-not-obscured-footer`, `/engine/focus-not-obscured-footer_success`, `/engine/focus-not-obscured-footer_failure`\n**Atomic tests:** `src/components/pages/engine-rules/focus-not-obscured-footer/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** A sticky footer remains anchored to the bottom of the screen while the rest of the page content can be scrolled. If it is not offset from interactive elements, it can overlap and obscure the item in focus.\n**Remediation advice:** When a page has a sticky footer, make sure that any element receiving focus is not fully covered by the footer. One way to achieve this is by using the CSS property scroll-padding-bottom.\n**Fixtures:** 9 pass, 10 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `focus-not-obscured-footer` examples published at `/engine/focus-not-obscured-footer_success` and `/engine/focus-not-obscured-footer_failure`.\n5. **Fixture count:** 9 pass, 10 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "focus-not-obscured-footer"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/focus-not-obscured-footer` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → focus-not-obscured-footer.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/focus-not-obscured-footer\nruleId = focus-not-obscured-footer\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/focus-not-obscured-footer_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/focus-not-obscured-footer_success\npassFixtures = 9\natomic-tests/pass/fixed-footer-with-scrollable-parent-with-scroll-padding-bottom-greater-than-footer-height.html\natomic-tests/pass/footer-ancestor-position-sticky-with-padding-inside-static-div-html-with-scroll-padding-bottom.html\natomic-tests/pass/footer-ancestors-position-not-fixed-and-not-sticky.html\natomic-tests/pass/footer-position-static.html\natomic-tests/pass/no-footer.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/focus-not-obscured-footer_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/focus-not-obscured-footer_failure\nfailFixtures = 10\natomic-tests/fail/footer-ancestor-position-fixed-with-padding.html\natomic-tests/fail/footer-ancestor-position-fixed.html\natomic-tests/fail/footer-ancestor-position-sticky-with-padding-inside-static-div.html\natomic-tests/fail/footer-ancestor-position-sticky-with-padding.html\natomic-tests/fail/footer-ancestor-position-sticky.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for focus-not-obscured-footer\n- pass/fixed-footer-with-scrollable-parent-with-scroll-padding-bottom-greater-than-footer-height.html → Passed node\n- pass/footer-ancestor-position-sticky-with-padding-inside-static-div-html-with-scroll-padding-bottom.html → Passed node\n- pass/footer-ancestors-position-not-fixed-and-not-sticky.html → Passed node\n- pass/footer-position-static.html → Passed node\n- pass/no-footer.html → Passed node\n- pass/sticky-footer-214px-with-global-style-button-focused-in-the-footer.html → Passed node\n- pass/sticky-footer-214px-with-global-style-footer-not-focused.html → Passed node\n- pass/sticky-footer-position-fixed-html-with-scroll-padding-bottom-greater-than-footer-height.html → Passed node\n- pass/sticky-footer-with-scrollable-parent-with-scroll-padding-bottom-greater-than-footer-height.html → Passed node\n- fail/footer-ancestor-position-fixed-with-padding.html → Failed node\n- fail/footer-ancestor-position-fixed.html → Failed node\n- fail/footer-ancestor-position-sticky-with-padding-inside-static-div.html → Failed node\n- fail/footer-ancestor-position-sticky-with-padding.html → Failed node\n- fail/footer-ancestor-position-sticky.html → Failed node\n- fail/sticky-footer-position-fixed-html-with-scroll-padding-bottom-less-than-footer-height.html → Failed node\n- fail/sticky-footer-position-fixed-is-hiding-focused-elements.html → Failed node\n- fail/sticky-footer-position-sticky-is-hiding-focused-elements.html → Failed node\n- fail/sticky-footer-with-scrollable-parent-with-scroll-padding-bottom-less-than-footer-height.html → Failed node\n- fail/sticky-footer-with-scrollable-parent-without-scroll-padding-bottom.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `focus-not-obscured-footer` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = focus-not-obscured-footer\nissueSource = RAIDEN examples at /engine/focus-not-obscured-footer_success and /engine/focus-not-obscured-footer_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: fixed footer with scrollable parent with scroll padding bottom greater than footer height (fixed-footer-with-scrollable-parent-with-scroll-padding-bottom-greater-than-footer-height.html)",
+          "pass: footer ancestor position sticky with padding inside static div html with scroll padding bottom (footer-ancestor-position-sticky-with-padding-inside-static-div-html-with-scroll-padding-bottom.html)",
+          "pass: footer ancestors position not fixed and not sticky (footer-ancestors-position-not-fixed-and-not-sticky.html)",
+          "pass: footer position static (footer-position-static.html)",
+          "pass: no footer (no-footer.html)",
+          "pass: sticky footer 214px with global style button focused in the footer (sticky-footer-214px-with-global-style-button-focused-in-the-footer.html)",
+          "pass: sticky footer 214px with global style footer not focused (sticky-footer-214px-with-global-style-footer-not-focused.html)",
+          "pass: sticky footer position fixed html with scroll padding bottom greater than footer height (sticky-footer-position-fixed-html-with-scroll-padding-bottom-greater-than-footer-height.html)",
+          "pass: sticky footer with scrollable parent with scroll padding bottom greater than footer height (sticky-footer-with-scrollable-parent-with-scroll-padding-bottom-greater-than-footer-height.html)",
+          "fail: footer ancestor position fixed with padding (footer-ancestor-position-fixed-with-padding.html)",
+          "fail: footer ancestor position fixed (footer-ancestor-position-fixed.html)",
+          "fail: footer ancestor position sticky with padding inside static div (footer-ancestor-position-sticky-with-padding-inside-static-div.html)",
+          "fail: footer ancestor position sticky with padding (footer-ancestor-position-sticky-with-padding.html)",
+          "fail: footer ancestor position sticky (footer-ancestor-position-sticky.html)",
+          "fail: sticky footer position fixed html with scroll padding bottom less than footer height (sticky-footer-position-fixed-html-with-scroll-padding-bottom-less-than-footer-height.html)",
+          "fail: sticky footer position fixed is hiding focused elements (sticky-footer-position-fixed-is-hiding-focused-elements.html)",
+          "fail: sticky footer position sticky is hiding focused elements (sticky-footer-position-sticky-is-hiding-focused-elements.html)",
+          "fail: sticky footer with scrollable parent with scroll padding bottom less than footer height (sticky-footer-with-scrollable-parent-with-scroll-padding-bottom-less-than-footer-height.html)",
+          "fail: sticky footer with scrollable parent without scroll padding bottom (sticky-footer-with-scrollable-parent-without-scroll-padding-bottom.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/fixed-footer-with-scrollable-parent-with-scroll-padding-bottom-greater-than-footer-height.html",
+          "atomic-tests/pass/footer-ancestor-position-sticky-with-padding-inside-static-div-html-with-scroll-padding-bottom.html",
+          "atomic-tests/pass/footer-ancestors-position-not-fixed-and-not-sticky.html",
+          "atomic-tests/pass/footer-position-static.html",
+          "atomic-tests/pass/no-footer.html",
+          "atomic-tests/pass/sticky-footer-214px-with-global-style-button-focused-in-the-footer.html",
+          "atomic-tests/pass/sticky-footer-214px-with-global-style-footer-not-focused.html",
+          "atomic-tests/pass/sticky-footer-position-fixed-html-with-scroll-padding-bottom-greater-than-footer-height.html",
+          "atomic-tests/pass/sticky-footer-with-scrollable-parent-with-scroll-padding-bottom-greater-than-footer-height.html",
+          "atomic-tests/fail/footer-ancestor-position-fixed-with-padding.html",
+          "atomic-tests/fail/footer-ancestor-position-fixed.html",
+          "atomic-tests/fail/footer-ancestor-position-sticky-with-padding-inside-static-div.html",
+          "atomic-tests/fail/footer-ancestor-position-sticky-with-padding.html",
+          "atomic-tests/fail/footer-ancestor-position-sticky.html",
+          "atomic-tests/fail/sticky-footer-position-fixed-html-with-scroll-padding-bottom-less-than-footer-height.html",
+          "atomic-tests/fail/sticky-footer-position-fixed-is-hiding-focused-elements.html",
+          "atomic-tests/fail/sticky-footer-position-sticky-is-hiding-focused-elements.html",
+          "atomic-tests/fail/sticky-footer-with-scrollable-parent-with-scroll-padding-bottom-less-than-footer-height.html",
+          "atomic-tests/fail/sticky-footer-with-scrollable-parent-without-scroll-padding-bottom.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 9,
+        "fail": 10,
+        "total": 19
+      }
+    }
+  }
+]

@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { LIBRARY_LAYOUT } from "../../../theme/layout";
+import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
 import { getRuleSlug } from "./engineLibraryUtils";
 
 export default function EngineRuleDetailPane({
@@ -244,6 +245,8 @@ export default function EngineRuleDetailPane({
             variant="outlined"
             startIcon={<CheckCircleIcon />}
             fullWidth
+            onMouseEnter={() => prefetchEngineExample(slug, "success")}
+            onFocus={() => prefetchEngineExample(slug, "success")}
             sx={{ justifyContent: "flex-start" }}
           >
             Success examples
@@ -255,6 +258,8 @@ export default function EngineRuleDetailPane({
             variant="outlined"
             startIcon={<CancelIcon />}
             fullWidth
+            onMouseEnter={() => prefetchEngineExample(slug, "failure")}
+            onFocus={() => prefetchEngineExample(slug, "failure")}
             sx={{ justifyContent: "flex-start" }}
           >
             Failure examples

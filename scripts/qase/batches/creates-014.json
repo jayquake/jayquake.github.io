@@ -1,0 +1,512 @@
+[
+  {
+    "key": "link-current-page",
+    "action": "create",
+    "ruleId": "link-current-page",
+    "payload": {
+      "ruleId": "link-current-page",
+      "title": "Unified Engine: link-current-page — Visual indication that a link's destination is the current page should be announced by screen readers",
+      "description": "**Engine rule ID:** `link-current-page`\n**RAIDEN routes:** `/engine/link-current-page`, `/engine/link-current-page_success`, `/engine/link-current-page_failure`\n**Atomic tests:** `src/components/pages/engine-rules/link-current-page/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Visual cues are often used by sighted users to indicate which link represents the current page within a set of links. This information should be made available to screen reader users by assigning aria-current='page' to the link.\n**Remediation advice:** Add aria-current=\"page\" to the link within a list of navigation links whose destination matches the page the user is currently navigating.\n**Fixtures:** 5 pass, 5 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `link-current-page` examples published at `/engine/link-current-page_success` and `/engine/link-current-page_failure`.\n5. **Fixture count:** 5 pass, 5 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "link-current-page"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/link-current-page` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`moderate`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → link-current-page.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/link-current-page\nruleId = link-current-page\nimpact = moderate",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/link-current-page_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/link-current-page_success\npassFixtures = 5\natomic-tests/pass/a-tag-aria-current-page.html\natomic-tests/pass/breadcrumb-aria-current-page.html\natomic-tests/pass/div-role-link-aria-current-page.html\natomic-tests/pass/nav-aria-current-page.html\natomic-tests/pass/no-current-page.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/link-current-page_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/link-current-page_failure\nfailFixtures = 5\natomic-tests/fail/a-tag-aria-current-is-not-page.html\natomic-tests/fail/a-tag-no-aria-current-page.html\natomic-tests/fail/breadcrumb-no-aria-current-page.html\natomic-tests/fail/div-role-link-no-aria-current-page.html\natomic-tests/fail/nav-no-aria-current-page.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for link-current-page\n- pass/a-tag-aria-current-page.html → Passed node\n- pass/breadcrumb-aria-current-page.html → Passed node\n- pass/div-role-link-aria-current-page.html → Passed node\n- pass/nav-aria-current-page.html → Passed node\n- pass/no-current-page.html → Passed node\n- fail/a-tag-aria-current-is-not-page.html → Failed node\n- fail/a-tag-no-aria-current-page.html → Failed node\n- fail/breadcrumb-no-aria-current-page.html → Failed node\n- fail/div-role-link-no-aria-current-page.html → Failed node\n- fail/nav-no-aria-current-page.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `link-current-page` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = link-current-page\nissueSource = RAIDEN examples at /engine/link-current-page_success and /engine/link-current-page_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: a tag aria current page (a-tag-aria-current-page.html)",
+          "pass: breadcrumb aria current page (breadcrumb-aria-current-page.html)",
+          "pass: div role link aria current page (div-role-link-aria-current-page.html)",
+          "pass: nav aria current page (nav-aria-current-page.html)",
+          "pass: no current page (no-current-page.html)",
+          "fail: a tag aria current is not page (a-tag-aria-current-is-not-page.html)",
+          "fail: a tag no aria current page (a-tag-no-aria-current-page.html)",
+          "fail: breadcrumb no aria current page (breadcrumb-no-aria-current-page.html)",
+          "fail: div role link no aria current page (div-role-link-no-aria-current-page.html)",
+          "fail: nav no aria current page (nav-no-aria-current-page.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/a-tag-aria-current-page.html",
+          "atomic-tests/pass/breadcrumb-aria-current-page.html",
+          "atomic-tests/pass/div-role-link-aria-current-page.html",
+          "atomic-tests/pass/nav-aria-current-page.html",
+          "atomic-tests/pass/no-current-page.html",
+          "atomic-tests/fail/a-tag-aria-current-is-not-page.html",
+          "atomic-tests/fail/a-tag-no-aria-current-page.html",
+          "atomic-tests/fail/breadcrumb-no-aria-current-page.html",
+          "atomic-tests/fail/div-role-link-no-aria-current-page.html",
+          "atomic-tests/fail/nav-no-aria-current-page.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 5,
+        "fail": 5,
+        "total": 10
+      }
+    }
+  },
+  {
+    "key": "link-homepage-warning",
+    "action": "create",
+    "ruleId": "link-homepage-warning",
+    "payload": {
+      "ruleId": "link-homepage-warning",
+      "title": "Unified Engine: link-homepage-warning — Warning a user that a link navigates to the homepage is recommended",
+      "description": "**Engine rule ID:** `link-homepage-warning`\n**RAIDEN routes:** `/engine/link-homepage-warning`, `/engine/link-homepage-warning_success`, `/engine/link-homepage-warning_failure`\n**Atomic tests:** `src/components/pages/engine-rules/link-homepage-warning/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** It's good practice to ensure that users can always identify links to the homepage.\n**Remediation advice:** Add a visibly hidden text element that contains 'Home'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id. Alternatively, nest a visibly hidden element that contains additional context inside of the link.\n**Fixtures:** 9 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `link-homepage-warning` examples published at `/engine/link-homepage-warning_success` and `/engine/link-homepage-warning_failure`.\n5. **Fixture count:** 9 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 5,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "link-homepage-warning"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/link-homepage-warning` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`minor`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → link-homepage-warning.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/link-homepage-warning\nruleId = link-homepage-warning\nimpact = minor",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/link-homepage-warning_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/link-homepage-warning_success\npassFixtures = 9\natomic-tests/pass/coralogix-schedule-demo-link.html\natomic-tests/pass/link-homepage-acsb-sr-element.html\natomic-tests/pass/link-homepage-full-base-url-end-with-slash.html\natomic-tests/pass/link-homepage-full-base-url.html\natomic-tests/pass/link-homepage-sr-element.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/link-homepage-warning_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/link-homepage-warning_failure\nfailFixtures = 1\natomic-tests/fail/link-homepage-without-warning.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for link-homepage-warning\n- pass/coralogix-schedule-demo-link.html → Passed node\n- pass/link-homepage-acsb-sr-element.html → Passed node\n- pass/link-homepage-full-base-url-end-with-slash.html → Passed node\n- pass/link-homepage-full-base-url.html → Passed node\n- pass/link-homepage-sr-element.html → Passed node\n- pass/link-homepage-with-aria-describedby.html → Passed node\n- pass/link-homepage-with-aria-label.html → Passed node\n- pass/link-homepage-with-aria-labelledby.html → Passed node\n- pass/no-link-to-homepage.html → Passed node\n- fail/link-homepage-without-warning.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `link-homepage-warning` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = link-homepage-warning\nissueSource = RAIDEN examples at /engine/link-homepage-warning_success and /engine/link-homepage-warning_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: coralogix schedule demo link (coralogix-schedule-demo-link.html)",
+          "pass: link homepage acsb sr element (link-homepage-acsb-sr-element.html)",
+          "pass: link homepage full base url end with slash (link-homepage-full-base-url-end-with-slash.html)",
+          "pass: link homepage full base url (link-homepage-full-base-url.html)",
+          "pass: link homepage sr element (link-homepage-sr-element.html)",
+          "pass: link homepage with aria describedby (link-homepage-with-aria-describedby.html)",
+          "pass: link homepage with aria label (link-homepage-with-aria-label.html)",
+          "pass: link homepage with aria labelledby (link-homepage-with-aria-labelledby.html)",
+          "pass: no link to homepage (no-link-to-homepage.html)",
+          "fail: link homepage without warning (link-homepage-without-warning.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/coralogix-schedule-demo-link.html",
+          "atomic-tests/pass/link-homepage-acsb-sr-element.html",
+          "atomic-tests/pass/link-homepage-full-base-url-end-with-slash.html",
+          "atomic-tests/pass/link-homepage-full-base-url.html",
+          "atomic-tests/pass/link-homepage-sr-element.html",
+          "atomic-tests/pass/link-homepage-with-aria-describedby.html",
+          "atomic-tests/pass/link-homepage-with-aria-label.html",
+          "atomic-tests/pass/link-homepage-with-aria-labelledby.html",
+          "atomic-tests/pass/no-link-to-homepage.html",
+          "atomic-tests/fail/link-homepage-without-warning.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 9,
+        "fail": 1,
+        "total": 10
+      }
+    }
+  },
+  {
+    "key": "link-image-warning",
+    "action": "create",
+    "ruleId": "link-image-warning",
+    "payload": {
+      "ruleId": "link-image-warning",
+      "title": "Unified Engine: link-image-warning — Warning a user when a link triggers an image to open is recommended",
+      "description": "**Engine rule ID:** `link-image-warning`\n**RAIDEN routes:** `/engine/link-image-warning`, `/engine/link-image-warning_success`, `/engine/link-image-warning_failure`\n**Atomic tests:** `src/components/pages/engine-rules/link-image-warning/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** It's good practice to warn users about the expected behavior when activating a link triggers an image to appear.\n**Remediation advice:** Add a visibly hidden text element that contains 'Opens image'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id. Alternatively, nest a visibly hidden element that contains additional context inside of the link.\n**Fixtures:** 5 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `link-image-warning` examples published at `/engine/link-image-warning_success` and `/engine/link-image-warning_failure`.\n5. **Fixture count:** 5 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 5,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "link-image-warning"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/link-image-warning` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`minor`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → link-image-warning.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/link-image-warning\nruleId = link-image-warning\nimpact = minor",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/link-image-warning_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/link-image-warning_success\npassFixtures = 5\natomic-tests/pass/link-image-acsb-sr-element.html\natomic-tests/pass/link-image-sr-element.html\natomic-tests/pass/link-image-with-aria-describedby.html\natomic-tests/pass/link-image-with-aria-label.html\natomic-tests/pass/link-image-with-aria-labelledby.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/link-image-warning_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/link-image-warning_failure\nfailFixtures = 1\natomic-tests/fail/link-image-without-warning.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for link-image-warning\n- pass/link-image-acsb-sr-element.html → Passed node\n- pass/link-image-sr-element.html → Passed node\n- pass/link-image-with-aria-describedby.html → Passed node\n- pass/link-image-with-aria-label.html → Passed node\n- pass/link-image-with-aria-labelledby.html → Passed node\n- fail/link-image-without-warning.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `link-image-warning` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = link-image-warning\nissueSource = RAIDEN examples at /engine/link-image-warning_success and /engine/link-image-warning_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: link image acsb sr element (link-image-acsb-sr-element.html)",
+          "pass: link image sr element (link-image-sr-element.html)",
+          "pass: link image with aria describedby (link-image-with-aria-describedby.html)",
+          "pass: link image with aria label (link-image-with-aria-label.html)",
+          "pass: link image with aria labelledby (link-image-with-aria-labelledby.html)",
+          "fail: link image without warning (link-image-without-warning.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/link-image-acsb-sr-element.html",
+          "atomic-tests/pass/link-image-sr-element.html",
+          "atomic-tests/pass/link-image-with-aria-describedby.html",
+          "atomic-tests/pass/link-image-with-aria-label.html",
+          "atomic-tests/pass/link-image-with-aria-labelledby.html",
+          "atomic-tests/fail/link-image-without-warning.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 5,
+        "fail": 1,
+        "total": 6
+      }
+    }
+  },
+  {
+    "key": "link-mailto-warning",
+    "action": "create",
+    "ruleId": "link-mailto-warning",
+    "payload": {
+      "ruleId": "link-mailto-warning",
+      "title": "Unified Engine: link-mailto-warning — Warning a user when a link triggers a mail application is recommended",
+      "description": "**Engine rule ID:** `link-mailto-warning`\n**RAIDEN routes:** `/engine/link-mailto-warning`, `/engine/link-mailto-warning_success`, `/engine/link-mailto-warning_failure`\n**Atomic tests:** `src/components/pages/engine-rules/link-mailto-warning/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** It's good practice to warn users about the expected behavior when activating a link triggers a mail application.\n**Remediation advice:** Add a visibly hidden text element that contains 'Opens mail application'. Assign a unique id attribute to the element and add aria-describedby to the link, referencing the text element's id. Alternatively, nest a visibly hidden element that contains additional context inside of the link.\n**Fixtures:** 6 pass, 2 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `link-mailto-warning` examples published at `/engine/link-mailto-warning_success` and `/engine/link-mailto-warning_failure`.\n5. **Fixture count:** 6 pass, 2 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 5,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "link-mailto-warning"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/link-mailto-warning` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`minor`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → link-mailto-warning.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/link-mailto-warning\nruleId = link-mailto-warning\nimpact = minor",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/link-mailto-warning_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/link-mailto-warning_success\npassFixtures = 6\natomic-tests/pass/link-mailto-acsb-sr-element.html\natomic-tests/pass/link-mailto-sr-element.html\natomic-tests/pass/link-mailto-with-aria-describedby.html\natomic-tests/pass/link-mailto-with-aria-label.html\natomic-tests/pass/link-mailto-with-aria-labelledby.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/link-mailto-warning_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/link-mailto-warning_failure\nfailFixtures = 2\natomic-tests/fail/link-mailto-without-warning.html\natomic-tests/fail/milleniumhotels-mailto.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for link-mailto-warning\n- pass/link-mailto-acsb-sr-element.html → Passed node\n- pass/link-mailto-sr-element.html → Passed node\n- pass/link-mailto-with-aria-describedby.html → Passed node\n- pass/link-mailto-with-aria-label.html → Passed node\n- pass/link-mailto-with-aria-labelledby.html → Passed node\n- pass/milleniumhotels-mailto.html → Passed node\n- fail/link-mailto-without-warning.html → Failed node\n- fail/milleniumhotels-mailto.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `link-mailto-warning` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = link-mailto-warning\nissueSource = RAIDEN examples at /engine/link-mailto-warning_success and /engine/link-mailto-warning_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: link mailto acsb sr element (link-mailto-acsb-sr-element.html)",
+          "pass: link mailto sr element (link-mailto-sr-element.html)",
+          "pass: link mailto with aria describedby (link-mailto-with-aria-describedby.html)",
+          "pass: link mailto with aria label (link-mailto-with-aria-label.html)",
+          "pass: link mailto with aria labelledby (link-mailto-with-aria-labelledby.html)",
+          "pass: milleniumhotels mailto (milleniumhotels-mailto.html)",
+          "fail: link mailto without warning (link-mailto-without-warning.html)",
+          "fail: milleniumhotels mailto (milleniumhotels-mailto.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/link-mailto-acsb-sr-element.html",
+          "atomic-tests/pass/link-mailto-sr-element.html",
+          "atomic-tests/pass/link-mailto-with-aria-describedby.html",
+          "atomic-tests/pass/link-mailto-with-aria-label.html",
+          "atomic-tests/pass/link-mailto-with-aria-labelledby.html",
+          "atomic-tests/pass/milleniumhotels-mailto.html",
+          "atomic-tests/fail/link-mailto-without-warning.html",
+          "atomic-tests/fail/milleniumhotels-mailto.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 6,
+        "fail": 2,
+        "total": 8
+      }
+    }
+  },
+  {
+    "key": "link-mismatch",
+    "action": "create",
+    "ruleId": "link-mismatch",
+    "payload": {
+      "ruleId": "link-mismatch",
+      "title": "Unified Engine: link-mismatch — Links should be tagged properly",
+      "description": "**Engine rule ID:** `link-mismatch`\n**RAIDEN routes:** `/engine/link-mismatch`, `/engine/link-mismatch_success`, `/engine/link-mismatch_failure`\n**Atomic tests:** `src/components/pages/engine-rules/link-mismatch/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Custom links should be tagged with role='link' for assistive technologies to identify them correctly.\n**Remediation advice:** Add role='link' to custom link elements or use a HTML <a> element to ensure they are recognized as links by assistive technologies.\n**Fixtures:** 4 pass, 2 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `link-mismatch` examples published at `/engine/link-mismatch_success` and `/engine/link-mismatch_failure`.\n5. **Fixture count:** 4 pass, 2 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "link-mismatch"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/link-mismatch` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → link-mismatch.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/link-mismatch\nruleId = link-mismatch\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/link-mismatch_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/link-mismatch_success\npassFixtures = 4\natomic-tests/pass/anchor-checkout.html\natomic-tests/pass/check-out-button-with-role-link.html\natomic-tests/pass/checkout-button-with-role-link.html\natomic-tests/pass/shop-button.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/link-mismatch_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/link-mismatch_failure\nfailFixtures = 2\natomic-tests/fail/check-out-button-without-role-link.html\natomic-tests/fail/checkout-button-without-role-link.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for link-mismatch\n- pass/anchor-checkout.html → Passed node\n- pass/check-out-button-with-role-link.html → Passed node\n- pass/checkout-button-with-role-link.html → Passed node\n- pass/shop-button.html → Passed node\n- fail/check-out-button-without-role-link.html → Failed node\n- fail/checkout-button-without-role-link.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `link-mismatch` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = link-mismatch\nissueSource = RAIDEN examples at /engine/link-mismatch_success and /engine/link-mismatch_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: anchor checkout (anchor-checkout.html)",
+          "pass: check out button with role link (check-out-button-with-role-link.html)",
+          "pass: checkout button with role link (checkout-button-with-role-link.html)",
+          "pass: shop button (shop-button.html)",
+          "fail: check out button without role link (check-out-button-without-role-link.html)",
+          "fail: checkout button without role link (checkout-button-without-role-link.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/anchor-checkout.html",
+          "atomic-tests/pass/check-out-button-with-role-link.html",
+          "atomic-tests/pass/checkout-button-with-role-link.html",
+          "atomic-tests/pass/shop-button.html",
+          "atomic-tests/fail/check-out-button-without-role-link.html",
+          "atomic-tests/fail/checkout-button-without-role-link.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 4,
+        "fail": 2,
+        "total": 6
+      }
+    }
+  }
+]

@@ -11,14 +11,14 @@ import { Link as RouterLink, useLocation } from "react-router-dom";
 import RuleTreeSidebar from "./RuleTreeSidebar";
 
 const NAV_LINKS = [
-  { label: "Engine Library", path: "/engine/alt-misuse" },
+  { label: "Engine Library", path: "/" },
   { label: "Test Runner", path: "/test-runner/library" },
   { label: "Atomic Tests", path: "/test-runner/atomic-tests" },
   { label: "Rule Lab", path: "/rule-lab" },
 ];
 
 function isNavActive(pathname, linkPath) {
-  if (linkPath === "/engine/alt-misuse") {
+  if (linkPath === "/") {
     return (
       pathname === "/" ||
       pathname === "/engine/library" ||

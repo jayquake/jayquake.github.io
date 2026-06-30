@@ -1,0 +1,461 @@
+[
+  {
+    "key": "carousel-next-slide-discernible",
+    "action": "create",
+    "ruleId": "carousel-next-slide-discernible",
+    "payload": {
+      "ruleId": "carousel-next-slide-discernible",
+      "title": "Unified Engine: carousel-next-slide-discernible — Carousel navigation next arrow should be labelled for assistive technology",
+      "description": "**Engine rule ID:** `carousel-next-slide-discernible`\n**RAIDEN routes:** `/engine/carousel-next-slide-discernible`, `/engine/carousel-next-slide-discernible_success`, `/engine/carousel-next-slide-discernible_failure`\n**Atomic tests:** `src/components/pages/engine-rules/carousel-next-slide-discernible/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Carousel arrow buttons are essential for operating carousels. By design, carousels are difficult for assistive technology to handle. If the navigation arrows aren't accessible, carousels may be impossible for blind users to operate.\n**Remediation advice:** When using arrow button to change the carousel slide to the next in order, include an \"aria-label\" or a screen-reader-only text noting this button will show the next slide.\n**Fixtures:** 3 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `carousel-next-slide-discernible` examples published at `/engine/carousel-next-slide-discernible_success` and `/engine/carousel-next-slide-discernible_failure`.\n5. **Fixture count:** 3 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "carousel-next-slide-discernible"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/carousel-next-slide-discernible` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → carousel-next-slide-discernible.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/carousel-next-slide-discernible\nruleId = carousel-next-slide-discernible\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/carousel-next-slide-discernible_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/carousel-next-slide-discernible_success\npassFixtures = 3\natomic-tests/pass/carousel-controls-correctly-labelled.html\natomic-tests/pass/carousel-controls-labelled-wrongly.html\natomic-tests/pass/vuetifyjs-carousel-controls-not-labelled.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/carousel-next-slide-discernible_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/carousel-next-slide-discernible_failure\nfailFixtures = 1\natomic-tests/fail/carousel-controls-not-labelled.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for carousel-next-slide-discernible\n- pass/carousel-controls-correctly-labelled.html → Passed node\n- pass/carousel-controls-labelled-wrongly.html → Passed node\n- pass/vuetifyjs-carousel-controls-not-labelled.html → Passed node\n- fail/carousel-controls-not-labelled.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `carousel-next-slide-discernible` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = carousel-next-slide-discernible\nissueSource = RAIDEN examples at /engine/carousel-next-slide-discernible_success and /engine/carousel-next-slide-discernible_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: carousel controls correctly labelled (carousel-controls-correctly-labelled.html)",
+          "pass: carousel controls labelled wrongly (carousel-controls-labelled-wrongly.html)",
+          "pass: vuetifyjs carousel controls not labelled (vuetifyjs-carousel-controls-not-labelled.html)",
+          "fail: carousel controls not labelled (carousel-controls-not-labelled.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/carousel-controls-correctly-labelled.html",
+          "atomic-tests/pass/carousel-controls-labelled-wrongly.html",
+          "atomic-tests/pass/vuetifyjs-carousel-controls-not-labelled.html",
+          "atomic-tests/fail/carousel-controls-not-labelled.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 3,
+        "fail": 1,
+        "total": 4
+      }
+    }
+  },
+  {
+    "key": "carousel-next-slide-discernible-correctly",
+    "action": "create",
+    "ruleId": "carousel-next-slide-discernible-correctly",
+    "payload": {
+      "ruleId": "carousel-next-slide-discernible-correctly",
+      "title": "Unified Engine: carousel-next-slide-discernible-correctly — Carousel Next pagination control should have an accurate and descriptive label",
+      "description": "**Engine rule ID:** `carousel-next-slide-discernible-correctly`\n**RAIDEN routes:** `/engine/carousel-next-slide-discernible-correctly`, `/engine/carousel-next-slide-discernible-correctly_success`, `/engine/carousel-next-slide-discernible-correctly_failure`\n**Atomic tests:** `src/components/pages/engine-rules/carousel-next-slide-discernible-correctly/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** If the Next control (often marked up using an arrow symbol) in a carousel is not given a descriptive label, screen reader users may not understand that the control activates the next slide or set of slides in the carousel.\n**Remediation advice:** Assign aria-label=\"Next\" to the Next carousel pagination control.\n**Fixtures:** 3 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `carousel-next-slide-discernible-correctly` examples published at `/engine/carousel-next-slide-discernible-correctly_success` and `/engine/carousel-next-slide-discernible-correctly_failure`.\n5. **Fixture count:** 3 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "carousel-next-slide-discernible-correctly"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/carousel-next-slide-discernible-correctly` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → carousel-next-slide-discernible-correctly.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/carousel-next-slide-discernible-correctly\nruleId = carousel-next-slide-discernible-correctly\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/carousel-next-slide-discernible-correctly_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/carousel-next-slide-discernible-correctly_success\npassFixtures = 3\natomic-tests/pass/carousel-controls-correctly-labelled.html\natomic-tests/pass/carousel-controls-not-labelled.html\natomic-tests/pass/vuetifyjs-carousel-controls-not-labelled.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/carousel-next-slide-discernible-correctly_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/carousel-next-slide-discernible-correctly_failure\nfailFixtures = 1\natomic-tests/fail/carousel-controls-labelled-wrongly.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for carousel-next-slide-discernible-correctly\n- pass/carousel-controls-correctly-labelled.html → Passed node\n- pass/carousel-controls-not-labelled.html → Passed node\n- pass/vuetifyjs-carousel-controls-not-labelled.html → Passed node\n- fail/carousel-controls-labelled-wrongly.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `carousel-next-slide-discernible-correctly` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = carousel-next-slide-discernible-correctly\nissueSource = RAIDEN examples at /engine/carousel-next-slide-discernible-correctly_success and /engine/carousel-next-slide-discernible-correctly_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: carousel controls correctly labelled (carousel-controls-correctly-labelled.html)",
+          "pass: carousel controls not labelled (carousel-controls-not-labelled.html)",
+          "pass: vuetifyjs carousel controls not labelled (vuetifyjs-carousel-controls-not-labelled.html)",
+          "fail: carousel controls labelled wrongly (carousel-controls-labelled-wrongly.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/carousel-controls-correctly-labelled.html",
+          "atomic-tests/pass/carousel-controls-not-labelled.html",
+          "atomic-tests/pass/vuetifyjs-carousel-controls-not-labelled.html",
+          "atomic-tests/fail/carousel-controls-labelled-wrongly.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 3,
+        "fail": 1,
+        "total": 4
+      }
+    }
+  },
+  {
+    "key": "carousel-previous-slide-discernible",
+    "action": "create",
+    "ruleId": "carousel-previous-slide-discernible",
+    "payload": {
+      "ruleId": "carousel-previous-slide-discernible",
+      "title": "Unified Engine: carousel-previous-slide-discernible — Carousel navigation previous arrows should be labelled for assistive technology",
+      "description": "**Engine rule ID:** `carousel-previous-slide-discernible`\n**RAIDEN routes:** `/engine/carousel-previous-slide-discernible`, `/engine/carousel-previous-slide-discernible_success`, `/engine/carousel-previous-slide-discernible_failure`\n**Atomic tests:** `src/components/pages/engine-rules/carousel-previous-slide-discernible/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Carousel arrow buttons are essential for operating carousels. By design, carousels are difficult for assistive technology to handle. If the navigation arrows aren't accessible, carousels may be impossible for blind users to operate.\n**Remediation advice:** When using arrow button to change the carousel slide to the previous in order, include an \"aria-label\" or a screen-reader-only text noting this button will show the previous slide.\n**Fixtures:** 3 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `carousel-previous-slide-discernible` examples published at `/engine/carousel-previous-slide-discernible_success` and `/engine/carousel-previous-slide-discernible_failure`.\n5. **Fixture count:** 3 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "carousel-previous-slide-discernible"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/carousel-previous-slide-discernible` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → carousel-previous-slide-discernible.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/carousel-previous-slide-discernible\nruleId = carousel-previous-slide-discernible\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/carousel-previous-slide-discernible_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/carousel-previous-slide-discernible_success\npassFixtures = 3\natomic-tests/pass/carousel-controls-correctly-labelled.html\natomic-tests/pass/carousel-controls-labelled-wrongly.html\natomic-tests/pass/vuetifyjs-carousel-controls-not-labelled.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/carousel-previous-slide-discernible_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/carousel-previous-slide-discernible_failure\nfailFixtures = 1\natomic-tests/fail/carousel-controls-not-labelled.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for carousel-previous-slide-discernible\n- pass/carousel-controls-correctly-labelled.html → Passed node\n- pass/carousel-controls-labelled-wrongly.html → Passed node\n- pass/vuetifyjs-carousel-controls-not-labelled.html → Passed node\n- fail/carousel-controls-not-labelled.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `carousel-previous-slide-discernible` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = carousel-previous-slide-discernible\nissueSource = RAIDEN examples at /engine/carousel-previous-slide-discernible_success and /engine/carousel-previous-slide-discernible_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: carousel controls correctly labelled (carousel-controls-correctly-labelled.html)",
+          "pass: carousel controls labelled wrongly (carousel-controls-labelled-wrongly.html)",
+          "pass: vuetifyjs carousel controls not labelled (vuetifyjs-carousel-controls-not-labelled.html)",
+          "fail: carousel controls not labelled (carousel-controls-not-labelled.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/carousel-controls-correctly-labelled.html",
+          "atomic-tests/pass/carousel-controls-labelled-wrongly.html",
+          "atomic-tests/pass/vuetifyjs-carousel-controls-not-labelled.html",
+          "atomic-tests/fail/carousel-controls-not-labelled.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 3,
+        "fail": 1,
+        "total": 4
+      }
+    }
+  },
+  {
+    "key": "carousel-previous-slide-discernible-correctly",
+    "action": "create",
+    "ruleId": "carousel-previous-slide-discernible-correctly",
+    "payload": {
+      "ruleId": "carousel-previous-slide-discernible-correctly",
+      "title": "Unified Engine: carousel-previous-slide-discernible-correctly — Carousel Previous pagination control should have an accurate and descriptive label",
+      "description": "**Engine rule ID:** `carousel-previous-slide-discernible-correctly`\n**RAIDEN routes:** `/engine/carousel-previous-slide-discernible-correctly`, `/engine/carousel-previous-slide-discernible-correctly_success`, `/engine/carousel-previous-slide-discernible-correctly_failure`\n**Atomic tests:** `src/components/pages/engine-rules/carousel-previous-slide-discernible-correctly/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** If the Previous control (often marked up using an arrow symbol) in a carousel is not given a descriptive label, screen reader users may not understand that the control activates the previous slide or set of slides in the carousel.\n**Remediation advice:** Assign aria-label=\"Previous\" to the Previous carousel pagination control.\n**Fixtures:** 3 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `carousel-previous-slide-discernible-correctly` examples published at `/engine/carousel-previous-slide-discernible-correctly_success` and `/engine/carousel-previous-slide-discernible-correctly_failure`.\n5. **Fixture count:** 3 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "carousel-previous-slide-discernible-correctly"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/carousel-previous-slide-discernible-correctly` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → carousel-previous-slide-discernible-correctly.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/carousel-previous-slide-discernible-correctly\nruleId = carousel-previous-slide-discernible-correctly\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/carousel-previous-slide-discernible-correctly_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/carousel-previous-slide-discernible-correctly_success\npassFixtures = 3\natomic-tests/pass/carousel-controls-correctly-labelled.html\natomic-tests/pass/carousel-controls-not-labelled.html\natomic-tests/pass/vuetifyjs-carousel-controls-not-labelled.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/carousel-previous-slide-discernible-correctly_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/carousel-previous-slide-discernible-correctly_failure\nfailFixtures = 1\natomic-tests/fail/carousel-controls-labelled-wrongly.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for carousel-previous-slide-discernible-correctly\n- pass/carousel-controls-correctly-labelled.html → Passed node\n- pass/carousel-controls-not-labelled.html → Passed node\n- pass/vuetifyjs-carousel-controls-not-labelled.html → Passed node\n- fail/carousel-controls-labelled-wrongly.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `carousel-previous-slide-discernible-correctly` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = carousel-previous-slide-discernible-correctly\nissueSource = RAIDEN examples at /engine/carousel-previous-slide-discernible-correctly_success and /engine/carousel-previous-slide-discernible-correctly_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: carousel controls correctly labelled (carousel-controls-correctly-labelled.html)",
+          "pass: carousel controls not labelled (carousel-controls-not-labelled.html)",
+          "pass: vuetifyjs carousel controls not labelled (vuetifyjs-carousel-controls-not-labelled.html)",
+          "fail: carousel controls labelled wrongly (carousel-controls-labelled-wrongly.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/carousel-controls-correctly-labelled.html",
+          "atomic-tests/pass/carousel-controls-not-labelled.html",
+          "atomic-tests/pass/vuetifyjs-carousel-controls-not-labelled.html",
+          "atomic-tests/fail/carousel-controls-labelled-wrongly.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 3,
+        "fail": 1,
+        "total": 4
+      }
+    }
+  },
+  {
+    "key": "carousel-redundant-discernible-text",
+    "action": "create",
+    "ruleId": "carousel-redundant-discernible-text",
+    "payload": {
+      "ruleId": "carousel-redundant-discernible-text",
+      "title": "Unified Engine: carousel-redundant-discernible-text — Carousels should be labelled properly without redundancy",
+      "description": "**Engine rule ID:** `carousel-redundant-discernible-text`\n**RAIDEN routes:** `/engine/carousel-redundant-discernible-text`, `/engine/carousel-redundant-discernible-text_success`, `/engine/carousel-redundant-discernible-text_failure`\n**Atomic tests:** `src/components/pages/engine-rules/carousel-redundant-discernible-text/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Unlabeled carousel areas are difficult for screen reader users because content gets hidden and shown unexpectedly. However, when labelled, the label should not be redundant.\n**Remediation advice:** When using the \"aria-label\" or \"aria-labelledby\" element to describe the contents of the carouse, do not use the word \"carousel\" in it, as it is redundant when used with the \"role\" and \"aria-roledescription\" attributes. Using all three of these attributes, assistive technology users will understand that this is a carousel region and what it contains.\n**Fixtures:** 6 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `carousel-redundant-discernible-text` examples published at `/engine/carousel-redundant-discernible-text_success` and `/engine/carousel-redundant-discernible-text_failure`.\n5. **Fixture count:** 6 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "carousel-redundant-discernible-text"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/carousel-redundant-discernible-text` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → carousel-redundant-discernible-text.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/carousel-redundant-discernible-text\nruleId = carousel-redundant-discernible-text\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/carousel-redundant-discernible-text_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/carousel-redundant-discernible-text_success\npassFixtures = 6\natomic-tests/pass/972creative-carousels-with-discernible-text.html\natomic-tests/pass/972creative-carousels-with-no-discernible-text.html\natomic-tests/pass/amazon-carousel.html\natomic-tests/pass/carousel-correctly-tagged.html\natomic-tests/pass/carousel-element-no-aria-label.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/carousel-redundant-discernible-text_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/carousel-redundant-discernible-text_failure\nfailFixtures = 1\natomic-tests/fail/carousel-element-aria-label-with-carousel.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for carousel-redundant-discernible-text\n- pass/972creative-carousels-with-discernible-text.html → Passed node\n- pass/972creative-carousels-with-no-discernible-text.html → Passed node\n- pass/amazon-carousel.html → Passed node\n- pass/carousel-correctly-tagged.html → Passed node\n- pass/carousel-element-no-aria-label.html → Passed node\n- pass/vuetifyjs-carousel.html → Passed node\n- fail/carousel-element-aria-label-with-carousel.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `carousel-redundant-discernible-text` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = carousel-redundant-discernible-text\nissueSource = RAIDEN examples at /engine/carousel-redundant-discernible-text_success and /engine/carousel-redundant-discernible-text_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: 972creative carousels with discernible text (972creative-carousels-with-discernible-text.html)",
+          "pass: 972creative carousels with no discernible text (972creative-carousels-with-no-discernible-text.html)",
+          "pass: amazon carousel (amazon-carousel.html)",
+          "pass: carousel correctly tagged (carousel-correctly-tagged.html)",
+          "pass: carousel element no aria label (carousel-element-no-aria-label.html)",
+          "pass: vuetifyjs carousel (vuetifyjs-carousel.html)",
+          "fail: carousel element aria label with carousel (carousel-element-aria-label-with-carousel.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/972creative-carousels-with-discernible-text.html",
+          "atomic-tests/pass/972creative-carousels-with-no-discernible-text.html",
+          "atomic-tests/pass/amazon-carousel.html",
+          "atomic-tests/pass/carousel-correctly-tagged.html",
+          "atomic-tests/pass/carousel-element-no-aria-label.html",
+          "atomic-tests/pass/vuetifyjs-carousel.html",
+          "atomic-tests/fail/carousel-element-aria-label-with-carousel.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 6,
+        "fail": 1,
+        "total": 7
+      }
+    }
+  }
+]

@@ -1,0 +1,479 @@
+[
+  {
+    "key": "alt-misuse",
+    "action": "create",
+    "ruleId": "alt-misuse",
+    "payload": {
+      "ruleId": "alt-misuse",
+      "title": "Unified Engine: alt-misuse — Elements other than image (Tag: IMG) should not have alt attribute",
+      "description": "**Engine rule ID:** `alt-misuse`\n**RAIDEN routes:** `/engine/alt-misuse`, `/engine/alt-misuse_success`, `/engine/alt-misuse_failure`\n**Atomic tests:** `src/components/pages/engine-rules/alt-misuse/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** The alt attribute is used to provide a text alternative for images. It is not meant to be used on elements other than images and therefore will not be read using screen-readers.\n**Remediation advice:** Use a screen-reader-only element to add the accessibility description of the element that was misusing the alt attribute and remove the alt attribute.\n**Fixtures:** 4 pass, 2 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `alt-misuse` examples published at `/engine/alt-misuse_success` and `/engine/alt-misuse_failure`.\n5. **Fixture count:** 4 pass, 2 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 5,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "alt-misuse"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/alt-misuse` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`minor`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → alt-misuse.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/alt-misuse\nruleId = alt-misuse\nimpact = minor",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/alt-misuse_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/alt-misuse_success\npassFixtures = 4\natomic-tests/pass/div-with-no-alt.html\natomic-tests/pass/img-with-alt.html\natomic-tests/pass/img-with-map.html\natomic-tests/pass/input-with-alt.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/alt-misuse_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/alt-misuse_failure\nfailFixtures = 2\natomic-tests/fail/div-with-alt.html\natomic-tests/fail/div-with-role-img-and-alt.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for alt-misuse\n- pass/div-with-no-alt.html → Passed node\n- pass/img-with-alt.html → Passed node\n- pass/img-with-map.html → Passed node\n- pass/input-with-alt.html → Passed node\n- fail/div-with-alt.html → Failed node\n- fail/div-with-role-img-and-alt.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `alt-misuse` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = alt-misuse\nissueSource = RAIDEN examples at /engine/alt-misuse_success and /engine/alt-misuse_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: div with no alt (div-with-no-alt.html)",
+          "pass: img with alt (img-with-alt.html)",
+          "pass: img with map (img-with-map.html)",
+          "pass: input with alt (input-with-alt.html)",
+          "fail: div with alt (div-with-alt.html)",
+          "fail: div with role img and alt (div-with-role-img-and-alt.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/div-with-no-alt.html",
+          "atomic-tests/pass/img-with-alt.html",
+          "atomic-tests/pass/img-with-map.html",
+          "atomic-tests/pass/input-with-alt.html",
+          "atomic-tests/fail/div-with-alt.html",
+          "atomic-tests/fail/div-with-role-img-and-alt.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 4,
+        "fail": 2,
+        "total": 6
+      }
+    }
+  },
+  {
+    "key": "aria-controls-has-reference",
+    "action": "create",
+    "ruleId": "aria-controls-has-reference",
+    "payload": {
+      "ruleId": "aria-controls-has-reference",
+      "title": "Unified Engine: aria-controls-has-reference — aria-controls should reference a valid element id",
+      "description": "**Engine rule ID:** `aria-controls-has-reference`\n**RAIDEN routes:** `/engine/aria-controls-has-reference`, `/engine/aria-controls-has-reference_success`, `/engine/aria-controls-has-reference_failure`\n**Atomic tests:** `src/components/pages/engine-rules/aria-controls-has-reference/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** The element’s aria-controls points to an id that does not exist, or is not valid, breaking the link between the controlling element and the content it manages.\n**Remediation advice:** Make the value of aria-controls exactly match an existing, unique id of an element on the page. Remove or update the attribute if the target element is missing or no longer relevant.\n**Fixtures:** 4 pass, 4 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `aria-controls-has-reference` examples published at `/engine/aria-controls-has-reference_success` and `/engine/aria-controls-has-reference_failure`.\n5. **Fixture count:** 4 pass, 4 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 5,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "aria-controls-has-reference"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/aria-controls-has-reference` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`minor`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → aria-controls-has-reference.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/aria-controls-has-reference\nruleId = aria-controls-has-reference\nimpact = minor",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/aria-controls-has-reference_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/aria-controls-has-reference_success\npassFixtures = 4\natomic-tests/pass/aria-controls-exists.html\natomic-tests/pass/aria-controls-mulitple-references-for-the-same-controller.html\natomic-tests/pass/multi-aria-controls-references.html\natomic-tests/pass/no-aria-controls.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/aria-controls-has-reference_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/aria-controls-has-reference_failure\nfailFixtures = 4\natomic-tests/fail/aria-controls-broken-reference.html\natomic-tests/fail/aria-controls-no-reference.html\natomic-tests/fail/multi-aria-controls-broken-reference.html\natomic-tests/fail/multi-aria-controls-one-broken-reference.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for aria-controls-has-reference\n- pass/aria-controls-exists.html → Passed node\n- pass/aria-controls-mulitple-references-for-the-same-controller.html → Passed node\n- pass/multi-aria-controls-references.html → Passed node\n- pass/no-aria-controls.html → Passed node\n- fail/aria-controls-broken-reference.html → Failed node\n- fail/aria-controls-no-reference.html → Failed node\n- fail/multi-aria-controls-broken-reference.html → Failed node\n- fail/multi-aria-controls-one-broken-reference.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `aria-controls-has-reference` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = aria-controls-has-reference\nissueSource = RAIDEN examples at /engine/aria-controls-has-reference_success and /engine/aria-controls-has-reference_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: aria controls exists (aria-controls-exists.html)",
+          "pass: aria controls mulitple references for the same controller (aria-controls-mulitple-references-for-the-same-controller.html)",
+          "pass: multi aria controls references (multi-aria-controls-references.html)",
+          "pass: no aria controls (no-aria-controls.html)",
+          "fail: aria controls broken reference (aria-controls-broken-reference.html)",
+          "fail: aria controls no reference (aria-controls-no-reference.html)",
+          "fail: multi aria controls broken reference (multi-aria-controls-broken-reference.html)",
+          "fail: multi aria controls one broken reference (multi-aria-controls-one-broken-reference.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/aria-controls-exists.html",
+          "atomic-tests/pass/aria-controls-mulitple-references-for-the-same-controller.html",
+          "atomic-tests/pass/multi-aria-controls-references.html",
+          "atomic-tests/pass/no-aria-controls.html",
+          "atomic-tests/fail/aria-controls-broken-reference.html",
+          "atomic-tests/fail/aria-controls-no-reference.html",
+          "atomic-tests/fail/multi-aria-controls-broken-reference.html",
+          "atomic-tests/fail/multi-aria-controls-one-broken-reference.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 4,
+        "fail": 4,
+        "total": 8
+      }
+    }
+  },
+  {
+    "key": "aria-describedby-has-reference",
+    "action": "create",
+    "ruleId": "aria-describedby-has-reference",
+    "payload": {
+      "ruleId": "aria-describedby-has-reference",
+      "title": "Unified Engine: aria-describedby-has-reference — aria-describedby should reference a valid element id",
+      "description": "**Engine rule ID:** `aria-describedby-has-reference`\n**RAIDEN routes:** `/engine/aria-describedby-has-reference`, `/engine/aria-describedby-has-reference_success`, `/engine/aria-describedby-has-reference_failure`\n**Atomic tests:** `src/components/pages/engine-rules/aria-describedby-has-reference/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** If an element’s aria-describedby attribute points to an id that does not exist or is not valid, assistive technologies will not convey the intended description, causing users to miss important context.\n**Remediation advice:** Ensure aria-describedby references an existing, unique id on the page. Remove or update the attribute if the target element is missing or no longer relevant.\n**Fixtures:** 3 pass, 3 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `aria-describedby-has-reference` examples published at `/engine/aria-describedby-has-reference_success` and `/engine/aria-describedby-has-reference_failure`.\n5. **Fixture count:** 3 pass, 3 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "aria-describedby-has-reference"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/aria-describedby-has-reference` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → aria-describedby-has-reference.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/aria-describedby-has-reference\nruleId = aria-describedby-has-reference\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/aria-describedby-has-reference_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/aria-describedby-has-reference_success\npassFixtures = 3\natomic-tests/pass/input-with-aria-describedby-and-matching-element.html\natomic-tests/pass/input-without-aria-references.html\natomic-tests/pass/multiple-inputs-with-labelledby-and-describedby-with-matching-element.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/aria-describedby-has-reference_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/aria-describedby-has-reference_failure\nfailFixtures = 3\natomic-tests/fail/input-with-aria-describedby-but-no-matching-element-id.html\natomic-tests/fail/input-with-aria-describedby-but-no-matching-element.html\natomic-tests/fail/input-with-valid-aria-describedby-and-invalid-aria-labelledby.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for aria-describedby-has-reference\n- pass/input-with-aria-describedby-and-matching-element.html → Passed node\n- pass/input-without-aria-references.html → Passed node\n- pass/multiple-inputs-with-labelledby-and-describedby-with-matching-element.html → Passed node\n- fail/input-with-aria-describedby-but-no-matching-element-id.html → Failed node\n- fail/input-with-aria-describedby-but-no-matching-element.html → Failed node\n- fail/input-with-valid-aria-describedby-and-invalid-aria-labelledby.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `aria-describedby-has-reference` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = aria-describedby-has-reference\nissueSource = RAIDEN examples at /engine/aria-describedby-has-reference_success and /engine/aria-describedby-has-reference_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: input with aria describedby and matching element (input-with-aria-describedby-and-matching-element.html)",
+          "pass: input without aria references (input-without-aria-references.html)",
+          "pass: multiple inputs with labelledby and describedby with matching element (multiple-inputs-with-labelledby-and-describedby-with-matching-element.html)",
+          "fail: input with aria describedby but no matching element id (input-with-aria-describedby-but-no-matching-element-id.html)",
+          "fail: input with aria describedby but no matching element (input-with-aria-describedby-but-no-matching-element.html)",
+          "fail: input with valid aria describedby and invalid aria labelledby (input-with-valid-aria-describedby-and-invalid-aria-labelledby.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/input-with-aria-describedby-and-matching-element.html",
+          "atomic-tests/pass/input-without-aria-references.html",
+          "atomic-tests/pass/multiple-inputs-with-labelledby-and-describedby-with-matching-element.html",
+          "atomic-tests/fail/input-with-aria-describedby-but-no-matching-element-id.html",
+          "atomic-tests/fail/input-with-aria-describedby-but-no-matching-element.html",
+          "atomic-tests/fail/input-with-valid-aria-describedby-and-invalid-aria-labelledby.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 3,
+        "fail": 3,
+        "total": 6
+      }
+    }
+  },
+  {
+    "key": "aria-invalid-mismatch",
+    "action": "create",
+    "ruleId": "aria-invalid-mismatch",
+    "payload": {
+      "ruleId": "aria-invalid-mismatch",
+      "title": "Unified Engine: aria-invalid-mismatch — Form fields should indicate validation errors to assistive technology",
+      "description": "**Engine rule ID:** `aria-invalid-mismatch`\n**RAIDEN routes:** `/engine/aria-invalid-mismatch`, `/engine/aria-invalid-mismatch_success`, `/engine/aria-invalid-mismatch_failure`\n**Atomic tests:** `src/components/pages/engine-rules/aria-invalid-mismatch/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Validation errors in forms must be exposed in a way that assistive technologies can detect and announce them, ensuring users who rely on assistive technology can identify and correct mistakes.\n**Remediation advice:** To make sure that screen reader users are aware of form fields with invalid input, set aria-invalid=\"true\". Remove the attribute once the value becomes valid.\n**Fixtures:** 1 pass, 2 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `aria-invalid-mismatch` examples published at `/engine/aria-invalid-mismatch_success` and `/engine/aria-invalid-mismatch_failure`.\n5. **Fixture count:** 1 pass, 2 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "aria-invalid-mismatch"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/aria-invalid-mismatch` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → aria-invalid-mismatch.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/aria-invalid-mismatch\nruleId = aria-invalid-mismatch\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/aria-invalid-mismatch_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/aria-invalid-mismatch_success\npassFixtures = 1\natomic-tests/pass/textarea-required-has-value.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/aria-invalid-mismatch_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/aria-invalid-mismatch_failure\nfailFixtures = 2\natomic-tests/fail/input-with-aria-invalid-false.html\natomic-tests/fail/select-required-no-value.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for aria-invalid-mismatch\n- pass/textarea-required-has-value.html → Passed node\n- fail/input-with-aria-invalid-false.html → Failed node\n- fail/select-required-no-value.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `aria-invalid-mismatch` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = aria-invalid-mismatch\nissueSource = RAIDEN examples at /engine/aria-invalid-mismatch_success and /engine/aria-invalid-mismatch_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: textarea required has value (textarea-required-has-value.html)",
+          "fail: input with aria invalid false (input-with-aria-invalid-false.html)",
+          "fail: select required no value (select-required-no-value.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/textarea-required-has-value.html",
+          "atomic-tests/fail/input-with-aria-invalid-false.html",
+          "atomic-tests/fail/select-required-no-value.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 1,
+        "fail": 2,
+        "total": 3
+      }
+    }
+  },
+  {
+    "key": "aria-invalid-misuse",
+    "action": "create",
+    "ruleId": "aria-invalid-misuse",
+    "payload": {
+      "ruleId": "aria-invalid-misuse",
+      "title": "Unified Engine: aria-invalid-misuse — Only input fields with validation errors should be assigned aria-invalid=\"true\"",
+      "description": "**Engine rule ID:** `aria-invalid-misuse`\n**RAIDEN routes:** `/engine/aria-invalid-misuse`, `/engine/aria-invalid-misuse_success`, `/engine/aria-invalid-misuse_failure`\n**Atomic tests:** `src/components/pages/engine-rules/aria-invalid-misuse/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Using aria-invalid=\"true\" on an input field that does not have errors may cause confusion for users who rely on assistive technology, who may try to correct their already valid response.\n**Remediation advice:** To make sure that screen reader users can accurately identify form fields with invalid input, set aria-invalid=\"true\" only on input fields that have errors. Remove the attribute once the value becomes valid.\n**Fixtures:** 2 pass, 4 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `aria-invalid-misuse` examples published at `/engine/aria-invalid-misuse_success` and `/engine/aria-invalid-misuse_failure`.\n5. **Fixture count:** 2 pass, 4 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "aria-invalid-misuse"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/aria-invalid-misuse` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → aria-invalid-misuse.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/aria-invalid-misuse\nruleId = aria-invalid-misuse\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/aria-invalid-misuse_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/aria-invalid-misuse_success\npassFixtures = 2\natomic-tests/pass/input-aria-invalid-false.html\natomic-tests/pass/input-no-aria-invalid-attribute.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/aria-invalid-misuse_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/aria-invalid-misuse_failure\nfailFixtures = 4\natomic-tests/fail/input-with-aria-invalid-grammar.html\natomic-tests/fail/input-with-aria-invalid-spelling.html\natomic-tests/fail/input-with-aria-invalid-true.html\natomic-tests/fail/input-with-empty-aria-invalid.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for aria-invalid-misuse\n- pass/input-aria-invalid-false.html → Passed node\n- pass/input-no-aria-invalid-attribute.html → Passed node\n- fail/input-with-aria-invalid-grammar.html → Failed node\n- fail/input-with-aria-invalid-spelling.html → Failed node\n- fail/input-with-aria-invalid-true.html → Failed node\n- fail/input-with-empty-aria-invalid.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `aria-invalid-misuse` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = aria-invalid-misuse\nissueSource = RAIDEN examples at /engine/aria-invalid-misuse_success and /engine/aria-invalid-misuse_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: input aria invalid false (input-aria-invalid-false.html)",
+          "pass: input no aria invalid attribute (input-no-aria-invalid-attribute.html)",
+          "fail: input with aria invalid grammar (input-with-aria-invalid-grammar.html)",
+          "fail: input with aria invalid spelling (input-with-aria-invalid-spelling.html)",
+          "fail: input with aria invalid true (input-with-aria-invalid-true.html)",
+          "fail: input with empty aria invalid (input-with-empty-aria-invalid.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/input-aria-invalid-false.html",
+          "atomic-tests/pass/input-no-aria-invalid-attribute.html",
+          "atomic-tests/fail/input-with-aria-invalid-grammar.html",
+          "atomic-tests/fail/input-with-aria-invalid-spelling.html",
+          "atomic-tests/fail/input-with-aria-invalid-true.html",
+          "atomic-tests/fail/input-with-empty-aria-invalid.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 2,
+        "fail": 4,
+        "total": 6
+      }
+    }
+  }
+]

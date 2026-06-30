@@ -1,0 +1,503 @@
+[
+  {
+    "key": "pixel-image-not-discernible",
+    "action": "create",
+    "ruleId": "pixel-image-not-discernible",
+    "payload": {
+      "ruleId": "pixel-image-not-discernible",
+      "title": "Unified Engine: pixel-image-not-discernible — Pixels should be hidden from assistive technology",
+      "description": "**Engine rule ID:** `pixel-image-not-discernible`\n**RAIDEN routes:** `/engine/pixel-image-not-discernible`, `/engine/pixel-image-not-discernible_success`, `/engine/pixel-image-not-discernible_failure`\n**Atomic tests:** `src/components/pages/engine-rules/pixel-image-not-discernible/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Visually hidden pixel images (often used for analytics or marketing purposes) should not be announced by screen readers.\n**Remediation advice:** If the pixel image is an <img> element, assign an empty alt attribute. For other cases, add role=\"none\" or role=\"presentation\" to the pixel element.\n**Fixtures:** 7 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `pixel-image-not-discernible` examples published at `/engine/pixel-image-not-discernible_success` and `/engine/pixel-image-not-discernible_failure`.\n5. **Fixture count:** 7 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "pixel-image-not-discernible"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/pixel-image-not-discernible` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`moderate`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → pixel-image-not-discernible.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/pixel-image-not-discernible\nruleId = pixel-image-not-discernible\nimpact = moderate",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/pixel-image-not-discernible_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/pixel-image-not-discernible_success\npassFixtures = 7\natomic-tests/pass/pixel-image-1x1-no-alt.html\natomic-tests/pass/pixel-image-2x2.html\natomic-tests/pass/pixel-image-aria-hidden-true.html\natomic-tests/pass/pixel-image-hidden.html\natomic-tests/pass/pixel-image-role-none.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/pixel-image-not-discernible_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/pixel-image-not-discernible_failure\nfailFixtures = 1\natomic-tests/fail/pixel-image-1x1.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for pixel-image-not-discernible\n- pass/pixel-image-1x1-no-alt.html → Passed node\n- pass/pixel-image-2x2.html → Passed node\n- pass/pixel-image-aria-hidden-true.html → Passed node\n- pass/pixel-image-hidden.html → Passed node\n- pass/pixel-image-role-none.html → Passed node\n- pass/pixel-image-role-presentation.html → Passed node\n- pass/role-image-sr-only-element.html → Passed node\n- fail/pixel-image-1x1.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `pixel-image-not-discernible` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = pixel-image-not-discernible\nissueSource = RAIDEN examples at /engine/pixel-image-not-discernible_success and /engine/pixel-image-not-discernible_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: pixel image 1x1 no alt (pixel-image-1x1-no-alt.html)",
+          "pass: pixel image 2x2 (pixel-image-2x2.html)",
+          "pass: pixel image aria hidden true (pixel-image-aria-hidden-true.html)",
+          "pass: pixel image hidden (pixel-image-hidden.html)",
+          "pass: pixel image role none (pixel-image-role-none.html)",
+          "pass: pixel image role presentation (pixel-image-role-presentation.html)",
+          "pass: role image sr only element (role-image-sr-only-element.html)",
+          "fail: pixel image 1x1 (pixel-image-1x1.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/pixel-image-1x1-no-alt.html",
+          "atomic-tests/pass/pixel-image-2x2.html",
+          "atomic-tests/pass/pixel-image-aria-hidden-true.html",
+          "atomic-tests/pass/pixel-image-hidden.html",
+          "atomic-tests/pass/pixel-image-role-none.html",
+          "atomic-tests/pass/pixel-image-role-presentation.html",
+          "atomic-tests/pass/role-image-sr-only-element.html",
+          "atomic-tests/fail/pixel-image-1x1.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 7,
+        "fail": 1,
+        "total": 8
+      }
+    }
+  },
+  {
+    "key": "popup-focus",
+    "action": "create",
+    "ruleId": "popup-focus",
+    "payload": {
+      "ruleId": "popup-focus",
+      "title": "Unified Engine: popup-focus — Keyboard focus should move into and lock inside active dialogs",
+      "description": "**Engine rule ID:** `popup-focus`\n**RAIDEN routes:** `/engine/popup-focus`, `/engine/popup-focus_success`, `/engine/popup-focus_failure`\n**Atomic tests:** `src/components/pages/engine-rules/popup-focus/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Dialogs that appear on pages without receiving keyboard focus immediately on interaction often leave users navigating content behind the dialog and make it difficult or impossible for keyboard and screen reader users to access the dialog itself.\n**Remediation advice:** When a dialog opens, use JavaScript to place keyboard focus on the first interactive element within the dialog. If static content, such as lists, tables, or paragraphs, appears before any interactive elements and it needs to be perceived in order to easily understand the content, tabindex=\"-1\" can be added to a static element at the start of the content to initially focus that element.\n**Fixtures:** 0 pass, 0 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `popup-focus` examples published at `/engine/popup-focus_success` and `/engine/popup-focus_failure`.\n5. **Fixture count:** 0 pass, 0 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "popup-focus"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/popup-focus` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → popup-focus.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/popup-focus\nruleId = popup-focus\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/popup-focus_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/popup-focus_success\npassFixtures = 0",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/popup-focus_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/popup-focus_failure\nfailFixtures = 0",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for popup-focus\n- No atomic fixtures (metadata-only rule)",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `popup-focus` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = popup-focus\nissueSource = RAIDEN examples at /engine/popup-focus_success and /engine/popup-focus_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "metadata-only: no atomic fixtures"
+        ],
+        "fixturePath": [
+          "n/a"
+        ],
+        "expectedResult": [
+          "Manual review required"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 0,
+        "fail": 0,
+        "total": 0
+      }
+    }
+  },
+  {
+    "key": "radio-aria-checked",
+    "action": "create",
+    "ruleId": "radio-aria-checked",
+    "payload": {
+      "ruleId": "radio-aria-checked",
+      "title": "Unified Engine: radio-aria-checked — Checked state of custom radio controls should be indicated to assistive technology",
+      "description": "**Engine rule ID:** `radio-aria-checked`\n**RAIDEN routes:** `/engine/radio-aria-checked`, `/engine/radio-aria-checked_success`, `/engine/radio-aria-checked_failure`\n**Atomic tests:** `src/components/pages/engine-rules/radio-aria-checked/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** If custom radio controls lack a defined checked state, screen reader users can't determine which option is selected, resulting in confusion and loss of functionality.\n**Remediation advice:** Assign \\\\\n**Fixtures:** 3 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `radio-aria-checked` examples published at `/engine/radio-aria-checked_success` and `/engine/radio-aria-checked_failure`.\n5. **Fixture count:** 3 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "radio-aria-checked"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/radio-aria-checked` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → radio-aria-checked.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/radio-aria-checked\nruleId = radio-aria-checked\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/radio-aria-checked_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/radio-aria-checked_success\npassFixtures = 3\natomic-tests/pass/div-as-a-custom-radio-button.html\natomic-tests/pass/input-radio-button.html\natomic-tests/pass/label-as-a-custom-radio-button.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/radio-aria-checked_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/radio-aria-checked_failure\nfailFixtures = 1\natomic-tests/fail/custom-radio-no-aria-checked.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for radio-aria-checked\n- pass/div-as-a-custom-radio-button.html → Passed node\n- pass/input-radio-button.html → Passed node\n- pass/label-as-a-custom-radio-button.html → Passed node\n- fail/custom-radio-no-aria-checked.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `radio-aria-checked` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = radio-aria-checked\nissueSource = RAIDEN examples at /engine/radio-aria-checked_success and /engine/radio-aria-checked_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: div as a custom radio button (div-as-a-custom-radio-button.html)",
+          "pass: input radio button (input-radio-button.html)",
+          "pass: label as a custom radio button (label-as-a-custom-radio-button.html)",
+          "fail: custom radio no aria checked (custom-radio-no-aria-checked.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/div-as-a-custom-radio-button.html",
+          "atomic-tests/pass/input-radio-button.html",
+          "atomic-tests/pass/label-as-a-custom-radio-button.html",
+          "atomic-tests/fail/custom-radio-no-aria-checked.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 3,
+        "fail": 1,
+        "total": 4
+      }
+    }
+  },
+  {
+    "key": "radio-discernible",
+    "action": "create",
+    "ruleId": "radio-discernible",
+    "payload": {
+      "ruleId": "radio-discernible",
+      "title": "Unified Engine: radio-discernible — Radio controls should have a label",
+      "description": "**Engine rule ID:** `radio-discernible`\n**RAIDEN routes:** `/engine/radio-discernible`, `/engine/radio-discernible_success`, `/engine/radio-discernible_failure`\n**Atomic tests:** `src/components/pages/engine-rules/radio-discernible/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Screen readers rely on properly coded and associated labels to announce the purpose of a form field. A radio control without an identifiable label may prevent screen reader users from completing the form.\n**Remediation advice:** Assign a label to each radio control using <label for> with a matching id (or wrapping the <label> around the control), or ARIA attributes such as aria-label or aria-labelledby.\n**Fixtures:** 11 pass, 6 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `radio-discernible` examples published at `/engine/radio-discernible_success` and `/engine/radio-discernible_failure`.\n5. **Fixture count:** 11 pass, 6 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "radio-discernible"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/radio-discernible` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → radio-discernible.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/radio-discernible\nruleId = radio-discernible\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/radio-discernible_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/radio-discernible_success\npassFixtures = 11\natomic-tests/pass/button-role-radio-with-label.html\natomic-tests/pass/div-as-a-custom-radio-with-aria-label.html\natomic-tests/pass/div-as-a-custom-radio-with-aria-labelledby.html\natomic-tests/pass/div-as-a-custom-radio-with-label.html\natomic-tests/pass/div-as-a-custom-radio.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/radio-discernible_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/radio-discernible_failure\nfailFixtures = 6\natomic-tests/fail/button-role-radio-no-label.html\natomic-tests/fail/custom-radio-no-label.html\natomic-tests/fail/input-radio-color-value.html\natomic-tests/fail/input-radio.html\natomic-tests/fail/role-radio-2.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for radio-discernible\n- pass/button-role-radio-with-label.html → Passed node\n- pass/div-as-a-custom-radio-with-aria-label.html → Passed node\n- pass/div-as-a-custom-radio-with-aria-labelledby.html → Passed node\n- pass/div-as-a-custom-radio-with-label.html → Passed node\n- pass/div-as-a-custom-radio.html → Passed node\n- pass/input-radio-color-value-with-label.html → Passed node\n- pass/input-radio-with-aria-labelledby.html → Passed node\n- pass/input-radio-with-label.html → Passed node\n- pass/label-as-a-custom-radio.html → Passed node\n- pass/role-radio-wrapper.html → Passed node\n- pass/role-radio.html → Passed node\n- fail/button-role-radio-no-label.html → Failed node\n- fail/custom-radio-no-label.html → Failed node\n- fail/input-radio-color-value.html → Failed node\n- fail/input-radio.html → Failed node\n- fail/role-radio-2.html → Failed node\n- fail/role-radio.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `radio-discernible` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = radio-discernible\nissueSource = RAIDEN examples at /engine/radio-discernible_success and /engine/radio-discernible_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: button role radio with label (button-role-radio-with-label.html)",
+          "pass: div as a custom radio with aria label (div-as-a-custom-radio-with-aria-label.html)",
+          "pass: div as a custom radio with aria labelledby (div-as-a-custom-radio-with-aria-labelledby.html)",
+          "pass: div as a custom radio with label (div-as-a-custom-radio-with-label.html)",
+          "pass: div as a custom radio (div-as-a-custom-radio.html)",
+          "pass: input radio color value with label (input-radio-color-value-with-label.html)",
+          "pass: input radio with aria labelledby (input-radio-with-aria-labelledby.html)",
+          "pass: input radio with label (input-radio-with-label.html)",
+          "pass: label as a custom radio (label-as-a-custom-radio.html)",
+          "pass: role radio wrapper (role-radio-wrapper.html)",
+          "pass: role radio (role-radio.html)",
+          "fail: button role radio no label (button-role-radio-no-label.html)",
+          "fail: custom radio no label (custom-radio-no-label.html)",
+          "fail: input radio color value (input-radio-color-value.html)",
+          "fail: input radio (input-radio.html)",
+          "fail: role radio 2 (role-radio-2.html)",
+          "fail: role radio (role-radio.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/button-role-radio-with-label.html",
+          "atomic-tests/pass/div-as-a-custom-radio-with-aria-label.html",
+          "atomic-tests/pass/div-as-a-custom-radio-with-aria-labelledby.html",
+          "atomic-tests/pass/div-as-a-custom-radio-with-label.html",
+          "atomic-tests/pass/div-as-a-custom-radio.html",
+          "atomic-tests/pass/input-radio-color-value-with-label.html",
+          "atomic-tests/pass/input-radio-with-aria-labelledby.html",
+          "atomic-tests/pass/input-radio-with-label.html",
+          "atomic-tests/pass/label-as-a-custom-radio.html",
+          "atomic-tests/pass/role-radio-wrapper.html",
+          "atomic-tests/pass/role-radio.html",
+          "atomic-tests/fail/button-role-radio-no-label.html",
+          "atomic-tests/fail/custom-radio-no-label.html",
+          "atomic-tests/fail/input-radio-color-value.html",
+          "atomic-tests/fail/input-radio.html",
+          "atomic-tests/fail/role-radio-2.html",
+          "atomic-tests/fail/role-radio.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 11,
+        "fail": 6,
+        "total": 17
+      }
+    }
+  },
+  {
+    "key": "radio-mismatch",
+    "action": "create",
+    "ruleId": "radio-mismatch",
+    "payload": {
+      "ruleId": "radio-mismatch",
+      "title": "Unified Engine: radio-mismatch — Custom radio controls should be tagged for assistive technology",
+      "description": "**Engine rule ID:** `radio-mismatch`\n**RAIDEN routes:** `/engine/radio-mismatch`, `/engine/radio-mismatch_success`, `/engine/radio-mismatch_failure`\n**Atomic tests:** `src/components/pages/engine-rules/radio-mismatch/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Screen readers have built-in mechanisms to handle radio components. By default, assistive technology does not support custom radio controls and using them without exposing the appropriate role may prevent screen reader users from interacting as expected with the component.\n**Remediation advice:** Assign role=\"radio\" to the custom radio control.\n**Fixtures:** 5 pass, 2 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `radio-mismatch` examples published at `/engine/radio-mismatch_success` and `/engine/radio-mismatch_failure`.\n5. **Fixture count:** 5 pass, 2 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "radio-mismatch"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/radio-mismatch` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → radio-mismatch.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/radio-mismatch\nruleId = radio-mismatch\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/radio-mismatch_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/radio-mismatch_success\npassFixtures = 5\natomic-tests/pass/custom-radio-button-rating-input-as-next-or-prev-sibling.html\natomic-tests/pass/custom-radio-with-compliant-radio-button-as-a-direct-child.html\natomic-tests/pass/custom-radio-with-role-radio-with-input-display-none.html\natomic-tests/pass/div-as-a-custom-radio.html\natomic-tests/pass/label-as-a-custom-radio.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/radio-mismatch_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/radio-mismatch_failure\nfailFixtures = 2\natomic-tests/fail/custom-radio-no-role-with-input-display-none.html\natomic-tests/fail/custom-radio-no-role.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for radio-mismatch\n- pass/custom-radio-button-rating-input-as-next-or-prev-sibling.html → Passed node\n- pass/custom-radio-with-compliant-radio-button-as-a-direct-child.html → Passed node\n- pass/custom-radio-with-role-radio-with-input-display-none.html → Passed node\n- pass/div-as-a-custom-radio.html → Passed node\n- pass/label-as-a-custom-radio.html → Passed node\n- fail/custom-radio-no-role-with-input-display-none.html → Failed node\n- fail/custom-radio-no-role.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `radio-mismatch` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = radio-mismatch\nissueSource = RAIDEN examples at /engine/radio-mismatch_success and /engine/radio-mismatch_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: custom radio button rating input as next or prev sibling (custom-radio-button-rating-input-as-next-or-prev-sibling.html)",
+          "pass: custom radio with compliant radio button as a direct child (custom-radio-with-compliant-radio-button-as-a-direct-child.html)",
+          "pass: custom radio with role radio with input display none (custom-radio-with-role-radio-with-input-display-none.html)",
+          "pass: div as a custom radio (div-as-a-custom-radio.html)",
+          "pass: label as a custom radio (label-as-a-custom-radio.html)",
+          "fail: custom radio no role with input display none (custom-radio-no-role-with-input-display-none.html)",
+          "fail: custom radio no role (custom-radio-no-role.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/custom-radio-button-rating-input-as-next-or-prev-sibling.html",
+          "atomic-tests/pass/custom-radio-with-compliant-radio-button-as-a-direct-child.html",
+          "atomic-tests/pass/custom-radio-with-role-radio-with-input-display-none.html",
+          "atomic-tests/pass/div-as-a-custom-radio.html",
+          "atomic-tests/pass/label-as-a-custom-radio.html",
+          "atomic-tests/fail/custom-radio-no-role-with-input-display-none.html",
+          "atomic-tests/fail/custom-radio-no-role.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 5,
+        "fail": 2,
+        "total": 7
+      }
+    }
+  }
+]

@@ -2,21 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Box, CircularProgress } from "@mui/material";
 import { Route } from "react-router-dom";
-
-const CRITERIA_PREFIXES = [
-  "/graphics",
-  "/forms",
-  "/keyboard",
-  "/navigation",
-  "/headings",
-  "/errors",
-  "/carousels",
-  "/clickables",
-  "/context",
-  "/document",
-  "/readability",
-  "/tables",
-];
+import { CRITERIA_PREFIXES } from "../../routes/criteriaPathUtils";
 
 const loadingElement = (
   <Box

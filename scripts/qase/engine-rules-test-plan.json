@@ -1,0 +1,10 @@
+{
+  "createdAt": "2026-06-30T09:48:00.000Z",
+  "projectCode": "ACCESSFLOW",
+  "planId": 53,
+  "title": "Unified Engine Rules — E2E Example Coverage",
+  "suiteId": 902,
+  "caseCount": 167,
+  "caseIdsFile": "engine-rules-case-ids.json",
+  "ruleIdMapFile": "engine-rules-qase-id-map.json"
+}

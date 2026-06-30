@@ -1,0 +1,656 @@
+[
+  {
+    "key": "toggle-button-mismatch",
+    "action": "create",
+    "ruleId": "toggle-button-mismatch",
+    "payload": {
+      "ruleId": "toggle-button-mismatch",
+      "title": "Unified Engine: toggle-button-mismatch — Toggle buttons should expose their state to assistive technology",
+      "description": "**Engine rule ID:** `toggle-button-mismatch`\n**RAIDEN routes:** `/engine/toggle-button-mismatch`, `/engine/toggle-button-mismatch_success`, `/engine/toggle-button-mismatch_failure`\n**Atomic tests:** `src/components/pages/engine-rules/toggle-button-mismatch/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** When a toggle button fails to expose its pressed state, screen reader users cannot determine whether the control is active or inactive.\n**Remediation advice:** Assign aria-pressed=\"true/false\" to a native <button>, or an element with role=\"button\". Make sure aria-pressed updates dynamically whenever the button is toggled.\n**Fixtures:** 2 pass, 2 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `toggle-button-mismatch` examples published at `/engine/toggle-button-mismatch_success` and `/engine/toggle-button-mismatch_failure`.\n5. **Fixture count:** 2 pass, 2 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "toggle-button-mismatch"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/toggle-button-mismatch` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → toggle-button-mismatch.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/toggle-button-mismatch\nruleId = toggle-button-mismatch\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/toggle-button-mismatch_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/toggle-button-mismatch_success\npassFixtures = 2\natomic-tests/pass/native-toggle-button-with-aria-pressed-attribute.html\natomic-tests/pass/toggle-button-with-aria-pressed-attribute.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/toggle-button-mismatch_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/toggle-button-mismatch_failure\nfailFixtures = 2\natomic-tests/fail/button-toggle-context--no-aria-pressed.html\natomic-tests/fail/toggle-button-without-aria-pressed-attr.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for toggle-button-mismatch\n- pass/native-toggle-button-with-aria-pressed-attribute.html → Passed node\n- pass/toggle-button-with-aria-pressed-attribute.html → Passed node\n- fail/button-toggle-context--no-aria-pressed.html → Failed node\n- fail/toggle-button-without-aria-pressed-attr.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `toggle-button-mismatch` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = toggle-button-mismatch\nissueSource = RAIDEN examples at /engine/toggle-button-mismatch_success and /engine/toggle-button-mismatch_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: native toggle button with aria pressed attribute (native-toggle-button-with-aria-pressed-attribute.html)",
+          "pass: toggle button with aria pressed attribute (toggle-button-with-aria-pressed-attribute.html)",
+          "fail: button toggle context  no aria pressed (button-toggle-context--no-aria-pressed.html)",
+          "fail: toggle button without aria pressed attr (toggle-button-without-aria-pressed-attr.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/native-toggle-button-with-aria-pressed-attribute.html",
+          "atomic-tests/pass/toggle-button-with-aria-pressed-attribute.html",
+          "atomic-tests/fail/button-toggle-context--no-aria-pressed.html",
+          "atomic-tests/fail/toggle-button-without-aria-pressed-attr.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 2,
+        "fail": 2,
+        "total": 4
+      }
+    }
+  },
+  {
+    "key": "toggle-button-misuse",
+    "action": "create",
+    "ruleId": "toggle-button-misuse",
+    "payload": {
+      "ruleId": "toggle-button-misuse",
+      "title": "Unified Engine: toggle-button-misuse — Only elements that function as toggle buttons should be assigned the aria-pressed attribute",
+      "description": "**Engine rule ID:** `toggle-button-misuse`\n**RAIDEN routes:** `/engine/toggle-button-misuse`, `/engine/toggle-button-misuse_success`, `/engine/toggle-button-misuse_failure`\n**Atomic tests:** `src/components/pages/engine-rules/toggle-button-misuse/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** The aria-pressed attribute is only announced by assistive technology when applied to button elements, including custom toggle controls with role=\"button\". If it is used on elements with other roles, the attribute is ignored, leaving users unaware of any intended pressed or unpressed state.\n**Remediation advice:** Remove the aria-pressed attribute from the failing element.\n**Fixtures:** 2 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `toggle-button-misuse` examples published at `/engine/toggle-button-misuse_success` and `/engine/toggle-button-misuse_failure`.\n5. **Fixture count:** 2 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "toggle-button-misuse"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/toggle-button-misuse` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → toggle-button-misuse.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/toggle-button-misuse\nruleId = toggle-button-misuse\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/toggle-button-misuse_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/toggle-button-misuse_success\npassFixtures = 2\natomic-tests/pass/button-toggle-class-context--aria-pressed.html\natomic-tests/pass/button-toggle-context--aria-pressed.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/toggle-button-misuse_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/toggle-button-misuse_failure\nfailFixtures = 1\natomic-tests/fail/button-toggle--no-toggle-context.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for toggle-button-misuse\n- pass/button-toggle-class-context--aria-pressed.html → Passed node\n- pass/button-toggle-context--aria-pressed.html → Passed node\n- fail/button-toggle--no-toggle-context.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `toggle-button-misuse` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = toggle-button-misuse\nissueSource = RAIDEN examples at /engine/toggle-button-misuse_success and /engine/toggle-button-misuse_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: button toggle class context  aria pressed (button-toggle-class-context--aria-pressed.html)",
+          "pass: button toggle context  aria pressed (button-toggle-context--aria-pressed.html)",
+          "fail: button toggle  no toggle context (button-toggle--no-toggle-context.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/button-toggle-class-context--aria-pressed.html",
+          "atomic-tests/pass/button-toggle-context--aria-pressed.html",
+          "atomic-tests/fail/button-toggle--no-toggle-context.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 2,
+        "fail": 1,
+        "total": 3
+      }
+    }
+  },
+  {
+    "key": "user-rating-discernible",
+    "action": "create",
+    "ruleId": "user-rating-discernible",
+    "payload": {
+      "ruleId": "user-rating-discernible",
+      "title": "Unified Engine: user-rating-discernible — User ratings should be tagged and labeled for assistive technology",
+      "description": "**Engine rule ID:** `user-rating-discernible`\n**RAIDEN routes:** `/engine/user-rating-discernible`, `/engine/user-rating-discernible_success`, `/engine/user-rating-discernible_failure`\n**Atomic tests:** `src/components/pages/engine-rules/user-rating-discernible/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** When a static star rating is presented using unlabeled icons, screen readers cannot interpret the symbols as meaningful content. Assigning a role and text alternative ensures the rating value is conveyed clearly, allowing non-visual users to understand the information.\n**Remediation advice:** Assign role=\"img\" with an aria-label, such as “4 out of 5 stars,” to the image element, or to an enclosing container if each star is presented as a separate element.\n**Fixtures:** 8 pass, 2 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `user-rating-discernible` examples published at `/engine/user-rating-discernible_success` and `/engine/user-rating-discernible_failure`.\n5. **Fixture count:** 8 pass, 2 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "user-rating-discernible"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/user-rating-discernible` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → user-rating-discernible.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/user-rating-discernible\nruleId = user-rating-discernible\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/user-rating-discernible_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/user-rating-discernible_success\npassFixtures = 8\natomic-tests/pass/airbnb-ratings-with-aria-label.html\natomic-tests/pass/amazon-ratings-with-inner-element-with-text.html\natomic-tests/pass/amazon-ratings-with-label.html\natomic-tests/pass/google-ratings-with-aria-label.html\natomic-tests/pass/imdb-ratings-with-inner-visible-text.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/user-rating-discernible_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/user-rating-discernible_failure\nfailFixtures = 2\natomic-tests/fail/theknot-ratings-number-no-explantory-text.html\natomic-tests/fail/theknot-ratings-stars-no-discernible-text.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for user-rating-discernible\n- pass/airbnb-ratings-with-aria-label.html → Passed node\n- pass/amazon-ratings-with-inner-element-with-text.html → Passed node\n- pass/amazon-ratings-with-label.html → Passed node\n- pass/google-ratings-with-aria-label.html → Passed node\n- pass/imdb-ratings-with-inner-visible-text.html → Passed node\n- pass/ratemeds-ratings-with-title.html → Passed node\n- pass/rentalcars-ratings-with-inner-visible-text.html → Passed node\n- pass/yelp-ratings-inner-element-with-aria-label.html → Passed node\n- fail/theknot-ratings-number-no-explantory-text.html → Failed node\n- fail/theknot-ratings-stars-no-discernible-text.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `user-rating-discernible` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = user-rating-discernible\nissueSource = RAIDEN examples at /engine/user-rating-discernible_success and /engine/user-rating-discernible_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: airbnb ratings with aria label (airbnb-ratings-with-aria-label.html)",
+          "pass: amazon ratings with inner element with text (amazon-ratings-with-inner-element-with-text.html)",
+          "pass: amazon ratings with label (amazon-ratings-with-label.html)",
+          "pass: google ratings with aria label (google-ratings-with-aria-label.html)",
+          "pass: imdb ratings with inner visible text (imdb-ratings-with-inner-visible-text.html)",
+          "pass: ratemeds ratings with title (ratemeds-ratings-with-title.html)",
+          "pass: rentalcars ratings with inner visible text (rentalcars-ratings-with-inner-visible-text.html)",
+          "pass: yelp ratings inner element with aria label (yelp-ratings-inner-element-with-aria-label.html)",
+          "fail: theknot ratings number no explantory text (theknot-ratings-number-no-explantory-text.html)",
+          "fail: theknot ratings stars no discernible text (theknot-ratings-stars-no-discernible-text.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/airbnb-ratings-with-aria-label.html",
+          "atomic-tests/pass/amazon-ratings-with-inner-element-with-text.html",
+          "atomic-tests/pass/amazon-ratings-with-label.html",
+          "atomic-tests/pass/google-ratings-with-aria-label.html",
+          "atomic-tests/pass/imdb-ratings-with-inner-visible-text.html",
+          "atomic-tests/pass/ratemeds-ratings-with-title.html",
+          "atomic-tests/pass/rentalcars-ratings-with-inner-visible-text.html",
+          "atomic-tests/pass/yelp-ratings-inner-element-with-aria-label.html",
+          "atomic-tests/fail/theknot-ratings-number-no-explantory-text.html",
+          "atomic-tests/fail/theknot-ratings-stars-no-discernible-text.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 8,
+        "fail": 2,
+        "total": 10
+      }
+    }
+  },
+  {
+    "key": "visibility-mismatch",
+    "action": "create",
+    "ruleId": "visibility-mismatch",
+    "payload": {
+      "ruleId": "visibility-mismatch",
+      "title": "Unified Engine: visibility-mismatch — Visible content should not be hidden from assistive technology",
+      "description": "**Engine rule ID:** `visibility-mismatch`\n**RAIDEN routes:** `/engine/visibility-mismatch`, `/engine/visibility-mismatch_success`, `/engine/visibility-mismatch_failure`\n**Atomic tests:** `src/components/pages/engine-rules/visibility-mismatch/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** If content remains visible on the screen but assigned aria-hidden=\"true\", it will be excluded from the accessibility tree. As a result, screen reader users will not have access to the same information as sighted users.\n**Remediation advice:** Remove aria-hidden=\"true\" from visible elements. Make sure that the attribute is only used to hide redundant or inactive content.\n**Fixtures:** 15 pass, 10 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `visibility-mismatch` examples published at `/engine/visibility-mismatch_success` and `/engine/visibility-mismatch_failure`.\n5. **Fixture count:** 15 pass, 10 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "visibility-mismatch"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/visibility-mismatch` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → visibility-mismatch.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/visibility-mismatch\nruleId = visibility-mismatch\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/visibility-mismatch_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/visibility-mismatch_success\npassFixtures = 15\natomic-tests/pass/aria-hidden-decorative-divider.html\natomic-tests/pass/aria-hidden-logo-labelled-by-parent.html\natomic-tests/pass/display-none-aria-hidden.html\natomic-tests/pass/display-none-parent.html\natomic-tests/pass/display-none.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/visibility-mismatch_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/visibility-mismatch_failure\nfailFixtures = 10\natomic-tests/fail/aria-hidden-logo-labelled-by-parent-main.html\natomic-tests/fail/display-block-aria-hidden.html\natomic-tests/fail/div-aria-hidden-with-child-and-grand-child.html\natomic-tests/fail/div-aria-hidden-with-child.html\natomic-tests/fail/div-with-aria-hidden-with-nested-out-of-flow-visible-children.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for visibility-mismatch\n- pass/aria-hidden-decorative-divider.html → Passed node\n- pass/aria-hidden-logo-labelled-by-parent.html → Passed node\n- pass/display-none-aria-hidden.html → Passed node\n- pass/display-none-parent.html → Passed node\n- pass/display-none.html → Passed node\n- pass/empty-styled-visible-div.html → Passed node\n- pass/hidden-dimensions-aria-hidden.html → Passed node\n- pass/hidden-dimensions.html → Passed node\n- pass/opacity-zero-aria-hidden.html → Passed node\n- pass/opacity-zero.html → Passed node\n- pass/presentation-icon-no-text.html → Passed node\n- pass/property-hidden.html → Passed node\n- pass/visibility-hidden-aria-hidden.html → Passed node\n- pass/visibility-hidden.html → Passed node\n- pass/visible-text.html → Passed node\n- fail/aria-hidden-logo-labelled-by-parent-main.html → Failed node\n- fail/display-block-aria-hidden.html → Failed node\n- fail/div-aria-hidden-with-child-and-grand-child.html → Failed node\n- fail/div-aria-hidden-with-child.html → Failed node\n- fail/div-with-aria-hidden-with-nested-out-of-flow-visible-children.html → Failed node\n- fail/hidden-dimensions-aria-hidden.html → Failed node\n- fail/img-with-alt.html → Failed node\n- fail/opacity-one.html → Failed node\n- fail/presentation-icon-no-text-aria-hidden.html → Failed node\n- fail/visibility-visible-aria-hidden.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `visibility-mismatch` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = visibility-mismatch\nissueSource = RAIDEN examples at /engine/visibility-mismatch_success and /engine/visibility-mismatch_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: aria hidden decorative divider (aria-hidden-decorative-divider.html)",
+          "pass: aria hidden logo labelled by parent (aria-hidden-logo-labelled-by-parent.html)",
+          "pass: display none aria hidden (display-none-aria-hidden.html)",
+          "pass: display none parent (display-none-parent.html)",
+          "pass: display none (display-none.html)",
+          "pass: empty styled visible div (empty-styled-visible-div.html)",
+          "pass: hidden dimensions aria hidden (hidden-dimensions-aria-hidden.html)",
+          "pass: hidden dimensions (hidden-dimensions.html)",
+          "pass: opacity zero aria hidden (opacity-zero-aria-hidden.html)",
+          "pass: opacity zero (opacity-zero.html)",
+          "pass: presentation icon no text (presentation-icon-no-text.html)",
+          "pass: property hidden (property-hidden.html)",
+          "pass: visibility hidden aria hidden (visibility-hidden-aria-hidden.html)",
+          "pass: visibility hidden (visibility-hidden.html)",
+          "pass: visible text (visible-text.html)",
+          "fail: aria hidden logo labelled by parent main (aria-hidden-logo-labelled-by-parent-main.html)",
+          "fail: display block aria hidden (display-block-aria-hidden.html)",
+          "fail: div aria hidden with child and grand child (div-aria-hidden-with-child-and-grand-child.html)",
+          "fail: div aria hidden with child (div-aria-hidden-with-child.html)",
+          "fail: div with aria hidden with nested out of flow visible children (div-with-aria-hidden-with-nested-out-of-flow-visible-children.html)",
+          "fail: hidden dimensions aria hidden (hidden-dimensions-aria-hidden.html)",
+          "fail: img with alt (img-with-alt.html)",
+          "fail: opacity one (opacity-one.html)",
+          "fail: presentation icon no text aria hidden (presentation-icon-no-text-aria-hidden.html)",
+          "fail: visibility visible aria hidden (visibility-visible-aria-hidden.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/aria-hidden-decorative-divider.html",
+          "atomic-tests/pass/aria-hidden-logo-labelled-by-parent.html",
+          "atomic-tests/pass/display-none-aria-hidden.html",
+          "atomic-tests/pass/display-none-parent.html",
+          "atomic-tests/pass/display-none.html",
+          "atomic-tests/pass/empty-styled-visible-div.html",
+          "atomic-tests/pass/hidden-dimensions-aria-hidden.html",
+          "atomic-tests/pass/hidden-dimensions.html",
+          "atomic-tests/pass/opacity-zero-aria-hidden.html",
+          "atomic-tests/pass/opacity-zero.html",
+          "atomic-tests/pass/presentation-icon-no-text.html",
+          "atomic-tests/pass/property-hidden.html",
+          "atomic-tests/pass/visibility-hidden-aria-hidden.html",
+          "atomic-tests/pass/visibility-hidden.html",
+          "atomic-tests/pass/visible-text.html",
+          "atomic-tests/fail/aria-hidden-logo-labelled-by-parent-main.html",
+          "atomic-tests/fail/display-block-aria-hidden.html",
+          "atomic-tests/fail/div-aria-hidden-with-child-and-grand-child.html",
+          "atomic-tests/fail/div-aria-hidden-with-child.html",
+          "atomic-tests/fail/div-with-aria-hidden-with-nested-out-of-flow-visible-children.html",
+          "atomic-tests/fail/hidden-dimensions-aria-hidden.html",
+          "atomic-tests/fail/img-with-alt.html",
+          "atomic-tests/fail/opacity-one.html",
+          "atomic-tests/fail/presentation-icon-no-text-aria-hidden.html",
+          "atomic-tests/fail/visibility-visible-aria-hidden.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 15,
+        "fail": 10,
+        "total": 25
+      }
+    }
+  },
+  {
+    "key": "visible-text-part-of-accessible-name",
+    "action": "create",
+    "ruleId": "visible-text-part-of-accessible-name",
+    "payload": {
+      "ruleId": "visible-text-part-of-accessible-name",
+      "title": "Unified Engine: visible-text-part-of-accessible-name — visible-text-part-of-accessible-name",
+      "description": "**Engine rule ID:** `visible-text-part-of-accessible-name`\n**RAIDEN routes:** `/engine/visible-text-part-of-accessible-name`, `/engine/visible-text-part-of-accessible-name_success`, `/engine/visible-text-part-of-accessible-name_failure`\n**Atomic tests:** `src/components/pages/engine-rules/visible-text-part-of-accessible-name/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Fixtures:** 21 pass, 25 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `visible-text-part-of-accessible-name` examples published at `/engine/visible-text-part-of-accessible-name_success` and `/engine/visible-text-part-of-accessible-name_failure`.\n5. **Fixture count:** 21 pass, 25 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "visible-text-part-of-accessible-name"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/visible-text-part-of-accessible-name` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`medium`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → visible-text-part-of-accessible-name.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/visible-text-part-of-accessible-name\nruleId = visible-text-part-of-accessible-name\nimpact = medium",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/visible-text-part-of-accessible-name_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/visible-text-part-of-accessible-name_success\npassFixtures = 21\natomic-tests/pass/anchor-aria-describedby-incl-text.html\natomic-tests/pass/anchor-aria-label-incl-text.html\natomic-tests/pass/anchor-aria-labelledby-incl-text.html\natomic-tests/pass/anchor-multi-aria-labelledby-incl-text.html\natomic-tests/pass/anchor-nested-aria.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/visible-text-part-of-accessible-name_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/visible-text-part-of-accessible-name_failure\nfailFixtures = 25\natomic-tests/fail/anchor-aria-label-incl-text.html\natomic-tests/fail/anchor-aria-labelledby-incl-text.html\natomic-tests/fail/anchor-multi-aria-labelledby-incl-text.html\natomic-tests/fail/aria-label-is-different-from-visible-text.html\natomic-tests/fail/button-aria-label-incl-text.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for visible-text-part-of-accessible-name\n- pass/anchor-aria-describedby-incl-text.html → Passed node\n- pass/anchor-aria-label-incl-text.html → Passed node\n- pass/anchor-aria-labelledby-incl-text.html → Passed node\n- pass/anchor-multi-aria-labelledby-incl-text.html → Passed node\n- pass/anchor-nested-aria.html → Passed node\n- pass/anchor-title.html → Passed node\n- pass/button-aria-describedby-incl-text.html → Passed node\n- pass/button-aria-label-incl-text.html → Passed node\n- pass/button-aria-labelledby-incl-text.html → Passed node\n- pass/button-multi-aria-labelledby-incl-text.html → Passed node\n- pass/button-visible-text-contained-within-aria-label.html → Passed node\n- pass/button-visible-text-is-non-text-content.html → Passed node\n- pass/button-visible-text-is-rendered-as-icon.html → Passed node\n- pass/button-with-supplement-aria-label.html → Passed node\n- pass/div-role-tooltip.html → Passed node\n- pass/link-visible-text-matches-aria-label--case-ignored.html → Passed node\n- pass/link-visible-text-matches-aria-label--whitespace-ignored.html → Passed node\n- pass/link-visible-text-matches-aria-label.html → Passed node\n- pass/link-without-visible-text.html → Passed node\n- pass/nav-element.html → Passed node\n- pass/text-field.html → Passed node\n- fail/anchor-aria-label-incl-text.html → Failed node\n- fail/anchor-aria-labelledby-incl-text.html → Failed node\n- fail/anchor-multi-aria-labelledby-incl-text.html → Failed node\n- fail/aria-label-is-different-from-visible-text.html → Failed node\n- fail/button-aria-label-incl-text.html → Failed node\n- fail/button-aria-label-partially-contains-visible-text.html → Failed node\n- fail/button-aria-labelledby-incl-text.html → Failed node\n- fail/button-multi-aria-labelledby-incl-text.html → Failed node\n- fail/checkbox-visible-text-is-different-from-aria-label.html → Failed node\n- fail/mathematic-equations-written-differently-in-accname.html → Failed node\n- fail/option-visible-text-is-different-from-aria-label.html → Failed node\n- fail/radio-visible-text-is-different-from-aria-label.html → Failed node\n- fail/role-checkbox-visible-text-is-different-from-aria-label.html → Failed node\n- fail/role-gridcell-visible-text-is-different-from-aria-label.html → Failed node\n- fail/role-link-visible-text-is-different-from-aria-label.html → Failed node\n- fail/role-menuitem-visible-text-is-different-from-aria-label.html → Failed node\n- fail/role-menuitemcheckbox-visible-text-is-different-from-aria-label.html → Failed node\n- fail/role-menuitemradio-visible-text-is-different-from-aria-label.html → Failed node\n- fail/role-option-visible-text-is-different-from-aria-label.html → Failed node\n- fail/role-radio-visible-text-is-different-from-aria-label.html → Failed node\n- fail/role-switch-visible-text-is-different-from-aria-label.html → Failed node\n- fail/role-tab-visible-text-is-different-from-aria-label.html → Failed node\n- fail/role-treeitem-visible-text-is-different-from-aria-label.html → Failed node\n- fail/searchbox-visible-text-is-different-from-aria-label.html → Failed node\n- fail/switch-visible-text-is-different-from-aria-label.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `visible-text-part-of-accessible-name` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = visible-text-part-of-accessible-name\nissueSource = RAIDEN examples at /engine/visible-text-part-of-accessible-name_success and /engine/visible-text-part-of-accessible-name_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: anchor aria describedby incl text (anchor-aria-describedby-incl-text.html)",
+          "pass: anchor aria label incl text (anchor-aria-label-incl-text.html)",
+          "pass: anchor aria labelledby incl text (anchor-aria-labelledby-incl-text.html)",
+          "pass: anchor multi aria labelledby incl text (anchor-multi-aria-labelledby-incl-text.html)",
+          "pass: anchor nested aria (anchor-nested-aria.html)",
+          "pass: anchor title (anchor-title.html)",
+          "pass: button aria describedby incl text (button-aria-describedby-incl-text.html)",
+          "pass: button aria label incl text (button-aria-label-incl-text.html)",
+          "pass: button aria labelledby incl text (button-aria-labelledby-incl-text.html)",
+          "pass: button multi aria labelledby incl text (button-multi-aria-labelledby-incl-text.html)",
+          "pass: button visible text contained within aria label (button-visible-text-contained-within-aria-label.html)",
+          "pass: button visible text is non text content (button-visible-text-is-non-text-content.html)",
+          "pass: button visible text is rendered as icon (button-visible-text-is-rendered-as-icon.html)",
+          "pass: button with supplement aria label (button-with-supplement-aria-label.html)",
+          "pass: div role tooltip (div-role-tooltip.html)",
+          "pass: link visible text matches aria label  case ignored (link-visible-text-matches-aria-label--case-ignored.html)",
+          "pass: link visible text matches aria label  whitespace ignored (link-visible-text-matches-aria-label--whitespace-ignored.html)",
+          "pass: link visible text matches aria label (link-visible-text-matches-aria-label.html)",
+          "pass: link without visible text (link-without-visible-text.html)",
+          "pass: nav element (nav-element.html)",
+          "pass: text field (text-field.html)",
+          "fail: anchor aria label incl text (anchor-aria-label-incl-text.html)",
+          "fail: anchor aria labelledby incl text (anchor-aria-labelledby-incl-text.html)",
+          "fail: anchor multi aria labelledby incl text (anchor-multi-aria-labelledby-incl-text.html)",
+          "fail: aria label is different from visible text (aria-label-is-different-from-visible-text.html)",
+          "fail: button aria label incl text (button-aria-label-incl-text.html)",
+          "fail: button aria label partially contains visible text (button-aria-label-partially-contains-visible-text.html)",
+          "fail: button aria labelledby incl text (button-aria-labelledby-incl-text.html)",
+          "fail: button multi aria labelledby incl text (button-multi-aria-labelledby-incl-text.html)",
+          "fail: checkbox visible text is different from aria label (checkbox-visible-text-is-different-from-aria-label.html)",
+          "fail: mathematic equations written differently in accname (mathematic-equations-written-differently-in-accname.html)",
+          "fail: option visible text is different from aria label (option-visible-text-is-different-from-aria-label.html)",
+          "fail: radio visible text is different from aria label (radio-visible-text-is-different-from-aria-label.html)",
+          "fail: role checkbox visible text is different from aria label (role-checkbox-visible-text-is-different-from-aria-label.html)",
+          "fail: role gridcell visible text is different from aria label (role-gridcell-visible-text-is-different-from-aria-label.html)",
+          "fail: role link visible text is different from aria label (role-link-visible-text-is-different-from-aria-label.html)",
+          "fail: role menuitem visible text is different from aria label (role-menuitem-visible-text-is-different-from-aria-label.html)",
+          "fail: role menuitemcheckbox visible text is different from aria label (role-menuitemcheckbox-visible-text-is-different-from-aria-label.html)",
+          "fail: role menuitemradio visible text is different from aria label (role-menuitemradio-visible-text-is-different-from-aria-label.html)",
+          "fail: role option visible text is different from aria label (role-option-visible-text-is-different-from-aria-label.html)",
+          "fail: role radio visible text is different from aria label (role-radio-visible-text-is-different-from-aria-label.html)",
+          "fail: role switch visible text is different from aria label (role-switch-visible-text-is-different-from-aria-label.html)",
+          "fail: role tab visible text is different from aria label (role-tab-visible-text-is-different-from-aria-label.html)",
+          "fail: role treeitem visible text is different from aria label (role-treeitem-visible-text-is-different-from-aria-label.html)",
+          "fail: searchbox visible text is different from aria label (searchbox-visible-text-is-different-from-aria-label.html)",
+          "fail: switch visible text is different from aria label (switch-visible-text-is-different-from-aria-label.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/anchor-aria-describedby-incl-text.html",
+          "atomic-tests/pass/anchor-aria-label-incl-text.html",
+          "atomic-tests/pass/anchor-aria-labelledby-incl-text.html",
+          "atomic-tests/pass/anchor-multi-aria-labelledby-incl-text.html",
+          "atomic-tests/pass/anchor-nested-aria.html",
+          "atomic-tests/pass/anchor-title.html",
+          "atomic-tests/pass/button-aria-describedby-incl-text.html",
+          "atomic-tests/pass/button-aria-label-incl-text.html",
+          "atomic-tests/pass/button-aria-labelledby-incl-text.html",
+          "atomic-tests/pass/button-multi-aria-labelledby-incl-text.html",
+          "atomic-tests/pass/button-visible-text-contained-within-aria-label.html",
+          "atomic-tests/pass/button-visible-text-is-non-text-content.html",
+          "atomic-tests/pass/button-visible-text-is-rendered-as-icon.html",
+          "atomic-tests/pass/button-with-supplement-aria-label.html",
+          "atomic-tests/pass/div-role-tooltip.html",
+          "atomic-tests/pass/link-visible-text-matches-aria-label--case-ignored.html",
+          "atomic-tests/pass/link-visible-text-matches-aria-label--whitespace-ignored.html",
+          "atomic-tests/pass/link-visible-text-matches-aria-label.html",
+          "atomic-tests/pass/link-without-visible-text.html",
+          "atomic-tests/pass/nav-element.html",
+          "atomic-tests/pass/text-field.html",
+          "atomic-tests/fail/anchor-aria-label-incl-text.html",
+          "atomic-tests/fail/anchor-aria-labelledby-incl-text.html",
+          "atomic-tests/fail/anchor-multi-aria-labelledby-incl-text.html",
+          "atomic-tests/fail/aria-label-is-different-from-visible-text.html",
+          "atomic-tests/fail/button-aria-label-incl-text.html",
+          "atomic-tests/fail/button-aria-label-partially-contains-visible-text.html",
+          "atomic-tests/fail/button-aria-labelledby-incl-text.html",
+          "atomic-tests/fail/button-multi-aria-labelledby-incl-text.html",
+          "atomic-tests/fail/checkbox-visible-text-is-different-from-aria-label.html",
+          "atomic-tests/fail/mathematic-equations-written-differently-in-accname.html",
+          "atomic-tests/fail/option-visible-text-is-different-from-aria-label.html",
+          "atomic-tests/fail/radio-visible-text-is-different-from-aria-label.html",
+          "atomic-tests/fail/role-checkbox-visible-text-is-different-from-aria-label.html",
+          "atomic-tests/fail/role-gridcell-visible-text-is-different-from-aria-label.html",
+          "atomic-tests/fail/role-link-visible-text-is-different-from-aria-label.html",
+          "atomic-tests/fail/role-menuitem-visible-text-is-different-from-aria-label.html",
+          "atomic-tests/fail/role-menuitemcheckbox-visible-text-is-different-from-aria-label.html",
+          "atomic-tests/fail/role-menuitemradio-visible-text-is-different-from-aria-label.html",
+          "atomic-tests/fail/role-option-visible-text-is-different-from-aria-label.html",
+          "atomic-tests/fail/role-radio-visible-text-is-different-from-aria-label.html",
+          "atomic-tests/fail/role-switch-visible-text-is-different-from-aria-label.html",
+          "atomic-tests/fail/role-tab-visible-text-is-different-from-aria-label.html",
+          "atomic-tests/fail/role-treeitem-visible-text-is-different-from-aria-label.html",
+          "atomic-tests/fail/searchbox-visible-text-is-different-from-aria-label.html",
+          "atomic-tests/fail/switch-visible-text-is-different-from-aria-label.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 21,
+        "fail": 25,
+        "total": 46
+      }
+    }
+  }
+]

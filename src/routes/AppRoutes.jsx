@@ -2,7 +2,10 @@ import React, { lazy } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useDeferredRouteElements } from "../components/util/DeferredRouteGroup";
 import RouteSuspense from "../components/util/RouteSuspense";
-import { isCriteriaPath } from "./criteriaRoutesBundle";
+import { isCriteriaPath } from "./criteriaPathUtils";
+
+const EngineLibraryHome = lazy(() => import("../components/pages/Engine/EngineLibraryHome"));
+const EngineSlugOutlet = lazy(() => import("../components/routes/EngineSlugOutlet"));
 
 const UnifiedRulePage = lazy(() => import("../components/layout/UnifiedRulePage"));
 const AllRulesWithRoutes = lazy(() => import("../components/pages/Criteria/AllRulesLinks"));
@@ -17,7 +20,6 @@ const ValidationView = lazy(() =>
   import("../pages/ValidationView").then((m) => ({ default: m.ValidationView }))
 );
 const AtomicTestLibrary = lazy(() => import("../pages/AtomicTestLibrary/index"));
-const EngineLibraryShell = lazy(() => import("../components/pages/Engine/EngineLibraryShell"));
 
 const wrap = (element) => <RouteSuspense>{element}</RouteSuspense>;
 
@@ -26,16 +28,11 @@ const AppRoutes = ({ navigate }) => {
     () => import("./criteriaRoutesBundle"),
     isCriteriaPath
   );
-  const engineRoutes = useDeferredRouteElements(
-    () => import("./engineRoutes"),
-    "/engine"
-  );
 
   return (
   <Routes>
-    <Route index element={<Navigate to="/engine/alt-misuse" replace />} />
-    {engineRoutes}
-    <Route path="/engine/:ruleId" element={wrap(<EngineLibraryShell />)} />
+    <Route index element={wrap(<EngineLibraryHome />)} />
+    <Route path="/engine/:ruleId" element={wrap(<EngineSlugOutlet />)} />
 
     <Route path="/test-runner" element={wrap(<ProjectSelector />)} />
     <Route path="/test-runner/validation" element={wrap(<ValidationView />)} />
@@ -62,8 +59,8 @@ const AppRoutes = ({ navigate }) => {
     <Route path="tables" element={<Navigate to="/" replace />} />
 
     <Route path="rules" element={<Navigate to="/" replace />} />
-    <Route path="/engine" element={<Navigate to="/engine/alt-misuse" replace />} />
-    <Route path="/engine/library" element={<Navigate to="/engine/alt-misuse" replace />} />
+    <Route path="/engine" element={<Navigate to="/" replace />} />
+    <Route path="/engine/library" element={<Navigate to="/" replace />} />
 
     {criteriaRoutes}
 

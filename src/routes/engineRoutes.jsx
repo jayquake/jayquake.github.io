@@ -1,6 +1,12 @@
 import React from "react";
 import { Route } from "react-router-dom";
 
+/**
+ * @deprecated Monolithic engine route table — not wired into AppRoutes.
+ * Per-rule chunks load via `engineExampleUtils.loadEngineExample` instead.
+ * ESLint `no-restricted-imports` blocks new imports of this file.
+ */
+
 // Import all engine rules and their components
 import AltMisuseSuccess from "../components/pages/engine-rules/alt-misuse/AltMisuseSuccess";
 import AltMisuseFailure from "../components/pages/engine-rules/alt-misuse/AltMisuseFailure";

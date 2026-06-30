@@ -1,0 +1,488 @@
+[
+  {
+    "key": "form-duplicate-id",
+    "action": "create",
+    "ruleId": "form-duplicate-id",
+    "payload": {
+      "ruleId": "form-duplicate-id",
+      "title": "Unified Engine: form-duplicate-id — Forms and form fields must have unique ID attributes",
+      "description": "**Engine rule ID:** `form-duplicate-id`\n**RAIDEN routes:** `/engine/form-duplicate-id`, `/engine/form-duplicate-id_success`, `/engine/form-duplicate-id_failure`\n**Atomic tests:** `src/components/pages/engine-rules/form-duplicate-id/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Screen readers rely on ID attributes to be unique in order to announce to the users the correct content. If IDs are not unique, screen readers won't know which element is the correct one.\n**Remediation advice:** Change the ID of the duplicate fields and forms so they are unique.\n**Fixtures:** 1 pass, 3 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `form-duplicate-id` examples published at `/engine/form-duplicate-id_success` and `/engine/form-duplicate-id_failure`.\n5. **Fixture count:** 1 pass, 3 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "form-duplicate-id"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/form-duplicate-id` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`moderate`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → form-duplicate-id.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/form-duplicate-id\nruleId = form-duplicate-id\nimpact = moderate",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/form-duplicate-id_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/form-duplicate-id_success\npassFixtures = 1\natomic-tests/pass/form-with-unique-ids.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/form-duplicate-id_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/form-duplicate-id_failure\nfailFixtures = 3\natomic-tests/fail/duplicate-ids-form-and-fields.html\natomic-tests/fail/duplicate-ids-in-form-fields.html\natomic-tests/fail/duplicate-ids-in-forms.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for form-duplicate-id\n- pass/form-with-unique-ids.html → Passed node\n- fail/duplicate-ids-form-and-fields.html → Failed node\n- fail/duplicate-ids-in-form-fields.html → Failed node\n- fail/duplicate-ids-in-forms.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `form-duplicate-id` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = form-duplicate-id\nissueSource = RAIDEN examples at /engine/form-duplicate-id_success and /engine/form-duplicate-id_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: form with unique ids (form-with-unique-ids.html)",
+          "fail: duplicate ids form and fields (duplicate-ids-form-and-fields.html)",
+          "fail: duplicate ids in form fields (duplicate-ids-in-form-fields.html)",
+          "fail: duplicate ids in forms (duplicate-ids-in-forms.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/form-with-unique-ids.html",
+          "atomic-tests/fail/duplicate-ids-form-and-fields.html",
+          "atomic-tests/fail/duplicate-ids-in-form-fields.html",
+          "atomic-tests/fail/duplicate-ids-in-forms.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 1,
+        "fail": 3,
+        "total": 4
+      }
+    }
+  },
+  {
+    "key": "form-mismatch",
+    "action": "create",
+    "ruleId": "form-mismatch",
+    "payload": {
+      "ruleId": "form-mismatch",
+      "title": "Unified Engine: form-mismatch — A container of input elements should be tagged as a form",
+      "description": "**Engine rule ID:** `form-mismatch`\n**RAIDEN routes:** `/engine/form-mismatch`, `/engine/form-mismatch_success`, `/engine/form-mismatch_failure`\n**Atomic tests:** `src/components/pages/engine-rules/form-mismatch/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Input elements should be enclosed in a <form> element or an element with role=\"form\" so that browsers and assistive technologies identify and expose the fields as part of a form.\\\\\n**Remediation advice:** Enclose the input controls in a <form> element or assign role=\"form\" to an element that contains the fields.\n**Fixtures:** 1 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `form-mismatch` examples published at `/engine/form-mismatch_success` and `/engine/form-mismatch_failure`.\n5. **Fixture count:** 1 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "form-mismatch"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/form-mismatch` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`moderate`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → form-mismatch.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/form-mismatch\nruleId = form-mismatch\nimpact = moderate",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/form-mismatch_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/form-mismatch_success\npassFixtures = 1\natomic-tests/pass/compliant-form.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/form-mismatch_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/form-mismatch_failure\nfailFixtures = 1\natomic-tests/fail/non-compliant-form.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for form-mismatch\n- pass/compliant-form.html → Passed node\n- fail/non-compliant-form.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `form-mismatch` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = form-mismatch\nissueSource = RAIDEN examples at /engine/form-mismatch_success and /engine/form-mismatch_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: compliant form (compliant-form.html)",
+          "fail: non compliant form (non-compliant-form.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/compliant-form.html",
+          "atomic-tests/fail/non-compliant-form.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 1,
+        "fail": 1,
+        "total": 2
+      }
+    }
+  },
+  {
+    "key": "form-submit-button-mismatch",
+    "action": "create",
+    "ruleId": "form-submit-button-mismatch",
+    "payload": {
+      "ruleId": "form-submit-button-mismatch",
+      "title": "Unified Engine: form-submit-button-mismatch — Form submission controls should have type=\"submit\"",
+      "description": "**Engine rule ID:** `form-submit-button-mismatch`\n**RAIDEN routes:** `/engine/form-submit-button-mismatch`, `/engine/form-submit-button-mismatch_success`, `/engine/form-submit-button-mismatch_failure`\n**Atomic tests:** `src/components/pages/engine-rules/form-submit-button-mismatch/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Adding type=\"submit\" to a control that submits a form ensures that screen readers users expect a change of context when they activate the control.\n**Remediation advice:** Assign type=\"submit\" to <button> or <input> elements when they submit a form.\n**Fixtures:** 5 pass, 2 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `form-submit-button-mismatch` examples published at `/engine/form-submit-button-mismatch_success` and `/engine/form-submit-button-mismatch_failure`.\n5. **Fixture count:** 5 pass, 2 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 5,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "form-submit-button-mismatch"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/form-submit-button-mismatch` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`minor`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → form-submit-button-mismatch.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/form-submit-button-mismatch\nruleId = form-submit-button-mismatch\nimpact = minor",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/form-submit-button-mismatch_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/form-submit-button-mismatch_success\npassFixtures = 5\natomic-tests/pass/form-with-hidden-submit-button.html\natomic-tests/pass/form-with-submit-button.html\natomic-tests/pass/form-with-submit-input.html\natomic-tests/pass/form-without-submit-button.html\natomic-tests/pass/multiple-forms-one-without-submit-button.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/form-submit-button-mismatch_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/form-submit-button-mismatch_failure\nfailFixtures = 2\natomic-tests/fail/form-with-button-not-calssified-as-submit.html\natomic-tests/fail/form-with-perceivable-submit-button.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for form-submit-button-mismatch\n- pass/form-with-hidden-submit-button.html → Passed node\n- pass/form-with-submit-button.html → Passed node\n- pass/form-with-submit-input.html → Passed node\n- pass/form-without-submit-button.html → Passed node\n- pass/multiple-forms-one-without-submit-button.html → Passed node\n- fail/form-with-button-not-calssified-as-submit.html → Failed node\n- fail/form-with-perceivable-submit-button.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `form-submit-button-mismatch` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = form-submit-button-mismatch\nissueSource = RAIDEN examples at /engine/form-submit-button-mismatch_success and /engine/form-submit-button-mismatch_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: form with hidden submit button (form-with-hidden-submit-button.html)",
+          "pass: form with submit button (form-with-submit-button.html)",
+          "pass: form with submit input (form-with-submit-input.html)",
+          "pass: form without submit button (form-without-submit-button.html)",
+          "pass: multiple forms one without submit button (multiple-forms-one-without-submit-button.html)",
+          "fail: form with button not calssified as submit (form-with-button-not-calssified-as-submit.html)",
+          "fail: form with perceivable submit button (form-with-perceivable-submit-button.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/form-with-hidden-submit-button.html",
+          "atomic-tests/pass/form-with-submit-button.html",
+          "atomic-tests/pass/form-with-submit-input.html",
+          "atomic-tests/pass/form-without-submit-button.html",
+          "atomic-tests/pass/multiple-forms-one-without-submit-button.html",
+          "atomic-tests/fail/form-with-button-not-calssified-as-submit.html",
+          "atomic-tests/fail/form-with-perceivable-submit-button.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 5,
+        "fail": 2,
+        "total": 7
+      }
+    }
+  },
+  {
+    "key": "header-navigation-discernible",
+    "action": "create",
+    "ruleId": "header-navigation-discernible",
+    "payload": {
+      "ruleId": "header-navigation-discernible",
+      "title": "Unified Engine: header-navigation-discernible — Header navigation should be labelled properly",
+      "description": "**Engine rule ID:** `header-navigation-discernible`\n**RAIDEN routes:** `/engine/header-navigation-discernible`, `/engine/header-navigation-discernible_success`, `/engine/header-navigation-discernible_failure`\n**Atomic tests:** `src/components/pages/engine-rules/header-navigation-discernible/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Header navigation elements should have text available for screen readers explaining that it is header navigation.\n**Remediation advice:** Add an aria-label to the header navigation elements\n**Fixtures:** 8 pass, 5 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `header-navigation-discernible` examples published at `/engine/header-navigation-discernible_success` and `/engine/header-navigation-discernible_failure`.\n5. **Fixture count:** 8 pass, 5 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "header-navigation-discernible"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/header-navigation-discernible` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → header-navigation-discernible.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/header-navigation-discernible\nruleId = header-navigation-discernible\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/header-navigation-discernible_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/header-navigation-discernible_success\npassFixtures = 8\natomic-tests/pass/header-div-labelledby-heading.html\natomic-tests/pass/header-div-with-role-banner-with-label.html\natomic-tests/pass/header-menu-div-role-banner-with-label.html\natomic-tests/pass/header-menu-with-aria-label.html\natomic-tests/pass/header-without-navigation.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/header-navigation-discernible_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/header-navigation-discernible_failure\nfailFixtures = 5\natomic-tests/fail/header-menu-div-role-banner-without-label.html\natomic-tests/fail/header-menu-without-aria-label.html\natomic-tests/fail/main-nav-should-be-skipped.html\natomic-tests/fail/multiple-headers-in-page-without-labels.html\natomic-tests/fail/multiple-navs-in-one-header-without-labels.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for header-navigation-discernible\n- pass/header-div-labelledby-heading.html → Passed node\n- pass/header-div-with-role-banner-with-label.html → Passed node\n- pass/header-menu-div-role-banner-with-label.html → Passed node\n- pass/header-menu-with-aria-label.html → Passed node\n- pass/header-without-navigation.html → Passed node\n- pass/multiple-headers-in-page-with-labels.html → Passed node\n- pass/multiple-navs-in-one-header-with-labels.html → Passed node\n- pass/skip-breadcrumb-nav.html → Passed node\n- fail/header-menu-div-role-banner-without-label.html → Failed node\n- fail/header-menu-without-aria-label.html → Failed node\n- fail/main-nav-should-be-skipped.html → Failed node\n- fail/multiple-headers-in-page-without-labels.html → Failed node\n- fail/multiple-navs-in-one-header-without-labels.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `header-navigation-discernible` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = header-navigation-discernible\nissueSource = RAIDEN examples at /engine/header-navigation-discernible_success and /engine/header-navigation-discernible_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: header div labelledby heading (header-div-labelledby-heading.html)",
+          "pass: header div with role banner with label (header-div-with-role-banner-with-label.html)",
+          "pass: header menu div role banner with label (header-menu-div-role-banner-with-label.html)",
+          "pass: header menu with aria label (header-menu-with-aria-label.html)",
+          "pass: header without navigation (header-without-navigation.html)",
+          "pass: multiple headers in page with labels (multiple-headers-in-page-with-labels.html)",
+          "pass: multiple navs in one header with labels (multiple-navs-in-one-header-with-labels.html)",
+          "pass: skip breadcrumb nav (skip-breadcrumb-nav.html)",
+          "fail: header menu div role banner without label (header-menu-div-role-banner-without-label.html)",
+          "fail: header menu without aria label (header-menu-without-aria-label.html)",
+          "fail: main nav should be skipped (main-nav-should-be-skipped.html)",
+          "fail: multiple headers in page without labels (multiple-headers-in-page-without-labels.html)",
+          "fail: multiple navs in one header without labels (multiple-navs-in-one-header-without-labels.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/header-div-labelledby-heading.html",
+          "atomic-tests/pass/header-div-with-role-banner-with-label.html",
+          "atomic-tests/pass/header-menu-div-role-banner-with-label.html",
+          "atomic-tests/pass/header-menu-with-aria-label.html",
+          "atomic-tests/pass/header-without-navigation.html",
+          "atomic-tests/pass/multiple-headers-in-page-with-labels.html",
+          "atomic-tests/pass/multiple-navs-in-one-header-with-labels.html",
+          "atomic-tests/pass/skip-breadcrumb-nav.html",
+          "atomic-tests/fail/header-menu-div-role-banner-without-label.html",
+          "atomic-tests/fail/header-menu-without-aria-label.html",
+          "atomic-tests/fail/main-nav-should-be-skipped.html",
+          "atomic-tests/fail/multiple-headers-in-page-without-labels.html",
+          "atomic-tests/fail/multiple-navs-in-one-header-without-labels.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 8,
+        "fail": 5,
+        "total": 13
+      }
+    }
+  },
+  {
+    "key": "heading-h1",
+    "action": "create",
+    "ruleId": "heading-h1",
+    "payload": {
+      "ruleId": "heading-h1",
+      "title": "Unified Engine: heading-h1 — Each page should have a main heading",
+      "description": "**Engine rule ID:** `heading-h1`\n**RAIDEN routes:** `/engine/heading-h1`, `/engine/heading-h1_success`, `/engine/heading-h1_failure`\n**Atomic tests:** `src/components/pages/engine-rules/heading-h1/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** There should be one h1 heading element that defines the subject of the main content on the page.\n**Remediation advice:** Add a h1 element at the start of the main content on the page.\n**Fixtures:** 5 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `heading-h1` examples published at `/engine/heading-h1_success` and `/engine/heading-h1_failure`.\n5. **Fixture count:** 5 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "heading-h1"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/heading-h1` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → heading-h1.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/heading-h1\nruleId = heading-h1\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/heading-h1_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/heading-h1_success\npassFixtures = 5\natomic-tests/pass/single-aria-level-1.html\natomic-tests/pass/single-h1-single-aria-level-1.html\natomic-tests/pass/single-h1-sr-only.html\natomic-tests/pass/single-h1.html\natomic-tests/pass/single-h2-aria-level-1.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/heading-h1_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/heading-h1_failure\nfailFixtures = 1\natomic-tests/fail/no-h1-no-aria-level-1.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for heading-h1\n- pass/single-aria-level-1.html → Passed node\n- pass/single-h1-single-aria-level-1.html → Passed node\n- pass/single-h1-sr-only.html → Passed node\n- pass/single-h1.html → Passed node\n- pass/single-h2-aria-level-1.html → Passed node\n- fail/no-h1-no-aria-level-1.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `heading-h1` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = heading-h1\nissueSource = RAIDEN examples at /engine/heading-h1_success and /engine/heading-h1_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: single aria level 1 (single-aria-level-1.html)",
+          "pass: single h1 single aria level 1 (single-h1-single-aria-level-1.html)",
+          "pass: single h1 sr only (single-h1-sr-only.html)",
+          "pass: single h1 (single-h1.html)",
+          "pass: single h2 aria level 1 (single-h2-aria-level-1.html)",
+          "fail: no h1 no aria level 1 (no-h1-no-aria-level-1.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/single-aria-level-1.html",
+          "atomic-tests/pass/single-h1-single-aria-level-1.html",
+          "atomic-tests/pass/single-h1-sr-only.html",
+          "atomic-tests/pass/single-h1.html",
+          "atomic-tests/pass/single-h2-aria-level-1.html",
+          "atomic-tests/fail/no-h1-no-aria-level-1.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 5,
+        "fail": 1,
+        "total": 6
+      }
+    }
+  }
+]

@@ -1,0 +1,452 @@
+[
+  {
+    "key": "table-not-nested",
+    "action": "create",
+    "ruleId": "table-not-nested",
+    "payload": {
+      "ruleId": "table-not-nested",
+      "title": "Unified Engine: table-not-nested — Tables should not be nested",
+      "description": "**Engine rule ID:** `table-not-nested`\n**RAIDEN routes:** `/engine/table-not-nested`, `/engine/table-not-nested_success`, `/engine/table-not-nested_failure`\n**Atomic tests:** `src/components/pages/engine-rules/table-not-nested/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Nested tables are often misinterpreted by screen readers, making it hard for users to follow the intended structure and meaning of the data.\n**Remediation advice:** Avoid nesting tables. Use separate tables with clear headings, and if tables are used for layout, assign role=\"presentation\" or role=\"none\" to each table element.\n**Fixtures:** 2 pass, 5 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `table-not-nested` examples published at `/engine/table-not-nested_success` and `/engine/table-not-nested_failure`.\n5. **Fixture count:** 2 pass, 5 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "table-not-nested"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/table-not-nested` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → table-not-nested.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/table-not-nested\nruleId = table-not-nested\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/table-not-nested_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/table-not-nested_success\npassFixtures = 2\natomic-tests/pass/table-not-nested-multi.html\natomic-tests/pass/table-not-nested.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/table-not-nested_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/table-not-nested_failure\nfailFixtures = 5\natomic-tests/fail/multi-table-nested-in-table.html\natomic-tests/fail/role-table-nested-in-role-table.html\natomic-tests/fail/role-table-nested-in-table.html\natomic-tests/fail/table-nested-in-role-table.html\natomic-tests/fail/table-nested-in-table.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for table-not-nested\n- pass/table-not-nested-multi.html → Passed node\n- pass/table-not-nested.html → Passed node\n- fail/multi-table-nested-in-table.html → Failed node\n- fail/role-table-nested-in-role-table.html → Failed node\n- fail/role-table-nested-in-table.html → Failed node\n- fail/table-nested-in-role-table.html → Failed node\n- fail/table-nested-in-table.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `table-not-nested` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = table-not-nested\nissueSource = RAIDEN examples at /engine/table-not-nested_success and /engine/table-not-nested_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: table not nested multi (table-not-nested-multi.html)",
+          "pass: table not nested (table-not-nested.html)",
+          "fail: multi table nested in table (multi-table-nested-in-table.html)",
+          "fail: role table nested in role table (role-table-nested-in-role-table.html)",
+          "fail: role table nested in table (role-table-nested-in-table.html)",
+          "fail: table nested in role table (table-nested-in-role-table.html)",
+          "fail: table nested in table (table-nested-in-table.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/table-not-nested-multi.html",
+          "atomic-tests/pass/table-not-nested.html",
+          "atomic-tests/fail/multi-table-nested-in-table.html",
+          "atomic-tests/fail/role-table-nested-in-role-table.html",
+          "atomic-tests/fail/role-table-nested-in-table.html",
+          "atomic-tests/fail/table-nested-in-role-table.html",
+          "atomic-tests/fail/table-nested-in-table.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 2,
+        "fail": 5,
+        "total": 7
+      }
+    }
+  },
+  {
+    "key": "text-spacing-line-height",
+    "action": "create",
+    "ruleId": "text-spacing-line-height",
+    "payload": {
+      "ruleId": "text-spacing-line-height",
+      "title": "Unified Engine: text-spacing-line-height — Line height should scale to at least 1.5 times the font size without loss of content or functionality",
+      "description": "**Engine rule ID:** `text-spacing-line-height`\n**RAIDEN routes:** `/engine/text-spacing-line-height`, `/engine/text-spacing-line-height_success`, `/engine/text-spacing-line-height_failure`\n**Atomic tests:** `src/components/pages/engine-rules/text-spacing-line-height/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** When line height is increased to 1.5 times the font size, text may be clipped, overlap, or overflow its container if styles like fixed heights, fixed widths, hidden overflow, or absolute positioning prevent proper reflow\n**Remediation advice:** Use flexible heights and widths, position elements in ways that allow text reflow, enable text wrapping, and avoid hidden overflow to make sure content remains readable when line spacing is scaled to 1.5 times the font size.\n**Fixtures:** 2 pass, 2 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `text-spacing-line-height` examples published at `/engine/text-spacing-line-height_success` and `/engine/text-spacing-line-height_failure`.\n5. **Fixture count:** 2 pass, 2 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 5,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "text-spacing-line-height"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/text-spacing-line-height` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`minor`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → text-spacing-line-height.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/text-spacing-line-height\nruleId = text-spacing-line-height\nimpact = minor",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/text-spacing-line-height_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/text-spacing-line-height_success\npassFixtures = 2\natomic-tests/pass/font-size-to-line-height-ratio-of-1.5-nested-element.html\natomic-tests/pass/font-size-to-line-height-ratio-of-1.5.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/text-spacing-line-height_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/text-spacing-line-height_failure\nfailFixtures = 2\natomic-tests/fail/font-size-to-line-height-ratio-of-1-nested-element.html\natomic-tests/fail/font-size-to-line-height-ratio-of-1.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for text-spacing-line-height\n- pass/font-size-to-line-height-ratio-of-1.5-nested-element.html → Passed node\n- pass/font-size-to-line-height-ratio-of-1.5.html → Passed node\n- fail/font-size-to-line-height-ratio-of-1-nested-element.html → Failed node\n- fail/font-size-to-line-height-ratio-of-1.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `text-spacing-line-height` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = text-spacing-line-height\nissueSource = RAIDEN examples at /engine/text-spacing-line-height_success and /engine/text-spacing-line-height_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: font size to line height ratio of 1.5 nested element (font-size-to-line-height-ratio-of-1.5-nested-element.html)",
+          "pass: font size to line height ratio of 1.5 (font-size-to-line-height-ratio-of-1.5.html)",
+          "fail: font size to line height ratio of 1 nested element (font-size-to-line-height-ratio-of-1-nested-element.html)",
+          "fail: font size to line height ratio of 1 (font-size-to-line-height-ratio-of-1.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/font-size-to-line-height-ratio-of-1.5-nested-element.html",
+          "atomic-tests/pass/font-size-to-line-height-ratio-of-1.5.html",
+          "atomic-tests/fail/font-size-to-line-height-ratio-of-1-nested-element.html",
+          "atomic-tests/fail/font-size-to-line-height-ratio-of-1.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 2,
+        "fail": 2,
+        "total": 4
+      }
+    }
+  },
+  {
+    "key": "text-spacing-paragraph-spacing",
+    "action": "create",
+    "ruleId": "text-spacing-paragraph-spacing",
+    "payload": {
+      "ruleId": "text-spacing-paragraph-spacing",
+      "title": "Unified Engine: text-spacing-paragraph-spacing — text-spacing-paragraph-spacing",
+      "description": "**Engine rule ID:** `text-spacing-paragraph-spacing`\n**RAIDEN routes:** `/engine/text-spacing-paragraph-spacing`, `/engine/text-spacing-paragraph-spacing_success`, `/engine/text-spacing-paragraph-spacing_failure`\n**Atomic tests:** `src/components/pages/engine-rules/text-spacing-paragraph-spacing/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Fixtures:** 0 pass, 0 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `text-spacing-paragraph-spacing` examples published at `/engine/text-spacing-paragraph-spacing_success` and `/engine/text-spacing-paragraph-spacing_failure`.\n5. **Fixture count:** 0 pass, 0 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "text-spacing-paragraph-spacing"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/text-spacing-paragraph-spacing` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`medium`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → text-spacing-paragraph-spacing.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/text-spacing-paragraph-spacing\nruleId = text-spacing-paragraph-spacing\nimpact = medium",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/text-spacing-paragraph-spacing_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/text-spacing-paragraph-spacing_success\npassFixtures = 0",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/text-spacing-paragraph-spacing_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/text-spacing-paragraph-spacing_failure\nfailFixtures = 0",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for text-spacing-paragraph-spacing\n- No atomic fixtures (metadata-only rule)",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `text-spacing-paragraph-spacing` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = text-spacing-paragraph-spacing\nissueSource = RAIDEN examples at /engine/text-spacing-paragraph-spacing_success and /engine/text-spacing-paragraph-spacing_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "metadata-only: no atomic fixtures"
+        ],
+        "fixturePath": [
+          "n/a"
+        ],
+        "expectedResult": [
+          "Manual review required"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 0,
+        "fail": 0,
+        "total": 0
+      }
+    }
+  },
+  {
+    "key": "text-spacing-word-spacing",
+    "action": "create",
+    "ruleId": "text-spacing-word-spacing",
+    "payload": {
+      "ruleId": "text-spacing-word-spacing",
+      "title": "Unified Engine: text-spacing-word-spacing — Word spacing should scale to at least 0.16 times the font size without loss of content or functionality",
+      "description": "**Engine rule ID:** `text-spacing-word-spacing`\n**RAIDEN routes:** `/engine/text-spacing-word-spacing`, `/engine/text-spacing-word-spacing_success`, `/engine/text-spacing-word-spacing_failure`\n**Atomic tests:** `src/components/pages/engine-rules/text-spacing-word-spacing/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** When word spacing is increased to 0.16 times the font size, text may be clipped, overlap, or overflow its container if styles like fixed heights, fixed widths, hidden overflow, forced no-wrap, or absolute positioning prevent proper reflow.\n**Remediation advice:** Use flexible heights and widths, position elements in ways that allow text reflow, enable text wrapping, and avoid hidden overflow to ensure content remains readable when word spacing is scaled to 0.16 times the font size.\n**Fixtures:** 2 pass, 2 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `text-spacing-word-spacing` examples published at `/engine/text-spacing-word-spacing_success` and `/engine/text-spacing-word-spacing_failure`.\n5. **Fixture count:** 2 pass, 2 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 5,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "text-spacing-word-spacing"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/text-spacing-word-spacing` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`minor`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → text-spacing-word-spacing.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/text-spacing-word-spacing\nruleId = text-spacing-word-spacing\nimpact = minor",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/text-spacing-word-spacing_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/text-spacing-word-spacing_success\npassFixtures = 2\natomic-tests/pass/font-size-to-word-spacing-ratio-of-0.2-nested-element.html\natomic-tests/pass/font-size-to-word-spacing-ratio-of-0.2.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/text-spacing-word-spacing_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/text-spacing-word-spacing_failure\nfailFixtures = 2\natomic-tests/fail/font-size-to-word-spacing-ratio-of-0.1-nested-element.html\natomic-tests/fail/font-size-to-word-spacing-ratio-of-0.1.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for text-spacing-word-spacing\n- pass/font-size-to-word-spacing-ratio-of-0.2-nested-element.html → Passed node\n- pass/font-size-to-word-spacing-ratio-of-0.2.html → Passed node\n- fail/font-size-to-word-spacing-ratio-of-0.1-nested-element.html → Failed node\n- fail/font-size-to-word-spacing-ratio-of-0.1.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `text-spacing-word-spacing` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = text-spacing-word-spacing\nissueSource = RAIDEN examples at /engine/text-spacing-word-spacing_success and /engine/text-spacing-word-spacing_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: font size to word spacing ratio of 0.2 nested element (font-size-to-word-spacing-ratio-of-0.2-nested-element.html)",
+          "pass: font size to word spacing ratio of 0.2 (font-size-to-word-spacing-ratio-of-0.2.html)",
+          "fail: font size to word spacing ratio of 0.1 nested element (font-size-to-word-spacing-ratio-of-0.1-nested-element.html)",
+          "fail: font size to word spacing ratio of 0.1 (font-size-to-word-spacing-ratio-of-0.1.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/font-size-to-word-spacing-ratio-of-0.2-nested-element.html",
+          "atomic-tests/pass/font-size-to-word-spacing-ratio-of-0.2.html",
+          "atomic-tests/fail/font-size-to-word-spacing-ratio-of-0.1-nested-element.html",
+          "atomic-tests/fail/font-size-to-word-spacing-ratio-of-0.1.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 2,
+        "fail": 2,
+        "total": 4
+      }
+    }
+  },
+  {
+    "key": "toggle-button-correct-state",
+    "action": "create",
+    "ruleId": "toggle-button-correct-state",
+    "payload": {
+      "ruleId": "toggle-button-correct-state",
+      "title": "Unified Engine: toggle-button-correct-state — The state of toggle buttons should be accurate",
+      "description": "**Engine rule ID:** `toggle-button-correct-state`\n**RAIDEN routes:** `/engine/toggle-button-correct-state`, `/engine/toggle-button-correct-state_success`, `/engine/toggle-button-correct-state_failure`\n**Atomic tests:** `src/components/pages/engine-rules/toggle-button-correct-state/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** If the exposed state of a toggle button is not accurate, screen reader users may not know whether it is active or inactive, leading to confusion and unintended actions.\n**Remediation advice:** Make sure the value of aria-pressed represents the visible state of the control.\n**Fixtures:** 2 pass, 2 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `toggle-button-correct-state` examples published at `/engine/toggle-button-correct-state_success` and `/engine/toggle-button-correct-state_failure`.\n5. **Fixture count:** 2 pass, 2 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "toggle-button-correct-state"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/toggle-button-correct-state` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → toggle-button-correct-state.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/toggle-button-correct-state\nruleId = toggle-button-correct-state\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/toggle-button-correct-state_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/toggle-button-correct-state_success\npassFixtures = 2\natomic-tests/pass/button-toggle-class-context--aria-pressed.html\natomic-tests/pass/button-toggle-context--aria-pressed.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/toggle-button-correct-state_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/toggle-button-correct-state_failure\nfailFixtures = 2\natomic-tests/fail/button-toggle-context--no-aria-pressed.html\natomic-tests/fail/button-toggle-context--wrong-aria-pressed.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for toggle-button-correct-state\n- pass/button-toggle-class-context--aria-pressed.html → Passed node\n- pass/button-toggle-context--aria-pressed.html → Passed node\n- fail/button-toggle-context--no-aria-pressed.html → Failed node\n- fail/button-toggle-context--wrong-aria-pressed.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `toggle-button-correct-state` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = toggle-button-correct-state\nissueSource = RAIDEN examples at /engine/toggle-button-correct-state_success and /engine/toggle-button-correct-state_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: button toggle class context  aria pressed (button-toggle-class-context--aria-pressed.html)",
+          "pass: button toggle context  aria pressed (button-toggle-context--aria-pressed.html)",
+          "fail: button toggle context  no aria pressed (button-toggle-context--no-aria-pressed.html)",
+          "fail: button toggle context  wrong aria pressed (button-toggle-context--wrong-aria-pressed.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/button-toggle-class-context--aria-pressed.html",
+          "atomic-tests/pass/button-toggle-context--aria-pressed.html",
+          "atomic-tests/fail/button-toggle-context--no-aria-pressed.html",
+          "atomic-tests/fail/button-toggle-context--wrong-aria-pressed.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 2,
+        "fail": 2,
+        "total": 4
+      }
+    }
+  }
+]

@@ -1,0 +1,578 @@
+[
+  {
+    "key": "table-row-header",
+    "action": "update",
+    "id": 2976,
+    "ruleId": "table-row-header",
+    "changes": {
+      "title": {
+        "from": "accessFlow-Engine Integration:  Row Table Headers",
+        "to": "Unified Engine: table-row-header — Table row headers should be tagged for assistive technology"
+      },
+      "description": {
+        "from": "Testing the accessFlow-Unified engine integration, focusing on the rule",
+        "to": "**Engine rule ID:** `table-row-header`\n**RAIDEN routes:** `/engine/table-row-header`, `/engine/table-row-header_success`, `/engine/table-row-header_failure`\n**Atomic tests:** `src/components/pages/engine-rules/table-row-header/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** If a table row header is not marked up with the correct role or scope, screen reader users cannot determine which header applies to each cell.\n**Remediation advice:** Use <th scope=\"row\"> or assign role=\"rowheader\" when building custom tables. Make sure each data cell is programmatically associated with the correct header so relationships are clear to assistive technology.\n**Fixtures:** 3 pass, 3 fail"
+      },
+      "preconditions": {
+        "from": "1. An valid env of accessFlow\n2. access to the DB/Ekla",
+        "to": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `table-row-header` examples published at `/engine/table-row-header_success` and `/engine/table-row-header_failure`.\n5. **Fixture count:** 3 pass, 3 fail atomic HTML files."
+      },
+      "postconditions": {
+        "from": null,
+        "to": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes."
+      },
+      "severity": {
+        "from": 0,
+        "to": 2
+      },
+      "type": {
+        "from": 1,
+        "to": 8
+      },
+      "behavior": {
+        "from": 1,
+        "to": 2
+      },
+      "automation": {
+        "from": 0,
+        "to": 1
+      },
+      "status": {
+        "from": 0,
+        "to": 3
+      },
+      "tags": {
+        "from": [
+          "unified-engine"
+        ],
+        "to": [
+          "unified-engine",
+          "e2e",
+          "engine",
+          "audit",
+          "regression",
+          "table-row-header"
+        ]
+      },
+      "steps": {
+        "from": [
+          {
+            "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+            "expected_result": "The website will be ready for testing this scenario",
+            "data": "",
+            "attachments": []
+          },
+          {
+            "action": "###### Auditor: Run on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the tool</span>",
+            "expected_result": "The auditor will report all the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website",
+            "data": "",
+            "attachments": []
+          },
+          {
+            "action": "###### accessFlow+engine: Run a scan on the website with this scenario\n\n<span style=\"color:var(--md-font-color-failed)\">QA TODO: Add the steps on how to trigger the scan normally through accessFlow</span>",
+            "expected_result": "accesFlow will report on the **<span style=\"color:var(--md-font-color-passed)\">passed</span>** nodes/**<span style=\"color:var(--md-font-color-failed)\">failed</span>** nodes on the website, aligned with the auditor",
+            "data": "",
+            "attachments": []
+          }
+        ],
+        "to": [
+          {
+            "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/table-row-header` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → table-row-header.",
+            "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+            "data": "Data:\nBASE_URL/engine/table-row-header\nruleId = table-row-header\nimpact = critical",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/table-row-header_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+            "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+            "data": "Data:\nBASE_URL/engine/table-row-header_success\npassFixtures = 3\natomic-tests/pass/table-role-with-correct-roles.html\natomic-tests/pass/table-row-headers-with-correct-tagging-multiple-tables.html\natomic-tests/pass/table-row-headers-with-correct-tagging.html",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/table-row-header_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+            "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+            "data": "Data:\nBASE_URL/engine/table-row-header_failure\nfailFixtures = 3\natomic-tests/fail/table-roles-styled-row-headers-with-role-cell.html\natomic-tests/fail/table-styled-row-headers-tagged-as-td-in-tbody.html\natomic-tests/fail/table-styled-row-headers-tagged-as-td-no-tbody.html",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+            "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+            "data": "Data:\ntestedClass from index.ts for table-row-header\n- pass/table-role-with-correct-roles.html → Passed node\n- pass/table-row-headers-with-correct-tagging-multiple-tables.html → Passed node\n- pass/table-row-headers-with-correct-tagging.html → Passed node\n- fail/table-roles-styled-row-headers-with-role-cell.html → Failed node\n- fail/table-styled-row-headers-tagged-as-td-in-tbody.html → Failed node\n- fail/table-styled-row-headers-tagged-as-td-no-tbody.html → Failed node",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `table-row-header` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+            "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+            "data": "Data:\nruleId = table-row-header\nissueSource = RAIDEN examples at /engine/table-row-header_success and /engine/table-row-header_failure",
+            "attachments": []
+          }
+        ]
+      },
+      "params": {
+        "from": {
+          "scenario": [
+            "TBD",
+            "Adding   <td role=\"rowheader\">I'm a row header</td>",
+            "<li class=\"list-item\" id=\"rowTableHeaders-success-2\">",
+            "Without   <td role=\"rowheader\">I'm a row header</td>"
+          ],
+          "expectedResult": [
+            "neutral",
+            "Passed node",
+            "Passed node",
+            "Failed node"
+          ]
+        },
+        "to": {
+          "scenario": [
+            "pass: table role with correct roles (table-role-with-correct-roles.html)",
+            "pass: table row headers with correct tagging multiple tables (table-row-headers-with-correct-tagging-multiple-tables.html)",
+            "pass: table row headers with correct tagging (table-row-headers-with-correct-tagging.html)",
+            "fail: table roles styled row headers with role cell (table-roles-styled-row-headers-with-role-cell.html)",
+            "fail: table styled row headers tagged as td in tbody (table-styled-row-headers-tagged-as-td-in-tbody.html)",
+            "fail: table styled row headers tagged as td no tbody (table-styled-row-headers-tagged-as-td-no-tbody.html)"
+          ],
+          "fixturePath": [
+            "atomic-tests/pass/table-role-with-correct-roles.html",
+            "atomic-tests/pass/table-row-headers-with-correct-tagging-multiple-tables.html",
+            "atomic-tests/pass/table-row-headers-with-correct-tagging.html",
+            "atomic-tests/fail/table-roles-styled-row-headers-with-role-cell.html",
+            "atomic-tests/fail/table-styled-row-headers-tagged-as-td-in-tbody.html",
+            "atomic-tests/fail/table-styled-row-headers-tagged-as-td-no-tbody.html"
+          ],
+          "expectedResult": [
+            "Passed node",
+            "Passed node",
+            "Passed node",
+            "Failed node",
+            "Failed node",
+            "Failed node"
+          ]
+        }
+      }
+    },
+    "payload": {
+      "ruleId": "table-row-header",
+      "title": "Unified Engine: table-row-header — Table row headers should be tagged for assistive technology",
+      "description": "**Engine rule ID:** `table-row-header`\n**RAIDEN routes:** `/engine/table-row-header`, `/engine/table-row-header_success`, `/engine/table-row-header_failure`\n**Atomic tests:** `src/components/pages/engine-rules/table-row-header/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** If a table row header is not marked up with the correct role or scope, screen reader users cannot determine which header applies to each cell.\n**Remediation advice:** Use <th scope=\"row\"> or assign role=\"rowheader\" when building custom tables. Make sure each data cell is programmatically associated with the correct header so relationships are clear to assistive technology.\n**Fixtures:** 3 pass, 3 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `table-row-header` examples published at `/engine/table-row-header_success` and `/engine/table-row-header_failure`.\n5. **Fixture count:** 3 pass, 3 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "table-row-header"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/table-row-header` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → table-row-header.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/table-row-header\nruleId = table-row-header\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/table-row-header_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/table-row-header_success\npassFixtures = 3\natomic-tests/pass/table-role-with-correct-roles.html\natomic-tests/pass/table-row-headers-with-correct-tagging-multiple-tables.html\natomic-tests/pass/table-row-headers-with-correct-tagging.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/table-row-header_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/table-row-header_failure\nfailFixtures = 3\natomic-tests/fail/table-roles-styled-row-headers-with-role-cell.html\natomic-tests/fail/table-styled-row-headers-tagged-as-td-in-tbody.html\natomic-tests/fail/table-styled-row-headers-tagged-as-td-no-tbody.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for table-row-header\n- pass/table-role-with-correct-roles.html → Passed node\n- pass/table-row-headers-with-correct-tagging-multiple-tables.html → Passed node\n- pass/table-row-headers-with-correct-tagging.html → Passed node\n- fail/table-roles-styled-row-headers-with-role-cell.html → Failed node\n- fail/table-styled-row-headers-tagged-as-td-in-tbody.html → Failed node\n- fail/table-styled-row-headers-tagged-as-td-no-tbody.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `table-row-header` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = table-row-header\nissueSource = RAIDEN examples at /engine/table-row-header_success and /engine/table-row-header_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: table role with correct roles (table-role-with-correct-roles.html)",
+          "pass: table row headers with correct tagging multiple tables (table-row-headers-with-correct-tagging-multiple-tables.html)",
+          "pass: table row headers with correct tagging (table-row-headers-with-correct-tagging.html)",
+          "fail: table roles styled row headers with role cell (table-roles-styled-row-headers-with-role-cell.html)",
+          "fail: table styled row headers tagged as td in tbody (table-styled-row-headers-tagged-as-td-in-tbody.html)",
+          "fail: table styled row headers tagged as td no tbody (table-styled-row-headers-tagged-as-td-no-tbody.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/table-role-with-correct-roles.html",
+          "atomic-tests/pass/table-row-headers-with-correct-tagging-multiple-tables.html",
+          "atomic-tests/pass/table-row-headers-with-correct-tagging.html",
+          "atomic-tests/fail/table-roles-styled-row-headers-with-role-cell.html",
+          "atomic-tests/fail/table-styled-row-headers-tagged-as-td-in-tbody.html",
+          "atomic-tests/fail/table-styled-row-headers-tagged-as-td-no-tbody.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 3,
+        "fail": 3,
+        "total": 6
+      }
+    }
+  },
+  {
+    "key": "visibility-misuse",
+    "action": "update",
+    "id": 3333,
+    "ruleId": "visibility-misuse",
+    "changes": {
+      "title": {
+        "from": "accessflow-engine integration: Fake Hidden Content / visibility-misuse",
+        "to": "Unified Engine: visibility-misuse — Visibly hidden content should not be exposed to assistive technology"
+      },
+      "description": {
+        "from": "Testing the behavior of the rule *\"Fake Hidden Content\"* and the unified engine compatability",
+        "to": "**Engine rule ID:** `visibility-misuse`\n**RAIDEN routes:** `/engine/visibility-misuse`, `/engine/visibility-misuse_success`, `/engine/visibility-misuse_failure`\n**Atomic tests:** `src/components/pages/engine-rules/visibility-misuse/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** When elements are visually hidden but still exposed to assistive technology, screen reader users may encounter content that should not be available in the current interface. This can obscure the current state of the page and lead to confusion about what information or controls are available.\n**Remediation advice:** Use aria-hidden=\"true\" to remove elements from the accessibility tree when they should not be exposed to assistive technology. Consider using CSS techniques, such as display:none or visibility:hidden when the content should be hidden from all users.\n**Fixtures:** 15 pass, 6 fail"
+      },
+      "preconditions": {
+        "from": "**Load the example website:** [https://jayquake.github.io/#/errors/fake-hidden-content_failure](https://jayquake.github.io/#/errors/fake-hidden-content_failure)",
+        "to": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `visibility-misuse` examples published at `/engine/visibility-misuse_success` and `/engine/visibility-misuse_failure`.\n5. **Fixture count:** 15 pass, 6 fail atomic HTML files."
+      },
+      "postconditions": {
+        "from": null,
+        "to": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes."
+      },
+      "severity": {
+        "from": 0,
+        "to": 2
+      },
+      "type": {
+        "from": 1,
+        "to": 8
+      },
+      "layer": {
+        "from": 0,
+        "to": 1
+      },
+      "behavior": {
+        "from": 1,
+        "to": 2
+      },
+      "automation": {
+        "from": 0,
+        "to": 1
+      },
+      "status": {
+        "from": 0,
+        "to": 3
+      },
+      "tags": {
+        "from": [
+          "unified-engine"
+        ],
+        "to": [
+          "unified-engine",
+          "e2e",
+          "engine",
+          "audit",
+          "regression",
+          "visibility-misuse"
+        ]
+      },
+      "steps": {
+        "from": [
+          {
+            "action": "###### Setup the testing website per the scenario\n\n1. Find/build a website containing the given scenario, expecting the rule to pass/fail\n2. Publish the website/copy the URL",
+            "expected_result": "The website will be ready for testing this scenario",
+            "data": "",
+            "attachments": []
+          }
+        ],
+        "to": [
+          {
+            "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/visibility-misuse` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → visibility-misuse.",
+            "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+            "data": "Data:\nBASE_URL/engine/visibility-misuse\nruleId = visibility-misuse\nimpact = critical",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/visibility-misuse_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+            "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+            "data": "Data:\nBASE_URL/engine/visibility-misuse_success\npassFixtures = 15\natomic-tests/pass/div-clipped-content.html\natomic-tests/pass/div-opacity-0-position-absolute.html\natomic-tests/pass/div-position-absolute-left-negative-9999px.html\natomic-tests/pass/element-with-display-none.html\natomic-tests/pass/element-with-nested-sr-only-element.html",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/visibility-misuse_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+            "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+            "data": "Data:\nBASE_URL/engine/visibility-misuse_failure\nfailFixtures = 6\natomic-tests/fail/div-height-0-overflow-hidden.html\natomic-tests/fail/div-opacity-0.html\natomic-tests/fail/div-text-indent-negative-9999px.html\natomic-tests/fail/div-width-0-height-0-overflow-hidden.html\natomic-tests/fail/nested-invisible-elements.html",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+            "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+            "data": "Data:\ntestedClass from index.ts for visibility-misuse\n- pass/div-clipped-content.html → Passed node\n- pass/div-opacity-0-position-absolute.html → Passed node\n- pass/div-position-absolute-left-negative-9999px.html → Passed node\n- pass/element-with-display-none.html → Passed node\n- pass/element-with-nested-sr-only-element.html → Passed node\n- pass/element-with-sr-only-content.html → Passed node\n- pass/element-with-visibility-hidden.html → Passed node\n- pass/empty-div.html → Passed node\n- pass/image-with-alt-no-src.html → Passed node\n- pass/nested-sr-only-element.html → Passed node\n- pass/out-of-screen-with-aria-hidden.html → Passed node\n- pass/out-of-viewport-element.html → Passed node\n- pass/visible-element-in-hidden-element.html → Passed node\n- pass/zero-opacity-with-aria-hidden.html → Passed node\n- pass/zoomed-out-element-to-invisible-size.html → Passed node\n- fail/div-height-0-overflow-hidden.html → Failed node\n- fail/div-opacity-0.html → Failed node\n- fail/div-text-indent-negative-9999px.html → Failed node\n- fail/div-width-0-height-0-overflow-hidden.html → Failed node\n- fail/nested-invisible-elements.html → Failed node\n- fail/zero-opacity-element.html → Failed node",
+            "attachments": []
+          },
+          {
+            "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `visibility-misuse` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+            "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+            "data": "Data:\nruleId = visibility-misuse\nissueSource = RAIDEN examples at /engine/visibility-misuse_success and /engine/visibility-misuse_failure",
+            "attachments": []
+          }
+        ]
+      },
+      "params": {
+        "from": {
+          "Scenario": [
+            "Popup content is visible but marked hidden.",
+            "Modal content is hidden visually but not for assistive tech.",
+            "No visible space, but still accessible.",
+            "Just cause the class is \"hidden\" doesnt mean that the element is hidden from screen readers"
+          ],
+          "HTML": [
+            "<div class=\"list-item\" id=\"fake-hidden-failure-1\"><div class=\"popup\" aria-hidden=\"true\"></div></div>",
+            "<div class=\"list-item\" id=\"fake-hidden-failure-12\"><button>Close Modal</button><div id=\"modal\" style=\"display: none;\"></div></div>",
+            "<div class=\"list-item\" id=\"fake-hidden-failure-11\"><div style=\"width: 0px; height: 0px;\"><p>No visible space, but still accessible.</p></div></div>",
+            "<div class=\"list-item\" id=\"fake-hidden-failure-6\"><ul class=\"hidden\"><li>Option 1</li><li>Option 2</li></ul></div>"
+          ],
+          "Expected": [
+            "Failure",
+            "**Failure Reason:** `display: none` is applied dynamically, but `aria-hidden=\"true\"` should also be added to ensure full removal from screen readers.",
+            "**Failure Reason:** Content with zero width and height is still read by assistive tech.",
+            ">**Failure Reason:** Class-based hiding methods (`hidden`) do not necessarily remove content from screen readers. Proper `aria-hidden=\"true\"` or `display: none` should be used."
+          ]
+        },
+        "to": {
+          "scenario": [
+            "pass: div clipped content (div-clipped-content.html)",
+            "pass: div opacity 0 position absolute (div-opacity-0-position-absolute.html)",
+            "pass: div position absolute left negative 9999px (div-position-absolute-left-negative-9999px.html)",
+            "pass: element with display none (element-with-display-none.html)",
+            "pass: element with nested sr only element (element-with-nested-sr-only-element.html)",
+            "pass: element with sr only content (element-with-sr-only-content.html)",
+            "pass: element with visibility hidden (element-with-visibility-hidden.html)",
+            "pass: empty div (empty-div.html)",
+            "pass: image with alt no src (image-with-alt-no-src.html)",
+            "pass: nested sr only element (nested-sr-only-element.html)",
+            "pass: out of screen with aria hidden (out-of-screen-with-aria-hidden.html)",
+            "pass: out of viewport element (out-of-viewport-element.html)",
+            "pass: visible element in hidden element (visible-element-in-hidden-element.html)",
+            "pass: zero opacity with aria hidden (zero-opacity-with-aria-hidden.html)",
+            "pass: zoomed out element to invisible size (zoomed-out-element-to-invisible-size.html)",
+            "fail: div height 0 overflow hidden (div-height-0-overflow-hidden.html)",
+            "fail: div opacity 0 (div-opacity-0.html)",
+            "fail: div text indent negative 9999px (div-text-indent-negative-9999px.html)",
+            "fail: div width 0 height 0 overflow hidden (div-width-0-height-0-overflow-hidden.html)",
+            "fail: nested invisible elements (nested-invisible-elements.html)",
+            "fail: zero opacity element (zero-opacity-element.html)"
+          ],
+          "fixturePath": [
+            "atomic-tests/pass/div-clipped-content.html",
+            "atomic-tests/pass/div-opacity-0-position-absolute.html",
+            "atomic-tests/pass/div-position-absolute-left-negative-9999px.html",
+            "atomic-tests/pass/element-with-display-none.html",
+            "atomic-tests/pass/element-with-nested-sr-only-element.html",
+            "atomic-tests/pass/element-with-sr-only-content.html",
+            "atomic-tests/pass/element-with-visibility-hidden.html",
+            "atomic-tests/pass/empty-div.html",
+            "atomic-tests/pass/image-with-alt-no-src.html",
+            "atomic-tests/pass/nested-sr-only-element.html",
+            "atomic-tests/pass/out-of-screen-with-aria-hidden.html",
+            "atomic-tests/pass/out-of-viewport-element.html",
+            "atomic-tests/pass/visible-element-in-hidden-element.html",
+            "atomic-tests/pass/zero-opacity-with-aria-hidden.html",
+            "atomic-tests/pass/zoomed-out-element-to-invisible-size.html",
+            "atomic-tests/fail/div-height-0-overflow-hidden.html",
+            "atomic-tests/fail/div-opacity-0.html",
+            "atomic-tests/fail/div-text-indent-negative-9999px.html",
+            "atomic-tests/fail/div-width-0-height-0-overflow-hidden.html",
+            "atomic-tests/fail/nested-invisible-elements.html",
+            "atomic-tests/fail/zero-opacity-element.html"
+          ],
+          "expectedResult": [
+            "Passed node",
+            "Passed node",
+            "Passed node",
+            "Passed node",
+            "Passed node",
+            "Passed node",
+            "Passed node",
+            "Passed node",
+            "Passed node",
+            "Passed node",
+            "Passed node",
+            "Passed node",
+            "Passed node",
+            "Passed node",
+            "Passed node",
+            "Failed node",
+            "Failed node",
+            "Failed node",
+            "Failed node",
+            "Failed node",
+            "Failed node"
+          ]
+        }
+      }
+    },
+    "payload": {
+      "ruleId": "visibility-misuse",
+      "title": "Unified Engine: visibility-misuse — Visibly hidden content should not be exposed to assistive technology",
+      "description": "**Engine rule ID:** `visibility-misuse`\n**RAIDEN routes:** `/engine/visibility-misuse`, `/engine/visibility-misuse_success`, `/engine/visibility-misuse_failure`\n**Atomic tests:** `src/components/pages/engine-rules/visibility-misuse/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** When elements are visually hidden but still exposed to assistive technology, screen reader users may encounter content that should not be available in the current interface. This can obscure the current state of the page and lead to confusion about what information or controls are available.\n**Remediation advice:** Use aria-hidden=\"true\" to remove elements from the accessibility tree when they should not be exposed to assistive technology. Consider using CSS techniques, such as display:none or visibility:hidden when the content should be hidden from all users.\n**Fixtures:** 15 pass, 6 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `visibility-misuse` examples published at `/engine/visibility-misuse_success` and `/engine/visibility-misuse_failure`.\n5. **Fixture count:** 15 pass, 6 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "visibility-misuse"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/visibility-misuse` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → visibility-misuse.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/visibility-misuse\nruleId = visibility-misuse\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/visibility-misuse_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/visibility-misuse_success\npassFixtures = 15\natomic-tests/pass/div-clipped-content.html\natomic-tests/pass/div-opacity-0-position-absolute.html\natomic-tests/pass/div-position-absolute-left-negative-9999px.html\natomic-tests/pass/element-with-display-none.html\natomic-tests/pass/element-with-nested-sr-only-element.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/visibility-misuse_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/visibility-misuse_failure\nfailFixtures = 6\natomic-tests/fail/div-height-0-overflow-hidden.html\natomic-tests/fail/div-opacity-0.html\natomic-tests/fail/div-text-indent-negative-9999px.html\natomic-tests/fail/div-width-0-height-0-overflow-hidden.html\natomic-tests/fail/nested-invisible-elements.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for visibility-misuse\n- pass/div-clipped-content.html → Passed node\n- pass/div-opacity-0-position-absolute.html → Passed node\n- pass/div-position-absolute-left-negative-9999px.html → Passed node\n- pass/element-with-display-none.html → Passed node\n- pass/element-with-nested-sr-only-element.html → Passed node\n- pass/element-with-sr-only-content.html → Passed node\n- pass/element-with-visibility-hidden.html → Passed node\n- pass/empty-div.html → Passed node\n- pass/image-with-alt-no-src.html → Passed node\n- pass/nested-sr-only-element.html → Passed node\n- pass/out-of-screen-with-aria-hidden.html → Passed node\n- pass/out-of-viewport-element.html → Passed node\n- pass/visible-element-in-hidden-element.html → Passed node\n- pass/zero-opacity-with-aria-hidden.html → Passed node\n- pass/zoomed-out-element-to-invisible-size.html → Passed node\n- fail/div-height-0-overflow-hidden.html → Failed node\n- fail/div-opacity-0.html → Failed node\n- fail/div-text-indent-negative-9999px.html → Failed node\n- fail/div-width-0-height-0-overflow-hidden.html → Failed node\n- fail/nested-invisible-elements.html → Failed node\n- fail/zero-opacity-element.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `visibility-misuse` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = visibility-misuse\nissueSource = RAIDEN examples at /engine/visibility-misuse_success and /engine/visibility-misuse_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: div clipped content (div-clipped-content.html)",
+          "pass: div opacity 0 position absolute (div-opacity-0-position-absolute.html)",
+          "pass: div position absolute left negative 9999px (div-position-absolute-left-negative-9999px.html)",
+          "pass: element with display none (element-with-display-none.html)",
+          "pass: element with nested sr only element (element-with-nested-sr-only-element.html)",
+          "pass: element with sr only content (element-with-sr-only-content.html)",
+          "pass: element with visibility hidden (element-with-visibility-hidden.html)",
+          "pass: empty div (empty-div.html)",
+          "pass: image with alt no src (image-with-alt-no-src.html)",
+          "pass: nested sr only element (nested-sr-only-element.html)",
+          "pass: out of screen with aria hidden (out-of-screen-with-aria-hidden.html)",
+          "pass: out of viewport element (out-of-viewport-element.html)",
+          "pass: visible element in hidden element (visible-element-in-hidden-element.html)",
+          "pass: zero opacity with aria hidden (zero-opacity-with-aria-hidden.html)",
+          "pass: zoomed out element to invisible size (zoomed-out-element-to-invisible-size.html)",
+          "fail: div height 0 overflow hidden (div-height-0-overflow-hidden.html)",
+          "fail: div opacity 0 (div-opacity-0.html)",
+          "fail: div text indent negative 9999px (div-text-indent-negative-9999px.html)",
+          "fail: div width 0 height 0 overflow hidden (div-width-0-height-0-overflow-hidden.html)",
+          "fail: nested invisible elements (nested-invisible-elements.html)",
+          "fail: zero opacity element (zero-opacity-element.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/div-clipped-content.html",
+          "atomic-tests/pass/div-opacity-0-position-absolute.html",
+          "atomic-tests/pass/div-position-absolute-left-negative-9999px.html",
+          "atomic-tests/pass/element-with-display-none.html",
+          "atomic-tests/pass/element-with-nested-sr-only-element.html",
+          "atomic-tests/pass/element-with-sr-only-content.html",
+          "atomic-tests/pass/element-with-visibility-hidden.html",
+          "atomic-tests/pass/empty-div.html",
+          "atomic-tests/pass/image-with-alt-no-src.html",
+          "atomic-tests/pass/nested-sr-only-element.html",
+          "atomic-tests/pass/out-of-screen-with-aria-hidden.html",
+          "atomic-tests/pass/out-of-viewport-element.html",
+          "atomic-tests/pass/visible-element-in-hidden-element.html",
+          "atomic-tests/pass/zero-opacity-with-aria-hidden.html",
+          "atomic-tests/pass/zoomed-out-element-to-invisible-size.html",
+          "atomic-tests/fail/div-height-0-overflow-hidden.html",
+          "atomic-tests/fail/div-opacity-0.html",
+          "atomic-tests/fail/div-text-indent-negative-9999px.html",
+          "atomic-tests/fail/div-width-0-height-0-overflow-hidden.html",
+          "atomic-tests/fail/nested-invisible-elements.html",
+          "atomic-tests/fail/zero-opacity-element.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 15,
+        "fail": 6,
+        "total": 21
+      }
+    }
+  }
+]

@@ -21,21 +21,23 @@ function capitalizeFirstLetter(string) {
 function getPageInfo(pathname) {
   const pathnames = pathname.split("/").filter(Boolean);
   if (pathnames.length === 0) {
-    return { title: "Engine Library", subtitle: `${ENGINE_RULE_COUNT} rules` };
+    return { title: "Engine Rules Library", subtitle: `${ENGINE_RULE_COUNT} rules` };
   }
 
   const current = pathnames[0];
 
+  if (current === "engine" && (pathnames[1]?.includes("_success") || pathnames[1]?.includes("_failure"))) {
+    return { title: "Engine Rule", subtitle: pathnames[1] || "Examples" };
+  }
   if (
     current === "engine" &&
-    !pathnames[1]?.includes("_success") &&
-    !pathnames[1]?.includes("_failure") &&
+    pathnames[1] &&
     pathnames[1] !== "library"
   ) {
-    return { title: "Engine Library", subtitle: `${ENGINE_RULE_COUNT} rules` };
+    return { title: "Engine Rule", subtitle: pathnames[1] };
   }
-  if (current === "engine") {
-    return { title: "Engine Rule", subtitle: pathnames[1] || "Detail" };
+  if (pathname === "/" || current === "engine") {
+    return { title: "Engine Rules Library", subtitle: `${ENGINE_RULE_COUNT} rules` };
   }
   if (current === "rule-lab") {
     return { title: "Rule Lab", subtitle: "Pattern analysis" };

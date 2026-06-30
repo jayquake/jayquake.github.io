@@ -12,25 +12,6 @@ import NavigationRoutes from "../components/pages/Criteria/Navigation/rules/navi
 import ReadabilityRoutes from "../components/pages/Criteria/Readability/rules/readabilityRoutes";
 import TablesRoutes from "../components/pages/Criteria/Tables/rules/tablesRoutes";
 
-const CRITERIA_PREFIXES = [
-  "/graphics",
-  "/forms",
-  "/keyboard",
-  "/navigation",
-  "/headings",
-  "/errors",
-  "/carousels",
-  "/clickables",
-  "/context",
-  "/document",
-  "/readability",
-  "/tables",
-];
-
-export function isCriteriaPath(pathname) {
-  return CRITERIA_PREFIXES.some((prefix) => pathname.startsWith(prefix));
-}
-
 /** All legacy criteria rule detail routes in one lazy-loaded chunk. */
 export default function CriteriaRoutesBundle() {
   return (

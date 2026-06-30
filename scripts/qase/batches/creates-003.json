@@ -1,0 +1,506 @@
+[
+  {
+    "key": "captcha-accessible-provider-2.0",
+    "action": "create",
+    "ruleId": "captcha-accessible-provider-2.0",
+    "payload": {
+      "ruleId": "captcha-accessible-provider-2.0",
+      "title": "Unified Engine: captcha-accessible-provider-2.0 — captcha-accessible-provider-2.0",
+      "description": "**Engine rule ID:** `captcha-accessible-provider-2.0`\n**RAIDEN routes:** `/engine/captcha-accessible-provider-2.0`, `/engine/captcha-accessible-provider-2.0_success`, `/engine/captcha-accessible-provider-2.0_failure`\n**Atomic tests:** `src/components/pages/engine-rules/captcha-accessible-provider-2.0/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Fixtures:** 6 pass, 1 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `captcha-accessible-provider-2.0` examples published at `/engine/captcha-accessible-provider-2.0_success` and `/engine/captcha-accessible-provider-2.0_failure`.\n5. **Fixture count:** 6 pass, 1 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "captcha-accessible-provider-2.0"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/captcha-accessible-provider-2.0` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`medium`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → captcha-accessible-provider-2.0.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/captcha-accessible-provider-2.0\nruleId = captcha-accessible-provider-2.0\nimpact = medium",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/captcha-accessible-provider-2.0_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/captcha-accessible-provider-2.0_success\npassFixtures = 6\natomic-tests/pass/form-cloudflare-turnstile.html\natomic-tests/pass/form-friendly-captcha.html\natomic-tests/pass/form-google-recaptcha.html\natomic-tests/pass/form-hcaptcha.html\natomic-tests/pass/form-nested-google-recaptcha.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/captcha-accessible-provider-2.0_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/captcha-accessible-provider-2.0_failure\nfailFixtures = 1\natomic-tests/fail/form-custom-captcha.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for captcha-accessible-provider-2.0\n- pass/form-cloudflare-turnstile.html → Passed node\n- pass/form-friendly-captcha.html → Passed node\n- pass/form-google-recaptcha.html → Passed node\n- pass/form-hcaptcha.html → Passed node\n- pass/form-nested-google-recaptcha.html → Passed node\n- pass/form-no-captcha.html → Passed node\n- fail/form-custom-captcha.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `captcha-accessible-provider-2.0` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = captcha-accessible-provider-2.0\nissueSource = RAIDEN examples at /engine/captcha-accessible-provider-2.0_success and /engine/captcha-accessible-provider-2.0_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: form cloudflare turnstile (form-cloudflare-turnstile.html)",
+          "pass: form friendly captcha (form-friendly-captcha.html)",
+          "pass: form google recaptcha (form-google-recaptcha.html)",
+          "pass: form hcaptcha (form-hcaptcha.html)",
+          "pass: form nested google recaptcha (form-nested-google-recaptcha.html)",
+          "pass: form no captcha (form-no-captcha.html)",
+          "fail: form custom captcha (form-custom-captcha.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/form-cloudflare-turnstile.html",
+          "atomic-tests/pass/form-friendly-captcha.html",
+          "atomic-tests/pass/form-google-recaptcha.html",
+          "atomic-tests/pass/form-hcaptcha.html",
+          "atomic-tests/pass/form-nested-google-recaptcha.html",
+          "atomic-tests/pass/form-no-captcha.html",
+          "atomic-tests/fail/form-custom-captcha.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 6,
+        "fail": 1,
+        "total": 7
+      }
+    }
+  },
+  {
+    "key": "captcha-accessible-provider-2.2",
+    "action": "create",
+    "ruleId": "captcha-accessible-provider-2.2",
+    "payload": {
+      "ruleId": "captcha-accessible-provider-2.2",
+      "title": "Unified Engine: captcha-accessible-provider-2.2 — captcha-accessible-provider-2.2",
+      "description": "**Engine rule ID:** `captcha-accessible-provider-2.2`\n**RAIDEN routes:** `/engine/captcha-accessible-provider-2.2`, `/engine/captcha-accessible-provider-2.2_success`, `/engine/captcha-accessible-provider-2.2_failure`\n**Atomic tests:** `src/components/pages/engine-rules/captcha-accessible-provider-2.2/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Fixtures:** 5 pass, 2 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `captcha-accessible-provider-2.2` examples published at `/engine/captcha-accessible-provider-2.2_success` and `/engine/captcha-accessible-provider-2.2_failure`.\n5. **Fixture count:** 5 pass, 2 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "captcha-accessible-provider-2.2"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/captcha-accessible-provider-2.2` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`medium`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → captcha-accessible-provider-2.2.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/captcha-accessible-provider-2.2\nruleId = captcha-accessible-provider-2.2\nimpact = medium",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/captcha-accessible-provider-2.2_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/captcha-accessible-provider-2.2_success\npassFixtures = 5\natomic-tests/pass/form-friendly-captcha.html\natomic-tests/pass/form-google-recaptcha.html\natomic-tests/pass/form-hcaptcha.html\natomic-tests/pass/form-nested-google-recaptcha.html\natomic-tests/pass/form-no-captcha.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/captcha-accessible-provider-2.2_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/captcha-accessible-provider-2.2_failure\nfailFixtures = 2\natomic-tests/fail/form-cloudflare-turnstile.html\natomic-tests/fail/form-custom-captcha.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for captcha-accessible-provider-2.2\n- pass/form-friendly-captcha.html → Passed node\n- pass/form-google-recaptcha.html → Passed node\n- pass/form-hcaptcha.html → Passed node\n- pass/form-nested-google-recaptcha.html → Passed node\n- pass/form-no-captcha.html → Passed node\n- fail/form-cloudflare-turnstile.html → Failed node\n- fail/form-custom-captcha.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `captcha-accessible-provider-2.2` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = captcha-accessible-provider-2.2\nissueSource = RAIDEN examples at /engine/captcha-accessible-provider-2.2_success and /engine/captcha-accessible-provider-2.2_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: form friendly captcha (form-friendly-captcha.html)",
+          "pass: form google recaptcha (form-google-recaptcha.html)",
+          "pass: form hcaptcha (form-hcaptcha.html)",
+          "pass: form nested google recaptcha (form-nested-google-recaptcha.html)",
+          "pass: form no captcha (form-no-captcha.html)",
+          "fail: form cloudflare turnstile (form-cloudflare-turnstile.html)",
+          "fail: form custom captcha (form-custom-captcha.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/form-friendly-captcha.html",
+          "atomic-tests/pass/form-google-recaptcha.html",
+          "atomic-tests/pass/form-hcaptcha.html",
+          "atomic-tests/pass/form-nested-google-recaptcha.html",
+          "atomic-tests/pass/form-no-captcha.html",
+          "atomic-tests/fail/form-cloudflare-turnstile.html",
+          "atomic-tests/fail/form-custom-captcha.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 5,
+        "fail": 2,
+        "total": 7
+      }
+    }
+  },
+  {
+    "key": "carousel-discernible",
+    "action": "create",
+    "ruleId": "carousel-discernible",
+    "payload": {
+      "ruleId": "carousel-discernible",
+      "title": "Unified Engine: carousel-discernible — Carousels should have a descriptive label",
+      "description": "**Engine rule ID:** `carousel-discernible`\n**RAIDEN routes:** `/engine/carousel-discernible`, `/engine/carousel-discernible_success`, `/engine/carousel-discernible_failure`\n**Atomic tests:** `src/components/pages/engine-rules/carousel-discernible/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Carousels need a label so assistive technology announces them with a clear name, such as “Featured products carousel”. This ensures screen reader users know the widget’s purpose and can differentiate it from other carousels on the page.\n**Remediation advice:** Provide a clear label for the carousel using aria-labelledby to reference a visible heading or assign aria-label to the carousel container.\n**Fixtures:** 5 pass, 2 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `carousel-discernible` examples published at `/engine/carousel-discernible_success` and `/engine/carousel-discernible_failure`.\n5. **Fixture count:** 5 pass, 2 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 5,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "carousel-discernible"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/carousel-discernible` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`minor`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → carousel-discernible.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/carousel-discernible\nruleId = carousel-discernible\nimpact = minor",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/carousel-discernible_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/carousel-discernible_success\npassFixtures = 5\natomic-tests/pass/972creative-carousels-with-discernible-text.html\natomic-tests/pass/amazon-carousel.html\natomic-tests/pass/carousel-correctly-tagged.html\natomic-tests/pass/carousel-element-aria-label-with-carousel.html\natomic-tests/pass/vuetifyjs-carousel.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/carousel-discernible_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/carousel-discernible_failure\nfailFixtures = 2\natomic-tests/fail/972creative-carousels.html\natomic-tests/fail/carousel-element-no-aria-label.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for carousel-discernible\n- pass/972creative-carousels-with-discernible-text.html → Passed node\n- pass/amazon-carousel.html → Passed node\n- pass/carousel-correctly-tagged.html → Passed node\n- pass/carousel-element-aria-label-with-carousel.html → Passed node\n- pass/vuetifyjs-carousel.html → Passed node\n- fail/972creative-carousels.html → Failed node\n- fail/carousel-element-no-aria-label.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `carousel-discernible` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = carousel-discernible\nissueSource = RAIDEN examples at /engine/carousel-discernible_success and /engine/carousel-discernible_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: 972creative carousels with discernible text (972creative-carousels-with-discernible-text.html)",
+          "pass: amazon carousel (amazon-carousel.html)",
+          "pass: carousel correctly tagged (carousel-correctly-tagged.html)",
+          "pass: carousel element aria label with carousel (carousel-element-aria-label-with-carousel.html)",
+          "pass: vuetifyjs carousel (vuetifyjs-carousel.html)",
+          "fail: 972creative carousels (972creative-carousels.html)",
+          "fail: carousel element no aria label (carousel-element-no-aria-label.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/972creative-carousels-with-discernible-text.html",
+          "atomic-tests/pass/amazon-carousel.html",
+          "atomic-tests/pass/carousel-correctly-tagged.html",
+          "atomic-tests/pass/carousel-element-aria-label-with-carousel.html",
+          "atomic-tests/pass/vuetifyjs-carousel.html",
+          "atomic-tests/fail/972creative-carousels.html",
+          "atomic-tests/fail/carousel-element-no-aria-label.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 5,
+        "fail": 2,
+        "total": 7
+      }
+    }
+  },
+  {
+    "key": "carousel-dragging-movements",
+    "action": "create",
+    "ruleId": "carousel-dragging-movements",
+    "payload": {
+      "ruleId": "carousel-dragging-movements",
+      "title": "Unified Engine: carousel-dragging-movements — Carousels that require dragging movements should provide alternative methods of operation with a single pointer",
+      "description": "**Engine rule ID:** `carousel-dragging-movements`\n**RAIDEN routes:** `/engine/carousel-dragging-movements`, `/engine/carousel-dragging-movements_success`, `/engine/carousel-dragging-movements_failure`\n**Atomic tests:** `src/components/pages/engine-rules/carousel-dragging-movements/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Carousels that require dragging movements should provide alternative methods of operation with a single pointer for example prev and next buttons or pagination.\n**Remediation advice:** The nodes in the failed nodes indicate that this carousel may not be operable with a single pointer. If this is the case, ensure that the carousel can be operated using a single pointer. For example, provide “Previous” and “Next” buttons to navigate between slides, or pagination controls that allow direct access to specific slides.\n**Fixtures:** 6 pass, 4 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `carousel-dragging-movements` examples published at `/engine/carousel-dragging-movements_success` and `/engine/carousel-dragging-movements_failure`.\n5. **Fixture count:** 6 pass, 4 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "carousel-dragging-movements"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/carousel-dragging-movements` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → carousel-dragging-movements.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/carousel-dragging-movements\nruleId = carousel-dragging-movements\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/carousel-dragging-movements_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/carousel-dragging-movements_success\npassFixtures = 6\natomic-tests/pass/slick-slider-big-screen.html\natomic-tests/pass/slick-slider-small-screen.html\natomic-tests/pass/slick-slider-with-prev-and-next-buttons.html\natomic-tests/pass/swiper-slider-with-custom-button.html\natomic-tests/pass/swiper-slider-with-pagination-prev-and-next-buttons.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/carousel-dragging-movements_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/carousel-dragging-movements_failure\nfailFixtures = 4\natomic-tests/fail/slick-slider-without-prev-and-next-buttons.html\natomic-tests/fail/swiper-slider-with-pagination-not-working.html\natomic-tests/fail/swiper-slider-without-pagination-prev-and-next-buttons.html\natomic-tests/fail/vertical-carousel.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for carousel-dragging-movements\n- pass/slick-slider-big-screen.html → Passed node\n- pass/slick-slider-small-screen.html → Passed node\n- pass/slick-slider-with-prev-and-next-buttons.html → Passed node\n- pass/swiper-slider-with-custom-button.html → Passed node\n- pass/swiper-slider-with-pagination-prev-and-next-buttons.html → Passed node\n- pass/victrola-com-carousel.html → Passed node\n- fail/slick-slider-without-prev-and-next-buttons.html → Failed node\n- fail/swiper-slider-with-pagination-not-working.html → Failed node\n- fail/swiper-slider-without-pagination-prev-and-next-buttons.html → Failed node\n- fail/vertical-carousel.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `carousel-dragging-movements` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = carousel-dragging-movements\nissueSource = RAIDEN examples at /engine/carousel-dragging-movements_success and /engine/carousel-dragging-movements_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: slick slider big screen (slick-slider-big-screen.html)",
+          "pass: slick slider small screen (slick-slider-small-screen.html)",
+          "pass: slick slider with prev and next buttons (slick-slider-with-prev-and-next-buttons.html)",
+          "pass: swiper slider with custom button (swiper-slider-with-custom-button.html)",
+          "pass: swiper slider with pagination prev and next buttons (swiper-slider-with-pagination-prev-and-next-buttons.html)",
+          "pass: victrola com carousel (victrola-com-carousel.html)",
+          "fail: slick slider without prev and next buttons (slick-slider-without-prev-and-next-buttons.html)",
+          "fail: swiper slider with pagination not working (swiper-slider-with-pagination-not-working.html)",
+          "fail: swiper slider without pagination prev and next buttons (swiper-slider-without-pagination-prev-and-next-buttons.html)",
+          "fail: vertical carousel (vertical-carousel.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/slick-slider-big-screen.html",
+          "atomic-tests/pass/slick-slider-small-screen.html",
+          "atomic-tests/pass/slick-slider-with-prev-and-next-buttons.html",
+          "atomic-tests/pass/swiper-slider-with-custom-button.html",
+          "atomic-tests/pass/swiper-slider-with-pagination-prev-and-next-buttons.html",
+          "atomic-tests/pass/victrola-com-carousel.html",
+          "atomic-tests/fail/slick-slider-without-prev-and-next-buttons.html",
+          "atomic-tests/fail/swiper-slider-with-pagination-not-working.html",
+          "atomic-tests/fail/swiper-slider-without-pagination-prev-and-next-buttons.html",
+          "atomic-tests/fail/vertical-carousel.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 6,
+        "fail": 4,
+        "total": 10
+      }
+    }
+  },
+  {
+    "key": "carousel-mismatch",
+    "action": "create",
+    "ruleId": "carousel-mismatch",
+    "payload": {
+      "ruleId": "carousel-mismatch",
+      "title": "Unified Engine: carousel-mismatch — Carousels should be tagged for assistive technology",
+      "description": "**Engine rule ID:** `carousel-mismatch`\n**RAIDEN routes:** `/engine/carousel-mismatch`, `/engine/carousel-mismatch_success`, `/engine/carousel-mismatch_failure`\n**Atomic tests:** `src/components/pages/engine-rules/carousel-mismatch/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** The carousel container should have a role so assistive technology treats it as a distinct section. Using role=\"region\" with a label exposes the carousel as a named region, allowing screen reader users to recognize the purpose of the component and navigate to it efficiently.\n**Remediation advice:** Assign role=\"region\" to the carousel container. Make sure to provide a descriptive label using aria-label or aria-labelledby.\n**Fixtures:** 3 pass, 4 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `carousel-mismatch` examples published at `/engine/carousel-mismatch_success` and `/engine/carousel-mismatch_failure`.\n5. **Fixture count:** 3 pass, 4 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 5,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "carousel-mismatch"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/carousel-mismatch` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`minor`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → carousel-mismatch.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/carousel-mismatch\nruleId = carousel-mismatch\nimpact = minor",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/carousel-mismatch_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/carousel-mismatch_success\npassFixtures = 3\natomic-tests/pass/972creative-carousels-with-role-and-roledescription.html\natomic-tests/pass/amazon-carousel.html\natomic-tests/pass/vuetifyjs-carousel.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/carousel-mismatch_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/carousel-mismatch_failure\nfailFixtures = 4\natomic-tests/fail/972creative-carousels.html\natomic-tests/fail/amazon-carousel-no-role.html\natomic-tests/fail/amazon-carousel-no-roledescription.html\natomic-tests/fail/amazon-carousel-wrong-role.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for carousel-mismatch\n- pass/972creative-carousels-with-role-and-roledescription.html → Passed node\n- pass/amazon-carousel.html → Passed node\n- pass/vuetifyjs-carousel.html → Passed node\n- fail/972creative-carousels.html → Failed node\n- fail/amazon-carousel-no-role.html → Failed node\n- fail/amazon-carousel-no-roledescription.html → Failed node\n- fail/amazon-carousel-wrong-role.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `carousel-mismatch` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = carousel-mismatch\nissueSource = RAIDEN examples at /engine/carousel-mismatch_success and /engine/carousel-mismatch_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: 972creative carousels with role and roledescription (972creative-carousels-with-role-and-roledescription.html)",
+          "pass: amazon carousel (amazon-carousel.html)",
+          "pass: vuetifyjs carousel (vuetifyjs-carousel.html)",
+          "fail: 972creative carousels (972creative-carousels.html)",
+          "fail: amazon carousel no role (amazon-carousel-no-role.html)",
+          "fail: amazon carousel no roledescription (amazon-carousel-no-roledescription.html)",
+          "fail: amazon carousel wrong role (amazon-carousel-wrong-role.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/972creative-carousels-with-role-and-roledescription.html",
+          "atomic-tests/pass/amazon-carousel.html",
+          "atomic-tests/pass/vuetifyjs-carousel.html",
+          "atomic-tests/fail/972creative-carousels.html",
+          "atomic-tests/fail/amazon-carousel-no-role.html",
+          "atomic-tests/fail/amazon-carousel-no-roledescription.html",
+          "atomic-tests/fail/amazon-carousel-wrong-role.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 3,
+        "fail": 4,
+        "total": 7
+      }
+    }
+  }
+]

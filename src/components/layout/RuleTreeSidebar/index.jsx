@@ -1,21 +1,19 @@
-import {
-  Accessibility as AccessibilityIcon,
-  AccountTree as AccountTreeIcon,
-  BugReport as BugReportIcon,
-  Cancel as CancelIcon,
-  CheckCircle as CheckCircleIcon,
-  ChevronRight as ChevronRightIcon,
-  Dashboard as DashboardIcon,
-  Description as DescriptionIcon,
-  EditNote as EditNoteIcon,
-  ExpandMore as ExpandMoreIcon,
-  Image as ImageIcon,
-  Link as LinkIcon,
-  Science as ScienceIcon,
-  Search as SearchIcon,
-  TextFields as TextFieldsIcon,
-  Widgets as WidgetsIcon,
-} from "@mui/icons-material";
+import AccessibilityIcon from "@mui/icons-material/Accessibility";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import BugReportIcon from "@mui/icons-material/BugReport";
+import CancelIcon from "@mui/icons-material/Cancel";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import DescriptionIcon from "@mui/icons-material/Description";
+import EditNoteIcon from "@mui/icons-material/EditNote";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ImageIcon from "@mui/icons-material/Image";
+import LinkIcon from "@mui/icons-material/Link";
+import ScienceIcon from "@mui/icons-material/Science";
+import SearchIcon from "@mui/icons-material/Search";
+import TextFieldsIcon from "@mui/icons-material/TextFields";
+import WidgetsIcon from "@mui/icons-material/Widgets";
 import {
   Box,
   Collapse,
@@ -33,7 +31,8 @@ import {
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import ENGINE_RULE_CATEGORIES from "../../../data/engine-rule-categories";
-import engineRulesData from "../../../data/engine-rules-metadata.json";
+import { fetchEngineRulesIndex } from "../../../utils/engineRulesDataService";
+import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
 import { DataService } from "../../util/dataService";
 import { getAllCachedResults } from "../../../utils/analysisCache";
 
@@ -67,11 +66,6 @@ const LEGACY_CRITERIA_COLORS = {
 
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-function getEngineRuleTitle(ruleId) {
-  const rule = engineRulesData.find((r) => r.id === ruleId);
-  return rule ? rule.title : ruleId;
 }
 
 const DEFAULT_EXPANDED = {
@@ -108,13 +102,15 @@ const LEAF_ITEMS = [
   { key: "mcp-debug", label: "MCP Debug", icon: BugReportIcon, color: "#ff9800" },
 ];
 
-function LeafItem({ item, to, onClick, isActive, isOpen }) {
+function LeafItem({ item, to, onClick, isActive, isOpen, onWarm }) {
   const Icon = item.icon;
   return (
     <ListItemButton
       component={RouterLink}
       to={to}
       onClick={onClick}
+      onMouseEnter={onWarm}
+      onFocus={onWarm}
       selected={isActive}
       sx={{
         pl: isOpen ? 8 : 2,
@@ -261,6 +257,11 @@ function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, exp
                 item={item}
                 to={leafPaths[item.key]}
                 onClick={() => handleLeafClick(item.key)}
+                onWarm={
+                  ruleType === "engine" && (item.key === "success" || item.key === "failure")
+                    ? () => prefetchEngineExample(ruleId, item.key)
+                    : undefined
+                }
                 isActive={false}
                 isOpen={isOpen}
               />
@@ -272,7 +273,7 @@ function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, exp
   );
 }
 
-function CategoryNode({ categoryId, label, color, icon, rules, ruleType, isOpen, expanded, onToggle, onNavigate, location, search, healthMap }) {
+function CategoryNode({ categoryId, label, color, icon, rules, ruleType, isOpen, expanded, onToggle, onNavigate, location, search, healthMap, getEngineRuleTitle }) {
   const isExpanded = expanded[`cat-${ruleType}-${categoryId}`] || false;
   const Icon = typeof icon === "string" ? ICON_MAP[icon] || DescriptionIcon : icon;
 
@@ -431,6 +432,36 @@ export default function RuleTreeSidebar({
   const [expanded, setExpanded] = useState(loadExpanded);
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
+  const [engineTitles, setEngineTitles] = useState({});
+  const [engineRuleCount, setEngineRuleCount] = useState(0);
+
+  const getEngineRuleTitle = useCallback(
+    (ruleId) => engineTitles[ruleId] || ruleId,
+    [engineTitles]
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchEngineRulesIndex()
+      .then((rows) => {
+        if (cancelled) return;
+        const titles = {};
+        rows.forEach((row) => {
+          titles[row.id] = row.title;
+        });
+        setEngineTitles(titles);
+        setEngineRuleCount(rows.length);
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setEngineTitles({});
+          setEngineRuleCount(0);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -611,7 +642,7 @@ export default function RuleTreeSidebar({
             tierId="engine"
             label="Engine Rules"
             icon={ScienceIcon}
-            count={engineRulesData.length}
+            count={engineRuleCount}
             color="#673ab7"
             isOpen={isOpen}
             expanded={expanded}
@@ -634,6 +665,7 @@ export default function RuleTreeSidebar({
                 location={location}
                 search={search}
                 healthMap={healthMap}
+                getEngineRuleTitle={getEngineRuleTitle}
               />
             ))}
           </TierNode>

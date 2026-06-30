@@ -1,0 +1,554 @@
+[
+  {
+    "key": "interactive-target-size",
+    "action": "create",
+    "ruleId": "interactive-target-size",
+    "payload": {
+      "ruleId": "interactive-target-size",
+      "title": "Unified Engine: interactive-target-size — Targets for interactive elements should meet a minimum size (at least 24 by 24 CSS pixels) or have enough spacing around them",
+      "description": "**Engine rule ID:** `interactive-target-size`\n**RAIDEN routes:** `/engine/interactive-target-size`, `/engine/interactive-target-size_success`, `/engine/interactive-target-size_failure`\n**Atomic tests:** `src/components/pages/engine-rules/interactive-target-size/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Interactive elements, such as buttons and links, should have a minimum size of 24 by 24 CSS pixels or have enough spacing to avoid accidental activation of adjacent elements. This is crucial for users with motor impairments or those using the website in unstable environments, like on a bus.\n**Remediation advice:** Make sure all interactive targets meet the minimum size of 24 by 24 CSS pixels. If resizing is not possible, provide spacing with a diameter of at least 24 CSS pixels around smaller targets to ensure they don't intersect with adjacent controls.\n**Fixtures:** 13 pass, 10 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `interactive-target-size` examples published at `/engine/interactive-target-size_success` and `/engine/interactive-target-size_failure`.\n5. **Fixture count:** 13 pass, 10 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "interactive-target-size"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/interactive-target-size` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → interactive-target-size.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/interactive-target-size\nruleId = interactive-target-size\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/interactive-target-size_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/interactive-target-size_success\npassFixtures = 13\natomic-tests/pass/16-by-16-css-pixels-button-with-enough-space-around-it-next-to-big-button.html\natomic-tests/pass/24-by-24-css-pixels-button-inside-big-button.html\natomic-tests/pass/24-by-24-css-pixels-button-next-to-big-button.html\natomic-tests/pass/big-button-invisible.html\natomic-tests/pass/equivalent-exception-two-red-buttons-with-same-functionality-one-is-at-least-24-by-24.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/interactive-target-size_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/interactive-target-size_failure\nfailFixtures = 10\natomic-tests/fail/16-by-16-css-pixels-button-inside-big-button.html\natomic-tests/fail/16-by-16-css-pixels-button-next-to-big-button.html\natomic-tests/fail/16-by-16-css-pixels-button-without-enough-space-around-it-next-to-big-button.html\natomic-tests/fail/equivalent-exception-two-red-buttons-with-same-functionality-both-dont-meet-the-criterion.html\natomic-tests/fail/links-not-in-a-sentence.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for interactive-target-size\n- pass/16-by-16-css-pixels-button-with-enough-space-around-it-next-to-big-button.html → Passed node\n- pass/24-by-24-css-pixels-button-inside-big-button.html → Passed node\n- pass/24-by-24-css-pixels-button-next-to-big-button.html → Passed node\n- pass/big-button-invisible.html → Passed node\n- pass/equivalent-exception-two-red-buttons-with-same-functionality-one-is-at-least-24-by-24.html → Passed node\n- pass/equivalent-exception-two-red-buttons-with-same-functionality-one-with-enough-space-around-it.html → Passed node\n- pass/essential-exception.html → Passed node\n- pass/interactive-elements-at-least-24-by-24-css-pixels.html → Passed node\n- pass/links-in-a-sentence.html → Passed node\n- pass/small-button-invisible.html → Passed node\n- pass/testimonials-mantra.html → Passed node\n- pass/undersized-interactive-element-with-enough-space-around-it.html → Passed node\n- pass/undersized-interactive-element-with-space-around-it.html → Passed node\n- fail/16-by-16-css-pixels-button-inside-big-button.html → Failed node\n- fail/16-by-16-css-pixels-button-next-to-big-button.html → Failed node\n- fail/16-by-16-css-pixels-button-without-enough-space-around-it-next-to-big-button.html → Failed node\n- fail/equivalent-exception-two-red-buttons-with-same-functionality-both-dont-meet-the-criterion.html → Failed node\n- fail/links-not-in-a-sentence.html → Failed node\n- fail/testimonials-mantra.html → Failed node\n- fail/text-in-the-right-links-in-the-left.html → Failed node\n- fail/two-undersized-interactive-elements-intersect.html → Failed node\n- fail/undersized-interactive-element-without-enough-space-around-it.html → Failed node\n- fail/undersized-interactive-elements-intersect.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `interactive-target-size` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = interactive-target-size\nissueSource = RAIDEN examples at /engine/interactive-target-size_success and /engine/interactive-target-size_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: 16 by 16 css pixels button with enough space around it next to big button (16-by-16-css-pixels-button-with-enough-space-around-it-next-to-big-button.html)",
+          "pass: 24 by 24 css pixels button inside big button (24-by-24-css-pixels-button-inside-big-button.html)",
+          "pass: 24 by 24 css pixels button next to big button (24-by-24-css-pixels-button-next-to-big-button.html)",
+          "pass: big button invisible (big-button-invisible.html)",
+          "pass: equivalent exception two red buttons with same functionality one is at least 24 by 24 (equivalent-exception-two-red-buttons-with-same-functionality-one-is-at-least-24-by-24.html)",
+          "pass: equivalent exception two red buttons with same functionality one with enough space around it (equivalent-exception-two-red-buttons-with-same-functionality-one-with-enough-space-around-it.html)",
+          "pass: essential exception (essential-exception.html)",
+          "pass: interactive elements at least 24 by 24 css pixels (interactive-elements-at-least-24-by-24-css-pixels.html)",
+          "pass: links in a sentence (links-in-a-sentence.html)",
+          "pass: small button invisible (small-button-invisible.html)",
+          "pass: testimonials mantra (testimonials-mantra.html)",
+          "pass: undersized interactive element with enough space around it (undersized-interactive-element-with-enough-space-around-it.html)",
+          "pass: undersized interactive element with space around it (undersized-interactive-element-with-space-around-it.html)",
+          "fail: 16 by 16 css pixels button inside big button (16-by-16-css-pixels-button-inside-big-button.html)",
+          "fail: 16 by 16 css pixels button next to big button (16-by-16-css-pixels-button-next-to-big-button.html)",
+          "fail: 16 by 16 css pixels button without enough space around it next to big button (16-by-16-css-pixels-button-without-enough-space-around-it-next-to-big-button.html)",
+          "fail: equivalent exception two red buttons with same functionality both dont meet the criterion (equivalent-exception-two-red-buttons-with-same-functionality-both-dont-meet-the-criterion.html)",
+          "fail: links not in a sentence (links-not-in-a-sentence.html)",
+          "fail: testimonials mantra (testimonials-mantra.html)",
+          "fail: text in the right links in the left (text-in-the-right-links-in-the-left.html)",
+          "fail: two undersized interactive elements intersect (two-undersized-interactive-elements-intersect.html)",
+          "fail: undersized interactive element without enough space around it (undersized-interactive-element-without-enough-space-around-it.html)",
+          "fail: undersized interactive elements intersect (undersized-interactive-elements-intersect.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/16-by-16-css-pixels-button-with-enough-space-around-it-next-to-big-button.html",
+          "atomic-tests/pass/24-by-24-css-pixels-button-inside-big-button.html",
+          "atomic-tests/pass/24-by-24-css-pixels-button-next-to-big-button.html",
+          "atomic-tests/pass/big-button-invisible.html",
+          "atomic-tests/pass/equivalent-exception-two-red-buttons-with-same-functionality-one-is-at-least-24-by-24.html",
+          "atomic-tests/pass/equivalent-exception-two-red-buttons-with-same-functionality-one-with-enough-space-around-it.html",
+          "atomic-tests/pass/essential-exception.html",
+          "atomic-tests/pass/interactive-elements-at-least-24-by-24-css-pixels.html",
+          "atomic-tests/pass/links-in-a-sentence.html",
+          "atomic-tests/pass/small-button-invisible.html",
+          "atomic-tests/pass/testimonials-mantra.html",
+          "atomic-tests/pass/undersized-interactive-element-with-enough-space-around-it.html",
+          "atomic-tests/pass/undersized-interactive-element-with-space-around-it.html",
+          "atomic-tests/fail/16-by-16-css-pixels-button-inside-big-button.html",
+          "atomic-tests/fail/16-by-16-css-pixels-button-next-to-big-button.html",
+          "atomic-tests/fail/16-by-16-css-pixels-button-without-enough-space-around-it-next-to-big-button.html",
+          "atomic-tests/fail/equivalent-exception-two-red-buttons-with-same-functionality-both-dont-meet-the-criterion.html",
+          "atomic-tests/fail/links-not-in-a-sentence.html",
+          "atomic-tests/fail/testimonials-mantra.html",
+          "atomic-tests/fail/text-in-the-right-links-in-the-left.html",
+          "atomic-tests/fail/two-undersized-interactive-elements-intersect.html",
+          "atomic-tests/fail/undersized-interactive-element-without-enough-space-around-it.html",
+          "atomic-tests/fail/undersized-interactive-elements-intersect.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 13,
+        "fail": 10,
+        "total": 23
+      }
+    }
+  },
+  {
+    "key": "letter-spacing-positive",
+    "action": "create",
+    "ruleId": "letter-spacing-positive",
+    "payload": {
+      "ruleId": "letter-spacing-positive",
+      "title": "Unified Engine: letter-spacing-positive — Letter spacing should scale to at least 0.12 times the font size without loss of content or functionality",
+      "description": "**Engine rule ID:** `letter-spacing-positive`\n**RAIDEN routes:** `/engine/letter-spacing-positive`, `/engine/letter-spacing-positive_success`, `/engine/letter-spacing-positive_failure`\n**Atomic tests:** `src/components/pages/engine-rules/letter-spacing-positive/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** When letter spacing is increased to 0.12 times the font size, text may be clipped, overlap, or overflow its container if styles like fixed widths, fixed heights, hidden overflow, or forced no-wrap prevent proper reflow.\n**Remediation advice:** Use flexible heights and widths, position elements in ways that allow text reflow, enable text wrapping, and avoid hidden overflow to ensure text remains readable when letter spacing is scaled to 0.12 times the font size.\n**Fixtures:** 3 pass, 2 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `letter-spacing-positive` examples published at `/engine/letter-spacing-positive_success` and `/engine/letter-spacing-positive_failure`.\n5. **Fixture count:** 3 pass, 2 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 5,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "letter-spacing-positive"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/letter-spacing-positive` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`minor`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → letter-spacing-positive.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/letter-spacing-positive\nruleId = letter-spacing-positive\nimpact = minor",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/letter-spacing-positive_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/letter-spacing-positive_success\npassFixtures = 3\natomic-tests/pass/negative-letter-spacing.html\natomic-tests/pass/normal-letter-spacing.html\natomic-tests/pass/positive-letter-spacing.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/letter-spacing-positive_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/letter-spacing-positive_failure\nfailFixtures = 2\natomic-tests/fail/lower-than-minus-one.html\natomic-tests/fail/nested-lower-than-minus-one.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for letter-spacing-positive\n- pass/negative-letter-spacing.html → Passed node\n- pass/normal-letter-spacing.html → Passed node\n- pass/positive-letter-spacing.html → Passed node\n- fail/lower-than-minus-one.html → Failed node\n- fail/nested-lower-than-minus-one.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `letter-spacing-positive` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = letter-spacing-positive\nissueSource = RAIDEN examples at /engine/letter-spacing-positive_success and /engine/letter-spacing-positive_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: negative letter spacing (negative-letter-spacing.html)",
+          "pass: normal letter spacing (normal-letter-spacing.html)",
+          "pass: positive letter spacing (positive-letter-spacing.html)",
+          "fail: lower than minus one (lower-than-minus-one.html)",
+          "fail: nested lower than minus one (nested-lower-than-minus-one.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/negative-letter-spacing.html",
+          "atomic-tests/pass/normal-letter-spacing.html",
+          "atomic-tests/pass/positive-letter-spacing.html",
+          "atomic-tests/fail/lower-than-minus-one.html",
+          "atomic-tests/fail/nested-lower-than-minus-one.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 3,
+        "fail": 2,
+        "total": 5
+      }
+    }
+  },
+  {
+    "key": "link-anchor-ambiguous",
+    "action": "create",
+    "ruleId": "link-anchor-ambiguous",
+    "payload": {
+      "ruleId": "link-anchor-ambiguous",
+      "title": "Unified Engine: link-anchor-ambiguous — Ambiguous links should have additional descriptions for screen readers.",
+      "description": "**Engine rule ID:** `link-anchor-ambiguous`\n**RAIDEN routes:** `/engine/link-anchor-ambiguous`, `/engine/link-anchor-ambiguous_success`, `/engine/link-anchor-ambiguous_failure`\n**Atomic tests:** `src/components/pages/engine-rules/link-anchor-ambiguous/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Ambiguous links like \"Learn More\", \"Shop Now\" and \"Start Here\" are often used as a call to action. However, screen-reader users, while using link navigation, do not interact with content above or below the link and therefore don\\\\\n**Remediation advice:** Add a screen-reader only text which gives additional context to the destination of the link. You can use the \\\n**Fixtures:** 6 pass, 3 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `link-anchor-ambiguous` examples published at `/engine/link-anchor-ambiguous_success` and `/engine/link-anchor-ambiguous_failure`.\n5. **Fixture count:** 6 pass, 3 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "link-anchor-ambiguous"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/link-anchor-ambiguous` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → link-anchor-ambiguous.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/link-anchor-ambiguous\nruleId = link-anchor-ambiguous\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/link-anchor-ambiguous_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/link-anchor-ambiguous_success\npassFixtures = 6\natomic-tests/pass/link-navigation.html\natomic-tests/pass/link-with-ambiguous-content-and-good-aria-label.html\natomic-tests/pass/link-with-image-content-and-good-alt.html\natomic-tests/pass/link-with-no-content.html\natomic-tests/pass/link-with-non-ambiguous-long-content.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/link-anchor-ambiguous_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/link-anchor-ambiguous_failure\nfailFixtures = 3\natomic-tests/fail/link-with-ambiguous-content-and-ambiguous-aria-label.html\natomic-tests/fail/link-with-ambiguous-content.html\natomic-tests/fail/link-with-image-content-with-ambiguous-alt.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for link-anchor-ambiguous\n- pass/link-navigation.html → Passed node\n- pass/link-with-ambiguous-content-and-good-aria-label.html → Passed node\n- pass/link-with-image-content-and-good-alt.html → Passed node\n- pass/link-with-no-content.html → Passed node\n- pass/link-with-non-ambiguous-long-content.html → Passed node\n- pass/link-with-non-ambiguous-short-content.html → Passed node\n- fail/link-with-ambiguous-content-and-ambiguous-aria-label.html → Failed node\n- fail/link-with-ambiguous-content.html → Failed node\n- fail/link-with-image-content-with-ambiguous-alt.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `link-anchor-ambiguous` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = link-anchor-ambiguous\nissueSource = RAIDEN examples at /engine/link-anchor-ambiguous_success and /engine/link-anchor-ambiguous_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: link navigation (link-navigation.html)",
+          "pass: link with ambiguous content and good aria label (link-with-ambiguous-content-and-good-aria-label.html)",
+          "pass: link with image content and good alt (link-with-image-content-and-good-alt.html)",
+          "pass: link with no content (link-with-no-content.html)",
+          "pass: link with non ambiguous long content (link-with-non-ambiguous-long-content.html)",
+          "pass: link with non ambiguous short content (link-with-non-ambiguous-short-content.html)",
+          "fail: link with ambiguous content and ambiguous aria label (link-with-ambiguous-content-and-ambiguous-aria-label.html)",
+          "fail: link with ambiguous content (link-with-ambiguous-content.html)",
+          "fail: link with image content with ambiguous alt (link-with-image-content-with-ambiguous-alt.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/link-navigation.html",
+          "atomic-tests/pass/link-with-ambiguous-content-and-good-aria-label.html",
+          "atomic-tests/pass/link-with-image-content-and-good-alt.html",
+          "atomic-tests/pass/link-with-no-content.html",
+          "atomic-tests/pass/link-with-non-ambiguous-long-content.html",
+          "atomic-tests/pass/link-with-non-ambiguous-short-content.html",
+          "atomic-tests/fail/link-with-ambiguous-content-and-ambiguous-aria-label.html",
+          "atomic-tests/fail/link-with-ambiguous-content.html",
+          "atomic-tests/fail/link-with-image-content-with-ambiguous-alt.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 6,
+        "fail": 3,
+        "total": 9
+      }
+    }
+  },
+  {
+    "key": "link-anchor-discernible",
+    "action": "create",
+    "ruleId": "link-anchor-discernible",
+    "payload": {
+      "ruleId": "link-anchor-discernible",
+      "title": "Unified Engine: link-anchor-discernible — Anchor links should have a descriptive label",
+      "description": "**Engine rule ID:** `link-anchor-discernible`\n**RAIDEN routes:** `/engine/link-anchor-discernible`, `/engine/link-anchor-discernible_success`, `/engine/link-anchor-discernible_failure`\n**Atomic tests:** `src/components/pages/engine-rules/link-anchor-discernible/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Activating anchor links enables users to navigate to a different section within the same page by scrolling and moving keyboard focus. Anchor links that do not contain visible text or labeled images should be assigned labels that inform screen reader users of their destination.\n**Remediation advice:** If an anchor link does not contain a labeled image or visible text, assign an aria-label that describes the destination of the link.\n**Fixtures:** 4 pass, 3 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `link-anchor-discernible` examples published at `/engine/link-anchor-discernible_success` and `/engine/link-anchor-discernible_failure`.\n5. **Fixture count:** 4 pass, 3 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 2,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "link-anchor-discernible"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/link-anchor-discernible` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`critical`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → link-anchor-discernible.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/link-anchor-discernible\nruleId = link-anchor-discernible\nimpact = critical",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/link-anchor-discernible_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/link-anchor-discernible_success\npassFixtures = 4\natomic-tests/pass/anchor-no-related-element.html\natomic-tests/pass/anchor-svg-icon-labelled.html\natomic-tests/pass/anchor-to-element-with-discernible-text.html\natomic-tests/pass/hidden-link-no-content.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/link-anchor-discernible_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/link-anchor-discernible_failure\nfailFixtures = 3\natomic-tests/fail/anchor-no-content.html\natomic-tests/fail/anchor-no-discernible-image.html\natomic-tests/fail/anchor-svg-icon.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for link-anchor-discernible\n- pass/anchor-no-related-element.html → Passed node\n- pass/anchor-svg-icon-labelled.html → Passed node\n- pass/anchor-to-element-with-discernible-text.html → Passed node\n- pass/hidden-link-no-content.html → Passed node\n- fail/anchor-no-content.html → Failed node\n- fail/anchor-no-discernible-image.html → Failed node\n- fail/anchor-svg-icon.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `link-anchor-discernible` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = link-anchor-discernible\nissueSource = RAIDEN examples at /engine/link-anchor-discernible_success and /engine/link-anchor-discernible_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: anchor no related element (anchor-no-related-element.html)",
+          "pass: anchor svg icon labelled (anchor-svg-icon-labelled.html)",
+          "pass: anchor to element with discernible text (anchor-to-element-with-discernible-text.html)",
+          "pass: hidden link no content (hidden-link-no-content.html)",
+          "fail: anchor no content (anchor-no-content.html)",
+          "fail: anchor no discernible image (anchor-no-discernible-image.html)",
+          "fail: anchor svg icon (anchor-svg-icon.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/anchor-no-related-element.html",
+          "atomic-tests/pass/anchor-svg-icon-labelled.html",
+          "atomic-tests/pass/anchor-to-element-with-discernible-text.html",
+          "atomic-tests/pass/hidden-link-no-content.html",
+          "atomic-tests/fail/anchor-no-content.html",
+          "atomic-tests/fail/anchor-no-discernible-image.html",
+          "atomic-tests/fail/anchor-svg-icon.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 4,
+        "fail": 3,
+        "total": 7
+      }
+    }
+  },
+  {
+    "key": "link-context",
+    "action": "create",
+    "ruleId": "link-context",
+    "payload": {
+      "ruleId": "link-context",
+      "title": "Unified Engine: link-context — Links should indicate their functionality and destination to assistive technology",
+      "description": "**Engine rule ID:** `link-context`\n**RAIDEN routes:** `/engine/link-context`, `/engine/link-context_success`, `/engine/link-context_failure`\n**Atomic tests:** `src/components/pages/engine-rules/link-context/atomic-tests/`\n**Qase suite:** accessFlow-Engine (902)\n## Flow Phases\n### Phase 1 — RAIDEN Library Review (Steps 1–3)\nValidate rule metadata and HTML examples in the Engine Rules Library.\n### Phase 2 — Atomic Auditor Validation (Step 4)\nRun core-engine atomic audit against each fixture; confirm pass/fail node expectations.\n### Phase 3 — AccessFlow Issue Alignment (Step 5)\nScan a page hosting the fixtures; generated issues must match RAIDEN examples.\n---\n**Rule description:** Visual cues on pages provide context to links or hint functionality to users with sight, even if the links aren't fully descriptive. Screen reader users need to know where a link will take them based on the anchor text without additional context.\n**Remediation advice:** Examples include links to the shopping cart, to the company's Facebook page, to the site's search page, or to other similar destinations. If the link's anchor text doesn't explicitly describe those destinations, add screen-reader only text describing the destination\n**Fixtures:** 5 pass, 5 fail",
+      "preconditions": "1. **RAIDEN** Engine Rules Library running (`BASE_URL` from project `.env`).\n2. **core-engine-auditor** atomic test runner available for rule validation.\n3. **AccessFlow** environment with website scan capability.\n4. **Rule** `link-context` examples published at `/engine/link-context_success` and `/engine/link-context_failure`.\n5. **Fixture count:** 5 pass, 5 fail atomic HTML files.",
+      "postconditions": "1. All pass fixtures produce **passed nodes** in atomic audit and no false-positive issues in AccessFlow.\n2. All fail fixtures produce **failed nodes** in atomic audit and matching issues in AccessFlow.\n3. RAIDEN example pages match atomic fixture HTML and expected outcomes.",
+      "severity": 4,
+      "priority": 1,
+      "type": 8,
+      "layer": 1,
+      "behavior": 2,
+      "automation": 1,
+      "status": 3,
+      "is_flaky": false,
+      "steps_type": "classic",
+      "suite_id": 902,
+      "tags": [
+        "unified-engine",
+        "e2e",
+        "engine",
+        "audit",
+        "regression",
+        "link-context"
+      ],
+      "custom_field": {
+        "2": "8"
+      },
+      "steps": [
+        {
+          "action": "Action:\n1. **Step 1 — Open rule detail page in RAIDEN**\n2. Navigate to `/engine/link-context` in the Engine Rules Library.\n3. Verify rule title, description, WCAG references, and impact (`serious`) are displayed.\n4. Confirm navigation breadcrumbs show Engine Rules → link-context.",
+          "expected_result": "Expected Result:\n1. Rule detail page loads without errors.\n2. Title and description match engine-rules metadata.\n3. WCAG references and remediation advice are visible when present.",
+          "data": "Data:\nBASE_URL/engine/link-context\nruleId = link-context\nimpact = serious",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 2 — Review compliant (pass) examples**\n2. Navigate to `/engine/link-context_success`.\n3. For each pass fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled compliant and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Success page loads with COMPLIANT status chip.\n2. Each pass fixture from atomic-tests/pass/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/link-context_success\npassFixtures = 5\natomic-tests/pass/a-with-ambiguous-text.html\natomic-tests/pass/a-with-long-text.html\natomic-tests/pass/a-with-no-text-with-aria-label.html\natomic-tests/pass/a-with-no-text-with-icon-with-alt.html\natomic-tests/pass/a-with-text.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 3 — Review non-compliant (fail) examples**\n2. Navigate to `/engine/link-context_failure`.\n3. For each fail fixture listed in Data, locate the matching HTML example card.\n4. Verify each example is labeled needs-fix and HTML matches the atomic fixture.",
+          "expected_result": "Expected Result:\n1. Failure page loads with NEEDS FIX status chip.\n2. Each fail fixture from atomic-tests/fail/ is represented as an example.\n3. Example HTML content matches the corresponding atomic test file.",
+          "data": "Data:\nBASE_URL/engine/link-context_failure\nfailFixtures = 5\natomic-tests/fail/a-with-icon-but-no-text.html\natomic-tests/fail/a-with-only-numeric-content.html\natomic-tests/fail/a-with-only-symbols-content.html\natomic-tests/fail/a-with-too-short-text.html\natomic-tests/fail/a-without-any-text.html",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 4 — Run atomic auditor on each fixture**\n2. For each fixture in Data, run the core-engine atomic test harness.\n3. Assert `response.passed === true` for pass fixtures and `false` for fail fixtures.\n4. Verify passedNodes/failedNodes match testconfig expect blocks.",
+          "expected_result": "Expected Result:\n1. All pass fixtures return response.passed = true.\n2. All fail fixtures return response.passed = false.\n3. Node-level expect.passedNodes / expect.failedNodes assertions pass.",
+          "data": "Data:\ntestedClass from index.ts for link-context\n- pass/a-with-ambiguous-text.html → Passed node\n- pass/a-with-long-text.html → Passed node\n- pass/a-with-no-text-with-aria-label.html → Passed node\n- pass/a-with-no-text-with-icon-with-alt.html → Passed node\n- pass/a-with-text.html → Passed node\n- fail/a-with-icon-but-no-text.html → Failed node\n- fail/a-with-only-numeric-content.html → Failed node\n- fail/a-with-only-symbols-content.html → Failed node\n- fail/a-with-too-short-text.html → Failed node\n- fail/a-without-any-text.html → Failed node",
+          "attachments": []
+        },
+        {
+          "action": "Action:\n1. **Step 5 — Validate AccessFlow scan issues align with examples**\n2. Host pass and fail fixture HTML on a test webpage (or use RAIDEN example URLs).\n3. Run an AccessFlow scan on the page with rule `link-context` enabled.\n4. Compare generated issues against RAIDEN fail examples; pass examples must not raise false positives.",
+          "expected_result": "Expected Result:\n1. AccessFlow scan completes successfully.\n2. Issues for fail fixtures match rule title and affected nodes from atomic tests.\n3. No issues raised for pass-only scenarios (no false positives).",
+          "data": "Data:\nruleId = link-context\nissueSource = RAIDEN examples at /engine/link-context_success and /engine/link-context_failure",
+          "attachments": []
+        }
+      ],
+      "params": {
+        "scenario": [
+          "pass: a with ambiguous text (a-with-ambiguous-text.html)",
+          "pass: a with long text (a-with-long-text.html)",
+          "pass: a with no text with aria label (a-with-no-text-with-aria-label.html)",
+          "pass: a with no text with icon with alt (a-with-no-text-with-icon-with-alt.html)",
+          "pass: a with text (a-with-text.html)",
+          "fail: a with icon but no text (a-with-icon-but-no-text.html)",
+          "fail: a with only numeric content (a-with-only-numeric-content.html)",
+          "fail: a with only symbols content (a-with-only-symbols-content.html)",
+          "fail: a with too short text (a-with-too-short-text.html)",
+          "fail: a without any text (a-without-any-text.html)"
+        ],
+        "fixturePath": [
+          "atomic-tests/pass/a-with-ambiguous-text.html",
+          "atomic-tests/pass/a-with-long-text.html",
+          "atomic-tests/pass/a-with-no-text-with-aria-label.html",
+          "atomic-tests/pass/a-with-no-text-with-icon-with-alt.html",
+          "atomic-tests/pass/a-with-text.html",
+          "atomic-tests/fail/a-with-icon-but-no-text.html",
+          "atomic-tests/fail/a-with-only-numeric-content.html",
+          "atomic-tests/fail/a-with-only-symbols-content.html",
+          "atomic-tests/fail/a-with-too-short-text.html",
+          "atomic-tests/fail/a-without-any-text.html"
+        ],
+        "expectedResult": [
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Passed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node",
+          "Failed node"
+        ]
+      },
+      "fixtureSummary": {
+        "pass": 5,
+        "fail": 5,
+        "total": 10
+      }
+    }
+  }
+]
