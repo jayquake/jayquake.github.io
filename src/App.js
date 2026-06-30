@@ -9,10 +9,10 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import AppSidebar from "./components/layout/AppSidebar";
 import AppRoutes from "./routes/AppRoutes";
+import { mainShellMetrics } from "./theme/layout";
 import { ENGINE_RULE_COUNT } from "./utils/engineRuleCount";
 
-const drawerWidth = 280;
-const collapsedWidth = 52;
+const MOBILE_DRAWER_WIDTH = 280;
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -26,7 +26,12 @@ function getPageInfo(pathname) {
 
   const current = pathnames[0];
 
-  if (current === "engine" && pathnames[1] === "library") {
+  if (
+    current === "engine" &&
+    !pathnames[1]?.includes("_success") &&
+    !pathnames[1]?.includes("_failure") &&
+    pathnames[1] !== "library"
+  ) {
     return { title: "Engine Library", subtitle: `${ENGINE_RULE_COUNT} rules` };
   }
   if (current === "engine") {
@@ -54,7 +59,7 @@ export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const { title, subtitle } = getPageInfo(location.pathname);
-  const sidebarWidth = drawerOpen ? drawerWidth : collapsedWidth;
+  const shell = mainShellMetrics(drawerOpen);
 
   const sidebar = (
     <AppSidebar
@@ -65,13 +70,14 @@ export default function App() {
   );
 
   return (
-    <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: "background.default" }}>
+    <Box sx={{ display: "flex", height: "100vh", overflow: "hidden", bgcolor: "background.default" }}>
       <AppBar
         position="fixed"
         color="default"
         sx={{
-          ml: { md: `${sidebarWidth}px` },
-          width: { md: `calc(100% - ${sidebarWidth}px)` },
+          ml: { xs: 0, md: `${shell.appBarMarginLeft}px` },
+          width: { xs: "100%", md: shell.appBarWidth },
+          maxWidth: { md: shell.appBarWidth },
           transition: (t) =>
             t.transitions.create(["width", "margin"], {
               easing: t.transitions.easing.sharp,
@@ -96,9 +102,9 @@ export default function App() {
                 display: "block",
                 fontFamily: '"IBM Plex Mono", monospace',
                 letterSpacing: "0.16em",
-                color: "primary.dark",
+                color: "primary.main",
                 fontSize: "0.58rem",
-                lineHeight: 1,
+                lineHeight: 1.2,
                 mb: 0.25,
               }}
             >
@@ -106,34 +112,37 @@ export default function App() {
             </Typography>
             <Typography
               variant="body1"
-              noWrap
               sx={{
                 fontFamily: '"IBM Plex Mono", monospace',
                 fontWeight: 600,
-                fontSize: "0.85rem",
+                fontSize: { xs: "0.78rem", sm: "0.85rem" },
                 letterSpacing: "0.04em",
                 textTransform: "uppercase",
-                lineHeight: 1.2,
+                lineHeight: 1.3,
+                overflowWrap: "anywhere",
               }}
             >
               {title}
             </Typography>
           </Box>
-          <Box sx={{ textAlign: "right", display: { xs: "none", sm: "block" } }}>
+          <Box sx={{ textAlign: "right", flexShrink: 0, maxWidth: "40%" }}>
             <Typography
               variant="caption"
               sx={{
                 display: "block",
                 fontFamily: '"IBM Plex Mono", monospace',
                 color: "primary.main",
-                fontSize: "0.72rem",
-                letterSpacing: "0.1em",
-                textShadow: "0 0 8px rgba(94,200,232,0.35)",
+                fontSize: { xs: "0.62rem", sm: "0.72rem" },
+                letterSpacing: "0.08em",
               }}
             >
               NANOMACHINE LINK
             </Typography>
-            <Typography variant="caption" color="text.secondary" noWrap sx={{ fontSize: "0.62rem" }}>
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ fontSize: "0.62rem", overflowWrap: "anywhere" }}
+            >
               {subtitle}
             </Typography>
           </Box>
@@ -147,7 +156,11 @@ export default function App() {
         ModalProps={{ keepMounted: true }}
         sx={{
           display: { xs: "block", md: "none" },
-          "& .MuiDrawer-paper": { width: drawerWidth, boxSizing: "border-box" },
+          "& .MuiDrawer-paper": {
+            width: MOBILE_DRAWER_WIDTH,
+            maxWidth: "85vw",
+            boxSizing: "border-box",
+          },
         }}
       >
         {sidebar}
@@ -157,22 +170,12 @@ export default function App() {
         variant="permanent"
         sx={{
           display: { xs: "none", md: "block" },
-          width: sidebarWidth,
+          width: shell.sidebarWidth,
           flexShrink: 0,
-          transition: (t) =>
-            t.transitions.create("width", {
-              easing: t.transitions.easing.sharp,
-              duration: t.transitions.duration.enteringScreen,
-            }),
           "& .MuiDrawer-paper": {
-            width: sidebarWidth,
+            width: shell.sidebarWidth,
             boxSizing: "border-box",
             overflowX: "hidden",
-            transition: (t) =>
-              t.transitions.create("width", {
-                easing: t.transitions.easing.sharp,
-                duration: t.transitions.duration.enteringScreen,
-              }),
           },
         }}
         open
@@ -183,19 +186,19 @@ export default function App() {
       <Box
         component="main"
         sx={{
-          flexGrow: 1,
-          minHeight: "100vh",
+          flex: 1,
           minWidth: 0,
-          ml: { md: `${sidebarWidth}px` },
-          transition: (t) =>
-            t.transitions.create("margin", {
-              easing: t.transitions.easing.sharp,
-              duration: t.transitions.duration.enteringScreen,
-            }),
+          minHeight: 0,
+          display: "flex",
+          flexDirection: "column",
+          bgcolor: "background.default",
+          overflow: "hidden",
         }}
       >
-        <Toolbar sx={{ minHeight: 48 }} />
-        <AppRoutes navigate={navigate} />
+        <Toolbar sx={{ minHeight: 48, flexShrink: 0 }} />
+        <Box sx={{ flex: 1, minHeight: 0, overflow: "hidden" }}>
+          <AppRoutes navigate={navigate} />
+        </Box>
       </Box>
     </Box>
   );

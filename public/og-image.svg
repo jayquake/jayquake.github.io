@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="RAIDEN  AccessFlow Engine Rules Library">
+  <defs>
+    <linearGradient id="tealBar" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00a38d"/>
+      <stop offset="100%" stop-color="#4fd1ed"/>
+    </linearGradient>
+    <pattern id="carbon" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="6" height="6" fill="#1a1a1a"/>
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#ffffff" stroke-opacity="0.03"/>
+    </pattern>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0d0d0d"/>
+
+  <!-- Sidebar ~27% -->
+  <rect x="0" y="0" width="324" height="630" fill="url(#carbon)"/>
+  <rect x="324" y="0" width="1" height="630" fill="#2a2a2a"/>
+
+  <!-- Sidebar logo -->
+  <rect x="24" y="36" width="3" height="36" fill="url(#tealBar)" filter="url(#glow)"/>
+  <text x="36" y="52" fill="#d4dce4" font-family="monospace" font-size="18" font-weight="700" letter-spacing="3">RAIDEN</text>
+  <text x="36" y="72" fill="#00a38d" font-family="monospace" font-size="10" letter-spacing="1.5">CARBON SUIT HUD</text>
+
+  <!-- Nav items -->
+  <rect x="16" y="100" width="292" height="28" rx="1" fill="rgba(0,163,141,0.14)" stroke="#00a38d" stroke-opacity="0.35"/>
+  <text x="28" y="118" fill="#4fd1ed" font-family="monospace" font-size="11">Engine Library</text>
+  <text x="28" y="148" fill="#888" font-family="monospace" font-size="11">Test Runner</text>
+  <text x="28" y="172" fill="#888" font-family="monospace" font-size="11">Atomic Tests</text>
+  <text x="28" y="196" fill="#888" font-family="monospace" font-size="11">Rule Lab</text>
+
+  <!-- Rules tree hint -->
+  <text x="28" y="240" fill="#666" font-family="monospace" font-size="9" letter-spacing="2">RULES</text>
+  <text x="36" y="262" fill="#888" font-family="monospace" font-size="10">¸ Engine Rules</text>
+  <text x="48" y="282" fill="#666" font-family="monospace" font-size="9">alt-misuse</text>
+  <text x="48" y="300" fill="#666" font-family="monospace" font-size="9">aria-controls&</text>
+
+  <!-- Main area ~73% -->
+  <rect x="325" y="0" width="875" height="48" fill="#181818"/>
+  <line x1="325" y1="48" x2="1200" y2="48" stroke="rgba(0,163,141,0.22)"/>
+  <text x="344" y="22" fill="#00a38d" font-family="monospace" font-size="9" letter-spacing="2">TACTICAL HUD</text>
+  <text x="344" y="38" fill="#e0e0e0" font-family="monospace" font-size="13" font-weight="600">ENGINE LIBRARY</text>
+  <text x="1080" y="22" fill="#00a38d" font-family="monospace" font-size="9" text-anchor="end">NANOMACHINE LINK</text>
+  <text x="1080" y="38" fill="#888" font-family="monospace" font-size="9" text-anchor="end">167 rules</text>
+
+  <!-- Content header -->
+  <text x="344" y="88" fill="#007a68" font-family="monospace" font-size="10" letter-spacing="2">INTEL // ENGINE RULES</text>
+  <text x="344" y="118" fill="#e8ecef" font-family="monospace" font-size="26" font-weight="600">Engine Rules Library</text>
+  <text x="344" y="142" fill="#888" font-family="sans-serif" font-size="13">167 automated rules · showing 167</text>
+
+  <!-- Filter bar -->
+  <rect x="344" y="162" width="320" height="32" rx="2" fill="#101010" stroke="#2a2a2a"/>
+  <text x="360" y="183" fill="#666" font-family="monospace" font-size="11">Search ID, title, description&</text>
+  <rect x="680" y="162" width="90" height="32" rx="2" fill="#101010" stroke="#2a2a2a"/>
+  <text x="692" y="183" fill="#888" font-family="monospace" font-size="10">Impact ¾</text>
+  <rect x="780" y="162" width="90" height="32" rx="2" fill="#101010" stroke="#2a2a2a"/>
+  <text x="792" y="183" fill="#888" font-family="monospace" font-size="10">WCAG ¾</text>
+
+  <!-- Table header -->
+  <line x1="344" y1="210" x2="1160" y2="210" stroke="#2a2a2a"/>
+  <text x="344" y="232" fill="#4fd1ed" font-family="monospace" font-size="10" font-weight="600">ID</text>
+  <text x="500" y="232" fill="#4fd1ed" font-family="monospace" font-size="10" font-weight="600">TITLE</text>
+  <text x="900" y="232" fill="#4fd1ed" font-family="monospace" font-size="10" font-weight="600">IMPACT</text>
+  <text x="1000" y="232" fill="#4fd1ed" font-family="monospace" font-size="10" font-weight="600">WCAG</text>
+
+  <!-- Table rows -->
+  <line x1="344" y1="248" x2="1160" y2="248" stroke="#1f1f1f"/>
+  <text x="344" y="268" fill="#4fd1ed" font-family="monospace" font-size="11">alt-misuse</text>
+  <text x="500" y="264" fill="#e0e0e0" font-family="sans-serif" font-size="12">Alt misuse</text>
+  <text x="500" y="280" fill="#888" font-family="sans-serif" font-size="10">Decorative images must not have alt text</text>
+  <rect x="900" y="252" width="52" height="18" rx="9" fill="none" stroke="#444"/>
+  <text x="908" y="265" fill="#888" font-family="monospace" font-size="9">minor</text>
+
+  <line x1="344" y1="292" x2="1160" y2="292" stroke="#1f1f1f"/>
+  <text x="344" y="312" fill="#4fd1ed" font-family="monospace" font-size="11">aria-controls-has-reference</text>
+  <text x="500" y="308" fill="#e0e0e0" font-family="sans-serif" font-size="12">ARIA controls has reference</text>
+  <text x="500" y="324" fill="#888" font-family="sans-serif" font-size="10">aria-controls must reference an existing element</text>
+  <rect x="900" y="296" width="52" height="18" rx="9" fill="none" stroke="#444"/>
+  <text x="904" y="309" fill="#888" font-family="monospace" font-size="9">serious</text>
+  <rect x="1000" y="296" width="72" height="18" rx="9" fill="none" stroke="#444"/>
+  <text x="1008" y="309" fill="#888" font-family="monospace" font-size="9">4.1.2 (A)</text>
+
+  <line x1="344" y1="336" x2="1160" y2="336" stroke="#1f1f1f"/>
+  <text x="344" y="356" fill="#4fd1ed" font-family="monospace" font-size="11">button-discernible</text>
+  <text x="500" y="352" fill="#e0e0e0" font-family="sans-serif" font-size="12">Button discernible</text>
+  <text x="500" y="368" fill="#888" font-family="sans-serif" font-size="10">Buttons must have discernible text</text>
+
+  <!-- Brand footer -->
+  <text x="600" y="580" fill="#444" font-family="monospace" font-size="11" text-anchor="middle" letter-spacing="2">ACCESSFLOW · ENGINE RULES QA</text>
+</svg>

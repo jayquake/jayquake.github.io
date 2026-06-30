@@ -8,18 +8,25 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import { Link as RouterLink, useLocation } from "react-router-dom";
-import SearchComponent from "./search";
 import RuleTreeSidebar from "./RuleTreeSidebar";
 
 const NAV_LINKS = [
-  { label: "Engine Library", path: "/" },
+  { label: "Engine Library", path: "/engine/alt-misuse" },
   { label: "Test Runner", path: "/test-runner/library" },
   { label: "Atomic Tests", path: "/test-runner/atomic-tests" },
   { label: "Rule Lab", path: "/rule-lab" },
 ];
 
 function isNavActive(pathname, linkPath) {
-  if (linkPath === "/") return pathname === "/";
+  if (linkPath === "/engine/alt-misuse") {
+    return (
+      pathname === "/" ||
+      pathname === "/engine/library" ||
+      (pathname.startsWith("/engine/") &&
+        !pathname.includes("_success") &&
+        !pathname.includes("_failure"))
+    );
+  }
   if (linkPath === "/test-runner/library") {
     return pathname.startsWith("/test-runner") && !pathname.startsWith("/test-runner/atomic-tests");
   }
@@ -40,7 +47,7 @@ export default function AppSidebar({
         flexDirection: "column",
         height: "100%",
         overflow: "hidden",
-        bgcolor: "background.default",
+        bgcolor: "background.paper",
       }}
     >
       <Box
@@ -63,7 +70,7 @@ export default function AppSidebar({
                 height: 28,
                 background: (t) =>
                   `linear-gradient(180deg, ${t.palette.primary.main}, transparent)`,
-                boxShadow: "0 0 10px rgba(94,200,232,0.5)",
+                boxShadow: "0 0 8px rgba(0,163,141,0.4)",
                 flexShrink: 0,
               }}
             />
@@ -90,7 +97,7 @@ export default function AppSidebar({
                   fontSize: "0.62rem",
                 }}
               >
-                CARBON SUIT HUD
+                ACCESSIBILITY QA ENGINE
               </Typography>
             </Box>
           </Box>
@@ -149,30 +156,7 @@ export default function AppSidebar({
         })}
       </List>
 
-      {isOpen && (
-        <Box sx={{ px: 2, py: 1 }}>
-          <SearchComponent />
-        </Box>
-      )}
-
       <Divider sx={{ my: 0.5 }} />
-
-      {isOpen && (
-        <Typography
-          variant="caption"
-          color="text.secondary"
-          sx={{
-            px: 2,
-            py: 0.75,
-            fontFamily: "ui-monospace, monospace",
-            letterSpacing: "0.06em",
-            textTransform: "uppercase",
-            fontSize: "0.65rem",
-          }}
-        >
-          Rules
-        </Typography>
-      )}
 
       <Box sx={{ flex: 1, minHeight: 0, overflow: "hidden" }}>
         <RuleTreeSidebar

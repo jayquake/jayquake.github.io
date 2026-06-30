@@ -34,11 +34,11 @@ import AuditResultsPanel, { issueKey } from "./AuditResultsPanel";
 
 const VARIANT_CONFIG = {
   success: {
-    color: "#4caf50",
-    darkColor: "#2e7d32",
-    bgTint: "rgba(76, 175, 80, 0.08)",
-    borderColor: "rgba(76, 175, 80, 0.25)",
-    hoverBorder: "rgba(76, 175, 80, 0.4)",
+    color: "#6ee7b7",
+    darkColor: "#6ee7b7",
+    bgTint: "rgba(110, 231, 183, 0.08)",
+    borderColor: "rgba(110, 231, 183, 0.28)",
+    hoverBorder: "rgba(110, 231, 183, 0.45)",
     icon: SuccessIcon,
     label: "Best Practice",
     badgeIcon: CheckIcon,
@@ -47,11 +47,11 @@ const VARIANT_CONFIG = {
       `This example properly implements the ${ruleId || "accessibility"} requirement.`,
   },
   failure: {
-    color: "#f44336",
-    darkColor: "#d32f2f",
-    bgTint: "rgba(244, 67, 54, 0.06)",
-    borderColor: "rgba(244, 67, 54, 0.25)",
-    hoverBorder: "rgba(244, 67, 54, 0.4)",
+    color: "#ff5c5c",
+    darkColor: "#ff5c5c",
+    bgTint: "rgba(255, 92, 92, 0.08)",
+    borderColor: "rgba(255, 92, 92, 0.28)",
+    hoverBorder: "rgba(255, 92, 92, 0.45)",
     icon: ErrorIcon,
     label: "Accessibility Issue",
     badgeIcon: BugIcon,
@@ -254,17 +254,14 @@ export default function ExampleCard({
     <Card
       sx={{
         mb: 2,
-        background: "rgba(255, 255, 255, 0.55)",
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
-        border: `1px solid ${fpFlagged ? "rgba(255, 152, 0, 0.5)" : cfg.borderColor}`,
-        borderLeft: `4px solid ${fpFlagged ? "#ff9800" : cfg.color}`,
-        borderRadius: 3,
-        boxShadow: "0 4px 16px rgba(0, 0, 0, 0.06)",
-        transition: "all 0.3s ease",
+        bgcolor: "background.default",
+        border: `1px solid ${fpFlagged ? "rgba(255, 193, 77, 0.5)" : cfg.borderColor}`,
+        borderLeft: `4px solid ${fpFlagged ? "#ffc14d" : cfg.color}`,
+        borderRadius: 1,
+        boxShadow: "none",
+        transition: "border-color 0.2s ease",
         "&:hover": {
-          boxShadow: "0 8px 24px rgba(0, 0, 0, 0.1)",
-          borderColor: fpFlagged ? "rgba(255, 152, 0, 0.6)" : cfg.hoverBorder,
+          borderColor: fpFlagged ? "rgba(255, 193, 77, 0.65)" : cfg.hoverBorder,
         },
       }}
       role="region"
@@ -323,11 +320,9 @@ export default function ExampleCard({
                 size="small"
                 onClick={() => setShowCode((p) => !p)}
                 sx={{
-                  color: showCode ? "#1976d2" : cfg.color,
-                  background: showCode ? "rgba(25,118,210,0.08)" : cfg.bgTint,
-                  border: `1px solid ${showCode ? "rgba(25,118,210,0.25)" : cfg.borderColor}`,
-                  "&:hover": { transform: "scale(1.1)" },
-                  transition: "all 0.2s ease",
+                  color: showCode ? "primary.main" : cfg.color,
+                  bgcolor: showCode ? "rgba(0, 163, 141, 0.08)" : cfg.bgTint,
+                  border: `1px solid ${showCode ? "rgba(0, 163, 141, 0.22)" : cfg.borderColor}`,
                 }}
                 aria-label={showCode ? "Show rendered HTML" : "Show code"}
               >
@@ -339,11 +334,10 @@ export default function ExampleCard({
                 size="small"
                 onClick={handleCopy}
                 sx={{
-                  color: copied ? "#4caf50" : "#666",
-                  background: copied ? "rgba(76,175,80,0.08)" : "rgba(0,0,0,0.03)",
-                  border: `1px solid ${copied ? "rgba(76,175,80,0.25)" : "rgba(0,0,0,0.08)"}`,
-                  "&:hover": { transform: "scale(1.1)" },
-                  transition: "all 0.2s ease",
+                  color: copied ? cfg.color : "text.secondary",
+                  bgcolor: copied ? cfg.bgTint : "background.paper",
+                  border: `1px solid ${copied ? cfg.borderColor : "divider"}`,
+                  "&:hover": { bgcolor: cfg.bgTint },
                 }}
                 aria-label={`Copy example ${index + 1} code`}
               >
@@ -355,11 +349,10 @@ export default function ExampleCard({
                 size="small"
                 onClick={handleAnalyzeInRuleLab}
                 sx={{
-                  color: "#7c4dff",
-                  background: "rgba(124,77,255,0.06)",
-                  border: "1px solid rgba(124,77,255,0.2)",
-                  "&:hover": { transform: "scale(1.1)", background: "rgba(124,77,255,0.12)" },
-                  transition: "all 0.2s ease",
+                  color: "primary.main",
+                  bgcolor: "rgba(0, 163, 141, 0.08)",
+                  border: "1px solid rgba(0, 163, 141, 0.22)",
+                  "&:hover": { bgcolor: "rgba(0, 163, 141, 0.14)" },
                 }}
                 aria-label="Analyze in Rule Lab"
               >
@@ -371,11 +364,10 @@ export default function ExampleCard({
                 size="small"
                 onClick={handleTreeToggle}
                 sx={{
-                  color: treeOpen ? "#1976d2" : "#546e7a",
-                  background: treeOpen ? "rgba(25,118,210,0.08)" : "rgba(0,0,0,0.03)",
-                  border: `1px solid ${treeOpen ? "rgba(25,118,210,0.25)" : "rgba(0,0,0,0.08)"}`,
-                  "&:hover": { transform: "scale(1.1)" },
-                  transition: "all 0.2s ease",
+                  color: treeOpen ? "primary.main" : "text.secondary",
+                  bgcolor: treeOpen ? "rgba(0, 163, 141, 0.08)" : "background.paper",
+                  border: `1px solid ${treeOpen ? "rgba(0, 163, 141, 0.22)" : "divider"}`,
+                  "&:hover": { bgcolor: "rgba(0, 163, 141, 0.08)" },
                 }}
                 aria-label="View accessibility tree"
               >
@@ -387,11 +379,9 @@ export default function ExampleCard({
                 size="small"
                 onClick={handleFPToggle}
                 sx={{
-                  color: fpFlagged ? "#ff9800" : "#999",
-                  background: fpFlagged ? "rgba(255,152,0,0.1)" : "rgba(0,0,0,0.03)",
-                  border: `1px solid ${fpFlagged ? "rgba(255,152,0,0.3)" : "rgba(0,0,0,0.08)"}`,
-                  "&:hover": { transform: "scale(1.1)" },
-                  transition: "all 0.2s ease",
+                  color: fpFlagged ? "#ffc14d" : "text.secondary",
+                  bgcolor: fpFlagged ? "rgba(255, 193, 77, 0.1)" : "background.paper",
+                  border: `1px solid ${fpFlagged ? "rgba(255, 193, 77, 0.35)" : "divider"}`,
                 }}
                 aria-label="Flag as false positive"
               >
@@ -405,10 +395,10 @@ export default function ExampleCard({
         {!showCode && (
           <Box
             sx={{
-              p: { xs: 1.5, sm: 2, md: 3 },
-              background: "rgba(255, 255, 255, 0.8)",
-              border: `2px solid ${cfg.borderColor}`,
-              borderRadius: 2,
+              p: { xs: 1.5, sm: 2, md: 2.5 },
+              bgcolor: "background.paper",
+              border: `1px solid ${cfg.borderColor}`,
+              borderRadius: 1,
               mb: 1.5,
               minHeight: 48,
             }}
@@ -491,13 +481,14 @@ export default function ExampleCard({
             sx={{
               mt: 1.5,
               p: { xs: 1.5, sm: 2 },
-              background: "rgba(245, 247, 250, 0.9)",
-              border: "1px solid rgba(25, 118, 210, 0.2)",
-              borderRadius: 2,
+              bgcolor: "background.paper",
+              border: "1px solid",
+              borderColor: "divider",
+              borderRadius: 1,
             }}
           >
             <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1 }}>
-              <Typography variant="subtitle2" sx={{ fontWeight: 600, color: "#1565c0" }}>
+              <Typography variant="subtitle2" sx={{ fontWeight: 600, color: "primary.main" }}>
                 Accessibility Tree
               </Typography>
               {treeData?.source === "client" && (
@@ -539,7 +530,7 @@ export default function ExampleCard({
                     </Stack>
                   )}
                   {treeData.screenReaderNarration && (
-                    <Box sx={{ mt: 1, p: 1, background: "rgba(0,0,0,0.04)", borderRadius: 1 }}>
+                    <Box sx={{ mt: 1, p: 1, bgcolor: "background.default", borderRadius: 1, border: 1, borderColor: "divider" }}>
                       <Typography variant="caption" sx={{ fontWeight: 600, display: "block", mb: 0.5 }}>
                         Screen Reader Narration:
                       </Typography>
@@ -578,8 +569,8 @@ export default function ExampleCard({
               mt: 1.5,
               "& .MuiOutlinedInput-root": {
                 fontSize: "0.8rem",
-                background: "rgba(255, 152, 0, 0.04)",
-                "& fieldset": { borderColor: "rgba(255, 152, 0, 0.3)" },
+                bgcolor: "rgba(255, 193, 77, 0.06)",
+                "& fieldset": { borderColor: "rgba(255, 193, 77, 0.3)" },
               },
             }}
           />

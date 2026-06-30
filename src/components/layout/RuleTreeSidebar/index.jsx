@@ -51,7 +51,7 @@ const ICON_MAP = {
 };
 
 const LEGACY_CRITERIA_COLORS = {
-  graphics: "#5ec8e8",
+  graphics: "#00a38d",
   forms: "#2196f3",
   keyboard: "#ff9800",
   navigation: "#9c27b0",
@@ -140,7 +140,7 @@ function LeafItem({ item, to, onClick, isActive, isOpen }) {
           primaryTypographyProps={{
             fontSize: "0.7rem",
             fontWeight: 500,
-            color: "#64748b",
+            color: "text.secondary",
           }}
         />
       )}
@@ -150,7 +150,7 @@ function LeafItem({ item, to, onClick, isActive, isOpen }) {
 
 function HealthDot({ status }) {
   const colors = {
-    green: "#5ec8e8",
+    green: "#00a38d",
     yellow: "#ff9800",
     red: "#f44336",
     gray: "#cbd5e1",
@@ -244,8 +244,8 @@ function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, exp
               primaryTypographyProps={{
                 fontSize: "0.75rem",
                 fontWeight: isRuleActive ? 600 : 400,
-                color: "#334155",
-                noWrap: true,
+                color: isRuleActive ? "primary.main" : "text.primary",
+                overflowWrap: "anywhere",
               }}
             />
             <HealthDot status={healthStatus || "gray"} />
@@ -314,16 +314,16 @@ function CategoryNode({ categoryId, label, color, icon, rules, ruleType, isOpen,
               primaryTypographyProps={{
                 fontSize: "0.78rem",
                 fontWeight: 600,
-                color: "#475569",
+                color: "text.secondary",
               }}
             />
-            <Typography variant="caption" sx={{ color: "#94a3b8", fontSize: "0.65rem", fontWeight: 600 }}>
+            <Typography variant="caption" sx={{ color: "text.secondary", fontSize: "0.65rem", fontWeight: 600 }}>
               {filteredRules.length}
             </Typography>
             {isExpanded ? (
-              <ExpandMoreIcon sx={{ fontSize: 16, color: "#94a3b8", ml: 0.5 }} />
+              <ExpandMoreIcon sx={{ fontSize: 16, color: "text.secondary", ml: 0.5 }} />
             ) : (
-              <ChevronRightIcon sx={{ fontSize: 16, color: "#94a3b8", ml: 0.5 }} />
+              <ChevronRightIcon sx={{ fontSize: 16, color: "text.secondary", ml: 0.5 }} />
             )}
           </>
         )}
@@ -396,16 +396,16 @@ function TierNode({ tierId, label, icon: Icon, count, color, isOpen, expanded, o
                 primaryTypographyProps={{
                   fontSize: "0.85rem",
                   fontWeight: 700,
-                  color: "#1e293b",
+                  color: "text.primary",
                 }}
               />
-              <Typography variant="caption" sx={{ color: "#94a3b8", fontWeight: 700, fontSize: "0.7rem" }}>
+              <Typography variant="caption" sx={{ color: "text.secondary", fontWeight: 700, fontSize: "0.7rem" }}>
                 {count}
               </Typography>
               {isExpanded ? (
-                <ExpandMoreIcon sx={{ fontSize: 18, color: "#94a3b8", ml: 0.5 }} />
+                <ExpandMoreIcon sx={{ fontSize: 18, color: "text.secondary", ml: 0.5 }} />
               ) : (
-                <ChevronRightIcon sx={{ fontSize: 18, color: "#94a3b8", ml: 0.5 }} />
+                <ChevronRightIcon sx={{ fontSize: 18, color: "text.secondary", ml: 0.5 }} />
               )}
             </>
           )}
@@ -573,7 +573,7 @@ export default function RuleTreeSidebar({
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <SearchIcon sx={{ fontSize: 16, color: "#94a3b8" }} />
+                  <SearchIcon sx={{ fontSize: 16, color: "text.secondary" }} />
                 </InputAdornment>
               ),
               endAdornment: search && (

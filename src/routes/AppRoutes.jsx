@@ -17,7 +17,7 @@ const ValidationView = lazy(() =>
   import("../pages/ValidationView").then((m) => ({ default: m.ValidationView }))
 );
 const AtomicTestLibrary = lazy(() => import("../pages/AtomicTestLibrary/index"));
-const EngineLibrary = lazy(() => import("../components/pages/Engine/EngineLibrary"));
+const EngineLibraryShell = lazy(() => import("../components/pages/Engine/EngineLibraryShell"));
 
 const wrap = (element) => <RouteSuspense>{element}</RouteSuspense>;
 
@@ -33,7 +33,9 @@ const AppRoutes = ({ navigate }) => {
 
   return (
   <Routes>
-    <Route index element={wrap(<EngineLibrary />)} />
+    <Route index element={<Navigate to="/engine/alt-misuse" replace />} />
+    {engineRoutes}
+    <Route path="/engine/:ruleId" element={wrap(<EngineLibraryShell />)} />
 
     <Route path="/test-runner" element={wrap(<ProjectSelector />)} />
     <Route path="/test-runner/validation" element={wrap(<ValidationView />)} />
@@ -60,11 +62,10 @@ const AppRoutes = ({ navigate }) => {
     <Route path="tables" element={<Navigate to="/" replace />} />
 
     <Route path="rules" element={<Navigate to="/" replace />} />
-    <Route path="/engine" element={<Navigate to="/" replace />} />
-    <Route path="/engine/library" element={<Navigate to="/" replace />} />
+    <Route path="/engine" element={<Navigate to="/engine/alt-misuse" replace />} />
+    <Route path="/engine/library" element={<Navigate to="/engine/alt-misuse" replace />} />
 
     {criteriaRoutes}
-    {engineRoutes}
 
     <Route
       path="/*"

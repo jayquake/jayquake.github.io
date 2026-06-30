@@ -1,42 +1,39 @@
-/** MGS2 Raiden — carbon suit HUD + tactical network palette. */
+/** MGS2 Raiden + Cursor IDE — carbon HUD with soft panel contrast. */
 export const MGS = {
-  raidenCyan: '#5ec8e8',
-  raidenCyanBright: '#8ee4ff',
-  raidenCyanDim: '#3aa8c8',
-  raidenCyanGlow: 'rgba(94, 200, 232, 0.45)',
+  /** Cursor-style teal accent */
+  raidenCyan: '#00a38d',
+  raidenCyanBright: '#4fd1ed',
+  raidenCyanDim: '#007a68',
+  raidenCyanGlow: 'rgba(0, 163, 141, 0.35)',
   raidenSilver: '#d4dce4',
-  raidenWhite: '#eef2f6',
-  carbonBase: '#0a0a0c',
-  carbonPanel: '#111114',
-  carbonElevated: '#18181c',
-  carbonSidebar: '#0d0d10',
-  carbonInput: '#08080a',
-  border: '#2a2a32',
-  borderBright: '#3a3a44',
-  borderCyan: 'rgba(94, 200, 232, 0.28)',
-  textPrimary: '#dde3ea',
-  textSecondary: '#8a929c',
-  textMuted: '#5c636b',
-  selection: 'rgba(94, 200, 232, 0.1)',
-  selectionStrong: 'rgba(94, 200, 232, 0.18)',
+  raidenWhite: '#e8ecef',
+  /** WebStorm-esque surfaces — soft contrast between zones */
+  carbonBase: '#0d0d0d',
+  carbonMain: '#0d0d0d',
+  carbonPanel: '#141414',
+  carbonElevated: '#181818',
+  carbonSidebar: '#1a1a1a',
+  carbonInput: '#101010',
+  border: '#2a2a2a',
+  borderBright: '#333333',
+  borderCyan: 'rgba(0, 163, 141, 0.22)',
+  textPrimary: '#e0e0e0',
+  textSecondary: '#a0a8b0',
+  textMuted: '#7a828c',
+  selection: 'rgba(0, 163, 141, 0.08)',
+  selectionStrong: 'rgba(0, 163, 141, 0.14)',
   alertRed: '#ff5c5c',
   cautionAmber: '#ffc14d',
   passGreen: '#6ee7b7',
 } as const;
 
-/** Diagonal carbon weave overlay — stack on a solid carbon base color. */
+/** Subtle carbon weave — sidebar / HUD accents only */
 export const carbonWeave = `repeating-linear-gradient(
   -45deg,
   transparent,
-  transparent 2px,
-  rgba(255, 255, 255, 0.02) 2px,
-  rgba(255, 255, 255, 0.02) 3px
-), repeating-linear-gradient(
-  45deg,
-  transparent,
-  transparent 2px,
-  rgba(255, 255, 255, 0.014) 2px,
-  rgba(255, 255, 255, 0.014) 3px
+  transparent 3px,
+  rgba(255, 255, 255, 0.012) 3px,
+  rgba(255, 255, 255, 0.012) 4px
 )`;
 
 export const mgsFonts = {

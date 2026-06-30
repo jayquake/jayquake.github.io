@@ -1,10 +1,14 @@
 import { createTheme } from '@mui/material/styles';
 import { MGS, carbonWeave, mgsFonts } from './theme/mgsTokens';
 
-const carbonSurface = (base: string) => ({
-  backgroundColor: base,
+const sidebarSurface = {
+  backgroundColor: MGS.carbonSidebar,
   backgroundImage: carbonWeave,
-});
+};
+
+const mainSurface = {
+  backgroundColor: MGS.carbonMain,
+};
 
 export const theme = createTheme({
   palette: {
@@ -15,11 +19,11 @@ export const theme = createTheme({
     error: { main: MGS.alertRed },
     warning: { main: MGS.cautionAmber },
     info: { main: MGS.raidenCyanBright },
-    background: { default: MGS.carbonBase, paper: MGS.carbonPanel },
+    background: { default: MGS.carbonMain, paper: MGS.carbonSidebar },
     text: { primary: MGS.textPrimary, secondary: MGS.textSecondary },
     divider: MGS.border,
     action: {
-      hover: 'rgba(94, 200, 232, 0.06)',
+      hover: 'rgba(0, 163, 141, 0.06)',
       selected: MGS.selection,
     },
   },
@@ -55,7 +59,7 @@ export const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          ...carbonSurface(MGS.carbonBase),
+          ...mainSurface,
           color: MGS.textPrimary,
         },
       },
@@ -64,17 +68,16 @@ export const theme = createTheme({
       defaultProps: { elevation: 0, color: 'transparent' },
       styleOverrides: {
         root: {
-          ...carbonSurface(MGS.carbonElevated),
+          backgroundColor: MGS.carbonElevated,
           borderBottom: `1px solid ${MGS.borderCyan}`,
-          boxShadow: `inset 0 -1px 0 ${MGS.raidenCyanGlow}, inset 0 1px 0 rgba(255,255,255,0.04)`,
         },
       },
     },
     MuiDrawer: {
       styleOverrides: {
         paper: {
-          ...carbonSurface(MGS.carbonSidebar),
-          borderRight: `1px solid ${MGS.borderCyan}`,
+          ...sidebarSurface,
+          borderRight: `1px solid ${MGS.border}`,
         },
       },
     },
@@ -89,11 +92,11 @@ export const theme = createTheme({
         },
         containedPrimary: {
           backgroundColor: MGS.raidenCyanDim,
-          color: MGS.carbonBase,
+          color: MGS.raidenWhite,
           border: `1px solid ${MGS.raidenCyan}`,
           '&:hover': {
             backgroundColor: MGS.raidenCyan,
-            boxShadow: `0 0 12px ${MGS.raidenCyanGlow}`,
+            boxShadow: `0 0 10px ${MGS.raidenCyanGlow}`,
           },
         },
         outlined: {
@@ -110,7 +113,7 @@ export const theme = createTheme({
       defaultProps: { elevation: 0, variant: 'outlined' },
       styleOverrides: {
         root: {
-          ...carbonSurface(MGS.carbonPanel),
+          backgroundColor: MGS.carbonPanel,
           borderColor: MGS.border,
         },
       },
@@ -129,7 +132,6 @@ export const theme = createTheme({
           '& .MuiOutlinedInput-root': {
             fontFamily: mgsFonts.tactical,
             backgroundColor: MGS.carbonInput,
-            backgroundImage: carbonWeave,
             '& fieldset': { borderColor: MGS.border },
             '&:hover fieldset': { borderColor: MGS.raidenCyanDim },
             '&.Mui-focused fieldset': {
@@ -143,17 +145,18 @@ export const theme = createTheme({
     },
     MuiTableCell: {
       styleOverrides: {
-        root: { borderColor: MGS.border, fontFamily: mgsFonts.tactical, fontSize: '0.8rem' },
-        head: { color: MGS.raidenCyanDim, fontWeight: 600, letterSpacing: '0.1em' },
+        root: {
+          borderColor: MGS.border,
+          fontFamily: mgsFonts.tactical,
+          fontSize: '0.8rem',
+        },
+        head: { color: MGS.raidenCyanBright, fontWeight: 600, letterSpacing: '0.1em' },
       },
     },
     MuiLinearProgress: {
       styleOverrides: {
         root: { backgroundColor: MGS.carbonInput },
-        bar: {
-          backgroundColor: MGS.raidenCyan,
-          boxShadow: `0 0 8px ${MGS.raidenCyanGlow}`,
-        },
+        bar: { backgroundColor: MGS.raidenCyan },
       },
     },
     MuiListItemButton: {
@@ -169,11 +172,7 @@ export const theme = createTheme({
     },
     MuiTabs: {
       styleOverrides: {
-        indicator: {
-          backgroundColor: MGS.raidenCyan,
-          height: 2,
-          boxShadow: `0 0 6px ${MGS.raidenCyanGlow}`,
-        },
+        indicator: { backgroundColor: MGS.raidenCyan, height: 2 },
       },
     },
     MuiTab: {

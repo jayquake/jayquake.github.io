@@ -33,7 +33,7 @@ const StyledSearchBar = styled(Box)(({ theme }) => ({
   gap: theme.spacing(1),
   "&:focus-within": {
     borderColor: theme.palette.primary.main,
-    boxShadow: `0 0 0 1px ${theme.palette.primary.main}, 0 0 12px rgba(94,200,232,0.2)`,
+    boxShadow: `0 0 0 1px ${theme.palette.primary.main}, 0 0 12px rgba(0,163,141,0.2)`,
   },
 }));
 
@@ -52,7 +52,7 @@ const StyledDropdown = styled(Box)(({ theme }) => ({
   right: 0,
   zIndex: 1,
   backgroundColor: "#0e0e11",
-  border: `1px solid rgba(94, 200, 232, 0.28)`,
+    border: `1px solid rgba(0, 163, 141, 0.22)`,
   borderRadius: theme.shape.borderRadius,
   overflow: "hidden",
   marginTop: theme.spacing(0.5),
