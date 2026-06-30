@@ -1,6 +1,6 @@
 {
-  "short_name": "Rules Testing",
-  "name": "Accessibility Rules Testing",
+  "short_name": "RAIDEN",
+  "name": "RAIDEN — Engine Rules Library",
   "icons": [
     {
       "src": "favicon.ico",
@@ -25,6 +25,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#667eea",
-  "background_color": "#ffffff"
+  "theme_color": "#0d0d0d",
+  "background_color": "#0d0d0d"
 }
