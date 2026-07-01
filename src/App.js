@@ -9,6 +9,7 @@ import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import AppSidebar from "./components/layout/AppSidebar";
+import { HudPresence } from "./components/motion/HudMotion";
 import AppRoutes from "./routes/AppRoutes";
 import { mainShellMetrics } from "./theme/layout";
 import { mgsFonts, raidenType } from "./theme/mgsTokens";
@@ -82,6 +83,17 @@ function getPageInfo(pathname) {
     linkLabel: "NANOMACHINE LINK",
     subtitle: "Rule testing",
   };
+}
+
+/** Stable motion key — avoids full-page transitions when switching rules in the library. */
+function getRouteMotionKey(pathname) {
+  const mode = getShellMode(pathname);
+  if (mode === "libraryDetail") return "library-detail";
+  if (mode === "example") {
+    const match = pathname.match(/^\/engine\/(.+)_(success|failure)$/);
+    return match ? `example-${match[1]}` : "example";
+  }
+  return pathname || "/";
 }
 
 export default function App() {
@@ -249,7 +261,13 @@ export default function App() {
       >
         <Toolbar sx={{ minHeight: toolbarHeight, flexShrink: 0 }} />
         <Box sx={{ flex: 1, minHeight: 0, overflow: "hidden" }}>
-          <AppRoutes navigate={navigate} />
+          <HudPresence
+            presenceKey={getRouteMotionKey(location.pathname)}
+            transitionPreset="route"
+            style={{ flex: 1 }}
+          >
+            <AppRoutes navigate={navigate} />
+          </HudPresence>
         </Box>
       </Box>
     </Box>

@@ -30,6 +30,7 @@ import {
 } from "@mui/material";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
+import { HudLayoutIndicator, m } from "../../motion/HudMotion";
 import ENGINE_RULE_CATEGORIES from "../../../data/engine-rule-categories";
 import { fetchEngineRulesCatalog, getEngineRulesCatalogCache } from "../../../utils/engineRulesDataService";
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
@@ -118,6 +119,7 @@ function RuleActionBar({ items, leafPaths, ruleId, ruleType, onNavigate, locatio
             : location.pathname === to;
         return (
           <Tooltip key={item.key} title={item.label} placement="top">
+            <Box component={m.div} whileTap={{ scale: 0.92 }} sx={{ display: "inline-flex" }}>
             <IconButton
               component={RouterLink}
               to={to}
@@ -144,6 +146,7 @@ function RuleActionBar({ items, leafPaths, ruleId, ruleType, onNavigate, locatio
             >
               <Icon sx={{ fontSize: 13 }} />
             </IconButton>
+            </Box>
           </Tooltip>
         );
       })}
@@ -226,12 +229,27 @@ function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, exp
             mx: isOpen ? 0.5 : 0,
             textDecoration: "none",
             color: "inherit",
+            position: "relative",
             "&.Mui-selected": {
               bgcolor: "action.selected",
             },
             "&:hover": { bgcolor: "action.hover" },
           }}
         >
+          {isRuleActive && ruleType === "engine" && (
+            <HudLayoutIndicator
+              layoutId="sidebar-rule-active"
+              style={{
+                position: "absolute",
+                left: 0,
+                top: 4,
+                bottom: 4,
+                width: 2,
+                backgroundColor: "#00a38d",
+                pointerEvents: "none",
+              }}
+            />
+          )}
           {isOpen && (
             <IconButton
               size="small"

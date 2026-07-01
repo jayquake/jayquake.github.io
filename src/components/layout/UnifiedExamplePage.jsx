@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { useEffect } from "react";
+import { AnimatePresence } from "motion/react";
 import {
   Accordion,
   AccordionDetails,
@@ -21,10 +22,12 @@ import {
   Info as InfoIcon,
   Lightbulb as LightbulbIcon,
 } from "@mui/icons-material";
+import { m } from "../motion/HudMotion";
 import ExampleCard from "./ExampleCard";
 import ExamplePageNav from "./ExamplePageNav";
 import { HUD_PANEL, PAGE_SHELL } from "../../theme/layout";
 import { MGS, mgsFonts, raidenType } from "../../theme/mgsTokens";
+import { hudPanelTransition, hudVariantMotion, hudVariantTransition } from "../../theme/motionPresets";
 
 const PALETTE = {
   success: {
@@ -65,12 +68,15 @@ export default function UnifiedExamplePage({
     window.scrollTo(0, 0);
   }, [variant, ruleId]);
 
-  return (
-    <Box sx={{ ...PAGE_SHELL, display: "flex", flexDirection: "column", gap: 1.5 }}>
-      <ExamplePageNav ruleId={ruleId} ruleType={ruleType} variant={variant} />
+  const variantMotion = hudVariantMotion(variant);
 
+  const variantContent = (
+    <>
       <Paper
         elevation={0}
+        component={m.div}
+        animate={{ borderLeftColor: pal.primary }}
+        transition={hudPanelTransition()}
         sx={{
           ...HUD_PANEL,
           p: { xs: 2, sm: 2.5 },
@@ -235,6 +241,29 @@ export default function UnifiedExamplePage({
           )}
         </Box>
       </Paper>
+    </>
+  );
+
+  return (
+    <Box sx={{ ...PAGE_SHELL, display: "flex", flexDirection: "column", gap: 1.5 }}>
+      <ExamplePageNav ruleId={ruleId} ruleType={ruleType} variant={variant} />
+
+      {ruleType === "legacy" ? (
+        <AnimatePresence mode="wait">
+          <m.div
+            key={variant}
+            initial={variantMotion.initial}
+            animate={variantMotion.animate}
+            exit={variantMotion.exit}
+            transition={hudVariantTransition()}
+            style={{ display: "flex", flexDirection: "column", gap: 12 }}
+          >
+            {variantContent}
+          </m.div>
+        </AnimatePresence>
+      ) : (
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>{variantContent}</Box>
+      )}
     </Box>
   );
 }

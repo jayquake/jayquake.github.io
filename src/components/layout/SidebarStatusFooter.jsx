@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import packageJson from "../../../package.json";
 import { useMissionClock } from "../../hooks/useMissionClock";
+import { HudPulse } from "../motion/HudMotion";
 import { MGS, mgsFonts } from "../../theme/mgsTokens";
 
 export default function SidebarStatusFooter({ isOpen }) {
@@ -11,12 +12,12 @@ export default function SidebarStatusFooter({ isOpen }) {
   if (!isOpen) {
     return (
       <Box sx={{ py: 1, display: "flex", justifyContent: "center" }}>
-        <Box
-          sx={{
+        <HudPulse
+          style={{
             width: 8,
             height: 8,
             borderRadius: "50%",
-            bgcolor: MGS.passGreen,
+            backgroundColor: MGS.passGreen,
             boxShadow: `0 0 6px ${MGS.passGreen}`,
           }}
         />
@@ -35,13 +36,13 @@ export default function SidebarStatusFooter({ isOpen }) {
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", gap: 0.75, mb: 1 }}>
-        <Box
-          sx={{
+        <HudPulse
+          style={{
             width: 8,
             height: 8,
             borderRadius: "50%",
-            bgcolor: MGS.passGreen,
-            boxShadow: `0 0 8px rgba(110, 231, 183, 0.6)`,
+            backgroundColor: MGS.passGreen,
+            boxShadow: "0 0 8px rgba(110, 231, 183, 0.6)",
             flexShrink: 0,
           }}
         />

@@ -1,9 +1,12 @@
 import { Box, Drawer, useMediaQuery, useTheme } from "@mui/material";
+import { LayoutGroup } from "motion/react";
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useEngineRuleFull } from "../../../hooks/useEngineRuleFull";
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
 import { LIBRARY_LAYOUT } from "../../../theme/layout";
+import { hudLayoutTransition } from "../../../theme/motionPresets";
+import { HudPresence, m } from "../../motion/HudMotion";
 import EngineRuleDetailPane from "./EngineRuleDetailPane";
 import EngineRulesTable from "./EngineRulesTable";
 import { DEFAULT_RULE_ID } from "./engineLibraryUtils";
@@ -66,72 +69,92 @@ export default function EngineLibraryShell() {
     : LIBRARY_LAYOUT.detailColumn;
 
   return (
-    <Box
-      sx={{
-        display: "grid",
-        gridTemplateColumns: isMobile ? "1fr" : `${detailCol} ${LIBRARY_LAYOUT.listColumn}`,
-        justifyContent: "stretch",
-        alignContent: "stretch",
-        flex: 1,
-        minHeight: 0,
-        height: "100%",
-        width: "100%",
-        maxWidth: "100%",
-        overflow: "hidden",
-      }}
-    >
-      {!isMobile && (
+    <LayoutGroup>
+      <Box
+        component={m.div}
+        layout
+        transition={hudLayoutTransition("soft")}
+        sx={{
+          display: "grid",
+          gridTemplateColumns: isMobile ? "1fr" : `${detailCol} ${LIBRARY_LAYOUT.listColumn}`,
+          justifyContent: "stretch",
+          alignContent: "stretch",
+          flex: 1,
+          minHeight: 0,
+          height: "100%",
+          width: "100%",
+          maxWidth: "100%",
+          overflow: "hidden",
+        }}
+      >
+        {!isMobile && (
+          <Box
+            component={m.div}
+            layout
+            transition={hudLayoutTransition("soft")}
+            sx={{
+              minWidth: 0,
+              minHeight: 0,
+              width: "100%",
+              overflow: "hidden",
+              justifySelf: "stretch",
+              alignSelf: "stretch",
+              borderRight: 1,
+              borderColor: "primary.dark",
+            }}
+          >
+            <HudPresence
+              presenceKey={selectedRuleId}
+              variant="slideX"
+              transitionPreset="detail"
+            >
+              <EngineRuleDetailPane
+                rule={detailRule}
+                collapsed={detailCollapsed}
+                onToggleCollapse={() => setDetailCollapsed((c) => !c)}
+              />
+            </HudPresence>
+          </Box>
+        )}
+
         <Box
-          key={selectedRuleId}
-          sx={{
-            minWidth: 0,
-            minHeight: 0,
-            width: "100%",
-            overflow: "hidden",
-            justifySelf: "stretch",
-            alignSelf: "stretch",
-            borderRight: 1,
-            borderColor: "primary.dark",
+          component={m.div}
+          layout
+          transition={hudLayoutTransition("soft")}
+          sx={{ minWidth: 0, minHeight: 0, overflow: "hidden" }}
+        >
+          <EngineRulesTable
+            layout="compact"
+            filteredRules={filteredRules}
+            populatedCount={populatedRules.length}
+            selectedRuleId={selectedRuleId}
+            onSelectRule={handleSelectRule}
+            loading={library.loading}
+            {...tableProps}
+          />
+        </Box>
+
+        <Drawer
+          anchor="bottom"
+          open={isMobile && mobileDetailOpen}
+          onClose={() => setMobileDetailOpen(false)}
+          PaperProps={{
+            sx: {
+              maxHeight: "72vh",
+              borderTopLeftRadius: 8,
+              borderTopRightRadius: 8,
+              bgcolor: "background.default",
+            },
           }}
         >
           <EngineRuleDetailPane
             rule={detailRule}
-            collapsed={detailCollapsed}
-            onToggleCollapse={() => setDetailCollapsed((c) => !c)}
+            collapsed={false}
+            onToggleCollapse={() => setMobileDetailOpen(false)}
+            compact
           />
-        </Box>
-      )}
-
-      <EngineRulesTable
-        layout="compact"
-        filteredRules={filteredRules}
-        populatedCount={populatedRules.length}
-        selectedRuleId={selectedRuleId}
-        onSelectRule={handleSelectRule}
-        loading={library.loading}
-        {...tableProps}
-      />
-
-      <Drawer
-        anchor="bottom"
-        open={isMobile && mobileDetailOpen}
-        onClose={() => setMobileDetailOpen(false)}
-        PaperProps={{
-          sx: {
-            maxHeight: "72vh",
-            borderTopLeftRadius: 8,
-            borderTopRightRadius: 8,
-            bgcolor: "background.default",
-          },
-        }}
-      >
-        <EngineRuleDetailPane
-          rule={detailRule}
-          collapsed={false}
-          onToggleCollapse={() => setMobileDetailOpen(false)}
-          compact
-        />
-      </Drawer>
-    </Box>
+        </Drawer>
+      </Box>
+    </LayoutGroup>
   );
 }

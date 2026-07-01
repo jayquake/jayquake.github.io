@@ -1,7 +1,19 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Skeleton } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { PAGE_SHELL } from "../../theme/layout";
 import { loadEngineExample } from "../../utils/engineExampleUtils";
+
+function ExampleLoaderSkeleton() {
+  return (
+    <Box sx={{ ...PAGE_SHELL, display: "flex", flexDirection: "column", gap: 1.5 }}>
+      <Skeleton variant="text" width="35%" height={28} />
+      <Skeleton variant="rectangular" height={48} sx={{ borderRadius: 0 }} />
+      <Skeleton variant="rectangular" height={120} sx={{ borderRadius: 0 }} />
+      <Skeleton variant="rectangular" height={240} sx={{ borderRadius: 0 }} />
+    </Box>
+  );
+}
 
 export default function EngineExampleLoader({ ruleId, variant }) {
   const [Page, setPage] = useState(null);
@@ -30,7 +42,7 @@ export default function EngineExampleLoader({ ruleId, variant }) {
   }
 
   if (!Page) {
-    return null;
+    return <ExampleLoaderSkeleton />;
   }
 
   return <Page />;

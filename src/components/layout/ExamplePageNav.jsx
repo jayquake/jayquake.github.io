@@ -2,8 +2,10 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import { Link as RouterLink, useLocation } from "react-router-dom";
+import { HudLayoutIndicator, m } from "../motion/HudMotion";
 import { prefetchEngineExample } from "../../utils/engineExampleUtils";
 import { MGS, mgsFonts, raidenType } from "../../theme/mgsTokens";
+import { hudLayoutTransition } from "../../theme/motionPresets";
 
 const tabSx = {
   minWidth: 88,
@@ -17,6 +19,8 @@ const tabSx = {
   borderRadius: 0,
   border: 0,
   boxShadow: "none",
+  position: "relative",
+  zIndex: 1,
 };
 
 export default function ExamplePageNav({ ruleId, ruleType, variant }) {
@@ -31,7 +35,12 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
   return (
     <Box sx={{ mb: 1 }}>
       {ruleId && (
-        <Typography sx={{ ...raidenType.ruleId, mb: 0.75 }}>
+        <Typography
+          component={m.span}
+          layoutId={ruleType === "engine" ? `rule-heading-${ruleId}` : undefined}
+          transition={ruleType === "engine" ? hudLayoutTransition("shared") : undefined}
+          sx={{ ...raidenType.ruleId, mb: 0.75, display: "block" }}
+        >
           [ {ruleId} ]
         </Typography>
       )}
@@ -70,6 +79,7 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
           role="tablist"
           aria-label="Example variant"
           sx={{
+            position: "relative",
             border: 1,
             borderColor: "primary.main",
             borderRadius: 0,
@@ -83,8 +93,8 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
             role="tab"
             aria-selected={variant === "success"}
             size="small"
-            variant={variant === "success" ? "contained" : "text"}
-            color={variant === "success" ? "primary" : "inherit"}
+            variant="text"
+            color="inherit"
             disableElevation
             onMouseEnter={() => warm("success")}
             onFocus={() => warm("success")}
@@ -93,6 +103,17 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
               color: variant === "success" ? MGS.raidenWhite : "primary.light",
             }}
           >
+            {variant === "success" && (
+              <HudLayoutIndicator
+                layoutId="example-variant-indicator"
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  backgroundColor: MGS.raidenCyan,
+                  zIndex: -1,
+                }}
+              />
+            )}
             Success
           </Button>
           <Button
@@ -101,20 +122,27 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
             role="tab"
             aria-selected={variant === "failure"}
             size="small"
-            variant={variant === "failure" ? "contained" : "text"}
-            color={variant === "failure" ? "error" : "inherit"}
+            variant="text"
+            color="inherit"
             disableElevation
             onMouseEnter={() => warm("failure")}
             onFocus={() => warm("failure")}
             sx={{
               ...tabSx,
               color: variant === "failure" ? MGS.raidenWhite : MGS.alertRed,
-              bgcolor: variant === "failure" ? MGS.alertRed : "transparent",
-              "&:hover": {
-                bgcolor: variant === "failure" ? MGS.alertRed : "action.hover",
-              },
             }}
           >
+            {variant === "failure" && (
+              <HudLayoutIndicator
+                layoutId="example-variant-indicator"
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  backgroundColor: MGS.alertRed,
+                  zIndex: -1,
+                }}
+              />
+            )}
             Failure
           </Button>
         </Stack>

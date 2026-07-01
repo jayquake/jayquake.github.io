@@ -11,6 +11,8 @@ import { SearchProvider } from "./components/util/SearchContext";
 import { ToastProvider } from "./components/standalone/ToastContainer";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
+import { AppReadyProvider } from "./context/AppReadyContext";
+import { MotionProvider } from "./components/motion/HudMotion";
 import { theme } from "./theme";
 import { prefetchEngineRulesCatalog } from "./utils/engineRulesDataService";
 
@@ -26,8 +28,12 @@ root.render(
           <ToastProvider>
             <ModalProvider>
               <SearchProvider>
-                <GlobalLoading />
-                <App />
+                <AppReadyProvider>
+                  <MotionProvider>
+                    <GlobalLoading />
+                    <App />
+                  </MotionProvider>
+                </AppReadyProvider>
               </SearchProvider>
             </ModalProvider>
           </ToastProvider>

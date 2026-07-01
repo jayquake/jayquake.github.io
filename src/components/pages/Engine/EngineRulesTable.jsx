@@ -10,13 +10,13 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   TextField,
   Typography,
 } from "@mui/material";
 import { memo, useCallback } from "react";
+import { HudLayoutIndicator, HudMotion, m } from "../../motion/HudMotion";
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
 import { MGS, mgsFonts, raidenType } from "../../../theme/mgsTokens";
 import {
@@ -65,12 +65,10 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
         onMouseDown={handleWarm}
         sx={{
           cursor: "pointer",
+          position: "relative",
           "&.Mui-selected td": {
             bgcolor: MGS.selectionStrong,
             borderColor: "primary.dark",
-          },
-          "&.Mui-selected td:first-of-type": {
-            boxShadow: (t) => `inset 3px 0 0 ${t.palette.primary.main}`,
           },
           "&:hover td": { bgcolor: "action.hover" },
           "& td": {
@@ -80,6 +78,21 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
           },
         }}
       >
+        {selected && (
+          <HudLayoutIndicator
+            layoutId="rule-row-indicator"
+            style={{
+              position: "absolute",
+              left: 0,
+              top: 0,
+              bottom: 0,
+              width: 3,
+              backgroundColor: MGS.raidenCyan,
+              zIndex: 2,
+              pointerEvents: "none",
+            }}
+          />
+        )}
         <TableCell>
           <Typography
             variant="caption"
@@ -437,7 +450,17 @@ export default function EngineRulesTable({
         </Box>
       </Box>
 
-      <TableContainer sx={{ flex: 1, overflow: "auto", px: isLibrary ? { xs: 2, sm: 3 } : { xs: 1, sm: 2 }, pb: 2 }}>
+      <HudMotion
+        variant="fade"
+        transitionPreset="fast"
+        layoutKey={loading ? "loading" : "ready"}
+        style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column", overflow: "hidden" }}
+      >
+      <Box
+        component={m.div}
+        layoutScroll
+        sx={{ flex: 1, overflow: "auto", px: isLibrary ? { xs: 2, sm: 3 } : { xs: 1, sm: 2 }, pb: 2 }}
+      >
         {filteredRules.length === 0 ? (
           <Typography variant="body2" color="text.secondary" sx={{ py: 4, textAlign: "center" }}>
             No rules match your filters.
@@ -504,7 +527,8 @@ export default function EngineRulesTable({
             </TableBody>
           </Table>
         )}
-      </TableContainer>
+      </Box>
+      </HudMotion>
     </Box>
   );
 }

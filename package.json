@@ -18,6 +18,7 @@
     "accessflow-mcp-server": "^1.0.15",
     "ansi-to-html": "^0.7.2",
     "dompurify": "^3.2.3",
+    "motion": "^12.42.1",
     "prismjs": "^1.30.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
@@ -81,7 +82,7 @@
     "server:db:studio": "cd server && npx prisma studio",
     "dev:full": "concurrently -n frontend,backend -c cyan,green \"npm start\" \"npm run server:dev\"",
     "mcp:start": "npx @playwright/mcp --port 3002",
-    "dev:all": "npm run dev:full"
+    "de v:all": "npm run dev:full"
   },
   "eslintConfig": {
     "extends": [

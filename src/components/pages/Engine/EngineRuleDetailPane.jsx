@@ -14,7 +14,9 @@ import {
   Typography,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
+import { m } from "../../motion/HudMotion";
 import { LIBRARY_LAYOUT } from "../../../theme/layout";
+import { hudLayoutTransition } from "../../../theme/motionPresets";
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
 import { getRuleSlug } from "./engineLibraryUtils";
 import { MGS, mgsFonts, raidenType } from "../../../theme/mgsTokens";
@@ -132,9 +134,13 @@ export default function EngineRuleDetailPane({
             Tactical HUD · Engine Rule
           </Typography>
           <Typography
+            component={m.span}
+            layoutId={`rule-heading-${slug}`}
+            transition={hudLayoutTransition("shared")}
             sx={{
               ...raidenType.ruleId,
               mb: 0.75,
+              display: "block",
             }}
           >
             [ {slug} ]

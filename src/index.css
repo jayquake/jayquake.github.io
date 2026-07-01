@@ -3,7 +3,17 @@
 html {
   scroll-behavior: smooth;
   overflow-y: scroll;
+  scrollbar-gutter: stable;
   height: 100%;
+}
+
+#root {
+  opacity: 1;
+  transition: opacity 0.15s ease-out;
+}
+
+body:not(.app-ready) #root {
+  opacity: 0.98;
 }
 
 body {
