@@ -2,10 +2,9 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import { Link as RouterLink, useLocation } from "react-router-dom";
-import { HudLayoutIndicator, m } from "../motion/HudMotion";
+import { HudLayoutIndicator } from "../motion/HudMotion";
 import { prefetchEngineExample } from "../../utils/engineExampleUtils";
 import { MGS, mgsFonts, raidenType } from "../../theme/mgsTokens";
-import { hudLayoutTransition } from "../../theme/motionPresets";
 
 const tabSx = {
   minWidth: 88,
@@ -21,6 +20,7 @@ const tabSx = {
   boxShadow: "none",
   position: "relative",
   zIndex: 1,
+  flex: 1,
 };
 
 export default function ExamplePageNav({ ruleId, ruleType, variant }) {
@@ -35,12 +35,7 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
   return (
     <Box sx={{ mb: 1 }}>
       {ruleId && (
-        <Typography
-          component={m.span}
-          layoutId={ruleType === "engine" ? `rule-heading-${ruleId}` : undefined}
-          transition={ruleType === "engine" ? hudLayoutTransition("shared") : undefined}
-          sx={{ ...raidenType.ruleId, mb: 0.75, display: "block" }}
-        >
+        <Typography sx={{ ...raidenType.ruleId, mb: 0.75, display: "block" }}>
           [ {ruleId} ]
         </Typography>
       )}
@@ -87,6 +82,18 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
             flexShrink: 0,
           }}
         >
+          <HudLayoutIndicator
+            layout
+            style={{
+              position: "absolute",
+              top: 0,
+              bottom: 0,
+              left: variant === "success" ? 0 : "50%",
+              width: "50%",
+              backgroundColor: variant === "success" ? MGS.raidenCyan : MGS.alertRed,
+              zIndex: 0,
+            }}
+          />
           <Button
             component={RouterLink}
             to={`${basePath}_success`}
@@ -103,17 +110,6 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
               color: variant === "success" ? MGS.raidenWhite : "primary.light",
             }}
           >
-            {variant === "success" && (
-              <HudLayoutIndicator
-                layoutId="example-variant-indicator"
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  backgroundColor: MGS.raidenCyan,
-                  zIndex: -1,
-                }}
-              />
-            )}
             Success
           </Button>
           <Button
@@ -132,17 +128,6 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
               color: variant === "failure" ? MGS.raidenWhite : MGS.alertRed,
             }}
           >
-            {variant === "failure" && (
-              <HudLayoutIndicator
-                layoutId="example-variant-indicator"
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  backgroundColor: MGS.alertRed,
-                  zIndex: -1,
-                }}
-              />
-            )}
             Failure
           </Button>
         </Stack>

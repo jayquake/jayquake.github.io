@@ -10,7 +10,7 @@ export default function EngineSlugOutlet() {
 
   if (variant) {
     return (
-      <HudPresence presenceKey={`example-${ruleId}`} mode="wait" transitionPreset="route" style={{ flex: 1 }}>
+      <HudPresence presenceKey={`example-${ruleId}`} transitionPreset="route" style={{ flex: 1 }}>
         <ExampleVariantOutlet ruleId={ruleId} variant={variant} />
       </HudPresence>
     );

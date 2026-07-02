@@ -16,7 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import { memo, useCallback } from "react";
-import { HudLayoutIndicator, HudMotion, m } from "../../motion/HudMotion";
+import { HudLayoutIndicator, HudMotion } from "../../motion/HudMotion";
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
 import { MGS, mgsFonts, raidenType } from "../../../theme/mgsTokens";
 import {
@@ -78,22 +78,21 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
           },
         }}
       >
-        {selected && (
-          <HudLayoutIndicator
-            layoutId="rule-row-indicator"
-            style={{
-              position: "absolute",
-              left: 0,
-              top: 0,
-              bottom: 0,
-              width: 3,
-              backgroundColor: MGS.raidenCyan,
-              zIndex: 2,
-              pointerEvents: "none",
-            }}
-          />
-        )}
-        <TableCell>
+        <TableCell sx={{ position: "relative" }}>
+          {selected && (
+            <HudLayoutIndicator
+              layoutId="rule-row-indicator"
+              style={{
+                position: "absolute",
+                left: 0,
+                top: 0,
+                bottom: 0,
+                width: 3,
+                backgroundColor: MGS.raidenCyan,
+                zIndex: 1,
+              }}
+            />
+          )}
           <Typography
             variant="caption"
             sx={{
@@ -453,12 +452,9 @@ export default function EngineRulesTable({
       <HudMotion
         variant="fade"
         transitionPreset="fast"
-        layoutKey={loading ? "loading" : "ready"}
         style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column", overflow: "hidden" }}
       >
       <Box
-        component={m.div}
-        layoutScroll
         sx={{ flex: 1, overflow: "auto", px: isLibrary ? { xs: 2, sm: 3 } : { xs: 1, sm: 2 }, pb: 2 }}
       >
         {filteredRules.length === 0 ? (

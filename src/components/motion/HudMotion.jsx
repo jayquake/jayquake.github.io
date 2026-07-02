@@ -52,13 +52,15 @@ export function HudLayoutIndicator({
   style,
   className,
   shared = true,
+  layout = false,
   children,
 }) {
   return (
     <m.div
+      layout={layout || undefined}
       layoutId={layoutId}
       className={className}
-      style={style}
+      style={{ pointerEvents: "none", ...style }}
       transition={hudLayoutTransition(shared ? "shared" : "layout")}
     >
       {children}
@@ -67,10 +69,11 @@ export function HudLayoutIndicator({
 }
 
 HudLayoutIndicator.propTypes = {
-  layoutId: PropTypes.string.isRequired,
+  layoutId: PropTypes.string,
   style: PropTypes.object,
   className: PropTypes.string,
   shared: PropTypes.bool,
+  layout: PropTypes.bool,
   children: PropTypes.node,
 };
 
@@ -104,9 +107,8 @@ export function HudMotion({
       key={layoutKey}
       className={className}
       style={style}
-      initial={v.initial}
+      initial={false}
       animate={v.animate}
-      exit={v.exit}
       transition={resolveHudTransition(transitionPreset, delay)}
     >
       {children}
@@ -131,25 +133,25 @@ export function HudPresence({
   children,
   presenceKey,
   variant = "fade",
-  mode = "wait",
+  mode = "sync",
   style,
   transitionPreset = "panel",
 }) {
   const appReady = useAppReady();
   const reduceMotion = useReducedMotion();
   const v = VARIANTS[variant] || hudFade;
-  const mergedStyle = { ...panelStyle, ...style };
+  const mergedStyle = { ...panelStyle, pointerEvents: "auto", ...style };
 
   if (reduceMotion || !appReady) {
     return <div style={mergedStyle}>{children}</div>;
   }
 
   return (
-    <AnimatePresence mode={mode}>
+    <AnimatePresence mode={mode} initial={false}>
       <m.div
         key={presenceKey}
         style={mergedStyle}
-        initial={v.initial}
+        initial={false}
         animate={v.animate}
         exit={v.exit}
         transition={resolveHudTransition(transitionPreset)}

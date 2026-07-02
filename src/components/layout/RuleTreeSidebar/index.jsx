@@ -30,7 +30,7 @@ import {
 } from "@mui/material";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
-import { HudLayoutIndicator, m } from "../../motion/HudMotion";
+import { HudLayoutIndicator } from "../../motion/HudMotion";
 import ENGINE_RULE_CATEGORIES from "../../../data/engine-rule-categories";
 import { fetchEngineRulesCatalog, getEngineRulesCatalogCache } from "../../../utils/engineRulesDataService";
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
@@ -119,7 +119,6 @@ function RuleActionBar({ items, leafPaths, ruleId, ruleType, onNavigate, locatio
             : location.pathname === to;
         return (
           <Tooltip key={item.key} title={item.label} placement="top">
-            <Box component={m.div} whileTap={{ scale: 0.92 }} sx={{ display: "inline-flex" }}>
             <IconButton
               component={RouterLink}
               to={to}
@@ -146,7 +145,6 @@ function RuleActionBar({ items, leafPaths, ruleId, ruleType, onNavigate, locatio
             >
               <Icon sx={{ fontSize: 13 }} />
             </IconButton>
-            </Box>
           </Tooltip>
         );
       })}

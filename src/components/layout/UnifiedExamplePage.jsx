@@ -27,7 +27,7 @@ import ExampleCard from "./ExampleCard";
 import ExamplePageNav from "./ExamplePageNav";
 import { HUD_PANEL, PAGE_SHELL } from "../../theme/layout";
 import { MGS, mgsFonts, raidenType } from "../../theme/mgsTokens";
-import { hudPanelTransition, hudVariantMotion, hudVariantTransition } from "../../theme/motionPresets";
+import { hudVariantMotion, hudVariantTransition } from "../../theme/motionPresets";
 
 const PALETTE = {
   success: {
@@ -74,9 +74,6 @@ export default function UnifiedExamplePage({
     <>
       <Paper
         elevation={0}
-        component={m.div}
-        animate={{ borderLeftColor: pal.primary }}
-        transition={hudPanelTransition()}
         sx={{
           ...HUD_PANEL,
           p: { xs: 2, sm: 2.5 },

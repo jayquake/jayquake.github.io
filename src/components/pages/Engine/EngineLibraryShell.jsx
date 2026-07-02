@@ -1,12 +1,11 @@
 import { Box, Drawer, useMediaQuery, useTheme } from "@mui/material";
-import { LayoutGroup } from "motion/react";
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useEngineRuleFull } from "../../../hooks/useEngineRuleFull";
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
 import { LIBRARY_LAYOUT } from "../../../theme/layout";
-import { hudLayoutTransition } from "../../../theme/motionPresets";
-import { HudPresence, m } from "../../motion/HudMotion";
+import { HudPresence } from "../../motion/HudMotion";
+import LibraryLoadingShell from "./LibraryLoadingShell";
 import EngineRuleDetailPane from "./EngineRuleDetailPane";
 import EngineRulesTable from "./EngineRulesTable";
 import { DEFAULT_RULE_ID } from "./engineLibraryUtils";
@@ -60,6 +59,10 @@ export default function EngineLibraryShell() {
     return <Navigate to={`/engine/${DEFAULT_RULE_ID}`} replace />;
   }
 
+  if (library.loading) {
+    return <LibraryLoadingShell />;
+  }
+
   if (!indexRule) {
     return null;
   }
@@ -69,11 +72,8 @@ export default function EngineLibraryShell() {
     : LIBRARY_LAYOUT.detailColumn;
 
   return (
-    <LayoutGroup>
+    <>
       <Box
-        component={m.div}
-        layout
-        transition={hudLayoutTransition("soft")}
         sx={{
           display: "grid",
           gridTemplateColumns: isMobile ? "1fr" : `${detailCol} ${LIBRARY_LAYOUT.listColumn}`,
@@ -85,13 +85,14 @@ export default function EngineLibraryShell() {
           width: "100%",
           maxWidth: "100%",
           overflow: "hidden",
+          transition: theme.transitions.create("grid-template-columns", {
+            easing: theme.transitions.easing.easeInOut,
+            duration: theme.transitions.duration.standard,
+          }),
         }}
       >
         {!isMobile && (
           <Box
-            component={m.div}
-            layout
-            transition={hudLayoutTransition("soft")}
             sx={{
               minWidth: 0,
               minHeight: 0,
@@ -117,12 +118,7 @@ export default function EngineLibraryShell() {
           </Box>
         )}
 
-        <Box
-          component={m.div}
-          layout
-          transition={hudLayoutTransition("soft")}
-          sx={{ minWidth: 0, minHeight: 0, overflow: "hidden" }}
-        >
+        <Box sx={{ minWidth: 0, minHeight: 0, overflow: "hidden" }}>
           <EngineRulesTable
             layout="compact"
             filteredRules={filteredRules}
@@ -133,28 +129,28 @@ export default function EngineLibraryShell() {
             {...tableProps}
           />
         </Box>
-
-        <Drawer
-          anchor="bottom"
-          open={isMobile && mobileDetailOpen}
-          onClose={() => setMobileDetailOpen(false)}
-          PaperProps={{
-            sx: {
-              maxHeight: "72vh",
-              borderTopLeftRadius: 8,
-              borderTopRightRadius: 8,
-              bgcolor: "background.default",
-            },
-          }}
-        >
-          <EngineRuleDetailPane
-            rule={detailRule}
-            collapsed={false}
-            onToggleCollapse={() => setMobileDetailOpen(false)}
-            compact
-          />
-        </Drawer>
       </Box>
-    </LayoutGroup>
+
+      <Drawer
+        anchor="bottom"
+        open={isMobile && mobileDetailOpen}
+        onClose={() => setMobileDetailOpen(false)}
+        PaperProps={{
+          sx: {
+            maxHeight: "72vh",
+            borderTopLeftRadius: 8,
+            borderTopRightRadius: 8,
+            bgcolor: "background.default",
+          },
+        }}
+      >
+        <EngineRuleDetailPane
+          rule={detailRule}
+          collapsed={false}
+          onToggleCollapse={() => setMobileDetailOpen(false)}
+          compact
+        />
+      </Drawer>
+    </>
   );
 }

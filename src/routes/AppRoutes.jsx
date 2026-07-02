@@ -1,25 +1,25 @@
-import React, { lazy } from "react";
+import React from "react";
+import { Box } from "@mui/material";
 import { Navigate, Route, Routes } from "react-router-dom";
 import EngineLibraryHome from "../components/pages/Engine/EngineLibraryHome";
+import EngineSlugOutlet from "../components/routes/EngineSlugOutlet";
 import { useDeferredRouteElements } from "../components/util/DeferredRouteGroup";
 import RouteSuspense from "../components/util/RouteSuspense";
 import { isCriteriaPath } from "./criteriaPathUtils";
 
-const EngineSlugOutlet = lazy(() => import("../components/routes/EngineSlugOutlet"));
-
-const UnifiedRulePage = lazy(() => import("../components/layout/UnifiedRulePage"));
-const AllRulesWithRoutes = lazy(() => import("../components/pages/Criteria/AllRulesLinks"));
-const RuleLab = lazy(() => import("../pages/RuleLab/index"));
-const ProjectSelector = lazy(() => import("../pages/ProjectSelector"));
-const TestHistory = lazy(() => import("../pages/TestHistory"));
-const TestRunner = lazy(() => import("../pages/TestRunner"));
-const TestLibrary = lazy(() => import("../pages/TestLibrary/index"));
-const TestProgress = lazy(() => import("../pages/TestProgress/index"));
-const ResultsView = lazy(() => import("../pages/ResultsView/index"));
-const ValidationView = lazy(() =>
+const UnifiedRulePage = React.lazy(() => import("../components/layout/UnifiedRulePage"));
+const AllRulesWithRoutes = React.lazy(() => import("../components/pages/Criteria/AllRulesLinks"));
+const RuleLab = React.lazy(() => import("../pages/RuleLab/index"));
+const ProjectSelector = React.lazy(() => import("../pages/ProjectSelector"));
+const TestHistory = React.lazy(() => import("../pages/TestHistory"));
+const TestRunner = React.lazy(() => import("../pages/TestRunner"));
+const TestLibrary = React.lazy(() => import("../pages/TestLibrary/index"));
+const TestProgress = React.lazy(() => import("../pages/TestProgress/index"));
+const ResultsView = React.lazy(() => import("../pages/ResultsView/index"));
+const ValidationView = React.lazy(() =>
   import("../pages/ValidationView").then((m) => ({ default: m.ValidationView }))
 );
-const AtomicTestLibrary = lazy(() => import("../pages/AtomicTestLibrary/index"));
+const AtomicTestLibrary = React.lazy(() => import("../pages/AtomicTestLibrary/index"));
 
 const wrap = (element) => <RouteSuspense>{element}</RouteSuspense>;
 
@@ -30,9 +30,10 @@ const AppRoutes = ({ navigate }) => {
   );
 
   return (
-  <Routes>
+    <Box sx={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+      <Routes>
     <Route index element={<EngineLibraryHome />} />
-    <Route path="/engine/:ruleId" element={wrap(<EngineSlugOutlet />)} />
+    <Route path="/engine/:ruleId" element={<EngineSlugOutlet />} />
 
     <Route path="/test-runner" element={wrap(<ProjectSelector />)} />
     <Route path="/test-runner/validation" element={wrap(<ValidationView />)} />
@@ -79,6 +80,7 @@ const AppRoutes = ({ navigate }) => {
       )}
     />
   </Routes>
+    </Box>
   );
 };
 

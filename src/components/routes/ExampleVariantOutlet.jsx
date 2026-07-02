@@ -20,11 +20,11 @@ export default function ExampleVariantOutlet({ ruleId, variant }) {
   }
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="sync" initial={false}>
       <m.div
         key={variant}
         style={panelStyle}
-        initial={v.initial}
+        initial={false}
         animate={v.animate}
         exit={v.exit}
         transition={hudVariantTransition()}
