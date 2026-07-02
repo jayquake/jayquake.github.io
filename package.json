@@ -31,7 +31,7 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@acsbe/accessflow-sdk": "file:sdk/packages/node/acsbe-accessflow-sdk-1.2.0.tgz",
+    "@acsbe/accessflow-sdk": "^1.2.0",
     "@playwright/test": "^1.56.1",
     "@types/prismjs": "^1.26.6",
     "@types/react": "^19.2.14",
@@ -61,6 +61,7 @@
     "build": "npm run prebuild && CI=false react-app-rewired build",
     "build:analyze": "npm run prebuild && ANALYZE=true CI=false react-app-rewired build",
     "perf:retrace": "node scripts/retrace/raiden-perf-parity.cjs",
+    "retrace:interactive-target-size": "node scripts/retrace/interactive-target-size-mcp-prd-parity.cjs",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "test:e2e": "cd sdk/tests/selenium/node && npx jest --config jest.config.js",

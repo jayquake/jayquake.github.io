@@ -37,6 +37,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
+        env:
+          GCP_SDK_NPM_REGISTRY_URL: us-east1-npm.pkg.dev/accessflow-rm5h5j8lmu/stag-accessflow-npm
+          ACCESSFLOW_NPM_REGISTRY_TOKEN: ${{ secrets.ACCESSFLOW_NPM_REGISTRY_TOKEN }}
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium
@@ -48,21 +51,19 @@ jobs:
 
       - name: Ensure AccessFlow API key is set (Playwright)
         run: |
-          if [ -z "$AF_NODE_PACKAGE_KEY" ] && [ -z "$ACCESSFLOW_SDK_API_KEY" ]; then
-            echo "::error::Add AF_NODE_PACKAGE_KEY or ACCESSFLOW_SDK_API_KEY to this repo's GitHub Secrets."
+          if [ -z "$AF_NODE_PACKAGE_KEY" ]; then
+            echo "::error::Add AF_NODE_PACKAGE_KEY to this repo's GitHub Secrets."
             exit 1
           fi
           echo "AccessFlow API key is set."
         env:
           AF_NODE_PACKAGE_KEY: ${{ secrets.AF_NODE_PACKAGE_KEY }}
-          ACCESSFLOW_SDK_API_KEY: ${{ secrets.ACCESSFLOW_SDK_API_KEY }}
 
       - name: Run JS Playwright Tests
         run: cd sdk/tests/playwright/node && npx playwright test
         env:
           CI: true
           AF_NODE_PACKAGE_KEY: ${{ secrets.AF_NODE_PACKAGE_KEY }}
-          ACCESSFLOW_SDK_API_KEY: ${{ secrets.ACCESSFLOW_SDK_API_KEY }}
 
       - name: Upload Playwright Report
         uses: actions/upload-artifact@v4
@@ -107,6 +108,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
+        env:
+          GCP_SDK_NPM_REGISTRY_URL: us-east1-npm.pkg.dev/accessflow-rm5h5j8lmu/stag-accessflow-npm
+          ACCESSFLOW_NPM_REGISTRY_TOKEN: ${{ secrets.ACCESSFLOW_NPM_REGISTRY_TOKEN }}
 
       - name: Install Chrome & ChromeDriver
         uses: browser-actions/setup-chrome@v1
@@ -516,6 +520,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
+        env:
+          GCP_SDK_NPM_REGISTRY_URL: us-east1-npm.pkg.dev/accessflow-rm5h5j8lmu/stag-accessflow-npm
+          ACCESSFLOW_NPM_REGISTRY_TOKEN: ${{ secrets.ACCESSFLOW_NPM_REGISTRY_TOKEN }}
 
       - name: Determine branch path
         id: branch-path
