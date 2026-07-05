@@ -27,7 +27,8 @@ export default function EngineLibraryShell() {
   const indexRule = findRuleBySlug(selectedRuleId);
   const { rule: selectedRule } = useEngineRuleFull(selectedRuleId);
 
-  const detailRule = selectedRule || indexRule;
+  const detailRule =
+    selectedRule?.id === selectedRuleId ? selectedRule : indexRule;
 
   useEffect(() => {
     if (paramRuleId && !indexRule && !library.loading) {

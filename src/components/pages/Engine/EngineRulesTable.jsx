@@ -66,6 +66,12 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
     prefetchEngineExample(slug, "success");
   }, [slug]);
 
+  // Nested RouterLinks handle their own navigation; stop the click from also
+  // triggering the row's onSelect (which would override the link's target).
+  const stopRowNav = useCallback((e) => {
+    e.stopPropagation();
+  }, []);
+
   if (!isLibrary) {
     return (
       <TableRow
@@ -107,12 +113,13 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
             component={RouterLink}
             to={rulePath}
             href={rulePath}
-            variant="caption"
-            onMouseDown={handleWarm}
-            aria-current={selected ? "page" : undefined}
-            sx={{
-              ...ruleLinkSx,
-              display: "block",
+          variant="caption"
+          onMouseDown={handleWarm}
+          onClick={stopRowNav}
+          aria-current={selected ? "page" : undefined}
+          sx={{
+            ...ruleLinkSx,
+            display: "block",
               fontFamily: mgsFonts.hud,
               color: "primary.main",
               fontSize: "0.68rem",
@@ -126,11 +133,12 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
             component={RouterLink}
             to={rulePath}
             href={rulePath}
-            variant="body2"
-            aria-current={selected ? "page" : undefined}
-            sx={{
-              ...ruleLinkSx,
-              fontSize: "0.8rem",
+          variant="body2"
+          onClick={stopRowNav}
+          aria-current={selected ? "page" : undefined}
+          sx={{
+            ...ruleLinkSx,
+            fontSize: "0.8rem",
               fontWeight: selected ? 600 : 500,
               color: selected ? MGS.raidenWhite : "text.primary",
               lineHeight: 1.45,
@@ -200,6 +208,7 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
           variant="caption"
           noWrap
           onMouseDown={handleWarm}
+          onClick={stopRowNav}
           aria-current={selected ? "page" : undefined}
           sx={{
             ...ruleLinkSx,
@@ -217,6 +226,7 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
           href={rulePath}
           variant="body2"
           noWrap
+          onClick={stopRowNav}
           aria-current={selected ? "page" : undefined}
           sx={{
             ...ruleLinkSx,
@@ -295,6 +305,7 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
                 href={successPath}
                 variant="caption"
                 onMouseDown={() => prefetchEngineExample(slug, "success")}
+                onClick={stopRowNav}
                 sx={{ ...ruleLinkSx, fontFamily: mgsFonts.hud, fontSize: "0.62rem", color: "primary.light" }}
               >
                 Success
@@ -305,6 +316,7 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
                 href={failurePath}
                 variant="caption"
                 onMouseDown={() => prefetchEngineExample(slug, "failure")}
+                onClick={stopRowNav}
                 sx={{ ...ruleLinkSx, fontFamily: mgsFonts.hud, fontSize: "0.62rem", color: "error.light" }}
               >
                 Failure

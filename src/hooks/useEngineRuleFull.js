@@ -25,6 +25,10 @@ export function useEngineRuleFull(slug) {
     }
 
     let cancelled = false;
+    // Clear stale rule from the previous slug so the detail pane never shows
+    // the wrong rule while the new one loads.
+    setRule(null);
+    setError(null);
     setLoading(true);
 
     fetchEngineRuleById(slug)
@@ -46,5 +50,9 @@ export function useEngineRuleFull(slug) {
     };
   }, [slug]);
 
-  return { rule, loading, error };
+  // Guard against returning a rule that belongs to a previous slug (stale state
+  // between a slug change and the effect/fetch completing).
+  const activeRule = rule && rule.id === slug ? rule : cached ?? null;
+
+  return { rule: activeRule, loading, error };
 }
