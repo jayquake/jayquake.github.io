@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SDK Audit Template</title>
+  </head>
+  <body>
+    <main data-fixture="sdk-audit-template">
+      <h1>SDK audit template</h1>
+      <p>Minimal page for AccessFlow SDK smoke tests. Contains deliberate accessibility issues.</p>
+      <!-- Deliberate violations for sdk.audit() smoke (Qase 8775 / accessE2E SdkFixtureUrl) -->
+      <img
+        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        width="48"
+        height="48"
+      />
+      <button type="button" aria-label=""></button>
+      <input type="text" placeholder="Email" />
+      <a href="#">link</a>
+    </main>
+  </body>
+</html>
