@@ -29,6 +29,13 @@ test("SDK audit smoke — fixture page returns violations", async ({ page }) => 
   }
   await page.waitForTimeout(500);
 
+  if (fixtureUrl) {
+    await expect(
+      page.locator('[data-fixture="sdk-audit-template"]'),
+      `Expected sdk-audit-template fixture at ${fixtureUrl}. Deploy audit-rules/public/sdk-audit-template.html to jayquake.github.io.`,
+    ).toBeVisible();
+  }
+
   const sdk = new AccessFlowSDK(page);
   const report = await sdk.audit();
   expect(report).toBeTruthy();
@@ -41,5 +48,10 @@ test("SDK audit smoke — fixture page returns violations", async ({ page }) => 
     (issuesFound.medium || 0) +
     (issuesFound.low || 0);
 
-  expect(totalIssues).toBeGreaterThan(0);
+  const pageTitle = await page.title();
+  expect(
+    totalIssues,
+    `sdk.audit() returned 0 issues for url=${page.url()} title="${pageTitle}". ` +
+      `Deploy public/sdk-audit-template.html to jayquake.github.io or unset SDK_FIXTURE_URL to use engine route.`,
+  ).toBeGreaterThan(0);
 });

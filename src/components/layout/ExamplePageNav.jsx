@@ -23,10 +23,27 @@ const tabSx = {
   flex: 1,
 };
 
+const textLinkSx = {
+  color: "primary.light",
+  textDecoration: "none",
+  fontFamily: mgsFonts.hud,
+  fontSize: "0.68rem",
+  letterSpacing: "0.06em",
+  textTransform: "uppercase",
+  "&:hover": { color: "primary.main", textDecoration: "underline" },
+  "&[aria-current='page']": { color: MGS.raidenWhite, fontWeight: 700 },
+};
+
 export default function ExamplePageNav({ ruleId, ruleType, variant }) {
   const location = useLocation();
   const basePath = location.pathname.replace(/(_success|_failure)$/, "");
   const backPath = ruleType === "engine" ? "/" : basePath;
+  const detailPath = ruleType === "engine" && ruleId ? `/engine/${ruleId}` : basePath;
+  const successPath = `${basePath}_success`;
+  const failurePath = `${basePath}_failure`;
+  const ruleLabPath = ruleId ? `/rule-lab?rule=${ruleId}&type=${ruleType}` : "/rule-lab";
+  const mcpDebugPath =
+    ruleType === "engine" && ruleId ? `/engine/${ruleId}?debug=mcp` : ruleLabPath;
 
   const warm = (v) => {
     if (ruleType === "engine" && ruleId) prefetchEngineExample(ruleId, v);
@@ -35,7 +52,17 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
   return (
     <Box sx={{ mb: 1 }}>
       {ruleId && (
-        <Typography sx={{ ...raidenType.ruleId, mb: 0.75, display: "block" }}>
+        <Typography
+          component={RouterLink}
+          to={detailPath}
+          sx={{
+            ...raidenType.ruleId,
+            ...textLinkSx,
+            mb: 0.75,
+            display: "block",
+            textTransform: "none",
+          }}
+        >
           [ {ruleId} ]
         </Typography>
       )}

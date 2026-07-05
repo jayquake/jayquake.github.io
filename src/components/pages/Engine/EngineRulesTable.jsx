@@ -16,6 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import { memo, useCallback } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { HudLayoutIndicator, HudMotion } from "../../motion/HudMotion";
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
 import { MGS, mgsFonts, raidenType } from "../../../theme/mgsTokens";
@@ -45,8 +46,15 @@ const filterSelectSx = {
   "&.Mui-focused .MuiOutlinedInput-notchedOutline": { borderColor: "primary.main" },
 };
 
+const ruleLinkSx = {
+  color: "inherit",
+  textDecoration: "none",
+  "&:hover": { color: "primary.light", textDecoration: "underline" },
+};
+
 const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
   const slug = getRuleSlug(rule);
+  const rulePath = `/engine/${slug}`;
   const wcagRefs = rule.refs?.filter((r) => r.type === "WCAG") || [];
   const severity = impactToSeverityLabel(rule.impact);
   const category = RULE_CATEGORY_BY_ID[slug] || "—";
@@ -94,8 +102,13 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
             />
           )}
           <Typography
+            component={RouterLink}
+            to={rulePath}
             variant="caption"
+            onMouseDown={handleWarm}
+            aria-current={selected ? "page" : undefined}
             sx={{
+              ...ruleLinkSx,
               display: "block",
               fontFamily: mgsFonts.hud,
               color: "primary.main",
@@ -107,8 +120,12 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
             {slug}
           </Typography>
           <Typography
+            component={RouterLink}
+            to={rulePath}
             variant="body2"
+            aria-current={selected ? "page" : undefined}
             sx={{
+              ...ruleLinkSx,
               fontSize: "0.8rem",
               fontWeight: selected ? 600 : 500,
               color: selected ? MGS.raidenWhite : "text.primary",
@@ -172,15 +189,31 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
       }}
     >
       <TableCell title={slug}>
-        <Typography variant="caption" noWrap sx={{ ...raidenType.ruleId, fontSize: isLibrary ? "0.72rem" : "0.68rem" }}>
+        <Typography
+          component={RouterLink}
+          to={rulePath}
+          variant="caption"
+          noWrap
+          onMouseDown={handleWarm}
+          aria-current={selected ? "page" : undefined}
+          sx={{
+            ...ruleLinkSx,
+            ...raidenType.ruleId,
+            fontSize: isLibrary ? "0.72rem" : "0.68rem",
+          }}
+        >
           {isLibrary ? `[ ${slug} ]` : slug}
         </Typography>
       </TableCell>
       <TableCell title={rule.title}>
         <Typography
+          component={RouterLink}
+          to={rulePath}
           variant="body2"
           noWrap
+          aria-current={selected ? "page" : undefined}
           sx={{
+            ...ruleLinkSx,
             fontSize: isLibrary ? "0.84rem" : "0.78rem",
             fontWeight: selected ? 600 : 500,
             color: isLibrary ? MGS.raidenWhite : "text.primary",
