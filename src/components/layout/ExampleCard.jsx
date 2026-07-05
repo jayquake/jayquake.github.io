@@ -31,6 +31,7 @@ import { isStaticDeployment } from "../../utils/environment";
 import { analyzeHtmlClientSide } from "../../utils/clientAccessibilityTree";
 import { getCachedAnalysis, cacheAnalysis } from "../../utils/analysisCache";
 import AuditResultsPanel, { issueKey } from "./AuditResultsPanel";
+import { scopeExampleHtml } from "../../utils/scopeExampleHtml";
 
 const VARIANT_CONFIG = {
   success: {
@@ -88,6 +89,7 @@ export default function ExampleCard({
   const cfg = VARIANT_CONFIG[variant];
   const StatusIcon = cfg.icon;
   const BadgeIcon = cfg.badgeIcon;
+  const scopedHtml = html ? scopeExampleHtml(html, index) : html;
 
   const [showCode, setShowCode] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -410,13 +412,21 @@ export default function ExampleCard({
             >
               Rendered Output:
             </Typography>
-            {reactContent ? (
-              <Box sx={{ "& .list-item": { border: `1px solid ${cfg.borderColor}`, background: cfg.bgTint, m: "8px 0", p: "12px", borderRadius: "8px" } }}>
-                {reactContent}
-              </Box>
-            ) : (
-              <Box dangerouslySetInnerHTML={{ __html: html }} sx={{ "& *": { maxWidth: "100%" } }} />
-            )}
+            <Box
+              component="section"
+              data-audit-example={index}
+              data-rule-id={ruleId}
+              data-variant={variant}
+              aria-label={`Example ${index + 1} ${variant}`}
+            >
+              {reactContent ? (
+                <Box sx={{ "& .list-item": { border: `1px solid ${cfg.borderColor}`, background: cfg.bgTint, m: "8px 0", p: "12px", borderRadius: "8px" } }}>
+                  {reactContent}
+                </Box>
+              ) : (
+                <Box dangerouslySetInnerHTML={{ __html: scopedHtml }} sx={{ "& *": { maxWidth: "100%" } }} />
+              )}
+            </Box>
           </Box>
         )}
 

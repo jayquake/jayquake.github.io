@@ -245,22 +245,30 @@ export default function UnifiedExamplePage({
     <Box sx={{ ...PAGE_SHELL, display: "flex", flexDirection: "column", gap: 1.5 }}>
       <ExamplePageNav ruleId={ruleId} ruleType={ruleType} variant={variant} />
 
-      {ruleType === "legacy" ? (
-        <AnimatePresence mode="wait">
-          <m.div
-            key={variant}
-            initial={variantMotion.initial}
-            animate={variantMotion.animate}
-            exit={variantMotion.exit}
-            transition={hudVariantTransition()}
-            style={{ display: "flex", flexDirection: "column", gap: 12 }}
-          >
-            {variantContent}
-          </m.div>
-        </AnimatePresence>
-      ) : (
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>{variantContent}</Box>
-      )}
+      <Box
+        component="main"
+        data-scan-ready="true"
+        data-rule-id={ruleId}
+        data-variant={variant}
+        sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}
+      >
+        {ruleType === "legacy" ? (
+          <AnimatePresence mode="wait">
+            <m.div
+              key={variant}
+              initial={variantMotion.initial}
+              animate={variantMotion.animate}
+              exit={variantMotion.exit}
+              transition={hudVariantTransition()}
+              style={{ display: "flex", flexDirection: "column", gap: 12 }}
+            >
+              {variantContent}
+            </m.div>
+          </AnimatePresence>
+        ) : (
+          variantContent
+        )}
+      </Box>
     </Box>
   );
 }

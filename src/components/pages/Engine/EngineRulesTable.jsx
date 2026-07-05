@@ -55,6 +55,8 @@ const ruleLinkSx = {
 const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
   const slug = getRuleSlug(rule);
   const rulePath = `/engine/${slug}`;
+  const successPath = `${rulePath}_success`;
+  const failurePath = `${rulePath}_failure`;
   const wcagRefs = rule.refs?.filter((r) => r.type === "WCAG") || [];
   const severity = impactToSeverityLabel(rule.impact);
   const category = RULE_CATEGORY_BY_ID[slug] || "—";
@@ -104,6 +106,7 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
           <Typography
             component={RouterLink}
             to={rulePath}
+            href={rulePath}
             variant="caption"
             onMouseDown={handleWarm}
             aria-current={selected ? "page" : undefined}
@@ -122,6 +125,7 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
           <Typography
             component={RouterLink}
             to={rulePath}
+            href={rulePath}
             variant="body2"
             aria-current={selected ? "page" : undefined}
             sx={{
@@ -192,6 +196,7 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
         <Typography
           component={RouterLink}
           to={rulePath}
+          href={rulePath}
           variant="caption"
           noWrap
           onMouseDown={handleWarm}
@@ -209,6 +214,7 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
         <Typography
           component={RouterLink}
           to={rulePath}
+          href={rulePath}
           variant="body2"
           noWrap
           aria-current={selected ? "page" : undefined}
@@ -280,6 +286,30 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
             <Typography variant="caption" color="text.secondary" sx={{ fontFamily: mgsFonts.hud, fontSize: "0.68rem" }}>
               {wcagRefs[0]?.id || "—"}
             </Typography>
+          </TableCell>
+          <TableCell>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.25 }}>
+              <Typography
+                component={RouterLink}
+                to={successPath}
+                href={successPath}
+                variant="caption"
+                onMouseDown={() => prefetchEngineExample(slug, "success")}
+                sx={{ ...ruleLinkSx, fontFamily: mgsFonts.hud, fontSize: "0.62rem", color: "primary.light" }}
+              >
+                Success
+              </Typography>
+              <Typography
+                component={RouterLink}
+                to={failurePath}
+                href={failurePath}
+                variant="caption"
+                onMouseDown={() => prefetchEngineExample(slug, "failure")}
+                sx={{ ...ruleLinkSx, fontFamily: mgsFonts.hud, fontSize: "0.62rem", color: "error.light" }}
+              >
+                Failure
+              </Typography>
+            </Box>
           </TableCell>
         </>
       ) : (
@@ -524,6 +554,7 @@ export default function EngineRulesTable({
                     <TableCell sx={{ width: "10%" }}>SEVERITY</TableCell>
                     <TableCell sx={{ width: "10%" }}>STATUS</TableCell>
                     <TableCell sx={{ width: "10%" }}>WCAG</TableCell>
+                    <TableCell sx={{ width: "10%" }}>EXAMPLES</TableCell>
                   </>
                 ) : (
                   <TableCell>RULE</TableCell>
@@ -533,7 +564,7 @@ export default function EngineRulesTable({
             <TableBody>
               {loading ? (
                 <TableRow>
-                  <TableCell colSpan={isLibrary ? 6 : 1}>
+                  <TableCell colSpan={isLibrary ? 7 : 1}>
                     <Typography variant="caption" color="text.secondary" sx={{ fontFamily: mgsFonts.hud }}>
                       Loading rules…
                     </Typography>

@@ -55,6 +55,7 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
         <Typography
           component={RouterLink}
           to={detailPath}
+          href={detailPath}
           sx={{
             ...raidenType.ruleId,
             ...textLinkSx,
@@ -81,6 +82,7 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
         <Button
           component={RouterLink}
           to={backPath}
+          href={backPath}
           size="small"
           startIcon={<ChevronLeftIcon sx={{ fontSize: 18 }} />}
           sx={{
@@ -123,7 +125,8 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
           />
           <Button
             component={RouterLink}
-            to={`${basePath}_success`}
+            to={successPath}
+            href={successPath}
             role="tab"
             aria-selected={variant === "success"}
             size="small"
@@ -141,7 +144,8 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
           </Button>
           <Button
             component={RouterLink}
-            to={`${basePath}_failure`}
+            to={failurePath}
+            href={failurePath}
             role="tab"
             aria-selected={variant === "failure"}
             size="small"

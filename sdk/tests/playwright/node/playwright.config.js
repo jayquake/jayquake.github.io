@@ -75,7 +75,9 @@ module.exports = defineConfig({
   /* Dev server runs from repo root (this config lives in sdk/tests/playwright/node/). CI serves the production build. */
   webServer: process.env.CI
     ? {
-        command: 'npx serve -s build -l 3003',
+        // No -s flag: prerendered build/engine/*/index.html must be served as static files
+        // (GitHub Pages behavior). SPA -s mode always returns root index.html.
+        command: 'npx serve build -l 3003',
         url: 'http://localhost:3003',
         cwd: repoRoot,
         reuseExistingServer: false,
