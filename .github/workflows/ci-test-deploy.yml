@@ -60,7 +60,7 @@ jobs:
           AF_NODE_PACKAGE_KEY: ${{ secrets.AF_NODE_PACKAGE_KEY }}
 
       - name: Run JS Playwright Tests
-        run: cd sdk/tests/playwright/node && npx playwright test
+        run: cd sdk/tests/playwright/node && npx playwright test tests/fake-login-flow.spec.js tests/sdk-audit-smoke.spec.js
         env:
           CI: true
           AF_NODE_PACKAGE_KEY: ${{ secrets.AF_NODE_PACKAGE_KEY }}

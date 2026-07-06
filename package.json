@@ -31,7 +31,7 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@acsbe/accessflow-sdk": "^1.2.0",
+    "@acsbe/accessflow-sdk": "file:sdk/packages/node/acsbe-accessflow-sdk-1.3.0.tgz",
     "@playwright/test": "^1.56.1",
     "@types/prismjs": "^1.26.6",
     "@types/react": "^19.2.14",
@@ -59,7 +59,7 @@
     "validate:atomic-parity": "node scripts/validate-atomic-tests-parity.js",
     "prebuild": "node scripts/generate-static-projects.js && node scripts/generate-engine-rules-index.js",
     "build": "npm run prebuild && CI=false react-app-rewired build",
-    "postbuild": "node scripts/prerender-example-pages.js",
+    "postbuild": "node scripts/prerender-example-pages.js && node scripts/prerender-spa-routes.js",
     "build:analyze": "npm run prebuild && ANALYZE=true CI=false react-app-rewired build",
     "perf:retrace": "node scripts/retrace/raiden-perf-parity.cjs",
     "retrace:interactive-target-size": "node scripts/retrace/interactive-target-size-mcp-prd-parity.cjs",
