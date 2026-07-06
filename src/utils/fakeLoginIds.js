@@ -1,0 +1,17 @@
+export const FAKE_LOGIN_IDS = {
+  page: "fake-login-page",
+  card: "fake-login-card",
+  heading: "fake-login-heading",
+  description: "fake-login-description",
+  form: "fake-login-form",
+  usernameInput: "fake-login-username-input",
+  passwordInput: "fake-login-password-input",
+  errorMessage: "fake-login-error-message",
+  submitButton: "fake-login-submit-button",
+  successPage: "fake-login-success-page",
+  successCard: "fake-login-success-card",
+  successIcon: "fake-login-success-icon",
+  successHeading: "fake-login-success-heading",
+  successMessage: "fake-login-success-message",
+  signOutButton: "fake-login-sign-out-button",
+};

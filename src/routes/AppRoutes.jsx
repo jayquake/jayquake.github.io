@@ -20,6 +20,9 @@ const ValidationView = React.lazy(() =>
   import("../pages/ValidationView").then((m) => ({ default: m.ValidationView }))
 );
 const AtomicTestLibrary = React.lazy(() => import("../pages/AtomicTestLibrary/index"));
+const LoginPage = React.lazy(() => import("../pages/LoginPage"));
+const LoginSuccessPage = React.lazy(() => import("../pages/LoginSuccessPage"));
+const RequireFakeLogin = React.lazy(() => import("../components/routes/RequireFakeLogin"));
 
 const wrap = (element) => <RouteSuspense>{element}</RouteSuspense>;
 
@@ -33,6 +36,15 @@ const AppRoutes = ({ navigate }) => {
     <Box sx={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <Routes>
     <Route index element={<EngineLibraryHome />} />
+    <Route path="/login" element={wrap(<LoginPage />)} />
+    <Route
+      path="/login/success"
+      element={wrap(
+        <RequireFakeLogin>
+          <LoginSuccessPage />
+        </RequireFakeLogin>
+      )}
+    />
     <Route path="/engine/:ruleId" element={<EngineSlugOutlet />} />
 
     <Route path="/test-runner" element={wrap(<ProjectSelector />)} />

@@ -18,6 +18,11 @@ import { parseEngineSlug } from "./utils/engineExampleUtils";
 const MOBILE_DRAWER_WIDTH = 280;
 const SLIM_TOOLBAR = 36;
 const DEFAULT_TOOLBAR = 48;
+const LOGIN_ROUTES = ["/login", "/login/success"];
+
+function isLoginRoute(pathname) {
+  return LOGIN_ROUTES.includes(pathname);
+}
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -89,6 +94,10 @@ export default function App() {
   const location = useLocation();
   const [drawerOpen, setDrawerOpen] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  if (isLoginRoute(location.pathname)) {
+    return <AppRoutes navigate={navigate} />;
+  }
 
   const pageInfo = getPageInfo(location.pathname);
   const isSlim = pageInfo.mode === "libraryHome" || pageInfo.mode === "libraryDetail" || pageInfo.mode === "example";
