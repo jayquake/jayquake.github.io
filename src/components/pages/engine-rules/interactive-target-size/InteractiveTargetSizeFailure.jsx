@@ -1484,9 +1484,9 @@ const InteractiveTargetSizeFailure = () => {
 </style>
 <div class="parent">
   Hi
-  <a href="https://www.example1.com" target="_blank">1</a>
+  <a href="https://www.example1.com" target="_blank" aria-label="Example 1 (opens in new window)">1</a>
   <div></div>
-  <a href="https://www.example2.com" target="_blank">Example 2</a>
+  <a href="https://www.example2.com" target="_blank" aria-label="Example 2 (opens in new window)">Example 2</a>
 </div>` },
   { filename: "two undersized interactive elements intersect", content: `<button class="interactive-small" style="width: 20px; height: 20px"></button>
 <div></div>

@@ -59,7 +59,7 @@
     "validate:atomic-parity": "node scripts/validate-atomic-tests-parity.js",
     "prebuild": "node scripts/generate-static-projects.js && node scripts/generate-engine-rules-index.js",
     "build": "npm run prebuild && CI=false react-app-rewired build",
-    "postbuild": "node scripts/prerender-example-pages.js && node scripts/prerender-spa-routes.js",
+    "postbuild": "node scripts/prerender-spa-routes.js && node scripts/prerender-example-pages.js",
     "build:analyze": "npm run prebuild && ANALYZE=true CI=false react-app-rewired build",
     "perf:retrace": "node scripts/retrace/raiden-perf-parity.cjs",
     "retrace:interactive-target-size": "node scripts/retrace/interactive-target-size-mcp-prd-parity.cjs",

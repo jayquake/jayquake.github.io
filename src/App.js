@@ -20,8 +20,15 @@ const SLIM_TOOLBAR = 36;
 const DEFAULT_TOOLBAR = 48;
 const LOGIN_ROUTES = ["/login", "/login/success"];
 
+function normalizePathname(pathname) {
+  if (pathname.length > 1 && pathname.endsWith("/")) {
+    return pathname.slice(0, -1);
+  }
+  return pathname;
+}
+
 function isLoginRoute(pathname) {
-  return LOGIN_ROUTES.includes(pathname);
+  return LOGIN_ROUTES.includes(normalizePathname(pathname));
 }
 
 function capitalizeFirstLetter(string) {
@@ -62,6 +69,9 @@ function getPageInfo(pathname) {
   }
 
   const current = pathnames[0];
+  if (current === "login") {
+    return { mode: "default", title: "Sign in", hudLabel: "TACTICAL HUD", linkLabel: "NANOMACHINE LINK", subtitle: "Authentication" };
+  }
   if (current === "rule-lab") {
     return { mode: "default", title: "Rule Lab", hudLabel: "TACTICAL HUD", linkLabel: "NANOMACHINE LINK", subtitle: "Pattern analysis" };
   }
