@@ -1,5 +1,112 @@
 [
   {
+    "id": "accessflow-java-selenium",
+    "name": "AccessFlow (Java Selenium)",
+    "description": "AccessFlow Java SDK test suite using JUnit 5 + Selenium WebDriver",
+    "logo": "/logos/java.svg",
+    "logos": [
+      "/logos/java.svg",
+      "/logos/selenium.svg"
+    ],
+    "sdkType": "java",
+    "testFramework": "maven",
+    "testCommand": "mvn test -B",
+    "testDirectory": "sdk/tests/selenium/java/src/test/java/com/accessflow",
+    "workingDirectory": "sdk/tests/selenium/java",
+    "outputDirectory": "sdk/tests/selenium/java/test-results",
+    "apiKeyEnvVar": "AF_NODE_PACKAGE_KEY",
+    "defaultBaseUrl": "http://localhost:3000",
+    "configPath": "sdk/tests/selenium/java/pom.xml",
+    "qaseProjectCode": "ACCESSFLOW",
+    "envHubNames": [
+      "accessflow"
+    ]
+  },
+  {
+    "id": "accessflow-java",
+    "name": "AccessFlow (Java)",
+    "description": "AccessFlow Java SDK test suite using JUnit 5 + Playwright",
+    "logo": "/logos/java.svg",
+    "sdkType": "java",
+    "testFramework": "maven",
+    "testCommand": "mvn test -B",
+    "testDirectory": "sdk/tests/playwright/java/src/test/java",
+    "workingDirectory": "sdk/tests/playwright/java",
+    "outputDirectory": "sdk/tests/playwright/java/target/surefire-reports",
+    "apiKeyEnvVar": "JAVA_ACCESSFLOW_SDK_TOKEN",
+    "defaultBaseUrl": "http://localhost:3000",
+    "configPath": "sdk/tests/playwright/java/pom.xml",
+    "qaseProjectCode": "ACCESSFLOW",
+    "envHubNames": [
+      "accessflow"
+    ]
+  },
+  {
+    "id": "accessflow-python-selenium",
+    "name": "AccessFlow (Python Selenium)",
+    "description": "AccessFlow Python SDK test suite using pytest + Selenium WebDriver",
+    "logo": "/logos/python.svg",
+    "logos": [
+      "/logos/python.svg",
+      "/logos/selenium.svg"
+    ],
+    "sdkType": "python",
+    "testFramework": "pytest",
+    "testCommand": "pytest -v --junitxml=test-results/results.xml",
+    "testDirectory": "sdk/tests/selenium/python/tests",
+    "workingDirectory": "sdk/tests/selenium/python",
+    "outputDirectory": "sdk/tests/selenium/python/test-results",
+    "apiKeyEnvVar": "PYTHON_ACCESSFLOW_SDK_TOKEN",
+    "defaultBaseUrl": "http://localhost:3000",
+    "configPath": "sdk/tests/selenium/python/pytest.ini",
+    "qaseProjectCode": "ACCESSFLOW",
+    "envHubNames": [
+      "accessflow"
+    ]
+  },
+  {
+    "id": "accessflow-python",
+    "name": "AccessFlow (Python)",
+    "description": "AccessFlow Python SDK test suite using pytest + Playwright",
+    "logo": "/logos/python.svg",
+    "sdkType": "python",
+    "testFramework": "pytest",
+    "testCommand": "pytest -v --junitxml=test-results/results.xml",
+    "testDirectory": "sdk/tests/playwright/python/tests",
+    "workingDirectory": "sdk/tests/playwright/python",
+    "outputDirectory": "sdk/tests/playwright/python/test-results",
+    "apiKeyEnvVar": "PYTHON_ACCESSFLOW_SDK_TOKEN",
+    "defaultBaseUrl": "http://localhost:3000",
+    "configPath": "sdk/tests/playwright/python/pytest.ini",
+    "qaseProjectCode": "ACCESSFLOW",
+    "envHubNames": [
+      "accessflow"
+    ]
+  },
+  {
+    "id": "accessflow-selenium",
+    "name": "AccessFlow (Node Selenium)",
+    "description": "AccessFlow Node SDK E2E test suite using Selenium WebDriver",
+    "logo": "/logos/selenium.svg",
+    "logos": [
+      "/logos/nodejs.svg",
+      "/logos/selenium.svg"
+    ],
+    "sdkType": "node",
+    "testFramework": "selenium",
+    "testCommand": "npx jest --config jest.config.js --forceExit",
+    "testDirectory": "sdk/tests/selenium/node/tests",
+    "workingDirectory": "sdk/tests/selenium/node",
+    "outputDirectory": "sdk/tests/selenium/node/test-results",
+    "apiKeyEnvVar": "AF_NODE_PACKAGE_KEY",
+    "defaultBaseUrl": "http://localhost:3000",
+    "configPath": "sdk/tests/selenium/node/jest.config.js",
+    "qaseProjectCode": "ACCESSFLOW",
+    "envHubNames": [
+      "accessflow"
+    ]
+  },
+  {
     "id": "accessflow",
     "name": "AccessFlow (Node Playwright)",
     "description": "AccessFlow Node SDK E2E test suite using Playwright",
