@@ -1,0 +1,182 @@
+# Tel Aviv Apartment Finder
+
+Watches Israeli rental listings every morning, scores them against your criteria, and sends a single WhatsApp digest with new listings and price drops. Browse and triage everything from a mobile web UI.
+
+```
+┌──────────────┐   ┌───────────────┐   ┌──────────────┐   ┌────────────────┐
+│   Sources    │   │    Ingest     │   │    Score     │   │     Notify     │
+│ Yad2         │──▶│ normalize     │──▶│ hard filters │──▶│ WhatsApp       │
+│ Homeless     │   │ fingerprint   │   │ soft ranking │   │ Telegram       │
+│ manual paste │   │ price history │   │ 0-100        │   │ console        │
+└──────────────┘   └───────────────┘   └──────────────┘   └────────────────┘
+                            │
+                     ┌──────▼───────┐
+                     │ SQLite + web │
+                     │ UI on :8080  │
+                     └──────────────┘
+```
+
+## Quick start
+
+```bash
+cd apartment-finder
+cp .env.example .env
+npm run setup           # install, generate Prisma client, create the database
+
+npm run notify:test     # prints a sample digest to the console
+npm run scan:dry        # real scrape, scores everything, sends nothing
+npm run dev             # web UI + scheduler on http://localhost:8080
+```
+
+The morning scan runs at **07:30 Asia/Jerusalem** by default (`SCAN_CRON`).
+
+## Docker
+
+```bash
+cp .env.example .env
+docker compose up -d --build
+```
+
+The `apartment-data` volume holds both the SQLite database (your price history) and the browser profile. Don't delete it — see the bot-protection note below for why the profile matters.
+
+---
+
+## How listings are ranked
+
+Two separate stages, deliberately kept apart:
+
+**Hard filters** decide eligibility. Fail one and the listing is dropped: over budget, wrong city, a blocked keyword, a roommate post, or a *confirmed* missing must-have.
+
+**Soft scoring** ranks survivors 0–100 across six weighted factors:
+
+| Factor | Weight | Notes |
+|---|---|---|
+| Price vs. your ideal | 30 | Full marks at the ideal price, zero at your ceiling |
+| Size vs. ideal m² | 20 | |
+| Favourite neighbourhood | 15 | |
+| Amenities present | 15 | elevator, parking, balcony, safe room, furnished |
+| Freshness | 10 | Posted today ≫ posted two weeks ago |
+| Bonus keywords | 10 | |
+
+One rule drives most of the design: **unknown never rejects.** Israeli listings routinely omit size, floor and amenities, so treating "missing" as "fails" would throw away most of the market. Missing data costs points instead. The single exception is price — if you set a budget, an unpriced listing is dropped, because "call for price" posts are overwhelmingly agency spam.
+
+Every score comes with readable reasons (`at or under ideal budget (₪5,700) · favorite area: פלורנטין`), shown in both the UI and the WhatsApp message.
+
+## What triggers an alert
+
+- **NEW** — fires once per apartment, ever.
+- **PRICE_DROP** — only on a real decrease clearing `minPriceDropPercent` (default 3%), and never twice for the same price.
+
+Deduplication is what makes this hold. Listings are fingerprinted on location, size, rooms and floor — deliberately **not** price, since price is the thing we want to see change. So the same flat cross-posted to Yad2 and Homeless, or re-posted next month with a new ID, collapses onto one record instead of alerting again. A 0.8% "reduction" that an agent made to bump their ad back to the top of the feed is ignored.
+
+If nothing qualifies, **nothing is sent**. No daily "no results" message.
+
+---
+
+## Sources, and the bot-protection reality
+
+Both sites sit behind JavaScript bot challenges. This was verified directly, not assumed:
+
+| Source | Protection | robots.txt | Approach |
+|---|---|---|---|
+| **Yad2** | Radware Bot Manager — returns HTTP 200 whose body is a loader page | `/api/` and `/ajax/` disallowed; search pages are not | Render the public search page in a real browser, read `__NEXT_DATA__` |
+| **Homeless** | Cloudflare — returns 403 "Just a moment…" | permissive (2 paths) | Real browser, parse the server-rendered HTML |
+| **Madlan** | — | disallows `/search/`, `/homes/`, `/property/` | **Not implemented** — robots.txt forbids it |
+
+Consequences worth knowing up front:
+
+- **A `fetch()`-based scraper cannot work here.** Playwright with a real browser is required.
+- **Yad2's private `gw.yad2.co.il` API is not used**, even though it would be convenient — it lives behind the robots-disallowed `/api/` path. The public search page carries the same data.
+- **Run this from a home IP.** Datacenter ranges get challenged much harder. This is the main reason the recommended deployment is local or a home server rather than a cloud VPS.
+- **The browser profile is persistent** (`BROWSER_PROFILE_DIR`). The clearance cookie from the first solved challenge is reused, so later scans skip the challenge — faster, and far less bot-like. Deleting the profile means re-solving from scratch.
+- `SCRAPE_THROTTLE_MS` (default 4s between page loads) is what keeps this polite. Don't lower it.
+
+Scraped-site markup changes. When a source breaks it fails soft — the scan continues, the error appears in `/api/status` and in the UI status line, and the other source still delivers. The Yad2 adapter mines its JSON by *shape* rather than a fixed path like `props.pageProps.feed.private`, specifically so a Yad2 internal reshuffle doesn't break it, and falls back to DOM parsing if the JSON is gone entirely.
+
+### Facebook groups
+
+**Not scraped, by design.** The Groups API was withdrawn in 2020 and automated collection breaches Meta's terms — people get their personal accounts banned for it.
+
+The compliant substitute is the **Add** tab: paste a group post and the parser pulls out price, rooms, size, floor, city and neighbourhood, then runs it through the same dedupe → score → alert path as a scraped listing. So a flat you spotted in a group gets tracked for price drops exactly like a Yad2 one. Also available as `POST /api/ingest/manual`.
+
+---
+
+## WhatsApp setup (Twilio)
+
+1. Open the [Twilio WhatsApp sandbox](https://console.twilio.com/us1/develop/sms/try-it-out/whatsapp-learn).
+2. Send the join code from your phone to `+1 415 523 8886`.
+3. Fill in `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_WHATSAPP_TO`, and set `NOTIFY_CHANNELS=whatsapp`.
+4. `npm run notify:test`
+
+**Cost:** $0.005/message to Twilio plus Meta's per-template fee (utility templates run roughly $0.0008–$0.046 by country). At one digest a day that is **cents per month**, and Twilio's trial credit covers a long while.
+
+**The 24-hour window.** WhatsApp only allows free-form messages within 24h of your last reply to the bot. A 07:30 scheduled digest usually falls outside that, so Twilio returns error **63016**. Two fixes:
+
+- Reply to the bot from your phone occasionally (fine for the sandbox), or
+- Register an approved message template and set `TWILIO_CONTENT_SID`.
+
+The error message in the logs names this explicitly rather than just echoing the code.
+
+### Telegram (free alternative)
+
+No per-message cost and no template approval. Create a bot with [@BotFather](https://t.me/botfather), get your chat ID from [@userinfobot](https://t.me/userinfobot), set `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID`, and put `telegram` in `NOTIFY_CHANNELS`. Both channels can run at once.
+
+---
+
+## The web UI
+
+Mobile-first, no build step, works in light and dark. English interface with Hebrew listing content passed through using `dir="auto"`, so RTL text renders correctly inline.
+
+- **Feed** — everything, sorted by match score (or price / size / newest), with a price-trend sparkline
+- **Saved** — your shortlist
+- **Add** — paste a Facebook-group post
+- **Criteria** — edit budget, rooms, size, cities, must-haves and alert thresholds from your phone; changes apply on the next scan
+
+Save / Hide / Contacted on each card; hidden listings drop out of the feed but stay in the database.
+
+## API
+
+| Endpoint | Purpose |
+|---|---|
+| `GET /api/listings` | Feed. `status`, `source`, `minScore`, `maxPrice`, `minRooms`, `q`, `sort`, `limit`, `offset` |
+| `GET /api/listings/:id` | One listing with full price history |
+| `POST /api/listings/:id/action` | `{"status":"SAVED"\|"HIDDEN"\|"CONTACTED"}`; omit to clear |
+| `GET` / `PUT /api/criteria` | Read / update search criteria |
+| `POST /api/scan` | Trigger a scan (`{"dryRun":true}` to send nothing) |
+| `POST /api/ingest/manual` | `{"text":"…","url":"…"}` |
+| `GET /api/status` | Last run, counts, whether a scan is in flight |
+
+## Tests
+
+```bash
+npm test    # 44 tests
+```
+
+Covers Hebrew parsing (prices with mixed separators, `3.5 חדרים`, `קרקע`/`מרתף` floors, relative dates like `לפני 3 ימים`, and amenity negation — `ללא מעלית` must not read as *has* elevator), scoring and rejection rules, fingerprint dedupe, message formatting, and an integration suite that runs the real ingest pipeline against a throwaway SQLite database to prove the alert-once rules hold.
+
+## Layout
+
+```
+src/
+  criteria.ts          hard filters + 0-100 scoring
+  sources/
+    browser.ts         shared Playwright session, bot-challenge handling
+    yad2.ts            shape-based JSON mining + DOM fallback
+    homeless.ts        server-rendered HTML parsing
+    manual.ts          free-text parser for pasted posts
+    parse.ts           Hebrew price/rooms/floor/date/amenity parsing
+  pipeline/
+    fingerprint.ts     cross-source dedupe
+    ingest.ts          persistence, price history, alert decisions
+    run.ts             scan orchestration
+  notify/              Twilio WhatsApp, Telegram, console + message formatting
+  api.ts, server.ts, cli.ts
+public/                mobile UI (no build step)
+```
+
+## Known limits
+
+- Scraping breaks when sites change their markup. Failures are visible in `/api/status`, not silent.
+- Datacenter IPs get challenged harder than residential ones — run it at home.
+- Yad2 and Homeless city-code maps cover Gush Dan; other cities fall back to a text query, which is less precise.
+- SQLite and a single criteria profile — this is built as a single-user tool.
