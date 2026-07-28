@@ -6,15 +6,26 @@
  *   npm run scan            — full scan, sends notifications
  *   npm run scan:dry        — scrape and score, print the digest, send nothing
  *   npm run notify:test     — send a sample message to verify credentials
+ *   npm run snapshot:import — restore state from the committed JSON snapshot
+ *   npm run snapshot:export — write the snapshot and assemble the static site
+ *
+ * The two snapshot commands are what let this run on GitHub Actions, where
+ * every job starts from a fresh checkout with no database.
  */
 
+import * as path from 'path';
 import { runScan } from './pipeline/run';
+import { exportSnapshot, importSnapshot, buildStaticSite } from './snapshot';
+import { findPublicDir } from './paths';
 import { buildNotifiers } from './notify';
 import { formatDigest } from './notify/format';
 import { prisma } from './db';
 import { log } from './logger';
 import { config } from './config';
 import type { PendingAlert } from './pipeline/ingest';
+
+const SNAPSHOT_PATH = process.env.SNAPSHOT_PATH ?? path.resolve(process.cwd(), 'data/snapshot.json');
+const SITE_DIR = process.env.SITE_DIR ?? path.resolve(process.cwd(), 'site');
 
 const SAMPLE_ALERTS: PendingAlert[] = [
   {
@@ -73,6 +84,20 @@ async function main(): Promise<void> {
       break;
     }
 
+    case 'snapshot-import': {
+      await importSnapshot(prisma, SNAPSHOT_PATH);
+      break;
+    }
+
+    case 'snapshot-export': {
+      await exportSnapshot(prisma, SNAPSHOT_PATH);
+      // The site gets its own copy so the published bundle is self-contained
+      // and the committed snapshot stays the single source of truth.
+      buildStaticSite(findPublicDir(__dirname), SITE_DIR);
+      await exportSnapshot(prisma, path.join(SITE_DIR, 'data.json'));
+      break;
+    }
+
     case 'notify-test': {
       const message = formatDigest(SAMPLE_ALERTS, { appUrl: config.publicBaseUrl });
       if (!message) {
@@ -93,7 +118,7 @@ async function main(): Promise<void> {
     }
 
     default:
-      console.log('usage: cli.ts <scan|notify-test> [--dry-run]');
+      console.log('usage: cli.ts <scan|notify-test|snapshot-import|snapshot-export> [--dry-run]');
       process.exitCode = 1;
   }
 

@@ -281,3 +281,31 @@ label .input { margin-top: 4px; }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
+
+/* ---- Static mode (GitHub Pages) ----
+   With no server there is nothing to POST to, so the controls that would write
+   are hidden rather than left present and silently broken. Save/Hide still
+   work — they are kept in localStorage. */
+body.is-static #scan-btn,
+body.is-static [data-tab='add'],
+body.is-static #criteria-save { display: none; }
+
+body.is-static .card-form input,
+body.is-static .card-form select,
+body.is-static .card-form textarea {
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.static-note {
+  display: none;
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+body.is-static .static-note { display: block; }

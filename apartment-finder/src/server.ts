@@ -1,31 +1,14 @@
 import express from 'express';
 import * as path from 'path';
-import * as fs from 'fs';
 import cron from 'node-cron';
 import { config } from './config';
 import { log } from './logger';
 import { api } from './api';
 import { runScan } from './pipeline/run';
 import { prisma } from './db';
+import { findPublicDir } from './paths';
 
-/**
- * Finds the `public` directory by walking up from this file.
- *
- * A fixed relative path cannot work for both run modes: under ts-node this
- * file is `src/server.ts`, but after a build it is `dist/src/server.js`, so
- * `../public` resolves to two different places.
- */
-function findPublicDir(): string {
-  let dir = __dirname;
-  for (let i = 0; i < 5; i += 1) {
-    const candidate = path.join(dir, 'public');
-    if (fs.existsSync(path.join(candidate, 'index.html'))) return candidate;
-    dir = path.dirname(dir);
-  }
-  throw new Error('could not locate the public/ directory');
-}
-
-const publicDir = findPublicDir();
+const publicDir = findPublicDir(__dirname);
 
 const app = express();
 

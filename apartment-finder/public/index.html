@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#0f172a" />
     <meta name="color-scheme" content="light dark" />
     <title>Apartment Finder — Tel Aviv</title>
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header class="topbar">
@@ -75,6 +75,10 @@
           <span id="result-count" class="muted"></span>
           <button id="filter-reset" class="linkbtn" type="button">Reset</button>
         </div>
+        <p class="static-note">
+          Published snapshot — updated by the scheduled scan. Save and Hide are kept in this browser.
+          To change the search criteria or add a listing, run the app locally or edit the workflow.
+        </p>
         <div id="feed-list" class="list"></div>
         <button id="load-more" class="btn btn-ghost" type="button" hidden>Load more</button>
       </section>
@@ -110,6 +114,7 @@
       <section id="panel-settings" class="panel">
         <div class="card card-form">
           <h2>Search criteria</h2>
+          <p class="static-note">Read-only here. Edit these by running the app locally, then commit the snapshot.</p>
           <div class="grid-2">
             <label>Min price ₪<input id="c-minPrice" class="input" type="number" inputmode="numeric" /></label>
             <label>Max price ₪<input id="c-maxPrice" class="input" type="number" inputmode="numeric" /></label>
@@ -165,6 +170,6 @@
     </main>
 
     <div id="toast" class="toast" hidden></div>
-    <script src="/app.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>

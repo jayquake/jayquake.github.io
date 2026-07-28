@@ -32,6 +32,68 @@ npm run dev             # web UI + scheduler on http://localhost:8080
 
 The morning scan runs at **07:30 Asia/Jerusalem** by default (`SCAN_CRON`).
 
+## Running it online (GitHub Actions + Pages)
+
+GitHub Pages is **static hosting** — it cannot run Express, cron, Playwright or
+SQLite, so the app cannot "run" there. What works is splitting the two halves:
+
+```
+GitHub Actions (scheduled)          GitHub Pages (static)
+  import snapshot  ─┐
+  scan sources      │  ──▶ data.json + UI ──▶  read-only site on your phone
+  send WhatsApp     │
+  export snapshot  ─┘
+  commit + deploy
+```
+
+Actions does the scraping and sends the WhatsApp digest. Pages serves the
+result as a read-only page. `npm run snapshot:export` produces both the
+committed state file and the published `site/`.
+
+**Setup** (in the repository hosting the app — not a user Pages repo that is
+already publishing something else):
+
+1. Copy `.github-workflow-apartment-finder.yml` to
+   `.github/workflows/apartment-finder.yml`.
+2. Settings → Pages → Source: **GitHub Actions**.
+3. Settings → Secrets and variables → Actions, add `TWILIO_ACCOUNT_SID`,
+   `TWILIO_AUTH_TOKEN`, `TWILIO_WHATSAPP_FROM`, `TWILIO_WHATSAPP_TO`
+   (or the two `TELEGRAM_*` ones).
+4. Run the workflow once by hand (Actions → Apartment Finder → Run workflow,
+   with *dry run* ticked) to confirm it works before it starts messaging you.
+
+The site lands at `https://<user>.github.io/<repo>/`.
+
+### What state persistence buys you
+
+`data/snapshot.json` is committed back after every run. Each Actions job starts
+from a fresh checkout with no database, so without it every scan would treat
+every listing as new and re-alert all of them, every single morning. Verified:
+a scan immediately after a restore reports `created: 0, alerts: 0`.
+
+JSON rather than the SQLite file because it diffs readably in git instead of as
+an opaque binary blob — and it doubles as the exact data file the static UI
+reads, so one artifact does both jobs.
+
+### Two limitations, stated plainly
+
+**Actions runners are datacenter IPs.** GitHub-hosted runners sit in Azure
+ranges, which Radware and Cloudflare challenge far harder than a home
+connection. Komo needs no browser and should be fine; **Yad2 and Homeless may
+well be blocked there.** The workflow carries on and reports per-source counts
+in the job summary rather than failing. If those two prove unreliable, either
+set `sources` to `komo`, or run the scan from a machine at home and use Pages
+only for viewing.
+
+**The published page is read-only.** With no server there is nothing to POST
+to, so *Scan now* and the *Add* tab are hidden and the criteria form is
+disabled. Save/Hide/Contacted still work, kept in the browser's localStorage.
+To change criteria or paste a Facebook post, run the app locally and commit the
+updated snapshot.
+
+Also note the cron is UTC: `30 4 * * *` is 07:30 Israel time in summer (IDT)
+and 06:30 in winter (IST). GitHub cron has no timezone support.
+
 ## Docker
 
 ```bash
@@ -187,6 +249,17 @@ Save / Hide / Contacted on each card; hidden listings drop out of the feed but s
 | `POST /api/ingest/manual` | `{"text":"…","url":"…"}` |
 | `GET /api/status` | Last run, counts, whether a scan is in flight |
 
+## Commands
+
+| Command | Purpose |
+|---|---|
+| `npm run scan` / `scan:dry` | Scrape, score, alert (dry run sends nothing) |
+| `npm run dev` | Web UI + scheduler on :8080 |
+| `npm run snapshot:import` | Restore state from `data/snapshot.json` |
+| `npm run snapshot:export` | Write the snapshot and assemble `site/` |
+| `npm run notify:test` | Send a sample digest to check credentials |
+| `npm run browser:install` | `playwright install chromium` |
+
 ## Tests
 
 ```bash
@@ -212,6 +285,8 @@ src/
     ingest.ts          persistence, price history, alert decisions
     run.ts             scan orchestration
   notify/              Twilio WhatsApp, Telegram, console + message formatting
+  snapshot.ts          JSON state persistence + static site assembly
+  paths.ts             locates public/ across run modes
   api.ts, server.ts, cli.ts
 public/                mobile UI (no build step)
 ```

@@ -11,6 +11,14 @@ const state = {
   offset: 0,
   total: 0,
   listings: [],
+  /**
+   * Static mode is what makes this page work on GitHub Pages, where there is
+   * no server: the same UI reads a generated data.json instead of the API,
+   * filters and sorts in the browser, and keeps Save/Hide in localStorage.
+   * Detected at boot rather than configured, so one build serves both.
+   */
+  static: false,
+  snapshot: null,
 };
 
 const $ = (sel) => document.querySelector(sel);
@@ -54,6 +62,96 @@ function esc(value) {
 /** Only http(s) URLs are allowed to become links — manual:// entries are not. */
 function safeUrl(url) {
   return /^https?:\/\//i.test(url || '') ? url : null;
+}
+
+/* ---------- static mode ---------- */
+
+const LOCAL_ACTIONS_KEY = 'apartment-finder:actions';
+
+function loadLocalActions() {
+  try {
+    return JSON.parse(localStorage.getItem(LOCAL_ACTIONS_KEY) || '{}');
+  } catch {
+    return {};
+  }
+}
+
+function saveLocalAction(id, status) {
+  const actions = loadLocalActions();
+  if (status) actions[id] = status;
+  else delete actions[id];
+  try {
+    localStorage.setItem(LOCAL_ACTIONS_KEY, JSON.stringify(actions));
+  } catch {
+    /* private browsing or a full quota — the feed still works, just unsaved */
+  }
+}
+
+/** Reshapes a snapshot listing into the same object the API returns. */
+function fromSnapshot(row, actions) {
+  const parseArray = (value) => {
+    if (Array.isArray(value)) return value;
+    try {
+      const parsed = JSON.parse(value || '[]');
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  };
+  return {
+    ...row,
+    imageUrls: parseArray(row.imageUrls),
+    scoreReasons: parseArray(row.scoreReasons),
+    amenities: {
+      elevator: row.hasElevator,
+      parking: row.hasParking,
+      balcony: row.hasBalcony,
+      safeRoom: row.hasSafeRoom,
+      furnished: row.isFurnished,
+      pets: row.petsAllowed,
+    },
+    // A locally saved action wins: it is this browser's, and it is newer than
+    // whatever the snapshot was generated with.
+    status: actions[row.id] ?? row.action?.status ?? null,
+  };
+}
+
+/** Applies the feed filters client-side, mirroring the API's semantics. */
+function filterAndSort(listings) {
+  const q = $('#filter-q').value.trim().toLowerCase();
+  const minPrice = Number($('#filter-min-price').value) || null;
+  const maxPrice = Number($('#filter-max-price').value) || null;
+  const poster = $('#filter-poster').value;
+  const source = $('#filter-source').value;
+  const sort = $('#filter-sort').value;
+
+  let out = listings.filter((l) => {
+    if (l.status === 'HIDDEN') return false;
+    if (minPrice != null && (l.priceIls == null || l.priceIls < minPrice)) return false;
+    if (maxPrice != null && (l.priceIls == null || l.priceIls > maxPrice)) return false;
+    // Unknown provenance counts as "not a realtor", matching the server.
+    if (poster === 'private' && l.isAgency === true) return false;
+    if (poster === 'agency' && l.isAgency !== true) return false;
+    if (source && l.source !== source) return false;
+    if (q) {
+      const hay = `${l.title} ${l.description || ''} ${l.neighborhood || ''}`.toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+
+  const num = (v) => (v == null ? -Infinity : v);
+  const cmp = {
+    score: (a, b) => b.score - a.score,
+    price: (a, b) => num(a.priceIls) - num(b.priceIls),
+    price_desc: (a, b) => num(b.priceIls) - num(a.priceIls),
+    size: (a, b) => num(b.sizeSqm) - num(a.sizeSqm),
+    rooms: (a, b) => num(b.rooms) - num(a.rooms),
+    newest: (a, b) => new Date(b.firstSeenAt) - new Date(a.firstSeenAt),
+    oldest: (a, b) => new Date(a.firstSeenAt) - new Date(b.firstSeenAt),
+    updated: (a, b) => new Date(b.lastSeenAt) - new Date(a.lastSeenAt),
+  };
+  return out.sort(cmp[sort] || cmp.score);
 }
 
 /* ---------- rendering ---------- */
@@ -200,7 +298,7 @@ function feedQuery(offset) {
 async function loadFeed(append = false) {
   const offset = append ? state.offset + PAGE_SIZE : 0;
   try {
-    const data = await api(`/listings?${feedQuery(offset)}`);
+    const data = state.static ? staticFeed(offset) : await api(`/listings?${feedQuery(offset)}`);
     state.offset = offset;
     state.total = data.total;
     state.listings = append ? state.listings.concat(data.listings) : data.listings;
@@ -213,8 +311,24 @@ async function loadFeed(append = false) {
   }
 }
 
+/** The static equivalent of GET /listings: filter, sort and page in-browser. */
+function staticFeed(offset) {
+  const actions = loadLocalActions();
+  const all = (state.snapshot.listings || []).map((row) => fromSnapshot(row, actions));
+  const matched = filterAndSort(all);
+  return { total: matched.length, listings: matched.slice(offset, offset + PAGE_SIZE) };
+}
+
 async function loadSaved() {
   try {
+    if (state.static) {
+      const actions = loadLocalActions();
+      const saved = (state.snapshot.listings || [])
+        .map((row) => fromSnapshot(row, actions))
+        .filter((l) => l.status === 'SAVED');
+      renderList($('#saved-list'), saved, 'Nothing saved yet.');
+      return;
+    }
     const data = await api('/listings?status=SAVED&limit=200');
     renderList($('#saved-list'), data.listings, 'Nothing saved yet.');
   } catch (err) {
@@ -224,7 +338,7 @@ async function loadSaved() {
 
 async function loadStatus() {
   try {
-    const s = await api('/status');
+    const s = state.static ? staticStatus() : await api('/status');
     const last = s.lastRun;
     const parts = [`${s.counts.active} active`, `${s.counts.saved} saved`];
     if (last) {
@@ -233,6 +347,7 @@ async function loadStatus() {
       if (last.errors && last.errors.length) parts.push(`⚠️ ${last.errors.length} source errors`);
     }
     if (s.scanning) parts.push('scanning now…');
+    if (state.static) parts.push('read-only');
     $('#status-line').textContent = parts.join(' · ');
     $('#scan-btn').disabled = s.scanning;
     return s;
@@ -242,8 +357,30 @@ async function loadStatus() {
   }
 }
 
+/** Rebuilds the /status shape from the snapshot's metadata. */
+function staticStatus() {
+  const snap = state.snapshot || {};
+  const saved = Object.values(loadLocalActions()).filter((v) => v === 'SAVED').length;
+  return {
+    scanning: false,
+    counts: { active: snap.counts?.active ?? 0, saved },
+    lastRun: snap.lastRun,
+    generatedAt: snap.generatedAt,
+  };
+}
+
 async function loadCriteria() {
+  if (state.static) {
+    const c = state.snapshot?.criteria;
+    if (!c) return;
+    renderCriteria(c);
+    return;
+  }
   const { criteria: c } = await api('/criteria');
+  renderCriteria(c);
+}
+
+function renderCriteria(c) {
   const set = (id, value) => {
     const el = $(id);
     if (el) el.value = value ?? '';
@@ -312,7 +449,8 @@ document.addEventListener('click', async (event) => {
   const status = listing && listing.status === requested ? null : requested;
 
   try {
-    await api(`/listings/${id}/action`, { method: 'POST', body: { status } });
+    if (state.static) saveLocalAction(id, status);
+    else await api(`/listings/${id}/action`, { method: 'POST', body: { status } });
     if (listing) listing.status = status;
 
     if (status === 'HIDDEN') {
@@ -436,5 +574,37 @@ $('#filter-reset').addEventListener('click', () => {
 $('#load-more').addEventListener('click', () => loadFeed(true));
 
 /* ---------- boot ---------- */
-loadStatus();
-loadFeed();
+
+async function boot() {
+  // Probe the API. On GitHub Pages there is no server, so this 404s (or
+  // returns the HTML shell) and the page falls back to the generated data.
+  try {
+    const response = await fetch('/api/status');
+    if (!response.ok) throw new Error('no api');
+    const contentType = response.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) throw new Error('not json');
+    state.static = false;
+  } catch {
+    state.static = true;
+  }
+
+  if (state.static) {
+    document.body.classList.add('is-static');
+    try {
+      // Relative, so the page works from a project-Pages subpath as well as a
+      // domain root.
+      const response = await fetch('data.json', { cache: 'no-cache' });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      state.snapshot = await response.json();
+    } catch (err) {
+      $('#status-line').textContent = `Could not load data.json: ${err.message}`;
+      $('#feed-list').innerHTML = '<p class="empty">No data file found. The scheduled scan may not have run yet.</p>';
+      return;
+    }
+  }
+
+  loadStatus();
+  loadFeed();
+}
+
+boot();
