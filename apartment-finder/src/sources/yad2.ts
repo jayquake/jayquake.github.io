@@ -16,13 +16,13 @@
  *    address" survives that, a hardcoded path does not.
  */
 
-import type { Page } from 'playwright-core';
+import type { Page } from 'playwright';
 import type { RawListing, SearchCriteria } from '../types';
 import type { ListingSource, SourceResult } from './types';
 import { openPage, throttle } from './browser';
 import { config } from '../config';
 import { log } from '../logger';
-import { clean, detectAmenities, parseFloor, parseInteger, parsePrice, parseRooms, parseHebrewDate } from './parse';
+import { clean, detectAgency, detectAmenities, parseFloor, parseInteger, parsePrice, parseRooms, parseHebrewDate } from './parse';
 import { normalizeText } from '../criteria';
 
 /**
@@ -200,6 +200,7 @@ export function toRawListing(obj: Record<string, unknown>, now: Date = new Date(
     hasBalcony: readBool(obj, ['balcony', 'hasBalcony', 'balconies']) ?? amenities.hasBalcony,
     hasSafeRoom: readBool(obj, ['saferoom', 'hasSaferoom', 'mamad']) ?? amenities.hasSafeRoom,
     imageUrls: images,
+    isAgency: readBool(obj, ['isAgency', 'merchant', 'isBroker']) ?? detectAgency([title, description].filter(Boolean).join(' ')),
     postedAt: parseHebrewDate(asText(pick(obj, KEY_ALIASES.date)), now),
     raw: obj,
   };
@@ -312,6 +313,7 @@ async function readFromDom(page: Page): Promise<RawListing[]> {
       city: '',
       imageUrls: row.image ? [row.image] : [],
       ...detectAmenities(text),
+      isAgency: detectAgency(text),
       raw: { text },
     });
   }

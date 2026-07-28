@@ -47,6 +47,9 @@ function serializeListing(row: Record<string, any>) {
       furnished: row.isFurnished,
       pets: row.petsAllowed,
     },
+    // null means the listing never said; the UI shows a badge only for a
+    // confirmed agent post.
+    isAgency: row.isAgency,
     imageUrls: parseJsonArray(row.imageUrls),
     contact: row.contact,
     postedAt: row.postedAt,
@@ -67,8 +70,12 @@ api.get('/listings', async (req, res) => {
     status,
     source,
     minScore,
+    minPrice,
     maxPrice,
     minRooms,
+    maxRooms,
+    minSize,
+    poster,
     q,
     sort = 'score',
     includeHidden = 'false',
@@ -81,11 +88,41 @@ api.get('/listings', async (req, res) => {
   if (includeInactive !== 'true') where.isActive = true;
   if (source) where.source = source;
   if (minScore) where.score = { gte: Number(minScore) };
-  if (maxPrice) where.priceIls = { lte: Number(maxPrice) };
-  if (minRooms) where.rooms = { gte: Number(minRooms) };
+
+  // Price range as a single bounded filter — two separate `priceIls` keys would
+  // overwrite each other and silently drop the lower bound.
+  const priceRange: Record<string, number> = {};
+  if (minPrice) priceRange.gte = Number(minPrice);
+  if (maxPrice) priceRange.lte = Number(maxPrice);
+  if (Object.keys(priceRange).length) where.priceIls = priceRange;
+
+  const roomRange: Record<string, number> = {};
+  if (minRooms) roomRange.gte = Number(minRooms);
+  if (maxRooms) roomRange.lte = Number(maxRooms);
+  if (Object.keys(roomRange).length) where.rooms = roomRange;
+
+  if (minSize) where.sizeSqm = { gte: Number(minSize) };
+
+  // Conditions that each need their own OR group. They are collected into a
+  // single AND so a later one cannot clobber an earlier one's `OR` key.
+  const and: Record<string, unknown>[] = [];
+
+  // `private` keeps unknown-provenance listings, matching the scan-time rule —
+  // most listings never say, and excluding them would empty the feed.
+  //
+  // `{ not: true }` is deliberately NOT used here: under SQL three-valued
+  // logic `isAgency != true` is unknown for NULL rows, so Prisma excludes
+  // them, and the permissive filter would return nothing at all.
+  if (poster === 'private') and.push({ OR: [{ isAgency: false }, { isAgency: null }] });
+  else if (poster === 'agency') and.push({ isAgency: true });
+
   if (q) {
-    where.OR = [{ title: { contains: q } }, { description: { contains: q } }, { neighborhood: { contains: q } }];
+    and.push({
+      OR: [{ title: { contains: q } }, { description: { contains: q } }, { neighborhood: { contains: q } }],
+    });
   }
+
+  if (and.length) where.AND = and;
 
   if (status) where.action = { status };
   else if (includeHidden !== 'true') {
@@ -93,11 +130,17 @@ api.get('/listings', async (req, res) => {
     where.NOT = { action: { status: 'HIDDEN' } };
   }
 
-  const orderBy =
-    sort === 'price' ? { priceIls: 'asc' as const }
-    : sort === 'newest' ? { firstSeenAt: 'desc' as const }
-    : sort === 'size' ? { sizeSqm: 'desc' as const }
-    : { score: 'desc' as const };
+  const SORTS = {
+    score: { score: 'desc' as const },
+    price: { priceIls: 'asc' as const },
+    price_desc: { priceIls: 'desc' as const },
+    newest: { firstSeenAt: 'desc' as const },
+    oldest: { firstSeenAt: 'asc' as const },
+    size: { sizeSqm: 'desc' as const },
+    rooms: { rooms: 'desc' as const },
+    updated: { lastSeenAt: 'desc' as const },
+  };
+  const orderBy = SORTS[sort as keyof typeof SORTS] ?? SORTS.score;
 
   try {
     const [rows, total] = await Promise.all([
@@ -177,6 +220,8 @@ api.put('/criteria', async (req, res) => {
   merged.minScoreToAlert = Math.max(0, Math.min(100, Number(merged.minScoreToAlert) || 0));
   merged.minPriceDropPercent = Math.max(0, Math.min(100, Number(merged.minPriceDropPercent) || 0));
   merged.maxAlertsPerRun = Math.max(1, Math.min(50, Number(merged.maxAlertsPerRun) || 10));
+  const posterTypes = ['any', 'private_only', 'agency_only'];
+  if (!posterTypes.includes(merged.posterType)) merged.posterType = 'any';
   merged.cities = (merged.cities ?? []).map(String).filter(Boolean);
   merged.neighborhoods = (merged.neighborhoods ?? []).map(String).filter(Boolean);
   merged.excludeKeywords = (merged.excludeKeywords ?? []).map(String).filter(Boolean);

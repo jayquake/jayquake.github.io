@@ -152,3 +152,30 @@ test('markStale retires listings that stopped appearing', async () => {
   assert.ok(count > 0);
   assert.equal(await prisma.listing.count({ where: { isActive: true } }), 0);
 });
+
+test('the private-poster query must not drop unknown-provenance rows', () => {
+  // Regression guard. `isAgency: { not: true }` looks correct but is wrong:
+  // under SQL three-valued logic the comparison is unknown for NULL, so Prisma
+  // excludes every listing that never stated who posted it — which is most of
+  // them. The feed filter must use an explicit OR against null instead.
+  return (async () => {
+    await prisma.listing.deleteMany();
+    const base = {
+      source: 'komo', url: 'https://example.com/x', fingerprint: 'fp',
+      title: 't', city: 'תל אביב יפו', priceIls: 6000,
+    };
+    await prisma.listing.create({ data: { ...base, externalId: 'unknown-1', isAgency: null } });
+    await prisma.listing.create({ data: { ...base, externalId: 'owner-1', isAgency: false } });
+    await prisma.listing.create({ data: { ...base, externalId: 'agent-1', isAgency: true } });
+
+    const naive = await prisma.listing.count({ where: { isAgency: { not: true } } });
+    const correct = await prisma.listing.count({
+      where: { OR: [{ isAgency: false }, { isAgency: null }] },
+    });
+
+    assert.equal(naive, 1, 'the naive form silently drops the null row');
+    assert.equal(correct, 2, 'owner and unknown listings must both survive');
+
+    assert.equal(await prisma.listing.count({ where: { isAgency: true } }), 1);
+  })();
+});

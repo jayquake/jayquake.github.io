@@ -10,13 +10,13 @@
  * are disallowed, neither of which is touched here.
  */
 
-import type { Page } from 'playwright-core';
+import type { Page } from 'playwright';
 import type { RawListing, SearchCriteria } from '../types';
 import type { ListingSource, SourceResult } from './types';
 import { openPage, throttle } from './browser';
 import { config } from '../config';
 import { log } from '../logger';
-import { clean, detectAmenities, parseFloor, parseInteger, parsePrice, parseRooms, parseHebrewDate } from './parse';
+import { clean, detectAgency, detectAmenities, parseFloor, parseInteger, parsePrice, parseRooms, parseHebrewDate } from './parse';
 
 /** Homeless city ids for the Gush Dan area. */
 const CITY_IDS: Record<string, number> = {
@@ -121,6 +121,7 @@ export function parseCardText(
     imageUrls: image ? [image] : [],
     postedAt: parseHebrewDate(dateMatch?.[1], now),
     ...detectAmenities(body),
+    isAgency: detectAgency(body),
     raw: { text: body },
   };
 }

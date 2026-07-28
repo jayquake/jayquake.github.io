@@ -109,6 +109,7 @@ export async function ingest(
       isFurnished: raw.isFurnished ?? false,
       petsAllowed: raw.petsAllowed ?? false,
       isRoommates: raw.isRoommates ?? false,
+      isAgency: raw.isAgency ?? null,
       imageUrls: JSON.stringify(raw.imageUrls ?? []),
       contact: raw.contact ?? null,
       postedAt: raw.postedAt ?? null,

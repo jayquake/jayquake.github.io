@@ -32,15 +32,27 @@ export const config = {
   scanOnStartup: bool(process.env.SCAN_ON_STARTUP, false),
 
   /** Which sources to scan, in order. */
-  sources: list(process.env.SOURCES).length ? list(process.env.SOURCES) : ['yad2', 'homeless'],
+  sources: list(process.env.SOURCES).length ? list(process.env.SOURCES) : ['komo', 'yad2', 'homeless'],
 
   browser: {
     /**
-     * Path to a Chromium/Chrome binary. Playwright's own download is used when
-     * this is unset. In Docker we point it at the system Chromium.
+     * Path to a Chromium/Chrome binary. Leave unset to use the browser
+     * installed by the Playwright CLI (`npx playwright install chromium`),
+     * which is the normal path. Docker sets it to the system Chromium.
      */
     executablePath: process.env.CHROMIUM_PATH || undefined,
     headless: bool(process.env.HEADLESS, true),
+
+    /**
+     * The identity presented to every request. Overridable because a UA that
+     * ages into implausibility (a Chrome version no longer in the wild) is
+     * itself a bot signal, and bumping an env var is easier than a redeploy.
+     */
+    userAgent:
+      process.env.SCRAPE_USER_AGENT ||
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+    locale: process.env.SCRAPE_LOCALE || 'he-IL',
+    timezone: process.env.SCRAPE_TIMEZONE || 'Asia/Jerusalem',
     /**
      * Persisting the profile matters: Yad2 (Radware) and Homeless (Cloudflare)
      * both hand out a clearance cookie after the first JS challenge. Reusing

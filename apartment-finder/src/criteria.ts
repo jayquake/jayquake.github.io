@@ -112,6 +112,21 @@ export function evaluate(listing: RawListing, criteria: SearchCriteria, now: Dat
 
   if (!criteria.allowRoommates && listing.isRoommates) return reject('roommate/flatshare listing');
 
+  // Agent vs owner. `isAgency` is three-valued and unknown is the common case,
+  // so an unknown listing is kept unless the filter is explicitly strict —
+  // otherwise "private only" would silently discard most of the market.
+  if (criteria.posterType === 'private_only') {
+    if (listing.isAgency === true) return reject('posted by an agent');
+    if (listing.isAgency === undefined && criteria.strictPosterFilter) {
+      return reject('poster type unknown (strict filter)');
+    }
+  } else if (criteria.posterType === 'agency_only') {
+    if (listing.isAgency === false) return reject('not an agent listing');
+    if (listing.isAgency === undefined && criteria.strictPosterFilter) {
+      return reject('poster type unknown (strict filter)');
+    }
+  }
+
   if (listing.city && !cityMatches(listing.city, criteria.cities)) {
     return reject(`city not wanted: ${listing.city}`);
   }

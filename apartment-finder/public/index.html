@@ -31,18 +31,49 @@
           <input id="filter-q" class="input" type="search" placeholder="Search…" aria-label="Search listings" />
           <select id="filter-sort" class="input" aria-label="Sort by">
             <option value="score">Best match</option>
-            <option value="newest">Newest</option>
-            <option value="price">Cheapest</option>
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="price">Price: low to high</option>
+            <option value="price_desc">Price: high to low</option>
             <option value="size">Largest</option>
+            <option value="rooms">Most rooms</option>
+            <option value="updated">Recently updated</option>
           </select>
-          <input
-            id="filter-max-price"
-            class="input"
-            type="number"
-            inputmode="numeric"
-            placeholder="Max ₪"
-            aria-label="Maximum price"
-          />
+          <div class="range">
+            <input
+              id="filter-min-price"
+              class="input"
+              type="number"
+              inputmode="numeric"
+              placeholder="Min ₪"
+              aria-label="Minimum price"
+            />
+            <span class="range-sep" aria-hidden="true">–</span>
+            <input
+              id="filter-max-price"
+              class="input"
+              type="number"
+              inputmode="numeric"
+              placeholder="Max ₪"
+              aria-label="Maximum price"
+            />
+          </div>
+          <select id="filter-poster" class="input" aria-label="Posted by">
+            <option value="">Anyone</option>
+            <option value="private">No realtors</option>
+            <option value="agency">Realtors only</option>
+          </select>
+          <select id="filter-source" class="input" aria-label="Source">
+            <option value="">All sources</option>
+            <option value="komo">Komo</option>
+            <option value="yad2">Yad2</option>
+            <option value="homeless">Homeless</option>
+            <option value="manual">Added by me</option>
+          </select>
+        </div>
+        <div class="filter-meta">
+          <span id="result-count" class="muted"></span>
+          <button id="filter-reset" class="linkbtn" type="button">Reset</button>
         </div>
         <div id="feed-list" class="list"></div>
         <button id="load-more" class="btn btn-ghost" type="button" hidden>Load more</button>
@@ -105,6 +136,19 @@
             <label>Min score to alert<input id="c-minScore" class="input" type="number" min="0" max="100" /></label>
             <label>Min price drop %<input id="c-minDrop" class="input" type="number" min="0" max="100" /></label>
           </div>
+
+          <label>
+            Posted by
+            <select id="c-posterType" class="input">
+              <option value="any">Anyone</option>
+              <option value="private_only">Owners only (no realtor fee)</option>
+              <option value="agency_only">Realtors only</option>
+            </select>
+          </label>
+          <label class="chip chip-block">
+            <input id="c-strictPoster" type="checkbox" />
+            <span>Also drop listings that don't say who posted them</span>
+          </label>
 
           <fieldset class="chips">
             <legend>Must have</legend>

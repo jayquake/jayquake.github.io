@@ -31,6 +31,13 @@ export interface RawListing {
   isFurnished?: boolean;
   petsAllowed?: boolean;
   isRoommates?: boolean;
+  /**
+   * True when posted by an agent, false when demonstrably by the owner,
+   * undefined when the listing gives no signal. The three-way distinction is
+   * load-bearing: most listings say nothing, and treating those as private
+   * would defeat the filter.
+   */
+  isAgency?: boolean;
 
   imageUrls?: string[];
   contact?: string;
@@ -40,7 +47,7 @@ export interface RawListing {
   raw?: unknown;
 }
 
-export type SourceName = 'yad2' | 'homeless' | 'manual';
+export type SourceName = 'yad2' | 'homeless' | 'komo' | 'manual';
 
 export type AlertKind = 'NEW' | 'PRICE_DROP';
 
@@ -83,6 +90,21 @@ export interface SearchCriteria {
   allowRoommates?: boolean;
 
   /**
+   * Who may post the listing.
+   *  'any'          — no filtering (default)
+   *  'private_only' — exclude agent listings, since a broker fee in Israel is
+   *                   typically a month's rent
+   *  'agency_only'  — the inverse, for when you want a broker's inventory
+   *
+   * Listings of unknown provenance are kept under 'private_only' unless
+   * `strictPosterFilter` is set, because most listings never state it and
+   * dropping them would discard most of the market.
+   */
+  posterType: 'any' | 'private_only' | 'agency_only';
+  /** Require a confirmed poster type; drops unknowns too. */
+  strictPosterFilter?: boolean;
+
+  /**
    * Soft preferences. These do not reject a listing, they only move its score,
    * so a near-miss still surfaces rather than vanishing silently.
    */
@@ -111,8 +133,10 @@ export const DEFAULT_CRITERIA: SearchCriteria = {
   minSizeSqm: 45,
   cities: ['תל אביב יפו', 'רמת גן', 'גבעתיים'],
   neighborhoods: [],
-  excludeKeywords: ['סאבלט', 'שותף', 'שותפה', 'תיווך בלעדי'],
+  excludeKeywords: ['סאבלט', 'שותף', 'שותפה'],
   allowRoommates: false,
+  posterType: 'any',
+  strictPosterFilter: false,
   preferences: {
     idealMaxPriceIls: 6500,
     idealMinSizeSqm: 65,

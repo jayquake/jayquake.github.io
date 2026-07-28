@@ -14,6 +14,9 @@ RUN apk add --no-cache \
       # boxes and the text-based parsing extracts nothing.
       font-noto-hebrew
 
+# The system Chromium is used instead of `playwright install`: the CLI's build
+# is glibc-based and will not run on Alpine. CHROMIUM_PATH points the browser
+# session at it. (Komo needs no browser at all.)
 ENV PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 \
     CHROMIUM_PATH=/usr/bin/chromium-browser \
     NODE_ENV=production

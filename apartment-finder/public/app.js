@@ -99,6 +99,13 @@ function listingCard(listing) {
 
   const place = [listing.neighborhood, listing.city].filter(Boolean).join(', ');
 
+  // Only a confirmed agent post is badged. `null` means the listing never said,
+  // and labelling that "private" would be a claim the data does not support.
+  const posterBadge =
+    listing.isAgency === true ? '<span class="badge warn">Realtor</span>'
+    : listing.isAgency === false ? '<span class="badge ok">Owner</span>'
+    : '';
+
   const amenityBadges = Object.entries({
     Elevator: listing.amenities.elevator,
     Parking: listing.amenities.parking,
@@ -131,6 +138,7 @@ function listingCard(listing) {
         <div class="badges">
           <span class="badge score">${listing.score}</span>
           <span class="badge src">${esc(listing.source)}</span>
+          ${posterBadge}
           ${amenityBadges}
         </div>
         ${sparkline(history)}
@@ -149,9 +157,32 @@ function renderList(container, listings, emptyMessage) {
     return;
   }
   container.innerHTML = listings.map(listingCard).join('');
+
+  // Listing sites expire their image URLs and some block hotlinking, so a
+  // broken thumbnail is routine. Drop it and reflow the card to the no-image
+  // layout rather than leaving an empty grey box occupying the column.
+  container.querySelectorAll('img.thumb').forEach((img) => {
+    img.addEventListener(
+      'error',
+      () => {
+        const card = img.closest('.listing');
+        if (card) card.classList.add('no-image');
+        img.remove();
+      },
+      { once: true }
+    );
+  });
 }
 
 /* ---------- data loading ---------- */
+
+const FILTER_FIELDS = [
+  ['#filter-q', 'q'],
+  ['#filter-min-price', 'minPrice'],
+  ['#filter-max-price', 'maxPrice'],
+  ['#filter-poster', 'poster'],
+  ['#filter-source', 'source'],
+];
 
 function feedQuery(offset) {
   const params = new URLSearchParams({
@@ -159,10 +190,10 @@ function feedQuery(offset) {
     limit: String(PAGE_SIZE),
     offset: String(offset),
   });
-  const q = $('#filter-q').value.trim();
-  if (q) params.set('q', q);
-  const maxPrice = $('#filter-max-price').value.trim();
-  if (maxPrice) params.set('maxPrice', maxPrice);
+  for (const [sel, key] of FILTER_FIELDS) {
+    const value = $(sel).value.trim();
+    if (value) params.set(key, value);
+  }
   return params.toString();
 }
 
@@ -173,7 +204,9 @@ async function loadFeed(append = false) {
     state.offset = offset;
     state.total = data.total;
     state.listings = append ? state.listings.concat(data.listings) : data.listings;
-    renderList($('#feed-list'), state.listings, 'No listings yet. Tap "Scan now" to start.');
+    renderList($('#feed-list'), state.listings, 'No listings match. Try widening the filters, or tap "Scan now".');
+    $('#result-count').textContent =
+      data.total === 0 ? '' : `${state.listings.length} of ${data.total}`;
     $('#load-more').hidden = state.listings.length >= state.total;
   } catch (err) {
     $('#feed-list').innerHTML = `<p class="empty">Failed to load: ${esc(err.message)}</p>`;
@@ -226,6 +259,9 @@ async function loadCriteria() {
   set('#c-exclude', (c.excludeKeywords || []).join(', '));
   set('#c-minScore', c.minScoreToAlert);
   set('#c-minDrop', c.minPriceDropPercent);
+  const posterSelect = $('#c-posterType');
+  if (posterSelect) posterSelect.value = c.posterType || 'any';
+  $('#c-strictPoster').checked = !!c.strictPosterFilter;
   $('#c-reqElevator').checked = !!c.requireElevator;
   $('#c-reqParking').checked = !!c.requireParking;
   $('#c-reqBalcony').checked = !!c.requireBalcony;
@@ -357,6 +393,8 @@ $('#criteria-save').addEventListener('click', async () => {
         excludeKeywords: csv('#c-exclude'),
         minScoreToAlert: numberOrUndefined('#c-minScore') ?? 55,
         minPriceDropPercent: numberOrUndefined('#c-minDrop') ?? 3,
+        posterType: $('#c-posterType').value,
+        strictPosterFilter: $('#c-strictPoster').checked,
         requireElevator: $('#c-reqElevator').checked,
         requireParking: $('#c-reqParking').checked,
         requireBalcony: $('#c-reqBalcony').checked,
@@ -378,13 +416,23 @@ $('#criteria-save').addEventListener('click', async () => {
 });
 
 let debounce;
-['#filter-q', '#filter-max-price'].forEach((sel) => {
+['#filter-q', '#filter-min-price', '#filter-max-price'].forEach((sel) => {
   $(sel).addEventListener('input', () => {
     clearTimeout(debounce);
     debounce = setTimeout(() => loadFeed(), 350);
   });
 });
-$('#filter-sort').addEventListener('change', () => loadFeed());
+['#filter-sort', '#filter-poster', '#filter-source'].forEach((sel) => {
+  $(sel).addEventListener('change', () => loadFeed());
+});
+
+$('#filter-reset').addEventListener('click', () => {
+  ['#filter-q', '#filter-min-price', '#filter-max-price', '#filter-poster', '#filter-source'].forEach((sel) => {
+    $(sel).value = '';
+  });
+  $('#filter-sort').value = 'score';
+  loadFeed();
+});
 $('#load-more').addEventListener('click', () => loadFeed(true));
 
 /* ---------- boot ---------- */

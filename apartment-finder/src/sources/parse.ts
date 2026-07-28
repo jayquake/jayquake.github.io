@@ -148,3 +148,54 @@ export function detectAmenities(text: string): {
 export function clean(input: string | null | undefined): string {
   return (input ?? '').replace(/\s+/g, ' ').trim();
 }
+
+/**
+ * Decides whether a listing is posted by an agent or by the owner.
+ *
+ * This matters more in Israel than the equivalent elsewhere: a broker's fee is
+ * typically one month's rent, so filtering agency posts out changes what the
+ * apartment actually costs, not just who answers the phone.
+ *
+ * Returns undefined when the text gives no signal either way — callers must not
+ * read that as "private", because most listings simply do not say.
+ */
+export function detectAgency(text: string): boolean | undefined {
+  const t = normalizeText(text);
+  if (!t) return undefined;
+
+  // Explicit disclaimers of a fee are the strongest private signal, and they
+  // contain the word "תיווך" themselves — so they must be checked first, or
+  // the agency patterns below would match them backwards.
+  const privateMarkers = [
+    'ללא תיווך',
+    'בלי תיווך',
+    'אין תיווך',
+    'ללא דמי תיווך',
+    'לא תיווך',
+    'מפרטי',
+    'מבעל הבית',
+    'מהבעלים',
+    'ישירות מהבעלים',
+    'no agent',
+    'no broker',
+    'private',
+  ];
+  if (privateMarkers.some((m) => t.includes(normalizeText(m)))) return false;
+
+  const agencyMarkers = [
+    'תיווך',
+    'מתווך',
+    'מתווכת',
+    'בלעדיות',
+    'בלעדי',
+    'דמי תיווך',
+    'סוכנות',
+    'נדל"ן בע"מ',
+    'realty',
+    'real estate',
+    'agency',
+  ];
+  if (agencyMarkers.some((m) => t.includes(normalizeText(m)))) return true;
+
+  return undefined;
+}

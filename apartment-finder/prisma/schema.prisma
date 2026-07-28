@@ -48,6 +48,8 @@ model Listing {
   isFurnished  Boolean @default(false)
   petsAllowed  Boolean @default(false)
   isRoommates  Boolean @default(false)
+  /// null = the listing never said whether an agent posted it.
+  isAgency     Boolean?
 
   // Media + contact
   imageUrls String? // JSON array of strings

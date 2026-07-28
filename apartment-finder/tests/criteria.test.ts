@@ -121,3 +121,33 @@ test('isSignificantDrop ignores increases and token reductions', () => {
   assert.equal(isSignificantDrop(7000, 7500, 3), false); // an increase
   assert.equal(isSignificantDrop(7000, 7000, 3), false); // unchanged
 });
+
+test('posterType private_only rejects agent listings but keeps unknowns', () => {
+  const strictish: SearchCriteria = { ...criteria, posterType: 'private_only' };
+
+  assert.equal(evaluate(listing({ isAgency: true }), strictish, NOW).matches, false);
+  assert.equal(evaluate(listing({ isAgency: false }), strictish, NOW).matches, true);
+  // The common case: the listing never says. Dropping these would discard most
+  // of the market, so they survive by default.
+  assert.equal(evaluate(listing({ isAgency: undefined }), strictish, NOW).matches, true);
+});
+
+test('strictPosterFilter also drops listings of unknown provenance', () => {
+  const strict: SearchCriteria = { ...criteria, posterType: 'private_only', strictPosterFilter: true };
+  const result = evaluate(listing({ isAgency: undefined }), strict, NOW);
+  assert.equal(result.matches, false);
+  assert.match(result.rejectedBy ?? '', /unknown/);
+});
+
+test('posterType agency_only is the mirror image', () => {
+  const agencyOnly: SearchCriteria = { ...criteria, posterType: 'agency_only' };
+  assert.equal(evaluate(listing({ isAgency: true }), agencyOnly, NOW).matches, true);
+  assert.equal(evaluate(listing({ isAgency: false }), agencyOnly, NOW).matches, false);
+  assert.equal(evaluate(listing({ isAgency: undefined }), agencyOnly, NOW).matches, true);
+});
+
+test('posterType any ignores provenance entirely', () => {
+  for (const isAgency of [true, false, undefined]) {
+    assert.equal(evaluate(listing({ isAgency }), criteria, NOW).matches, true);
+  }
+});

@@ -13,7 +13,7 @@
 
 import { createHash } from 'crypto';
 import type { RawListing } from '../types';
-import { clean, detectAmenities, parseFloor, parseInteger, parsePrice, parseRooms } from './parse';
+import { clean, detectAgency, detectAmenities, parseFloor, parseInteger, parsePrice, parseRooms } from './parse';
 import { normalizeText } from '../criteria';
 
 /** Neighborhood names worth recognising in free text. */
@@ -89,6 +89,7 @@ export function parseManualPost(text: string, sourceUrl?: string, now: Date = ne
     neighborhood,
     postedAt: now,
     ...detectAmenities(body),
+    isAgency: detectAgency(body),
     raw: { text: body, sourceUrl },
   };
 }
