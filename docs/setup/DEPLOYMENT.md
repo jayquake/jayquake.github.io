@@ -45,9 +45,12 @@ npm run deploy:direct
 
 ### For GitHub Actions Deployment:
 
-1. **Enable GitHub Pages:**
+1. **Enable GitHub Pages (required once — needs repo admin):**
    - Go to **Settings** → **Pages**
-   - Source: Select **GitHub Actions**
+   - Source: Select **GitHub Actions** (not “Deploy from a branch”)
+   - `username.github.io` user sites cannot publish from the `gh-pages` branch;
+     the CI workflow uses `actions/deploy-pages` instead.
+   - Direct link: `https://github.com/<owner>/<repo>/settings/pages`
 
 2. **Set up AccessFlow API Key:**
    - Go to **Settings** → **Secrets and variables** → **Actions**

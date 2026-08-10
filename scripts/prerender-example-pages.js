@@ -187,6 +187,11 @@ function writeSnapshots(snapshots) {
 }
 
 async function main() {
+  if (process.env.SKIP_PRERENDER === "1" || process.env.SKIP_PRERENDER === "true") {
+    console.log("SKIP_PRERENDER set — skipping example-page prerender");
+    return;
+  }
+
   if (!fs.existsSync(BUILD_DIR)) {
     console.error("build/ not found — run npm run build first");
     process.exit(1);
@@ -219,7 +224,22 @@ async function main() {
     server.kill("SIGTERM");
     throw err;
   }
-  const browser = await chromium.launch({ headless: true });
+  let browser;
+  try {
+    browser = await chromium.launch({ headless: true });
+  } catch (err) {
+    server.kill("SIGTERM");
+    const message = err instanceof Error ? err.message : String(err);
+    if (/Executable doesn't exist|playwright install/i.test(message)) {
+      console.warn(
+        "Playwright browser missing — skipping prerender. " +
+          "Run `npx playwright install chromium` or set SKIP_PRERENDER=1.",
+      );
+      return;
+    }
+    throw err;
+  }
+
   const queue = [...routes];
   const snapshots = [];
   const failures = [];

@@ -17,8 +17,9 @@ WORKDIR /app
 
 COPY . .
 
-# Build React frontend (prebuild generates static-projects.json)
-RUN npm run build
+# Build React frontend (prebuild generates static-projects.json).
+# Skip Playwright prerender in Docker — browsers are not installed in the build stage.
+RUN SKIP_PRERENDER=1 npm run build
 
 # Build server (esbuild bundles server + shared into dist/server.js)
 RUN cd server && npm run build

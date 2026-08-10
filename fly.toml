@@ -12,6 +12,7 @@ primary_region = 'iad'
   NODE_ENV = 'production'
   PORT = '8080'
   PROJECT_ROOT = '/app'
+  SKIP_PRERENDER = '1'
 
 [[mounts]]
   source = 'db_data'
