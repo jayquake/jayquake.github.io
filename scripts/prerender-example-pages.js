@@ -4,6 +4,7 @@
  * so GitHub Pages serves fixture markup in the initial HTTP response.
  */
 const fs = require("fs");
+const net = require("net");
 const path = require("path");
 const { spawn } = require("child_process");
 const { chromium } = require("playwright");
@@ -11,9 +12,62 @@ const { chromium } = require("playwright");
 const REPO_ROOT = path.join(__dirname, "..");
 const BUILD_DIR = path.join(REPO_ROOT, "build");
 const METADATA_PATH = path.join(BUILD_DIR, "engine-rules-metadata.json");
-const PORT = Number(process.env.PRERENDER_PORT || 5055);
 const WORKERS = Number(process.env.PRERENDER_WORKERS || 6);
-const BASE_URL = `http://127.0.0.1:${PORT}`;
+
+/** Prefer PRERENDER_PORT only when nothing is accepting there; else ephemeral. */
+function isPortAccepting(port) {
+  return new Promise((resolve) => {
+    const socket = net.connect({ host: "127.0.0.1", port }, () => {
+      socket.destroy();
+      resolve(true);
+    });
+    socket.setTimeout(500);
+    socket.on("timeout", () => {
+      socket.destroy();
+      resolve(false);
+    });
+    socket.on("error", () => resolve(false));
+  });
+}
+
+function allocateEphemeralPort() {
+  return new Promise((resolve, reject) => {
+    const server = net.createServer();
+    server.unref();
+    server.once("error", reject);
+    server.listen(0, "127.0.0.1", () => {
+      const { port } = server.address();
+      server.close((err) => (err ? reject(err) : resolve(port)));
+    });
+  });
+}
+
+async function resolveListenPort() {
+  const preferred = Number(process.env.PRERENDER_PORT || 5055);
+  if (process.env.PRERENDER_PORT) {
+    if (await isPortAccepting(preferred)) {
+      throw new Error(
+        `PRERENDER_PORT ${preferred} is already in use. Free it or unset PRERENDER_PORT.`,
+      );
+    }
+    return preferred;
+  }
+  if (!(await isPortAccepting(preferred))) {
+    return preferred;
+  }
+  return allocateEphemeralPort();
+}
+
+async function assertSpaServer(baseUrl) {
+  const response = await fetch(baseUrl, { redirect: "manual" });
+  const text = await response.text();
+  if (!response.ok || !text.includes('id="root"')) {
+    throw new Error(
+      `Prerender server at ${baseUrl} did not serve the SPA shell ` +
+        `(HTTP ${response.status}). Another process may own the port.`,
+    );
+  }
+}
 
 function isPopulated(rule) {
   const slug = rule.id || rule.kebabId || "";
@@ -66,9 +120,9 @@ function waitForServerReady(proc, timeoutMs = 60_000) {
   });
 }
 
-function startStaticServer() {
+function startStaticServer(port) {
   return new Promise((resolve, reject) => {
-    const proc = spawn("npx", ["serve", "-s", "build", "-l", String(PORT)], {
+    const proc = spawn("npx", ["serve", "-s", "build", "-l", `tcp://127.0.0.1:${port}`], {
       cwd: REPO_ROOT,
       stdio: ["ignore", "pipe", "pipe"],
       env: { ...process.env, CI: "true" },
@@ -80,8 +134,8 @@ function startStaticServer() {
   });
 }
 
-async function prerenderRoute(page, urlPath) {
-  const response = await page.goto(`${BASE_URL}${urlPath}`, {
+async function prerenderRoute(page, baseUrl, urlPath) {
+  const response = await page.goto(`${baseUrl}${urlPath}`, {
     waitUntil: "networkidle",
     timeout: 90_000,
   });
@@ -104,7 +158,7 @@ async function prerenderRoute(page, urlPath) {
   return { urlPath, content };
 }
 
-async function workerLoop(browser, queue, snapshots, failures) {
+async function workerLoop(browser, baseUrl, queue, snapshots, failures) {
   const context = await browser.newContext();
   const page = await context.newPage();
 
@@ -112,7 +166,7 @@ async function workerLoop(browser, queue, snapshots, failures) {
     const urlPath = queue.shift();
     if (!urlPath) break;
     try {
-      const snapshot = await prerenderRoute(page, urlPath);
+      const snapshot = await prerenderRoute(page, baseUrl, urlPath);
       snapshots.push(snapshot);
       process.stdout.write(`✓ ${urlPath}\n`);
     } catch (err) {
@@ -151,16 +205,27 @@ async function main() {
     process.exit(1);
   }
 
-  console.log(`Prerendering ${routes.length} routes (${WORKERS} workers)…`);
+  const port = await resolveListenPort();
+  const baseUrl = `http://127.0.0.1:${port}`;
+  if (Number(process.env.PRERENDER_PORT || 5055) !== port) {
+    console.log(`Port ${process.env.PRERENDER_PORT || 5055} busy — using ${port}`);
+  }
+  console.log(`Prerendering ${routes.length} routes (${WORKERS} workers) on ${baseUrl}…`);
 
-  const server = await startStaticServer();
+  const server = await startStaticServer(port);
+  try {
+    await assertSpaServer(baseUrl);
+  } catch (err) {
+    server.kill("SIGTERM");
+    throw err;
+  }
   const browser = await chromium.launch({ headless: true });
   const queue = [...routes];
   const snapshots = [];
   const failures = [];
 
   const workers = Array.from({ length: Math.min(WORKERS, routes.length) }, () =>
-    workerLoop(browser, queue, snapshots, failures),
+    workerLoop(browser, baseUrl, queue, snapshots, failures),
   );
 
   try {

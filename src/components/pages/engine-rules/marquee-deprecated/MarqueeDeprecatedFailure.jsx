@@ -13,9 +13,9 @@ const MarqueeDeprecatedFailure = () => {
   ];
   const htmlExamples = [
   { filename: "page with marquee", content: `<h1>Heading</h1>
-<input type="text">
+<input type="text" aria-label="Field label">
 <marquee>Some moving content</marquee>
-<button></button>` }
+<button aria-label="Action"></button>` }
   ];
 
   return (

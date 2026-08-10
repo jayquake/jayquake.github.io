@@ -17,10 +17,10 @@ const NavigationMisuseFailure = () => {
     <div>
       <ul>
         <li>
-          <a href="#main-content">Skip to main content</a>
+          <button type="button">Skip to main content</button>
         </li>
         <li>
-          <a href="#footer">Skip to footer</a>
+          <button type="button">Skip to footer</button>
         </li>
       </ul>
     </div>

@@ -12,9 +12,9 @@ const AriaInvalidMisuseSuccess = () => {
   "Test with assistive technologies"
   ];
   const htmlExamples = [
-  { filename: "input aria invalid false", content: `<input aria-invalid="false" aria-describedby="description" />
+  { filename: "input aria invalid false", content: `<input aria-label="Field label" aria-invalid="false" aria-describedby="description" />
 <div id="description">Some description</div>` },
-  { filename: "input no aria invalid attribute", content: `<input aria-describedby="description" />
+  { filename: "input no aria invalid attribute", content: `<input aria-label="Field label" aria-describedby="description" />
 <div id="description">Some description</div>` }
   ];
 
