@@ -49,6 +49,8 @@ jobs:
         env:
           CI: false
           SKIP_PRERENDER: '1'
+
+      - name: Ensure AccessFlow API key is set (Playwright)
         run: |
           if [ -z "$AF_NODE_PACKAGE_KEY" ]; then
             echo "::error::Add AF_NODE_PACKAGE_KEY to this repo's GitHub Secrets."
@@ -498,11 +500,7 @@ jobs:
     runs-on: ubuntu-latest
     # Independent of test lanes so Pages can publish even when SDK tests fail/hang.
     # One-time setup (repo admin): Settings → Pages → Source: GitHub Actions
-    if: |
-      github.event_name == 'push' && (
-        github.ref == 'refs/heads/main' ||
-        github.ref == 'refs/heads/master'
-      ) || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
