@@ -736,6 +736,44 @@
       </form>
     </div>
 
+    <!-- ════════════════════════════════════════════════════════════════════
+         INTENTIONAL failures for AccessCode PR reviewer smoke test
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="section" data-testid="accesscode-reviewer-bait">
+      <h2>AccessCode Reviewer Trigger</h2>
+      <p class="subtitle">Deliberate WCAG failures so AccessCode can comment on this PR.</p>
+      <div class="bad" style="padding:1rem; border-radius:6px; background:#fef2f2; border:1px solid #fecaca;">
+        <span class="label-tag label-bad">Inaccessible (intentional)</span>
+        <div class="pair-title">Unlabeled search + empty control + image without alt</div>
+        <div style="display:flex; flex-wrap:wrap; gap:1rem; align-items:center; margin-top:0.75rem;">
+          <input
+            id="accesscode-unlabeled-search"
+            type="text"
+            placeholder="Search…"
+            data-testid="accesscode-unlabeled-search"
+            data-a11y="fail"
+            data-issues="missing-label,field-label"
+          >
+          <button
+            id="accesscode-empty-button"
+            type="button"
+            data-testid="accesscode-empty-button"
+            data-a11y="fail"
+            data-issues="empty-button,button-discernible"
+          ></button>
+          <img
+            id="accesscode-missing-alt"
+            src="/raiden-logo.svg"
+            width="48"
+            height="48"
+            data-testid="accesscode-missing-alt"
+            data-a11y="fail"
+            data-issues="missing-alt,image-alt"
+          >
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <footer role="contentinfo" aria-label="Footer" style="margin-top:2rem; padding-top:1rem; border-top:1px solid #e5e7eb; color:#6b7280; font-size:0.85rem;">
