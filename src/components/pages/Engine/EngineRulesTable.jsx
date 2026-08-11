@@ -429,6 +429,7 @@ export default function EngineRulesTable({
                 value={categoryFilter}
                 displayEmpty
                 onChange={(e) => setCategoryFilter(e.target.value)}
+                inputProps={{ "aria-label": "Filter by category" }}
                 sx={filterSelectSx}
               >
                 <MenuItem value="all">ALL CATEGORIES</MenuItem>
@@ -468,6 +469,7 @@ export default function EngineRulesTable({
                 value={impactFilter}
                 displayEmpty
                 onChange={(e) => setImpactFilter(e.target.value)}
+                inputProps={{ "aria-label": "Filter by severity" }}
                 sx={filterSelectSx}
               >
                 <MenuItem value="all">ALL SEVERITY</MenuItem>
@@ -477,7 +479,13 @@ export default function EngineRulesTable({
                 <MenuItem value="minor">MINOR</MenuItem>
               </Select>
             ) : (
-              <Select value={impactFilter} onChange={(e) => setImpactFilter(e.target.value)} displayEmpty size="small">
+              <Select
+                value={impactFilter}
+                onChange={(e) => setImpactFilter(e.target.value)}
+                displayEmpty
+                size="small"
+                inputProps={{ "aria-label": "Filter by impact" }}
+              >
                 <MenuItem value="all">Impact: All</MenuItem>
                 <MenuItem value="critical">Critical</MenuItem>
                 <MenuItem value="serious">Serious</MenuItem>
@@ -489,7 +497,13 @@ export default function EngineRulesTable({
           {!isLibrary && (
             <>
               <FormControl size="small">
-                <Select value={wcagLevelFilter} onChange={(e) => setWcagLevelFilter(e.target.value)} displayEmpty size="small">
+                <Select
+                  value={wcagLevelFilter}
+                  onChange={(e) => setWcagLevelFilter(e.target.value)}
+                  displayEmpty
+                  size="small"
+                  inputProps={{ "aria-label": "Filter by WCAG level" }}
+                >
                   <MenuItem value="all">WCAG: All</MenuItem>
                   {wcagLevels.map((level) => (
                     <MenuItem key={level} value={level}>
@@ -504,6 +518,7 @@ export default function EngineRulesTable({
                   onChange={(e) => setWcagCriteriaFilter(e.target.value)}
                   displayEmpty
                   size="small"
+                  inputProps={{ "aria-label": "Filter by WCAG criteria" }}
                 >
                   <MenuItem value="all">Criteria: All</MenuItem>
                   {wcagCriteriaIds.map((criteria) => (
@@ -514,7 +529,13 @@ export default function EngineRulesTable({
                 </Select>
               </FormControl>
               <FormControl size="small">
-                <Select value={legacyRuleFilter} onChange={(e) => setLegacyRuleFilter(e.target.value)} displayEmpty size="small">
+                <Select
+                  value={legacyRuleFilter}
+                  onChange={(e) => setLegacyRuleFilter(e.target.value)}
+                  displayEmpty
+                  size="small"
+                  inputProps={{ "aria-label": "Filter by legacy rule" }}
+                >
                   <MenuItem value="all">Legacy: All</MenuItem>
                   <MenuItem value="yes">Has legacy</MenuItem>
                   <MenuItem value="no">No legacy</MenuItem>
