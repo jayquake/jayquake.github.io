@@ -41,9 +41,6 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
   const detailPath = ruleType === "engine" && ruleId ? `/engine/${ruleId}` : basePath;
   const successPath = `${basePath}_success`;
   const failurePath = `${basePath}_failure`;
-  const ruleLabPath = ruleId ? `/rule-lab?rule=${ruleId}&type=${ruleType}` : "/rule-lab";
-  const mcpDebugPath =
-    ruleType === "engine" && ruleId ? `/engine/${ruleId}?debug=mcp` : ruleLabPath;
 
   const warm = (v) => {
     if (ruleType === "engine" && ruleId) prefetchEngineExample(ruleId, v);
