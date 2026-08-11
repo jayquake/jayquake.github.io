@@ -653,6 +653,7 @@ export default function RuleTreeSidebar({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             fullWidth
+            inputProps={{ "aria-label": "Filter rules" }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -661,7 +662,12 @@ export default function RuleTreeSidebar({
               ),
               endAdornment: search && (
                 <InputAdornment position="end">
-                  <IconButton size="small" onClick={() => setSearch("")} sx={{ p: 0.25 }}>
+                  <IconButton
+                    size="small"
+                    onClick={() => setSearch("")}
+                    sx={{ p: 0.25 }}
+                    aria-label="Clear rule filter"
+                  >
                     <CancelIcon sx={{ fontSize: 14 }} />
                   </IconButton>
                 </InputAdornment>

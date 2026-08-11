@@ -445,6 +445,7 @@ export default function EngineRulesTable({
             placeholder={isLibrary ? "SEARCH RULES…" : "Search rules…"}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            inputProps={{ "aria-label": "Search rules" }}
             sx={{
               "& .MuiOutlinedInput-root": {
                 bgcolor: "background.paper",
