@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recording Validation — Accessibility Issue Map</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.6; color: #1a1a2e; background: #f8f9fa; padding: 2rem;
+    }
+    h1 { font-size: 1.75rem; margin-bottom: 0.25rem; }
+    .subtitle { color: #6c757d; margin-bottom: 2rem; }
+    h2 {
+      font-size: 1.15rem; margin: 2rem 0 0.75rem;
+      border-bottom: 2px solid #e0e0e0; padding-bottom: 0.25rem;
+    }
+    .section {
+      background: #fff; border: 1px solid #dee2e6;
+      border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;
+    }
+    .pair {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2rem; margin-bottom: 1.5rem;
+    }
+    .good, .bad { padding: 1rem; border-radius: 6px; }
+    .good {
+      background: #f0fdf4; border: 1px solid #bbf7d0;
+    }
+    .bad {
+      background: #fef2f2; border: 1px solid #fecaca;
+    }
+    .label-tag {
+      display: inline-block; font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      padding: 2px 8px; border-radius: 3px; margin-bottom: 0.5rem;
+    }
+    .label-good { background: #dcfce7; color: #166534; }
+    .label-bad { background: #fee2e2; color: #991b1b; }
+    .pair-title {
+      font-weight: 600; font-size: 0.9rem; margin-bottom: 0.75rem;
+      color: #374151;
+    }
+
+    /* Accessible button */
+    .btn-accessible {
+      padding: 0.5rem 1.25rem; border: none; border-radius: 4px;
+      font-size: 0.95rem; cursor: pointer; background: #2563eb;
+      color: #fff; transition: background 0.15s;
+    }
+    .btn-accessible:hover { background: #1d4ed8; }
+    .btn-accessible:focus-visible { outline: 3px solid #93c5fd; outline-offset: 2px; }
+
+    /* Inaccessible "button" - div with no role, no keyboard, low contrast */
+    .fake-btn {
+      display: inline-block; padding: 0.5rem 1.25rem;
+      border-radius: 4px; font-size: 0.95rem; cursor: pointer;
+      background: #e5e7eb; color: #d1d5db; /* low contrast: ~1.3:1 */
+    }
+
+    /* Accessible link */
+    .link-accessible { color: #2563eb; text-decoration: underline; font-weight: 500; }
+    .link-accessible:focus-visible { outline: 3px solid #93c5fd; outline-offset: 2px; }
+
+    /* Inaccessible link */
+    .link-bad { color: #9ca3af; cursor: pointer; }
+
+    /* Good input */
+    input[type="text"], input[type="email"], input[type="password"],
+    input[type="search"], textarea, select {
+      width: 100%; max-width: 360px; padding: 0.5rem 0.75rem;
+      border: 1px solid #ced4da; border-radius: 4px;
+      font-size: 0.95rem; margin-top: 0.25rem;
+    }
+    input:focus, textarea:focus, select:focus {
+      outline: 2px solid #2563eb; border-color: #2563eb;
+    }
+    label { display: block; font-weight: 500; margin-bottom: 0.25rem; }
+
+    /* Checkbox styling */
+    .checkbox-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+    .checkbox-row input[type="checkbox"] { width: 18px; height: 18px; }
+
+    /* No-focus element */
+    .no-focus-indicator:focus { outline: none !important; box-shadow: none !important; }
+
+    /* Image containers */
+    .img-container { margin: 0.5rem 0; }
+    .img-container img { max-width: 200px; height: auto; border-radius: 4px; border: 1px solid #e5e7eb; }
+
+    /* Keyboard trap */
+    .trap-zone {
+      padding: 1rem; background: #fef9c3; border: 1px solid #fde68a;
+      border-radius: 4px; margin-top: 0.5rem;
+    }
+
+    /* Low contrast text */
+    .low-contrast { color: #d1d5db; background: #f3f4f6; padding: 0.5rem; border-radius: 4px; }
+
+    /* Status area */
+    .status { padding: 0.75rem; border-radius: 4px; margin-top: 0.75rem; display: none; }
+    .status.show { display: block; }
+    .status-ok { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+
+    /* Nav */
+    nav { margin-bottom: 2rem; }
+    nav a { margin-right: 1rem; color: #2563eb; text-decoration: none; font-weight: 500; }
+    nav a:hover { text-decoration: underline; }
+
+    /* Skip link - deliberately broken for bad variant */
+    .skip-link {
+      position: absolute; left: -9999px; top: auto;
+      padding: 0.5rem 1rem; background: #2563eb; color: #fff;
+      border-radius: 0 0 4px 0; z-index: 1000;
+    }
+    .skip-link:focus { left: 0; top: 0; }
+
+    /* Autocomplete section */
+    .autocomplete-note { font-size: 0.8rem; color: #6b7280; margin-top: 0.25rem; }
+
+    @media (max-width: 768px) {
+      .pair { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header>
+    <h1>Recording Validation Page</h1>
+    <p class="subtitle">
+      Each section pairs an accessible element (green) with an inaccessible element (red).
+      Record a journey through both to validate that AccessFlow reports the right issues.
+    </p>
+  </header>
+
+  <nav aria-label="Test pages">
+    <a href="index.html">Validation Page</a>
+    <a href="page-2.html">Page 2 (Navigation Target)</a>
+    <a href="journey-test-page.html">Journey Fixture</a>
+  </nav>
+
+  <main id="main-content">
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SECTION 1: CLICK TARGETS
+         Extension event: "click"
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="section">
+      <h2>1. Click Targets</h2>
+
+      <!-- 1a: Button -->
+      <div class="pair">
+        <div class="good">
+          <span class="label-tag label-good">Accessible</span>
+          <div class="pair-title">Semantic Button</div>
+          <button
+            id="click-good-btn"
+            class="btn-accessible"
+            data-testid="click-good-btn"
+            data-action="click"
+            data-a11y="pass"
+            aria-label="Submit application"
+          >Submit Application</button>
+        </div>
+        <div class="bad">
+          <span class="label-tag label-bad">Violation</span>
+          <div class="pair-title">Div Posing as Button</div>
+          <div
+            id="click-bad-div-btn"
+            class="fake-btn"
+            data-testid="click-bad-div-btn"
+            data-action="click"
+            data-a11y="fail"
+            data-issues="missing-role,no-keyboard-access,low-contrast"
+          >Submit Application</div>
+        </div>
+      </div>
+
+      <!-- 1b: Link -->
+      <div class="pair">
+        <div class="good">
+          <span class="label-tag label-good">Accessible</span>
+          <div class="pair-title">Descriptive Link</div>
+          <a
+            href="#section-2"
+            id="click-good-link"
+            class="link-accessible"
+            data-testid="click-good-link"
+            data-action="click"
+            data-a11y="pass"
+          >View form input examples</a>
+        </div>
+        <div class="bad">
+          <span class="label-tag label-bad">Violation</span>
+          <div class="pair-title">Vague Link Text</div>
+          <a
+            href="#section-2"
+            id="click-bad-link"
+            class="link-bad"
+            data-testid="click-bad-link"
+            data-action="click"
+            data-a11y="fail"
+            data-issues="vague-link-text,low-contrast"
+          >click here</a>
+        </div>
+      </div>
+
+      <!-- 1c: Image Button -->
+      <div class="pair">
+        <div class="good">
+          <span class="label-tag label-good">Accessible</span>
+          <div class="pair-title">Image Button with Alt</div>
+          <button
+            id="click-good-img-btn"
+            class="btn-accessible"
+            data-testid="click-good-img-btn"
+            data-action="click"
+            data-a11y="pass"
+            aria-label="Search"
+            style="display: inline-flex; align-items: center; gap: 0.5rem;"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+            </svg>
+            Search
+          </button>
+        </div>
+        <div class="bad">
+          <span class="label-tag label-bad">Violation</span>
+          <div class="pair-title">Icon Button — No Label</div>
+          <div
+            id="click-bad-icon-btn"
+            class="fake-btn no-focus-indicator"
+            data-testid="click-bad-icon-btn"
+            data-action="click"
+            data-a11y="fail"
+            data-issues="missing-label,missing-role,no-focus-indicator,no-keyboard-access"
+            style="display: inline-flex; align-items: center;"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div id="click-status" class="status" aria-live="polite"></div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SECTION 2: TEXT INPUTS
+         Extension events: "type", "change"
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="section" id="section-2">
+      <h2>2. Text Inputs</h2>
+
+      <!-- 2a: Labeled input -->
+      <div class="pair">
+        <div class="good">
+          <span class="label-tag label-good">Accessible</span>
+          <div class="pair-title">Input with Visible Label</div>
+          <label for="input-good-email">Email Address</label>
+          <input
+            type="email"
+            id="input-good-email"
+            name="email"
+            placeholder="user@example.com"
+            data-testid="input-good-email"
+            data-action="type"
+            data-a11y="pass"
+            autocomplete="email"
+          >
+        </div>
+        <div class="bad">
+          <span class="label-tag label-bad">Violation</span>
+          <div class="pair-title">Input with No Label</div>
+          <input
+            type="text"
+            id="input-bad-no-label"
+            name="mystery-field"
+            placeholder="Enter something..."
+            data-testid="input-bad-no-label"
+            data-action="type"
+            data-a11y="fail"
+            data-issues="missing-label"
+          >
+        </div>
+      </div>
+
+      <!-- 2b: Placeholder-only vs proper label -->
+      <div class="pair">
+        <div class="good">
+          <span class="label-tag label-good">Accessible</span>
+          <div class="pair-title">Input with aria-label</div>
+          <input
+            type="text"
+            id="input-good-aria"
+            name="search"
+            placeholder="Search products..."
+            aria-label="Search products"
+            data-testid="input-good-aria"
+            data-action="type"
+            data-a11y="pass"
+          >
+        </div>
+        <div class="bad">
+          <span class="label-tag label-bad">Violation</span>
+          <div class="pair-title">Placeholder as Only Label</div>
+          <input
+            type="text"
+            id="input-bad-placeholder-only"
+            name="address"
+            placeholder="Your address"
+            data-testid="input-bad-placeholder-only"
+            data-action="type"
+            data-a11y="fail"
+            data-issues="placeholder-as-label"
+          >
+        </div>
+      </div>
+
+      <!-- 2c: Select dropdown -->
+      <div class="pair">
+        <div class="good">
+          <span class="label-tag label-good">Accessible</span>
+          <div class="pair-title">Labeled Select</div>
+          <label for="select-good-country">Country</label>
+          <select
+            id="select-good-country"
+            name="country"
+            data-testid="select-good-country"
+            data-action="change"
+            data-a11y="pass"
+          >
+            <option value="">Select a country</option>
+            <option value="us">United States</option>
+            <option value="uk">United Kingdom</option>
+            <option value="ca">Canada</option>
+          </select>
+        </div>
+        <div class="bad">
+          <span class="label-tag label-bad">Violation</span>
+          <div class="pair-title">Unlabeled Select</div>
+          <select
+            id="select-bad-no-label"
+            name="category"
+            data-testid="select-bad-no-label"
+            data-action="change"
+            data-a11y="fail"
+            data-issues="missing-label"
+          >
+            <option value="">Pick one</option>
+            <option value="a">Option A</option>
+            <option value="b">Option B</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SECTION 3: CHECKBOXES
+         Extension events: "click" (checkbox toggle)
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="section">
+      <h2>3. Checkboxes</h2>
+
+      <div class="pair">
+        <div class="good">
+          <span class="label-tag label-good">Accessible</span>
+          <div class="pair-title">Checkbox with Label</div>
+          <fieldset style="border:none; padding:0;">
+            <legend style="font-weight:500; margin-bottom:0.5rem;">Notification preferences</legend>
+            <div class="checkbox-row">
+              <input
+                type="checkbox"
+                id="cb-good-email"
+                name="notify-email"
+                data-testid="cb-good-email"
+                data-action="click"
+                data-a11y="pass"
+              >
+              <label for="cb-good-email">Email notifications</label>
+            </div>
+            <div class="checkbox-row">
+              <input
+                type="checkbox"
+                id="cb-good-sms"
+                name="notify-sms"
+                data-testid="cb-good-sms"
+                data-action="click"
+                data-a11y="pass"
+              >
+              <label for="cb-good-sms">SMS notifications</label>
+            </div>
+          </fieldset>
+        </div>
+        <div class="bad">
+          <span class="label-tag label-bad">Violation</span>
+          <div class="pair-title">Checkbox without Label or Fieldset</div>
+          <div style="margin-bottom: 0.5rem; font-weight:500;">Pick your preferences</div>
+          <div class="checkbox-row">
+            <input
+              type="checkbox"
+              id="cb-bad-no-label-1"
+              name="pref1"
+              data-testid="cb-bad-no-label-1"
+              data-action="click"
+              data-a11y="fail"
+              data-issues="missing-label,no-fieldset"
+            >
+            <span>Receive updates</span>
+          </div>
+          <div class="checkbox-row">
+            <input
+              type="checkbox"
+              id="cb-bad-no-label-2"
+              name="pref2"
+              data-testid="cb-bad-no-label-2"
+              data-action="click"
+              data-a11y="fail"
+              data-issues="missing-label,no-fieldset"
+            >
+            <span>Marketing emails</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SECTION 4: PASSWORD FIELDS
+         Extension event: "typePassword"
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="section">
+      <h2>4. Password Fields</h2>
+
+      <div class="pair">
+        <div class="good">
+          <span class="label-tag label-good">Accessible</span>
+          <div class="pair-title">Labeled Password</div>
+          <label for="pw-good">Password</label>
+          <input
+            type="password"
+            id="pw-good"
+            name="password"
+            data-testid="pw-good"
+            data-action="typePassword"
+            data-a11y="pass"
+            autocomplete="current-password"
+          >
+          <span class="autocomplete-note">autocomplete="current-password"</span>
+        </div>
+        <div class="bad">
+          <span class="label-tag label-bad">Violation</span>
+          <div class="pair-title">Unlabeled Password, No Autocomplete</div>
+          <input
+            type="password"
+            id="pw-bad"
+            name="secret"
+            placeholder="Enter password"
+            data-testid="pw-bad"
+            data-action="typePassword"
+            data-a11y="fail"
+            data-issues="missing-label,missing-autocomplete"
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SECTION 5: KEYBOARD INTERACTION
+         Extension event: "pressKeys"
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="section">
+      <h2>5. Keyboard Interaction</h2>
+
+      <div class="pair">
+        <div class="good">
+          <span class="label-tag label-good">Accessible</span>
+          <div class="pair-title">Keyboard-operable Widget</div>
+          <div
+            id="kb-good-toggle"
+            role="button"
+            tabindex="0"
+            class="btn-accessible"
+            data-testid="kb-good-toggle"
+            data-action="pressKeys"
+            data-a11y="pass"
+            aria-pressed="false"
+            aria-label="Toggle dark mode"
+            style="user-select: none;"
+          >Toggle Dark Mode</div>
+        </div>
+        <div class="bad">
+          <span class="label-tag label-bad">Violation</span>
+          <div class="pair-title">Not Keyboard Accessible</div>
+          <div
+            id="kb-bad-no-tabindex"
+            class="fake-btn"
+            data-testid="kb-bad-no-tabindex"
+            data-action="pressKeys"
+            data-a11y="fail"
+            data-issues="no-keyboard-access,missing-role,no-focus-indicator"
+            style="user-select: none;"
+          >Toggle Dark Mode</div>
+        </div>
+      </div>
+
+      <!-- Keyboard trap -->
+      <div class="pair">
+        <div class="good">
+          <span class="label-tag label-good">Accessible</span>
+          <div class="pair-title">Normal Tab Order</div>
+          <div>
+            <button
+              id="kb-good-tab-1"
+              class="btn-accessible"
+              data-testid="kb-good-tab-1"
+              data-action="pressKeys"
+              data-a11y="pass"
+              style="margin-right: 0.5rem;"
+            >First</button>
+            <button
+              id="kb-good-tab-2"
+              class="btn-accessible"
+              data-testid="kb-good-tab-2"
+              data-action="pressKeys"
+              data-a11y="pass"
+            >Second</button>
+          </div>
+        </div>
+        <div class="bad">
+          <span class="label-tag label-bad">Violation</span>
+          <div class="pair-title">Keyboard Trap</div>
+          <div class="trap-zone" data-testid="kb-bad-trap-zone" data-a11y="fail" data-issues="keyboard-trap">
+            <input
+              type="text"
+              id="kb-bad-trap-input"
+              placeholder="You might get stuck here..."
+              data-testid="kb-bad-trap-input"
+              data-action="pressKeys"
+              data-a11y="fail"
+              data-issues="keyboard-trap,missing-label"
+              aria-describedby="trap-warning"
+            >
+            <p id="trap-warning" style="font-size:0.8rem; color:#92400e; margin-top:0.5rem;">
+              Tab key is intercepted in this field (keyboard trap demo).
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SECTION 6: IMAGES
+         Clicked during recording to verify alt text reporting
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="section">
+      <h2>6. Images</h2>
+
+      <div class="pair">
+        <div class="good">
+          <span class="label-tag label-good">Accessible</span>
+          <div class="pair-title">Image with Alt Text</div>
+          <div class="img-container">
+            <img
+              id="img-good-alt"
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' fill='%2322c55e'%3E%3Crect width='200' height='120' rx='8'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' fill='white' font-size='14'%3EAccessible Image%3C/text%3E%3C/svg%3E"
+              alt="Green placeholder representing an accessible image with proper alt text"
+              data-testid="img-good-alt"
+              data-action="click"
+              data-a11y="pass"
+            >
+          </div>
+        </div>
+        <div class="bad">
+          <span class="label-tag label-bad">Violation</span>
+          <div class="pair-title">Image without Alt Text</div>
+          <div class="img-container">
+            <img
+              id="img-bad-no-alt"
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' fill='%23ef4444'%3E%3Crect width='200' height='120' rx='8'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' fill='white' font-size='14'%3EMissing Alt%3C/text%3E%3C/svg%3E"
+              data-testid="img-bad-no-alt"
+              data-action="click"
+              data-a11y="fail"
+              data-issues="missing-alt"
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SECTION 7: COLOR CONTRAST
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="section">
+      <h2>7. Color Contrast</h2>
+
+      <div class="pair">
+        <div class="good">
+          <span class="label-tag label-good">Accessible</span>
+          <div class="pair-title">High Contrast Text (7.5:1)</div>
+          <p
+            id="contrast-good"
+            data-testid="contrast-good"
+            data-a11y="pass"
+            style="color: #1a1a2e; background: #ffffff; padding: 0.75rem; border-radius: 4px;"
+          >This text has a contrast ratio of approximately 14:1, well above the WCAG AA threshold of 4.5:1.</p>
+        </div>
+        <div class="bad">
+          <span class="label-tag label-bad">Violation</span>
+          <div class="pair-title">Low Contrast Text (~1.5:1)</div>
+          <p
+            id="contrast-bad"
+            class="low-contrast"
+            data-testid="contrast-bad"
+            data-a11y="fail"
+            data-issues="insufficient-contrast"
+          >This text is nearly invisible — the contrast ratio is far below WCAG AA requirements.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SECTION 8: ASYNC / WAIT TARGETS
+         Extension event: "waitForSelector", "waitSeconds"
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="section">
+      <h2>8. Async Content (Wait Targets)</h2>
+
+      <div>
+        <button
+          id="load-async-btn"
+          class="btn-accessible"
+          data-testid="load-async-btn"
+          data-action="click"
+          data-a11y="pass"
+          aria-label="Load dynamic content after delay"
+        >Load Content (3s delay)</button>
+
+        <div
+          id="async-content"
+          role="region"
+          aria-label="Dynamically loaded content"
+          aria-live="polite"
+          data-testid="async-content"
+          data-action="waitForSelector"
+          data-a11y="pass"
+          style="display:none; padding:1rem; background:#dcfce7; border:1px solid #bbf7d0; border-radius:4px; margin-top:1rem;"
+        >
+          <strong>Content loaded successfully!</strong>
+          <p>This appeared after a 3-second delay. The extension can target this with "Wait for selector".</p>
+          <button
+            id="async-action-btn"
+            class="btn-accessible"
+            data-testid="async-action-btn"
+            data-action="click"
+            data-a11y="pass"
+            aria-label="Take action on loaded content"
+          >Take Action</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SECTION 9: COMPLETE FORM (Multi-step recording scenario)
+         Combines: type, typePassword, click, change
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="section">
+      <h2>9. Complete Registration Form</h2>
+      <p style="color:#6b7280; margin-bottom:1rem;">
+        Record the full form fill to capture multiple action types in one journey.
+      </p>
+
+      <form id="registration-form" aria-label="User registration" novalidate>
+        <div class="pair" style="margin-bottom:1rem;">
+          <div class="good">
+            <span class="label-tag label-good">Accessible Side</span>
+
+            <label for="reg-name">Full Name</label>
+            <input type="text" id="reg-name" name="name" autocomplete="name"
+              data-testid="reg-name" data-action="type" data-a11y="pass">
+
+            <label for="reg-email" style="margin-top:1rem;">Email</label>
+            <input type="email" id="reg-email" name="email" autocomplete="email"
+              data-testid="reg-email" data-action="type" data-a11y="pass">
+
+            <label for="reg-pw" style="margin-top:1rem;">Password</label>
+            <input type="password" id="reg-pw" name="password" autocomplete="new-password"
+              data-testid="reg-pw" data-action="typePassword" data-a11y="pass">
+
+            <div class="checkbox-row" style="margin-top:1rem;">
+              <input type="checkbox" id="reg-terms"
+                data-testid="reg-terms" data-action="click" data-a11y="pass">
+              <label for="reg-terms">I agree to the terms</label>
+            </div>
+
+            <button type="submit" class="btn-accessible" style="margin-top:1rem;"
+              data-testid="reg-submit" data-action="click" data-a11y="pass">
+              Create Account
+            </button>
+          </div>
+
+          <div class="bad">
+            <span class="label-tag label-bad">Inaccessible Side</span>
+
+            <input type="text" id="reg-bad-name" placeholder="Full name"
+              data-testid="reg-bad-name" data-action="type" data-a11y="fail"
+              data-issues="missing-label,missing-autocomplete">
+
+            <input type="text" id="reg-bad-email" placeholder="Email" style="margin-top:1rem;"
+              data-testid="reg-bad-email" data-action="type" data-a11y="fail"
+              data-issues="missing-label,wrong-input-type,missing-autocomplete">
+
+            <input type="password" id="reg-bad-pw" placeholder="Password" style="margin-top:1rem;"
+              data-testid="reg-bad-pw" data-action="typePassword" data-a11y="fail"
+              data-issues="missing-label,missing-autocomplete">
+
+            <div class="checkbox-row" style="margin-top:1rem;">
+              <input type="checkbox" id="reg-bad-terms"
+                data-testid="reg-bad-terms" data-action="click" data-a11y="fail"
+                data-issues="missing-label">
+              <span>I agree</span>
+            </div>
+
+            <div id="reg-bad-submit" class="fake-btn" style="margin-top:1rem;"
+              data-testid="reg-bad-submit" data-action="click" data-a11y="fail"
+              data-issues="missing-role,no-keyboard-access,low-contrast,not-a-submit-button">
+              Create Account
+            </div>
+          </div>
+        </div>
+
+        <div id="form-status" class="status" aria-live="polite"></div>
+      </form>
+    </div>
+
+  </main>
+
+  <footer role="contentinfo" aria-label="Footer" style="margin-top:2rem; padding-top:1rem; border-top:1px solid #e5e7eb; color:#6b7280; font-size:0.85rem;">
+    <p>Recording Validation Test Fixture &mdash; accessFlow E2E Testing</p>
+  </footer>
+
+  <script>
+    /* Click tracking for all interactive elements */
+    document.querySelectorAll('[data-testid]').forEach(function(el) {
+      el.addEventListener('click', function() {
+        var status = document.getElementById('click-status');
+        if (status) {
+          status.textContent = 'Clicked: ' + el.getAttribute('data-testid') +
+            ' | a11y: ' + el.getAttribute('data-a11y') +
+            (el.getAttribute('data-issues') ? ' | issues: ' + el.getAttribute('data-issues') : '');
+          status.className = 'status show status-ok';
+        }
+      });
+    });
+
+    /* Keyboard toggle for good widget */
+    var toggle = document.getElementById('kb-good-toggle');
+    if (toggle) {
+      function handleToggle() {
+        var pressed = toggle.getAttribute('aria-pressed') === 'true';
+        toggle.setAttribute('aria-pressed', String(!pressed));
+        toggle.textContent = pressed ? 'Toggle Dark Mode' : 'Dark Mode: ON';
+      }
+      toggle.addEventListener('click', handleToggle);
+      toggle.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleToggle();
+        }
+      });
+    }
+
+    /* Keyboard trap demo */
+    var trapInput = document.getElementById('kb-bad-trap-input');
+    if (trapInput) {
+      trapInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+          e.preventDefault(); /* traps focus */
+        }
+        if (e.key === 'Escape') {
+          trapInput.blur(); /* escape hatch */
+        }
+      });
+    }
+
+    /* Async content loader */
+    var loadBtn = document.getElementById('load-async-btn');
+    if (loadBtn) {
+      loadBtn.addEventListener('click', function() {
+        loadBtn.disabled = true;
+        loadBtn.textContent = 'Loading...';
+        setTimeout(function() {
+          document.getElementById('async-content').style.display = 'block';
+          loadBtn.textContent = 'Content Loaded';
+        }, 3000);
+      });
+    }
+
+    /* Form submission */
+    var form = document.getElementById('registration-form');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var status = document.getElementById('form-status');
+        var name = document.getElementById('reg-name').value;
+        var email = document.getElementById('reg-email').value;
+        if (!name || !email) {
+          status.textContent = 'Please fill in all required fields.';
+          status.className = 'status show';
+          status.style.background = '#fee2e2';
+          status.style.color = '#991b1b';
+          return;
+        }
+        status.textContent = 'Account created for ' + name + '!';
+        status.className = 'status show status-ok';
+      });
+    }
+
+    /* Fake button click handlers (bad divs) */
+    document.querySelectorAll('.fake-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var status = document.getElementById('click-status') || document.getElementById('form-status');
+        if (status) {
+          status.textContent = 'Fake button clicked: ' + btn.id;
+          status.className = 'status show status-ok';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

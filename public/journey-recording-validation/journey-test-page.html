@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Journey Test Fixture — Main Page</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; color: #1a1a2e; background: #f8f9fa; padding: 2rem; }
+    h1 { font-size: 1.75rem; margin-bottom: 0.5rem; }
+    h2 { font-size: 1.25rem; margin: 2rem 0 0.75rem; border-bottom: 2px solid #e0e0e0; padding-bottom: 0.25rem; }
+    .section { background: #fff; border: 1px solid #dee2e6; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; }
+    label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+    input[type="text"], input[type="email"], input[type="password"], input[type="search"] {
+      width: 100%; max-width: 400px; padding: 0.5rem 0.75rem; border: 1px solid #ced4da;
+      border-radius: 4px; font-size: 0.95rem; margin-bottom: 1rem;
+    }
+    input:focus { outline: 2px solid #4a6cf7; border-color: #4a6cf7; }
+    button {
+      padding: 0.5rem 1.25rem; border: none; border-radius: 4px; font-size: 0.95rem;
+      cursor: pointer; margin-right: 0.5rem; margin-bottom: 0.5rem; transition: background 0.15s;
+    }
+    .btn-primary { background: #4a6cf7; color: #fff; }
+    .btn-primary:hover { background: #3b5de7; }
+    .btn-secondary { background: #6c757d; color: #fff; }
+    .btn-secondary:hover { background: #5a6268; }
+    .btn-danger { background: #dc3545; color: #fff; }
+    .btn-danger:hover { background: #c82333; }
+    .checkbox-group { margin-bottom: 1rem; }
+    .checkbox-group label { display: flex; align-items: center; gap: 0.5rem; font-weight: 400; cursor: pointer; }
+    .checkbox-group input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
+    .action-card {
+      display: inline-block; padding: 1rem 1.5rem; background: #e9ecef; border: 1px solid #dee2e6;
+      border-radius: 8px; cursor: pointer; transition: background 0.15s; margin-right: 0.75rem; margin-bottom: 0.75rem;
+    }
+    .action-card:hover { background: #dee2e6; }
+    .action-card:focus { outline: 2px solid #4a6cf7; }
+    #delayed-content { display: none; padding: 1rem; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 4px; margin-top: 1rem; }
+    #delayed-content.visible { display: block; }
+    .status-message { padding: 0.75rem; border-radius: 4px; margin-top: 0.75rem; display: none; }
+    .status-message.show { display: block; }
+    .status-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .status-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    nav { margin-bottom: 2rem; }
+    nav a { margin-right: 1rem; color: #4a6cf7; text-decoration: none; font-weight: 500; }
+    nav a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>Journey Test Fixture</h1>
+  <p>Interactive elements for journey recording and validation testing.</p>
+
+  <nav aria-label="Page navigation">
+    <a href="journey-test-page.html">Home</a>
+    <a href="journey-test-page-cart.html">Cart</a>
+  </nav>
+
+  <!-- Clickable Elements -->
+  <div class="section">
+    <h2>Clickable Elements</h2>
+    <button id="submit-btn" class="btn-primary" aria-label="Submit form">Submit</button>
+    <button id="login-btn" class="btn-secondary" aria-label="Log in">Log In</button>
+    <button id="cancel-btn" class="btn-danger" aria-label="Cancel action">Cancel</button>
+
+    <div style="margin-top: 1rem;">
+      <div class="action-card" id="card-settings" tabindex="0" role="button" aria-label="Open settings">
+        Settings
+      </div>
+      <div class="action-card" id="card-profile" tabindex="0" role="button" aria-label="Open profile">
+        Profile
+      </div>
+      <div class="action-card" id="card-notifications" tabindex="0" role="button" aria-label="Open notifications">
+        Notifications
+      </div>
+    </div>
+
+    <div id="click-status" class="status-message" aria-live="polite"></div>
+  </div>
+
+  <!-- Checkboxes -->
+  <div class="section">
+    <h2>Checkboxes</h2>
+    <div class="checkbox-group">
+      <label>
+        <input type="checkbox" id="agree-terms" name="agree-terms" aria-label="Agree to terms and conditions">
+        I agree to the Terms and Conditions
+      </label>
+    </div>
+    <div class="checkbox-group">
+      <label>
+        <input type="checkbox" id="newsletter-opt-in" name="newsletter" aria-label="Subscribe to newsletter">
+        Subscribe to newsletter
+      </label>
+    </div>
+    <div class="checkbox-group">
+      <label>
+        <input type="checkbox" id="remember-me" name="remember" aria-label="Remember me">
+        Remember me
+      </label>
+    </div>
+  </div>
+
+  <!-- Text Inputs -->
+  <div class="section">
+    <h2>Text Inputs</h2>
+    <label for="email-input">Email</label>
+    <input type="email" id="email-input" name="email" placeholder="user@example.com" aria-label="Email address">
+
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" placeholder="Enter username" aria-label="Username">
+
+    <label for="search-field">Search</label>
+    <input type="search" id="search-field" name="search" placeholder="Search..." aria-label="Search">
+  </div>
+
+  <!-- Password Inputs -->
+  <div class="section">
+    <h2>Password Inputs</h2>
+    <label for="password-input">Password</label>
+    <input type="password" id="password-input" name="password" placeholder="Enter password" aria-label="Password" autocomplete="off">
+
+    <label for="confirm-password">Confirm Password</label>
+    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm password" aria-label="Confirm password" autocomplete="off">
+  </div>
+
+  <!-- Wait Targets -->
+  <div class="section">
+    <h2>Async Content (Wait Targets)</h2>
+    <button id="load-content-btn" class="btn-primary" aria-label="Load delayed content">
+      Load Content (3s delay)
+    </button>
+    <div id="delayed-content" aria-label="Delayed content area">
+      <strong>Content loaded successfully.</strong>
+      <p>This element appeared after a 3-second delay, simulating async data loading.</p>
+      <button id="delayed-action-btn" class="btn-secondary" aria-label="Delayed action button">
+        Take Action
+      </button>
+    </div>
+  </div>
+
+  <!-- Form Submission -->
+  <div class="section">
+    <h2>Complete Form</h2>
+    <form id="test-form" aria-label="Test form">
+      <label for="form-name">Full Name</label>
+      <input type="text" id="form-name" name="name" placeholder="John Doe" aria-label="Full name">
+
+      <label for="form-email">Email</label>
+      <input type="email" id="form-email" name="email" placeholder="john@example.com" aria-label="Form email">
+
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" id="form-terms" name="terms" aria-label="Accept terms">
+          Accept terms
+        </label>
+      </div>
+
+      <button type="submit" id="form-submit" class="btn-primary" aria-label="Submit test form">
+        Submit Form
+      </button>
+      <div id="form-status" class="status-message" aria-live="polite"></div>
+    </form>
+  </div>
+
+  <script>
+    document.querySelectorAll('button:not([type="submit"]), .action-card').forEach(function(el) {
+      el.addEventListener('click', function() {
+        var status = document.getElementById('click-status');
+        status.textContent = 'Clicked: ' + (el.id || el.textContent.trim());
+        status.className = 'status-message show status-success';
+      });
+    });
+
+    document.getElementById('load-content-btn').addEventListener('click', function() {
+      var btn = this;
+      btn.disabled = true;
+      btn.textContent = 'Loading...';
+      setTimeout(function() {
+        document.getElementById('delayed-content').classList.add('visible');
+        btn.textContent = 'Content Loaded';
+      }, 3000);
+    });
+
+    document.getElementById('test-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var status = document.getElementById('form-status');
+      var name = document.getElementById('form-name').value;
+      var email = document.getElementById('form-email').value;
+      var terms = document.getElementById('form-terms').checked;
+
+      if (!name || !email || !terms) {
+        status.textContent = 'Please fill all fields and accept terms.';
+        status.className = 'status-message show status-error';
+        return;
+      }
+      status.textContent = 'Form submitted successfully for ' + name + '!';
+      status.className = 'status-message show status-success';
+    });
+
+    document.querySelectorAll('.action-card').forEach(function(card) {
+      card.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.click();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

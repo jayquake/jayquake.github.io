@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recording Validation — Page 2 (Navigation Target)</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.6; color: #1a1a2e; background: #f0f9ff; padding: 2rem;
+    }
+    h1 { font-size: 1.75rem; margin-bottom: 0.25rem; }
+    .subtitle { color: #6c757d; margin-bottom: 2rem; }
+    h2 {
+      font-size: 1.15rem; margin: 2rem 0 0.75rem;
+      border-bottom: 2px solid #bae6fd; padding-bottom: 0.25rem;
+    }
+    .section {
+      background: #fff; border: 1px solid #e0f2fe;
+      border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;
+    }
+    .btn {
+      padding: 0.5rem 1.25rem; border: none; border-radius: 4px;
+      font-size: 0.95rem; cursor: pointer; transition: background 0.15s;
+    }
+    .btn-primary { background: #0284c7; color: #fff; }
+    .btn-primary:hover { background: #0369a1; }
+    .btn-primary:focus-visible { outline: 3px solid #7dd3fc; outline-offset: 2px; }
+    label { display: block; font-weight: 500; margin-bottom: 0.25rem; }
+    input[type="text"], input[type="number"], textarea {
+      width: 100%; max-width: 360px; padding: 0.5rem 0.75rem;
+      border: 1px solid #ced4da; border-radius: 4px;
+      font-size: 0.95rem; margin-top: 0.25rem;
+    }
+    input:focus, textarea:focus { outline: 2px solid #0284c7; border-color: #0284c7; }
+    nav { margin-bottom: 2rem; }
+    nav a { margin-right: 1rem; color: #0284c7; text-decoration: none; font-weight: 500; }
+    nav a:hover { text-decoration: underline; }
+    .status { padding: 0.75rem; border-radius: 4px; margin-top: 0.75rem; display: none; }
+    .status.show { display: block; }
+    .status-ok { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+
+    .card-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem; margin-top: 1rem;
+    }
+    .card {
+      padding: 1rem; border: 1px solid #e0f2fe; border-radius: 8px;
+      cursor: pointer; transition: all 0.15s; text-align: center;
+    }
+    .card:hover { border-color: #0284c7; background: #f0f9ff; }
+    .card.selected { border-color: #0284c7; background: #e0f2fe; }
+    .card h3 { font-size: 0.95rem; margin-bottom: 0.25rem; }
+    .card p { font-size: 0.8rem; color: #6b7280; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Page 2 — Order Review</h1>
+    <p class="subtitle">Navigation target for multi-page journey recording.</p>
+  </header>
+
+  <nav aria-label="Test pages">
+    <a href="index.html">Back to Validation Page</a>
+    <a href="journey-test-page.html">Journey Fixture</a>
+  </nav>
+
+  <main>
+    <!-- Accessible product selection -->
+    <div class="section">
+      <h2>Select a Plan</h2>
+      <div class="card-grid" role="radiogroup" aria-label="Plan selection">
+        <div class="card" role="radio" tabindex="0" aria-checked="false"
+          id="plan-basic" data-testid="plan-basic" data-action="click" data-a11y="pass">
+          <h3>Basic</h3>
+          <p>$9/month</p>
+        </div>
+        <div class="card" role="radio" tabindex="0" aria-checked="false"
+          id="plan-pro" data-testid="plan-pro" data-action="click" data-a11y="pass">
+          <h3>Pro</h3>
+          <p>$29/month</p>
+        </div>
+        <div class="card" role="radio" tabindex="0" aria-checked="false"
+          id="plan-enterprise" data-testid="plan-enterprise" data-action="click" data-a11y="pass">
+          <h3>Enterprise</h3>
+          <p>$99/month</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quantity + confirmation -->
+    <div class="section">
+      <h2>Order Details</h2>
+      <label for="order-qty">Quantity</label>
+      <input type="number" id="order-qty" name="quantity" value="1" min="1" max="100"
+        data-testid="order-qty" data-action="change" data-a11y="pass">
+
+      <label for="order-notes" style="margin-top:1rem;">Order Notes</label>
+      <textarea id="order-notes" name="notes" rows="3" placeholder="Any special requests..."
+        data-testid="order-notes" data-action="type" data-a11y="pass"></textarea>
+
+      <div style="margin-top:1rem;">
+        <button id="place-order-btn" class="btn btn-primary"
+          data-testid="place-order-btn" data-action="click" data-a11y="pass"
+          aria-label="Place order">
+          Place Order
+        </button>
+      </div>
+      <div id="order-status" class="status" aria-live="polite"></div>
+    </div>
+  </main>
+
+  <footer role="contentinfo" aria-label="Footer" style="margin-top:2rem; padding-top:1rem; border-top:1px solid #bae6fd; color:#6b7280; font-size:0.85rem;">
+    <p>Recording Validation Test Fixture — Page 2 &mdash; accessFlow E2E Testing</p>
+  </footer>
+
+  <script>
+    /* Plan card selection */
+    document.querySelectorAll('.card[role="radio"]').forEach(function(card) {
+      function select() {
+        document.querySelectorAll('.card[role="radio"]').forEach(function(c) {
+          c.classList.remove('selected');
+          c.setAttribute('aria-checked', 'false');
+        });
+        card.classList.add('selected');
+        card.setAttribute('aria-checked', 'true');
+      }
+      card.addEventListener('click', select);
+      card.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(); }
+      });
+    });
+
+    /* Place order */
+    document.getElementById('place-order-btn').addEventListener('click', function() {
+      var selected = document.querySelector('.card.selected');
+      var status = document.getElementById('order-status');
+      if (!selected) {
+        status.textContent = 'Please select a plan first.';
+        status.className = 'status show';
+        status.style.background = '#fee2e2';
+        status.style.color = '#991b1b';
+        return;
+      }
+      var plan = selected.querySelector('h3').textContent;
+      var qty = document.getElementById('order-qty').value;
+      status.textContent = 'Order placed: ' + qty + 'x ' + plan + ' plan!';
+      status.className = 'status show status-ok';
+    });
+  </script>
+</body>
+</html>
