@@ -1,3 +1,15 @@
 # https://www.robotstxt.org/robotstxt.html
+# Block legacy criteria rule pages. Engine rules under /engine/ remain allowed.
 User-agent: *
-Disallow:
+Disallow: /graphics
+Disallow: /forms
+Disallow: /keyboard
+Disallow: /navigation
+Disallow: /headings
+Disallow: /errors
+Disallow: /carousels
+Disallow: /clickables
+Disallow: /context
+Disallow: /document
+Disallow: /readability
+Disallow: /tables
