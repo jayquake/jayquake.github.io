@@ -24,6 +24,7 @@ import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
+import { MIN_TEXT_SIZE } from '../../theme/mgsTokens';
 import type { TestCaseInfo, TestFileInfo, TestSuiteGroup } from './types';
 
 /** Strip leading "Qase NNN: " or "Qase NNN - " prefix from a test title.
@@ -130,10 +131,10 @@ export default function TestFileTree({
                     {file.name}
                   </Typography>
                   {file.qaseId && (
-                    <Chip label={`Q-${file.qaseId}`} size="small" color="info" variant="outlined" sx={{ height: 18, fontSize: 10 }} />
+                    <Chip label={`Q-${file.qaseId}`} size="small" color="info" variant="outlined" sx={{ height: 18, fontSize: MIN_TEXT_SIZE }} />
                   )}
                   {testCases.length > 0 && (
-                    <Chip label={testCases.length} size="small" variant="outlined" sx={{ height: 18, fontSize: 10 }} />
+                    <Chip label={testCases.length} size="small" variant="outlined" sx={{ height: 18, fontSize: MIN_TEXT_SIZE }} />
                   )}
                 </Box>
               }
@@ -170,7 +171,7 @@ export default function TestFileTree({
                       primary={
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                           {tc.qaseId && (
-                            <Chip label={`Q-${tc.qaseId}`} size="small" color="info" variant="outlined" sx={{ height: 16, fontSize: 9, flexShrink: 0 }} />
+                            <Chip label={`Q-${tc.qaseId}`} size="small" color="info" variant="outlined" sx={{ minHeight: 20, fontSize: MIN_TEXT_SIZE, flexShrink: 0 }} />
                           )}
                           <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                             {stripQasePrefix(tc.title)}
@@ -222,7 +223,7 @@ export default function TestFileTree({
                 </IconButton>
               </Tooltip>
             ) : (
-              <Chip label={allTests.length} size="small" variant="outlined" sx={{ height: 18, fontSize: 10 }} />
+              <Chip label={allTests.length} size="small" variant="outlined" sx={{ height: 18, fontSize: MIN_TEXT_SIZE }} />
             )
           }
           sx={{ pl: `${depth * 16}px` }}

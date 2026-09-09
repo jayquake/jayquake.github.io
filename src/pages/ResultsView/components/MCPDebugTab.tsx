@@ -46,6 +46,7 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
 import { api } from '../../../api/client';
 import { StepList } from '../../../components/standalone/StepList';
+import { MIN_TEXT_SIZE } from '../../../theme/mgsTokens';
 import { type MCPAnalysis } from '../models/MCPAnalysis';
 import { type TestResult } from '../models/TestRunData';
 import { MCPAnalysisFilter } from '../services/MCPAnalysisFilter';
@@ -287,7 +288,7 @@ const NavigationProgressLog = ({ isActive, steps }: { isActive: boolean; steps: 
                 secondary={s.detail}
                 secondaryTypographyProps={{ variant: 'caption', sx: { wordBreak: 'break-all' } }}
               />
-              <Typography color="text.disabled" variant="caption" sx={{ flexShrink: 0, fontSize: '0.65rem' }}>
+              <Typography color="text.disabled" variant="caption" sx={{ flexShrink: 0, fontSize: MIN_TEXT_SIZE }}>
                 {new Date(s.timestamp).toLocaleTimeString()}
               </Typography>
             </ListItem>
@@ -658,7 +659,7 @@ const TestArtifactsViewer = ({
                 component="pre"
                 sx={{
                   m: 0, p: 2, maxHeight: 400, overflowY: 'auto',
-                  fontSize: '0.7rem', fontFamily: 'monospace', lineHeight: 1.5,
+                  fontSize: MIN_TEXT_SIZE, fontFamily: 'monospace', lineHeight: 1.5,
                   wordBreak: 'break-all', whiteSpace: 'pre-wrap',
                   bgcolor: 'background.default',
                 }}

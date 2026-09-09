@@ -4,14 +4,14 @@ import PropTypes from "prop-types";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { HudLayoutIndicator } from "../motion/HudMotion";
 import { prefetchEngineExample } from "../../utils/engineExampleUtils";
-import { MGS, mgsFonts, raidenType } from "../../theme/mgsTokens";
+import { MGS, MIN_TEXT_SIZE, mgsFonts, raidenType } from "../../theme/mgsTokens";
 
 const tabSx = {
   minWidth: 88,
   px: 2,
   py: 0.65,
   minHeight: 32,
-  fontSize: "0.68rem",
+  fontSize: MIN_TEXT_SIZE,
   fontFamily: mgsFonts.display,
   fontWeight: 700,
   letterSpacing: "0.12em",
@@ -27,7 +27,7 @@ const textLinkSx = {
   color: "primary.light",
   textDecoration: "none",
   fontFamily: mgsFonts.hud,
-  fontSize: "0.68rem",
+  fontSize: MIN_TEXT_SIZE,
   letterSpacing: "0.06em",
   textTransform: "uppercase",
   "&:hover": { color: "primary.main", textDecoration: "underline" },
@@ -86,7 +86,7 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
             textTransform: "none",
             color: "primary.light",
             fontFamily: mgsFonts.hud,
-            fontSize: "0.72rem",
+            fontSize: MIN_TEXT_SIZE,
             letterSpacing: "0.06em",
             minWidth: 0,
             px: 0.5,

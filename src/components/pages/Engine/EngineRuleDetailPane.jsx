@@ -17,12 +17,12 @@ import { Link as RouterLink } from "react-router-dom";
 import { LIBRARY_LAYOUT } from "../../../theme/layout";
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
 import { getRuleSlug } from "./engineLibraryUtils";
-import { MGS, mgsFonts, raidenType } from "../../../theme/mgsTokens";
+import { MGS, MIN_TEXT_SIZE, mgsFonts, raidenType } from "../../../theme/mgsTokens";
 
 const sectionLabelSx = {
   display: "block",
   fontFamily: mgsFonts.hud,
-  fontSize: "0.65rem",
+  fontSize: MIN_TEXT_SIZE,
   fontWeight: 600,
   letterSpacing: "0.14em",
   textTransform: "uppercase",
@@ -128,7 +128,7 @@ export default function EngineRuleDetailPane({
         }}
       >
         <Box sx={{ minWidth: 0, flex: 1, pr: 1 }}>
-          <Typography sx={{ ...raidenType.sectionLabel, fontSize: "0.58rem", mb: 0.5 }}>
+          <Typography sx={{ ...raidenType.sectionLabel, fontSize: MIN_TEXT_SIZE, mb: 0.5 }}>
             Tactical HUD · Engine Rule
           </Typography>
           <Typography
@@ -188,7 +188,7 @@ export default function EngineRuleDetailPane({
               color: MGS.raidenWhite,
               border: `1px solid ${MGS.raidenCyan}`,
               fontFamily: mgsFonts.hud,
-              fontSize: "0.65rem",
+              fontSize: MIN_TEXT_SIZE,
               fontWeight: 600,
             }}
           />
@@ -226,7 +226,7 @@ export default function EngineRuleDetailPane({
                   target={ref.link ? "_blank" : undefined}
                   rel={ref.link ? "noopener noreferrer" : undefined}
                   sx={{
-                    fontSize: "0.65rem",
+                    fontSize: MIN_TEXT_SIZE,
                     height: 22,
                     borderColor: "primary.main",
                     color: MGS.raidenSilver,

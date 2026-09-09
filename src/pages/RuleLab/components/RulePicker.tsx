@@ -12,6 +12,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HistoryIcon from '@mui/icons-material/History';
 
+import { MIN_TEXT_SIZE } from '../../../theme/mgsTokens';
 import type { RuleInfo } from '../index';
 
 interface RulePickerProps {
@@ -143,7 +144,7 @@ function RuleSection({
         <Chip
           label={isFiltered ? `${filteredCount}/${count}` : count}
           size="small"
-          sx={{ height: 18, fontSize: '0.7rem' }}
+          sx={{ height: 18, fontSize: MIN_TEXT_SIZE }}
         />
       </Box>
       <List dense disablePadding>
@@ -165,13 +166,13 @@ function RuleSection({
                       label={rule.impact}
                       size="small"
                       color={IMPACT_COLORS[rule.impact] ?? 'default'}
-                      sx={{ height: 18, fontSize: '0.65rem' }}
+                      sx={{ height: 18, fontSize: MIN_TEXT_SIZE }}
                     />
                   )}
                 </Box>
               }
               secondary={
-                <Typography variant="caption" color="text.disabled" sx={{ fontFamily: 'monospace', fontSize: '0.7rem' }}>
+                <Typography variant="caption" color="text.disabled" sx={{ fontFamily: 'monospace', fontSize: MIN_TEXT_SIZE }}>
                   {rule.id}
                 </Typography>
               }

@@ -16,6 +16,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import ArticleIcon from '@mui/icons-material/Article';
 import { useState } from 'react';
 
+import { MIN_TEXT_SIZE } from '../../theme/mgsTokens';
 import { useToast } from './ToastContainer';
 
 type QaseStep = {
@@ -217,7 +218,7 @@ export const QaseTestCaseCard: React.FC<QaseTestCaseCardProps> = ({ compact = fa
                 >
                   <Stack alignItems="center" direction="row" spacing={1} sx={{ mb: 0.5 }}>
                     <Box
-                      sx={{ width: 22, height: 22, borderRadius: '50%', bgcolor: 'primary.main', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', fontWeight: 700, flexShrink: 0 }}
+                      sx={{ width: 22, height: 22, borderRadius: '50%', bgcolor: 'primary.main', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: MIN_TEXT_SIZE, fontWeight: 700, flexShrink: 0 }}
                     >
                       {step.position ?? idx + 1}
                     </Box>
@@ -285,7 +286,7 @@ export const QaseTestCaseCard: React.FC<QaseTestCaseCardProps> = ({ compact = fa
               {testResult.error && (
                 <Box>
                   <Typography color="text.secondary" gutterBottom variant="body2">Error:</Typography>
-                  <Box component="pre" sx={{ p: 1, bgcolor: 'error.50', color: 'error.main', fontSize: '0.72rem', borderRadius: 1, overflowX: 'auto', m: 0 }}>
+                  <Box component="pre" sx={{ p: 1, bgcolor: 'error.50', color: 'error.main', fontSize: MIN_TEXT_SIZE, borderRadius: 1, overflowX: 'auto', m: 0 }}>
                     {testResult.error}
                   </Box>
                 </Box>

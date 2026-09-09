@@ -16,6 +16,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { useState } from 'react';
 
+import { MIN_TEXT_SIZE } from '../../theme/mgsTokens';
 import type { TestCaseInfo, TestFileInfo } from './types';
 
 function stripQasePrefix(title: string): string {
@@ -116,13 +117,13 @@ export default function RunQueue({
                           {file.name}
                         </Typography>
                         {file.qaseId && (
-                          <Chip label={`Q-${file.qaseId}`} size="small" color="info" variant="outlined" sx={{ height: 16, fontSize: 10 }} />
+                          <Chip label={`Q-${file.qaseId}`} size="small" color="info" variant="outlined" sx={{ minHeight: 20, fontSize: MIN_TEXT_SIZE }} />
                         )}
                         <Chip
                           label={`${activeCases.length} case${activeCases.length !== 1 ? 's' : ''}`}
                           size="small"
                           variant="outlined"
-                          sx={{ height: 16, fontSize: 10 }}
+                          sx={{ minHeight: 20, fontSize: MIN_TEXT_SIZE }}
                         />
                       </Box>
                     }
@@ -144,7 +145,7 @@ export default function RunQueue({
                         variant="outlined"
                         color={tc.qaseId ? 'info' : 'default'}
                         title={stripQasePrefix(tc.title)}
-                        sx={{ height: 20, fontSize: 10 }}
+                        sx={{ height: 20, fontSize: MIN_TEXT_SIZE }}
                       />
                     ))}
                   </Stack>

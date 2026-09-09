@@ -26,6 +26,7 @@ import type {
   ContrastResult,
   TouchTargetResult,
 } from '../../utils/clientAccessibilityTree';
+import { MIN_TEXT_SIZE } from '../../theme/mgsTokens';
 
 const SEVERITY_CONFIG: Record<string, { color: string; bg: string; label: string }> = {
   critical: { color: '#d32f2f', bg: 'rgba(211,47,47,0.08)', label: 'Critical' },
@@ -75,7 +76,7 @@ function IssueRow({
         size="small"
         sx={{
           height: 20,
-          fontSize: '0.65rem',
+          fontSize: MIN_TEXT_SIZE,
           fontWeight: 700,
           bgcolor: cfg.bg,
           color: cfg.color,
@@ -89,12 +90,12 @@ function IssueRow({
         </Typography>
         <Typography
           variant="caption"
-          sx={{ color: 'text.secondary', fontFamily: 'monospace', fontSize: '0.7rem', wordBreak: 'break-all' }}
+          sx={{ color: 'text.secondary', fontFamily: 'monospace', fontSize: MIN_TEXT_SIZE, wordBreak: 'break-all' }}
         >
           {issue.element}
         </Typography>
         {issue.impact && (
-          <Typography variant="caption" sx={{ display: 'block', color: 'text.secondary', fontSize: '0.7rem', mt: 0.25 }}>
+          <Typography variant="caption" sx={{ display: 'block', color: 'text.secondary', fontSize: MIN_TEXT_SIZE, mt: 0.25 }}>
             {issue.impact}
           </Typography>
         )}
@@ -107,7 +108,7 @@ function IssueRow({
             variant={isFP ? 'filled' : 'outlined'}
             color={isFP ? 'warning' : 'default'}
             onClick={() => onToggleFP(issue, !isFP)}
-            sx={{ height: 20, fontSize: '0.6rem', cursor: 'pointer', flexShrink: 0 }}
+            sx={{ height: 20, fontSize: MIN_TEXT_SIZE, cursor: 'pointer', flexShrink: 0 }}
           />
         </Tooltip>
       )}
@@ -178,7 +179,7 @@ export function AuditIssuesList({
                 <Chip
                   label={`${group.length} ${cfg.label}`}
                   size="small"
-                  sx={{ height: 22, fontSize: '0.7rem', fontWeight: 700, bgcolor: cfg.bg, color: cfg.color }}
+                  sx={{ height: 22, fontSize: MIN_TEXT_SIZE, fontWeight: 700, bgcolor: cfg.bg, color: cfg.color }}
                 />
               </Box>
             </AccordionSummary>
@@ -209,9 +210,9 @@ function ContrastTable({ results }: { results: ContrastResult[] }) {
     <Box>
       <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1, display: 'flex', alignItems: 'center', gap: 0.5 }}>
         Color Contrast
-        <Chip label={`${passes.length} pass`} size="small" color="success" variant="outlined" sx={{ height: 20, fontSize: '0.65rem' }} />
+        <Chip label={`${passes.length} pass`} size="small" color="success" variant="outlined" sx={{ height: 20, fontSize: MIN_TEXT_SIZE }} />
         {failures.length > 0 && (
-          <Chip label={`${failures.length} fail`} size="small" color="error" variant="outlined" sx={{ height: 20, fontSize: '0.65rem' }} />
+          <Chip label={`${failures.length} fail`} size="small" color="error" variant="outlined" sx={{ height: 20, fontSize: MIN_TEXT_SIZE }} />
         )}
       </Typography>
       {failures.length > 0 && (
@@ -219,16 +220,16 @@ function ContrastTable({ results }: { results: ContrastResult[] }) {
           <Table size="small" stickyHeader>
             <TableHead>
               <TableRow>
-                <TableCell sx={{ fontSize: '0.7rem', py: 0.5 }}>Element</TableCell>
-                <TableCell sx={{ fontSize: '0.7rem', py: 0.5 }}>Colors</TableCell>
-                <TableCell sx={{ fontSize: '0.7rem', py: 0.5 }}>Ratio</TableCell>
-                <TableCell sx={{ fontSize: '0.7rem', py: 0.5 }}>Required</TableCell>
+                <TableCell sx={{ fontSize: MIN_TEXT_SIZE, py: 0.5 }}>Element</TableCell>
+                <TableCell sx={{ fontSize: MIN_TEXT_SIZE, py: 0.5 }}>Colors</TableCell>
+                <TableCell sx={{ fontSize: MIN_TEXT_SIZE, py: 0.5 }}>Ratio</TableCell>
+                <TableCell sx={{ fontSize: MIN_TEXT_SIZE, py: 0.5 }}>Required</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {failures.map((r, i) => (
                 <TableRow key={i}>
-                  <TableCell sx={{ fontSize: '0.7rem', py: 0.5, fontFamily: 'monospace', maxWidth: 150, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  <TableCell sx={{ fontSize: MIN_TEXT_SIZE, py: 0.5, fontFamily: 'monospace', maxWidth: 150, overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {r.element}
                   </TableCell>
                   <TableCell sx={{ py: 0.5 }}>
@@ -237,10 +238,10 @@ function ContrastTable({ results }: { results: ContrastResult[] }) {
                       <Box sx={{ width: 14, height: 14, borderRadius: '50%', bgcolor: r.background, border: '1px solid rgba(0,0,0,0.2)' }} />
                     </Box>
                   </TableCell>
-                  <TableCell sx={{ fontSize: '0.7rem', py: 0.5, color: 'error.main', fontWeight: 600 }}>
+                  <TableCell sx={{ fontSize: MIN_TEXT_SIZE, py: 0.5, color: 'error.main', fontWeight: 600 }}>
                     {r.ratio}:1
                   </TableCell>
-                  <TableCell sx={{ fontSize: '0.7rem', py: 0.5 }}>
+                  <TableCell sx={{ fontSize: MIN_TEXT_SIZE, py: 0.5 }}>
                     {r.requiredRatio}:1 ({r.isLargeText ? 'large' : 'normal'})
                   </TableCell>
                 </TableRow>
@@ -271,7 +272,7 @@ function TouchTargetsGrid({ targets }: { targets: TouchTargetResult[] }) {
               size="small"
               color={t.meetsWCAG ? 'success' : 'warning'}
               variant="outlined"
-              sx={{ height: 22, fontSize: '0.65rem' }}
+              sx={{ height: 22, fontSize: MIN_TEXT_SIZE }}
             />
           </Tooltip>
         ))}
@@ -329,14 +330,14 @@ function FocusOrderList({ order }: { order: Array<{ element: string; tabIndex: n
             <Typography component="span" sx={{ fontWeight: 700, color: 'primary.main', minWidth: 20, fontSize: '0.75rem' }}>
               {i + 1}.
             </Typography>
-            <Chip label={item.role} size="small" sx={{ height: 18, fontSize: '0.6rem' }} />
+            <Chip label={item.role} size="small" sx={{ height: 18, fontSize: MIN_TEXT_SIZE }} />
             {item.name && (
               <Typography component="span" sx={{ color: 'text.secondary', fontSize: '0.75rem' }}>
                 "{item.name}"
               </Typography>
             )}
             {item.tabIndex > 0 && (
-              <Chip label={`tabindex=${item.tabIndex}`} size="small" color="warning" sx={{ height: 18, fontSize: '0.6rem' }} />
+              <Chip label={`tabindex=${item.tabIndex}`} size="small" color="warning" sx={{ height: 18, fontSize: MIN_TEXT_SIZE }} />
             )}
           </Box>
         ))}
@@ -348,22 +349,22 @@ function FocusOrderList({ order }: { order: Array<{ element: string; tabIndex: n
 export function AuditSummaryChips({ summary }: { summary: ClientAnalysisResult['audit']['summary'] }) {
   const total = summary.critical + summary.serious + summary.moderate + summary.minor;
   if (total === 0) {
-    return <Chip icon={<CheckIcon />} label="No issues" size="small" color="success" variant="outlined" sx={{ height: 22, fontSize: '0.7rem' }} />;
+    return <Chip icon={<CheckIcon />} label="No issues" size="small" color="success" variant="outlined" sx={{ height: 22, fontSize: MIN_TEXT_SIZE }} />;
   }
 
   return (
     <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
       {summary.critical > 0 && (
-        <Chip label={`${summary.critical} critical`} size="small" sx={{ height: 20, fontSize: '0.65rem', fontWeight: 700, bgcolor: SEVERITY_CONFIG.critical.bg, color: SEVERITY_CONFIG.critical.color }} />
+        <Chip label={`${summary.critical} critical`} size="small" sx={{ height: 20, fontSize: MIN_TEXT_SIZE, fontWeight: 700, bgcolor: SEVERITY_CONFIG.critical.bg, color: SEVERITY_CONFIG.critical.color }} />
       )}
       {summary.serious > 0 && (
-        <Chip label={`${summary.serious} serious`} size="small" sx={{ height: 20, fontSize: '0.65rem', fontWeight: 700, bgcolor: SEVERITY_CONFIG.serious.bg, color: SEVERITY_CONFIG.serious.color }} />
+        <Chip label={`${summary.serious} serious`} size="small" sx={{ height: 20, fontSize: MIN_TEXT_SIZE, fontWeight: 700, bgcolor: SEVERITY_CONFIG.serious.bg, color: SEVERITY_CONFIG.serious.color }} />
       )}
       {summary.moderate > 0 && (
-        <Chip label={`${summary.moderate} moderate`} size="small" sx={{ height: 20, fontSize: '0.65rem', fontWeight: 700, bgcolor: SEVERITY_CONFIG.moderate.bg, color: SEVERITY_CONFIG.moderate.color }} />
+        <Chip label={`${summary.moderate} moderate`} size="small" sx={{ height: 20, fontSize: MIN_TEXT_SIZE, fontWeight: 700, bgcolor: SEVERITY_CONFIG.moderate.bg, color: SEVERITY_CONFIG.moderate.color }} />
       )}
       {summary.minor > 0 && (
-        <Chip label={`${summary.minor} minor`} size="small" sx={{ height: 20, fontSize: '0.65rem', fontWeight: 700, bgcolor: SEVERITY_CONFIG.minor.bg, color: SEVERITY_CONFIG.minor.color }} />
+        <Chip label={`${summary.minor} minor`} size="small" sx={{ height: 20, fontSize: MIN_TEXT_SIZE, fontWeight: 700, bgcolor: SEVERITY_CONFIG.minor.bg, color: SEVERITY_CONFIG.minor.color }} />
       )}
     </Box>
   );

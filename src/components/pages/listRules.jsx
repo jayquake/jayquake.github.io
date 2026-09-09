@@ -34,6 +34,7 @@ import {
 import { Link } from "react-router-dom";
 import { DataService } from "../util/dataService";
 import SimpleBreadcrumbs from "../layout/CustomizedBreadCrumbs";
+import { MIN_TEXT_SIZE } from "../../theme/mgsTokens";
 
 const transformInput = (str) => {
   if (!str || typeof str !== 'string') {
@@ -692,7 +693,7 @@ const List = ({ filters: propFilters, sorters: propSorters, embedded = false }) 
                               return 'success';
                             })()}
                             sx={{ 
-                              fontSize: '0.65rem', 
+                              fontSize: MIN_TEXT_SIZE,
                               fontWeight: 700,
                               minHeight: 24
                             }}
@@ -769,7 +770,7 @@ const List = ({ filters: propFilters, sorters: propSorters, embedded = false }) 
                               size="small" 
                               variant="outlined"
                               sx={{ 
-                                fontSize: '0.65rem', 
+                                fontSize: MIN_TEXT_SIZE,
                                 height: 22,
                                 borderColor: categoryConfig.color + '40',
                                 color: categoryConfig.color,
@@ -939,7 +940,7 @@ const List = ({ filters: propFilters, sorters: propSorters, embedded = false }) 
                                 return 'success';
                               })()}
                               sx={{ 
-                                fontSize: '0.65rem', 
+                                fontSize: MIN_TEXT_SIZE,
                                 fontWeight: 700,
                                 minHeight: 24
                               }}
@@ -1019,7 +1020,7 @@ const List = ({ filters: propFilters, sorters: propSorters, embedded = false }) 
                                 size="small" 
                                 variant="outlined"
                                 sx={{ 
-                                  fontSize: '0.65rem', 
+                                  fontSize: MIN_TEXT_SIZE,
                                   height: 22,
                                   borderColor: categoryConfig.color + '40',
                                   color: categoryConfig.color,

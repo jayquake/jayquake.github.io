@@ -11,7 +11,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import AppSidebar from "./components/layout/AppSidebar";
 import AppRoutes from "./routes/AppRoutes";
 import { mainShellMetrics } from "./theme/layout";
-import { mgsFonts, raidenType } from "./theme/mgsTokens";
+import { MIN_TEXT_SIZE, mgsFonts, raidenType } from "./theme/mgsTokens";
 import { ENGINE_RULE_COUNT } from "./utils/engineRuleCount";
 import { parseEngineSlug } from "./utils/engineExampleUtils";
 
@@ -153,7 +153,7 @@ export default function App() {
               variant="caption"
               sx={{
                 ...raidenType.sectionLabel,
-                fontSize: "0.58rem",
+                fontSize: MIN_TEXT_SIZE,
                 lineHeight: 1.2,
                 color: "primary.main",
               }}
@@ -193,7 +193,7 @@ export default function App() {
                   display: "block",
                   fontFamily: mgsFonts.hud,
                   color: "primary.main",
-                  fontSize: "0.58rem",
+                  fontSize: MIN_TEXT_SIZE,
                   letterSpacing: "0.08em",
                 }}
               >
@@ -202,7 +202,7 @@ export default function App() {
               <Typography
                 variant="caption"
                 color="text.secondary"
-                sx={{ fontSize: "0.62rem", overflowWrap: "anywhere", fontFamily: mgsFonts.hud }}
+                sx={{ fontSize: MIN_TEXT_SIZE, overflowWrap: "anywhere", fontFamily: mgsFonts.hud }}
               >
                 {pageInfo.subtitle}
               </Typography>
@@ -213,7 +213,7 @@ export default function App() {
                 size="small"
                 color={pageInfo.variant === "success" ? "success" : "error"}
                 variant="outlined"
-                sx={{ height: 20, fontSize: "0.58rem", textTransform: "uppercase" }}
+                sx={{ height: 20, fontSize: MIN_TEXT_SIZE, textTransform: "uppercase" }}
               />
             )}
           </Box>

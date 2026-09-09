@@ -8,6 +8,7 @@ import {
 import { 
   Visibility as ViewIcon 
 } from "@mui/icons-material";
+import { MIN_TEXT_SIZE } from "../../theme/mgsTokens";
 
 const CustomNavLink = ({ 
   to, 
@@ -67,19 +68,19 @@ const CustomNavLink = ({
               {hasSuccess && (
                 <Box display="flex" alignItems="center" gap={0.5}>
                   <Box sx={{ width: 4, height: 4, borderRadius: '50%', bgcolor: 'success.main' }} aria-hidden="true" />
-                  <Typography variant="caption" sx={{ fontSize: '0.7rem' }}>Success</Typography>
+                  <Typography variant="caption" sx={{ fontSize: MIN_TEXT_SIZE }}>Success</Typography>
                 </Box>
               )}
               {hasFailure && (
                 <Box display="flex" alignItems="center" gap={0.5}>
                   <Box sx={{ width: 4, height: 4, borderRadius: '50%', bgcolor: 'error.main' }} aria-hidden="true" />
-                  <Typography variant="caption" sx={{ fontSize: '0.7rem' }}>Failure</Typography>
+                  <Typography variant="caption" sx={{ fontSize: MIN_TEXT_SIZE }}>Failure</Typography>
                 </Box>
               )}
               {isTestable && (
                 <Box display="flex" alignItems="center" gap={0.5}>
                   <Box sx={{ width: 4, height: 4, borderRadius: '2px', bgcolor: categoryColor }} aria-hidden="true" />
-                  <Typography variant="caption" sx={{ fontSize: '0.7rem' }}>Test</Typography>
+                  <Typography variant="caption" sx={{ fontSize: MIN_TEXT_SIZE }}>Test</Typography>
                 </Box>
               )}
             </Box>
@@ -193,7 +194,7 @@ const CustomNavLink = ({
                   '& .MuiBadge-badge': {
                     background: `linear-gradient(135deg, ${categoryColor}, ${alpha(categoryColor, 0.8)})`,
                     color: 'white',
-                    fontSize: '0.65rem',
+                    fontSize: MIN_TEXT_SIZE,
                     fontWeight: 600,
                     minWidth: 18,
                     height: 18,

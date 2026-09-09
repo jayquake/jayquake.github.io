@@ -32,6 +32,7 @@ import { analyzeHtmlClientSide } from "../../utils/clientAccessibilityTree";
 import { getCachedAnalysis, cacheAnalysis } from "../../utils/analysisCache";
 import AuditResultsPanel, { issueKey } from "./AuditResultsPanel";
 import { scopeExampleHtml } from "../../utils/scopeExampleHtml";
+import { MIN_TEXT_SIZE } from "../../theme/mgsTokens";
 
 const VARIANT_CONFIG = {
   success: {
@@ -292,7 +293,7 @@ export default function ExampleCard({
                 size="small"
                 sx={{
                   fontFamily: '"IBM Plex Mono", monospace',
-                  fontSize: "0.65rem",
+                  fontSize: MIN_TEXT_SIZE,
                   height: 22,
                   background: "transparent",
                   color: cfg.darkColor,
@@ -307,7 +308,7 @@ export default function ExampleCard({
               icon={<BadgeIcon sx={{ fontSize: 14 }} />}
               sx={{
                 height: 22,
-                fontSize: "0.7rem",
+                fontSize: MIN_TEXT_SIZE,
                 fontWeight: 600,
                 background: cfg.bgTint,
                 color: cfg.darkColor,
@@ -408,7 +409,7 @@ export default function ExampleCard({
           >
             <Typography
               variant="caption"
-              sx={{ color: cfg.darkColor, fontWeight: 600, mb: 1, display: "block", textTransform: "uppercase", letterSpacing: "0.5px", fontSize: "0.7rem" }}
+              sx={{ color: cfg.darkColor, fontWeight: 600, mb: 1, display: "block", textTransform: "uppercase", letterSpacing: "0.5px", fontSize: MIN_TEXT_SIZE }}
             >
               Rendered Output:
             </Typography>
@@ -443,7 +444,7 @@ export default function ExampleCard({
           >
             <Typography
               variant="caption"
-              sx={{ color: variant === "failure" ? "#ffcdd2" : "#c8e6c9", fontWeight: 600, mb: 1, display: "block", textTransform: "uppercase", letterSpacing: "0.5px", fontSize: "0.7rem" }}
+              sx={{ color: variant === "failure" ? "#ffcdd2" : "#c8e6c9", fontWeight: 600, mb: 1, display: "block", textTransform: "uppercase", letterSpacing: "0.5px", fontSize: MIN_TEXT_SIZE }}
             >
               HTML Code:
             </Typography>
@@ -503,7 +504,7 @@ export default function ExampleCard({
                 Accessibility Tree
               </Typography>
               {treeData?.source === "client" && (
-                <Chip label="Client-Side" size="small" variant="outlined" sx={{ height: 20, fontSize: "0.6rem" }} />
+                <Chip label="Client-Side" size="small" variant="outlined" sx={{ height: 20, fontSize: MIN_TEXT_SIZE }} />
               )}
             </Stack>
             {treeLoading && <LinearProgress sx={{ mb: 1 }} />}
@@ -521,7 +522,7 @@ export default function ExampleCard({
             )}
             {treeData && !treeError && (
               <Box>
-                <Box sx={{ fontFamily: "monospace", fontSize: { xs: "0.7rem", md: "0.8rem" }, maxHeight: 300, overflow: "auto" }}>
+                <Box sx={{ fontFamily: "monospace", fontSize: { xs: MIN_TEXT_SIZE, md: "0.8rem" }, maxHeight: 300, overflow: "auto" }}>
                   {treeData.accessibilityTree ? (
                     <pre style={{ margin: 0, whiteSpace: "pre-wrap" }}>
                       {typeof treeData.accessibilityTree === "string"
@@ -536,7 +537,7 @@ export default function ExampleCard({
                   {treeData.computedRoles && treeData.computedRoles.length > 0 && (
                     <Stack direction="row" spacing={0.5} flexWrap="wrap" sx={{ mt: 1, gap: 0.5 }}>
                       {treeData.computedRoles.map((role, i) => (
-                        <Chip key={i} label={role} size="small" sx={{ height: 20, fontSize: "0.7rem" }} />
+                        <Chip key={i} label={role} size="small" sx={{ height: 20, fontSize: MIN_TEXT_SIZE }} />
                       ))}
                     </Stack>
                   )}

@@ -26,7 +26,7 @@ import { m } from "../motion/HudMotion";
 import ExampleCard from "./ExampleCard";
 import ExamplePageNav from "./ExamplePageNav";
 import { HUD_PANEL, PAGE_SHELL } from "../../theme/layout";
-import { MGS, mgsFonts, raidenType } from "../../theme/mgsTokens";
+import { MGS, MIN_TEXT_SIZE, mgsFonts, raidenType } from "../../theme/mgsTokens";
 import { hudVariantMotion, hudVariantTransition } from "../../theme/motionPresets";
 
 const PALETTE = {
@@ -119,14 +119,14 @@ export default function UnifiedExamplePage({
               borderColor: pal.border,
               color: pal.primary,
               fontFamily: mgsFonts.hud,
-              fontSize: "0.62rem",
+              fontSize: MIN_TEXT_SIZE,
             }}
           />
           <Chip
             label={`${examples.length} example${examples.length !== 1 ? "s" : ""}`}
             size="small"
             variant="outlined"
-            sx={{ height: 24, fontSize: "0.62rem" }}
+            sx={{ height: 24, fontSize: MIN_TEXT_SIZE }}
           />
         </Stack>
       </Paper>
@@ -210,7 +210,7 @@ export default function UnifiedExamplePage({
       <Paper elevation={0} sx={{ ...HUD_PANEL, p: { xs: 2, sm: 2.5 }, width: "100%" }}>
         <Typography
           variant="subtitle2"
-          sx={{ ...sectionLabelSx, color: pal.primary, fontSize: "0.72rem", mb: 1.5 }}
+          sx={{ ...sectionLabelSx, color: pal.primary, fontSize: MIN_TEXT_SIZE, mb: 1.5 }}
         >
           {variant === "success" ? "Success Examples" : "Failure Examples"}
         </Typography>

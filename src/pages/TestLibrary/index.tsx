@@ -19,6 +19,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { api } from '../../api/client';
 import { useToast } from '../../components/standalone/ToastContainer';
+import { MIN_TEXT_SIZE } from '../../theme/mgsTokens';
 import { isStaticDeployment } from '../../utils/environment';
 import AdvancedOptionsAccordion from './AdvancedOptionsAccordion';
 import ExecutionModeCard from './ExecutionModeCard';
@@ -642,7 +643,7 @@ export default function TestLibrary() {
                       label={p.sdkType.toUpperCase()}
                       size="small"
                       color={sdkColor[p.sdkType] || 'default'}
-                      sx={{ fontSize: '0.65rem', height: 20, fontWeight: 700 }}
+                      sx={{ fontSize: MIN_TEXT_SIZE, height: 20, fontWeight: 700 }}
                     />
                   )}
                   {isComingSoon ? (
@@ -651,7 +652,7 @@ export default function TestLibrary() {
                       size="small"
                       color="default"
                       variant="outlined"
-                      sx={{ fontSize: '0.65rem', height: 20 }}
+                      sx={{ fontSize: MIN_TEXT_SIZE, height: 20 }}
                     />
                   ) : (
                     p?.testFramework && (
@@ -659,7 +660,7 @@ export default function TestLibrary() {
                         label={frameworkLabel[p.testFramework] || p.testFramework}
                         size="small"
                         variant="outlined"
-                        sx={{ fontSize: '0.65rem', height: 20 }}
+                        sx={{ fontSize: MIN_TEXT_SIZE, height: 20 }}
                       />
                     )
                   )}

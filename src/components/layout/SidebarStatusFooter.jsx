@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import packageJson from "../../../package.json";
 import { useMissionClock } from "../../hooks/useMissionClock";
 import { HudPulse } from "../motion/HudMotion";
-import { MGS, mgsFonts } from "../../theme/mgsTokens";
+import { MGS, MIN_TEXT_SIZE, mgsFonts } from "../../theme/mgsTokens";
 
 export default function SidebarStatusFooter({ isOpen }) {
   const missionTime = useMissionClock();
@@ -103,7 +103,7 @@ export default function SidebarStatusFooter({ isOpen }) {
         sx={{
           display: "block",
           fontFamily: mgsFonts.hud,
-          fontSize: "0.58rem",
+          fontSize: MIN_TEXT_SIZE,
           color: "text.secondary",
           letterSpacing: "0.06em",
           mb: 0.5,
@@ -116,7 +116,7 @@ export default function SidebarStatusFooter({ isOpen }) {
         sx={{
           display: "block",
           fontFamily: mgsFonts.hud,
-          fontSize: "0.62rem",
+          fontSize: MIN_TEXT_SIZE,
           color: "primary.main",
           letterSpacing: "0.1em",
         }}

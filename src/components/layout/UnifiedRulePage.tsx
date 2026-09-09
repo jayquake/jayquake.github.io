@@ -63,6 +63,7 @@ import engineLegacyMapping from "../../data/engine-legacy-mapping";
 import engineRulesMetadata from "../../data/engine-rules-metadata.json";
 import legacyEngineMapping from "../../data/legacy-engine-mapping";
 import legacyRulesData from "../../data/legacy-rules.json";
+import { MIN_TEXT_SIZE } from "../../theme/mgsTokens";
 import { getRuleSummary } from "../../utils/analysisCache";
 import { analyzeHtmlClientSide } from "../../utils/clientAccessibilityTree";
 import { AuditSummaryChips } from "./AuditResultsPanel";
@@ -386,7 +387,7 @@ export default function UnifiedRulePage({
                 variant="outlined"
                 sx={{
                   fontWeight: 600,
-                  fontSize: "0.7rem",
+                  fontSize: MIN_TEXT_SIZE,
                   height: 24,
                   borderColor: isEngine ? "rgba(102,126,234,0.4)" : "rgba(25,118,210,0.4)",
                   color: isEngine ? "#667eea" : "#1976d2",
@@ -400,7 +401,7 @@ export default function UnifiedRulePage({
                 component={Link}
                 to={legacyEquivalent.path}
                 clickable
-                sx={{ fontSize: "0.7rem", height: 24, fontWeight: 500 }}
+                sx={{ fontSize: MIN_TEXT_SIZE, height: 24, fontWeight: 500 }}
               />
             )}
           </Stack>
@@ -449,7 +450,7 @@ export default function UnifiedRulePage({
               )
             )}
             {isEngine ? (
-              <Chip label={eng!.id} size="small" sx={{ fontFamily: "monospace", fontSize: "0.7rem", height: 26, background: "rgba(103,58,183,0.1)", color: "#512da8" }} />
+              <Chip label={eng!.id} size="small" sx={{ fontFamily: "monospace", fontSize: MIN_TEXT_SIZE, height: 26, background: "rgba(103,58,183,0.1)", color: "#512da8" }} />
             ) : (
               leg!.criteria && (
                 <Chip label={`${leg!.criteria.charAt(0).toUpperCase()}${leg!.criteria.slice(1)}`} size="small" sx={{ height: 26, background: "rgba(25,118,210,0.1)", color: "#1565c0" }} />
@@ -469,7 +470,7 @@ export default function UnifiedRulePage({
                   <Typography variant="caption" sx={{ color: "#94a3b8", fontWeight: 600 }}>Related:</Typography>
                   {relatedLegacyRules.map((r: any) => (
                     <Chip key={r.path} label={r.name || r.label} size="small" component={Link} to={r.path} clickable
-                      sx={{ height: 22, fontSize: "0.7rem", background: "rgba(255,255,255,0.6)", border: "1px solid rgba(148,163,184,0.2)" }} />
+                      sx={{ height: 22, fontSize: MIN_TEXT_SIZE, background: "rgba(255,255,255,0.6)", border: "1px solid rgba(148,163,184,0.2)" }} />
                   ))}
                 </Stack>
               )}
@@ -478,7 +479,7 @@ export default function UnifiedRulePage({
                   <Typography variant="caption" sx={{ color: "#94a3b8", fontWeight: 600 }}>Related:</Typography>
                   {relatedEngineRules.map((r) => (
                     <Chip key={r.path} label={r.label} size="small" component={Link} to={r.path} clickable
-                      sx={{ height: 22, fontSize: "0.7rem", background: "rgba(255,255,255,0.6)", border: "1px solid rgba(148,163,184,0.2)" }} />
+                      sx={{ height: 22, fontSize: MIN_TEXT_SIZE, background: "rgba(255,255,255,0.6)", border: "1px solid rgba(148,163,184,0.2)" }} />
                   ))}
                 </Stack>
               )}
@@ -500,12 +501,12 @@ export default function UnifiedRulePage({
               label={analyzingAll ? "Analyzing..." : "Not analyzed"}
               size="small"
               variant="outlined"
-              sx={{ height: 20, fontSize: "0.65rem" }}
+              sx={{ height: 20, fontSize: MIN_TEXT_SIZE }}
             />
           )}
           {!auditSummary && !analyzingAll && (
             <Button size="small" variant="outlined" onClick={handleAnalyzeAll}
-              sx={{ textTransform: "none", fontSize: "0.7rem", height: 24, ml: "auto" }}>
+              sx={{ textTransform: "none", fontSize: MIN_TEXT_SIZE, height: 24, ml: "auto" }}>
               Analyze
             </Button>
           )}
@@ -598,13 +599,13 @@ export default function UnifiedRulePage({
                           <Chip
                             label={ref.level}
                             size="small"
-                            sx={{ height: 20, fontSize: "0.65rem", backgroundColor: ref.level === "A" ? "#4caf50" : ref.level === "AA" ? "#2196f3" : "#9c27b0", color: "white", fontWeight: "bold" }}
+                            sx={{ height: 20, fontSize: MIN_TEXT_SIZE, backgroundColor: ref.level === "A" ? "#4caf50" : ref.level === "AA" ? "#2196f3" : "#9c27b0", color: "white", fontWeight: "bold" }}
                           />
                           <Typography variant="body2" fontWeight={700} sx={{ color: "#1e293b", fontSize: "0.8rem" }}>{ref.id}</Typography>
                         </Stack>
                         {ref.link && (
                           <Button href={ref.link} target="_blank" rel="noopener noreferrer" variant="text" size="small" endIcon={<OpenInNewIcon sx={{ fontSize: 14 }} />}
-                            sx={{ textTransform: "none", fontSize: "0.7rem", p: 0, minWidth: 0, fontWeight: 600, color: "#667eea" }}>
+                            sx={{ textTransform: "none", fontSize: MIN_TEXT_SIZE, p: 0, minWidth: 0, fontWeight: 600, color: "#667eea" }}>
                             View
                           </Button>
                         )}
@@ -845,7 +846,7 @@ export default function UnifiedRulePage({
                     background: "rgba(255,255,255,0.5)",
                     border: "1px solid rgba(255,255,255,0.6)",
                   }}>
-                    <Chip label={ref.type} size="small" sx={{ fontWeight: 600, fontSize: "0.7rem", height: 22 }} />
+                    <Chip label={ref.type} size="small" sx={{ fontWeight: 600, fontSize: MIN_TEXT_SIZE, height: 22 }} />
                     <Typography variant="body2" fontWeight={600} sx={{ flex: 1, fontSize: "0.85rem" }}>{ref.id}</Typography>
                     {ref.link && (
                       <IconButton href={ref.link} target="_blank" rel="noopener noreferrer" size="small" sx={{ color: "#667eea" }}>
@@ -918,13 +919,13 @@ export default function UnifiedRulePage({
                     }}>
                       <Stack direction="row" spacing={0.75} alignItems="center" sx={{ mb: 0.5 }}>
                         <Chip label={ref.level || "WCAG"} size="small"
-                          sx={{ height: 20, fontSize: "0.65rem", backgroundColor: ref.level === "A" ? "#4caf50" : ref.level === "AA" ? "#2196f3" : "#9c27b0", color: "white", fontWeight: "bold" }} />
+                          sx={{ height: 20, fontSize: MIN_TEXT_SIZE, backgroundColor: ref.level === "A" ? "#4caf50" : ref.level === "AA" ? "#2196f3" : "#9c27b0", color: "white", fontWeight: "bold" }} />
                         <Typography variant="body2" fontWeight={700} sx={{ fontSize: "0.8rem" }}>{ref.id}</Typography>
                       </Stack>
                       {ref.link && (
                         <Button href={ref.link} target="_blank" rel="noopener noreferrer" variant="text" size="small"
                           endIcon={<OpenInNewIcon sx={{ fontSize: 14 }} />}
-                          sx={{ textTransform: "none", fontSize: "0.7rem", p: 0, minWidth: 0, fontWeight: 600, color: "#667eea" }}>
+                          sx={{ textTransform: "none", fontSize: MIN_TEXT_SIZE, p: 0, minWidth: 0, fontWeight: 600, color: "#667eea" }}>
                           View
                         </Button>
                       )}

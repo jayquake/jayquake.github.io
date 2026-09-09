@@ -23,6 +23,7 @@ import { analyzeHtmlClientSide, type ClientAnalysisResult } from '../../../utils
 import { getCachedAnalysis, cacheAnalysis } from '../../../utils/analysisCache';
 import AuditResultsPanel from '../../../components/layout/AuditResultsPanel';
 import { useRuleLabSocket, type RuleLabEvent } from '../../../hooks/useRuleLabSocket';
+import { MIN_TEXT_SIZE } from '../../../theme/mgsTokens';
 import { AccessibilityTreeView } from './AccessibilityTreeView';
 
 interface ExampleAnalysisPanelProps {
@@ -305,7 +306,7 @@ export function ExampleAnalysisPanel({ ruleId, ruleType, initialHtml, initialExa
           <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
             Analyze Custom HTML
           </Typography>
-          {liveAnalyzing && <Chip label="Analyzing..." size="small" sx={{ height: 20, fontSize: '0.65rem' }} />}
+          {liveAnalyzing && <Chip label="Analyzing..." size="small" sx={{ height: 20, fontSize: MIN_TEXT_SIZE }} />}
         </Box>
         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 2 }}>
           <Box sx={{ flex: 1 }}>
@@ -353,7 +354,7 @@ export function ExampleAnalysisPanel({ ruleId, ruleType, initialHtml, initialExa
                 <Typography variant="subtitle2" sx={{ fontWeight: 600, fontSize: '0.8rem' }}>
                   Live Preview
                 </Typography>
-                <Chip label="Client-Side" size="small" variant="outlined" sx={{ height: 18, fontSize: '0.6rem' }} />
+                <Chip label="Client-Side" size="small" variant="outlined" sx={{ height: 18, fontSize: MIN_TEXT_SIZE }} />
               </Box>
               <AnalysisResultView result={liveResult} />
             </Box>
@@ -403,7 +404,7 @@ function ExampleCard({
           <Typography variant="body2" sx={{ fontWeight: 500 }}>
             Example {index + 1}
           </Typography>
-          <Chip label={example.exampleType} size="small" color={typeColor as any} sx={{ height: 20, fontSize: '0.7rem' }} />
+          <Chip label={example.exampleType} size="small" color={typeColor as any} sx={{ height: 20, fontSize: MIN_TEXT_SIZE }} />
         </Box>
       </AccordionSummary>
       <AccordionDetails>
@@ -466,7 +467,7 @@ function AnalysisResultView({ result }: { result: AnalysisResult }) {
           size="small"
           variant="outlined"
           color={result.source === 'client' ? 'default' : 'primary'}
-          sx={{ alignSelf: 'flex-start', height: 20, fontSize: '0.65rem' }}
+          sx={{ alignSelf: 'flex-start', height: 20, fontSize: MIN_TEXT_SIZE }}
         />
       )}
 

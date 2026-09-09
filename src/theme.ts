@@ -1,5 +1,5 @@
 import { createTheme } from '@mui/material/styles';
-import { MGS, carbonWeave, mgsFonts } from './theme/mgsTokens';
+import { MGS, carbonWeave, mgsFonts, MIN_TEXT_SIZE } from './theme/mgsTokens';
 
 const sidebarSurface = {
   backgroundColor: MGS.carbonSidebar,
@@ -46,7 +46,7 @@ export const theme = createTheme({
     h6: { fontFamily: mgsFonts.tactical, fontWeight: 600 },
     subtitle2: {
       fontFamily: mgsFonts.display,
-      fontSize: '0.7rem',
+      fontSize: MIN_TEXT_SIZE,
       fontWeight: 600,
       letterSpacing: '0.14em',
       textTransform: 'uppercase',
@@ -54,14 +54,14 @@ export const theme = createTheme({
     },
     overline: {
       fontFamily: mgsFonts.display,
-      fontSize: '0.68rem',
+      fontSize: MIN_TEXT_SIZE,
       fontWeight: 600,
       letterSpacing: '0.12em',
       textTransform: 'uppercase',
       color: MGS.raidenCyanBright,
       lineHeight: 1.4,
     },
-    caption: { color: MGS.textSecondary, fontFamily: mgsFonts.tactical },
+    caption: { fontSize: MIN_TEXT_SIZE, color: MGS.textSecondary, fontFamily: mgsFonts.tactical },
     body2: { color: MGS.textSecondary, lineHeight: 1.55 },
   },
   components: {
@@ -97,7 +97,7 @@ export const theme = createTheme({
           fontFamily: mgsFonts.tactical,
           textTransform: 'uppercase',
           letterSpacing: '0.08em',
-          fontSize: '0.72rem',
+          fontSize: MIN_TEXT_SIZE,
         },
         containedPrimary: {
           backgroundColor: MGS.raidenCyanDim,
@@ -130,7 +130,7 @@ export const theme = createTheme({
     MuiChip: {
       defaultProps: { size: 'small', variant: 'outlined' },
       styleOverrides: {
-        root: { fontFamily: mgsFonts.tactical, fontSize: '0.7rem' },
+        root: { fontFamily: mgsFonts.tactical, fontSize: MIN_TEXT_SIZE },
         outlined: { borderColor: MGS.borderBright, color: MGS.raidenSilver },
       },
     },
@@ -190,7 +190,7 @@ export const theme = createTheme({
           fontFamily: mgsFonts.tactical,
           textTransform: 'uppercase',
           letterSpacing: '0.1em',
-          fontSize: '0.72rem',
+          fontSize: MIN_TEXT_SIZE,
           '&.Mui-selected': { color: MGS.raidenCyanBright },
         },
       },
@@ -213,4 +213,4 @@ export const theme = createTheme({
   },
 });
 
-export { MGS, mgsFonts, carbonWeave, raidenType } from './theme/mgsTokens';
+export { MGS, mgsFonts, carbonWeave, raidenType, MIN_TEXT_SIZE } from './theme/mgsTokens';

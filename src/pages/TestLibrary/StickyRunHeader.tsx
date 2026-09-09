@@ -13,6 +13,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import Link from '@mui/material/Link';
 import type { Project } from '../../../shared/types';
 import ProjectBreadcrumbItem from '../../components/standalone/ProjectBreadcrumbItem';
+import { MIN_TEXT_SIZE } from '../../theme/mgsTokens';
 
 interface StickyRunHeaderProps {
   isSubmitting: boolean;
@@ -78,7 +79,7 @@ export default function StickyRunHeader({
 
         {/* Stepper — centred */}
         <Box sx={{ flex: 1, display: { xs: 'none', md: 'block' } }}>
-          <Stepper activeStep={1} alternativeLabel sx={{ '& .MuiStepLabel-label': { fontSize: 11 } }}>
+          <Stepper activeStep={1} alternativeLabel sx={{ '& .MuiStepLabel-label': { fontSize: MIN_TEXT_SIZE } }}>
             {STEPS.map((label) => (
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>

@@ -53,6 +53,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { api } from '../api/client';
 import { useToast } from '../components/standalone/ToastContainer';
 import { useCommonShortcuts } from '../hooks/useKeyboardShortcuts';
+import { MIN_TEXT_SIZE } from '../theme/mgsTokens';
 
 type FilterType = 'all' | 'completed' | 'failed';
 type SortField = 'date' | 'passRate' | 'duration' | 'project' | 'total';
@@ -544,7 +545,7 @@ export default function TestHistory() {
                             color={STATUS_COLOR[run.status] ?? 'default'}
                             label={run.status}
                             size="small"
-                            sx={{ fontSize: '0.65rem', height: 20 }}
+                            sx={{ fontSize: MIN_TEXT_SIZE, height: 20 }}
                           />
                         </TableCell>
 
@@ -570,11 +571,11 @@ export default function TestHistory() {
                                     color={run.sdkType === 'node' ? 'info' : run.sdkType === 'python' ? 'success' : 'warning'}
                                     label={run.sdkType}
                                     size="small"
-                                    sx={{ fontSize: '0.6rem', height: 16, textTransform: 'uppercase', fontWeight: 700 }}
+                                    sx={{ fontSize: MIN_TEXT_SIZE, minHeight: 20, textTransform: 'uppercase', fontWeight: 700 }}
                                   />
                                 )}
                               </Stack>
-                              <Typography color="text.disabled" noWrap sx={{ fontSize: '0.65rem', fontFamily: 'monospace' }}>
+                              <Typography color="text.disabled" noWrap sx={{ fontSize: MIN_TEXT_SIZE, fontFamily: 'monospace' }}>
                                 {run.id.substring(0, 14)}…
                               </Typography>
                             </Box>
@@ -687,14 +688,14 @@ export default function TestHistory() {
                                   color={run.sdkType === 'node' ? 'info' : run.sdkType === 'python' ? 'success' : 'warning'}
                                   label={run.sdkType}
                                   size="small"
-                                  sx={{ fontSize: '0.6rem', height: 16, textTransform: 'uppercase', fontWeight: 700 }}
+                                  sx={{ fontSize: MIN_TEXT_SIZE, minHeight: 20, textTransform: 'uppercase', fontWeight: 700 }}
                                 />
                               )}
                             </Stack>
                             {displayDomain && <Typography color="primary" noWrap variant="caption">{displayDomain}</Typography>}
                           </Box>
                         </Stack>
-                        <Chip color={STATUS_COLOR[run.status] ?? 'default'} label={run.status} size="small" sx={{ ml: 1, flexShrink: 0, height: 20, fontSize: '0.65rem' }} />
+                        <Chip color={STATUS_COLOR[run.status] ?? 'default'} label={run.status} size="small" sx={{ ml: 1, flexShrink: 0, height: 20, fontSize: MIN_TEXT_SIZE }} />
                       </Stack>
                       <Stack direction="row" justifyContent="space-between" sx={{ mb: 1 }}>
                         <Stack direction="row" spacing={2}>

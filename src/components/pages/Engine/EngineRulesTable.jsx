@@ -19,7 +19,7 @@ import { memo, useCallback } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { HudLayoutIndicator, HudMotion } from "../../motion/HudMotion";
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
-import { MGS, mgsFonts, raidenType } from "../../../theme/mgsTokens";
+import { MGS, MIN_TEXT_SIZE, mgsFonts, raidenType } from "../../../theme/mgsTokens";
 import {
   getRuleSlug,
   impactToSeverityLabel,
@@ -29,7 +29,7 @@ import {
 
 const hudLabelSx = {
   fontFamily: mgsFonts.hud,
-  fontSize: "0.65rem",
+  fontSize: MIN_TEXT_SIZE,
   fontWeight: 600,
   letterSpacing: "0.12em",
   textTransform: "uppercase",
@@ -39,7 +39,7 @@ const hudLabelSx = {
 const filterSelectSx = {
   bgcolor: "background.paper",
   fontFamily: mgsFonts.hud,
-  fontSize: "0.72rem",
+  fontSize: MIN_TEXT_SIZE,
   letterSpacing: "0.06em",
   "& .MuiOutlinedInput-notchedOutline": { borderColor: "divider" },
   "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "primary.dark" },
@@ -122,7 +122,7 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
             display: "block",
               fontFamily: mgsFonts.hud,
               color: "primary.main",
-              fontSize: "0.68rem",
+              fontSize: MIN_TEXT_SIZE,
               letterSpacing: "0.04em",
               mb: 0.35,
             }}
@@ -156,7 +156,7 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
                   variant="outlined"
                   sx={{
                     height: 20,
-                    fontSize: "0.58rem",
+                    fontSize: MIN_TEXT_SIZE,
                     fontFamily: mgsFonts.hud,
                     borderColor: "primary.main",
                     color: "primary.main",
@@ -169,7 +169,7 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
                   label={wcagRefs[0].id}
                   size="small"
                   variant="outlined"
-                  sx={{ height: 20, fontSize: "0.58rem" }}
+                  sx={{ height: 20, fontSize: MIN_TEXT_SIZE }}
                 />
               )}
             </Box>
@@ -213,7 +213,7 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
           sx={{
             ...ruleLinkSx,
             ...raidenType.ruleId,
-            fontSize: isLibrary ? "0.72rem" : "0.68rem",
+            fontSize: MIN_TEXT_SIZE,
           }}
         >
           {isLibrary ? `[ ${slug} ]` : slug}
@@ -244,7 +244,7 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
             variant="caption"
             sx={{
               ...raidenType.tableHead,
-              fontSize: "0.6rem",
+              fontSize: MIN_TEXT_SIZE,
               color: "text.secondary",
             }}
           >
@@ -260,7 +260,7 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
             variant="outlined"
             sx={{
               height: 22,
-              fontSize: "0.62rem",
+              fontSize: MIN_TEXT_SIZE,
               fontFamily: mgsFonts.hud,
               borderColor: "primary.main",
               color: "primary.main",
@@ -287,13 +287,13 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
                   flexShrink: 0,
                 }}
               />
-              <Typography variant="caption" sx={{ ...hudLabelSx, fontSize: "0.62rem" }}>
+              <Typography variant="caption" sx={{ ...hudLabelSx, fontSize: MIN_TEXT_SIZE }}>
                 ACTIVE
               </Typography>
             </Box>
           </TableCell>
           <TableCell>
-            <Typography variant="caption" color="text.secondary" sx={{ fontFamily: mgsFonts.hud, fontSize: "0.68rem" }}>
+            <Typography variant="caption" color="text.secondary" sx={{ fontFamily: mgsFonts.hud, fontSize: MIN_TEXT_SIZE }}>
               {wcagRefs[0]?.id || "—"}
             </Typography>
           </TableCell>
@@ -306,7 +306,7 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
                 variant="caption"
                 onMouseDown={() => prefetchEngineExample(slug, "success")}
                 onClick={stopRowNav}
-                sx={{ ...ruleLinkSx, fontFamily: mgsFonts.hud, fontSize: "0.62rem", color: "primary.light" }}
+                sx={{ ...ruleLinkSx, fontFamily: mgsFonts.hud, fontSize: MIN_TEXT_SIZE, color: "primary.light" }}
               >
                 Success
               </Typography>
@@ -317,7 +317,7 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
                 variant="caption"
                 onMouseDown={() => prefetchEngineExample(slug, "failure")}
                 onClick={stopRowNav}
-                sx={{ ...ruleLinkSx, fontFamily: mgsFonts.hud, fontSize: "0.62rem", color: "error.light" }}
+                sx={{ ...ruleLinkSx, fontFamily: mgsFonts.hud, fontSize: MIN_TEXT_SIZE, color: "error.light" }}
               >
                 Failure
               </Typography>
@@ -327,7 +327,7 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
       ) : (
         <TableCell>
           {wcagRefs[0] ? (
-            <Chip label={wcagRefs[0].id} size="small" variant="outlined" sx={{ height: 20, fontSize: "0.62rem" }} />
+            <Chip label={wcagRefs[0].id} size="small" variant="outlined" sx={{ height: 20, fontSize: MIN_TEXT_SIZE }} />
           ) : (
             <Typography variant="caption" color="text.secondary">
               —
@@ -451,7 +451,7 @@ export default function EngineRulesTable({
               "& .MuiOutlinedInput-root": {
                 bgcolor: "background.paper",
                 fontFamily: mgsFonts.hud,
-                fontSize: "0.72rem",
+                fontSize: MIN_TEXT_SIZE,
                 letterSpacing: "0.04em",
               },
             }}

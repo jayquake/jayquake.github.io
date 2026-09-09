@@ -35,6 +35,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { api } from '../../../api/client';
 import legacyEngineMapping from '../../../data/legacy-engine-mapping';
+import { MIN_TEXT_SIZE } from '../../../theme/mgsTokens';
 
 const getBasename = (p: string) => p.replace(/^.*[/\\]/, '');
 
@@ -119,7 +120,7 @@ function SeverityChip({ severity }: { severity: string }) {
         bgcolor: `${SEVERITY_COLORS[severity] || '#888'}18`,
         color: SEVERITY_COLORS[severity] || '#888',
         fontWeight: 700,
-        fontSize: '0.65rem',
+        fontSize: MIN_TEXT_SIZE,
         textTransform: 'capitalize',
         height: 20,
       }}
@@ -144,7 +145,7 @@ function EngineRuleChips({ ruleId }: { ruleId: string }) {
           onClick={(e) => { e.stopPropagation(); navigate(rule.path); }}
           sx={{
             fontFamily: 'monospace',
-            fontSize: '0.65rem',
+            fontSize: MIN_TEXT_SIZE,
             cursor: 'pointer',
             height: 20,
           }}
@@ -307,7 +308,7 @@ export function SdkAuditTab({ report, runId }: SdkAuditTabProps) {
                 label={`Local check: ${config.localCheck}`}
                 color={config.localCheck ? 'success' : 'default'}
                 icon={config.localCheck ? <CheckCircleIcon /> : undefined}
-                sx={{ fontWeight: 600, fontSize: '0.7rem' }}
+                sx={{ fontWeight: 600, fontSize: MIN_TEXT_SIZE }}
               />
             )}
             <Chip
@@ -460,7 +461,7 @@ export function SdkAuditTab({ report, runId }: SdkAuditTabProps) {
                 label={`Local check: ${config.localCheck}`}
                 color={config.localCheck ? 'success' : 'default'}
                 icon={config.localCheck ? <CheckCircleIcon sx={{ fontSize: 14 }} /> : undefined}
-                sx={{ fontWeight: 600, fontSize: '0.7rem' }}
+                sx={{ fontWeight: 600, fontSize: MIN_TEXT_SIZE }}
               />
             )}
           </Stack>
@@ -597,7 +598,7 @@ export function SdkAuditTab({ report, runId }: SdkAuditTabProps) {
                       {rule.name}
                     </Typography>
                     {rule.description && (
-                      <Typography color="text.secondary" sx={{ fontSize: '0.7rem', mt: 0.25 }}>
+                      <Typography color="text.secondary" sx={{ fontSize: MIN_TEXT_SIZE, mt: 0.25 }}>
                         {rule.description}
                       </Typography>
                     )}
@@ -689,7 +690,7 @@ export function SdkAuditTab({ report, runId }: SdkAuditTabProps) {
                       key={idx}
                       component="pre"
                       sx={{
-                        fontSize: '0.7rem',
+                        fontSize: MIN_TEXT_SIZE,
                         m: 0,
                         p: 1,
                         whiteSpace: 'pre-wrap',
@@ -857,7 +858,7 @@ function RuleRow({ rule, ruleId }: { rule: any; ruleId: string }) {
               {rule.name || 'Unknown Rule'}
             </Typography>
             {rule.description && (
-              <Typography color="text.secondary" sx={{ fontSize: '0.7rem', mt: 0.25 }}>
+              <Typography color="text.secondary" sx={{ fontSize: MIN_TEXT_SIZE, mt: 0.25 }}>
                 {rule.description}
               </Typography>
             )}
@@ -906,7 +907,7 @@ function RuleRow({ rule, ruleId }: { rule: any; ruleId: string }) {
                       sx={{
                         bgcolor: 'background.default',
                         borderRadius: 1,
-                        fontSize: '0.7rem',
+                        fontSize: MIN_TEXT_SIZE,
                         m: 0,
                         overflow: 'auto',
                         p: 1,
@@ -918,7 +919,7 @@ function RuleRow({ rule, ruleId }: { rule: any; ruleId: string }) {
                     </Box>
                   )}
                   {item.suggestionLabel && (
-                    <Typography color="primary" sx={{ mt: 0.5, fontSize: '0.7rem' }}>
+                    <Typography color="primary" sx={{ mt: 0.5, fontSize: MIN_TEXT_SIZE }}>
                       Suggestion: {item.suggestionLabel}
                     </Typography>
                   )}

@@ -36,6 +36,7 @@ import { fetchEngineRulesCatalog, getEngineRulesCatalogCache } from "../../../ut
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
 import { DataService } from "../../util/dataService";
 import { getAllCachedResults } from "../../../utils/analysisCache";
+import { MIN_TEXT_SIZE } from "../../../theme/mgsTokens";
 
 const STORAGE_KEY = "ruleTreeExpanded";
 
@@ -268,7 +269,7 @@ function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, exp
                 primary={displayLabel}
                 primaryTypographyProps={{
                   fontFamily: ruleType === "engine" ? '"IBM Plex Mono", monospace' : undefined,
-                  fontSize: ruleType === "engine" ? "0.68rem" : "0.74rem",
+                  fontSize: MIN_TEXT_SIZE,
                   fontWeight: isRuleActive ? 600 : 500,
                   color: isRuleActive ? "primary.light" : "text.primary",
                   noWrap: true,
@@ -345,7 +346,7 @@ function CategoryNode({ categoryId, label, color, icon, rules, ruleType, isOpen,
                 color: "text.primary",
               }}
             />
-            <Typography variant="caption" sx={{ color: "primary.light", fontSize: "0.65rem", fontWeight: 600 }}>
+            <Typography variant="caption" sx={{ color: "primary.light", fontSize: MIN_TEXT_SIZE, fontWeight: 600 }}>
               {filteredRules.length}
             </Typography>
             {isExpanded ? (
@@ -427,7 +428,7 @@ function TierNode({ tierId, label, icon: Icon, count, color, isOpen, expanded, o
                   color: "text.primary",
                 }}
               />
-              <Typography variant="caption" sx={{ color: "text.secondary", fontWeight: 700, fontSize: "0.7rem" }}>
+              <Typography variant="caption" sx={{ color: "text.secondary", fontWeight: 700, fontSize: MIN_TEXT_SIZE }}>
                 {count}
               </Typography>
               {isExpanded ? (

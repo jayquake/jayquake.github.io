@@ -36,6 +36,8 @@ export const carbonWeave = `repeating-linear-gradient(
   rgba(255, 255, 255, 0.012) 4px
 )`;
 
+export const MIN_TEXT_SIZE = '0.75rem';
+
 export const mgsFonts = {
   display: '"Rajdhani", "IBM Plex Sans", sans-serif',
   tactical: '"IBM Plex Mono", "SF Mono", Menlo, Consolas, monospace',
@@ -56,7 +58,7 @@ export const raidenType = {
   },
   tableHead: {
     fontFamily: mgsFonts.display,
-    fontSize: '0.68rem',
+    fontSize: MIN_TEXT_SIZE,
     fontWeight: 600,
     letterSpacing: '0.12em',
     textTransform: 'uppercase',
@@ -64,7 +66,7 @@ export const raidenType = {
   },
   ruleId: {
     fontFamily: mgsFonts.hud,
-    fontSize: '0.72rem',
+    fontSize: MIN_TEXT_SIZE,
     letterSpacing: '0.04em',
     color: MGS.raidenCyan,
   },
@@ -76,7 +78,7 @@ export const raidenType = {
   },
   sectionLabel: {
     fontFamily: mgsFonts.hud,
-    fontSize: '0.65rem',
+    fontSize: MIN_TEXT_SIZE,
     fontWeight: 600,
     letterSpacing: '0.14em',
     textTransform: 'uppercase',
@@ -84,7 +86,7 @@ export const raidenType = {
   },
   navLabel: {
     fontFamily: mgsFonts.display,
-    fontSize: '0.72rem',
+    fontSize: MIN_TEXT_SIZE,
     fontWeight: 600,
     letterSpacing: '0.1em',
     textTransform: 'uppercase',

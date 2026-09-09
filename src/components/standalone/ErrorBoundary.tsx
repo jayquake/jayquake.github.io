@@ -9,6 +9,8 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import ReloadIcon from '@mui/icons-material/RestartAlt';
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 
+import { MIN_TEXT_SIZE } from '../../theme/mgsTokens';
+
 type Props = {
   children: ReactNode;
   fallback?: ReactNode;
@@ -67,7 +69,7 @@ export default class ErrorBoundary extends Component<Props, State> {
                           p: 2,
                           bgcolor: 'grey.900',
                           borderRadius: 1,
-                          fontSize: '0.72rem',
+                          fontSize: MIN_TEXT_SIZE,
                           fontFamily: 'monospace',
                           color: 'error.main',
                           overflow: 'auto',

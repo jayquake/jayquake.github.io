@@ -25,6 +25,7 @@ import LanguageIcon from '@mui/icons-material/Language';
 
 import { api } from '../../../api/client';
 import { useRuleLabSocket, type RuleLabEvent } from '../../../hooks/useRuleLabSocket';
+import { MIN_TEXT_SIZE } from '../../../theme/mgsTokens';
 
 interface DiscoveryPanelProps {
   ruleId: string;
@@ -264,7 +265,7 @@ export function DiscoveryPanel({ ruleId, ruleType }: DiscoveryPanelProps) {
                     <Chip
                       label={`${discoveryProgress.found} / ${discoveryProgress.total} elements`}
                       size="small"
-                      sx={{ height: 20, fontSize: '0.7rem' }}
+                      sx={{ height: 20, fontSize: MIN_TEXT_SIZE }}
                     />
                   )}
                 </Box>
@@ -371,7 +372,7 @@ export function DiscoveryPanel({ ruleId, ruleType }: DiscoveryPanelProps) {
                 >
                   {site.url}
                 </Typography>
-                <Chip label={site.category} size="small" variant="outlined" sx={{ height: 20, fontSize: '0.65rem' }} />
+                <Chip label={site.category} size="small" variant="outlined" sx={{ height: 20, fontSize: MIN_TEXT_SIZE }} />
                 <IconButton
                   size="small"
                   onClick={() => discoverOnSite(site)}
@@ -415,7 +416,7 @@ export function DiscoveryPanel({ ruleId, ruleType }: DiscoveryPanelProps) {
                       label={`${dr.examples.length} found`}
                       size="small"
                       color={dr.examples.length > 0 ? 'success' : 'default'}
-                      sx={{ height: 20, fontSize: '0.7rem' }}
+                      sx={{ height: 20, fontSize: MIN_TEXT_SIZE }}
                     />
                   </Box>
 
@@ -454,7 +455,7 @@ export function DiscoveryPanel({ ruleId, ruleType }: DiscoveryPanelProps) {
                                 label={ex.selector}
                                 size="small"
                                 variant="outlined"
-                                sx={{ fontFamily: 'monospace', fontSize: '0.7rem', maxWidth: 300 }}
+                                sx={{ fontFamily: 'monospace', fontSize: MIN_TEXT_SIZE, maxWidth: 300 }}
                               />
                             )}
                             <Box sx={{ flex: 1 }} />

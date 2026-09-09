@@ -23,6 +23,7 @@ import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { StepList } from '../../../components/standalone/StepList';
+import { MIN_TEXT_SIZE } from '../../../theme/mgsTokens';
 import { type TestResult, type TestRunData } from '../models/TestRunData';
 
 type StatusFilter = 'all' | 'failed' | 'passed' | 'skipped';
@@ -586,7 +587,7 @@ export const SummaryTab = ({
                                   size="small"
                                   icon={<BiotechIcon />}
                                   onClick={() => navigate(`/engine/${ruleId}`)}
-                                  sx={{ fontFamily: 'monospace', fontSize: '0.7rem', cursor: 'pointer', mb: 0.5 }}
+                                  sx={{ fontFamily: 'monospace', fontSize: MIN_TEXT_SIZE, cursor: 'pointer', mb: 0.5 }}
                                 />
                               ))}
                             </Stack>
