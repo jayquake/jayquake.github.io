@@ -34,6 +34,183 @@ const InteractiveTargetSizeSuccess = () => {
   { filename: "big button invisible", content: `<button class="interactive-small" style="width: 20px; height: 20px"></button>
 <div></div>
 <button class="interactive-big" style="width: 24px; height: 24px; visibility: hidden"></button>` },
+  { filename: "cuisinart fixed nav link intersecting footer link", content: `<meta charset="utf-8" />
+<style>
+  ol,
+  ul,
+  dl {
+    margin-top: 0px;
+    margin-bottom: 1rem;
+  }
+  a {
+    color: rgb(68, 68, 68);
+    text-decoration: none;
+    background-color: transparent;
+  }
+  print {
+    a:not(.btn) {
+      text-decoration: underline;
+    }
+  }
+  [role="menuitem"] {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  footer ul {
+    list-style: none;
+    padding-left: 0px;
+  }
+  a {
+    background-color: transparent;
+  }
+  .color--quaternary,
+  .breadcrumb-on-dark,
+  .footer .menu-footer li a {
+    color: rgb(255, 255, 255) !important;
+  }
+  .ca-p-0,
+  .tooltip .tooltip-inner h2,
+  .payment-button .cllc-checkout-expresspayments,
+  .refinements .refinement ul,
+  .pd-link-section ul {
+    padding: 0px !important;
+  }
+  .body-m,
+  .body-m-bold,
+  h3,
+  .h3,
+  .link-on-light-body-m-bold,
+  .interior-hero.light .body-description a,
+  .interior-hero.light .pd-link-section a,
+  .link-on-dark-body-m-bold,
+  .interior-hero.dark .body-description a,
+  .interior-hero.dark .pd-link-section a,
+  .tooltip .tooltip-inner h2,
+  .ordered-list li::before,
+  #ingredients-section ol li::before,
+  .minicart .product .miniCartProduct.product-card .product-card__body .product-title,
+  .minicart .minicart-slot .einstein-swiper .product-card .product-card__body .product-title,
+  .checkout-container .order-details-summary .product-summary-block .product-line-item .pricing,
+  .adyen-component-content .payment-methods-container .adyen-checkout__card-input .adyen-checkout__error-text,
+  .payment-form-adyen .adyen-checkout__card-input .adyen-checkout__error-text,
+  .custom-rich-text h3,
+  .custom-rich-text .h3,
+  .body-m-underline,
+  .body-m-bold-underline,
+  body,
+  .badge,
+  .chip,
+  .navbar-header .search-form .search-wrapper .site-search .search-field,
+  .edit-profile-form .form-group .form-control,
+  .change-password-form .form-group .form-control,
+  .address-form .form-group .form-control,
+  .payment-form .form-group .form-control,
+  .link-on-light-body-m,
+  .tooltip .tooltip-inner a,
+  .product-detail .accordion-component-pdp-details a,
+  .link-on-dark-body-m,
+  .footer .menu-footer li a,
+  .notification,
+  .checkout-container .customer-error .alert,
+  .breadcrumb-on-light.checkout-breadcrumb li a,
+  .breadcrumb-on-light.checkout-breadcrumb li span,
+  .breadcrumb-on-dark.checkout-breadcrumb li a,
+  .breadcrumb-on-dark.checkout-breadcrumb li span,
+  .breadcrumb-on-light.checkout-breadcrumb.breadcrumbs,
+  .breadcrumb-on-dark.checkout-breadcrumb.breadcrumbs,
+  .divider-text,
+  .tooltip .tooltip-inner,
+  .tooltip .tooltip-inner p,
+  .table tr td,
+  .table-bordered tr td,
+  .checkout-container .order-details-summary .product-summary-block .product-line-item .line-item-total-text,
+  #edq-verification-suggestion-box .edq-global-intuitive-address-suggestion,
+  .adyen-component-content .payment-methods-container .adyen-checkout__checkbox .adyen-checkout__checkbox__label,
+  .footer .footer-item ul li a {
+    font-family: "Work Sans", sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5rem;
+  }
+  .link-on-dark,
+  .link-on-dark-body-s,
+  .breadcrumb-on-dark a,
+  .link-on-dark-body-s-bold,
+  .link-on-dark-body-m,
+  .footer .menu-footer li a,
+  .link-on-dark-body-m-bold,
+  .interior-hero.dark .body-description a,
+  .interior-hero.dark .pd-link-section a,
+  .link-on-dark-body-l,
+  .link-on-dark-body-l-bold,
+  .link-on-dark-title-s-bold {
+    color: rgb(255, 255, 255);
+    text-decoration: underline;
+    text-transform: capitalize;
+    padding: 0px;
+  }
+  .footer .footer-item ul {
+    margin: 0px;
+    list-style: none;
+  }
+  .footer .footer-item ul li {
+    margin-bottom: 24px;
+  }
+  .footer .footer-item ul li a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+  }
+  .footer .menu-footer li {
+    margin-bottom: 24px;
+    height: auto;
+  }
+  .footer .menu-footer li a {
+    text-underline-offset: 3px;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+</style>
+
+<nav
+  class="navbar navbar-expand-lg bg-inverse col-12"
+  aria-label="navbar"
+  style="position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 110px !important; z-index: 1000 !important; background: white; border-bottom: 1px solid #ccc; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; font-family: sans-serif"
+>
+  <div style="display: flex; justify-content: space-between; width: 100%; align-items: center">
+    <a href="/" title="Cuisinart Home" aria-label="Cuisinart Home" class="navbar-brand text-dark text-decoration-none" style="display: flex; align-items: center; font-weight: 900; font-size: 36px; color: #1c352d !important; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; letter-spacing: -1px"> Cuisinart </a>
+
+    <div style="display: flex; align-items: center; gap: 20px">
+      <div style="width: 450px; height: 44px; border: 1px solid #777; border-radius: 22px; display: flex; align-items: center; padding: 0 15px; color: #555; font-size: 16px"><span style="margin-right: 10px">🔍</span> Search</div>
+      <div style="font-size: 24px; color: #1c352d">👤</div>
+      <div style="font-size: 24px; color: #1c352d; position: relative">
+        🛍️
+        <span style="position: absolute; top: -5px; right: -10px; background: #1c352d; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 12px; display: flex; align-items: center; justify-content: center">0</span>
+      </div>
+    </div>
+  </div>
+
+  <ul style="display: flex; gap: 40px; font-weight: 700; font-size: 16px; color: #1c352d; padding-left: 270px; height: 30px; align-items: flex-end; list-style: none; margin: 0">
+    <li role="menuitem"><a href="/shop" style="color: #1c352d; text-decoration: none; padding-bottom: 5px; min-width: 24px; min-height: 24px; display: inline-block">Shop ▾</a></li>
+    <li role="menuitem"><span style="color: #1c352d; text-decoration: none; padding-bottom: 5px">Parts & Accessories ▾</span></li>
+    <li role="menuitem"><span style="color: #1c352d; text-decoration: none; padding-bottom: 5px">Support ▾</span></li>
+    <li role="menuitem"><span style="color: #1c352d; text-decoration: none; padding-bottom: 5px">Trending ▾</span></li>
+    <li role="menuitem"><span style="color: #1c352d; text-decoration: none; padding-bottom: 5px">Sale</span></li>
+  </ul>
+</nav>
+
+<div style="position: absolute; top: 35px; left: 0; right: 0; background-color: #273b30; color: white; padding: 20px 40px; z-index: 1; min-height: 200px; font-family: sans-serif">
+  <div style="font-size: 20px; font-weight: bold; margin-bottom: 20px">new arrivals, sales & more.</div>
+  <div style="padding-left: 270px">
+    <ul class="menu-footer color--quaternary body-m ca-p-0">
+      <li>
+        <a href="https://www.cuisinart.com/support/affiliate.html" id="target" style="display: inline-block; height: 23px; color: white">Affiliate</a>
+      </li>
+    </ul>
+  </div>
+</div>` },
   { filename: "equivalent exception two red buttons with same functionality one is at least 24 by 24", content: `<button class="interactive-small" style="width: 20px; height: 20px; background-color: red"></button>
 <div></div>
 <button class="interactive-big" style="width: 24px; height: 24px"></button>

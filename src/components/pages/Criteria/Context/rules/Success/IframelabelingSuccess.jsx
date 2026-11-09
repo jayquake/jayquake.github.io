@@ -1,32 +1,78 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): iframe-discernible
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueSuccess from "../../../../../layout/issueSuccess";
 
-const itemDescription = "context: Iframe Labeling - Success";
+const itemDescription = "Context: Iframe Labeling - Success";
 
-export default () => (
+const IframelabelingSuccess = () => (
   <IssueSuccess
     itemContent={
       <>
-        <div className="list-item" id="iframe-labeling-success-1">
-          <iframe src="https://www.youtube.com/embed/4Zs1j26OQTM?si=tIZadzCKd-9aewaV" aria-label="YouTube tutorial video on Web Development"></iframe>
-        </div>
-        <div className="list-item" id="iframe-labeling-success-2">
-          <iframe src="https://www.youtube.com/embed/TdBSoy9F9NA?si=OjTdIpjuOo63qYmk" aria-label="YouTube tutorial video on Accessibility Testing"></iframe>
-        </div>
-        <div className="list-item" id="iframe-labeling-success-3">
-          <iframe src="https://www.youtube.com/embed/y_Hs1bgkT5Q?si=k2DYxrxcjnMt6IVM" aria-label="YouTube tutorial video on JavaScript Basics"></iframe>
-        </div>
-        <div className="list-item" id="iframe-labeling-success-4">
-          <iframe src="https://www.youtube.com/embed/N6y5DdEHNYA?si=NDNxo95M4fCYIfu5" aria-label="YouTube tutorial video on HTML Forms"></iframe>
-        </div>
-        <div className="list-item" id="iframe-labeling-success-5">
-          <iframe src="https://www.youtube.com/embed/rYyjY-A7kE0?si=EJl6DvHGhgy3fLIm" aria-label="YouTube tutorial video on CSS Grid"></iframe>
-        </div>
-        <div className="list-item" id="iframe-labeling-success-6">
-          <iframe src="https://www.youtube.com/embed/jfKfPfyJRdk?si=1Wr0bo39Yr8LNNzX" aria-label="YouTube tutorial video on React Components"></iframe>
-        </div>
+        <div
+          className="list-item"
+          id="context-iframe-labeling-success-success-1"
+          data-atomic-source="iframe-discernible/iframe-labled-by-other-element"
+          dangerouslySetInnerHTML={{
+            __html: `<label id="my-label">Iframe label here</label>
+<iframe aria-labelledby="my-label" src="path/to/somewhere"></iframe>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="context-iframe-labeling-success-success-2"
+          data-atomic-source="iframe-discernible/iframe-no-text-with-aria-label"
+          dangerouslySetInnerHTML={{
+            __html: `<iframe aria-label="Clickable Download Link" src="path/to/somewhere"></iframe>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="context-iframe-labeling-success-success-3"
+          data-atomic-source="iframe-discernible/iframe-src-example-wih-title"
+          dangerouslySetInnerHTML={{
+            __html: `<iframe src="https://example.com" width="600" height="400" title="Example Domain"></iframe>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="context-iframe-labeling-success-success-4"
+          data-atomic-source="iframe-discernible/iframe-srcdoc"
+          dangerouslySetInnerHTML={{
+            __html: `<iframe
+title="hi"
+  srcdoc="
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home</title>
+    </head>
+    <body>
+        <h1>x</h1>
+    </body>
+</html>
+"
+>
+</iframe>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="context-iframe-labeling-success-success-5"
+          data-atomic-source="iframe-discernible/iframe-with-title"
+          dangerouslySetInnerHTML={{
+            __html: `<iframe id="iframe1" src="../support/frame_test1.html" style="width: 350px; height: 100px" scrolling="yes" frameborder="1" title="real good" name="first"> </iframe>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default IframelabelingSuccess;

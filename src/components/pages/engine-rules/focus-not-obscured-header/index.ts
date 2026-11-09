@@ -114,12 +114,14 @@ export const FocusNotObscuredHeader: Rule = {
       const headerHeight = classifier.getOperations(stickyHeader).layoutInfo.height;
 
       if (
-        !hasValidScrollPadding(computedScrollPadding, headerHeight, {
+        hasValidScrollPadding(computedScrollPadding, headerHeight, {
           styleId: "acsb-focus-not-obscured-header-global",
           dataAttribute: "data-acsb-header-first-scrollable-parent",
           cssProperty: "scroll-padding-top",
         })
       ) {
+        response.passedNodes.push(stickyHeader);
+      } else {
         response.failedNodes.push(stickyHeader);
       }
     }

@@ -2,10 +2,10 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const FormContextChangeWarningSuccess = () => {
-  const ruleId = "form-context-change-warning";
-  const title = `Interacting with form controls should not cause a change in context unless a user is notified beforehand`;
-  const description = `Interacting with form controls shouldn't automatically submit a form or cause any other change in context without notifying the user in advance. Form controls that cause a context change on input can disorient a user, since the behavior is not expected.`;
-  const helpText = `Make sure that forms can be manually submitted via a submit button, or provide instructions that notify users of the expected behavior before they interact with the control.`;
+  const ruleId = "N/A";
+  const title = `N/A`;
+  const description = `N/A`;
+  const helpText = `N/A`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
@@ -31,7 +31,10 @@ const FormContextChangeWarningSuccess = () => {
 </form>` },
   { filename: "input type image", content: `<form>
   <input type="image" />
-</form>` }
+</form>` },
+  { filename: "remediated form with aria label", content: `<form aria-label="Contact Please note, filling out the following fields will automatically submit the form"><input type="text"></form>` },
+  { filename: "remediated form with aria labelledby", content: `<form aria-labelledby="t sro-1"><h2 id="t">Contact</h2><input type="text"><span data-acsb-sr-only="true" style="position: absolute !important; width: 1px !important; height: 1px !important; padding: 0px !important; overflow: hidden !important; clip: rect(0px, 0px, 0px, 0px) !important; border: 0px !important;" id="sro-1">Please note, filling out the following fields will automatically submit the form</span></form>` },
+  { filename: "remediated form with sr only warning", content: `<form><input type="text"><span data-acsb-sr-only="true" style="position: absolute !important; width: 1px !important; height: 1px !important; padding: 0px !important; overflow: hidden !important; clip: rect(0px, 0px, 0px, 0px) !important; border: 0px !important;">Please note, filling out the following fields will automatically submit the form</span></form>` }
   ];
 
   return (

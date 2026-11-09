@@ -38,9 +38,9 @@ export const MapAreaDiscernible: Rule = {
     const areas = classifier.getMatched([CompliantComponentArea]);
 
     for (const area of areas) {
-      const { contentInfo } = classifier.getOperations(area);
+      const { accessibleName } = classifier.getOperations(area).contentInfo;
 
-      if (Boolean(contentInfo.accessibleName || contentInfo.title)) {
+      if (accessibleName) {
         response.passedNodes.push(area);
       } else {
         response.failedNodes.push(area);

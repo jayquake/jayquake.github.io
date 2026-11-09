@@ -5,6 +5,7 @@ import { useSearch } from "../../util/SearchContext";
 import { useLoading } from "../../util/LoadingContext";
 import { DataService } from "../../util/dataService";
 import GlassSpinner, { GlassSkeleton } from "../../util/GlassSpinner";
+import { Progress } from "../../ui/progress";
 
 const UnifiedRulePage = lazy(() => import("../../layout/UnifiedRulePage"));
 
@@ -22,25 +23,23 @@ function AllRulesWithRoutes({ filters }) {
 
   useEffect(() => {
     let isMounted = true;
+    let progressInterval = 0;
+    let finishTimer = 0;
 
     const fetchData = async () => {
       try {
         setIsInitialLoading(true);
         setLoadingProgress(0);
-        showLoading("Loading accessibility rules...", "progress"); // Enhanced loading with message
-        
-        // Simulate progress updates for better UX
-        const progressInterval = setInterval(() => {
-          setLoadingProgress(prev => {
-            const newProgress = Math.min(prev + Math.random() * 15, 90);
-            return newProgress;
-          });
+        showLoading("Loading accessibility rules...", "progress");
+
+        progressInterval = window.setInterval(() => {
+          setLoadingProgress((prev) => Math.min(prev + Math.random() * 15, 90));
         }, 200);
 
         const data = await DataService.getData();
+        window.clearInterval(progressInterval);
         setLoadingProgress(95);
 
-        // If filters exist, apply them
         let filteredData = data;
         if (Array.isArray(stableFilters) && stableFilters.length) {
           filteredData = data.filter((rule) =>
@@ -49,24 +48,20 @@ function AllRulesWithRoutes({ filters }) {
         }
 
         if (isMounted) {
-          clearInterval(progressInterval);
           setLoadingProgress(100);
-          
-          // Small delay to show completion
-          setTimeout(() => {
+          finishTimer = window.setTimeout(() => {
             setFilteredFormRules(filteredData);
-            setSearchResults(filteredData); // Initialize with all rules
+            setSearchResults(filteredData);
             setIsInitialLoading(false);
+            hideLoading();
           }, 300);
         }
       } catch (err) {
-        if (isMounted) setError(err);
-        setIsInitialLoading(false);
-      } finally {
+        window.clearInterval(progressInterval);
         if (isMounted) {
-          setTimeout(() => {
-            hideLoading(); // Hide loading indicator with slight delay
-          }, 400);
+          setError(err);
+          setIsInitialLoading(false);
+          hideLoading();
         }
       }
     };
@@ -75,6 +70,9 @@ function AllRulesWithRoutes({ filters }) {
 
     return () => {
       isMounted = false;
+      window.clearInterval(progressInterval);
+      window.clearTimeout(finishTimer);
+      hideLoading();
     };
   }, [stableFilters, showLoading, hideLoading]);
 
@@ -133,11 +131,14 @@ function AllRulesWithRoutes({ filters }) {
           }}
         >
           <Box display="flex" flexDirection="column" alignItems="center" mb={4}>
-            <GlassSpinner 
-              size={60} 
-              message={`Loading rules... ${Math.round(loadingProgress)}%`}
+            <GlassSpinner
+              size={32}
+              message="Loading rules"
               showMessage={true}
             />
+            <div className="mt-4 w-full max-w-md">
+              <Progress value={loadingProgress} aria-label="Loading rules" />
+            </div>
           </Box>
           
           <Typography 

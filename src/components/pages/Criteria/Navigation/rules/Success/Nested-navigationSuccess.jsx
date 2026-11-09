@@ -1,79 +1,134 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): navigation-not-nested
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueSuccess from "../../../../../layout/issueSuccess";
 
-const itemDescription = "Navigation : Nested Navigation - Success";
+const itemDescription = "Navigation: Nested Navigation - Success";
 
-export default () => (
+const NestednavigationSuccess = () => (
   <IssueSuccess
     itemContent={
       <>
-        <div className="list-item" id="nested-navigation-success-1">
-          <nav aria-label="Primary Navigation">
-            <ul>
-              <li><a href="#home">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#services">Services</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </nav>
-        </div>
-
-        <div className="list-item" id="nested-navigation-success-2">
-          <header>
-            <nav aria-label="Main Menu">
-              <ul>
-                <li><a href="#portfolio">Portfolio</a></li>
-                <li><a href="#blog">Blog</a></li>
-                <li><a href="#faq">FAQ</a></li>
-                <li><a href="#support">Support</a></li>
-              </ul>
-            </nav>
-          </header>
-        </div>
-
-        <div className="list-item" id="nested-navigation-success-3">
-          <footer>
-            <nav aria-label="Footer Navigation">
-              <ul>
-                <li><a href="#privacy">Privacy Policy</a></li>
-                <li><a href="#terms">Terms of Service</a></li>
-              </ul>
-            </nav>
-          </footer>
-        </div>
-
-        <div className="list-item" id="nested-navigation-success-4">
-          <aside>
-            <nav aria-label="Sidebar Navigation">
-              <ul>
-                <li><a href="#settings">Settings</a></li>
-                <li><a href="#profile">Profile</a></li>
-              </ul>
-            </nav>
-          </aside>
-        </div>
-
-        <div className="list-item" id="nested-navigation-success-5">
-          <div>
-            <nav aria-label="Secondary Navigation">
-              <ul>
-                <li><a href="#news">News</a></li>
-                <li><a href="#events">Events</a></li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-
-        <div className="list-item" id="nested-navigation-success-6">
-          <nav aria-label="Global Navigation">
-            <ul>
-              <li><a href="#shop">Shop</a></li>
-              <li><a href="#gallery">Gallery</a></li>
-            </ul>
-          </nav>
-        </div>
+        <div
+          className="list-item"
+          id="navigation-nested-navigation-success-success-1"
+          data-atomic-source="navigation-not-nested/nav-nested-presentation"
+          dangerouslySetInnerHTML={{
+            __html: `<nav>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li>
+      <a href="/about/">About Us</a>
+      <!-- Submenu for "About Us" -->
+      <nav role="presentation" aria-label="submenu">
+        <ul>
+          <li><a href="/about/history">Our History</a></li>
+          <li><a href="/about/team">Our Team</a></li>
+          <li><a href="/about/mission">Our Mission</a></li>
+        </ul>
+      </nav>
+    </li>
+    <li><a href="/services/">Services</a></li>
+    <li><a href="/contact/">Contact</a></li>
+  </ul>
+</nav>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="navigation-nested-navigation-success-success-2"
+          data-atomic-source="navigation-not-nested/nav-no-nested-multi"
+          dangerouslySetInnerHTML={{
+            __html: `<nav>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About Us</a></li>
+    <li><a href="/services/">Services</a></li>
+    <li><a href="/contact/">Contact</a></li>
+  </ul>
+</nav>
+<nav>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About Us</a></li>
+    <li><a href="/services/">Services</a></li>
+    <li><a href="/contact/">Contact</a></li>
+  </ul>
+</nav>
+<nav>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About Us</a></li>
+    <li><a href="/services/">Services</a></li>
+    <li><a href="/contact/">Contact</a></li>
+  </ul>
+</nav>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="navigation-nested-navigation-success-success-3"
+          data-atomic-source="navigation-not-nested/nav-no-nested"
+          dangerouslySetInnerHTML={{
+            __html: `<nav>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About Us</a></li>
+    <li><a href="/services/">Services</a></li>
+    <li><a href="/contact/">Contact</a></li>
+  </ul>
+</nav>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="navigation-nested-navigation-success-success-4"
+          data-atomic-source="navigation-not-nested/nav-role-nested-presentation"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="navigation">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li>
+      <a href="/about/">About Us</a>
+      <!-- Submenu for "About Us" -->
+      <nav role="presentation">
+        <ul>
+          <li><a href="/about/history">Our History</a></li>
+          <li><a href="/about/team">Our Team</a></li>
+          <li><a href="/about/mission">Our Mission</a></li>
+        </ul>
+      </nav>
+    </li>
+    <li><a href="/services/">Services</a></li>
+    <li><a href="/contact/">Contact</a></li>
+  </ul>
+</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="navigation-nested-navigation-success-success-5"
+          data-atomic-source="navigation-not-nested/nav-role-no-nested"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="navigation">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About Us</a></li>
+    <li><a href="/services/">Services</a></li>
+    <li><a href="/contact/">Contact</a></li>
+  </ul>
+</div>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default NestednavigationSuccess;

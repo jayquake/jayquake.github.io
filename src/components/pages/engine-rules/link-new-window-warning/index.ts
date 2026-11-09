@@ -29,13 +29,25 @@ export const LinkNewWindowWarning: Rule = {
       }
 
       const { contentInfo } = classifier.getOperations(link);
-      const linkText = contentInfo.allText.toLowerCase();
+      const keywords: Parameters<typeof textContainsWords>[1] = ["new_window", "separate_window", "new_tab", "separate_tab"];
 
-      if (linkText && textContainsWords(linkText, ["new_window", "separate_window", "new_tab", "separate_tab"])) {
+      if (textContainsWords(contentInfo.accessibleName.toLowerCase(), keywords)) {
         response.passedNodes.push(link);
-      } else {
-        response.failedNodes.push(link);
+        continue;
       }
+
+      /**
+       * The warning can also be conveyed through the accessible description (`aria-describedby`, or `title` when it is not the name),
+       * which screen readers announce after the name.
+       *
+       * @see src/rules/link-new-window-warning/atomic-tests/pass/link-with-target-blank-aria-describedby-with-new-window.html
+       */
+      if (textContainsWords(contentInfo.accessibleDescription.toLowerCase(), keywords)) {
+        response.passedNodes.push(link);
+        continue;
+      }
+
+      response.failedNodes.push(link);
     }
   },
 };

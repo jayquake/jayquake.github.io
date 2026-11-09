@@ -1,82 +1,50 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): aria-invalid-mismatch, aria-invalid-misuse
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueSuccess from "../../../../../layout/issueSuccess";
 
-const itemDescription = "Forms - Field Validations Success";
+const itemDescription = "Forms: Field Validations - Success";
 
-export default () => (
+const FieldValidSucc = () => (
   <IssueSuccess
     itemContent={
       <>
-        <ul>
-          <li className="list-item">
-            <form id="valid-form">
-              <label for="email">Email:</label>
-              <br />
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                aria-describedby="email-validation"
-              />
-              <br />
-              <span id="email-validation">
-                Please enter a valid email address.
-              </span>
-              <button type="submit">Submit</button>
-            </form>
-          </li>
-          <li className="list-item">
-            <form id="valid-form">
-              <label for="username">Username:</label>
-              <br />
-              <input
-                type="text"
-                id="username"
-                name="username"
-                required
-                aria-describedby="username-validation"
-              />
-              <br />
-              <span id="username-validation">Username is required.</span>
-              <br />
-
-              <label for="email">Email:</label>
-              <br />
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                aria-describedby="email-validation"
-              />
-              <br />
-              <span id="email-validation">
-                Please enter a valid email address.
-              </span>
-              <br />
-
-              <label for="password">Password:</label>
-              <br />
-              <input
-                type="password"
-                id="password"
-                name="password"
-                required
-                aria-describedby="password-validation"
-              />
-              <br />
-              <span id="password-validation">
-                Password should have at least 8 characters.
-              </span>
-              <br />
-
-              <button type="submit">Submit</button>
-            </form>
-          </li>
-        </ul>
+        <div
+          className="list-item"
+          id="forms-field-validations-success-success-1"
+          data-atomic-source="aria-invalid-mismatch/textarea-required-has-value"
+          dangerouslySetInnerHTML={{
+            __html: `<!-- Only interacted elements are audited, we can't test it using atomic tests currently. unit tests cover it -->
+<textarea required>filled</textarea>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="forms-field-validations-success-success-2"
+          data-atomic-source="aria-invalid-misuse/input-aria-invalid-false"
+          dangerouslySetInnerHTML={{
+            __html: `<input aria-invalid="false" aria-describedby="description" />
+<div id="description">Some description</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="forms-field-validations-success-success-3"
+          data-atomic-source="aria-invalid-misuse/input-no-aria-invalid-attribute"
+          dangerouslySetInnerHTML={{
+            __html: `<input aria-describedby="description" />
+<div id="description">Some description</div>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default FieldValidSucc;

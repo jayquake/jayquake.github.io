@@ -14,7 +14,8 @@ export const NavigationMisuse: Rule = {
   impact: "serious",
   title: "Navigation landmark does not contain key site navigation links",
   description: "A navigation landmark should identify a section that contains primary links for moving through the site or page. Using navigation landmarks for minor or secondary link groups makes it harder for screen reader users to locate the page’s key navigation areas.",
-  advice: "Use navigation landmarks only for key navigation sections, such as the main site menu, table of contents, breadcrumbs, or pagination. Avoid using them for general link lists, social links, related links, or other secondary link groups, and keep the number of navigation landmarks as limited as practical.",
+  advice:
+    'Replace the <nav> element with a <div> element and remove role="navigation" if present. Use navigation landmarks only for key navigation sections, such as the main site menu, table of contents, breadcrumbs, or pagination. Avoid using them for general link lists, social links, related links, or other secondary link groups, and keep the number of navigation landmarks as limited as practical.',
   refs: [
     {
       type: "WCAG",
@@ -57,7 +58,7 @@ export const NavigationMisuse: Rule = {
         if (isBreadcrumbOrHasDirectChildBreadcrumb) {
           response.inapplicableNodes.push(element);
           /** To avoid conflicts with the MainNavigationMismatch rule, we will not mark it as failed */
-        } else if ((mainNavigation && mainNavigation.parentElement === element) || mainNavigation === element) {
+        } else if (mainNavigation === element) {
           response.inapplicableNodes.push(element);
         } else {
           response.failedNodes.push(element);

@@ -44,6 +44,7 @@ const NavigationRoutes = () => (
     <Route path="navigation/broken-submenu-indication_success" element={<BrokenSubmenuIndicationSuccess />} />
     <Route path="navigation/broken-submenu-indication_failure" element={<BrokenSubmenuIndicationFailures />} />
     <Route path="navigation/missing-nav-items_success" element={<MissingNavItemsSuccess />} />
+    <Route path="navigation/missing-nav-items_failure" element={<MissingNavItemsFailure />} />
     <Route path="navigation/misused-nav-tagging_success" element={<MisusedNavTaggingSuccess />} />
     <Route path="navigation/misused-nav-tagging_failure" element={<MisusedNavTaggingFailure />} />
     <Route path="navigation/navigation-tagging_success" element={<NavigationTaggingSuccess />} />

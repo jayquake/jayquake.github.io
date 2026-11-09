@@ -1,35 +1,49 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): tabindex-valid
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueSuccess from "../../../../../layout/issueSuccess";
 
 const itemDescription = "Keyboard: Broken Tabindex - Success";
 
-export default () => (
+const BrokentabSuccess = () => (
   <IssueSuccess
     itemContent={
       <>
-        <div className="list-item" id="broken-tabindex-success-1">
-          <button tabIndex="0">Click Me</button>
-        </div>
-        <div className="list-item" id="broken-tabindex-success-2">
-          <a href="#" tabIndex="0">Link</a>
-        </div>
-        <div className="list-item" id="broken-tabindex-success-3">
-          <input type="text" tabIndex="0" placeholder="Enter text" />
-        </div>
-        <div className="list-item" id="broken-tabindex-success-4">
-          <div tabIndex="-1">Non-navigable element</div>
-        </div>
-        <div className="list-item" id="broken-tabindex-success-5">
-          <textarea tabIndex="0" placeholder="Enter description"></textarea>
-        </div>
-        <div className="list-item" id="broken-tabindex-success-6">
-          <select tabIndex="0">
-            <option>Option 1</option>
-            <option>Option 2</option>
-          </select>
-        </div>
+        <div
+          className="list-item"
+          id="keyboard-broken-tabindex-success-success-1"
+          data-atomic-source="tabindex-valid/div-with-tabindex--1"
+          dangerouslySetInnerHTML={{
+            __html: `<div tabindex="-1">Heading element</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="keyboard-broken-tabindex-success-success-2"
+          data-atomic-source="tabindex-valid/div-with-tabindex-0"
+          dangerouslySetInnerHTML={{
+            __html: `<div tabindex="0">Heading element</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="keyboard-broken-tabindex-success-success-3"
+          data-atomic-source="tabindex-valid/svg-with-tabindex-6"
+          dangerouslySetInnerHTML={{
+            __html: `<svg xmlns="http://www.w3.org/2000/svg" tabindex="6">
+    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+</svg>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default BrokentabSuccess;

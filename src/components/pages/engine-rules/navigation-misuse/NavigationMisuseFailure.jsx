@@ -5,7 +5,7 @@ const NavigationMisuseFailure = () => {
   const ruleId = "navigation-misuse";
   const title = `Navigation landmark does not contain key site navigation links`;
   const description = `A navigation landmark should identify a section that contains primary links for moving through the site or page. Using navigation landmarks for minor or secondary link groups makes it harder for screen reader users to locate the page’s key navigation areas.`;
-  const helpText = `Use navigation landmarks only for key navigation sections, such as the main site menu, table of contents, breadcrumbs, or pagination. Avoid using them for general link lists, social links, related links, or other secondary link groups, and keep the number of navigation landmarks as limited as practical.`;
+  const helpText = `Replace the <nav> element with a <div> element and remove role="navigation" if present. Use navigation landmarks only for key navigation sections, such as the main site menu, table of contents, breadcrumbs, or pagination. Avoid using them for general link lists, social links, related links, or other secondary link groups, and keep the number of navigation landmarks as limited as practical.`;
   const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
@@ -17,10 +17,10 @@ const NavigationMisuseFailure = () => {
     <div>
       <ul>
         <li>
-          <button type="button">Skip to main content</button>
+          <a href="#main-content">Skip to main content</a>
         </li>
         <li>
-          <button type="button">Skip to footer</button>
+          <a href="#footer">Skip to footer</a>
         </li>
       </ul>
     </div>

@@ -90,10 +90,10 @@ export const ImageDiscernibleCorrectly: Rule = {
       }
 
       const {
-        contentInfo: { srVisibleText },
+        contentInfo: { accessibleName },
       } = classifier.getOperations(image);
 
-      if (isRelatedTextIncorrect(srVisibleText)) {
+      if (isRelatedTextIncorrect(accessibleName)) {
         response.failedNodes.push(image);
       } else {
         response.passedNodes.push(image);

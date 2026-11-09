@@ -1,32 +1,52 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): heading-mismatch
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueFailure from "../../../../../layout/issueFailure";
 
-const itemDescription = "Headings : Untagged Headings - Failure";
+const itemDescription = "Headings: Untagged Headings - Failure";
 
-export default () => (
+const UntaggedheadingsFailures = () => (
   <IssueFailure
     itemContent={
       <>
-        <div className="list-item" id="untagged-headings-failure-1">
-          <div style={{ fontSize: "2em", fontWeight: "bold" }}>Visually Styled Heading</div>
-        </div>
-        <div className="list-item" id="untagged-headings-failure-2">
-          <p style={{ fontSize: "1.5em", fontWeight: "bold" }}>Paragraph Styled as Heading</p>
-        </div>
-        <div className="list-item" id="untagged-headings-failure-3">
-          <span style={{ fontSize: "1.2em", fontWeight: "bold" }}>Span Styled as Heading</span>
-        </div>
-        <div className="list-item" id="untagged-headings-failure-4">
-          <div role="heading">Missing ARIA Level</div>
-        </div>
-        <div className="list-item" id="untagged-headings-failure-5">
-          <h1 aria-hidden="true">Hidden Heading</h1>
-        </div>
-        <div className="list-item" id="untagged-headings-failure-6">
-          <span aria-level="2">ARIA Level Without Role</span>
-        </div>
+        <div
+          className="list-item"
+          id="headings-untagged-headings-failure-failure-1"
+          data-atomic-source="heading-mismatch/perceivable-heading-no-role-heading"
+          dangerouslySetInnerHTML={{
+            __html: `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Example Page</title>
+  </head>
+  <body>
+    <style>
+      body {
+        font-size: 16px;
+        font-weight: 400;
+      }
+      .text-xl {
+        font-size: 20px;
+        font-weight: 400;
+      }
+    </style>
+
+    <div class="text-xl">Big Heading</div>
+    <p>Regular body text</p>
+  </body>
+</html>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default UntaggedheadingsFailures;

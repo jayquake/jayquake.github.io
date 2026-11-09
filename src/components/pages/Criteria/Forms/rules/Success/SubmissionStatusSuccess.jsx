@@ -1,113 +1,102 @@
-import React, { useState } from "react";
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): form-context-change-warning
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
+import React from "react";
 import IssueSuccess from "../../../../../layout/issueSuccess";
 
-const itemDescription = "Form - Submission Status Success";
+const itemDescription = "Forms: Form Submissions Status - Success";
 
-export default () => {
-  const [isSuccessMessageVisible, setIsSuccessMessageVisible] = useState(false);
-  const [isFailureMessageVisible, setIsFailureMessageVisible] = useState(false);
+const SubmissionStatusSuccess = () => (
+  <IssueSuccess
+    itemContent={
+      <>
+        <div
+          className="list-item"
+          id="forms-form-submissions-status-success-success-1"
+          data-atomic-source="form-context-change-warning/button-not-inside-form-but-associated-to-it"
+          dangerouslySetInnerHTML={{
+            __html: `<form id="test"></form>
 
-  function handleFormSubmit(event) {
-    event.preventDefault();
-
-    // Mock form validation - replace with your own validation
-    const isValid = true;
-
-    setIsSuccessMessageVisible(false);
-    setIsFailureMessageVisible(false);
-
-    if (isValid) {
-      // Mock server response delay
-      setTimeout(() => {
-        setIsSuccessMessageVisible(true);
-      }, 1000); // 1 second delay
-    } else {
-      // Mock server response delay
-      setTimeout(() => {
-        setIsFailureMessageVisible(true);
-      }, 1000); // 1 second delay
+<button type="submit" form="test">hi</button>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="forms-form-submissions-status-success-success-2"
+          data-atomic-source="form-context-change-warning/form-with-submit-button"
+          dangerouslySetInnerHTML={{
+            __html: `<form>
+  <input type="text" />
+  <input type="password" />
+  <button type="submit">Confirm</button>
+</form>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="forms-form-submissions-status-success-success-3"
+          data-atomic-source="form-context-change-warning/form-with-submit-input"
+          dangerouslySetInnerHTML={{
+            __html: `<form>
+  <input type="text" />
+  <input type="password" />
+  <input type="submit" />
+</form>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="forms-form-submissions-status-success-success-4"
+          data-atomic-source="form-context-change-warning/hidden-form-without-submit-button"
+          dangerouslySetInnerHTML={{
+            __html: `<form style="display: none">
+  <input type="text" />
+  <input type="password" />
+</form>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="forms-form-submissions-status-success-success-5"
+          data-atomic-source="form-context-change-warning/input-type-image"
+          dangerouslySetInnerHTML={{
+            __html: `<form>
+  <input type="image" />
+</form>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="forms-form-submissions-status-success-success-6"
+          data-atomic-source="form-context-change-warning/remediated-form-with-aria-label"
+          dangerouslySetInnerHTML={{
+            __html: `<form aria-label="Contact Please note, filling out the following fields will automatically submit the form"><input type="text"></form>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="forms-form-submissions-status-success-success-7"
+          data-atomic-source="form-context-change-warning/remediated-form-with-aria-labelledby"
+          dangerouslySetInnerHTML={{
+            __html: `<form aria-labelledby="t sro-1"><h2 id="t">Contact</h2><input type="text"><span data-acsb-sr-only="true" style="position: absolute !important; width: 1px !important; height: 1px !important; padding: 0px !important; overflow: hidden !important; clip: rect(0px, 0px, 0px, 0px) !important; border: 0px !important;" id="sro-1">Please note, filling out the following fields will automatically submit the form</span></form>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="forms-form-submissions-status-success-success-8"
+          data-atomic-source="form-context-change-warning/remediated-form-with-sr-only-warning"
+          dangerouslySetInnerHTML={{
+            __html: `<form><input type="text"><span data-acsb-sr-only="true" style="position: absolute !important; width: 1px !important; height: 1px !important; padding: 0px !important; overflow: hidden !important; clip: rect(0px, 0px, 0px, 0px) !important; border: 0px !important;">Please note, filling out the following fields will automatically submit the form</span></form>`,
+          }}
+        />
+      </>
     }
-  }
+    itemDescription={itemDescription}
+  />
+);
 
-  return (
-    <IssueSuccess
-      itemContent={
-        <ul>
-          <li className="list-item">
-            <form id="contactForm" onSubmit={handleFormSubmit}>
-              <div className="form-group">
-                <label htmlFor="name">Name:</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  className="form-control"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="email">Email:</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  className="form-control"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="message">Message:</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  className="form-control"
-                ></textarea>
-              </div>
-
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  value=""
-                  id="termsCheck"
-                />
-                <label className="form-check-label" htmlFor="termsCheck">
-                  Accept Terms and Conditions
-                </label>
-              </div>
-
-              <button type="submit" className="btn btn-primary">
-                Submit
-              </button>
-            </form>
-          </li>
-
-          <li className="list-item">
-            <div
-              id="successMessage"
-              role="alert"
-              className={`alert alert-success mt-3 ${
-                isSuccessMessageVisible ? "" : "d-none"
-              }`}
-            >
-              Form submitted successfully!
-            </div>
-          </li>
-
-          <li className="list-item">
-            <div
-              id="failureMessage"
-              role="alert"
-              className={`alert alert-danger mt-3 ${
-                isFailureMessageVisible ? "" : "d-none"
-              }`}
-            >
-              Form submission failed. Please try again.
-            </div>
-          </li>
-        </ul>
-      }
-      itemDescription={itemDescription}
-    />
-  );
-};
+export default SubmissionStatusSuccess;

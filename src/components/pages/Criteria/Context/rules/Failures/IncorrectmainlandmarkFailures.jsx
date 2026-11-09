@@ -1,64 +1,52 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): region-main-content-misuse
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueFailure from "../../../../../layout/issueFailure";
 
 const itemDescription = "Context: Incorrect Main Landmark - Failure";
 
-export default () => (
+const IncorrectmainlandmarkFailures = () => (
   <IssueFailure
     itemContent={
       <>
-        <div className="list-item" id="incorrect-main-landmark-failure-1">
-          <main role="presentation">
-            <p>Content starts here...</p>
-          </main>
-        </div>
-        
-        <div className="list-item" id="incorrect-main-landmark-failure-2">
-          <div>
-            <main>
-              <h1>Improper Main Usage</h1>
-              <p>Main content misplaced...</p>
-            </main>
-          </div>
-        </div>
-        
-        <div className="list-item" id="incorrect-main-landmark-failure-3">
-          <main>
-            <header>
-              <h1>Header inside main</h1>
-            </header>
-            <p>Content here...</p>
-          </main>
-        </div>
-
-        <div className="list-item" id="incorrect-main-landmark-failure-4">
-          <footer>
-            <main>
-              <h2>Footer Main Misuse</h2>
-              <p>Content misplaced...</p>
-            </main>
-          </footer>
-        </div>
-
-        <div className="list-item" id="incorrect-main-landmark-failure-5">
-          <header>
-            <h1>Page Title</h1>
-          </header>
-          <main>
-            <div>
-              <h2>Improper Wrapping</h2>
-              <p>Main content begins here...</p>
-            </div>
-          </main>
-        </div>
-
-        <div className="list-item" id="incorrect-main-landmark-failure-6">
-          <main>
-            <p>Main role is incorrectly applied to the whole page...</p>
-          </main>
-        </div>
+        <div
+          className="list-item"
+          id="context-incorrect-main-landmark-failure-failure-1"
+          data-atomic-source="region-main-content-misuse/full-page-main"
+          dangerouslySetInnerHTML={{
+            __html: `<!DOCTYPE html>
+<html>
+  <body style="margin: 0">
+    <div role="main" style="height: 100vh">Full page content block</div>
+  </body>
+</html>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="context-incorrect-main-landmark-failure-failure-2"
+          data-atomic-source="region-main-content-misuse/incorrect-main"
+          dangerouslySetInnerHTML={{
+            __html: `<!DOCTYPE html>
+<html>
+  <body>
+    <header>Header content</header>
+    <main style="height: 300px">Smaller div</main>
+    <div id="larger" style="height: 700px">Larger div</div>
+    <footer>Footer content</footer>
+  </body>
+</html>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default IncorrectmainlandmarkFailures;

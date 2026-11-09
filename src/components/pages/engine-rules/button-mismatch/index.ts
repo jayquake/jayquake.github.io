@@ -1,6 +1,6 @@
 import type { Rule } from "~/rules/interfaces";
 import { PassCondition } from "~/rules/interfaces";
-import { PerceivableComponentButton, CompliantComponentButton, CompliantComponentMenuItem, CompliantComponentTab, CompliantComponentHeading, CompliantComponentSwitch, CompliantTraitExposed } from "@acsbe/core-engine-classifier";
+import { PerceivableComponentButton, CompliantComponentButton, CompliantComponentMenuItem, CompliantComponentTab, CompliantComponentHeading, CompliantComponentSwitch, PerceivableTraitVisible } from "@acsbe/core-engine-classifier";
 
 export const ButtonMismatch: Rule = {
   id: "button-mismatch",
@@ -14,7 +14,7 @@ export const ButtonMismatch: Rule = {
   title: "Buttons should be tagged for assistive technology",
   description: "If interactive elements cannot be identified as buttons, screen reader users may not realize the element is actionable, which can stop them from submitting forms, opening dialogs, or performing other intended actions.",
   advice: 'Add role="button" to the custom interactive element, or use a HTML <button> element.',
-  associatedDetectors: [PerceivableComponentButton, CompliantComponentButton, CompliantComponentMenuItem, CompliantComponentTab, CompliantComponentSwitch, CompliantTraitExposed],
+  associatedDetectors: [PerceivableComponentButton, CompliantComponentButton, CompliantComponentMenuItem, CompliantComponentTab, CompliantComponentSwitch, PerceivableTraitVisible],
   refs: [
     {
       type: "WCAG",
@@ -41,11 +41,11 @@ export const ButtonMismatch: Rule = {
   ],
   passCondition: PassCondition.NoFailedNodes,
   async validate({ classifier, response }) {
-    const buttons = classifier.getMatched([PerceivableComponentButton, CompliantTraitExposed]);
+    const buttons = classifier.getMatched([PerceivableComponentButton, PerceivableTraitVisible]);
 
     for (const button of buttons) {
       /**
-       * If the perceived button is a heading then it does not need to be tagged as a button but as interactable (InteractiveNotTabbable).
+       * If the perceived button is a heading then it does not need to be tagged as a button but as interactable (TabbableMismatch).
        */
       if (classifier.assert(button, CompliantComponentHeading)) {
         continue;

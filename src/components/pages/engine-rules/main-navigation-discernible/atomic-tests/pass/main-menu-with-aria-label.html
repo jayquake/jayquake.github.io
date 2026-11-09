@@ -1,14 +1,12 @@
 <!--testconfig
     "testedClass": "Rules.MainNavigationDiscernible",
     "expect": {
-        "passedNodes": ["ul"],
+        "passedNodes": ["nav"],
         "failedNodes": []
-    },
-    "skip": true
+    }
 -->
-<!--  This test is in skip because the new model doesn't detect this ul as a main navigation element. -->
-<nav>
-  <ul aria-label="Main Menu">
+<nav aria-label="Main Menu">
+  <ul>
     <li>
       <a href="/home">Home</a>
     </li>

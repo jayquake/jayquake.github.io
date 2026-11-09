@@ -1,6 +1,20 @@
 import type { Rule } from "~/rules/interfaces";
 import { PassCondition } from "~/rules/interfaces";
-import { PerceivableComponentDialogModal, CompliantComponentDialogModal } from "@acsbe/core-engine-classifier";
+import type EngineClassifier from "@acsbe/core-engine-classifier";
+import { type SvgOrHtmlElement } from "@acsbe/core-engine-classifier";
+import { PerceivableComponentDialogModal, CompliantComponentDialogModal, PerceivableComponentBackdrop, getAncestors } from "@acsbe/core-engine-classifier";
+
+/**
+ * Checks if the given element has a compliant dialog modal ancestor within the backdrop
+ */
+const hasCompliantAncestor = (element: SvgOrHtmlElement, backdrop: HTMLElement, classifier: EngineClassifier) => {
+  for (const ancestor of getAncestors(element, backdrop)) {
+    if (classifier.assert(ancestor, CompliantComponentDialogModal)) {
+      return true;
+    }
+  }
+  return false;
+};
 
 export const DialogModalMismatch: Rule = {
   id: "dialog-modal-mismatch",
@@ -34,13 +48,27 @@ export const DialogModalMismatch: Rule = {
       link: "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/dialog/",
     },
   ],
-  associatedDetectors: [PerceivableComponentDialogModal, CompliantComponentDialogModal],
+  associatedDetectors: [PerceivableComponentDialogModal, CompliantComponentDialogModal, PerceivableComponentBackdrop],
   passCondition: PassCondition.NoFailedNodes,
   async validate({ response, classifier }) {
     const elements = classifier.getMatched([PerceivableComponentDialogModal]);
 
     for (const element of elements) {
       if (classifier.assert(element, CompliantComponentDialogModal)) {
+        response.passedNodes.push(element);
+        continue;
+      }
+
+      // The dialog semantics may live on the backdrop wrapping the perceived dialog, or anywhere in between (e.g. Bootstrap's `.modal` / `.modal-dialog`)
+      const backdrop = classifier.getParent(element, PerceivableComponentBackdrop);
+
+      // if there's no backdrop, the perceived dialog cannot be compliant (and we dont want to pass it to getAncestor to waste resources)
+      if (!backdrop) {
+        response.failedNodes.push(element);
+        continue;
+      }
+
+      if (hasCompliantAncestor(element, backdrop, classifier)) {
         response.passedNodes.push(element);
       } else {
         response.failedNodes.push(element);

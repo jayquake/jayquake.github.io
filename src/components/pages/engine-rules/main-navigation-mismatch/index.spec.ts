@@ -9,14 +9,14 @@ describe("MainNavigationMismatch Rule Validation", () => {
     validateMethodArguments = validationMethodArguments();
   });
 
-  it("should pass if the main navigation's parent is compliant", async () => {
+  it("should pass the resolved navigation landmark", async () => {
     const { classifier, response } = validateMethodArguments;
 
     const mainNav = document.createElement("div");
     const parentNav = document.createElement("nav");
     parentNav.appendChild(mainNav);
 
-    (classifier.getMatched as jest.Mock).mockReturnValue([mainNav]);
+    (classifier.getMatched as jest.Mock).mockReturnValue([parentNav]);
     (classifier.assert as jest.Mock).mockReturnValue(true);
 
     await MainNavigationMismatch.validate(validateMethodArguments);
@@ -25,14 +25,14 @@ describe("MainNavigationMismatch Rule Validation", () => {
     expect(response.failedNodes).toHaveLength(0);
   });
 
-  it("should fail if the main navigation's parent is not compliant", async () => {
+  it("should fail the resolved navigation container", async () => {
     const { classifier, response } = validateMethodArguments;
 
     const mainNav = document.createElement("div");
     const parentNav = document.createElement("div");
     parentNav.appendChild(mainNav);
 
-    (classifier.getMatched as jest.Mock).mockReturnValue([mainNav]);
+    (classifier.getMatched as jest.Mock).mockReturnValue([parentNav]);
     (classifier.assert as jest.Mock).mockReturnValue(false);
 
     await MainNavigationMismatch.validate(validateMethodArguments);
@@ -52,16 +52,16 @@ describe("MainNavigationMismatch Rule Validation", () => {
     expect(response.failedNodes).toHaveLength(0);
   });
 
-  it("should do nothing if the main navigation has no parent element", async () => {
+  it("should report a standalone menu list", async () => {
     const { classifier, response } = validateMethodArguments;
 
-    const mainNav = document.createElement("div");
+    const mainNav = document.createElement("ul");
 
     (classifier.getMatched as jest.Mock).mockReturnValue([mainNav]);
 
     await MainNavigationMismatch.validate(validateMethodArguments);
 
     expect(response.passedNodes).toHaveLength(0);
-    expect(response.failedNodes).toHaveLength(0);
+    expect(response.failedNodes).toEqual([mainNav]);
   });
 });

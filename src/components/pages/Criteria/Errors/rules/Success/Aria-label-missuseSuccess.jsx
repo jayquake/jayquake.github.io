@@ -1,66 +1,191 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): name-prohibited-no-aria-label
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueSuccess from "../../../../../layout/issueSuccess";
 
-const itemDescription = "Errors: ARIA Label Misuse - Success";
+const itemDescription = "Errors: Aria Label Misuse - Success";
 
-export default () => (
-    <IssueSuccess
-      itemContent={
-        <>
-           <div className="list-item" id="aria-label-success-1">
-          {/* A button to resend a verification email with a clear ARIA label */}
-          <button aria-label="Resend verification email">Resend</button>
-        </div>
-        <div className="list-item" id="aria-label-success-2">
-          {/* An input field for a username with a descriptive ARIA label */}
-          <input 
-            type="text" 
-            aria-label="Enter your username" 
-            placeholder="Username"
-          />
-        </div>
-        <div className="list-item" id="aria-label-success-3">
-          {/* A link to troubleshooting help with an actionable ARIA label */}
-          <a 
-            href="/help" 
-            aria-label="Learn more about troubleshooting login issues">
-            Troubleshooting Help
-          </a>
-        </div>
-        <div className="list-item" id="aria-label-success-4">
-          {/* A section summarizing form errors with a meaningful ARIA label */}
-          <section aria-label="Form error summary">
-            <p>There are errors in your form submission. Please correct them.</p>
-          </section>
-        </div>
-        <div className="list-item" id="aria-label-success-5">
-          {/* A navigation bar for error links with an appropriate ARIA label */}
-          <nav aria-label="Error navigation">
-            <button href="#error1" type="button">Go to first error</button>
-          </nav>
-        </div>
-        <div className="list-item" id="aria-label-success-6">
-          {/* An error icon with a descriptive ARIA label for context */}
-          <img 
-            src="/images/error-icon.png" 
-            aria-label="Critical error icon" 
-            alt="Critical error"
-          />
-        </div>
-        <div className="list-item" id="aria-labelledby-success-1">
-          {/* Form field linked to a visible error message using aria-labelledby */}
-          <label id="email-label">Email Address</label>
-          <input 
-            type="email" 
-            id="email-input" 
-            aria-labelledby="email-label email-error"
-          />
-          <span id="email-error" className="error-text">
-            Please enter a valid email address.
-          </span>
-        </div>
-        </>
-      }
-      itemDescription={itemDescription}
-    />
-  );
+const ArialabelmissuseSuccess = () => (
+  <IssueSuccess
+    itemContent={
+      <>
+        <div
+          className="list-item"
+          id="errors-aria-label-misuse-success-success-1"
+          data-atomic-source="name-prohibited-no-aria-label/alert"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="alert" aria-label="alert label">This is an alert message</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-aria-label-misuse-success-success-2"
+          data-atomic-source="name-prohibited-no-aria-label/application"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="application" aria-label="application label">An application interface</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-aria-label-misuse-success-success-3"
+          data-atomic-source="name-prohibited-no-aria-label/article"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="article" aria-label="article label">An article of content</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-aria-label-misuse-success-success-4"
+          data-atomic-source="name-prohibited-no-aria-label/banner"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="banner" aria-label="banner label">A site banner</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-aria-label-misuse-success-success-5"
+          data-atomic-source="name-prohibited-no-aria-label/button"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="button" aria-label="button label">A button</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-aria-label-misuse-success-success-6"
+          data-atomic-source="name-prohibited-no-aria-label/caption-no-label"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="caption">some caption</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-aria-label-misuse-success-success-7"
+          data-atomic-source="name-prohibited-no-aria-label/cell"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="cell" aria-label="cell label">A table cell</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-aria-label-misuse-success-success-8"
+          data-atomic-source="name-prohibited-no-aria-label/checkbox"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="checkbox" aria-label="checkbox label">A checkbox</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-aria-label-misuse-success-success-9"
+          data-atomic-source="name-prohibited-no-aria-label/code-no-label"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="code">some code</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-aria-label-misuse-success-success-10"
+          data-atomic-source="name-prohibited-no-aria-label/columnheader"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="columnheader" aria-label="columnheader label">A column header</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-aria-label-misuse-success-success-11"
+          data-atomic-source="name-prohibited-no-aria-label/combobox"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="combobox" aria-label="combobox label">A combobox input</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-aria-label-misuse-success-success-12"
+          data-atomic-source="name-prohibited-no-aria-label/dialog"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="dialog" aria-label="dialog label">A dialog box</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-aria-label-misuse-success-success-13"
+          data-atomic-source="name-prohibited-no-aria-label/document"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="document" aria-label="document label">A document section</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-aria-label-misuse-success-success-14"
+          data-atomic-source="name-prohibited-no-aria-label/feed"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="feed" aria-label="feed label">A content feed</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-aria-label-misuse-success-success-15"
+          data-atomic-source="name-prohibited-no-aria-label/figure"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="figure" aria-label="figure label">A figure with caption</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-aria-label-misuse-success-success-16"
+          data-atomic-source="name-prohibited-no-aria-label/form"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="form" aria-label="form label">A form section</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-aria-label-misuse-success-success-17"
+          data-atomic-source="name-prohibited-no-aria-label/mark-no-label"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="mark">a marked text</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-aria-label-misuse-success-success-18"
+          data-atomic-source="name-prohibited-no-aria-label/none-no-label"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="none">no particular role</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-aria-label-misuse-success-success-19"
+          data-atomic-source="name-prohibited-no-aria-label/term-no-label"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="term">a term</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-aria-label-misuse-success-success-20"
+          data-atomic-source="name-prohibited-no-aria-label/time-no-label"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="time">a time-related text</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-aria-label-misuse-success-success-21"
+          data-atomic-source="name-prohibited-no-aria-label/time-with-label-hidden"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="time" aria-label="time label" hidden>a time-related text</div>`,
+          }}
+        />
+      </>
+    }
+    itemDescription={itemDescription}
+  />
+);
+
+export default ArialabelmissuseSuccess;

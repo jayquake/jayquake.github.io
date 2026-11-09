@@ -17,6 +17,7 @@ describe("FocusNotObscuredFooter Rule Validation", () => {
     await FocusNotObscuredFooter.validate(validateMethodArguments);
 
     expect(response.failedNodes.length).toBe(0);
+    expect(response.passedNodes.length).toBe(0);
   });
 
   it("should fail when there are sticky footers without valid scroll-padding-bottom", async () => {
@@ -54,5 +55,6 @@ describe("FocusNotObscuredFooter Rule Validation", () => {
     await FocusNotObscuredFooter.validate(validateMethodArguments);
 
     expect(response.failedNodes.length).toBe(0);
+    expect(response.passedNodes.length).toBe(1);
   });
 });

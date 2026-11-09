@@ -1,320 +1,143 @@
-import BugReportIcon from "@mui/icons-material/BugReport";
-import CancelIcon from "@mui/icons-material/Cancel";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ScienceIcon from "@mui/icons-material/Science";
-import {
-  Box,
-  Button,
-  Chip,
-  Divider,
-  IconButton,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Bug, ChevronLeft, ChevronRight, CircleCheck, CircleX, FlaskConical } from "lucide-react";
+import { Link as RouterLink, useSearchParams } from "react-router-dom";
+import { Button, buttonClass } from "../../ui/button";
+import { Badge, severityVariant } from "../../ui/badge";
+import { Card, CardContent, CardTitle } from "../../ui/card";
+import { impactToSeverityLabel } from "./engineLibraryUtils";
 import { LIBRARY_LAYOUT } from "../../../theme/layout";
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
 import { getRuleSlug } from "./engineLibraryUtils";
-import { MGS, MIN_TEXT_SIZE, mgsFonts, raidenType } from "../../../theme/mgsTokens";
+import { MGS } from "../../../theme/mgsTokens";
 
-const sectionLabelSx = {
-  display: "block",
-  fontFamily: mgsFonts.hud,
-  fontSize: MIN_TEXT_SIZE,
-  fontWeight: 600,
-  letterSpacing: "0.14em",
-  textTransform: "uppercase",
-  color: "primary.light",
-  mb: 0.75,
-};
-
-const bodyTextSx = {
-  color: MGS.raidenSilver,
-  lineHeight: 1.65,
-  fontSize: "0.875rem",
-  textAlign: "left",
-  overflowWrap: "break-word",
-};
+const sectionLabelClass =
+  "mb-2 block font-mono text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-foreground-accent";
+const bodyClass = "text-left text-sm leading-relaxed text-foreground-secondary [overflow-wrap:break-word]";
 
 export default function EngineRuleDetailPane({
   rule,
   collapsed,
   onToggleCollapse,
   compact = false,
+  side = "left",
 }) {
+  const CloseIcon = side === "right" ? ChevronRight : ChevronLeft;
   if (!rule) {
-    return (
-      <Box sx={{ p: 2, color: "text.secondary" }}>
-        <Typography variant="body2">Select a rule from the table.</Typography>
-      </Box>
-    );
+    return <div className="p-4 text-sm text-foreground-secondary">Select a rule from the table.</div>;
   }
 
+  const [searchParams] = useSearchParams();
   const slug = getRuleSlug(rule);
   const wcagRefs = rule.refs?.filter((r) => r.type === "WCAG") || [];
+  const canonicalRuleHref = (() => {
+    const params = new URLSearchParams(searchParams);
+    params.set("detail", "open");
+    return `/engine/${slug}?${params.toString()}`;
+  })();
 
   if (collapsed) {
     return (
-      <Box
-        sx={{
-          width: LIBRARY_COLLAPSED,
-          minWidth: LIBRARY_COLLAPSED,
-          height: "100%",
-          borderRight: 1,
-          borderColor: "divider",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          py: 1,
-          bgcolor: "background.default",
-        }}
+      <div
+        className="flex h-full flex-col items-center border-r border-border bg-shell-main py-2"
+        style={{ width: LIBRARY_LAYOUT.detailCollapsedPx, minWidth: LIBRARY_LAYOUT.detailCollapsedPx }}
       >
-        <IconButton size="small" onClick={onToggleCollapse} aria-label="Expand detail pane">
-          <ChevronRightIcon fontSize="small" />
-        </IconButton>
-        <Typography
-          variant="caption"
-          sx={{
-            writingMode: "vertical-rl",
-            transform: "rotate(180deg)",
-            fontFamily: '"IBM Plex Mono", monospace',
-            color: "primary.main",
-            letterSpacing: "0.1em",
-            mt: 1,
-            maxHeight: 120,
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-          }}
-        >
+        <Button variant="ghost" size="icon" onClick={onToggleCollapse} aria-label="Expand detail pane">
+          <ChevronRight className="size-4" />
+        </Button>
+        <p className="mt-2 max-h-[120px] overflow-hidden text-ellipsis font-mono text-[0.75rem] tracking-widest text-primary [writing-mode:vertical-rl] rotate-180">
           {slug}
-        </Typography>
-      </Box>
+        </p>
+      </div>
     );
   }
 
   return (
-    <Box
-      sx={{
-        height: "100%",
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        minWidth: 0,
-        borderRight: compact ? 0 : 1,
-        borderColor: "divider",
-        bgcolor: "background.default",
-        overflow: "hidden",
-        boxSizing: "border-box",
-        textAlign: "left",
-        alignItems: "stretch",
-      }}
-    >
-      <Box
-        sx={{
-          px: { xs: 2, sm: 2.5 },
-          py: 1.25,
-          display: "flex",
-          alignItems: "flex-start",
-          justifyContent: "flex-start",
-          gap: 1,
-          borderBottom: 1,
-          borderColor: "primary.dark",
-          flexShrink: 0,
-          width: "100%",
-          bgcolor: "background.paper",
-        }}
-      >
-        <Box sx={{ minWidth: 0, flex: 1, pr: 1 }}>
-          <Typography sx={{ ...raidenType.sectionLabel, fontSize: MIN_TEXT_SIZE, mb: 0.5 }}>
-            Tactical HUD · Engine Rule
-          </Typography>
-          <Typography
-            sx={{
-              ...raidenType.ruleId,
-              mb: 0.75,
-              display: "block",
-            }}
+    <div className={`flex h-full w-full min-w-0 flex-col overflow-hidden bg-shell-elevated text-left`}>
+      <div className="flex w-full shrink-0 items-start justify-start gap-2 border-b border-border bg-shell-panel px-4 py-3 sm:px-5">
+        <div className="min-w-0 flex-1 pr-2">
+          <p className={sectionLabelClass}>Rule description</p>
+          <RouterLink
+            to={canonicalRuleHref}
+            className="mb-1 block font-mono text-[0.75rem] tracking-wide text-primary no-underline hover:underline"
           >
             [ {slug} ]
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            component="h2"
-            sx={{
-              color: "text.primary",
-              fontWeight: 600,
-              lineHeight: 1.4,
-              fontSize: { xs: "0.85rem", sm: "0.95rem" },
-              textAlign: "left",
-              overflowWrap: "break-word",
-            }}
-          >
+          </RouterLink>
+          <h2 className="text-left text-[0.85rem] font-semibold leading-snug text-foreground [overflow-wrap:break-word] sm:text-[0.95rem]">
             {rule.title}
-          </Typography>
-        </Box>
-        {!compact && (
-          <IconButton size="small" onClick={onToggleCollapse} aria-label="Collapse detail pane">
-            <ChevronLeftIcon fontSize="small" />
-          </IconButton>
-        )}
-      </Box>
+          </h2>
+        </div>
+        <Button variant="ghost" size="icon" onClick={onToggleCollapse} aria-label="Close description panel">
+          <CloseIcon className="size-4" />
+        </Button>
+      </div>
 
-      <Box
-        sx={{
-          flex: 1,
-          overflowY: "auto",
-          px: { xs: 2, sm: 2.5 },
-          py: 2,
-          width: "100%",
-          boxSizing: "border-box",
-          textAlign: "left",
-          "&::-webkit-scrollbar": { width: 6 },
-          "&::-webkit-scrollbar-thumb": {
-            bgcolor: "divider",
-            borderRadius: 3,
-          },
-        }}
-      >
-        {rule.impact && (
-          <Chip
-            label={rule.impact.toUpperCase()}
-            size="small"
-            sx={{
-              mb: 2,
-              bgcolor: "primary.dark",
-              color: MGS.raidenWhite,
-              border: `1px solid ${MGS.raidenCyan}`,
-              fontFamily: mgsFonts.hud,
-              fontSize: MIN_TEXT_SIZE,
-              fontWeight: 600,
-            }}
-          />
-        )}
-
-        <Typography variant="body2" sx={{ ...bodyTextSx, mb: 2 }}>
-          {rule.description}
-        </Typography>
-
-        {rule.advice && (
-          <Box sx={{ mb: 2 }}>
-            <Typography component="span" sx={sectionLabelSx}>
-              Advice
-            </Typography>
-            <Typography variant="body2" sx={bodyTextSx}>
-              {rule.advice}
-            </Typography>
-          </Box>
-        )}
-
-        {wcagRefs.length > 0 && (
-          <Box sx={{ mb: 2 }}>
-            <Typography component="span" sx={sectionLabelSx}>
-              WCAG
-            </Typography>
-            <Stack direction="row" flexWrap="wrap" gap={0.5} sx={{ mt: 0.25 }}>
-              {wcagRefs.map((ref, i) => (
-                <Chip
-                  key={i}
-                  label={`${ref.id} (${ref.level || "?"})`}
-                  size="small"
-                  variant="outlined"
-                  component={ref.link ? "a" : "div"}
-                  href={ref.link}
-                  target={ref.link ? "_blank" : undefined}
-                  rel={ref.link ? "noopener noreferrer" : undefined}
-                  sx={{
-                    fontSize: MIN_TEXT_SIZE,
-                    height: 22,
-                    borderColor: "primary.main",
-                    color: MGS.raidenSilver,
-                  }}
-                />
-              ))}
-            </Stack>
-          </Box>
-        )}
-
-        <Divider sx={{ my: 2, borderColor: "primary.dark" }} />
-
-        <Typography component="span" sx={{ ...sectionLabelSx, mb: 1 }}>
-          Actions
-        </Typography>
-        <Stack spacing={1} sx={{ width: "100%", alignItems: "stretch" }}>
-          <Button
-            component={RouterLink}
+      <div className="flex w-full flex-1 flex-col gap-3 overflow-y-auto px-4 py-4 text-left sm:px-5">
+        {rule.impact ? (
+          <Badge variant={severityVariant(impactToSeverityLabel(rule.impact))} className="w-fit">
+            {impactToSeverityLabel(rule.impact)}
+          </Badge>
+        ) : null}
+        <Card>
+          <CardTitle>Description</CardTitle>
+          <CardContent className={bodyClass}>{rule.description}</CardContent>
+        </Card>
+        {rule.advice ? (
+          <Card>
+            <CardTitle>Advice</CardTitle>
+            <CardContent className={bodyClass}>{rule.advice}</CardContent>
+          </Card>
+        ) : null}
+        {wcagRefs.length > 0 ? (
+          <Card>
+            <CardTitle>WCAG</CardTitle>
+            <div className="flex flex-wrap gap-1">
+              {wcagRefs.map((ref, i) =>
+                ref.link ? (
+                  <a key={i} href={ref.link} target="_blank" rel="noopener noreferrer">
+                    <Badge variant="outline">
+                      {ref.id} ({ref.level || "?"})
+                    </Badge>
+                  </a>
+                ) : (
+                  <Badge key={i} variant="outline">
+                    {ref.id} ({ref.level || "?"})
+                  </Badge>
+                )
+              )}
+            </div>
+          </Card>
+        ) : null}
+        <Card>
+          <CardTitle>Actions</CardTitle>
+          <div className="flex w-full flex-col items-stretch gap-2">
+          <RouterLink
             to={`/engine/${slug}_success`}
-            size="small"
-            variant="outlined"
-            startIcon={<CheckCircleIcon />}
-            fullWidth
+            className={buttonClass({ className: "w-full justify-start border-primary text-foreground" })}
             onMouseEnter={() => prefetchEngineExample(slug, "success")}
             onFocus={() => prefetchEngineExample(slug, "success")}
-            sx={{
-              justifyContent: "flex-start",
-              borderColor: "primary.main",
-              color: MGS.raidenWhite,
-              "&:hover": { borderColor: "primary.light", bgcolor: "action.selected" },
-            }}
           >
+            <CircleCheck className="size-4" style={{ color: MGS.passGreen }} />
             Success examples
-          </Button>
-          <Button
-            component={RouterLink}
+          </RouterLink>
+          <RouterLink
             to={`/engine/${slug}_failure`}
-            size="small"
-            variant="outlined"
-            startIcon={<CancelIcon />}
-            fullWidth
+            className={buttonClass({ className: "w-full justify-start border-primary text-foreground" })}
             onMouseEnter={() => prefetchEngineExample(slug, "failure")}
             onFocus={() => prefetchEngineExample(slug, "failure")}
-            sx={{
-              justifyContent: "flex-start",
-              borderColor: "primary.main",
-              color: MGS.raidenWhite,
-              "&:hover": { borderColor: "primary.light", bgcolor: "action.selected" },
-            }}
           >
+            <CircleX className="size-4" style={{ color: MGS.alertRed }} />
             Failure examples
-          </Button>
-          <Button
-            component={RouterLink}
-            to={`/rule-lab?rule=${slug}`}
-            size="small"
-            variant="outlined"
-            startIcon={<ScienceIcon />}
-            fullWidth
-            sx={{
-              justifyContent: "flex-start",
-              borderColor: "divider",
-              color: MGS.raidenSilver,
-              "&:hover": { borderColor: "primary.main", color: MGS.raidenWhite },
-            }}
-          >
+          </RouterLink>
+          <RouterLink to={`/rule-lab?rule=${slug}`} className={buttonClass({ className: "w-full justify-start" })}>
+            <FlaskConical className="size-4" />
             Rule Lab
-          </Button>
-          <Button
-            component={RouterLink}
-            to={`/engine/${slug}?debug=mcp`}
-            size="small"
-            variant="outlined"
-            startIcon={<BugReportIcon />}
-            fullWidth
-            sx={{
-              justifyContent: "flex-start",
-              borderColor: "divider",
-              color: MGS.raidenSilver,
-              "&:hover": { borderColor: "primary.main", color: MGS.raidenWhite },
-            }}
-          >
+          </RouterLink>
+          <RouterLink to={`/engine/${slug}?debug=mcp`} className={buttonClass({ className: "w-full justify-start" })}>
+            <Bug className="size-4" />
             MCP Debug
-          </Button>
-        </Stack>
-      </Box>
-    </Box>
+          </RouterLink>
+          </div>
+        </Card>
+      </div>
+    </div>
   );
 }
-
-const LIBRARY_COLLAPSED = LIBRARY_LAYOUT.detailCollapsedPx;

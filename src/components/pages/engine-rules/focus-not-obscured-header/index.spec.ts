@@ -24,6 +24,7 @@ describe("FocusNotObscuredHeader Rule Validation", () => {
     await FocusNotObscuredHeader.validate(validateMethodArguments);
 
     expect(response.failedNodes.length).toBe(0);
+    expect(response.passedNodes.length).toBe(0);
   });
 
   it("should fail when there are sticky headers without valid scroll-padding-top", async () => {
@@ -61,6 +62,7 @@ describe("FocusNotObscuredHeader Rule Validation", () => {
     await FocusNotObscuredHeader.validate(validateMethodArguments);
 
     expect(response.failedNodes.length).toBe(0);
+    expect(response.passedNodes.length).toBe(1);
   });
 
   it("should pass when computed scroll-padding-top is insufficient but style fallback is sufficient", async () => {
@@ -101,6 +103,7 @@ describe("FocusNotObscuredHeader Rule Validation", () => {
     await FocusNotObscuredHeader.validate(validateMethodArguments);
 
     expect(response.failedNodes.length).toBe(0);
+    expect(response.passedNodes.length).toBe(1);
   });
 
   it("should fail when both computed scroll-padding-top and style fallback are insufficient", async () => {

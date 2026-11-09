@@ -1,0 +1,22 @@
+<!--testconfig
+    "testedClass": "Rules.VisibilityMisuse",
+    "expect": {
+        "inapplicableNodes": ["slot"]
+    }
+-->
+
+<!--
+  This test shows that even though a slot element doesn't have children in the DOM,
+  it can still have assigned content which it adopts as it's children in the
+  accessibility tree. If the slot is marked as aria-hidden, then the content that
+  is assigned (in this case the div) will also be hidden from the screen reader.
+ -->
+
+
+<custom-element>
+  <template shadowrootmode="open"><slot></slot></template>
+  <div>
+    This is shadow dom content. If the slot element is marked as aria-hidden.
+    This content will also be hidden from the screen reader!
+  </div>
+</custom-element>

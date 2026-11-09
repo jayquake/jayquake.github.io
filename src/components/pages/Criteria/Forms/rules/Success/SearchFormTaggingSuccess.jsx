@@ -1,116 +1,96 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): search-form-mismatch
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueSuccess from "../../../../../layout/issueSuccess";
 
-const itemDescription = "Forms - Search Form Tagging Success";
+const itemDescription = "Forms: Search Form Tagging - Success";
 
-export default () => (
+const SearchFormTaggingSuccess = () => (
   <IssueSuccess
     itemContent={
-      <ul>
-        <li className="list-item">
-          <div class="container" role="search">
-            <form class="d-flex">
-              <label for="search" class="me-2">
-                Search:
-              </label>
-              <input
-                class="form-control me-2"
-                type="search"
-                id="search"
-                name="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button class="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
-          </div>
-        </li>
+      <>
+        <div
+          className="list-item"
+          id="forms-search-form-tagging-success-success-1"
+          data-atomic-source="search-form-mismatch/search-form-parent-role-search"
+          dangerouslySetInnerHTML={{
+            __html: `<html lang="he">
+  <style>
+    form {
+      width: 400px;
+    }
 
-        <li className="list-item">
-          <div class="container">
-            <form class="d-flex" role="search">
-              <label for="search" class="me-2">
-                Search:
-              </label>
-              <input
-                class="form-control me-2"
-                type="search"
-                id="search"
-                name="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button class="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
-          </div>
-        </li>
+    textarea {
+      width: 100%;
+    }
+  </style>
 
-        <li className="list-item">
-          <div class="container" role="search">
-            <form class="d-flex">
-              <label for="search1" class="me-2">
-                Product Search:
-              </label>
-              <input
-                class="form-control me-2"
-                type="search"
-                id="search1"
-                name="search"
-                placeholder="Search"
-              />
-              <button class="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
-          </div>
-        </li>
+  <div role="search">
+    <form>
+      <textarea placeholder="חיפוש"></textarea>
+      <button type="submit"></button>
+    </form>
+  </div>
+</html>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="forms-search-form-tagging-success-success-2"
+          data-atomic-source="search-form-mismatch/search-form-parent-search-landmark"
+          dangerouslySetInnerHTML={{
+            __html: `<html lang="he">
+  <style>
+    form {
+      width: 400px;
+    }
 
-        <li className="list-item">
-          <div class="container" role="search">
-            <form class="d-flex">
-              <label for="search2" class="me-2">
-                Blog Search:
-              </label>
-              <input
-                class="form-control me-2"
-                type="search"
-                id="search2"
-                name="search"
-                placeholder="Search"
-              />
-              <button class="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
-          </div>
-        </li>
+    textarea {
+      width: 100%;
+    }
+  </style>
 
-        <li className="list-item">
-          <div class="container" role="search">
-            <form class="d-flex">
-              <label for="search" class="me-2">
-                Search:
-              </label>
-              <input
-                class="form-control me-2"
-                type="search"
-                id="search"
-                name="search"
-                placeholder="Search"
-                aria-label="Search through site content"
-              />
-              <button class="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
-          </div>
-        </li>
-      </ul>
+  <search>
+    <form>
+      <textarea placeholder="חיפוש"></textarea>
+      <button type="submit"></button>
+    </form>
+  </search>
+</html>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="forms-search-form-tagging-success-success-3"
+          data-atomic-source="search-form-mismatch/search-form-role-search"
+          dangerouslySetInnerHTML={{
+            __html: `<html lang="he">
+  <style>
+    form {
+      width: 400px;
+    }
+
+    input {
+      width: 100%;
+    }
+  </style>
+
+  <form role="search">
+    <textarea placeholder="חיפוש"></textarea>
+    <button type="submit"></button>
+  </form>
+</html>`,
+          }}
+        />
+      </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default SearchFormTaggingSuccess;

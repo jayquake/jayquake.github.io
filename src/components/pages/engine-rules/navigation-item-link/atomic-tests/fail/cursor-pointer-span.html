@@ -1,0 +1,18 @@
+<!--testconfig
+    "testedClass": "Rules.NavigationItemLink",
+    "expect": {
+        "failedNodes": ["#test-subject"],
+        "passedNodes": ["li"]
+    }
+-->
+<style>
+  .fake-link {
+    cursor: pointer;
+  }
+</style>
+<nav>
+  <ul>
+    <li><a href="/home">Home</a></li>
+    <li id="test-subject"><span class="fake-link">About</span></li>
+  </ul>
+</nav>

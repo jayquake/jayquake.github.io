@@ -2,17 +2,18 @@
     "testedClass": "Rules.NavigationItemLink",
     "expect": {
         "failedNodes": ["#test-subject"],
-        "passedNodes": ["li", "li", "li", "li", "li", "li"]
+        "passedNodes": ["li", "li", "li", "li", "li"],
+        "inapplicableNodes": ["li.submenu"]
     }
 -->
 <nav aria-label="Main Navigation">
   <ul>
     <li><a href="/home">Home</a></li>
     <li><a href="/about">About Us</a></li>
-    <li>Services
+    <li class="submenu">Services
       <ul>
         <li><a href="/services/web-design">Web Design</a></li>
-        <li id="test-subject">SEO</li>
+        <li id="test-subject" onclick="navigateToPage('seo.html');">SEO</li>
         <li><a href="/services/content">Content Creation</a></li>
       </ul>
     </li>

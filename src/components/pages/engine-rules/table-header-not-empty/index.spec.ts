@@ -37,7 +37,7 @@ describe("TableHeadNotEmpty Rule Validation", () => {
     (classifier.getMatched as jest.Mock).mockReturnValueOnce([...headers]);
     (classifier.getMatched as jest.Mock).mockReturnValueOnce([]);
     jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({
-      contentInfo: { ariaText: "", visibleText: "test" },
+      contentInfo: { accessibleName: "", visibleText: "test" },
     });
 
     await TableHeaderNotEmpty.validate(validateMethodArguments);
@@ -70,7 +70,7 @@ describe("TableHeadNotEmpty Rule Validation", () => {
     (classifier.getMatched as jest.Mock).mockReturnValueOnce([]);
     (classifier.getMatched as jest.Mock).mockReturnValueOnce(failHeaders);
     jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({
-      contentInfo: { ariaText: "", visibleText: "" },
+      contentInfo: { accessibleName: "", visibleText: "" },
     });
 
     await TableHeaderNotEmpty.validate(validateMethodArguments);
@@ -94,7 +94,7 @@ describe("TableHeadNotEmpty Rule Validation", () => {
     `;
     (classifier.getMatched as jest.Mock).mockReturnValue([]);
     jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({
-      contentInfo: { ariaText: "", visibleText: "test" },
+      contentInfo: { accessibleName: "", visibleText: "test" },
     });
 
     await TableHeaderNotEmpty.validate(validateMethodArguments);
@@ -123,7 +123,7 @@ describe("TableHeadNotEmpty Rule Validation", () => {
     (classifier.getMatched as jest.Mock).mockReturnValueOnce([...headers]);
     (classifier.getMatched as jest.Mock).mockReturnValueOnce([]);
     jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({
-      contentInfo: { ariaText: "", visibleText: "test" },
+      contentInfo: { accessibleName: "", visibleText: "test" },
     });
 
     await TableHeaderNotEmpty.validate(validateMethodArguments);
@@ -152,7 +152,7 @@ describe("TableHeadNotEmpty Rule Validation", () => {
     (classifier.getMatched as jest.Mock).mockReturnValueOnce([]);
     (classifier.getMatched as jest.Mock).mockReturnValueOnce(failHeaders);
     jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({
-      contentInfo: { ariaText: "", visibleText: "" },
+      contentInfo: { accessibleName: "", visibleText: "" },
     });
 
     await TableHeaderNotEmpty.validate(validateMethodArguments);
@@ -176,7 +176,7 @@ describe("TableHeadNotEmpty Rule Validation", () => {
     (classifier.getMatched as jest.Mock).mockReturnValueOnce([...headers]);
     (classifier.getMatched as jest.Mock).mockReturnValueOnce([]);
     jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({
-      contentInfo: { ariaText: "", visibleText: "test" },
+      contentInfo: { accessibleName: "", visibleText: "test" },
     });
 
     await TableHeaderNotEmpty.validate(validateMethodArguments);
@@ -209,7 +209,7 @@ describe("TableHeadNotEmpty Rule Validation", () => {
     (classifier.getMatched as jest.Mock).mockReturnValueOnce([...headers]);
     (classifier.getMatched as jest.Mock).mockReturnValueOnce([]);
     jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({
-      contentInfo: { ariaText: "", visibleText: "test" },
+      contentInfo: { accessibleName: "", visibleText: "test" },
     });
 
     await TableHeaderNotEmpty.validate(validateMethodArguments);
@@ -242,7 +242,7 @@ describe("TableHeadNotEmpty Rule Validation", () => {
     (classifier.getMatched as jest.Mock).mockReturnValueOnce([]);
     (classifier.getMatched as jest.Mock).mockReturnValueOnce(failHeaders);
     jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({
-      contentInfo: { ariaText: "", visibleText: "" },
+      contentInfo: { accessibleName: "", visibleText: "" },
     });
 
     await TableHeaderNotEmpty.validate(validateMethodArguments);
@@ -275,7 +275,7 @@ describe("TableHeadNotEmpty Rule Validation", () => {
     (classifier.getMatched as jest.Mock).mockReturnValueOnce(failHeaders);
     (classifier.getMatched as jest.Mock).mockReturnValueOnce([]);
     jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({
-      contentInfo: { ariaText: "", visibleText: "" },
+      contentInfo: { accessibleName: "", visibleText: "" },
     });
 
     await TableHeaderNotEmpty.validate(validateMethodArguments);

@@ -65,7 +65,12 @@ export const NameProhibitedNoAriaLabel: Rule = {
     for (const el of elementsWithProhibitedNaming) {
       const operations = classifier.getOperations(el);
 
-      if (operations.contentInfo.ariaText && classifier.assert(el, CompliantTraitVisible)) {
+      if (!classifier.assert(el, CompliantTraitVisible)) {
+        response.inapplicableNodes.push(el);
+        continue;
+      }
+
+      if (operations.contentInfo.ariaLabelText) {
         response.failedNodes.push(el);
       } else {
         response.passedNodes.push(el);

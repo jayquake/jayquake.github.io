@@ -13,6 +13,7 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { AppReadyProvider } from "./context/AppReadyContext";
 import { MotionProvider } from "./components/motion/HudMotion";
+import { TooltipProvider } from "./components/ui/tooltip";
 import { theme } from "./theme";
 import { prefetchEngineRulesCatalog } from "./utils/engineRulesDataService";
 
@@ -30,8 +31,10 @@ root.render(
               <SearchProvider>
                 <AppReadyProvider>
                   <MotionProvider>
-                    <GlobalLoading />
-                    <App />
+                    <TooltipProvider>
+                      <GlobalLoading />
+                      <App />
+                    </TooltipProvider>
                   </MotionProvider>
                 </AppReadyProvider>
               </SearchProvider>

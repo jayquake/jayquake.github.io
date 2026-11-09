@@ -44,7 +44,7 @@ describe("RedundantDiscernibleContent Rule Validation", () => {
     const element = getElement({ elementContent, ariaLabelContent });
     (validateMethodArguments.classifier.getMatched as jest.Mock).mockReturnValue([element]);
     jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({
-      contentInfo: { visibleText: elementContent, ariaText: ariaLabelContent },
+      contentInfo: { visibleText: elementContent, ariaLabelText: ariaLabelContent },
     });
 
     await RedundantDiscernibleContent.validate(validateMethodArguments);
@@ -60,7 +60,7 @@ describe("RedundantDiscernibleContent Rule Validation", () => {
     (validateMethodArguments.classifier.getMatched as jest.Mock).mockReturnValue([element]);
 
     jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({
-      contentInfo: { visibleText: elementContent, ariaText: ariaLabelContent },
+      contentInfo: { visibleText: elementContent, ariaLabelText: ariaLabelContent },
     });
 
     await RedundantDiscernibleContent.validate(validateMethodArguments);
@@ -75,7 +75,7 @@ describe("RedundantDiscernibleContent Rule Validation", () => {
 
     (validateMethodArguments.classifier.getMatched as jest.Mock).mockReturnValue([element]);
     jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({
-      contentInfo: { visibleText: elementContent, ariaText: elementContent },
+      contentInfo: { visibleText: elementContent, ariaLabelText: elementContent },
     });
 
     await RedundantDiscernibleContent.validate(validateMethodArguments);
@@ -90,7 +90,7 @@ describe("RedundantDiscernibleContent Rule Validation", () => {
     const element = getElement({ elementContent, ariaLabelContent });
     (validateMethodArguments.classifier.getMatched as jest.Mock).mockReturnValue([element]);
     jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({
-      contentInfo: { visibleText: elementContent, ariaText: ariaLabelContent },
+      contentInfo: { visibleText: elementContent, ariaLabelText: ariaLabelContent },
     });
 
     await RedundantDiscernibleContent.validate(validateMethodArguments);
@@ -105,7 +105,7 @@ describe("RedundantDiscernibleContent Rule Validation", () => {
     const element = getElement({ elementContent, ariaLabelContent });
     (validateMethodArguments.classifier.getMatched as jest.Mock).mockReturnValue([element]);
     jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({
-      contentInfo: { visibleText: elementContent, ariaText: ariaLabelContent },
+      contentInfo: { visibleText: elementContent, ariaLabelText: ariaLabelContent },
     });
 
     await RedundantDiscernibleContent.validate(validateMethodArguments);
@@ -135,7 +135,7 @@ describe("RedundantDiscernibleContent Rule Validation", () => {
 
     (validateMethodArguments.classifier.getMatched as jest.Mock).mockReturnValue([element]);
     jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({
-      contentInfo: { visibleText: elementContent, ariaText: ariaLabelContent, relatedText: ariaLabelContent },
+      contentInfo: { visibleText: elementContent, ariaLabelText: ariaLabelContent, relatedText: ariaLabelContent },
     });
 
     await RedundantDiscernibleContent.validate(validateMethodArguments);

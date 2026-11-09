@@ -1,128 +1,138 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): menu-avoid, menu-bar-avoid
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueFailure from "../../../../../layout/issueFailure";
 
-const itemDescription = "Navigation: Avoid role menu/menubar - Failure";
+const itemDescription = "Navigation: Broken Nav Tagging - Failure";
 
-export default () => (
+const BrokennavtaggingFailures = () => (
   <IssueFailure
     itemContent={
       <>
-        {/* Failure Example 1 */}
-        <div className="list-item" id="menu-avoid-failure-1">
-          <nav role="menu">
-            <ul>
-              <li><a href="#home">Home</a></li>
-              <li><a href="#about">About</a></li>
-            </ul>
-          </nav>
-        </div>
-
-        {/* Failure Example 2 */}
-        <div className="list-item" id="menu-avoid-failure-2">
-          <header>
-            <nav role="menu" aria-label="Header Menu">
-              <a href="#services">Services</a>
-              <a href="#contact">Contact</a>
-            </nav>
-          </header>
-        </div>
-
-        {/* Failure Example 3 */}
-        <div className="list-item" id="menu-avoid-failure-3">
-          <footer>
-            <nav role="menu">
-              <a href="#privacy">Privacy</a>
-              <a href="#terms">Terms</a>
-            </nav>
-          </footer>
-        </div>
-
-        {/* Failure Example 4 */}
-        <div className="list-item" id="menu-bar-avoid-failure-4">
-          <nav role="menubar" aria-label="Main Menubar">
-            <ul>
-              <li><a href="#products">Products</a></li>
-              <li><a href="#blog">Blog</a></li>
-            </ul>
-          </nav>
-        </div>
-
-        {/* Failure Example 5 */}
-        <div className="list-item" id="menu-bar-avoid-failure-5">
-          <nav role="menubar">
-            <ul>
-              <li><a href="#portfolio">Portfolio</a></li>
-              <li><a href="#testimonials">Testimonials</a></li>
-            </ul>
-          </nav>
-        </div>
-
-        {/* Failure Example 6 */}
-        <div className="list-item" id="menu-bar-avoid-failure-6">
-          <nav role="menubar" aria-label="Footer Menubar">
-            <ul>
-              <li><a href="#faq">FAQ</a></li>
-              <li><a href="#support">Support</a></li>
-            </ul>
-          </nav>
-        </div>
-
-        {/* Failure Example 7 */}
-        <div className="list-item" id="menu-bar-avoid-failure-7">
-          <div role="menu" aria-label="Main navigation">
-            <div role="menuitem" aria-haspopup="true" tabindex="0" aria-expanded="false" id="fileMenuButton" onclick="toggleMenu('fileMenu')">File</div>
-            <div id="fileMenu" role="menu" aria-labelledby="fileMenuButton" style={{ display: "none" }}>
-              <div role="menuitem" tabindex="-1" onclick="newFile()">New</div>
-              <div role="menuitem" tabindex="-1" onclick="openFile()">Open</div>
-              <div role="menuitem" tabindex="-1" onclick="saveFile()">Save</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Failure Example 8 */}
-        <div className="list-item" id="menu-bar-avoid-failure-8">
-          <ul role="menu" aria-label="Main Menu">
-            <li role="menuitem"><a href="#home">Home</a></li>
-            <li role="menuitem"><a href="#about">About</a></li>
-          </ul>
-        </div>
-
-        {/* Failure Example 9 */}
-        <div className="list-item" id="menu-bar-avoid-failure-9">
-          <div role="menubar" aria-label="Navigation">
-            <button role="menuitem">Dashboard</button>
-            <button role="menuitem">Reports</button>
-            <button role="menuitem">Settings</button>
-          </div>
-        </div>
-
-        {/* Failure Example 10 */}
-        <div className="list-item" id="menu-bar-avoid-failure-10">
-          <section role="menu" aria-label="Sidebar Menu">
-            <div role="menuitem" tabindex="0">Overview</div>
-            <div role="menuitem" tabindex="0">Details</div>
-          </section>
-        </div>
-
-        {/* Failure Example 11 */}
-        <div className="list-item" id="menu-bar-avoid-failure-11">
-          <footer role="menu" aria-label="Footer Links">
-            <div role="menuitem"><a href="#privacy">Privacy Policy</a></div>
-            <div role="menuitem"><a href="#terms">Terms of Service</a></div>
-          </footer>
-        </div>
-
-        {/* Failure Example 12 */}
-        <div className="list-item" id="menu-bar-avoid-failure-12">
-          <aside role="menu" aria-label="Side Navigation">
-            <nav role="menubar">
-              <a role="menuitem" href="#help">Help</a>
-              <a role="menuitem" href="#support">Support</a>
-            </nav>
-          </aside>
-        </div>
+        <div
+          className="list-item"
+          id="navigation-broken-nav-tagging-failure-failure-1"
+          data-atomic-source="menu-avoid/div-role-menu-containing-div-role-menu"
+          dangerouslySetInnerHTML={{
+            __html: `<div id="test-subject1" role="menu" aria-label="Main navigation">
+  <div role="menuitem" aria-haspopup="true" tabindex="0" aria-expanded="false" id="fileMenuButton" onclick="toggleMenu('fileMenu')">File</div>
+  <div id="fileMenu" role="menu" aria-labelledby="fileMenuButton">
+    <div role="menuitem" tabindex="-1" onclick="newFile()">New</div>
+    <div role="menuitem" tabindex="-1" onclick="openFile()">Open</div>
+    <div role="menuitem" tabindex="-1" onclick="saveFile()">Save</div>
+  </div>
+</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="navigation-broken-nav-tagging-failure-failure-2"
+          data-atomic-source="menu-avoid/div-role-menu-containing-hidden-div-role-menu"
+          dangerouslySetInnerHTML={{
+            __html: `<div id="test-subject1" role="menu" aria-label="Main navigation">
+  <div role="menuitem" aria-haspopup="true" tabindex="0" aria-expanded="false" id="fileMenuButton" onclick="toggleMenu('fileMenu')">File</div>
+  <div id="fileMenu" role="menu" aria-labelledby="fileMenuButton" style="display: none;">
+    <div role="menuitem" tabindex="-1" onclick="newFile()">New</div>
+    <div role="menuitem" tabindex="-1" onclick="openFile()">Open</div>
+    <div role="menuitem" tabindex="-1" onclick="saveFile()">Save</div>
+  </div>
+</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="navigation-broken-nav-tagging-failure-failure-3"
+          data-atomic-source="menu-avoid/div-role-menu"
+          dangerouslySetInnerHTML={{
+            __html: `<div id="test-subject" role="menu" aria-label="File Operations" tabindex="0">
+  <div role="menuitem" tabindex="-1" id="newFile" onclick="newFile()">New</div>
+  <div role="menuitem" tabindex="-1" id="saveFile" onclick="saveFile()">Save</div>
+  <div role="menuitem" tabindex="-1" id="deleteFile" onclick="deleteFile()">Delete</div>
+</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="navigation-broken-nav-tagging-failure-failure-4"
+          data-atomic-source="menu-avoid/multi-div-role-menu"
+          dangerouslySetInnerHTML={{
+            __html: `<div id="test-subject1" role="menu" aria-label="File Operations" tabindex="0">
+  <div role="menuitem" tabindex="-1" id="newFile" onclick="newFile()">New</div>
+  <div role="menuitem" tabindex="-1" id="saveFile" onclick="saveFile()">Save</div>
+  <div role="menuitem" tabindex="-1" id="deleteFile" onclick="deleteFile()">Delete</div>
+</div>
+<div id="test-subject2" role="menu" aria-label="File Operations" tabindex="0">
+  <div role="menuitem" tabindex="-1" id="editFile" onclick="editFile()">New</div>
+  <div role="menuitem" tabindex="-1" id="copyFile" onclick="copyFile()">Save</div>
+  <div role="menuitem" tabindex="-1" id="cutFile" onclick="cutFile()">Delete</div>
+</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="navigation-broken-nav-tagging-failure-failure-5"
+          data-atomic-source="menu-bar-avoid/div-role-menubar-containing-div-role-menubar"
+          dangerouslySetInnerHTML={{
+            __html: `<div id="test-subject1" role="menubar" aria-label="Main navigation">
+  <div role="menuitem" aria-haspopup="true" tabindex="0" aria-expanded="false" id="fileMenuButton" onclick="toggleMenu('fileMenu')">File</div>
+  <div id="fileMenu" role="menubar" aria-labelledby="fileMenuButton">
+    <div role="menuitem" tabindex="-1" onclick="newFile()">New</div>
+    <div role="menuitem" tabindex="-1" onclick="openFile()">Open</div>
+    <div role="menuitem" tabindex="-1" onclick="saveFile()">Save</div>
+  </div>
+</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="navigation-broken-nav-tagging-failure-failure-6"
+          data-atomic-source="menu-bar-avoid/div-role-menubar-containing-hidden-div-role-menubar"
+          dangerouslySetInnerHTML={{
+            __html: `<div id="test-subject1" role="menubar" aria-label="Main navigation">
+  <div role="menuitem" aria-haspopup="true" tabindex="0" aria-expanded="false" id="fileMenuButton" onclick="toggleMenu('fileMenu')">File</div>
+  <div id="fileMenu" role="menubar" aria-labelledby="fileMenuButton" style="display: none;">
+    <div role="menuitem" tabindex="-1" onclick="newFile()">New</div>
+    <div role="menuitem" tabindex="-1" onclick="openFile()">Open</div>
+    <div role="menuitem" tabindex="-1" onclick="saveFile()">Save</div>
+  </div>
+</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="navigation-broken-nav-tagging-failure-failure-7"
+          data-atomic-source="menu-bar-avoid/div-role-menubar"
+          dangerouslySetInnerHTML={{
+            __html: `<div id="test-subject" role="menubar" aria-label="Main navigation">
+  <div role="menuitem" aria-haspopup="true" tabindex="0" aria-expanded="false" id="fileMenuButton" onclick="toggleMenu('fileMenu')">File</div>
+  <div role="menuitem" aria-haspopup="true" tabindex="0" aria-expanded="false" id="editMenuButton" onclick="toggleMenu('editMenu')">Edit</div>
+</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="navigation-broken-nav-tagging-failure-failure-8"
+          data-atomic-source="menu-bar-avoid/mult-div-role-menubar"
+          dangerouslySetInnerHTML={{
+            __html: `<div id="test-subject1" role="menubar" aria-label="Main navigation">
+  <div role="menuitem" aria-haspopup="true" tabindex="0" aria-expanded="false" id="fileMenuButton" onclick="toggleMenu('fileMenu')">File</div>
+  <div role="menuitem" aria-haspopup="true" tabindex="0" aria-expanded="false" id="editMenuButton" onclick="toggleMenu('editMenu')">Edit</div>
+</div>
+<div id="test-subject2" role="menubar" aria-label="Secondary navigation">
+  <div role="menuitem" aria-haspopup="true" tabindex="0" aria-expanded="false">File</div>
+  <div role="menuitem" aria-haspopup="true" tabindex="0" aria-expanded="false">Edit</div>
+</div>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default BrokennavtaggingFailures;

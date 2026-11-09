@@ -57,12 +57,14 @@ export const FocusNotObscuredFooter: Rule = {
       const footerHeight = classifier.getOperations(stickyFooter).layoutInfo.height;
 
       if (
-        !hasValidScrollPadding(computedScrollPadding, footerHeight, {
+        hasValidScrollPadding(computedScrollPadding, footerHeight, {
           styleId: "acsb-focus-not-obscured-footer-global",
           dataAttribute: "data-acsb-footer-first-scrollable-parent",
           cssProperty: "scroll-padding-bottom",
         })
       ) {
+        response.passedNodes.push(stickyFooter);
+      } else {
         response.failedNodes.push(stickyFooter);
       }
     }

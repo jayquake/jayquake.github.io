@@ -1,3 +1,4 @@
+import { CompliantTraitVisible } from "@acsbe/core-engine-classifier";
 import { NameProhibitedNoAriaLabel } from ".";
 import type { ValidationMethodArguments } from "../../../test/unit/helpers/validation-method-arguments";
 import validationMethodArguments from "../../../test/unit/helpers/validation-method-arguments";
@@ -11,12 +12,31 @@ describe("NameProhibitedNoAriaLabel Rule Validation", () => {
     document.body.innerHTML = "";
   });
 
+  it("should pass with inapplicable nodes when the element is not visible", async () => {
+    const element = document.createElement("div");
+    document.body.appendChild(element);
+
+    validateMethodArguments.classifier.getMatched = jest.fn().mockReturnValue([element]);
+    validateMethodArguments.classifier.getOperations = jest.fn().mockReturnValue({ contentInfo: { ariaLabelText: "label" } });
+    validateMethodArguments.classifier.assert = jest.fn().mockImplementation((_el, trait) => {
+      if (trait === CompliantTraitVisible) {
+        return false;
+      }
+      return true;
+    });
+
+    await NameProhibitedNoAriaLabel.validate(validateMethodArguments);
+
+    expect(validateMethodArguments.response.failedNodes).toHaveLength(0);
+    expect(validateMethodArguments.response.inapplicableNodes).toHaveLength(1);
+  });
+
   it("should fail divs with name-prohibited roles with label", async () => {
     const element = document.createElement("div");
     document.body.appendChild(element);
 
     validateMethodArguments.classifier.getMatched = jest.fn().mockReturnValue([element]);
-    validateMethodArguments.classifier.getOperations = jest.fn().mockReturnValue({ contentInfo: { ariaText: "label" } });
+    validateMethodArguments.classifier.getOperations = jest.fn().mockReturnValue({ contentInfo: { ariaLabelText: "label" } });
 
     await NameProhibitedNoAriaLabel.validate(validateMethodArguments);
 
@@ -29,7 +49,7 @@ describe("NameProhibitedNoAriaLabel Rule Validation", () => {
     document.body.appendChild(element);
 
     validateMethodArguments.classifier.getMatched = jest.fn().mockReturnValue([element]);
-    validateMethodArguments.classifier.getOperations = jest.fn().mockReturnValue({ contentInfo: { ariaText: "" } });
+    validateMethodArguments.classifier.getOperations = jest.fn().mockReturnValue({ contentInfo: { ariaLabelText: "" } });
 
     await NameProhibitedNoAriaLabel.validate(validateMethodArguments);
 
@@ -43,7 +63,7 @@ describe("NameProhibitedNoAriaLabel Rule Validation", () => {
     document.body.appendChild(element);
 
     validateMethodArguments.classifier.getMatched = jest.fn().mockReturnValue([]);
-    validateMethodArguments.classifier.getOperations = jest.fn().mockReturnValue({ contentInfo: { ariaText: "label" } });
+    validateMethodArguments.classifier.getOperations = jest.fn().mockReturnValue({ contentInfo: { ariaLabelText: "label" } });
 
     await NameProhibitedNoAriaLabel.validate(validateMethodArguments);
 

@@ -2,10 +2,10 @@ import React from "react";
 import EngineIssueSuccess from "../../../layout/engineIssueSuccess";
 
 const IconDiscernibleSuccess = () => {
-  const ruleId = "icon-discernible";
-  const title = `Meaningful icons should have a label, while decorative icons should be hidden`;
-  const description = `Smaller graphics used as decorative or complementary elements, such as icons, and that do not provide additional information will often add unnecessary clutter to a screen reader user's browsing experience.`;
-  const helpText = `If the image is meaningful, assign a text alternative with a description of the image content using the alt attribute for image elements, or aria-label for elements with role="img". If the image is decorative, provide an empty alt attribute for image elements, or role="presentation" for elements with role="img".`;
+  const ruleId = "N/A";
+  const title = `N/A`;
+  const description = `N/A`;
+  const helpText = `N/A`;
   const bestPractices = [
   "Follow proper HTML semantics",
   "Ensure screen reader compatibility",
@@ -43,6 +43,8 @@ const IconDiscernibleSuccess = () => {
   { filename: "svg aria label", content: `<svg aria-label="circle" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 100 100">
     <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
 </svg>` },
+  { filename: "svg inside link with aria label", content: `<a href="/cart" aria-label="Cart"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="red" /></svg></a>` },
+  { filename: "svg inside named button", content: `<button><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="red" /></svg> Save</button>` },
   { filename: "svg role presentation", content: `<svg role="presentation" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 100 100">
     <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
 </svg>` }

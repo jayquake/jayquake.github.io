@@ -12,6 +12,8 @@ const LinkNewWindowWarningSuccess = () => {
   "Test with assistive technologies"
   ];
   const htmlExamples = [
+  { filename: "link with target blank aria describedby with new window", content: `<a href="/docs" target="_blank" aria-describedby="new-window-desc">Docs</a>
+<span id="new-window-desc">Opens in a new window</span>` },
   { filename: "link with target blank aria label with new window", content: `<a href="path/to/page" target="_blank" aria-label="link to new window">link to somewhere</a>` },
   { filename: "link with target blank content with hebrew new window", content: `<html lang="he">
     <a href="path/to/page" target="_blank">לינק לחלון חדש</a>

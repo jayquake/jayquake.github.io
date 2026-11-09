@@ -1,0 +1,12 @@
+<!--testconfig
+    "testedClass": "Rules.TabbableExposed",
+    "expect": {
+        "failedNodes": ["#nested-aria-hidden-button"]
+    }
+-->
+<!-- W3C ACT 6cfa84: Failed Example 3 -->
+<div aria-hidden="true">
+  <div aria-hidden="false">
+    <button id="nested-aria-hidden-button">Some button</button>
+  </div>
+</div>

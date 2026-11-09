@@ -1,0 +1,12 @@
+<!--testconfig
+    "testedClass": "Rules.DialogModalMisuse",
+    "expect": {
+        "failedNodes": ["#overlay"]
+    }
+-->
+<!-- role="dialog" on a backdrop that does not own any perceived dialog -->
+<style>
+  body { margin: 0; }
+  #overlay { position: fixed; inset: 0; z-index: 10; background: rgba(0, 0, 0, 0.5); }
+</style>
+<div id="overlay" role="dialog" aria-modal="true"></div>

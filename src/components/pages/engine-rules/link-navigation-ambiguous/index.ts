@@ -53,7 +53,7 @@ export const LinkNavigationAmbiguous: Rule = {
     const links = classifier.getMatched([PerceivableComponentLinkNavigation]); // PerceivableComponentLinkNavigation contains within it logic to negate application links such as "tel:", "mailto:", etc.
     for (const link of links) {
       const {
-        contentInfo: { srVisibleText },
+        contentInfo: { srVisibleText, accessibleName, visibleText },
         contextInfo: { isAmbiguous },
       } = classifier.getOperations(link);
 
@@ -62,24 +62,40 @@ export const LinkNavigationAmbiguous: Rule = {
         continue;
       }
 
-      if (isAmbiguous) {
-        const {
-          contentInfo: { ariaText, visibleText },
-        } = classifier.getOperations(link);
-        /**
-         * this is done due to a logical conflict with 'visible-text-part-of-accessible-name' rule, which requires that the entire visible text is part of the accessible name.
-         * if the 'link-navigation-discernible' remediation occurs, and if the generated description is ambigous, this will fail the current rule.
-         * to avoid this, we are checking if the element was previously remediatiated with the visible text being included to the aria-label as a flag for inapplicability.
-         */
-        if (visibleText && ariaText.includes(visibleText)) {
-          response.inapplicableNodes.push(link);
-          continue;
-        }
-
-        response.failedNodes.push(link);
-      } else {
+      if (!isAmbiguous) {
         response.passedNodes.push(link);
+        continue;
       }
+
+      /**
+       * If the accessible name contains the visible text and more, then the link is not ambiguous.
+       * NOTE: The visible text must stay in the name because 'visible-text-part-of-accessible-name' requires it.
+       *
+       * @see src/rules/link-navigation-ambiguous/atomic-tests/pass/remediated-link-with-context-appended-to-short-aria-label.html
+       * @see src/rules/link-navigation-ambiguous/atomic-tests/fail/link-with-ambiguous-content.html
+       */
+      if (visibleText && accessibleNameExtendsVisibleText(accessibleName, visibleText)) {
+        response.passedNodes.push(link);
+        continue;
+      }
+
+      response.failedNodes.push(link);
     }
   },
 };
+
+/**
+ * Context appended to a name attribute such as `aria-label`. Nothing in the DOM marks the addition,
+ * so the only evidence is a name that contains the visible text and more. The visible text must stay in the name
+ * because 'visible-text-part-of-accessible-name' requires it.
+ *
+ * @see src/rules/link-navigation-ambiguous/atomic-tests/pass/remediated-link-with-context-appended-to-short-aria-label.html
+ * @see src/rules/link-navigation-ambiguous/atomic-tests/fail/link-with-ambiguous-content.html
+ */
+function accessibleNameExtendsVisibleText(accessibleName: string, visibleText: string): boolean {
+  const lowerCaseAccessibleName = accessibleName.toLowerCase();
+  const lowerCaseVisibleText = visibleText.toLowerCase();
+
+  /** When accessibleName extends visible text it is expected to contain and to have more information on top of it, hence the length check */
+  return lowerCaseAccessibleName.includes(lowerCaseVisibleText) && lowerCaseAccessibleName.length > lowerCaseVisibleText.length;
+}

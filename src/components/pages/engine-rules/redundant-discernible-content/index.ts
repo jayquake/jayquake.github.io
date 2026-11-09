@@ -30,10 +30,10 @@ export const RedundantDiscernibleContent: Rule = {
     const elements = classifier.getMatched([PerceivableTraitVisible, PerceivableTraitDiscernibleText]);
     for (const element of elements) {
       const {
-        contentInfo: { visibleText, ariaText },
+        contentInfo: { visibleText, ariaLabelText },
       } = classifier.getOperations(element);
 
-      if (visibleText && ariaText && visibleText.localeCompare(ariaText, "en", { sensitivity: "base" }) === 0) {
+      if (visibleText && ariaLabelText && visibleText.localeCompare(ariaLabelText, "en", { sensitivity: "base" }) === 0) {
         response.failedNodes.push(element);
       }
     }

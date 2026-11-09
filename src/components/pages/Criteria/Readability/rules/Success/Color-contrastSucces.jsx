@@ -1,64 +1,361 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): color-contrast
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueSuccess from "../../../../../layout/issueSuccess";
 
-const itemDescription = "Readability : Color Contrast - Success";
+const itemDescription = "Readability: Color Contrast - Success";
 
-export default () => (
+const ColorcontrastSucces = () => (
   <IssueSuccess
     itemContent={
       <>
-        <div className="list-item" id="colorContrast-success-1">
-          <div style={{ backgroundColor: "#FFFFFF", color: "#000000", padding: "10px" }}>
-            Standard text with a 4.5:1 contrast ratio.
+        <div
+          className="list-item"
+          id="readability-color-contrast-success-success-1"
+          data-atomic-source="color-contrast/div-with-background-black-and-color-white"
+          dangerouslySetInnerHTML={{
+            __html: `<div style="background-color: black; color: white">Content</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="readability-color-contrast-success-success-2"
+          data-atomic-source="color-contrast/div-with-background-image"
+          dangerouslySetInnerHTML={{
+            __html: `<div
+  class="shg-box shg-c"
+  style="
+    background-image: url('../assets/background-image.avif');
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    block-size: 224.844px;
+    inset: 0px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 224.844px;
+    inset-block: 0px;
+    inset-inline: 0px;
+    justify-content: flex-start;
+    min-block-size: 122px;
+    min-height: 122px;
+    min-inline-size: auto;
+    min-width: auto;
+    padding-block: 40px;
+    padding-bottom: 40px;
+    padding-top: 40px;
+    perspective-origin: 748.5px 112.422px;
+    position: relative;
+    transform-origin: 748.5px 112.422px;
+  "
+  data-id="2"
+>
+  <span
+    class="sr-only"
+    role="img"
+    aria-label="Hero Image - A close-up image of a textured surface with abstract shapes in shades of purple, orange, and blue."
+    style="
+      block-size: 1px;
+      inset: 40px 1497px 204.844px 0px;
+      clip: rect(0px, 0px, 0px, 0px);
+      cursor: text;
+      display: block;
+      font-size: 15px;
+      height: 1px;
+      inline-size: 1px;
+      inset-block: 40px 204.844px;
+      inset-inline: 0px 1497px;
+      line-height: 1px;
+      margin-block-start: -1px;
+      margin-inline-start: -1px;
+      margin-left: -1px;
+      margin-top: -1px;
+      outline-width: 0px;
+      overflow-block: hidden;
+      overflow-inline: hidden;
+      overflow: hidden;
+      perspective-origin: 0.5px 0.5px;
+      position: absolute;
+      transform-origin: 0.5px 0.5px;
+      width: 1px;
+    "
+  ></span>
+  <div class="shg-box-overlay" style="background-color: rgb(35, 31, 32); block-size: 244.844px; inset: 0px; height: 244.844px; inset-block: 0px; inset-inline: 0px; opacity: 0.3; perspective-origin: 748.5px 122.422px; pointer-events: none; position: absolute; transform-origin: 748.5px 122.422px; z-index: 3"></div>
+  <div class="shg-box-content" style="block-size: 144.844px; inset: 0px; height: 144.844px; inset-block: 0px; inset-inline: 0px; min-block-size: auto; min-height: auto; min-inline-size: auto; min-width: auto; perspective-origin: 748.5px 72.4219px; position: relative; transform-origin: 748.5px 72.4219px; z-index: 4">
+    <div class="shg-box-vertical-align-wrapper" style="block-size: 144.844px; display: flex; height: 144.844px; perspective-origin: 748.5px 72.4219px; transform-origin: 748.5px 72.4219px">
+      <div
+        class="shg-box shg-c container"
+        id="s-218db286-99d9-4e19-a184-14cea84ff8b0"
+        style="
+          block-size: 144.844px;
+          inset: 0px;
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+          height: 144.844px;
+          inline-size: 1296px;
+          inset-block: 0px;
+          inset-inline: 0px;
+          justify-content: flex-start;
+          margin-inline: 100.5px;
+          margin-left: 100.5px;
+          margin-right: 100.5px;
+          max-inline-size: 1296px;
+          max-width: 1296px;
+          min-block-size: 50px;
+          min-height: 50px;
+          min-inline-size: auto;
+          min-width: auto;
+          padding-inline: 24px;
+          padding-left: 24px;
+          padding-right: 24px;
+          perspective-origin: 648px 72.4219px;
+          position: relative;
+          transform-origin: 648px 72.4219px;
+          width: 1296px;
+        "
+        data-id="1"
+      >
+        <div
+          class="shg-box-overlay"
+          style="background-color: rgb(255, 255, 255); block-size: 164.844px; inset: 0px; height: 164.844px; inline-size: 1296px; inset-block: 0px; inset-inline: 0px; opacity: 0; perspective-origin: 648px 82.4219px; pointer-events: none; position: absolute; transform-origin: 648px 82.4219px; width: 1296px; z-index: 3"
+        ></div>
+        <div
+          class="shg-box-content"
+          style="block-size: 144.844px; inset: 0px; height: 144.844px; inline-size: 1248px; inset-block: 0px; inset-inline: 0px; min-block-size: auto; min-height: auto; min-inline-size: auto; min-width: auto; perspective-origin: 624px 72.4219px; position: relative; transform-origin: 624px 72.4219px; width: 1248px; z-index: 4"
+        >
+          <div
+            id="s-3711a918-4a16-4002-b314-9b28275040d4"
+            class="shg-c hero-text"
+            style="block-size: 144.844px; height: 144.844px; inline-size: 750px; margin-inline: 249px; margin-left: 249px; margin-right: 249px; max-inline-size: 750px; max-width: 750px; perspective-origin: 375px 72.4219px; transform-origin: 375px 72.4219px; width: 750px"
+            data-id="0"
+          >
+            <div class="shg-rich-text shg-theme-text-content" style="block-size: 108.844px; height: 108.844px; inline-size: 750px; overflow-wrap: break-word; perspective-origin: 375px 54.4219px; transform-origin: 375px 54.4219px; width: 750px">
+              <h1 style="text-align: center; block-size: 45.8438px; height: 45.8438px; inline-size: 750px; overflow-wrap: break-word; perspective-origin: 375px 22.9219px; transform-origin: 375px 22.9219px; width: 750px">
+                <span
+                  id="h1"
+                  style="
+                    color: rgb(255, 255, 255);
+                    border-block-color: rgb(255, 255, 255);
+                    border-color: rgb(255, 255, 255);
+                    border-inline-color: rgb(255, 255, 255);
+                    caret-color: rgb(255, 255, 255);
+                    column-rule-color: rgb(255, 255, 255);
+                    font-size: 40px;
+                    font-weight: 900;
+                    line-height: 45.84px;
+                    outline-color: rgb(255, 255, 255);
+                    overflow-wrap: break-word;
+                    text-align: center;
+                    text-decoration-color: rgb(255, 255, 255);
+                    text-emphasis-color: rgb(255, 255, 255);
+                    text-rendering: optimizelegibility;
+                    -webkit-text-fill-color: rgb(255, 255, 255);
+                    -webkit-text-stroke-color: rgb(255, 255, 255);
+                  "
+                  >Home Care</span
+                >
+              </h1>
+              <h4 style="text-align: center; block-size: 27px; height: 27px; inline-size: 750px; overflow-wrap: break-word; perspective-origin: 375px 13.5px; transform-origin: 375px 13.5px; width: 750px">
+                <span
+                  id="h4"
+                  style="
+                    color: rgb(255, 255, 255);
+                    border-block-color: rgb(255, 255, 255);
+                    border-color: rgb(255, 255, 255);
+                    border-inline-color: rgb(255, 255, 255);
+                    caret-color: rgb(255, 255, 255);
+                    column-rule-color: rgb(255, 255, 255);
+                    font-size: 20px;
+                    font-weight: 900;
+                    line-height: 27px;
+                    outline-color: rgb(255, 255, 255);
+                    overflow-wrap: break-word;
+                    text-align: center;
+                    text-decoration-color: rgb(255, 255, 255);
+                    text-emphasis-color: rgb(255, 255, 255);
+                    text-rendering: optimizelegibility;
+                    -webkit-text-fill-color: rgb(255, 255, 255);
+                    -webkit-text-stroke-color: rgb(255, 255, 255);
+                  "
+                  >We provide the cleanest solutions for the perfect package.</span
+                >
+              </h4>
+            </div>
           </div>
         </div>
-        <div className="list-item" id="colorContrast-success-2">
-          <div style={{ backgroundColor: "#EFEFEF", color: "#2B2B2B", fontSize: "24px" }}>
-            Large text with a 3:1 contrast ratio.
-          </div>
-        </div>
-        <div className="list-item" id="colorContrast-success-3">
-          <div style={{ backgroundColor: "#0F0F0F", color: "#FFFFFF", padding: "15px" }}>
-            Dark background and white text with high contrast.
-          </div>
-        </div>
-        <div className="list-item" id="colorContrast-success-4">
-          <div style={{ backgroundColor: "#008000", color: "#FFFFFF" }}>
-            Green background and white text with a valid ratio.
-          </div>
-        </div>
-        <div className="list-item" id="colorContrast-success-5">
-          <div style={{ backgroundColor: "#FFD700", color: "#000000", fontSize: "18px" }}>
-            Yellow background and black text meeting the contrast requirement.
-          </div>
-        </div>
-        <div className="list-item" id="colorContrast-success-6">
-          <div style={{ backgroundColor: "#123456", color: "#F1F1F1" }}>
-            Blue background with a light text color.
-          </div>
-        </div>
-        <p id="pass-small-1" role="main" className="text-small" style={{ color: "#000000", backgroundColor: "#FFFFFF" }}>
-      This is a small text with high contrast (black on white). This should pass the WCAG color contrast rule.
-    </p>
-    <p id="pass-small-2" className="text-small" style={{ color: "#00008B", backgroundColor: "#FFFFFF" }}>
-      This is a small text with high contrast (dark blue on white). This should pass the WCAG color contrast rule.
-    </p>
-    <p id="pass-large-1" className="text-large" style={{ color: "#000000", backgroundColor: "#FFFFFF" }}>
-      This is a large text with high contrast (black on white). This should pass the WCAG color contrast rule.
-    </p>
-    <p id="pass-large-2" className="text-large" style={{ color: "#006400", backgroundColor: "#FFFFE0" }}>
-      This is a large text with high contrast (dark green on light yellow). This should pass the WCAG color contrast rule.
-    </p>
-    <div id="pass-background-1" style={{ backgroundColor: "#EEEEEE", padding: "10px" }}>
-      <p className="text-small" style={{ color: "#000000", backgroundColor: "#FFFFFF" }}>
-        This text has a high contrast ratio with the direct background, but the container is within a different background.
-      </p>
+      </div>
     </div>
-    <p id="pass-small-3" className="text-small" style={{ color: "#8B0000", backgroundColor: "#D3D3D3" }}>
-      This is a small text with high contrast (dark red on light gray). This should pass the WCAG color contrast rule.
-    </p>
+  </div>
+</div>
+<style>
+  [data-id="0"]::after {
+    block-size: 0px;
+    content: " ";
+    display: table;
+    height: 0px;
+    inline-size: 0px;
+    perspective-origin: 0px 0px;
+    transform-origin: 0px 0px;
+    width: 0px;
+  }
+  [data-id="0"]::before {
+    block-size: 0px;
+    content: " ";
+    display: table;
+    height: 0px;
+    inline-size: 0px;
+    perspective-origin: 0px 0px;
+    transform-origin: 0px 0px;
+    width: 0px;
+  }
+  [data-id="1"]::after {
+    block-size: 0px;
+    content: " ";
+    display: table;
+    height: 0px;
+    inline-size: 1248px;
+    min-block-size: auto;
+    min-height: auto;
+    min-inline-size: auto;
+    min-width: auto;
+    perspective-origin: 624px 0px;
+    transform-origin: 624px 0px;
+    width: 1248px;
+  }
+  [data-id="1"]::before {
+    block-size: 0px;
+    content: " ";
+    display: table;
+    height: 0px;
+    inline-size: 1248px;
+    min-block-size: auto;
+    min-height: auto;
+    min-inline-size: auto;
+    min-width: auto;
+    perspective-origin: 624px 0px;
+    transform-origin: 624px 0px;
+    width: 1248px;
+  }
+  [data-id="2"]::after {
+    block-size: 0px;
+    content: " ";
+    display: table;
+    height: 0px;
+    inline-size: 1497px;
+    min-block-size: auto;
+    min-height: auto;
+    min-inline-size: auto;
+    min-width: auto;
+    perspective-origin: 748.5px 0px;
+    transform-origin: 748.5px 0px;
+    width: 1497px;
+  }
+  [data-id="2"]::before {
+    block-size: 0px;
+    content: " ";
+    display: table;
+    height: 0px;
+    inline-size: 1497px;
+    min-block-size: auto;
+    min-height: auto;
+    min-inline-size: auto;
+    min-width: auto;
+    perspective-origin: 748.5px 0px;
+    transform-origin: 748.5px 0px;
+    width: 1497px;
+  }
+</style>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="readability-color-contrast-success-success-3"
+          data-atomic-source="color-contrast/div-with-background-transparent-and-color-black-and-parent-non-transparent"
+          dangerouslySetInnerHTML={{
+            __html: `<div style="background-color: white">
+  <div style="background-color: transparent; color: black">Content</div>
+</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="readability-color-contrast-success-success-4"
+          data-atomic-source="color-contrast/div-with-background-transparent-and-color-black"
+          dangerouslySetInnerHTML={{
+            __html: `<div style="background-color: transparent; color: black">Content</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="readability-color-contrast-success-success-5"
+          data-atomic-source="color-contrast/div-with-background-white-and-color-black"
+          dangerouslySetInnerHTML={{
+            __html: `<div style="background-color: white; color: black">Content</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="readability-color-contrast-success-success-6"
+          data-atomic-source="color-contrast/div-with-font-size-16px-with-ratio-bigger-than-4.5"
+          dangerouslySetInnerHTML={{
+            __html: `<div style="font-size: 16px; color: #824040; background-color: #CCCCCC;">Text Contrast Ratio 4.74:1</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="readability-color-contrast-success-success-7"
+          data-atomic-source="color-contrast/div-with-font-size-26px-with-ratio-smaller-than-4.5"
+          dangerouslySetInnerHTML={{
+            __html: `<div style="font-size: 26px; color:  #000000; background-color: #C80909;">Text Contrast Ratio 3.49:1</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="readability-color-contrast-success-success-8"
+          data-atomic-source="color-contrast/lab-color-background-contrast"
+          dangerouslySetInnerHTML={{
+            __html: `<style>
+    :root {
+        --color-wicked-green: lab(64.9042% -15.339 28.5532);
+        --color-noir-black: lab(0% 0 0);
+    }
+
+    .bg-wicked-green {
+        background-color: var(--color-wicked-green);
+    }
+
+    .text-noir-black {
+        color: var(--color-noir-black);
+    }
+</style>
+
+<div class="bg-wicked-green text-noir-black">
+  “Dressing in one color—head-to-toe—is less complicated... it is just bold and fierce, for lack of a better word.”
+</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="readability-color-contrast-success-success-9"
+          data-atomic-source="color-contrast/muliple-div-with-font-size-16px-with-ratio-bigger-than-4.5"
+          dangerouslySetInnerHTML={{
+            __html: `<div style="font-size: 16px; color: #824040; background-color: #CCCCCC;"></div>
+<div style="font-size: 16px; color: #824040; background-color: #CCCCCC;">Text Contrast Ratio 4.74:1</div>
+<div style="font-size: 16px; color: #824040; background-color: #CCCCCC;">Text Contrast Ratio 4.74:1</div>
+<div style="font-size: 16px; color: #824040; background-color: #CCCCCC;">Text Contrast Ratio 4.74:1</div>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default ColorcontrastSucces;

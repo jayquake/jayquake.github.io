@@ -2,7 +2,7 @@ import type { Rule } from "~/rules/interfaces";
 import { PassCondition } from "~/rules/interfaces";
 import type { SvgOrHtmlElement } from "@acsbe/core-engine-classifier";
 import type EngineClassifier from "@acsbe/core-engine-classifier";
-import { CompliantTraitInteractable, PerceivableTraitClickable, PerceivableTraitVisible } from "@acsbe/core-engine-classifier";
+import { CompliantTraitInteractable, PerceivableTraitClickable, PerceivableTraitVisible, PerceivableTraitSticky } from "@acsbe/core-engine-classifier";
 
 const MINIMUM_VALUE_SIZE = 24;
 
@@ -100,10 +100,48 @@ export function isElementInSentence(element: SvgOrHtmlElement): boolean {
  * @param {EngineClassifier} classifier - The classifier used to get the layout information of the elements.
  * @returns {boolean} True if the undersized interactable intersects with any other interactable element, false otherwise.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function isIntersectingWithAny(interactables: Set<SvgOrHtmlElement>, undersizedInteractable: SvgOrHtmlElement, classifier: EngineClassifier): boolean {
   const circle1 = getCircleCenterAndRadius(undersizedInteractable, classifier);
+  const isUndersizedInteractableSticky = classifier.assert(undersizedInteractable, PerceivableTraitSticky);
+  const undersizedInteractableFirstStickyAncestor: SvgOrHtmlElement = isUndersizedInteractableSticky ? getFirstStickyAncestor(undersizedInteractable, classifier) : null;
+
   for (const interactable of interactables) {
     if (interactable === undersizedInteractable) continue; // Skip comparing the same element
+
+    /**
+     * If the undersized interactable is not sticky, we only want to check for intersections with other elements that
+     * are also not sticky. This ensures that we are only considering elements that are in the same context, which is
+     * important for determining if the undersized interactable has enough spacing around it to avoid failing a sticky.
+     * element scrolled into a position where it is intersecting with a non-sticky element.
+     *
+     * @see src/rules/interactive-target-size/atomic-tests/pass/cuisinart-fixed-nav-link-intersecting-footer-link.html
+     */
+    const isInteractableSticky = classifier.assert(interactable, PerceivableTraitSticky);
+    if (isInteractableSticky && !isUndersizedInteractableSticky) {
+      continue;
+    }
+
+    /**
+     * If the undersized interactable is sticky, we only want to check for intersections with other elements that share
+     * the same first sticky ancestor. This ensures that we are only considering elements that are in the same sticky
+     * context, which is important for determining if the undersized interactable has enough spacing around it to avoid
+     * failing elements intersecting from different sticky contexts.
+     *
+     * @see src/rules/interactive-target-size/atomic-tests/fail/cuisinart-fixed-sale-promotion-dialog-close-button.html
+     *
+     * @note There is an edge case where 2 sticky elements intersect and are from different sticky contexts. In this case
+     * we will not consider them as intersecting because they are in different sticky contexts. This is a limitation of
+     * the current implementation, but it is a rare case and should not affect the majority of cases. If needed we can
+     * use `elementFromPoint` to determine if the elements are actually intersecting in the viewport, but this would be
+     * more complex and less performant.
+     *
+     * @see src/rules/interactive-target-size/atomic-tests/fail/xoo-wsc-basket.html
+     */
+    if (isUndersizedInteractableSticky && !doesElementShareFirstStickyAncestor(interactable, undersizedInteractableFirstStickyAncestor, classifier)) {
+      continue;
+    }
+
     if (isCircleIntersectingElement(circle1, interactable, classifier)) {
       return true;
     }
@@ -129,6 +167,35 @@ function isUndersized(element: SvgOrHtmlElement, classifier: EngineClassifier): 
   return width < MINIMUM_VALUE_SIZE || height < MINIMUM_VALUE_SIZE;
 }
 
+/**
+ * Finds the first ancestor of a sticky element that is sticky.
+ * @param stickyElement
+ * @param classifier
+ */
+function getFirstStickyAncestor(stickyElement: SvgOrHtmlElement, classifier: EngineClassifier): SvgOrHtmlElement {
+  let currentElement = stickyElement;
+  while (currentElement && currentElement.tagName !== "BODY") {
+    if (!classifier.assert(currentElement.parentElement, PerceivableTraitSticky)) {
+      return currentElement;
+    }
+    currentElement = currentElement.parentElement;
+  }
+}
+
+/**
+ * Checks if the element's first sticky ancestor is the same as the provided one.
+ * @param element
+ * @param firstStickyAncestorToCheck
+ * @param classifier
+ */
+function doesElementShareFirstStickyAncestor(element: SvgOrHtmlElement, firstStickyAncestorToCheck: SvgOrHtmlElement, classifier: EngineClassifier): boolean {
+  if (!classifier.assert(element, PerceivableTraitSticky)) {
+    return false;
+  }
+  const interactableFirstStickyAncestor = getFirstStickyAncestor(element, classifier);
+  return interactableFirstStickyAncestor === firstStickyAncestorToCheck;
+}
+
 export const InteractiveTargetSize: Rule = {
   id: "interactive-target-size",
   metadata: {
@@ -141,7 +208,7 @@ export const InteractiveTargetSize: Rule = {
   title: "Targets for interactive elements should meet a minimum size (at least 24 by 24 CSS pixels) or have enough spacing around them",
   description: "Interactive elements, such as buttons and links, should have a minimum size of 24 by 24 CSS pixels or have enough spacing to avoid accidental activation of adjacent elements. This is crucial for users with motor impairments or those using the website in unstable environments, like on a bus.",
   advice: "Make sure all interactive targets meet the minimum size of 24 by 24 CSS pixels. If resizing is not possible, provide spacing with a diameter of at least 24 CSS pixels around smaller targets to ensure they don't intersect with adjacent controls.",
-  associatedDetectors: [CompliantTraitInteractable, PerceivableTraitClickable, PerceivableTraitVisible],
+  associatedDetectors: [CompliantTraitInteractable, PerceivableTraitClickable, PerceivableTraitVisible, PerceivableTraitSticky],
   refs: [
     {
       type: "WCAG",

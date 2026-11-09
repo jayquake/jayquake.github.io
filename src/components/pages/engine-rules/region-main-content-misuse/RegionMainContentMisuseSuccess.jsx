@@ -17,6 +17,7 @@ const RegionMainContentMisuseSuccess = () => {
   <body>
     <header>Header content</header>
     <div role="main">
+      <h1>Main heading</h1>
       <section style="height: 600px">Nested main content</section>
     </div>
     <footer>Footer content</footer>

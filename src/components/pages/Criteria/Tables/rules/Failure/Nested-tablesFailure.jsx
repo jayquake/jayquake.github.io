@@ -1,174 +1,171 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): table-not-nested
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueFailure from "../../../../../layout/issueFailure";
 
-const itemDescription = "Tables : Nested Tables - Failure";
+const itemDescription = "Tables: Nested Tables - Failure";
 
-export default () => (
+const NestedtablesFailure = () => (
   <IssueFailure
     itemContent={
       <>
-        <div className="list-item" id="nested-tables-failure-1">
-          <table>
-            <caption>Course Details</caption>
-            <thead>
+        <div
+          className="list-item"
+          id="tables-nested-tables-failure-failure-1"
+          data-atomic-source="table-not-nested/multi-table-nested-in-table"
+          dangerouslySetInnerHTML={{
+            __html: `<table id="not-nested-table">
+  <th>Table #2</th>
+  <tr>
+    <td>
+      <table id="nested-table1">
+        <th>Table #3</th>
+        <tr>
+          <td>
+            <table id="nested-table2">
               <tr>
-                <th>Course Name</th>
-                <th>Instructor</th>
-                <th>Schedule</th>
+                <td>Tickets</td>
+                <td>5</td>
               </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Math 101</td>
-                <td>Dr. Green</td>
-                <td>
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Day</th>
-                        <th>Time</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Monday</td>
-                        <td>10 AM</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="tables-nested-tables-failure-failure-2"
+          data-atomic-source="table-not-nested/role-table-nested-in-role-table"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="table" id="not-nested-table">
+  <div role="row">
+    <div role="columnheader">Nested Column 1</div>
+    <div role="columnheader">Nested Column 2</div>
+  </div>
+  <div role="row">
+    <div role="cell">Nested Row 1, Cell 1</div>
+    <div role="cell">Nested Row 1, Cell 2</div>
+  </div>
+  <div role="row">
+    <div role="cell">Nested Row 2, Cell 1</div>
+    <div role="cell">
+      <div id="nested-table" role="table">
+        <div role="row">
+          <div role="columnheader">Nested Column 1</div>
+          <div role="columnheader">Nested Column 2</div>
         </div>
-
-        <hr />
-        <div className="list-item" id="nested-tables-failure-2">
-          <table>
-            <caption>Product Inventory</caption>
-            <thead>
-              <tr>
-                <th>
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Category</th>
-                      </tr>
-                    </thead>
-                  </table>
-                </th>
-                <th>Quantity</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Electronics</td>
-                <td>50</td>
-                <td>$500</td>
-              </tr>
-            </tbody>
-          </table>
+        <div role="row">
+          <div role="cell">Nested Row 1, Cell 1</div>
+          <div role="cell">Nested Row 1, Cell 2</div>
         </div>
-        <hr />  
-        <div className="list-item" id="nested-tables-failure-3">
-          <table>
-            <caption>Performance Metrics</caption>
-            <thead>
-              <tr>
-                <th>Metric</th>
-                <th>Details</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Sales</td>
-                <td>
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Region</th>
-                        <th>Sales</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>North</td>
-                        <td>5000</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Region</th>
-                        <th>Returns</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>North</td>
-                        <td>50</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div role="row">
+          <div role="cell">Nested Row 2, Cell 1</div>
+          <div role="cell">Nested Row 2, Cell 2</div>
         </div>
-        <hr />  
-        <div className="list-item" id="nested-tables-failure-6">
-          <table>
-            <caption>Project Overview</caption>
-            <thead>
-              <tr>
-                <th>Project</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Website Redesign</td>
-                <td>
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Phase</th>
-                        <th>Task</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Planning</td>
-                        <td>
-                          <table>
-                            <thead>
-                              <tr>
-                                <th>Task Name</th>
-                                <th>Deadline</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>Wireframes</td>
-                                <td>March 5</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      </div>
+    </div>
+  </div>
+</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="tables-nested-tables-failure-failure-3"
+          data-atomic-source="table-not-nested/role-table-nested-in-table"
+          dangerouslySetInnerHTML={{
+            __html: `<table id="not-nested-table">
+  <tr>
+    <th>Column 1</th>
+    <th>Column 2</th>
+  </tr>
+  <tr>
+    <td>Row 1, Cell 1</td>
+    <td>
+      <!-- Nested table made of divs -->
+      <div id="nested-table" role="table" class="divTable">
+        <div role="row" class="divTableRow">
+          <div role="columnheader" class="divTableHead">Nested Column 1</div>
+          <div role="columnheader" class="divTableHead">Nested Column 2</div>
         </div>
-        <hr />
-        
+        <div role="row" class="divTableRow">
+          <div role="cell" class="divTableCell">Nested Row 1, Cell 1</div>
+          <div role="cell" class="divTableCell">Nested Row 1, Cell 2</div>
+        </div>
+        <div role="row" class="divTableRow">
+          <div role="cell" class="divTableCell">Nested Row 2, Cell 1</div>
+          <div role="cell" class="divTableCell">Nested Row 2, Cell 2</div>
+        </div>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>Row 2, Cell 1</td>
+    <td>Row 2, Cell 2</td>
+  </tr>
+</table>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="tables-nested-tables-failure-failure-4"
+          data-atomic-source="table-not-nested/table-nested-in-role-table"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="table" id="not-nested-table">
+  <div role="row">
+    <div role="cell">
+      <!-- Nested traditional table -->
+      <table id="nested-table">
+        <tr>
+          <th>Column 1</th>
+          <th>Column 2</th>
+        </tr>
+        <tr>
+          <td>Row 1, Cell 1</td>
+          <td>Row 1, Cell 2</td>
+        </tr>
+        <tr>
+          <td>Row 2, Cell 1</td>
+          <td>Row 2, Cell 2</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="tables-nested-tables-failure-failure-5"
+          data-atomic-source="table-not-nested/table-nested-in-table"
+          dangerouslySetInnerHTML={{
+            __html: `<table id="not-nested-table">
+  <th>Table #2</th>
+  <tr>
+    <td>
+      <table id="nested-table">
+        <tr>
+          <td>Tickets</td>
+          <td>5</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default NestedtablesFailure;

@@ -1,61 +1,69 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): region-main-content
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueSuccess from "../../../../../layout/issueSuccess";
 
-const itemDescription = "Context : Main Landmark - Success";
+const itemDescription = "Context: Main Landmark - Success";
 
-export default () => (
+const MainlandmarkSuccess = () => (
   <IssueSuccess
     itemContent={
       <>
-        <div className="list-item" id="main-landmark-success-1">
-          <main>
-            <h1>Main page heading</h1>
-            <p>This is the primary content area.</p>
-          </main>
-        </div>
-
-        <div className="list-item" id="main-landmark-success-2">
-          <div role="main">
-            <h1>Welcome to Our Website</h1>
-            <p>Content focused on the main topic of the page.</p>
-          </div>
-        </div>
-
-        <div className="list-item" id="main-landmark-success-3">
-          <main>
-            <section>
-              <h1>Main Content Overview</h1>
-              <p>Detailed explanation of the main topic.</p>
-            </section>
-          </main>
-        </div>
-
-        <div className="list-item" id="main-landmark-success-4">
-          <div role="main">
-            <article>
-              <h1>Main Article Title</h1>
-              <p>Key content for readers.</p>
-            </article>
-          </div>
-        </div>
-
-        <div className="list-item" id="main-landmark-success-5">
-          <main>
-            <header>
-              <h1>Main Header</h1>
-              <p>Introductory text for the primary content area.</p>
-            </header>
-          </main>
-        </div>
-
-        <div className="list-item" id="main-landmark-success-6">
-          <div role="main">
-            <h1>Primary Content Area</h1>
-            <p>Main content is marked properly with role.</p>
-          </div>
-        </div>
+        <div
+          className="list-item"
+          id="context-main-landmark-success-success-1"
+          data-atomic-source="region-main-content/multiple-elements-with-role-main"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="main" id="first">Some main content</div>
+<div role="main" id="second">Some main content</div>
+<div role="main" id="third">Some main content</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="context-main-landmark-success-success-2"
+          data-atomic-source="region-main-content/multiple-main-elements-and-role-main"
+          dangerouslySetInnerHTML={{
+            __html: `<main id="first">Main content</main>
+<div role="main" id="second">Some main content</div>
+<div role="main" id="third">Some main content</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="context-main-landmark-success-success-3"
+          data-atomic-source="region-main-content/multiple-main-elements"
+          dangerouslySetInnerHTML={{
+            __html: `<main id="first">Some main content</main>
+<main id="second">Some main content</main>
+<main id="third">Some main content</main>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="context-main-landmark-success-success-4"
+          data-atomic-source="region-main-content/single-element-with-role-main"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="main">Some main content</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="context-main-landmark-success-success-5"
+          data-atomic-source="region-main-content/single-main-element"
+          dangerouslySetInnerHTML={{
+            __html: `<main>Some main content</main>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default MainlandmarkSuccess;

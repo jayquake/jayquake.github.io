@@ -2,11 +2,25 @@
     "testedClass": "Rules.InnerContentNavigationDiscernible",
     "expect": {
         "passedNodes": [],
-        "failedNodes": ["#inner-content-nav"]
+        "inapplicableNodes": ["#inner-content-nav"],
+        "failedNodes": ["#inner-content-nav2"]
     }
 -->
 <body>
 <nav id="inner-content-nav">
+  <ul>
+    <li>
+      <a href="/home">Home</a>
+    </li>
+    <li>
+      <a href="/about">About</a>
+    </li>
+    <li>
+      <a href="/pricing">Pricing</a>
+    </li>
+  </ul>
+</nav>
+<nav id="inner-content-nav2">
   <ul>
     <li>
       <a href="/home">Home</a>

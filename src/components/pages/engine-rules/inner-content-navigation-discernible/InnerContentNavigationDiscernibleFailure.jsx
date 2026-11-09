@@ -26,6 +26,19 @@ const InnerContentNavigationDiscernibleFailure = () => {
     </li>
   </ul>
 </nav>
+<nav id="inner-content-nav2">
+  <ul>
+    <li>
+      <a href="/home">Home</a>
+    </li>
+    <li>
+      <a href="/about">About</a>
+    </li>
+    <li>
+      <a href="/pricing">Pricing</a>
+    </li>
+  </ul>
+</nav>
 </body>` },
   { filename: "multiple inner contents in page without labels", content: `<!-- This test checks for multiple inner-contents in page without labels. -->
 <main>

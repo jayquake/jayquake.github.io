@@ -1,0 +1,17 @@
+<!--testconfig
+    "testedClass": "Rules.DialogModalDiscernible",
+    "expect": {
+        "failedNodes": ["dialog"]
+    }
+-->
+<style>
+  dialog { width: 400px; height: 300px; }
+  .backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); z-index: 100; }
+  dialog { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 101; }
+</style>
+<div class="backdrop"></div>
+<dialog open>
+  <h2>Subscribe to our newsletter</h2>
+  <p>Enter your email to stay updated.</p>
+  <button>Close</button>
+</dialog>

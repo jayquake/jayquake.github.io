@@ -88,13 +88,13 @@ describe("NavigationMisuse Rule Validation", () => {
     expect(response.passedNodes).toHaveLength(0);
   });
 
-  it("should mark main navigation's parent as inapplicable if it is the element", async () => {
+  it("should mark the resolved main navigation landmark as inapplicable", async () => {
     const { classifier, response } = validateMethodArguments;
     const mainNavigation = document.createElement("nav");
     const parentElement = document.createElement("div");
     parentElement.appendChild(mainNavigation);
 
-    (classifier.getMatched as jest.Mock).mockReturnValueOnce([parentElement]); // CompliantComponentNavigation
+    (classifier.getMatched as jest.Mock).mockReturnValueOnce([mainNavigation]); // CompliantComponentNavigation
     (classifier.getMatched as jest.Mock).mockReturnValueOnce([mainNavigation]); // PerceivableComponentMainNavigation
     (classifier.getMatchedDirect as jest.Mock).mockReturnValue([]); // No direct child breadcrumbs
     (classifier.assert as jest.Mock).mockReturnValueOnce(false); // Not PerceivableComponentNavigation
@@ -102,7 +102,7 @@ describe("NavigationMisuse Rule Validation", () => {
 
     await NavigationMisuse.validate(validateMethodArguments);
 
-    expect(response.inapplicableNodes).toContain(parentElement);
+    expect(response.inapplicableNodes).toEqual([mainNavigation]);
     expect(response.failedNodes).toHaveLength(0);
     expect(response.passedNodes).toHaveLength(0);
   });

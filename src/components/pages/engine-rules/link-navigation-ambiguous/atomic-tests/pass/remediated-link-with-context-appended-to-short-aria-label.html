@@ -1,0 +1,10 @@
+<!--testconfig
+    "testedClass": "Rules.LinkNavigationAmbiguous",
+    "expect": {
+        "passedNodes": ["a"]
+    }
+-->
+<!-- The remediation appends into the highest priority attribute rather than overwriting it, so nothing in the DOM
+     marks the addition - "more Go | Home" is still ambiguous (the "|" is stripped, leaving 3 words, one of them
+     "more") and the only evidence of the added context is the name having outgrown the visible text "Go". -->
+<a href="http://localhost/" aria-label="more Go | Home">Go</a>

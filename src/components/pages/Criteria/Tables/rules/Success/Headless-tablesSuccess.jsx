@@ -1,156 +1,155 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): table-headers
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueSuccess from "../../../../../layout/issueSuccess";
 
-const itemDescription = "Tables : Headless Tables - Success";
+const itemDescription = "Tables: Headless Tables - Success";
 
-const HeadlessTablesSuccess = () => (
+const HeadlesstablesSuccess = () => (
   <IssueSuccess
     itemContent={
       <>
-        <div className="list-item" id="headless-tables-success-1">
-          <table>
-            <thead>
-              <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Product A</td>
-                <td>$10.00</td>
-                <td>In Stock</td>
-              </tr>
-              <tr>
-                <td>Product B</td>
-                <td>$15.00</td>
-                <td>Out of Stock</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className="list-item" id="headless-tables-success-2">
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Position</th>
-                <th scope="col">Department</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>John Doe</td>
-                <td>Manager</td>
-                <td>HR Department</td>
-              </tr>
-              <tr>
-                <td>Jane Smith</td>
-                <td>Developer</td>
-                <td>IT Department</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className="list-item" id="headless-tables-success-3">
-          <table>
-            <thead>
-              <tr>
-                <th>Month</th>
-                <th>Budget</th>
-                <th>Spent</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>January</td>
-                <td>$5,000</td>
-                <td>$4,500</td>
-              </tr>
-              <tr>
-                <td>February</td>
-                <td>$6,000</td>
-                <td>$5,800</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className="list-item" id="headless-tables-success-4">
-          <div role="table">
-            <div role="row">
-              <div role="columnheader">Item</div>
-              <div role="columnheader">Quantity</div>
-              <div role="columnheader">Price</div>
-            </div>
-            <div role="row">
-              <div role="cell">Item 1</div>
-              <div role="cell">Quantity: 5</div>
-              <div role="cell">Price: $25</div>
-            </div>
-            <div role="row">
-              <div role="cell">Item 2</div>
-              <div role="cell">Quantity: 3</div>
-              <div role="cell">Price: $15</div>
-            </div>
-          </div>
-        </div>
-        <div className="list-item" id="headless-tables-success-5">
-          <table>
-            <thead>
-              <tr>
-                <th>Day</th>
-                <th>Time</th>
-                <th>Location</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Monday</td>
-                <td>9:00 AM</td>
-                <td>Meeting Room A</td>
-              </tr>
-              <tr>
-                <td>Tuesday</td>
-                <td>2:00 PM</td>
-                <td>Meeting Room B</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className="list-item" id="headless-tables-success-6">
-          <table>
-            <thead>
-              <tr>
-                <th>Category</th>
-                <th>Count</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Category A</td>
-                <td>10 items</td>
-              </tr>
-              <tr>
-                <td>Category B</td>
-                <td>15 items</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <div
+          className="list-item"
+          id="tables-headless-tables-success-success-1"
+          data-atomic-source="table-headers/role-table-with-role-columnheaders"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="table">
+  <div role="row">
+    <div role="columnheader">Car Model</div>
+    <div role="columnheader">Price</div>
+    <div role="columnheader">Speed</div>
+    <div role="columnheader">Year of Release</div>
+  </div>
+  <div role="row">
+    <div>Toyota Camry</div>
+    <div>\$25,000</div>
+    <div>120 mph</div>
+    <div>2022</div>
+  </div>
+  <div role="row">
+    <div>Honda Civic</div>
+    <div>\$20,000</div>
+    <div>110 mph</div>
+    <div>2021</div>
+  </div>
+  <div role="row">
+    <div>Ford Mustang</div>
+    <div>\$35,000</div>
+    <div>150 mph</div>
+    <div>2022</div>
+  </div>
+</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="tables-headless-tables-success-success-2"
+          data-atomic-source="table-headers/role-table-with-role-rowheaders"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="table">
+  <div role="row">
+    <div role="rowheader">Car Model</div>
+    <div role="cell">Toyota Camry</div>
+    <div role="cell">Honda Civic</div>
+    <div role="cell">Ford Mustang</div>
+  </div>
+  <div role="row">
+    <div role="rowheader">Price</div>
+    <div role="cell">\$25,000</div>
+    <div role="cell">\$20,000</div>
+    <div role="cell">\$35,000</div>
+  </div>
+  <div role="row">
+    <div role="rowheader">Speed</div>
+    <div role="cell">120 mph</div>
+    <div role="cell">110 mph</div>
+    <div role="cell">150 mph</div>
+  </div>
+  <div role="row">
+    <div role="rowheader">Year of Release</div>
+    <div role="cell">2022</div>
+    <div role="cell">2021</div>
+    <div role="cell">2022</div>
+  </div>
+</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="tables-headless-tables-success-success-3"
+          data-atomic-source="table-headers/table-with-column-headers"
+          dangerouslySetInnerHTML={{
+            __html: `<table>
+  <tr>
+    <th>Car Model</th>
+    <th>Price</th>
+    <th>Speed</th>
+    <th>Year of Release</th>
+  </tr>
+  <tr>
+    <td>Toyota Camry</td>
+    <td>\$25,000</td>
+    <td>120 mph</td>
+    <td>2022</td>
+  </tr>
+  <tr>
+    <td>Honda Civic</td>
+    <td>\$20,000</td>
+    <td>110 mph</td>
+    <td>2021</td>
+  </tr>
+  <tr>
+    <td>Ford Mustang</td>
+    <td>\$35,000</td>
+    <td>150 mph</td>
+    <td>2022</td>
+  </tr>
+</table>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="tables-headless-tables-success-success-4"
+          data-atomic-source="table-headers/table-with-row-headers"
+          dangerouslySetInnerHTML={{
+            __html: `<table>
+  <tr>
+    <th scope="row">Car Model</th>
+    <td>Toyota Camry</td>
+    <td>Honda Civic</td>
+    <td>Ford Mustang</td>
+  </tr>
+  <tr>
+    <th scope="row">Price</th>
+    <td>\$25,000</td>
+    <td>\$20,000</td>
+    <td>\$35,000</td>
+  </tr>
+  <tr>
+    <th scope="row">Speed</th>
+    <td>120 mph</td>
+    <td>110 mph</td>
+    <td>150 mph</td>
+  </tr>
+  <tr>
+    <th scope="row">Year of Release</th>
+    <td>2022</td>
+    <td>2021</td>
+    <td>2022</td>
+  </tr>
+</table>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
-    helpText="Tables with proper header rows using THEAD and TH elements allow screen readers to announce column headers with each data cell, providing context and meaning to assistive technology users."
-    bestPractices={[
-      "Always include a THEAD element with header row for data tables",
-      "Use TH elements for column headers instead of styled TD elements",
-      "Add scope='col' attribute to column headers for clarity",
-      "For custom ARIA tables, use role='columnheader' on header cells",
-      "Ensure headers are descriptive and clearly indicate column content"
-    ]}
   />
 );
 
-export default HeadlessTablesSuccess;
-
+export default HeadlesstablesSuccess;

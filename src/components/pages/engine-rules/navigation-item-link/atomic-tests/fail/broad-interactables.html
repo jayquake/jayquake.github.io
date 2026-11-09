@@ -1,0 +1,13 @@
+<!--testconfig
+    "testedClass": "Rules.NavigationItemLink",
+    "expect": {
+        "failedNodes": ["#input", "#editable", "#select"]
+    }
+-->
+<nav aria-label="Main navigation">
+  <ul>
+    <li id="input" onclick="navigate()">Search <input type="text" aria-label="Search"></li>
+    <li id="editable"><span contenteditable="true" onclick="navigate()">Edit</span></li>
+    <li id="select" onclick="navigate()">Options <select aria-label="Options"><option>One</option></select></li>
+  </ul>
+</nav>

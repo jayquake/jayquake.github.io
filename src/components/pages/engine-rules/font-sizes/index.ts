@@ -1,3 +1,4 @@
+import type { OperationService } from "@acsbe/core-engine-classifier";
 import { PerceivableTraitVisible, PerceivableTraitDirectText, CompliantComponentSuperscript, PerceivableComponentSuperscript, CompliantComponentSubscript, PerceivableComponentSubscript } from "@acsbe/core-engine-classifier";
 import type { Rule } from "~/rules/interfaces";
 import { PassCondition } from "~/rules/interfaces";
@@ -7,8 +8,8 @@ export const FontSizes: Rule = {
   metadata: {
     category: "Text Content",
     profile: ["Vision Impaired"],
-    wcagVersion: "2.0",
-    wcagLevel: "AA",
+    wcagVersion: "General Guidelines",
+    wcagLevel: "N/A",
   },
   impact: "minor",
   title: "Using a minimum font size of at least 12px is recommended",
@@ -16,12 +17,6 @@ export const FontSizes: Rule = {
   advice: "Avoid using font sizes below 12px; ideally, use 14px or larger for better readability.",
   associatedDetectors: [PerceivableTraitVisible, PerceivableTraitDirectText, CompliantComponentSuperscript, PerceivableComponentSuperscript, CompliantComponentSubscript, PerceivableComponentSubscript],
   refs: [
-    {
-      type: "WCAG",
-      id: "2.4.11",
-      level: "AA",
-      link: "https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html",
-    },
     {
       type: "Non-Standard",
       link: "https://www.section508.gov/develop/fonts-typography/",
@@ -48,9 +43,8 @@ export const FontSizes: Rule = {
         continue;
       }
 
-      const {
-        typographyInfo: { fontSize },
-      } = classifier.getOperations(element);
+      const fontSize = getRelevantFontSize(classifier.getOperations(element));
+
       /**
        * History about font-size <= 1:
        * Original code contained a check for font-size <= 1 as well.
@@ -66,3 +60,26 @@ export const FontSizes: Rule = {
     }
   },
 };
+
+function getRelevantFontSize(operations: OperationService): number {
+  const {
+    contentInfo: { visibleText },
+    typographyInfo: { fontSize },
+    pseudoBeforeInfo,
+    pseudoAfterInfo,
+  } = operations;
+
+  /**
+   * If there's no visible text from the element itself we check if there is visible text from one of the pseudo-elements.
+   * TODO: Consider how to properly validate for each visible direct text source separately.
+   */
+  if (!visibleText) {
+    for (const pseudoElementInfo of [pseudoBeforeInfo, pseudoAfterInfo]) {
+      if (pseudoElementInfo.visibleText) {
+        return pseudoElementInfo.fontSize;
+      }
+    }
+  }
+
+  return fontSize;
+}

@@ -25,6 +25,18 @@
   },
   {
     "id": "",
+    "kebabId": "dialog-modal-misuse",
+    "title": "",
+    "description": "",
+    "advice": "",
+    "impact": "",
+    "refs": [],
+    "detailUrl": "/engine/dialog-modal-misuse",
+    "successUrl": "/engine/dialog-modal-misuse_success",
+    "failureUrl": "/engine/dialog-modal-misuse_failure"
+  },
+  {
+    "id": "",
     "kebabId": "font-sizes",
     "title": "",
     "description": "",
@@ -37,6 +49,30 @@
   },
   {
     "id": "",
+    "kebabId": "form-context-change-warning",
+    "title": "",
+    "description": "",
+    "advice": "",
+    "impact": "",
+    "refs": [],
+    "detailUrl": "/engine/form-context-change-warning",
+    "successUrl": "/engine/form-context-change-warning_success",
+    "failureUrl": "/engine/form-context-change-warning_failure"
+  },
+  {
+    "id": "",
+    "kebabId": "icon-discernible",
+    "title": "",
+    "description": "",
+    "advice": "",
+    "impact": "",
+    "refs": [],
+    "detailUrl": "/engine/icon-discernible",
+    "successUrl": "/engine/icon-discernible_success",
+    "failureUrl": "/engine/icon-discernible_failure"
+  },
+  {
+    "id": "",
     "kebabId": "navigation-redundant-discernible-text",
     "title": "",
     "description": "",
@@ -46,6 +82,30 @@
     "detailUrl": "/engine/navigation-redundant-discernible-text",
     "successUrl": "/engine/navigation-redundant-discernible-text_success",
     "failureUrl": "/engine/navigation-redundant-discernible-text_failure"
+  },
+  {
+    "id": "",
+    "kebabId": "no-extra-information-in-title",
+    "title": "",
+    "description": "",
+    "advice": "",
+    "impact": "",
+    "refs": [],
+    "detailUrl": "/engine/no-extra-information-in-title",
+    "successUrl": "/engine/no-extra-information-in-title_success",
+    "failureUrl": "/engine/no-extra-information-in-title_failure"
+  },
+  {
+    "id": "",
+    "kebabId": "tabbable-exposed",
+    "title": "",
+    "description": "",
+    "advice": "",
+    "impact": "",
+    "refs": [],
+    "detailUrl": "/engine/tabbable-exposed",
+    "successUrl": "/engine/tabbable-exposed_success",
+    "failureUrl": "/engine/tabbable-exposed_failure"
   },
   {
     "id": "",
@@ -1064,6 +1124,37 @@
     "failureUrl": "/engine/custom-select-trigger-combobox_failure"
   },
   {
+    "id": "dialog-modal-discernible",
+    "kebabId": "dialog-modal-discernible",
+    "title": "Modals should have a label",
+    "description": "Modals should be assigned labels that inform screen reader users of their purpose.",
+    "advice": "Add an aria-label or aria-labelledby attribute to the modal.",
+    "impact": "serious",
+    "refs": [
+      {
+        "type": "WCAG",
+        "id": "1.3.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      },
+      {
+        "type": "WCAG",
+        "id": "4.1.2",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
+      },
+      {
+        "type": "ACT",
+        "id": "",
+        "level": "",
+        "link": "https://act-rules.github.io/rules/2ee8b8"
+      }
+    ],
+    "detailUrl": "/engine/dialog-modal-discernible",
+    "successUrl": "/engine/dialog-modal-discernible_success",
+    "failureUrl": "/engine/dialog-modal-discernible_failure"
+  },
+  {
     "id": "dialog-modal-focus",
     "kebabId": "dialog-modal-focus",
     "title": "Keyboard focus should move into and lock inside active dialogs",
@@ -1130,37 +1221,6 @@
     "detailUrl": "/engine/dialog-modal-mismatch",
     "successUrl": "/engine/dialog-modal-mismatch_success",
     "failureUrl": "/engine/dialog-modal-mismatch_failure"
-  },
-  {
-    "id": "dialog-modal-misuse",
-    "kebabId": "dialog-modal-misuse",
-    "title": "Only elements that function as dialogs should be tagged as dialog",
-    "description": "Marking up elements as dialogs without actual dialog behavior causes screen readers to announce a dialog, misleading users into expecting modal interaction and restricted reading order that do not occur.",
-    "advice": "Remove role=\"dialog\" from the non-dialog element or add role=\"presentation\" if the HTML <dialog> element is used.",
-    "impact": "critical",
-    "refs": [
-      {
-        "type": "Non-Standard",
-        "id": "",
-        "level": "",
-        "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog"
-      },
-      {
-        "type": "Non-Standard",
-        "id": "",
-        "level": "",
-        "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-modal"
-      },
-      {
-        "type": "WAI",
-        "id": "",
-        "level": "",
-        "link": "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/dialog/"
-      }
-    ],
-    "detailUrl": "/engine/dialog-modal-misuse",
-    "successUrl": "/engine/dialog-modal-misuse_success",
-    "failureUrl": "/engine/dialog-modal-misuse_failure"
   },
   {
     "id": "duplicate-id",
@@ -1462,49 +1522,6 @@
     "detailUrl": "/engine/footer-navigation-discernible",
     "successUrl": "/engine/footer-navigation-discernible_success",
     "failureUrl": "/engine/footer-navigation-discernible_failure"
-  },
-  {
-    "id": "form-context-change-warning",
-    "kebabId": "form-context-change-warning",
-    "title": "Interacting with form controls should not cause a change in context unless a user is notified beforehand",
-    "description": "Interacting with form controls shouldn't automatically submit a form or cause any other change in context without notifying the user in advance. Form controls that cause a context change on input can disorient a user, since the behavior is not expected.",
-    "advice": "Make sure that forms can be manually submitted via a submit button, or provide instructions that notify users of the expected behavior before they interact with the control.",
-    "impact": "critical",
-    "refs": [
-      {
-        "type": "WCAG",
-        "id": "3.2.2",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG22/Understanding/on-input.html"
-      },
-      {
-        "type": "WCAG Technique",
-        "id": "",
-        "level": "",
-        "link": "https://www.w3.org/TR/2008/WD-WCAG20-TECHS-20080430/H32.html"
-      },
-      {
-        "type": "WCAG Technique",
-        "id": "",
-        "level": "",
-        "link": "https://www.w3.org/TR/2008/WD-WCAG20-TECHS-20080430/G80.html"
-      },
-      {
-        "type": "WCAG Technique",
-        "id": "",
-        "level": "",
-        "link": "https://www.w3.org/WAI/WCAG21/Techniques/general/G13"
-      },
-      {
-        "type": "WAI",
-        "id": "",
-        "level": "",
-        "link": "https://www.w3.org/WAI/WCAG20/quickref/20080430/#consistent-behavior-unpredictable-change"
-      }
-    ],
-    "detailUrl": "/engine/form-context-change-warning",
-    "successUrl": "/engine/form-context-change-warning_success",
-    "failureUrl": "/engine/form-context-change-warning_failure"
   },
   {
     "id": "form-duplicate-id",
@@ -1894,37 +1911,6 @@
     "failureUrl": "/engine/html-lang-valid_failure"
   },
   {
-    "id": "icon-discernible",
-    "kebabId": "icon-discernible",
-    "title": "Meaningful icons should have a label, while decorative icons should be hidden",
-    "description": "Smaller graphics used as decorative or complementary elements, such as icons, and that do not provide additional information will often add unnecessary clutter to a screen reader user's browsing experience.",
-    "advice": "If the image is meaningful, assign a text alternative with a description of the image content using the alt attribute for image elements, or aria-label for elements with role=\"img\". If the image is decorative, provide an empty alt attribute for image elements, or role=\"presentation\" for elements with role=\"img\".",
-    "impact": "critical",
-    "refs": [
-      {
-        "type": "WCAG",
-        "id": "1.1.1",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html"
-      },
-      {
-        "type": "ACT",
-        "id": "",
-        "level": "",
-        "link": "https://act-rules.github.io/rules/46ca7f"
-      },
-      {
-        "type": "ACT",
-        "id": "",
-        "level": "",
-        "link": "https://act-rules.github.io/rules/e88epe"
-      }
-    ],
-    "detailUrl": "/engine/icon-discernible",
-    "successUrl": "/engine/icon-discernible_success",
-    "failureUrl": "/engine/icon-discernible_failure"
-  },
-  {
     "id": "iframe-discernible",
     "kebabId": "iframe-discernible",
     "title": "Iframes should have a descriptive label",
@@ -2122,49 +2108,6 @@
     "detailUrl": "/engine/input-discernible",
     "successUrl": "/engine/input-discernible_success",
     "failureUrl": "/engine/input-discernible_failure"
-  },
-  {
-    "id": "interactive-not-tabbable",
-    "kebabId": "interactive-not-tabbable",
-    "title": "Interactive elements should be keyboard navigable",
-    "description": "Interactive elements should be keyboard navigable. If a custom interactive element is not keyboard navigable, keyboard users will not be able to interact with it.",
-    "advice": "Add tabindex=\"0\" to the custom interactive element.",
-    "impact": "critical",
-    "refs": [
-      {
-        "type": "WCAG",
-        "id": "2.1.1",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html"
-      },
-      {
-        "type": "Non-Standard",
-        "id": "",
-        "level": "",
-        "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex#accessibility_concerns"
-      },
-      {
-        "type": "Non-Standard",
-        "id": "",
-        "level": "",
-        "link": "https://www.a11yproject.com/posts/how-to-use-the-tabindex-attribute/"
-      },
-      {
-        "type": "Non-Standard",
-        "id": "",
-        "level": "",
-        "link": "https://dequeuniversity.com/rules/axe/4.4/tabindex"
-      },
-      {
-        "type": "ACT",
-        "id": "",
-        "level": "",
-        "link": "https://act-rules.github.io/rules/46ca7f"
-      }
-    ],
-    "detailUrl": "/engine/interactive-not-tabbable",
-    "successUrl": "/engine/interactive-not-tabbable_success",
-    "failureUrl": "/engine/interactive-not-tabbable_failure"
   },
   {
     "id": "interactive-target-size",
@@ -3199,7 +3142,7 @@
     "kebabId": "navigation-misuse",
     "title": "Navigation landmark does not contain key site navigation links",
     "description": "A navigation landmark should identify a section that contains primary links for moving through the site or page. Using navigation landmarks for minor or secondary link groups makes it harder for screen reader users to locate the page’s key navigation areas.",
-    "advice": "Use navigation landmarks only for key navigation sections, such as the main site menu, table of contents, breadcrumbs, or pagination. Avoid using them for general link lists, social links, related links, or other secondary link groups, and keep the number of navigation landmarks as limited as practical.",
+    "advice": "Replace the <nav> element with a <div> element and remove role=\"navigation\" if present. Use navigation landmarks only for key navigation sections, such as the main site menu, table of contents, breadcrumbs, or pagination. Avoid using them for general link lists, social links, related links, or other secondary link groups, and keep the number of navigation landmarks as limited as practical.",
     "impact": "serious",
     "refs": [
       {
@@ -3286,31 +3229,6 @@
     "detailUrl": "/engine/no-autofocus",
     "successUrl": "/engine/no-autofocus_success",
     "failureUrl": "/engine/no-autofocus_failure"
-  },
-  {
-    "id": "no-extra-information-in-title",
-    "kebabId": "no-extra-information-in-title",
-    "title": "The title attribute should not be the only method used to provide information",
-    "description": "The title attribute is announced inconsistently across screen readers and browsers, making it unreliable for labeling interactive controls. Because many users may never hear the content, reliance on the attribute risks loss of information. Instead, it should be used to provide extra help text in addition to a valid label.",
-    "advice": "Make sure that the title attribute is not the only means of providing a label by assigning an aria-label or aria-labelledby attribute to the interactive control.",
-    "impact": "minor",
-    "refs": [
-      {
-        "type": "Non-Standard",
-        "id": "",
-        "level": "",
-        "link": "https://www.a11yproject.com/posts/title-attributes/"
-      },
-      {
-        "type": "Non-Standard",
-        "id": "",
-        "level": "",
-        "link": "https://www.tpgi.com/html5-accessibility-chops-title-attribute-use-and-abuse/"
-      }
-    ],
-    "detailUrl": "/engine/no-extra-information-in-title",
-    "successUrl": "/engine/no-extra-information-in-title_success",
-    "failureUrl": "/engine/no-extra-information-in-title_failure"
   },
   {
     "id": "no-role-application",
@@ -4245,43 +4163,6 @@
     "failureUrl": "/engine/slider-dragging-movements_failure"
   },
   {
-    "id": "sr-hidden-tabbable",
-    "kebabId": "sr-hidden-tabbable",
-    "title": "Hidden elements should not be keyboard navigable",
-    "description": "Allowing hidden content to receive keyboard focus creates a confusing tab order, where keyboard users and screen reader users that navigate with the TAB key may encounter interactive controls that are unrelated to the current context.",
-    "advice": "Use tabindex=\"-1\" to remove elements from the tab order when they should not be exposed to assistive technology. Consider using CSS techniques, such as display:none or visibility:hidden when the content should be hidden from all users.",
-    "impact": "serious",
-    "refs": [
-      {
-        "type": "WCAG",
-        "id": "2.4.3",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html"
-      },
-      {
-        "type": "Non-Standard",
-        "id": "",
-        "level": "",
-        "link": "https://dequeuniversity.com/rules/axe/4.1/aria-hidden-focus"
-      },
-      {
-        "type": "Non-Standard",
-        "id": "",
-        "level": "",
-        "link": "https://www.accessibility-developer-guide.com/examples/sensible-aria-usage/hidden/#does-not-work-on-focusable-elements/"
-      },
-      {
-        "type": "Non-Standard",
-        "id": "",
-        "level": "",
-        "link": "https://accessibilityinsights.io/info-examples/web/aria-hidden-focus/"
-      }
-    ],
-    "detailUrl": "/engine/sr-hidden-tabbable",
-    "successUrl": "/engine/sr-hidden-tabbable_success",
-    "failureUrl": "/engine/sr-hidden-tabbable_failure"
-  },
-  {
     "id": "strong-mismatch",
     "kebabId": "strong-mismatch",
     "title": "Strong should be tagged properly for assistive technology",
@@ -4602,8 +4483,51 @@
     "failureUrl": "/engine/tab-panel-misuse_failure"
   },
   {
-    "id": "tabbable-non-interactive",
-    "kebabId": "tabbable-non-interactive",
+    "id": "tabbable-mismatch",
+    "kebabId": "tabbable-mismatch",
+    "title": "Interactive elements should be keyboard navigable",
+    "description": "Interactive elements should be keyboard navigable. If a custom interactive element is not keyboard navigable, keyboard users will not be able to interact with it.",
+    "advice": "Add tabindex=\"0\" to the custom interactive element.",
+    "impact": "critical",
+    "refs": [
+      {
+        "type": "WCAG",
+        "id": "2.1.1",
+        "level": "A",
+        "link": "https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html"
+      },
+      {
+        "type": "Non-Standard",
+        "id": "",
+        "level": "",
+        "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex#accessibility_concerns"
+      },
+      {
+        "type": "Non-Standard",
+        "id": "",
+        "level": "",
+        "link": "https://www.a11yproject.com/posts/how-to-use-the-tabindex-attribute/"
+      },
+      {
+        "type": "Non-Standard",
+        "id": "",
+        "level": "",
+        "link": "https://dequeuniversity.com/rules/axe/4.4/tabindex"
+      },
+      {
+        "type": "ACT",
+        "id": "",
+        "level": "",
+        "link": "https://act-rules.github.io/rules/46ca7f"
+      }
+    ],
+    "detailUrl": "/engine/tabbable-mismatch",
+    "successUrl": "/engine/tabbable-mismatch_success",
+    "failureUrl": "/engine/tabbable-mismatch_failure"
+  },
+  {
+    "id": "tabbable-misuse",
+    "kebabId": "tabbable-misuse",
     "title": "Non-interactive elements should not be keyboard navigable",
     "description": "Allowing static content to receive keyboard focus creates unnecessary stops in the tab order, forcing users to tab through elements that provide no action and making keyboard navigation less intuitive.",
     "advice": "Remove the tabindex attribute from the static element.",
@@ -4634,34 +4558,9 @@
         "link": "https://dequeuniversity.com/rules/axe/4.4/tabindex"
       }
     ],
-    "detailUrl": "/engine/tabbable-non-interactive",
-    "successUrl": "/engine/tabbable-non-interactive_success",
-    "failureUrl": "/engine/tabbable-non-interactive_failure"
-  },
-  {
-    "id": "tabbable-visible",
-    "kebabId": "tabbable-visible",
-    "title": "Use the tabindex attribute correctly to manage focus for visible and hidden interactive elements",
-    "description": "When interactive elements remain focusable while they are visually hidden, keyboard users may encounter controls that they cannot see and that should not be available in the current interface.",
-    "advice": "Apply tabindex=\"0\" to custom interactive elements so they follow the natural tab sequence, and tabindex=\"-1\" when an element is offscreen or when it should only be reachable programmatically. Consider using CSS techniques, such as display:none or visibility:hidden when content should be hidden from all users.",
-    "impact": "serious",
-    "refs": [
-      {
-        "type": "WCAG",
-        "id": "2.4.3",
-        "level": "A",
-        "link": "https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html"
-      },
-      {
-        "type": "Non-Standard",
-        "id": "",
-        "level": "",
-        "link": "https://docs.deque.com/issue-help/1.0.0/en/focus-on-hidden-item"
-      }
-    ],
-    "detailUrl": "/engine/tabbable-visible",
-    "successUrl": "/engine/tabbable-visible_success",
-    "failureUrl": "/engine/tabbable-visible_failure"
+    "detailUrl": "/engine/tabbable-misuse",
+    "successUrl": "/engine/tabbable-misuse_success",
+    "failureUrl": "/engine/tabbable-misuse_failure"
   },
   {
     "id": "tabindex-valid",

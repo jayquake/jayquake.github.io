@@ -36,14 +36,25 @@ export const LinkImageWarning: Rule = {
       }
 
       const { contentInfo } = classifier.getOperations(link);
-      const linkText = contentInfo.srVisibleText.toLowerCase();
-      const containsKeywords = textContainsWords(linkText, ["opens_image"]);
+      const keywords: Parameters<typeof textContainsWords>[1] = ["opens_image"];
 
-      if (containsKeywords) {
+      if (textContainsWords(contentInfo.accessibleName.toLowerCase(), keywords)) {
         response.passedNodes.push(link);
-      } else {
-        response.failedNodes.push(link);
+        continue;
       }
+
+      /**
+       * The warning can also be conveyed through the accessible description (`aria-describedby`, or `title` when it is not the name),
+       * which screen readers announce after the name.
+       *
+       * @see src/rules/link-image-warning/atomic-tests/pass/link-image-with-aria-describedby.html
+       */
+      if (textContainsWords(contentInfo.accessibleDescription.toLowerCase(), keywords)) {
+        response.passedNodes.push(link);
+        continue;
+      }
+
+      response.failedNodes.push(link);
     }
   },
 };

@@ -26,12 +26,11 @@ export const MainNavigationMismatch: Rule = {
   passCondition: PassCondition.NoFailedNodes,
   async validate({ response, classifier }) {
     const mainNav = (await classifier.getMatched([PerceivableComponentMainNavigation]))[0];
-    if (mainNav && mainNav.parentElement) {
-      if (classifier.assert(mainNav.parentElement, CompliantComponentNavigation) || classifier.assert(mainNav, CompliantComponentNavigation)) {
-        // The parent of the main navigation should be a compliant navigation element
-        response.passedNodes.push(mainNav.parentElement);
+    if (mainNav) {
+      if (classifier.assert(mainNav, CompliantComponentNavigation)) {
+        response.passedNodes.push(mainNav);
       } else {
-        response.failedNodes.push(mainNav.parentElement);
+        response.failedNodes.push(mainNav);
       }
     }
   },

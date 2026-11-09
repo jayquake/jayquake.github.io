@@ -1,89 +1,71 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): search-form-mismatch
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueFailure from "../../../../../layout/issueFailure";
 
-const itemDescription = "Form - Search Form Tagging Failures";
+const itemDescription = "Forms: Search Form Tagging - Failure";
 
-export default () => (
+const SearchFormTaggingFail = () => (
   <IssueFailure
     itemContent={
-      <ul>
-        <li className="list-item">
-          <div class="container">
-            <form class="d-flex">
-              <label for="search" class="me-2">
-                Search:
-              </label>
-              <input
-                class="form-control me-2"
-                type="search"
-                id="search"
-                name="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button class="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
-          </div>
-        </li>
+      <>
+        <div
+          className="list-item"
+          id="forms-search-form-tagging-failure-failure-1"
+          data-atomic-source="search-form-mismatch/search-form-no-role"
+          dangerouslySetInnerHTML={{
+            __html: `<html lang="he">
+  <style>
+    form {
+      width: 400px;
+    }
 
-        <li className="list-item">
-          <div class="container">
-            <form class="d-flex">
-              <input
-                class="form-control me-2"
-                type="search"
-                placeholder="Search"
-              />
-              <button class="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
-          </div>
-        </li>
+    input {
+      width: 100%;
+    }
+  </style>
 
-        <li className="list-item">
-          <div class="container" role="search">
-            <form class="d-flex">
-              <label for="search1" class="me-2">
-                Search:
-              </label>
-              <input
-                class="form-control me-2"
-                type="search"
-                id="search1"
-                name="search"
-                placeholder="Search"
-              />
-              <button class="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
-          </div>
-        </li>
+  <form>
+    <textarea placeholder="חיפוש"></textarea>
+    <button type="submit"></button>
+  </form>
+</html>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="forms-search-form-tagging-failure-failure-2"
+          data-atomic-source="search-form-mismatch/search-form-parent-no-role"
+          dangerouslySetInnerHTML={{
+            __html: `<html lang="he">
+  <style>
+    form {
+      width: 400px;
+    }
 
-        <li className="list-item">
-          <div class="container" role="search">
-            <form class="d-flex">
-              <label for="search2" class="me-2">
-                Search:
-              </label>
-              <input
-                class="form-control me-2"
-                type="search"
-                id="search2"
-                name="search"
-                placeholder="Search"
-              />
-              <button class="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
-          </div>
-        </li>
-      </ul>
+    input {
+      width: 100%;
+    }
+  </style>
+
+  <div role="main">
+    <form>
+      <textarea placeholder="חיפוש"></textarea>
+      <button type="submit"></button>
+    </form>
+  </div>
+</html>`,
+          }}
+        />
+      </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default SearchFormTaggingFail;

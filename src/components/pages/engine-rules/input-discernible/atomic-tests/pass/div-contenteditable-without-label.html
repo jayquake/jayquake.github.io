@@ -1,0 +1,12 @@
+<!--testconfig
+    "testedClass": "Rules.InputDiscernible",
+    "expect": {
+        "inapplicableNodes": [".comment-box"]
+    }
+-->
+<!--
+    CompliantComponentInput matches `[contenteditable]:not([contenteditable='false'])`, so this div is an input
+    component with no accessible name. It is also name-prohibited, so the remediation's `aria-label` fallback would
+    never be exposed - the node is out of this rule's scope.
+-->
+<div class="comment-box" contenteditable="true" style="min-height: 40px; border: 1px solid #333"></div>

@@ -1,4 +1,17 @@
-import { CompliantTraitVisible, PerceivableTraitHidden, PerceivableTraitRenderable, PerceivableTraitScreenReaderOnly, PerceivableTraitVisible, CompliantTraitInteractable, CompliantTraitExplicitlyHidden, CompliantComponentInputCheckbox, CompliantComponentInputRadio, CompliantComponentInputFile } from "@acsbe/core-engine-classifier";
+import {
+  CompliantTraitVisible,
+  PerceivableTraitHidden,
+  PerceivableTraitRenderable,
+  PerceivableTraitScreenReaderOnly,
+  PerceivableTraitVisible,
+  CompliantTraitInteractable,
+  CompliantTraitExplicitlyHidden,
+  CompliantComponentInputCheckbox,
+  CompliantComponentInputRadio,
+  CompliantComponentInputFile,
+  isInstanceOf,
+  CompliantTraitExposed,
+} from "@acsbe/core-engine-classifier";
 import type EngineClassifier from "@acsbe/core-engine-classifier";
 import type { SvgOrHtmlElement } from "@acsbe/core-engine-classifier";
 import type { Rule } from "~/rules/interfaces";
@@ -16,7 +29,7 @@ export const VisibilityMisuse: Rule = {
   title: "Visibly hidden content should not be exposed to assistive technology",
   description: "When elements are visually hidden but still exposed to assistive technology, screen reader users may encounter content that should not be available in the current interface. This can obscure the current state of the page and lead to confusion about what information or controls are available.",
   advice: 'Use aria-hidden="true" to remove elements from the accessibility tree when they should not be exposed to assistive technology. Consider using CSS techniques, such as display:none or visibility:hidden when the content should be hidden from all users.',
-  associatedDetectors: [PerceivableTraitHidden, PerceivableTraitVisible, PerceivableTraitRenderable, CompliantTraitVisible, PerceivableTraitScreenReaderOnly, CompliantTraitInteractable, CompliantTraitExplicitlyHidden, CompliantComponentInputCheckbox, CompliantComponentInputRadio, CompliantComponentInputFile],
+  associatedDetectors: [PerceivableTraitHidden, PerceivableTraitVisible, PerceivableTraitRenderable, CompliantTraitVisible, PerceivableTraitScreenReaderOnly, CompliantTraitInteractable, CompliantTraitExplicitlyHidden, CompliantComponentInputCheckbox, CompliantComponentInputRadio, CompliantComponentInputFile, CompliantTraitExposed],
   refs: [
     {
       type: "WCAG",
@@ -69,6 +82,25 @@ export const VisibilityMisuse: Rule = {
  * Determines if an element should be marked as inapplicable for visibility misuse rule
  */
 function shouldMarkAsInapplicable(element: SvgOrHtmlElement, classifier: EngineClassifier): boolean {
+  /**
+   * If the element is visually hidden and not exposed to assistive technology, it's redundant to mark it with aria-hidden="true" because it is already hidden from screen reader users. In this case, we will mark it as inapplicable for this rule.
+   *
+   * related e2e test @see file://./atomic-tests/pass/element-parent-of-hidden-element.html
+   */
+  if (!classifier.assert(element, CompliantTraitExposed)) {
+    return true;
+  }
+
+  /**
+   * <slot> elements can have no DOM children and at the same time can act as the accessibility parent of its
+   * assigned nodes in the flattened tree. As a result, aria-hidden on the slot
+   * can remove the slotted content from the accessibility tree.
+   * @see src/rules/visibility-misuse/atomic-tests/pass/slot-with-assigned-content
+   */
+  if (isInstanceOf(element, HTMLSlotElement)) {
+    return true;
+  }
+
   // if the element or any of its ancestors or descendants are screen reader only, then it is inapplicable for this rule because it's purposfully hidden from sighted users but available to screen reader users
   if (classifier.getMatchedInclusive([PerceivableTraitScreenReaderOnly], element).length > 0 || classifier.getParent(element, PerceivableTraitScreenReaderOnly)) {
     return true;

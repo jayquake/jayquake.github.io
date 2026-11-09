@@ -1,43 +1,110 @@
-import React, { useEffect } from "react";
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): captcha-accessible-provider-v2.0, captcha-accessible-provider-v2.2
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
+import React from "react";
 import IssueFailure from "../../../../../layout/issueFailure";
 
-const itemDescription = "Forms : Captcha - Failure (Geetest v4)";
+const itemDescription = "Forms: Captcha - Failure";
 
-export default () => {
-  useEffect(() => {
-    // Load the Geetest script dynamically
-    const script = document.createElement("script");
-    script.src = "https://static.geetest.com/static/tools/gt.js";
-    script.async = true;
-    script.onload = () => {
-      // Initialize Geetest after script loads
-      window.initGeetest(
-        {
-          gt: "9e0a7cbbb460381da534d725ca5a1208", // Provided CAPTCHA ID
-          challenge: "your-challenge-key-from-server", // Replace with server-generated challenge
-          offline: false, // Set to true if testing offline mode
-          new_captcha: true, // Ensure use of the new CAPTCHA system
-          product: "popup", // Type of CAPTCHA (e.g., popup, float)
-        },
-        function (captchaObj) {
-          captchaObj.appendTo("#geetest-captcha"); // Attach CAPTCHA to the div
-        }
-      );
-    };
-    document.body.appendChild(script);
-  }, []);
+const CaptchaFail = () => (
+  <IssueFailure
+    itemContent={
+      <>
+        <div
+          className="list-item"
+          id="forms-captcha-failure-failure-1"
+          data-atomic-source="captcha-accessible-provider-2.0/form-custom-captcha"
+          dangerouslySetInnerHTML={{
+            __html: `<form class="_widgetForm_1f3oo_26" novalidate="">
+  <div id="test-subject" class="_captchaWidgetContainer_1f3oo_22"><img class="_captchaImage_rrn3u_9"
+                                                                       src="/dist/web/assets/captcha-rn1S3orp.jpg"
+                                                                       alt="normal captcha example" width="250"
+                                                                       height="50">
+    <div class="_input_ws73z_1 _captchaField_rrn3u_5 _inputColorNightRider_ws73z_25"><label for="simple-captcha-field"
+                                                                                            class="_inputLabel_ws73z_5">Enter
+      text from the image</label><input type="text" class="_inputInner_ws73z_12" id="simple-captcha-field"
+                                        name="simpleCaptcha" placeholder="Enter answer here..." autocomplete="off"
+                                        value=""></div>
+  </div>
+  <div class="_actions_1f3oo_36">
+    <button type="submit" class="_actionsItem_1f3oo_41 _buttonPrimary_d46vc_44 _button_d46vc_1 _buttonMd_d46vc_34"
+            data-action="demo_action">Check
+    </button>
+    <button type="button" class="_actionsItem_1f3oo_41 _buttonSecondary_d46vc_143 _button_d46vc_1 _buttonMd_d46vc_34">
+      Reset
+    </button>
+  </div>
+</form>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="forms-captcha-failure-failure-2"
+          data-atomic-source="captcha-accessible-provider-2.2/form-cloudflare-turnstile"
+          dangerouslySetInnerHTML={{
+            __html: `<form class="_widgetForm_1f3oo_26" novalidate="">
+  <ul class="_list_1jhf1_1">
+    <li class="_listItem_1jhf1_12"><a
+      class="_listItemLink_1jhf1_17 _listItemLinkActive_1jhf1_23 _link_uqqxn_1 _linkWithExplicitUnderline_uqqxn_15"
+      href="/demo/cloudflare-turnstile">Cloudflare Turnstile</a></li>
+    <li class="_listItem_1jhf1_12"><a class="_listItemLink_1jhf1_17 _link_uqqxn_1 _linkWithExplicitUnderline_uqqxn_15"
+                                      href="/demo/cloudflare-turnstile-challenge">Cloudflare Challenge</a></li>
+  </ul>
+  <div id="cf-turnstile" style="width:300px;height:65px" class="cf-turnstile" data-sitekey="0x4AAAAAAAVrOwQWPlm3Bnr5">
+    <iframe
+      src="https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/g/turnstile/if/ov2/av0/rcv0/0/9miu0/0x4AAAAAAAVrOwQWPlm3Bnr5/auto/normal"
+      allow="cross-origin-isolated; fullscreen; autoplay" sandbox="allow-same-origin allow-scripts allow-popups"
+      id="cf-chl-widget-9miu0" tabindex="0" title="Widget containing a Cloudflare security challenge"
+      style="border: none; overflow: hidden; width: 300px; height: 65px;"></iframe>
+    <input type="hidden" name="cf-turnstile-response" id="cf-chl-widget-9miu0_response"
+           value="0.5nz279hMMHnaTMjdsMatIrgN40B0vtcmM6Ml6NNKfiHtwz2e-dnUJhfY69v8Tqy3a5qkaBHeutcSy9ml7dSb72LWP9YHFbSqxrkO4IeLP6kbUjns5gPQHCThSGyuQrOGwftAgjbIEVtNLQ3EFa_02e7kLRp3YLB2VTho77Eu1glcBt4swqxMZABJcGtxrIntpTMRRFZKp_YZQCvM5TP5_VrHoHIAYm99Qyj-jnqzwhtuYy48sOqdCPOVo3a5koCPtf1XlJjEyQBEJL1FzuhYG_RhQfEfLcsx5IkaSugZCREuXPOSvhQpOxSfj9QvAwZk5I3u_7GrgUI6vJt-7rSTaxnizYGNpa9dep7j3cdds-Wo6NJo7yk_AZVZGtKKUeDf8N-_yFwGjZAViqVFlqVuIMQsNEEa2FzVNseiOSaHslw.ITFQvOpiFTWYvnq5RQ8jQQ.dff1552586ae31d8cf213ee755990bfb534a92c9399ae1b72a79bab3b09ba824">
+  </div>
+  <div class="_actions_1f3oo_36">
+    <button type="submit" class="_actionsItem_1f3oo_41 _buttonPrimary_d46vc_44 _button_d46vc_1 _buttonMd_d46vc_34"
+            data-action="demo_action">Check
+    </button>
+    <button type="button" class="_actionsItem_1f3oo_41 _buttonSecondary_d46vc_143 _button_d46vc_1 _buttonMd_d46vc_34">
+      Reset
+    </button>
+  </div>
+</form>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="forms-captcha-failure-failure-3"
+          data-atomic-source="captcha-accessible-provider-2.2/form-custom-captcha"
+          dangerouslySetInnerHTML={{
+            __html: `<form class="_widgetForm_1f3oo_26" novalidate="">
+  <div id="test-subject" class="_captchaWidgetContainer_1f3oo_22"><img class="_captchaImage_rrn3u_9"
+                                                                       src="/dist/web/assets/captcha-rn1S3orp.jpg"
+                                                                       alt="normal captcha example" width="250"
+                                                                       height="50">
+    <div class="_input_ws73z_1 _captchaField_rrn3u_5 _inputColorNightRider_ws73z_25"><label for="simple-captcha-field"
+                                                                                            class="_inputLabel_ws73z_5">Enter
+      text from the image</label><input type="text" class="_inputInner_ws73z_12" id="simple-captcha-field"
+                                        name="simpleCaptcha" placeholder="Enter answer here..." autocomplete="off"
+                                        value=""></div>
+  </div>
+  <div class="_actions_1f3oo_36">
+    <button type="submit" class="_actionsItem_1f3oo_41 _buttonPrimary_d46vc_44 _button_d46vc_1 _buttonMd_d46vc_34"
+            data-action="demo_action">Check
+    </button>
+    <button type="button" class="_actionsItem_1f3oo_41 _buttonSecondary_d46vc_143 _button_d46vc_1 _buttonMd_d46vc_34">
+      Reset
+    </button>
+  </div>
+</form>`,
+          }}
+        />
+      </>
+    }
+    itemDescription={itemDescription}
+  />
+);
 
-  return (
-    <IssueFailure
-      itemContent={
-        <>
-          <div className="list-item" id="captcha-failure-4">
-            <div id="geetest-captcha"></div>
-            {/* Failure: Drag-and-drop puzzles are inaccessible to keyboard users. */}
-          </div>
-        </>
-      }
-      itemDescription={itemDescription}
-    />
-  );
-};
+export default CaptchaFail;

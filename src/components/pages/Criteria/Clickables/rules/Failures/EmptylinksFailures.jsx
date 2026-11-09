@@ -1,79 +1,95 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): link-anchor-discernible, link-navigation-discernible
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueFailure from "../../../../../layout/issueFailure";
 
-const itemDescription = "Clickables : Empty Links - Failure";
+const itemDescription = "Clickables: Empty Links - Failure";
 
-export default () => (
+const EmptylinksFailures = () => (
   <IssueFailure
     itemContent={
       <>
-        <li className="list-item" id="rule-failure-1">
-          <a href="https://example.com/products"></a>
-        </li>
-        <li className="list-item" id="rule-failure-2">
-          <a href="https://example.com/blog"><span aria-hidden="true">→</span></a>
-        </li>
-        <li className="list-item" id="rule-failure-3">
-          <a href="https://example.com/gallery"><img src="gallery-icon.png" alt="" /></a>
-        </li>
-        <li className="list-item" id="rule-failure-4">
-          <a href="https://example.com/contact" aria-label=""></a>
-        </li>
-        <li className="list-item" id="rule-failure-5">
-          <a href="https://example.com/services"><span></span></a>
-        </li>
-        <li className="list-item" id="rule-failure-6">
-          <a href="https://example.com/about" aria-labelledby="nonexistent-element"></a>
-        </li>
-        <li className="list-item" id="rule-failure-7">
-          <a href="https://example.com/download">
-            <i className="fas fa-download" aria-hidden="true"></i>
-          </a>
-        </li>
-        <li className="list-item" id="rule-failure-8">
-          <a href="https://example.com/social">
-            <svg aria-hidden="true" width="20" height="20">
-              <circle cx="10" cy="10" r="5"/>
-            </svg>
-          </a>
-        </li>
-        <li className="list-item" id="rule-failure-9">
-          <a href="https://example.com/search" title="Search">
-            <img src="search-icon.png" alt=""/>
-          </a>
-        </li>
-        <li className="list-item" id="rule-failure-10">
-          <a href="https://example.com/cart" aria-describedby="cart-description">
-            <span aria-hidden="true">🛒</span>
-          </a>
-        </li>
-        <li className="list-item" id="rule-failure-11">
-          <a href="https://example.com/profile">
-            <div style={{width: '20px', height: '20px', backgroundColor: '#007cba'}}></div>
-          </a>
-        </li>
-        <li className="list-item" id="rule-failure-12">
-          <a href="https://example.com/help">
-            <span role="presentation">?</span>
-          </a>
-        </li>
-        <li className="list-item" id="rule-failure-13">
-          <a href="https://example.com/settings" aria-label="   ">
-            <img src="settings.png" alt="   "/>
-          </a>
-        </li>
-        <li className="list-item" id="rule-failure-14">
-          <a href="javascript:void(0)" onclick="openModal()">
-            <span className="visually-hidden"></span>
-          </a>
-        </li>
-        <li className="list-item" id="rule-failure-15">
-          <a href="https://example.com/news">
-            <span>&nbsp;</span>
-          </a>
-        </li>
+        <div
+          className="list-item"
+          id="clickables-empty-links-failure-failure-1"
+          data-atomic-source="link-anchor-discernible/anchor-no-content"
+          dangerouslySetInnerHTML={{
+            __html: `<a href="#sec123"></a>
+
+<section id="sec123">
+
+</section>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="clickables-empty-links-failure-failure-2"
+          data-atomic-source="link-anchor-discernible/anchor-no-discernible-image"
+          dangerouslySetInnerHTML={{
+            __html: `<a href="#sec123">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAMAAAAL34HQAAAAXVBMVEUAAACBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYEvSeuAAAAAHnRSTlMA+RTJVwXzz11SDQgYSxzeRdfTxMGyZto5k3wg7CJK97pvAAACO0lEQVR42u2ci27CMAxF3TX0wVoolJYCm///MychDQ2Gi6pp8inkfEHkuLfXiWOJRCLzogrHw+E4LIREdcj0TF6CFlZ/6IVuKRAG/ckGsq5VplekbwJg0ekNG0J+nRK9ZQeIV6+/yd/Fm1TvsK3EGb1L651fep/cOb9a5rp6Ndi75v0pUYPWM16LTi22S/GjytRi46kTg5qknjpRJPY+euZXqWdwel/b+bX2zPtCTVLPeIWr/OL41dJe134lfjTz0wlXXa3VZOcZr8bWidwz7wNUJ0a+x7XnPtaXdbHqtG+doNVpY3rvqau1mrSe8eqh/iuoSe6zj4/9l+c+FqrIOi2M5NfUeL26//KJ12P/Ba3Tok48SZ0mjpTz819UndhD67Tp/uvF67Tpuvr8dVqhTJ0oFJpfI/tI9V+e8eoT5n1H9F9/+B5BfQqBml/z04kWek7eiSOlmtTiSJMhw2X7r7U4Yn+PifgyGPsok3iRZTE3kZnyTIFgyinz58P8VTONDdMGMk0zs8RgXpwxy1dmsc88GmEeJDGP3ZiHlMwjXeYBOPO6gHm5wryKYl7cMa85mZfCTH/FPPBmtmcwlSEgW3+YjVLMtjKmMsyv8pq2g8/vr5jNw8xWa2ZjOrPyYvorZuVVIh/UMJ8f1cjHWszWauZDQKYyMB+ZBuSTXKa/Yj73XiEfx0NHCUAHL0DHVKTMoR7MVVEHxkDH60CHEX0yRzdBB13JCTkWTKSheNFZjJyjDuijjjOMRCL/yBf/D4/RzBKXTQAAAABJRU5ErkJggg==" />
+
+</a>
+
+<section id="sec123">
+    Harrison Bergeron is a short story by Kurt Vonnegut that was first published in 1961. The story is a satire of the trend towards egalitarianism in society. The story is set in a future society where everyone is equal in every way. The government has imposed handicaps on those who are more talented or intelligent than others in order to ensure
+    that everyone is equal. The story follows the Bergeron.
+    Harrison Bergeron is a short story by Kurt Vonnegut that was first published in 1961. The story is a satire of the trend towards egalitarianism in society. The story is set in a future society where everyone is equal in every way. The government has imposed handicaps on those who are more talented or intelligent than others in order to ensure
+    that everyone is equal. The story follows the Bergeron.
+    Harrison Bergeron is a short story by Kurt Vonnegut that was first published in 1961. The story is a satire of the trend towards egalitarianism in society. The story is set in a future society where everyone is equal in every way. The government has imposed handicaps on those who are more talented or intelligent than others in order to ensure
+    that everyone is equal. The story follows the Bergeron.
+</section>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="clickables-empty-links-failure-failure-3"
+          data-atomic-source="link-anchor-discernible/anchor-svg-icon"
+          dangerouslySetInnerHTML={{
+            __html: `<a id="test-subject" href="#test-subject">
+  <svg style="width:100px;height:100px;" >
+    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+  </svg>
+</a>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="clickables-empty-links-failure-failure-4"
+          data-atomic-source="link-navigation-discernible/link-no-content"
+          dangerouslySetInnerHTML={{
+            __html: `<a href="path/to/page" style="width: 100px; height: 100px"></a>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="clickables-empty-links-failure-failure-5"
+          data-atomic-source="link-navigation-discernible/link-svg-icon"
+          dangerouslySetInnerHTML={{
+            __html: `<a id="test-subject" href="/search">
+  <svg style="width:100px;height:100px;" >
+    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+  </svg>
+</a>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="clickables-empty-links-failure-failure-6"
+          data-atomic-source="link-navigation-discernible/link-wtih-image-content-and-no-aria-label"
+          dangerouslySetInnerHTML={{
+            __html: `<a href="path/to/page"><img src="path/to/graphic/cotnent" /></a>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default EmptylinksFailures;

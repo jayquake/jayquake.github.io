@@ -1,40 +1,41 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): duplicate-id
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueSuccess from "../../../../../layout/issueSuccess";
 
-const itemDescription = "Errors : Duplicate IDs - Success";
+const itemDescription = "Errors: Duplicate IDs - Success";
 
-export default () => (
+const DuplicateidsSuccess = () => (
   <IssueSuccess
     itemContent={
       <>
-        <div className="list-item" id="duplicate-ids-success-1">
-          <input type="text" id="unique-id-1" name="username" />
-          <label htmlFor="unique-id-1">Username</label>
-        </div>
-        <div className="list-item" id="duplicate-ids-success-2">
-          <input type="text" id="unique-id-2" name="email" />
-          <label htmlFor="unique-id-2">Email</label>
-        </div>
-        <div className="list-item" id="duplicate-ids-success-3">
-          <button id="unique-id-3">Click Me</button>
-        </div>
-        <div className="list-item" id="duplicate-ids-success-4">
-          <section id="unique-id-4">Section Content</section>
-        </div>
-        <div className="list-item" id="duplicate-ids-success-5">
-          <form id="unique-id-5">
-            <input type="submit" value="Submit" />
-          </form>
-        </div>
-        <div className="list-item" id="duplicate-ids-success-6">
-          <nav id="unique-id-6">
-            <ul>
-              <li><a href="#unique-id-4">Go to Section</a></li>
-            </ul>
-          </nav>
-        </div>
+        <div
+          className="list-item"
+          id="errors-duplicate-ids-success-success-1"
+          data-atomic-source="duplicate-id/distinct-id"
+          dangerouslySetInnerHTML={{
+            __html: `<h1 id="some-id">Heading element</h1>
+<div id="some-id2">Heading element</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-duplicate-ids-success-success-2"
+          data-atomic-source="duplicate-id/multiple-elements-no-id"
+          dangerouslySetInnerHTML={{
+            __html: `<h1>Heading element</h1>
+<div>Heading element</div>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default DuplicateidsSuccess;

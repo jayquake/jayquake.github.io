@@ -2,10 +2,10 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const IconDiscernibleFailure = () => {
-  const ruleId = "icon-discernible";
-  const title = `Meaningful icons should have a label, while decorative icons should be hidden`;
-  const description = `Smaller graphics used as decorative or complementary elements, such as icons, and that do not provide additional information will often add unnecessary clutter to a screen reader user's browsing experience.`;
-  const helpText = `If the image is meaningful, assign a text alternative with a description of the image content using the alt attribute for image elements, or aria-label for elements with role="img". If the image is decorative, provide an empty alt attribute for image elements, or role="presentation" for elements with role="img".`;
+  const ruleId = "N/A";
+  const title = `N/A`;
+  const description = `N/A`;
+  const helpText = `N/A`;
   const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
@@ -31,6 +31,9 @@ const IconDiscernibleFailure = () => {
     document.documentElement.style.setProperty('--base-size', 48 * dpr);
 </script>
 <img src="https://banner2.cleanpng.com/20180411/oqq/kisspng-computer-icons-star-5-star-5acdd9ec67db40.8458493715234401084254.jpg" />` },
+  { filename: "svg inside div with aria label", content: `<div aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="red" /></svg></div>` },
+  { filename: "svg inside nav with aria label", content: `<nav aria-label="Main"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="red" /></svg></span></nav>` },
+  { filename: "svg inside unnamed button", content: `<button><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="red" /></svg></button>` },
   { filename: "svg", content: `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 100 100">
     <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
 </svg>` }

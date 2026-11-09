@@ -1,71 +1,57 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): region-main-content-misuse
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueSuccess from "../../../../../layout/issueSuccess";
 
 const itemDescription = "Context: Incorrect Main Landmark - Success";
 
-export default () => (
+const IncorrectmainlandmarkSuccess = () => (
   <IssueSuccess
     itemContent={
       <>
-        <div className="list-item" id="incorrect-main-landmark-success-1">
-          <main>
-            <h1>Welcome to Our Website</h1>
-            <p>Main content starts here...</p>
-          </main>
-        </div>
-        
-        <div className="list-item" id="incorrect-main-landmark-success-2">
-          <header>
-            <h1>Site Header</h1>
-          </header>
-          <main>
-            <h2>About Us</h2>
-            <p>Details about our mission...</p>
-          </main>
-        </div>
-        
-        <div className="list-item" id="incorrect-main-landmark-success-3">
-          <main>
-            <article>
-              <h2>Latest News</h2>
-              <p>Breaking news content here...</p>
-            </article>
-          </main>
-        </div>
-
-        <div className="list-item" id="incorrect-main-landmark-success-4">
-          <nav>
-            <ul>
-              <li>Home</li>
-              <li>About</li>
-            </ul>
-          </nav>
-          <main>
-            <h2>Services</h2>
-            <p>Description of services...</p>
-          </main>
-        </div>
-
-        <div className="list-item" id="incorrect-main-landmark-success-5">
-          <header>
-            <h1>Company Header</h1>
-          </header>
-          <main>
-            <section>
-              <h2>Features</h2>
-              <p>Details about features...</p>
-            </section>
-          </main>
-        </div>
-
-        <div className="list-item" id="incorrect-main-landmark-success-6">
-          <main>
-            <h1>Introduction</h1>
-            <p>Beginning of main content here...</p>
-          </main>
-        </div>
+        <div
+          className="list-item"
+          id="context-incorrect-main-landmark-success-success-1"
+          data-atomic-source="region-main-content-misuse/main-landmark-by-role-main"
+          dangerouslySetInnerHTML={{
+            __html: `<!DOCTYPE html>
+<html>
+  <body>
+    <header>Header content</header>
+    <div role="main">
+      <h1>Main heading</h1>
+      <section style="height: 600px">Nested main content</section>
+    </div>
+    <footer>Footer content</footer>
+  </body>
+</html>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="context-incorrect-main-landmark-success-success-2"
+          data-atomic-source="region-main-content-misuse/main-landmark"
+          dangerouslySetInnerHTML={{
+            __html: `<!DOCTYPE html>
+<html>
+  <body>
+    <header>Header content</header>
+    <div style="height: 300px">Smaller div</div>
+    <main id="larger" style="height: 700px">Larger div</main>
+    <footer>Footer content</footer>
+  </body>
+</html>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default IncorrectmainlandmarkSuccess;

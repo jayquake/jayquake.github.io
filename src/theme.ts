@@ -12,14 +12,14 @@ const mainSurface = {
 
 export const theme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: 'light',
     primary: { main: MGS.raidenCyan, dark: MGS.raidenCyanDim, light: MGS.raidenCyanBright },
-    secondary: { main: MGS.raidenSilver, dark: '#a8b4be', light: MGS.raidenWhite },
+    secondary: { main: MGS.raidenSilver, dark: '#2d343c', light: MGS.textSecondary },
     success: { main: MGS.passGreen },
     error: { main: MGS.alertRed },
     warning: { main: MGS.cautionAmber },
-    info: { main: MGS.raidenCyanBright },
-    background: { default: MGS.carbonMain, paper: MGS.carbonSidebar },
+    info: { main: MGS.raidenCyanDim },
+    background: { default: MGS.carbonMain, paper: MGS.carbonPanel },
     text: { primary: MGS.textPrimary, secondary: MGS.textSecondary },
     divider: MGS.border,
     action: {
@@ -35,13 +35,13 @@ export const theme = createTheme({
       fontWeight: 600,
       letterSpacing: '0.06em',
       textTransform: 'uppercase',
-      color: MGS.raidenWhite,
+      color: MGS.textPrimary,
     },
     h5: {
       fontFamily: mgsFonts.tactical,
       fontWeight: 600,
       letterSpacing: '0.04em',
-      color: MGS.raidenSilver,
+      color: MGS.textSecondary,
     },
     h6: { fontFamily: mgsFonts.tactical, fontWeight: 600 },
     subtitle2: {
@@ -50,7 +50,7 @@ export const theme = createTheme({
       fontWeight: 600,
       letterSpacing: '0.14em',
       textTransform: 'uppercase',
-      color: MGS.raidenCyanBright,
+      color: MGS.raidenCyanDim,
     },
     overline: {
       fontFamily: mgsFonts.display,
@@ -58,8 +58,7 @@ export const theme = createTheme({
       fontWeight: 600,
       letterSpacing: '0.12em',
       textTransform: 'uppercase',
-      color: MGS.raidenCyanBright,
-      lineHeight: 1.4,
+      color: MGS.raidenCyanDim,
     },
     caption: { fontSize: MIN_TEXT_SIZE, color: MGS.textSecondary, fontFamily: mgsFonts.tactical },
     body2: { color: MGS.textSecondary, lineHeight: 1.55 },
@@ -100,17 +99,17 @@ export const theme = createTheme({
           fontSize: MIN_TEXT_SIZE,
         },
         containedPrimary: {
-          backgroundColor: MGS.raidenCyanDim,
-          color: MGS.raidenWhite,
-          border: `1px solid ${MGS.raidenCyan}`,
+          backgroundColor: MGS.raidenCyan,
+          color: '#ffffff',
+          border: `1px solid ${MGS.raidenCyanDim}`,
           '&:hover': {
-            backgroundColor: MGS.raidenCyan,
+            backgroundColor: MGS.raidenCyanDim,
             boxShadow: `0 0 10px ${MGS.raidenCyanGlow}`,
           },
         },
         outlined: {
           borderColor: MGS.borderBright,
-          color: MGS.raidenSilver,
+          color: MGS.textSecondary,
           '&:hover': {
             borderColor: MGS.raidenCyan,
             backgroundColor: MGS.selection,
@@ -131,7 +130,7 @@ export const theme = createTheme({
       defaultProps: { size: 'small', variant: 'outlined' },
       styleOverrides: {
         root: { fontFamily: mgsFonts.tactical, fontSize: MIN_TEXT_SIZE },
-        outlined: { borderColor: MGS.borderBright, color: MGS.raidenSilver },
+        outlined: { borderColor: MGS.borderBright, color: MGS.textSecondary },
       },
     },
     MuiTextField: {
@@ -159,12 +158,12 @@ export const theme = createTheme({
           fontFamily: mgsFonts.tactical,
           fontSize: '0.8rem',
         },
-        head: { fontFamily: mgsFonts.display, color: MGS.raidenCyanBright, fontWeight: 600, letterSpacing: '0.12em' },
+        head: { fontFamily: mgsFonts.display, color: MGS.raidenCyanDim, fontWeight: 600, letterSpacing: '0.12em' },
       },
     },
     MuiLinearProgress: {
       styleOverrides: {
-        root: { backgroundColor: MGS.carbonInput },
+        root: { backgroundColor: MGS.carbonSidebar },
         bar: { backgroundColor: MGS.raidenCyan },
       },
     },
@@ -191,7 +190,7 @@ export const theme = createTheme({
           textTransform: 'uppercase',
           letterSpacing: '0.1em',
           fontSize: MIN_TEXT_SIZE,
-          '&.Mui-selected': { color: MGS.raidenCyanBright },
+          '&.Mui-selected': { color: MGS.raidenCyanDim },
         },
       },
     },

@@ -1,0 +1,8 @@
+<!--testconfig
+    "testedClass": "Rules.FormContextChangeWarning",
+    "expect": {
+        "failedNodes": ["form"]
+    }
+-->
+<!-- The warning text sits inside an sr-only element but under aria-hidden, so a screen reader never announces it. -->
+<form><input type="text"><span data-acsb-sr-only="true" style="position: absolute !important; width: 1px !important; height: 1px !important; padding: 0px !important; overflow: hidden !important; clip: rect(0px, 0px, 0px, 0px) !important; border: 0px !important;">Note: <span aria-hidden="true">filling out the following fields will automatically submit the form</span></span></form>

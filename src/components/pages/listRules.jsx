@@ -15,8 +15,6 @@ import {
   Select,
   MenuItem,
   Alert,
-  Skeleton,
-  LinearProgress,
   Paper,
   Fade
 } from '@mui/material';
@@ -33,6 +31,8 @@ import {
 } from '@mui/icons-material';
 import { Link } from "react-router-dom";
 import { DataService } from "../util/dataService";
+import { Skeleton } from "../ui/skeleton";
+import { Spinner } from "../ui/spinner";
 import SimpleBreadcrumbs from "../layout/CustomizedBreadCrumbs";
 import { MIN_TEXT_SIZE } from "../../theme/mgsTokens";
 
@@ -150,188 +150,20 @@ const List = ({ filters: propFilters, sorters: propSorters, embedded = false }) 
   if (loading) {
     return (
       <Container sx={{ mt: 4, mb: 4 }}>
-        <Box display="flex" justifyContent="center">
-          <Paper 
-            sx={{ 
-              p: 4, 
-              textAlign: 'center', 
-              borderRadius: 4, 
-              minWidth: 500,
-              background: 'rgba(255, 255, 255, 0.4)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
-            }}
-          >
-            {/* Glass Skeleton Placeholders */}
-            <Box sx={{ mb: 4 }}>
-              {[...Array(3)].map((_, i) => (
-                <Box 
-                  key={i}
-                  sx={{
-                    height: 60,
-                    mb: 2,
-                    borderRadius: 3,
-                    background: 'rgba(255, 255, 255, 0.3)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255, 255, 255, 0.4)',
-                    position: 'relative',
-                    overflow: 'hidden',
-                    '&::before': {
-                      content: '""',
-                      position: 'absolute',
-                      top: 0,
-                      left: '-100%',
-                      width: '100%',
-                      height: '100%',
-                      background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent)',
-                      animation: 'glass-skeleton-shimmer 2s infinite'
-                    },
-                    '@keyframes glass-skeleton-shimmer': {
-                      '0%': { left: '-100%' },
-                      '100%': { left: '100%' }
-                    }
-                  }}
-                />
-              ))}
-            </Box>
-
-            {/* Loading Title with Glass Typography */}
-            <Typography 
-              variant="h5" 
-              gutterBottom 
-              sx={{ 
-                fontWeight: 600,
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                mb: 2
-              }}
-            >
-              Loading QA Rules...
-            </Typography>
-
-            {/* Subtitle */}
-            <Typography 
-              variant="body1" 
-              sx={{ 
-                color: 'rgba(30, 41, 59, 0.7)',
-                mb: 3,
-                fontWeight: 500
-              }}
-            >
-              Preparing accessibility testing rules for your review
-            </Typography>
-
-            {/* Glass Loading Dots */}
-            <Box 
-              className="glass-loading-dots"
-              sx={{ 
-                display: 'flex',
-                justifyContent: 'center',
-                gap: 1,
-                mb: 3
-              }}
-            >
-              {[0, 1, 2].map((i) => (
-                <Box
-                  key={i}
-                  sx={{
-                    width: 12,
-                    height: 12,
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(167, 139, 250, 0.8) 100%)',
-                    animation: 'glass-loading-wave 1.4s ease-in-out infinite both',
-                    animationDelay: `${i * 0.16}s`,
-                    boxShadow: '0 2px 8px rgba(102, 126, 234, 0.3)',
-                    '@keyframes glass-loading-wave': {
-                      '0%, 60%, 100%': {
-                        transform: 'initial',
-                        opacity: 1
-                      },
-                      '30%': {
-                        transform: 'translateY(-15px)',
-                        opacity: 0.7
-                      }
-                    }
-                  }}
-                />
-              ))}
-            </Box>
-
-            {/* Enhanced Glass Progress Bar */}
-            <Box sx={{ position: 'relative', width: '100%' }}>
-              <LinearProgress 
-                sx={{ 
-                  height: 6,
-                  borderRadius: 3,
-                  backgroundColor: 'rgba(255, 255, 255, 0.3)',
-                  border: '1px solid rgba(255, 255, 255, 0.4)',
-                  '& .MuiLinearProgress-bar': {
-                    background: 'linear-gradient(90deg, rgba(102, 126, 234, 0.9) 0%, rgba(167, 139, 250, 0.9) 50%, rgba(59, 130, 246, 0.9) 100%)',
-                    borderRadius: 3,
-                    boxShadow: '0 0 15px rgba(102, 126, 234, 0.4)',
-                    position: 'relative'
-                  },
-                  '& .MuiLinearProgress-bar::after': {
-                    content: '""',
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)',
-                    borderRadius: 'inherit',
-                    animation: 'shimmer-progress 2s infinite'
-                  },
-                  '@keyframes shimmer-progress': {
-                    '0%': { transform: 'translateX(-100%)' },
-                    '100%': { transform: 'translateX(100%)' }
-                  }
-                }}
-              />
-            </Box>
-
-            {/* Loading Stats */}
-            <Box sx={{ 
-              mt: 3, 
-              display: 'flex', 
-              justifyContent: 'center', 
-              gap: 2,
-              flexWrap: 'wrap'
-            }}>
-              <Box sx={{ 
-                px: 2, 
-                py: 1, 
-                borderRadius: 2,
-                background: 'rgba(76, 175, 80, 0.1)',
-                border: '1px solid rgba(76, 175, 80, 0.3)',
-                backdropFilter: 'blur(10px)',
-                WebkitBackdropFilter: 'blur(10px)'
-              }}>
-                <Typography variant="caption" sx={{ color: '#2e7d32', fontWeight: 600 }}>
-                  Fetching Rules
-                </Typography>
-              </Box>
-              <Box sx={{ 
-                px: 2, 
-                py: 1, 
-                borderRadius: 2,
-                background: 'rgba(33, 150, 243, 0.1)',
-                border: '1px solid rgba(33, 150, 243, 0.3)',
-                backdropFilter: 'blur(10px)',
-                WebkitBackdropFilter: 'blur(10px)'
-              }}>
-                <Typography variant="caption" sx={{ color: '#1976d2', fontWeight: 600 }}>
-                  Processing Data
-                </Typography>
-              </Box>
-            </Box>
-          </Paper>
-        </Box>
+        <div className="mx-auto flex max-w-xl flex-col items-center gap-4 py-8">
+          <Spinner className="size-8" />
+          <Typography variant="h6" sx={{ fontFamily: "IBM Plex Mono, monospace", letterSpacing: "0.08em" }}>
+            Loading QA Rules
+          </Typography>
+          <div className="h-1 w-full overflow-hidden rounded-full bg-primary/20" role="progressbar" aria-label="Loading rules">
+            <div className="h-full w-1/3 animate-progress-indeterminate bg-primary" />
+          </div>
+          <div className="flex w-full flex-col gap-2">
+            <Skeleton className="h-14 w-full" />
+            <Skeleton className="h-10 w-4/5" />
+            <Skeleton className="h-10 w-3/5" />
+          </div>
+        </div>
       </Container>
     );
   }

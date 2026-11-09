@@ -12,6 +12,24 @@ const NavigationItemLinkFailure = () => {
   "Test with screen readers"
   ];
   const htmlExamples = [
+  { filename: "broad interactables", content: `<nav aria-label="Main navigation">
+  <ul>
+    <li id="input" onclick="navigate()">Search <input type="text" aria-label="Search"></li>
+    <li id="editable"><span contenteditable="true" onclick="navigate()">Edit</span></li>
+    <li id="select" onclick="navigate()">Options <select aria-label="Options"><option>One</option></select></li>
+  </ul>
+</nav>` },
+  { filename: "cursor pointer span", content: `<style>
+  .fake-link {
+    cursor: pointer;
+  }
+</style>
+<nav>
+  <ul>
+    <li><a href="/home">Home</a></li>
+    <li id="test-subject"><span class="fake-link">About</span></li>
+  </ul>
+</nav>` },
   { filename: "nav div items", content: `<nav>
   <ul>
     <li id="test-subject-1"><div id="test-subject1" onclick="navigateToPage('home.html');">Home</div></li>
@@ -33,6 +51,13 @@ const NavigationItemLinkFailure = () => {
     <div id="test-subject-3" role="listitem" onclick="navigateToPage('contact.html');">Contact</div>
   </ul>
 </nav>` },
+  { filename: "nested button does not satisfy parent", content: `<nav aria-label="Main navigation">
+  <ul>
+    <li id="parent" onclick="toggleMenu()">Services
+      <ul><li id="child"><button type="button">Web design</button></li></ul>
+    </li>
+  </ul>
+</nav>` },
   { filename: "partial nav list items", content: `<nav>
   <ul>
     <li id="test-subject-1"><a href="#">Home</a></li>
@@ -44,10 +69,10 @@ const NavigationItemLinkFailure = () => {
   <ul>
     <li><a href="/home">Home</a></li>
     <li><a href="/about">About Us</a></li>
-    <li>Services
+    <li class="submenu">Services
       <ul>
         <li><a href="/services/web-design">Web Design</a></li>
-        <li id="test-subject">SEO</li>
+        <li id="test-subject" onclick="navigateToPage('seo.html');">SEO</li>
         <li><a href="/services/content">Content Creation</a></li>
       </ul>
     </li>

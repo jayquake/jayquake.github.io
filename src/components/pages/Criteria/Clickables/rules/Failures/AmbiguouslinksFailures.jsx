@@ -1,40 +1,115 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): link-anchor-ambiguous, link-navigation-ambiguous
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueFailure from "../../../../../layout/issueFailure";
 
-const itemDescription = "Ambigious Links: Failures";
+const itemDescription = "Clickables: Ambiguous Links - Failure";
 
-export default () => (
+const AmbiguouslinksFailures = () => (
   <IssueFailure
     itemContent={
       <>
-        <a href="https://example.com/ambiguous">Learn More</a>
-        <a href="https://example.com/action">Take Action</a>
-        <a href="https://example.com/news">Read More</a>
-        <a href="https://example.com/resources">Explore</a>
-        <a href="https://example.com/services">Click Here</a>
-        <a href="https://example.com/event">Join Us</a>
-        <br></br>
-        <li class="failure1"><a href="/products">Products</a></li>
-        <li class="failure2"><a href="/blog">Read More</a></li>
-        <li class="failure3"><a href="/events">See Events</a></li>
-        <li class="failure4"><a href="/help">Help</a></li>
-        <li class="failure5"><a href="/documentation">Documentation</a></li>
-        <li class="failure6"><a href="/services">Learn More</a></li>
-        <a href="/product-details">Learn More</a>
-        <br></br>
-        <a href="/sale">Shop Now</a>
-        <br></br>
-        <a href="/services">Start Here</a>
-        <br></br>
-        <a href="/membership">Learn More</a>
-        <br></br>
-        <a href="/training">Start Here</a>
-        <br></br>
-        <a href="/blog">Learn More</a>
-        <br></br>
+        <div
+          className="list-item"
+          id="clickables-ambiguous-links-failure-failure-1"
+          data-atomic-source="link-anchor-ambiguous/link-with-ambiguous-content-and-ambiguous-aria-label"
+          dangerouslySetInnerHTML={{
+            __html: `<a href="#more" aria-label="show more">click here</a>
 
+
+<section id="more">
+
+</section>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="clickables-ambiguous-links-failure-failure-2"
+          data-atomic-source="link-anchor-ambiguous/link-with-ambiguous-content"
+          dangerouslySetInnerHTML={{
+            __html: `<header id="top"></header>
+
+<a href="#top">click here</a>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="clickables-ambiguous-links-failure-failure-3"
+          data-atomic-source="link-anchor-ambiguous/link-with-image-content-with-ambiguous-alt"
+          dangerouslySetInnerHTML={{
+            __html: `<a href="#info"><img alt="click here" /></a>
+
+
+<section id="info"></section>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="clickables-ambiguous-links-failure-failure-4"
+          data-atomic-source="link-navigation-ambiguous/link-short-content"
+          dangerouslySetInnerHTML={{
+            __html: `<a href="http://localhost/">Go</a>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="clickables-ambiguous-links-failure-failure-5"
+          data-atomic-source="link-navigation-ambiguous/link-with-ambiguous-content-and-ambiguous-aria-label"
+          dangerouslySetInnerHTML={{
+            __html: `<a href="/homepage" aria-label="show more">click here</a>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="clickables-ambiguous-links-failure-failure-6"
+          data-atomic-source="link-navigation-ambiguous/link-with-ambiguous-content"
+          dangerouslySetInnerHTML={{
+            __html: `<a href="/homepage">click here</a>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="clickables-ambiguous-links-failure-failure-7"
+          data-atomic-source="link-navigation-ambiguous/link-with-image-content-with-ambiguous-alt"
+          dangerouslySetInnerHTML={{
+            __html: `<a href="/homepage"><img alt="click here" /></a>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="clickables-ambiguous-links-failure-failure-8"
+          data-atomic-source="link-navigation-ambiguous/link-with-numeric-characters-only"
+          dangerouslySetInnerHTML={{
+            __html: `<a href="http://localhost/" aria-label="123 12">1234 5</a>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="clickables-ambiguous-links-failure-failure-9"
+          data-atomic-source="link-navigation-ambiguous/link-with-special-characters-only"
+          dangerouslySetInnerHTML={{
+            __html: `<a href="http://localhost/" aria-label="---">?!?!?!</a>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="clickables-ambiguous-links-failure-failure-10"
+          data-atomic-source="link-navigation-ambiguous/link-with-sr-only-context-not-in-accessible-name"
+          dangerouslySetInnerHTML={{
+            __html: `<!-- A screen-reader-only element is present, but the aria-label outranks it and the context never reaches the name -
+     the screen reader still hears only "click here". Merely nesting a hidden element is not enough to clear the rule. -->
+<a href="http://localhost/" aria-label="click here"><span data-acsb-sr-only="true" style="position: absolute !important; width: 1px !important; height: 1px !important; padding: 0px !important; overflow: hidden !important; clip: rect(0px, 0px, 0px, 0px) !important; border: 0px !important;">Home</span>Go</a>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default AmbiguouslinksFailures;

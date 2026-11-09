@@ -71,6 +71,90 @@ describe("InteractiveTargetSize Rule", () => {
     expect(response.passedNodes.length).toBe(0);
   });
 
+  it("should pass when a non-sticky undersized interactable intersects with a sticky interactable", async () => {
+    const { response, classifier } = validateMethodArguments;
+
+    const elements = [createElement(18, 18, 0, 0), createElement(30, 30, 0, 0)];
+    jest.spyOn(classifier, "getMatched").mockReturnValue(elements);
+    jest.spyOn(classifier, "assert").mockReturnValueOnce(false).mockReturnValue(true);
+
+    await InteractiveTargetSize.validate(validateMethodArguments);
+
+    expect(response.failedNodes.length).toBe(0);
+    expect(response.passedNodes.length).toBe(2);
+  });
+
+  it("should pass when two sticky interactables from different sticky contexts intersect", async () => {
+    const { response, classifier } = validateMethodArguments;
+
+    const rootParent = createElement();
+    const stickyContext1 = createElement(100, 100, 0, 0);
+    const stickyContext2 = createElement(100, 100, 0, 0);
+    const undersizedInteractable = createElement(18, 18, 0, 0);
+    const otherInteractable = createElement(30, 30, 0, 0);
+
+    Object.defineProperty(undersizedInteractable, "parentElement", { value: stickyContext1 });
+    Object.defineProperty(otherInteractable, "parentElement", { value: stickyContext2 });
+    Object.defineProperty(stickyContext1, "parentElement", { value: rootParent });
+    Object.defineProperty(stickyContext2, "parentElement", { value: rootParent });
+
+    const elements = [undersizedInteractable, otherInteractable];
+    jest.spyOn(classifier, "getMatched").mockReturnValue(elements);
+    jest.spyOn(classifier, "assert").mockImplementation((element) => {
+      return element !== rootParent;
+    });
+
+    await InteractiveTargetSize.validate(validateMethodArguments);
+
+    expect(response.failedNodes.length).toBe(0);
+    expect(response.passedNodes.length).toBe(2);
+  });
+
+  it("should fail when two sticky interactables from the same sticky context intersect", async () => {
+    const { response, classifier } = validateMethodArguments;
+
+    const rootParent = createElement();
+    const stickyContext = createElement(100, 100, 0, 0);
+    const undersizedInteractable = createElement(18, 18, 0, 0);
+    const otherInteractable = createElement(30, 30, 0, 0);
+
+    Object.defineProperty(undersizedInteractable, "parentElement", { value: stickyContext });
+    Object.defineProperty(otherInteractable, "parentElement", { value: stickyContext });
+    Object.defineProperty(stickyContext, "parentElement", { value: rootParent });
+
+    const elements = [undersizedInteractable, otherInteractable];
+    jest.spyOn(classifier, "getMatched").mockReturnValue(elements);
+    jest.spyOn(classifier, "assert").mockReturnValue(true);
+
+    await InteractiveTargetSize.validate(validateMethodArguments);
+
+    expect(response.failedNodes.length).toBe(1);
+    expect(response.failedNodes).toContain(undersizedInteractable);
+    expect(response.passedNodes.length).toBe(1);
+  });
+
+  it("should pass when a sticky undersized interactable intersects with a non-sticky interactable", async () => {
+    const { response, classifier } = validateMethodArguments;
+
+    const rootParent = createElement();
+    const stickyContext = createElement(100, 100, 0, 0);
+    const undersizedInteractable = createElement(18, 18, 0, 0); // sticky undersized
+    const otherInteractable = createElement(30, 30, 0, 0); // non-sticky normal sized
+
+    Object.defineProperty(undersizedInteractable, "parentElement", { value: stickyContext });
+    Object.defineProperty(otherInteractable, "parentElement", { value: rootParent });
+    Object.defineProperty(stickyContext, "parentElement", { value: rootParent });
+
+    const elements = [undersizedInteractable, otherInteractable];
+    jest.spyOn(classifier, "getMatched").mockReturnValue(elements);
+    jest.spyOn(classifier, "assert").mockReturnValueOnce(true).mockReturnValue(false);
+
+    await InteractiveTargetSize.validate(validateMethodArguments);
+
+    expect(response.failedNodes.length).toBe(0);
+    expect(response.passedNodes.length).toBe(2);
+  });
+
   function createElement(width = 0, height = 0, left = 0, top = 0): HTMLElement {
     const element = document.createElement("div");
     Object.defineProperty(element, "getBoundingClientRect", {

@@ -3,9 +3,11 @@ import { useEngineRulesIndex } from "../../../hooks/useEngineRulesIndex";
 import legacyEngineMapping from "../../../data/legacy-engine-mapping";
 import { getRuleSlug, ruleInCategory } from "./engineLibraryUtils";
 
-export function useEngineLibraryRules() {
+export function useEngineLibraryRules(searchControl) {
   const { rules: populatedRules, loading, error } = useEngineRulesIndex();
-  const [searchTerm, setSearchTerm] = useState("");
+  const [internalSearch, setInternalSearch] = useState("");
+  const searchTerm = searchControl?.searchTerm ?? internalSearch;
+  const setSearchTerm = searchControl?.setSearchTerm ?? setInternalSearch;
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [impactFilter, setImpactFilter] = useState("all");
   const [wcagLevelFilter, setWcagLevelFilter] = useState("all");
