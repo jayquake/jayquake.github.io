@@ -27,7 +27,7 @@ Overhaul the RAIDEN audit-rules UI/UX on **shadcn/Tailwind** and **remove MUI en
 | 7 | Delete the dead legacy chain + fix the build-breaking hook | `refactor/arch-07-dead-code` | [#24](https://github.com/jayquake/jayquake.github.io/pull/24) → main | ✅ open, verified |
 | 1 | Library location module | `refactor/arch-01-library-location` | [#25](https://github.com/jayquake/jayquake.github.io/pull/25) → #24 | ✅ open, verified |
 | 2a | Rule data sync (engine + legacy) | `data/arch-02a-rule-data-sync` | [#26](https://github.com/jayquake/jayquake.github.io/pull/26) → #25 | ✅ open, verified |
-| 2b | Rules catalog module | — | — | ⏳ decided, not started |
+| 2b | Rules catalog module | `data/arch-02b-rules-catalog` | (opening) → #26 | 🚧 in progress |
 | 3 | Rule tree model | — | — | ⏳ not grilled |
 | 5 | Example page adapter | — | — | ⏳ not grilled |
 | 4 | Example audit module | — | — | ⏳ not grilled |
@@ -106,39 +106,36 @@ Decisions:
 
 ---
 
-## ⏳ #2b: Rules catalog module (decided)
+## 🚧 #2b: Rules catalog module
 
-- **A shared module (CommonJS)** that the app, the Node build scripts and the server can all load. It:
-  - normalises one rule row
-  - uses **kebabId as the slug** everywhere (URLs, categories, example folders, tree keys)
-  - holds the categories
-  - owns `query(rules, libraryQuery)`, which returns rules ranked (id/title hits first) plus facets (levels, criteria)
-- **One generator** writes `public/engine-rules.json`.
-  - Rows gain `kebabId`, raw *and* plain `advice`, **all ref types**, and `populated`.
-  - `generatedAt` changes **only when rule content changes**.
-  - Delete `public/engine-rules-index.json` (nothing reads it) and both copies of `engine-rules-metadata.json`.
-- **App:** a catalog hook (load once, byId, query) replaces `useEngineRulesIndex`, `useEngineRuleFull` (a pass-through) and RuleTreeSidebar's own loader.
-  - **One full-text search** for the table and the tree.
-  - Rule Lab and Atomic Tests **fetch** the catalog instead of bundling the 200 KB JSON, and show stubs by kebabId with "No description yet".
-  - The library and tree hide the 12 stubs.
-- **Node consumers** read the catalog from disk through the shared module: `server/src/api/controllers/RuleController.ts`, `scripts/qase/lib/engine-rule-case-builder.js` and `scripts/prerender-example-pages.js`. Server consumers need raw advice, all refs, stubs and kebabId.
-- **id ≠ kebabId for 8 rules:**
-  - `breadcrumbs-in-nav`/`breadcrumbs-nav`
-  - `broken-aria-references`/`broken-aria-reference`
-  - `captcha-accessible-provider-v2.0`/`-2.0`
-  - `…-v2.2`/`-2.2`
-  - `had-meta-viewport`/`page-meta-viewport`
-  - `list-item-missuse`/`list-item-misuse`
-  - `region-main-navigation`/`region-main-navigation-mismatch`
-  - `search-input-announcement`/`search-input-dynamic-results-announcement`
+### Shared module + generator
+- [x] CommonJS module at `src/lib/rulesCatalog/` (browser-safe `index.js`; Node disk load via `node.js` / `loadFromDisk.js`).
+  - normalises one rule row (`kebabId` slug, `advice` plain + `adviceHtml` raw, all refs, `populated`)
+  - holds categories (incl. `dialog-modal-discernible` → interactive-widgets)
+  - `query(rules, libraryQuery)` ranks id/title hits first and returns facets
+  - resolves engine `id` and kebabId (8 aliases + retired-id renames)
+- [x] One generator: `scripts/generate-engine-rules-catalog.js` (`npm run generate:engine-catalog` / prebuild).
+  - Writes `public/engine-rules.json` (167 rules: 155 populated + 12 stubs) and `src/data/engine-id-redirects.json`.
+  - `generatedAt` stable when content unchanged (confirmed across rebuild).
+  - Deleted `public/engine-rules-index.json` and both `engine-rules-metadata.json` copies.
+  - Old aggregate/index scripts forward to the new generator.
 
-  Old `/engine/<id>` URLs redirect to `/engine/<kebabId>`. The catalog resolves both ids, which AccessFlow's `engineRules` needs because it uses engine `id`.
-- **Category fix:** `dialog-modal-discernible` goes into the category with the other `dialog-modal-*` rules. 9 rules currently show no category.
-- **Merged legacy ↔ engine mapping:** the union of the local mapping and AccessFlow's `engineRules`, with retired ids resolved to the current rule where a rename is known.
-- **Housekeeping:**
-  - `npm run build` runs prebuild **twice**, so drop the explicit `npm run prebuild &&`.
-  - Exclude `src/components/pages/engine-rules/` from `npm test` (`testPathIgnorePatterns`, with a comment). Those 163 specs import `~/rules/interfaces` and `@acsbe/core-engine-*` from the core repo and always fail.
-- **Tests:** unit tests for normalise and query (ranking, facets, stubs), the id → kebabId redirect, then build, crawl and flows.
+### App
+- [x] `useRulesCatalog` replaces index/full hooks + RuleTreeSidebar loader; tree uses the same catalog query as the table.
+- [x] Library/tree hide stubs (155 rows); Rule Lab + Atomic Tests **fetch** the catalog and show stubs as "No description yet".
+- [x] `EngineIdRedirect` + `legacy-engine-mapping` merge (`scripts/merge-legacy-engine-mapping.js`): union of local ∪ AccessFlow `engineRules`, retired ids remapped.
+
+### Node consumers + housekeeping
+- [x] `RuleController`, qase `engine-rule-case-builder`, `prerender-example-pages` load via `rulesCatalog/node`.
+- [x] Dropped explicit double `prebuild` on `npm run build` (lifecycle `prebuild` only).
+- [x] Jest `testPathIgnorePatterns` excludes `src/components/pages/engine-rules/`.
+
+### Verification for 2b
+- [x] Build exit 0; same 4 known prerender timeouts (`popup-focus_*`, `region-main-navigation-mismatch_*`).
+- [x] Jest: **80 passed** (engine-rules fixtures excluded by config).
+- [x] Crawl vs 2a (794 routes): intentional id→kebabId redirect diffs; **1** unrelated flake (`table-misuse_failure` goto timeout); captcha "Index of" h1 churn from `serve` directory names.
+- [x] Engine id redirects: **22/24** land on the expected kebab path; the 2 `region-main-navigation_{success,failure}` cases follow the known flaky mismatch example pages (end on the rule page without variant).
+- [x] `flows01.js` against 2b build: **all PASS**; library table shows **155** rows; `/engine/list-item-missuse` → `/engine/list-item-misuse`.
 
 ---
 
