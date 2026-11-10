@@ -1,6 +1,7 @@
 import { FileText, FlaskConical, List, Play } from "lucide-react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { cn } from "../../lib/utils";
+import { parseRoute } from "../../lib/libraryLocation";
 import {
   SidebarMenu,
   SidebarMenuItem,
@@ -17,13 +18,8 @@ const NAV_LINKS = [
 
 function isNavActive(pathname, linkPath) {
   if (linkPath === "/") {
-    return (
-      pathname === "/" ||
-      pathname === "/engine/library" ||
-      (pathname.startsWith("/engine/") &&
-        !pathname.includes("_success") &&
-        !pathname.includes("_failure"))
-    );
+    const route = parseRoute(pathname);
+    return route.kind === "home" || (route.kind === "rule" && route.rule.type === "engine");
   }
   if (linkPath === "/test-runner/library") {
     return pathname.startsWith("/test-runner") && !pathname.startsWith("/test-runner/atomic-tests");

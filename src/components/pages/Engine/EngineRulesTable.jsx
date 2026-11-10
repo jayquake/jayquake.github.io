@@ -1,6 +1,6 @@
-import { FileText, PanelRight } from "lucide-react";
+import { FileText, PanelRight, X } from "lucide-react";
 import { memo, useCallback } from "react";
-import { Link as RouterLink, useSearchParams } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { HudMotion } from "../../motion/HudMotion";
 import { Badge, severityVariant } from "../../ui/badge";
 import { SearchField } from "../../ui/search-field";
@@ -11,6 +11,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 import { Button } from "../../ui/button";
 import { cn } from "../../../lib/utils";
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
+import { useLibraryLocation, useLibrarySearchInput } from "../../../hooks/useLibraryLocation";
+import { activeFilterCount, engineRule, IMPACT_VALUES } from "../../../lib/libraryLocation";
 import {
   getRuleSlug,
   impactToSeverityLabel,
@@ -28,18 +30,12 @@ function FilterSelect({ label, value, onChange, children }) {
   );
 }
 
-function buildRuleHref(slug, searchParams) {
-  const params = new URLSearchParams(searchParams);
-  params.set("detail", "open");
-  return `/engine/${slug}?${params.toString()}`;
-}
-
-const RuleRow = memo(function RuleRow({ rule, selected, layout, searchParams }) {
+const RuleRow = memo(function RuleRow({ rule, selected, layout, hrefs }) {
   const slug = getRuleSlug(rule);
-  const engineBase = `/engine/${slug}`;
-  const rulePath = buildRuleHref(slug, searchParams);
-  const successPath = `${engineBase}_success`;
-  const failurePath = `${engineBase}_failure`;
+  const ref = engineRule(slug);
+  const rulePath = hrefs.rule(ref);
+  const successPath = hrefs.example(ref, "success");
+  const failurePath = hrefs.example(ref, "failure");
   const wcagRefs = rule.refs?.filter((r) => r.type === "WCAG") || [];
   const severity = impactToSeverityLabel(rule.impact);
   const category = RULE_CATEGORY_BY_ID[slug] || "—";
@@ -149,32 +145,94 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, searchParams }) 
   );
 });
 
+const capitalize = (v) => v.charAt(0).toUpperCase() + v.slice(1);
+
+/** Search + the five library filters, bound to the URL via the library location module. */
+function LibraryFilterBar({ layout, wcagLevels, wcagCriteriaIds }) {
+  const { query, setFilter, clearFilters } = useLibraryLocation();
+  const [search, setSearch] = useLibrarySearchInput();
+  const { filters } = query;
+  const activeCount = activeFilterCount(filters);
+  const isLibrary = layout === "library";
+
+  return (
+    <div
+      className={cn(
+        "grid grid-cols-2 items-stretch gap-2",
+        isLibrary ? "sm:grid-cols-3 lg:grid-cols-[minmax(0,2fr)_repeat(5,minmax(0,1fr))_auto]" : "sm:grid-cols-3"
+      )}
+    >
+      <SearchField
+        containerClassName={cn("col-span-2", isLibrary ? "sm:col-span-3 lg:col-span-1" : "sm:col-span-3")}
+        placeholder="Search rules…"
+        value={search}
+        onValueChange={setSearch}
+        aria-label="Search rules"
+      />
+      <FilterSelect label="Filter by category" value={filters.category} onChange={(v) => setFilter("category", v)}>
+        <option value="all">All categories</option>
+        {LIBRARY_CATEGORIES.map((cat) => (
+          <option key={cat.id} value={cat.id}>
+            {cat.label}
+          </option>
+        ))}
+      </FilterSelect>
+      <FilterSelect label="Filter by impact" value={filters.impact} onChange={(v) => setFilter("impact", v)}>
+        <option value="all">Impact: All</option>
+        {IMPACT_VALUES.map((impact) => (
+          <option key={impact} value={impact}>
+            {capitalize(impact)}
+          </option>
+        ))}
+      </FilterSelect>
+      <FilterSelect label="Filter by WCAG level" value={filters.level} onChange={(v) => setFilter("level", v)}>
+        <option value="all">WCAG: All</option>
+        {wcagLevels.map((level) => (
+          <option key={level} value={level}>
+            {level}
+          </option>
+        ))}
+      </FilterSelect>
+      <FilterSelect label="Filter by WCAG criterion" value={filters.wcag} onChange={(v) => setFilter("wcag", v)}>
+        <option value="all">Criterion: All</option>
+        {wcagCriteriaIds.map((criteria) => (
+          <option key={criteria} value={criteria}>
+            {criteria}
+          </option>
+        ))}
+      </FilterSelect>
+      <FilterSelect label="Filter by legacy equivalent" value={filters.legacy} onChange={(v) => setFilter("legacy", v)}>
+        <option value="all">Legacy: All</option>
+        <option value="yes">Has legacy</option>
+        <option value="no">No legacy</option>
+      </FilterSelect>
+      {activeCount > 0 ? (
+        <Button type="button" variant="ghost" size="sm" onClick={clearFilters} className="h-9 justify-self-start">
+          <X className="size-3.5" />
+          Clear filters ({activeCount})
+        </Button>
+      ) : null}
+    </div>
+  );
+}
+
 export default function EngineRulesTable({
   layout = "compact",
   filteredRules,
   populatedCount,
   selectedRuleId,
-  onSelectRule,
-  searchTerm,
-  setSearchTerm,
-  categoryFilter,
-  setCategoryFilter,
-  impactFilter,
-  setImpactFilter,
-  wcagLevelFilter,
-  setWcagLevelFilter,
-  wcagCriteriaFilter,
-  setWcagCriteriaFilter,
-  legacyRuleFilter,
-  setLegacyRuleFilter,
-  wcagLevels,
-  wcagCriteriaIds,
+  wcagLevels = [],
+  wcagCriteriaIds = [],
   loading = false,
   detailOpen,
   onToggleDetail,
 }) {
   const isLibrary = layout === "library";
-  const [searchParams] = useSearchParams();
+  const { query, hrefs, clearFilters, setSearch } = useLibraryLocation();
+  const hasNarrowing = Boolean(query.q) || activeFilterCount(query.filters) > 0;
+  const countText = loading
+    ? "Loading rules…"
+    : `${populatedCount ?? 0} rules · ${filteredRules.length} shown`;
 
   return (
     <div className="flex h-full w-full min-w-0 flex-1 flex-col overflow-hidden bg-shell-main">
@@ -192,14 +250,14 @@ export default function EngineRulesTable({
                 Manage and configure accessibility rules used by the RAIDEN engine.
               </p>
             </div>
-            <p className="shrink-0 font-mono text-[0.75rem] text-foreground-secondary">
-              {loading ? "Loading rules…" : `${populatedCount ?? 0} rules · ${filteredRules.length} shown`}
+            <p className="shrink-0 font-mono text-[0.75rem] text-foreground-secondary" aria-live="polite">
+              {countText}
             </p>
           </div>
         ) : (
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-            <p className="text-sm text-foreground-secondary">
-              {loading ? "Loading rules…" : `${populatedCount ?? 0} rules · showing ${filteredRules.length}`}
+            <p className="text-sm text-foreground-secondary" aria-live="polite">
+              {countText}
             </p>
             {onToggleDetail ? (
               <Button
@@ -216,67 +274,7 @@ export default function EngineRulesTable({
           </div>
         )}
 
-        <div
-          className={
-            isLibrary
-              ? "grid grid-cols-1 items-stretch gap-2 sm:grid-cols-2 lg:grid-cols-[minmax(140px,1fr)_2fr_minmax(120px,1fr)]"
-              : "grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.4fr)_repeat(4,minmax(108px,1fr))]"
-          }
-        >
-          {isLibrary ? (
-            <FilterSelect label="Filter by category" value={categoryFilter} onChange={setCategoryFilter}>
-              <option value="all">ALL CATEGORIES</option>
-              {LIBRARY_CATEGORIES.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.label.toUpperCase()}
-                </option>
-              ))}
-            </FilterSelect>
-          ) : null}
-          <SearchField
-            containerClassName={!isLibrary ? "sm:col-span-2 lg:col-span-1" : undefined}
-            placeholder="Search rules…"
-            value={searchTerm}
-            onValueChange={setSearchTerm}
-            aria-label="Search rules"
-          />
-          <FilterSelect
-            label={isLibrary ? "Filter by severity" : "Filter by impact"}
-            value={impactFilter}
-            onChange={setImpactFilter}
-          >
-            <option value="all">{isLibrary ? "ALL SEVERITY" : "Impact: All"}</option>
-            <option value="critical">{isLibrary ? "CRITICAL" : "Critical"}</option>
-            <option value="serious">{isLibrary ? "SERIOUS" : "Serious"}</option>
-            <option value="moderate">{isLibrary ? "MODERATE" : "Moderate"}</option>
-            <option value="minor">{isLibrary ? "MINOR" : "Minor"}</option>
-          </FilterSelect>
-          {!isLibrary ? (
-            <>
-              <FilterSelect label="Filter by WCAG level" value={wcagLevelFilter} onChange={setWcagLevelFilter}>
-                <option value="all">WCAG: All</option>
-                {wcagLevels.map((level) => (
-                  <option key={level} value={level}>
-                    {level}
-                  </option>
-                ))}
-              </FilterSelect>
-              <FilterSelect label="Filter by WCAG criteria" value={wcagCriteriaFilter} onChange={setWcagCriteriaFilter}>
-                <option value="all">Criteria: All</option>
-                {wcagCriteriaIds.map((criteria) => (
-                  <option key={criteria} value={criteria}>
-                    {criteria}
-                  </option>
-                ))}
-              </FilterSelect>
-              <FilterSelect label="Filter by legacy rule" value={legacyRuleFilter} onChange={setLegacyRuleFilter}>
-                <option value="all">Legacy: All</option>
-                <option value="yes">Has legacy</option>
-                <option value="no">No legacy</option>
-              </FilterSelect>
-            </>
-          ) : null}
-        </div>
+        <LibraryFilterBar layout={layout} wcagLevels={wcagLevels} wcagCriteriaIds={wcagCriteriaIds} />
       </div>
 
       <HudMotion
@@ -296,7 +294,22 @@ export default function EngineRulesTable({
               ))}
             </div>
           ) : filteredRules.length === 0 ? (
-            <p className="py-8 text-center text-sm text-foreground-secondary">No rules match your filters.</p>
+            <div className="flex flex-col items-center gap-3 py-8 text-center">
+              <p className="text-sm text-foreground-secondary">No rules match your filters.</p>
+              {hasNarrowing ? (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    clearFilters();
+                    setSearch("");
+                  }}
+                >
+                  Clear search and filters
+                </Button>
+              ) : null}
+            </div>
           ) : (
             <Table>
               <TableHeader>
@@ -325,7 +338,7 @@ export default function EngineRulesTable({
                       rule={rule}
                       selected={slug === selectedRuleId}
                       layout={layout}
-                      searchParams={searchParams}
+                      hrefs={hrefs}
                     />
                   );
                 })}

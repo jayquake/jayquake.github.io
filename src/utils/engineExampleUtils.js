@@ -1,19 +1,6 @@
 /** @typedef {'success' | 'failure'} ExampleVariant */
 
 /**
- * @param {string | undefined} slug
- * @returns {{ ruleId: string, variant: ExampleVariant } | { ruleId: string, variant: null }}
- */
-export function parseEngineSlug(slug) {
-  if (!slug) return { ruleId: "", variant: null };
-  const match = slug.match(/^(.+)_(success|failure)$/);
-  if (match) {
-    return { ruleId: match[1], variant: match[2] };
-  }
-  return { ruleId: slug, variant: null };
-}
-
-/**
  * Map kebab rule id to PascalCase component base (e.g. captcha-accessible-provider-2.0 → CaptchaAccessibleProviderV2_0).
  * @param {string} ruleId
  */

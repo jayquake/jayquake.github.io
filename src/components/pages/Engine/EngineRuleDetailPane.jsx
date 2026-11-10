@@ -1,5 +1,7 @@
 import { Bug, ChevronLeft, ChevronRight, CircleCheck, CircleX, FlaskConical } from "lucide-react";
-import { Link as RouterLink, useSearchParams } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
+import { useLibraryLocation } from "../../../hooks/useLibraryLocation";
+import { engineRule } from "../../../lib/libraryLocation";
 import { Button, buttonClass } from "../../ui/button";
 import { Badge, severityVariant } from "../../ui/badge";
 import { Card, CardContent, CardTitle } from "../../ui/card";
@@ -21,18 +23,15 @@ export default function EngineRuleDetailPane({
   side = "left",
 }) {
   const CloseIcon = side === "right" ? ChevronRight : ChevronLeft;
-  const [searchParams] = useSearchParams();
+  const { hrefs } = useLibraryLocation();
   if (!rule) {
     return <div className="p-4 text-sm text-foreground-secondary">Select a rule from the table.</div>;
   }
 
   const slug = getRuleSlug(rule);
   const wcagRefs = rule.refs?.filter((r) => r.type === "WCAG") || [];
-  const canonicalRuleHref = (() => {
-    const params = new URLSearchParams(searchParams);
-    params.set("detail", "open");
-    return `/engine/${slug}?${params.toString()}`;
-  })();
+  const ref = engineRule(slug);
+  const canonicalRuleHref = hrefs.rule(ref);
 
   if (collapsed) {
     return (
@@ -110,7 +109,7 @@ export default function EngineRuleDetailPane({
           <CardTitle>Actions</CardTitle>
           <div className="flex w-full flex-col items-stretch gap-2">
           <RouterLink
-            to={`/engine/${slug}_success`}
+            to={hrefs.example(ref, "success")}
             className={buttonClass({ className: "w-full justify-start border-primary text-foreground" })}
             onMouseEnter={() => prefetchEngineExample(slug, "success")}
             onFocus={() => prefetchEngineExample(slug, "success")}
@@ -119,7 +118,7 @@ export default function EngineRuleDetailPane({
             Success examples
           </RouterLink>
           <RouterLink
-            to={`/engine/${slug}_failure`}
+            to={hrefs.example(ref, "failure")}
             className={buttonClass({ className: "w-full justify-start border-primary text-foreground" })}
             onMouseEnter={() => prefetchEngineExample(slug, "failure")}
             onFocus={() => prefetchEngineExample(slug, "failure")}
@@ -127,11 +126,11 @@ export default function EngineRuleDetailPane({
             <CircleX className="size-4" style={{ color: MGS.alertRed }} />
             Failure examples
           </RouterLink>
-          <RouterLink to={`/rule-lab?rule=${slug}`} className={buttonClass({ className: "w-full justify-start" })}>
+          <RouterLink to={hrefs.ruleLab(ref)} className={buttonClass({ className: "w-full justify-start" })}>
             <FlaskConical className="size-4" />
             Rule Lab
           </RouterLink>
-          <RouterLink to={`/engine/${slug}?debug=mcp`} className={buttonClass({ className: "w-full justify-start" })}>
+          <RouterLink to={hrefs.ruleLab(ref)} className={buttonClass({ className: "w-full justify-start" })}>
             <Bug className="size-4" />
             MCP Debug
           </RouterLink>

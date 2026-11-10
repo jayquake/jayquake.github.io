@@ -62,6 +62,7 @@ import { MIN_TEXT_SIZE } from "../../theme/mgsTokens";
 import { getRuleSummary } from "../../utils/analysisCache";
 import { analyzeHtmlClientSide } from "../../utils/clientAccessibilityTree";
 import { AuditSummaryChips } from "./AuditResultsPanel";
+import { useLibraryLocation } from "../../hooks/useLibraryLocation";
 import SimpleBreadcrumbs from "../util/BreadCrumb";
 
 const glassCard = {
@@ -128,6 +129,7 @@ function TabPanel({ children, value, index }: TabPanelProps) {
 
 export default function UnifiedRulePage({ ruleData }: UnifiedRulePageProps) {
   const navigate = useNavigate();
+  const { hrefs } = useLibraryLocation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [tab, setTab] = useState(0);
@@ -194,8 +196,9 @@ export default function UnifiedRulePage({ ruleData }: UnifiedRulePageProps) {
   const severity = leg.severity;
   const severityColors = getSeverityColor(severity);
   const title = leg.name;
-  const successUrl = `/${leg.criteria}/${leg.route}_success`;
-  const failureUrl = `/${leg.criteria}/${leg.route}_failure`;
+  const legacyRef = { type: "legacy" as const, criteria: leg.criteria, route: leg.route };
+  const successUrl = hrefs.example(legacyRef, "success");
+  const failureUrl = hrefs.example(legacyRef, "failure");
 
   const relatedEngineRules: { path: string; label: string }[] = (() => {
         const from = leg.shortCode ? (legacyEngineMapping as any)[leg.shortCode] || [] : [];

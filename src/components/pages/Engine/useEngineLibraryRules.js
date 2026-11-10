@@ -1,18 +1,22 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useEngineRulesIndex } from "../../../hooks/useEngineRulesIndex";
 import legacyEngineMapping from "../../../data/legacy-engine-mapping";
 import { getRuleSlug, ruleInCategory } from "./engineLibraryUtils";
 
-export function useEngineLibraryRules(searchControl) {
+/**
+ * Engine rules filtered by library query state (`q` + filters from the URL).
+ * @param {import("../../../lib/libraryLocation").LibraryQuery} query
+ */
+export function useEngineLibraryRules(query) {
   const { rules: populatedRules, loading, error } = useEngineRulesIndex();
-  const [internalSearch, setInternalSearch] = useState("");
-  const searchTerm = searchControl?.searchTerm ?? internalSearch;
-  const setSearchTerm = searchControl?.setSearchTerm ?? setInternalSearch;
-  const [categoryFilter, setCategoryFilter] = useState("all");
-  const [impactFilter, setImpactFilter] = useState("all");
-  const [wcagLevelFilter, setWcagLevelFilter] = useState("all");
-  const [wcagCriteriaFilter, setWcagCriteriaFilter] = useState("all");
-  const [legacyRuleFilter, setLegacyRuleFilter] = useState("all");
+  const searchTerm = query.q;
+  const {
+    category: categoryFilter,
+    impact: impactFilter,
+    level: wcagLevelFilter,
+    wcag: wcagCriteriaFilter,
+    legacy: legacyRuleFilter,
+  } = query.filters;
 
   const hasLegacyEquivalent = (ruleId) =>
     Object.values(legacyEngineMapping).some((legacyRules) =>
@@ -116,20 +120,7 @@ export function useEngineLibraryRules(searchControl) {
     findRuleBySlug,
     loading,
     error,
-    searchTerm,
-    setSearchTerm,
-    categoryFilter,
-    setCategoryFilter,
-    impactFilter,
-    setImpactFilter,
-    wcagLevelFilter,
-    setWcagLevelFilter,
-    wcagCriteriaFilter,
-    setWcagCriteriaFilter,
-    legacyRuleFilter,
-    setLegacyRuleFilter,
     wcagLevels,
     wcagCriteriaIds,
-    hasLegacyEquivalent,
   };
 }

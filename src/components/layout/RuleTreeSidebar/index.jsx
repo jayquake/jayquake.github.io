@@ -16,11 +16,12 @@ import {
   Type,
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link as RouterLink, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import { HudLayoutIndicator } from "../../motion/HudMotion";
 import { Button } from "../../ui/button";
 import { SearchField } from "../../ui/search-field";
-import { useLibrarySearchParams } from "../../../hooks/useLibrarySearchParams";
+import { useLibraryLocation, useLibrarySearchInput } from "../../../hooks/useLibraryLocation";
+import { engineRule, ruleKey } from "../../../lib/libraryLocation";
 import ENGINE_RULE_CATEGORIES from "../../../data/engine-rule-categories";
 import { fetchEngineRulesCatalog, getEngineRulesCatalogCache } from "../../../utils/engineRulesDataService";
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
@@ -86,7 +87,7 @@ const LEAF_ITEMS = [
   { key: "mcp-debug", label: "MCP Debug", icon: Bug, color: "#ffb74d" },
 ];
 
-function RuleActionBar({ items, leafPaths, ruleId, ruleType, onNavigate, location, isOpen }) {
+function RuleActionBar({ items, leafPaths, ruleId, ruleType, onCloseMobile, location, isOpen }) {
   if (!isOpen) return null;
 
   return (
@@ -95,15 +96,16 @@ function RuleActionBar({ items, leafPaths, ruleId, ruleType, onNavigate, locatio
         const Icon = item.icon;
         const to = leafPaths[item.key];
         const isActive =
-          item.key === "mcp-debug"
-            ? location.pathname + location.search === to
-            : location.pathname === to;
+          item.key === "success" || item.key === "failure"
+            ? location.pathname === to.split("?")[0]
+            : location.pathname + location.search === to;
         return (
           <RouterLink
             key={item.key}
             to={to}
             title={item.label}
             aria-label={item.label}
+            onClick={onCloseMobile}
             onMouseEnter={
               ruleType === "engine" && (item.key === "success" || item.key === "failure")
                 ? () => prefetchEngineExample(ruleId, item.key)
@@ -148,20 +150,20 @@ function HealthDot({ status }) {
   );
 }
 
-function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, expanded, onToggle, onNavigate, location, healthStatus }) {
-  const [searchParams] = useSearchParams();
+function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, expanded, onToggle, onCloseMobile, location, healthStatus }) {
+  const { route, hrefs } = useLibraryLocation();
   const nodeKey = `rule-${ruleType}-${ruleId}`;
   const isExpanded = expanded[nodeKey] ?? false;
-  const enginePath = `/engine/${ruleId}`;
-  const engineHref = (() => {
-    const params = new URLSearchParams(searchParams);
-    params.set("detail", "open");
-    return `${enginePath}?${params.toString()}`;
-  })();
-  const basePath = ruleType === "engine" ? engineHref : `/${criteriaOrCategory}/${ruleId}`;
+  const ref = useMemo(
+    () => (ruleType === "engine" ? engineRule(ruleId) : { type: "legacy", criteria: criteriaOrCategory, route: ruleId }),
+    [ruleType, ruleId, criteriaOrCategory]
+  );
+  const basePath = hrefs.rule(ref);
   const isRuleActive =
-    location.pathname === enginePath ||
-    location.pathname.startsWith(`${enginePath}_`);
+    (route.kind === "rule" || route.kind === "example") &&
+    route.rule.type === ref.type &&
+    ruleKey(route.rule) === ruleId &&
+    (ref.type === "engine" || route.rule.criteria === ref.criteria);
 
   const displayLabel = ruleType === "engine" ? ruleId : ruleLabel;
   const tooltipTitle = ruleType === "engine" ? ruleLabel : ruleId;
@@ -174,15 +176,12 @@ function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, exp
 
   const leafPaths = useMemo(
     () => ({
-      success: `${enginePath}_success`,
-      failure: `${enginePath}_failure`,
-      "rule-lab": `/rule-lab?rule=${ruleId}&type=${ruleType}`,
-      "mcp-debug":
-        ruleType === "engine"
-          ? `${enginePath}?detail=open&debug=mcp`
-          : `/rule-lab?rule=${ruleId}&type=${ruleType}&mode=mcp`,
+      success: hrefs.example(ref, "success"),
+      failure: hrefs.example(ref, "failure"),
+      "rule-lab": hrefs.ruleLab(ref),
+      "mcp-debug": hrefs.ruleLab(ref),
     }),
-    [enginePath, ruleId, ruleType]
+    [hrefs, ref]
   );
 
   return (
@@ -220,6 +219,7 @@ function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, exp
         ) : null}
         <RouterLink
           to={basePath}
+          onClick={onCloseMobile}
           title={isOpen ? tooltipTitle : displayLabel}
           aria-current={isRuleActive ? "page" : undefined}
           className={cn(
@@ -251,7 +251,7 @@ function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, exp
           leafPaths={leafPaths}
           ruleId={ruleId}
           ruleType={ruleType}
-          onNavigate={onNavigate}
+          onCloseMobile={onCloseMobile}
           location={location}
           isOpen={isOpen}
         />
@@ -260,7 +260,7 @@ function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, exp
   );
 }
 
-function CategoryNode({ categoryId, label, color, icon, rules, ruleType, isOpen, expanded, onToggle, onNavigate, location, search, healthMap, getEngineRuleTitle }) {
+function CategoryNode({ categoryId, label, color, icon, rules, ruleType, isOpen, expanded, onToggle, onCloseMobile, location, search, healthMap, getEngineRuleTitle }) {
   const isExpanded = expanded[`cat-${ruleType}-${categoryId}`] || false;
   const Icon = typeof icon === "string" ? ICON_MAP[icon] || FileText : icon;
 
@@ -314,7 +314,7 @@ function CategoryNode({ categoryId, label, color, icon, rules, ruleType, isOpen,
                 isOpen={isOpen}
                 expanded={expanded}
                 onToggle={onToggle}
-                onNavigate={onNavigate}
+                onCloseMobile={onCloseMobile}
                 location={location}
                 healthStatus={healthMap?.[ruleId]}
               />
@@ -369,10 +369,10 @@ export default function RuleTreeSidebar({
   onRequestOpen,
   onCloseMobile,
 }) {
-  const navigate = useNavigate();
   const location = useLocation();
+  const { route } = useLibraryLocation();
   const [expanded, setExpanded] = useState(loadExpanded);
-  const { searchTerm: search, setSearchTerm: setSearch, clearSearch } = useLibrarySearchParams();
+  const [search, setSearch] = useLibrarySearchInput();
   const [data, setData] = useState([]);
   const [engineTitles, setEngineTitles] = useState({});
   const [engineRuleCount, setEngineRuleCount] = useState(0);
@@ -434,31 +434,35 @@ export default function RuleTreeSidebar({
     saveExpanded(expanded);
   }, [expanded]);
 
+  // Auto-expand the tree to the rule the URL points at (engine or legacy).
+  const activeRule = route.kind === "rule" || route.kind === "example" ? route.rule : null;
+  const activeType = activeRule?.type;
+  const activeKey = activeRule ? ruleKey(activeRule) : null;
+  const activeCriteria = activeRule?.type === "legacy" ? activeRule.criteria : null;
   useEffect(() => {
-    const engineMatch = location.pathname.match(/^\/engine\/([^_/?]+)/);
-    if (!engineMatch) return;
-    const ruleId = engineMatch[1];
-    const category = ENGINE_RULE_CATEGORIES.find((cat) => cat.rules.includes(ruleId));
-    if (!category) return;
-    setExpanded((prev) => ({
-      ...prev,
-      "tier-engine": true,
-      [`cat-engine-${category.id}`]: true,
-      [`rule-engine-${ruleId}`]: true,
-    }));
-  }, [location.pathname]);
+    if (!activeKey) return;
+    if (activeType === "engine") {
+      const category = ENGINE_RULE_CATEGORIES.find((cat) => cat.rules.includes(activeKey));
+      if (!category) return;
+      setExpanded((prev) => ({
+        ...prev,
+        "tier-engine": true,
+        [`cat-engine-${category.id}`]: true,
+        [`rule-engine-${activeKey}`]: true,
+      }));
+    } else {
+      setExpanded((prev) => ({
+        ...prev,
+        "tier-legacy": true,
+        [`cat-legacy-${activeCriteria}`]: true,
+        [`rule-legacy-${activeKey}`]: true,
+      }));
+    }
+  }, [activeType, activeKey, activeCriteria]);
 
   const handleToggle = useCallback((nodeId) => {
     setExpanded((prev) => ({ ...prev, [nodeId]: !prev[nodeId] }));
   }, []);
-
-  const handleNavigate = useCallback(
-    (path) => {
-      navigate(path);
-      onCloseMobile?.();
-    },
-    [navigate, onCloseMobile]
-  );
 
   const legacyByCategory = useMemo(() => {
     const grouped = {};
@@ -546,7 +550,6 @@ export default function RuleTreeSidebar({
           <SearchField
             value={search}
             onValueChange={setSearch}
-            onClear={clearSearch}
             placeholder="Filter rules…"
             aria-label="Filter rules in sidebar"
             containerClassName="h-8 rounded-md shadow-none"
@@ -579,7 +582,7 @@ export default function RuleTreeSidebar({
               isOpen={isOpen}
               expanded={expanded}
               onToggle={handleToggle}
-              onNavigate={handleNavigate}
+              onCloseMobile={onCloseMobile}
               location={location}
               search={search}
               healthMap={healthMap}
@@ -617,7 +620,7 @@ export default function RuleTreeSidebar({
               isOpen={isOpen}
               expanded={expanded}
               onToggle={handleToggle}
-              onNavigate={handleNavigate}
+              onCloseMobile={onCloseMobile}
               location={location}
               search={search}
               healthMap={healthMap}
