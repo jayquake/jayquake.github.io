@@ -1,54 +1,44 @@
-import AccessibilityIcon from "@mui/icons-material/Accessibility";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import BugReportIcon from "@mui/icons-material/BugReport";
-import CancelIcon from "@mui/icons-material/Cancel";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import DescriptionIcon from "@mui/icons-material/Description";
-import EditNoteIcon from "@mui/icons-material/EditNote";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ImageIcon from "@mui/icons-material/Image";
-import LinkIcon from "@mui/icons-material/Link";
-import ScienceIcon from "@mui/icons-material/Science";
-import SearchIcon from "@mui/icons-material/Search";
-import TextFieldsIcon from "@mui/icons-material/TextFields";
-import WidgetsIcon from "@mui/icons-material/Widgets";
 import {
-  Box,
-  Collapse,
-  IconButton,
-  InputAdornment,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  TextField,
-  Tooltip,
-  Typography,
-  alpha,
-} from "@mui/material";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
+  Accessibility,
+  Bug,
+  ChevronDown,
+  ChevronRight,
+  CircleCheck,
+  CircleX,
+  FileText,
+  FlaskConical,
+  GitBranch,
+  Image,
+  LayoutDashboard,
+  Link2,
+  Pencil,
+  SquaresExclude,
+  Type,
+} from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Link as RouterLink, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { HudLayoutIndicator } from "../../motion/HudMotion";
+import { Button } from "../../ui/button";
+import { SearchField } from "../../ui/search-field";
+import { useLibrarySearchParams } from "../../../hooks/useLibrarySearchParams";
 import ENGINE_RULE_CATEGORIES from "../../../data/engine-rule-categories";
 import { fetchEngineRulesCatalog, getEngineRulesCatalogCache } from "../../../utils/engineRulesDataService";
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
 import { DataService } from "../../util/dataService";
 import { getAllCachedResults } from "../../../utils/analysisCache";
-import { MIN_TEXT_SIZE } from "../../../theme/mgsTokens";
+import { cn } from "../../../lib/utils";
 
 const STORAGE_KEY = "ruleTreeExpanded";
 
 const ICON_MAP = {
-  Accessibility: AccessibilityIcon,
-  EditNote: EditNoteIcon,
-  Link: LinkIcon,
-  Image: ImageIcon,
-  AccountTree: AccountTreeIcon,
-  Widgets: WidgetsIcon,
-  TextFields: TextFieldsIcon,
-  Description: DescriptionIcon,
+  Accessibility,
+  EditNote: Pencil,
+  Link: Link2,
+  Image,
+  AccountTree: GitBranch,
+  Widgets: SquaresExclude,
+  TextFields: Type,
+  Description: FileText,
 };
 
 const LEGACY_CRITERIA_COLORS = {
@@ -90,27 +80,17 @@ function saveExpanded(state) {
 }
 
 const LEAF_ITEMS = [
-  { key: "success", label: "Success examples", icon: CheckCircleIcon, color: "#6ee7b7" },
-  { key: "failure", label: "Failure examples", icon: CancelIcon, color: "#ff6b6b" },
-  { key: "rule-lab", label: "Rule Lab", icon: ScienceIcon, color: "#8b9cf6" },
-  { key: "mcp-debug", label: "MCP Debug", icon: BugReportIcon, color: "#ffb74d" },
+  { key: "success", label: "Success examples", icon: CircleCheck, color: "#6ee7b7" },
+  { key: "failure", label: "Failure examples", icon: CircleX, color: "#ff6b6b" },
+  { key: "rule-lab", label: "Rule Lab", icon: FlaskConical, color: "#8b9cf6" },
+  { key: "mcp-debug", label: "MCP Debug", icon: Bug, color: "#ffb74d" },
 ];
 
 function RuleActionBar({ items, leafPaths, ruleId, ruleType, onNavigate, location, isOpen }) {
   if (!isOpen) return null;
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        gap: 0.25,
-        pl: 6.5,
-        pr: 1,
-        py: 0.25,
-        mb: 0.25,
-      }}
-    >
+    <div className="mb-0.5 flex items-center gap-0.5 py-0.5 pl-12 pr-2">
       {items.map((item) => {
         const Icon = item.icon;
         const to = leafPaths[item.key];
@@ -119,37 +99,31 @@ function RuleActionBar({ items, leafPaths, ruleId, ruleType, onNavigate, locatio
             ? location.pathname + location.search === to
             : location.pathname === to;
         return (
-          <Tooltip key={item.key} title={item.label} placement="top">
-            <IconButton
-              component={RouterLink}
-              to={to}
-              size="small"
-              onClick={() => onNavigate(to)}
-              onMouseEnter={
-                ruleType === "engine" && (item.key === "success" || item.key === "failure")
-                  ? () => prefetchEngineExample(ruleId, item.key)
-                  : undefined
-              }
-              aria-label={item.label}
-              sx={{
-                p: 0.4,
-                border: 1,
-                borderColor: isActive ? item.color : "divider",
-                borderRadius: 0.5,
-                bgcolor: isActive ? alpha(item.color, 0.15) : "transparent",
-                color: item.color,
-                "&:hover": {
-                  bgcolor: alpha(item.color, 0.12),
-                  borderColor: item.color,
-                },
-              }}
-            >
-              <Icon sx={{ fontSize: 13 }} />
-            </IconButton>
-          </Tooltip>
+          <RouterLink
+            key={item.key}
+            to={to}
+            title={item.label}
+            aria-label={item.label}
+            onMouseEnter={
+              ruleType === "engine" && (item.key === "success" || item.key === "failure")
+                ? () => prefetchEngineExample(ruleId, item.key)
+                : undefined
+            }
+            className={cn(
+              "rounded-sm border border-border p-1 no-underline transition-colors",
+              isActive && "ring-1 ring-primary/30"
+            )}
+            style={{
+              borderColor: isActive ? item.color : undefined,
+              backgroundColor: isActive ? `${item.color}26` : "transparent",
+              color: item.color,
+            }}
+          >
+            <Icon className="size-3" />
+          </RouterLink>
         );
       })}
-    </Box>
+    </div>
   );
 }
 
@@ -160,127 +134,118 @@ function HealthDot({ status }) {
     red: "#f44336",
     gray: "#cbd5e1",
   };
+  const title =
+    status === "green" ? "No critical/serious issues" :
+    status === "yellow" ? "Has moderate/minor issues" :
+    status === "red" ? "Has critical/serious issues" :
+    "Not analyzed";
   return (
-    <Tooltip title={
-      status === "green" ? "No critical/serious issues" :
-      status === "yellow" ? "Has moderate/minor issues" :
-      status === "red" ? "Has critical/serious issues" :
-      "Not analyzed"
-    }>
-      <Box
-        sx={{
-          width: 8,
-          height: 8,
-          borderRadius: "50%",
-          bgcolor: colors[status] || colors.gray,
-          flexShrink: 0,
-          opacity: status === "gray" ? 0.4 : 0.8,
-          ml: 0.5,
-        }}
-      />
-    </Tooltip>
+    <span
+      title={title}
+      className="ml-1 inline-block size-2 shrink-0 rounded-full"
+      style={{ backgroundColor: colors[status] || colors.gray, opacity: status === "gray" ? 0.4 : 0.8 }}
+    />
   );
 }
 
 function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, expanded, onToggle, onNavigate, location, healthStatus }) {
+  const [searchParams] = useSearchParams();
   const nodeKey = `rule-${ruleType}-${ruleId}`;
   const isExpanded = expanded[nodeKey] ?? false;
-  const basePath = ruleType === "engine" ? `/engine/${ruleId}` : `/${criteriaOrCategory}/${ruleId}`;
+  const enginePath = `/engine/${ruleId}`;
+  const engineHref = (() => {
+    const params = new URLSearchParams(searchParams);
+    params.set("detail", "open");
+    return `${enginePath}?${params.toString()}`;
+  })();
+  const basePath = ruleType === "engine" ? engineHref : `/${criteriaOrCategory}/${ruleId}`;
   const isRuleActive =
-    location.pathname === basePath ||
-    location.pathname.startsWith(`${basePath}_`);
+    location.pathname === enginePath ||
+    location.pathname.startsWith(`${enginePath}_`);
 
   const displayLabel = ruleType === "engine" ? ruleId : ruleLabel;
   const tooltipTitle = ruleType === "engine" ? ruleLabel : ruleId;
 
-  const handleClick = () => {
-    onNavigate(basePath);
-  };
-
   const handleToggle = (e) => {
+    e.preventDefault();
     e.stopPropagation();
     onToggle(`rule-${ruleType}-${ruleId}`);
   };
 
-  const leafPaths = useMemo(() => ({
-    success: `${basePath}_success`,
-    failure: `${basePath}_failure`,
-    "rule-lab": `/rule-lab?rule=${ruleId}&type=${ruleType}`,
-    "mcp-debug":
-      ruleType === "engine"
-        ? `${basePath}?debug=mcp`
-        : `/rule-lab?rule=${ruleId}&type=${ruleType}&mode=mcp`,
-  }), [basePath, ruleId, ruleType]);
+  const leafPaths = useMemo(
+    () => ({
+      success: `${enginePath}_success`,
+      failure: `${enginePath}_failure`,
+      "rule-lab": `/rule-lab?rule=${ruleId}&type=${ruleType}`,
+      "mcp-debug":
+        ruleType === "engine"
+          ? `${enginePath}?detail=open&debug=mcp`
+          : `/rule-lab?rule=${ruleId}&type=${ruleType}&mode=mcp`,
+    }),
+    [enginePath, ruleId, ruleType]
+  );
 
   return (
-    <>
-      <Tooltip title={isOpen ? tooltipTitle : displayLabel} placement="right" disableHoverListener={!isOpen}>
-        <ListItemButton
-          component={RouterLink}
+  <>
+      <div
+        className={cn(
+          "relative flex min-h-[26px] items-center rounded-sm py-0.5",
+          isOpen ? "mx-1 pl-2" : "pl-2",
+          isRuleActive && "bg-primary/10"
+        )}
+      >
+        {isRuleActive && ruleType === "engine" ? (
+          <HudLayoutIndicator
+            layoutId="sidebar-rule-active"
+            style={{
+              position: "absolute",
+              left: 0,
+              top: 4,
+              bottom: 4,
+              width: 2,
+              backgroundColor: "#00a38d",
+              pointerEvents: "none",
+            }}
+          />
+        ) : null}
+        {isOpen ? (
+          <button
+            type="button"
+            onClick={handleToggle}
+            aria-label={isExpanded ? "Collapse rule actions" : "Expand rule actions"}
+            className="mr-0.5 flex size-4 shrink-0 items-center justify-center text-foreground-secondary"
+          >
+            {isExpanded ? <ChevronDown className="size-3" /> : <ChevronRight className="size-3" />}
+          </button>
+        ) : null}
+        <RouterLink
           to={basePath}
-          onClick={handleClick}
-          selected={isRuleActive}
-          sx={{
-            pl: isOpen ? 5.5 : 2,
-            py: 0.25,
-            minHeight: 26,
-            borderRadius: 1,
-            mx: isOpen ? 0.5 : 0,
-            textDecoration: "none",
-            color: "inherit",
-            position: "relative",
-            "&.Mui-selected": {
-              bgcolor: "action.selected",
-            },
-            "&:hover": { bgcolor: "action.hover" },
-          }}
+          title={isOpen ? tooltipTitle : displayLabel}
+          aria-current={isRuleActive ? "page" : undefined}
+          className={cn(
+            "flex min-w-0 flex-1 items-center gap-1 py-0.5 text-inherit no-underline hover:underline",
+            !isOpen && "justify-center px-1"
+          )}
         >
-          {isRuleActive && ruleType === "engine" && (
-            <HudLayoutIndicator
-              layoutId="sidebar-rule-active"
-              style={{
-                position: "absolute",
-                left: 0,
-                top: 4,
-                bottom: 4,
-                width: 2,
-                backgroundColor: "#00a38d",
-                pointerEvents: "none",
-              }}
-            />
-          )}
-          {isOpen && (
-            <IconButton
-              size="small"
-              onClick={handleToggle}
-              aria-label={isExpanded ? "Collapse rule actions" : "Expand rule actions"}
-              sx={{ p: 0, mr: 0.25, width: 16, height: 16, flexShrink: 0 }}
-            >
-              {isExpanded ? (
-                <ExpandMoreIcon sx={{ fontSize: 13, color: "text.secondary" }} />
-              ) : (
-                <ChevronRightIcon sx={{ fontSize: 13, color: "text.secondary" }} />
-              )}
-            </IconButton>
-          )}
-          {isOpen && (
+          {isOpen ? (
             <>
-              <ListItemText
-                primary={displayLabel}
-                primaryTypographyProps={{
-                  fontFamily: ruleType === "engine" ? '"IBM Plex Mono", monospace' : undefined,
-                  fontSize: MIN_TEXT_SIZE,
-                  fontWeight: isRuleActive ? 600 : 500,
-                  color: isRuleActive ? "primary.light" : "text.primary",
-                  noWrap: true,
-                }}
-              />
+              <span
+                className={cn(
+                  "min-w-0 flex-1 truncate text-[0.75rem]",
+                  ruleType === "engine" && "font-mono",
+                  isRuleActive ? "font-semibold text-foreground-accent" : "font-medium text-foreground"
+                )}
+              >
+                {displayLabel}
+              </span>
               <HealthDot status={healthStatus || "gray"} />
             </>
+          ) : (
+            <span className="font-mono text-[0.7rem] text-primary">{ruleId.slice(0, 3)}</span>
           )}
-        </ListItemButton>
-      </Tooltip>
-      {isOpen && (isExpanded || isRuleActive) && (
+        </RouterLink>
+      </div>
+      {isOpen && (isExpanded || isRuleActive) ? (
         <RuleActionBar
           items={LEAF_ITEMS}
           leafPaths={leafPaths}
@@ -290,100 +255,73 @@ function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, exp
           location={location}
           isOpen={isOpen}
         />
-      )}
+      ) : null}
     </>
   );
 }
 
 function CategoryNode({ categoryId, label, color, icon, rules, ruleType, isOpen, expanded, onToggle, onNavigate, location, search, healthMap, getEngineRuleTitle }) {
   const isExpanded = expanded[`cat-${ruleType}-${categoryId}`] || false;
-  const Icon = typeof icon === "string" ? ICON_MAP[icon] || DescriptionIcon : icon;
+  const Icon = typeof icon === "string" ? ICON_MAP[icon] || FileText : icon;
 
   const filteredRules = useMemo(() => {
     if (!search) return rules;
     const q = search.toLowerCase();
     return rules.filter((r) => {
       const ruleId = typeof r === "string" ? r : r.id || r.route;
-      const label =
+      const ruleLabel =
         typeof r === "string"
           ? ruleType === "engine"
             ? getEngineRuleTitle(r)
             : r
           : r.name || r.label || ruleId;
-      return ruleId.toLowerCase().includes(q) || String(label).toLowerCase().includes(q);
+      return ruleId.toLowerCase().includes(q) || String(ruleLabel).toLowerCase().includes(q);
     });
   }, [rules, search, ruleType, getEngineRuleTitle]);
 
   if (search && filteredRules.length === 0) return null;
 
-  const handleToggle = () => {
-    onToggle(`cat-${ruleType}-${categoryId}`);
-  };
-
   return (
     <>
-      <ListItemButton
-        onClick={handleToggle}
-        sx={{
-          pl: isOpen ? 4 : 2,
-          py: 0.5,
-          minHeight: 32,
-          borderRadius: 1.5,
-          mx: isOpen ? 0.5 : 0,
-          "&:hover": { bgcolor: alpha(color, 0.08) },
-        }}
+      <Button
+        variant="ghost"
+        onClick={() => onToggle(`cat-${ruleType}-${categoryId}`)}
+        className={cn("h-auto min-h-8 w-[calc(100%-4px)] justify-start rounded-md py-1 text-left font-sans normal-case tracking-normal", isOpen ? "mx-1 pl-8" : "pl-4")}
       >
-        <ListItemIcon sx={{ minWidth: isOpen ? 28 : 24, mr: isOpen ? 0.5 : 0 }}>
-          <Icon sx={{ fontSize: 16, color }} />
-        </ListItemIcon>
-        {isOpen && (
+        <Icon className="mr-1 size-4 shrink-0" style={{ color }} />
+        {isOpen ? (
           <>
-            <ListItemText
-              primary={label}
-              primaryTypographyProps={{
-                fontSize: "0.76rem",
-                fontWeight: 600,
-                color: "text.primary",
-              }}
-            />
-            <Typography variant="caption" sx={{ color: "primary.light", fontSize: MIN_TEXT_SIZE, fontWeight: 600 }}>
-              {filteredRules.length}
-            </Typography>
-            {isExpanded ? (
-              <ExpandMoreIcon sx={{ fontSize: 16, color: "text.secondary", ml: 0.5 }} />
-            ) : (
-              <ChevronRightIcon sx={{ fontSize: 16, color: "text.secondary", ml: 0.5 }} />
-            )}
+            <span className="min-w-0 flex-1 truncate text-[0.76rem] font-semibold text-foreground">{label}</span>
+            <span className="text-[0.75rem] font-semibold text-foreground-accent">{filteredRules.length}</span>
+            {isExpanded ? <ChevronDown className="ml-1 size-4 text-foreground-secondary" /> : <ChevronRight className="ml-1 size-4 text-foreground-secondary" />}
           </>
-        )}
-      </ListItemButton>
-      {isOpen && (
-        <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-          <List disablePadding>
-            {filteredRules.map((rule) => {
-              const ruleId = typeof rule === "string" ? rule : rule.id || rule.route;
-              const ruleLabel = typeof rule === "string"
-                ? (ruleType === "engine" ? getEngineRuleTitle(rule) : rule)
-                : (rule.name || rule.label || rule.id);
-              return (
-                <RuleNode
-                  key={ruleId}
-                  ruleId={ruleId}
-                  ruleLabel={ruleLabel}
-                  ruleType={ruleType}
-                  criteriaOrCategory={categoryId}
-                  isOpen={isOpen}
-                  expanded={expanded}
-                  onToggle={onToggle}
-                  onNavigate={onNavigate}
-                  location={location}
-                  healthStatus={healthMap?.[ruleId]}
-                />
-              );
-            })}
-          </List>
-        </Collapse>
-      )}
+        ) : null}
+      </Button>
+      {isOpen && isExpanded ? (
+        <div>
+          {filteredRules.map((rule) => {
+            const ruleId = typeof rule === "string" ? rule : rule.id || rule.route;
+            const ruleLabel = typeof rule === "string"
+              ? (ruleType === "engine" ? getEngineRuleTitle(rule) : rule)
+              : (rule.name || rule.label || rule.id);
+            return (
+              <RuleNode
+                key={ruleId}
+                ruleId={ruleId}
+                ruleLabel={ruleLabel}
+                ruleType={ruleType}
+                criteriaOrCategory={categoryId}
+                isOpen={isOpen}
+                expanded={expanded}
+                onToggle={onToggle}
+                onNavigate={onNavigate}
+                location={location}
+                healthStatus={healthMap?.[ruleId]}
+              />
+            );
+          })}
+        </div>
+      ) : null}
     </>
   );
 }
@@ -402,49 +340,25 @@ function TierNode({ tierId, label, icon: Icon, count, color, isOpen, expanded, o
 
   return (
     <>
-      <Tooltip title={!isOpen ? `${label} (${count})` : ""} placement="right">
-        <ListItemButton
-          onClick={handleClick}
-          sx={{
-            pl: isOpen ? 2 : 1.5,
-            py: isOpen ? 0.8 : 1,
-            minHeight: isOpen ? 40 : 44,
-            borderRadius: 2,
-            mx: isOpen ? 0.5 : 0.25,
-            mb: 0.25,
-            "&:hover": { bgcolor: alpha(color, 0.08) },
-          }}
-        >
-          <ListItemIcon sx={{ minWidth: isOpen ? 32 : 28, mr: isOpen ? 1 : 0 }}>
-            <Icon sx={{ fontSize: isOpen ? 20 : 22, color }} />
-          </ListItemIcon>
-          {isOpen && (
-            <>
-              <ListItemText
-                primary={label}
-                primaryTypographyProps={{
-                  fontSize: "0.85rem",
-                  fontWeight: 700,
-                  color: "text.primary",
-                }}
-              />
-              <Typography variant="caption" sx={{ color: "text.secondary", fontWeight: 700, fontSize: MIN_TEXT_SIZE }}>
-                {count}
-              </Typography>
-              {isExpanded ? (
-                <ExpandMoreIcon sx={{ fontSize: 18, color: "text.secondary", ml: 0.5 }} />
-              ) : (
-                <ChevronRightIcon sx={{ fontSize: 18, color: "text.secondary", ml: 0.5 }} />
-              )}
-            </>
-          )}
-        </ListItemButton>
-      </Tooltip>
-      {isOpen && (
-        <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-          <List disablePadding>{children}</List>
-        </Collapse>
-      )}
+      <Button
+        variant="ghost"
+        title={!isOpen ? `${label} (${count})` : undefined}
+        onClick={handleClick}
+        className={cn(
+          "mb-0.5 h-auto w-[calc(100%-4px)] justify-start rounded-md text-left font-sans normal-case tracking-normal",
+          isOpen ? "mx-1 min-h-10 py-2 pl-4" : "mx-0.5 min-h-11 justify-center py-2"
+        )}
+      >
+        <Icon className={isOpen ? "mr-2 size-5 shrink-0" : "size-5 shrink-0"} style={{ color }} />
+        {isOpen ? (
+          <>
+            <span className="min-w-0 flex-1 truncate text-[0.85rem] font-bold text-foreground">{label}</span>
+            <span className="text-[0.75rem] font-bold text-foreground-secondary">{count}</span>
+            {isExpanded ? <ChevronDown className="ml-1 size-[18px] text-foreground-secondary" /> : <ChevronRight className="ml-1 size-[18px] text-foreground-secondary" />}
+          </>
+        ) : null}
+      </Button>
+      {isOpen && isExpanded ? <div>{children}</div> : null}
     </>
   );
 }
@@ -458,7 +372,7 @@ export default function RuleTreeSidebar({
   const navigate = useNavigate();
   const location = useLocation();
   const [expanded, setExpanded] = useState(loadExpanded);
-  const [search, setSearch] = useState("");
+  const { searchTerm: search, setSearchTerm: setSearch, clearSearch } = useLibrarySearchParams();
   const [data, setData] = useState([]);
   const [engineTitles, setEngineTitles] = useState({});
   const [engineRuleCount, setEngineRuleCount] = useState(0);
@@ -535,10 +449,7 @@ export default function RuleTreeSidebar({
   }, [location.pathname]);
 
   const handleToggle = useCallback((nodeId) => {
-    setExpanded((prev) => {
-      const next = { ...prev, [nodeId]: !prev[nodeId] };
-      return next;
-    });
+    setExpanded((prev) => ({ ...prev, [nodeId]: !prev[nodeId] }));
   }, []);
 
   const handleNavigate = useCallback(
@@ -571,7 +482,6 @@ export default function RuleTreeSidebar({
       }));
   }, [data]);
 
-  // Health status map from analysis cache
   const healthMap = useMemo(() => {
     const map = {};
     try {
@@ -599,10 +509,8 @@ export default function RuleTreeSidebar({
     return map;
   }, []);
 
-  // Subscribe to storage events for cross-tab updates
   useEffect(() => {
     const handler = () => {
-      // Force re-render when localStorage changes (from batch analysis, etc.)
       setExpanded((prev) => ({ ...prev }));
     };
     window.addEventListener("storage", handler);
@@ -612,165 +520,111 @@ export default function RuleTreeSidebar({
   const isDashboardActive = location.pathname === "/";
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", height: "100%", overflow: "hidden" }}>
-      {showDashboardLink && (
-      <Box sx={{ mb: 0.5, mt: 0.5 }}>
-        <Tooltip title={!isOpen ? "Dashboard" : ""} placement="right">
-          <ListItemButton
-            onClick={() => handleNavigate("/")}
-            selected={isDashboardActive}
-            sx={{
-              pl: isOpen ? 2 : 1.5,
-              py: isOpen ? 0.8 : 1,
-              minHeight: isOpen ? 40 : 44,
-              mx: isOpen ? 0.5 : 0.25,
-              "&.Mui-selected": { bgcolor: "action.selected" },
-            }}
-          >
-            <ListItemIcon sx={{ minWidth: isOpen ? 32 : 28, mr: isOpen ? 1 : 0 }}>
-              <DashboardIcon sx={{ fontSize: isOpen ? 20 : 22, color: "text.secondary" }} />
-            </ListItemIcon>
-            {isOpen && (
-              <ListItemText
-                primary="Dashboard"
-                primaryTypographyProps={{ fontSize: "0.85rem", fontWeight: 600 }}
-              />
+    <div className="flex h-full flex-col overflow-hidden">
+      {showDashboardLink ? (
+        <div className="mb-1 mt-1">
+          <RouterLink
+            to="/"
+            title={!isOpen ? "Dashboard" : undefined}
+            onClick={onCloseMobile}
+            className={cn(
+              "flex w-full items-center text-left no-underline text-inherit",
+              isOpen ? "min-h-10 py-2 pl-4" : "min-h-11 justify-center py-2",
+              isDashboardActive && "bg-primary/10"
             )}
-          </ListItemButton>
-        </Tooltip>
-      </Box>
-      )}
+          >
+            <LayoutDashboard className={cn("text-foreground-secondary", isOpen ? "mr-2 size-5" : "size-5")} />
+            {isOpen ? <span className="text-[0.85rem] font-semibold">Dashboard</span> : null}
+          </RouterLink>
+        </div>
+      ) : null}
 
-      {showDashboardLink && (
-      <Box sx={{ height: "1px", bgcolor: "divider", mx: isOpen ? 2 : 0.5, my: 0.5 }} />
-      )}
+      {showDashboardLink ? <div className={`my-1 h-px bg-border ${isOpen ? "mx-4" : "mx-1"}`} /> : null}
 
-      {/* Search (only when drawer is open) */}
-      {isOpen && (
-        <Box sx={{ px: 1.5, py: 0.5 }}>
-          <TextField
-            size="small"
-            placeholder="Filter rules..."
+      {isOpen ? (
+        <div className="px-3 py-1.5">
+          <SearchField
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            fullWidth
-            inputProps={{ "aria-label": "Filter rules" }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon sx={{ fontSize: 16, color: "primary.main" }} />
-                </InputAdornment>
-              ),
-              endAdornment: search && (
-                <InputAdornment position="end">
-                  <IconButton
-                    size="small"
-                    onClick={() => setSearch("")}
-                    sx={{ p: 0.25 }}
-                    aria-label="Clear rule filter"
-                  >
-                    <CancelIcon sx={{ fontSize: 14 }} />
-                  </IconButton>
-                </InputAdornment>
-              ),
-              sx: { fontSize: "0.75rem", height: 30 },
-            }}
+            onValueChange={setSearch}
+            onClear={clearSearch}
+            placeholder="Filter rules…"
+            aria-label="Filter rules in sidebar"
+            containerClassName="h-8 rounded-md shadow-none"
+            className="text-[0.75rem]"
           />
-        </Box>
-      )}
+        </div>
+      ) : null}
 
-      {/* Scrollable tree area */}
-      <Box
-        sx={{
-          flex: 1,
-          overflowY: "auto",
-          overflowX: "hidden",
-          pb: 2,
-          "&::-webkit-scrollbar": { width: 6 },
-          "&::-webkit-scrollbar-track": { background: "transparent" },
-          "&::-webkit-scrollbar-thumb": {
-            background: "rgba(148, 163, 184, 0.3)",
-            borderRadius: 3,
-            "&:hover": { background: "rgba(148, 163, 184, 0.5)" },
-          },
-        }}
-      >
-        <List disablePadding>
-          {/* Engine Rules Tier */}
-          <TierNode
-            tierId="engine"
-            label="Engine Rules"
-            icon={ScienceIcon}
-            count={engineRuleCount}
-            color="#673ab7"
-            isOpen={isOpen}
-            expanded={expanded}
-            onToggle={handleToggle}
-            onRequestOpen={onRequestOpen}
-          >
-            {ENGINE_RULE_CATEGORIES.map((cat) => (
-              <CategoryNode
-                key={cat.id}
-                categoryId={cat.id}
-                label={cat.label}
-                color={cat.color}
-                icon={cat.icon}
-                rules={cat.rules}
-                ruleType="engine"
-                isOpen={isOpen}
-                expanded={expanded}
-                onToggle={handleToggle}
-                onNavigate={handleNavigate}
-                location={location}
-                search={search}
-                healthMap={healthMap}
-                getEngineRuleTitle={getEngineRuleTitle}
-              />
-            ))}
-          </TierNode>
+      <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto pb-4">
+        <TierNode
+          tierId="engine"
+          label="Engine Rules"
+          icon={FlaskConical}
+          count={engineRuleCount}
+          color="#673ab7"
+          isOpen={isOpen}
+          expanded={expanded}
+          onToggle={handleToggle}
+          onRequestOpen={onRequestOpen}
+        >
+          {ENGINE_RULE_CATEGORIES.map((cat) => (
+            <CategoryNode
+              key={cat.id}
+              categoryId={cat.id}
+              label={cat.label}
+              color={cat.color}
+              icon={cat.icon}
+              rules={cat.rules}
+              ruleType="engine"
+              isOpen={isOpen}
+              expanded={expanded}
+              onToggle={handleToggle}
+              onNavigate={handleNavigate}
+              location={location}
+              search={search}
+              healthMap={healthMap}
+              getEngineRuleTitle={getEngineRuleTitle}
+            />
+          ))}
+        </TierNode>
 
-          {/* Divider between tiers */}
-          <Box sx={{ height: "1px", bgcolor: "divider", mx: isOpen ? 2 : 0.5, my: 0.5 }} />
+        <div className={`my-1 h-px bg-border ${isOpen ? "mx-4" : "mx-1"}`} />
 
-          {/* Legacy Rules Tier */}
-          <TierNode
-            tierId="legacy"
-            label="Legacy Rules"
-            icon={({ sx, ...props }) => (
-              <DescriptionIcon sx={{ ...sx }} {...props} />
-            )}
-            count={data.length || 90}
-            color="#1e88e5"
-            isOpen={isOpen}
-            expanded={expanded}
-            onToggle={handleToggle}
-            onRequestOpen={onRequestOpen}
-          >
-            {legacyByCategory.map((cat) => (
-              <CategoryNode
-                key={cat.id}
-                categoryId={cat.id}
-                label={cat.label}
-                color={cat.color}
-                icon={DescriptionIcon}
-                rules={cat.rules.map((r) => ({
-                  id: r.route,
-                  name: r.name,
-                  label: r.name,
-                }))}
-                ruleType="legacy"
-                isOpen={isOpen}
-                expanded={expanded}
-                onToggle={handleToggle}
-                onNavigate={handleNavigate}
-                location={location}
-                search={search}
-                healthMap={healthMap}
-              />
-            ))}
-          </TierNode>
-        </List>
-      </Box>
-    </Box>
+        <TierNode
+          tierId="legacy"
+          label="Legacy Rules"
+          icon={FileText}
+          count={data.length || 90}
+          color="#1e88e5"
+          isOpen={isOpen}
+          expanded={expanded}
+          onToggle={handleToggle}
+          onRequestOpen={onRequestOpen}
+        >
+          {legacyByCategory.map((cat) => (
+            <CategoryNode
+              key={cat.id}
+              categoryId={cat.id}
+              label={cat.label}
+              color={cat.color}
+              icon={FileText}
+              rules={cat.rules.map((r) => ({
+                id: r.route,
+                name: r.name,
+                label: r.name,
+              }))}
+              ruleType="legacy"
+              isOpen={isOpen}
+              expanded={expanded}
+              onToggle={handleToggle}
+              onNavigate={handleNavigate}
+              location={location}
+              search={search}
+              healthMap={healthMap}
+            />
+          ))}
+        </TierNode>
+      </div>
+    </div>
   );
 }

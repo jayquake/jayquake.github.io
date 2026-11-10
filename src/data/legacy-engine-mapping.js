@@ -14,8 +14,9 @@
 // rules that are Migrated or Partial Migrated.
 
 const legacyEngineMapping = {
-  // ariaLabelMissuse → NameProhibitedNoAriaLabel
-  ariaLabelMissuse: [
+  // ariaLabelMisuse → NameProhibitedNoAriaLabel
+  // (data.json shortCode; older CSV used ariaLabelMissuse)
+  ariaLabelMisuse: [
     {
       id: "name-prohibited-no-aria-label",
       label: "NameProhibitedNoAriaLabel (Engine rule)",
@@ -69,12 +70,12 @@ const legacyEngineMapping = {
     },
   ],
 
-  // brokenList → ListItemWithinList
+  // brokenList → ListItemMisuse (replaces removed list-item-within-list)
   brokenList: [
     {
-      id: "list-item-within-list",
-      label: "ListItemWithinList (Engine rule)",
-      path: "/engine/list-item-within-list",
+      id: "list-item-misuse",
+      label: "ListItemMisuse (Engine rule)",
+      path: "/engine/list-item-misuse",
     },
   ],
 
@@ -119,12 +120,17 @@ const legacyEngineMapping = {
     },
   ],
 
-  // captcha → CaptchaAccessibleProvider
+  // captcha → CaptchaAccessibleProvider 2.0 / 2.2
   captcha: [
     {
-      id: "captcha-accessible-provider",
-      label: "CaptchaAccessibleProvider (Engine rule)",
-      path: "/engine/captcha-accessible-provider",
+      id: "captcha-accessible-provider-v2.0",
+      label: "CaptchaAccessibleProviderV2.0 (Engine rule)",
+      path: "/engine/captcha-accessible-provider-2.0",
+    },
+    {
+      id: "captcha-accessible-provider-v2.2",
+      label: "CaptchaAccessibleProviderV2.2 (Engine rule)",
+      path: "/engine/captcha-accessible-provider-2.2",
     },
   ],
 
@@ -178,17 +184,13 @@ const legacyEngineMapping = {
     },
   ],
 
-  // fakeHiddenInteractive → TabbableVisible, SrHiddenTabbable
+  // fakeHiddenInteractive → TabbableExposed (renamed from sr-hidden-tabbable;
+  // tabbable-visible removed upstream)
   fakeHiddenInteractive: [
     {
-      id: "tabbable-visible",
-      label: "TabbableVisible (Engine rule)",
-      path: "/engine/tabbable-visible",
-    },
-    {
-      id: "sr-hidden-tabbable",
-      label: "SrHiddenTabbable (Engine rule)",
-      path: "/engine/sr-hidden-tabbable",
+      id: "tabbable-exposed",
+      label: "TabbableExposed (Engine rule)",
+      path: "/engine/tabbable-exposed",
     },
   ],
 
@@ -237,12 +239,12 @@ const legacyEngineMapping = {
     },
   ],
 
-  // keyboardNavigation → InteractiveNotTabbable
+  // keyboardNavigation → TabbableMismatch (renamed from interactive-not-tabbable)
   keyboardNavigation: [
     {
-      id: "interactive-not-tabbable",
-      label: "InteractiveNotTabbable (Engine rule)",
-      path: "/engine/interactive-not-tabbable",
+      id: "tabbable-mismatch",
+      label: "TabbableMismatch (Engine rule)",
+      path: "/engine/tabbable-mismatch",
     },
   ],
 
@@ -377,12 +379,12 @@ const legacyEngineMapping = {
     },
   ],
 
-  // noninteractiveTabindex → TabbableNonInteractive
+  // noninteractiveTabindex → TabbableMisuse (renamed from tabbable-non-interactive)
   noninteractiveTabindex: [
     {
-      id: "tabbable-non-interactive",
-      label: "TabbableNonInteractive (Engine rule)",
-      path: "/engine/tabbable-non-interactive",
+      id: "tabbable-misuse",
+      label: "TabbableMisuse (Engine rule)",
+      path: "/engine/tabbable-misuse",
     },
   ],
 
@@ -503,6 +505,371 @@ const legacyEngineMapping = {
       path: "/engine/page-meta-viewport",
     },
   ],
+
+  // --- Extended mappings (CSV Not Migrated / name match; examples still sync from atomic-tests) ---
+
+  activeTab: [
+    { id: "tab-mismatch", label: "TabMismatch (Engine rule)", path: "/engine/tab-mismatch" },
+    { id: "tab-misuse", label: "TabMisuse (Engine rule)", path: "/engine/tab-misuse" },
+  ],
+
+  altText: [
+    {
+      id: "image-discernible",
+      label: "ImageDiscernible (Engine rule)",
+      path: "/engine/image-discernible",
+    },
+    {
+      id: "image-discernible-correctly",
+      label: "ImageDiscernibleCorrectly (Engine rule)",
+      path: "/engine/image-discernible-correctly",
+    },
+    { id: "alt-misuse", label: "AltMisuse (Engine rule)", path: "/engine/alt-misuse" },
+  ],
+
+  ambiguousLinks: [
+    {
+      id: "link-anchor-ambiguous",
+      label: "LinkAnchorAmbiguous (Engine rule)",
+      path: "/engine/link-anchor-ambiguous",
+    },
+    {
+      id: "link-navigation-ambiguous",
+      label: "LinkNavigationAmbiguous (Engine rule)",
+      path: "/engine/link-navigation-ambiguous",
+    },
+  ],
+
+  backgroundImages: [
+    {
+      id: "background-image-discernible",
+      label: "BackgroundImageDiscernible (Engine rule)",
+      path: "/engine/background-image-discernible",
+    },
+    {
+      id: "background-image-discernible-image",
+      label: "BackgroundImageDiscernibleImage (Engine rule)",
+      path: "/engine/background-image-discernible-image",
+    },
+  ],
+
+  buttonRoles: [
+    {
+      id: "button-mismatch",
+      label: "ButtonMismatch (Engine rule)",
+      path: "/engine/button-mismatch",
+    },
+    {
+      id: "toggle-button-mismatch",
+      label: "ToggleButtonMismatch (Engine rule)",
+      path: "/engine/toggle-button-mismatch",
+    },
+  ],
+
+  carouselArrows: [
+    {
+      id: "carousel-next-slide-discernible",
+      label: "CarouselNextSlideDiscernible (Engine rule)",
+      path: "/engine/carousel-next-slide-discernible",
+    },
+    {
+      id: "carousel-next-slide-discernible-correctly",
+      label: "CarouselNextSlideDiscernibleCorrectly (Engine rule)",
+      path: "/engine/carousel-next-slide-discernible-correctly",
+    },
+    {
+      id: "carousel-previous-slide-discernible",
+      label: "CarouselPreviousSlideDiscernible (Engine rule)",
+      path: "/engine/carousel-previous-slide-discernible",
+    },
+    {
+      id: "carousel-previous-slide-discernible-correctly",
+      label: "CarouselPreviousSlideDiscernibleCorrectly (Engine rule)",
+      path: "/engine/carousel-previous-slide-discernible-correctly",
+    },
+  ],
+
+  carouselLabeling: [
+    {
+      id: "carousel-mismatch",
+      label: "CarouselMismatch (Engine rule)",
+      path: "/engine/carousel-mismatch",
+    },
+    {
+      id: "carousel-discernible",
+      label: "CarouselDiscernible (Engine rule)",
+      path: "/engine/carousel-discernible",
+    },
+    {
+      id: "carousel-redundant-discernible-text",
+      label: "CarouselRedundantDiscernibleText (Engine rule)",
+      path: "/engine/carousel-redundant-discernible-text",
+    },
+  ],
+
+  carouselPagination: [
+    {
+      id: "carousel-slide-picker-discernible",
+      label: "CarouselSlidePickerDiscernible (Engine rule)",
+      path: "/engine/carousel-slide-picker-discernible",
+    },
+  ],
+
+  columnTableHeaders: [
+    {
+      id: "table-column-header",
+      label: "TableColumnHeader (Engine rule)",
+      path: "/engine/table-column-header",
+    },
+  ],
+
+  customControlField: [
+    {
+      id: "checkbox-discernible",
+      label: "CheckboxDiscernible (Engine rule)",
+      path: "/engine/checkbox-discernible",
+    },
+    {
+      id: "checkbox-aria-checked",
+      label: "CheckboxAriaChecked (Engine rule)",
+      path: "/engine/checkbox-aria-checked",
+    },
+    {
+      id: "checkbox-mismatch",
+      label: "CheckboxMismatch (Engine rule)",
+      path: "/engine/checkbox-mismatch",
+    },
+    {
+      id: "radio-discernible",
+      label: "RadioDiscernible (Engine rule)",
+      path: "/engine/radio-discernible",
+    },
+    {
+      id: "radio-aria-checked",
+      label: "RadioAriaChecked (Engine rule)",
+      path: "/engine/radio-aria-checked",
+    },
+    {
+      id: "radio-mismatch",
+      label: "RadioMismatch (Engine rule)",
+      path: "/engine/radio-mismatch",
+    },
+  ],
+
+  customSelectField: [
+    {
+      id: "custom-select-trigger-combobox",
+      label: "CustomSelectTriggerCombobox (Engine rule)",
+      path: "/engine/custom-select-trigger-combobox",
+    },
+    {
+      id: "custom-select-options-list-listbox",
+      label: "CustomSelectOptionsListListbox (Engine rule)",
+      path: "/engine/custom-select-options-list-listbox",
+    },
+    {
+      id: "select-option-mismatch",
+      label: "SelectOptionMismatch (Engine rule)",
+      path: "/engine/select-option-mismatch",
+    },
+  ],
+
+  duplicateIds: [
+    { id: "duplicate-id", label: "DuplicateId (Engine rule)", path: "/engine/duplicate-id" },
+  ],
+
+  fakeHiddenContent: [
+    {
+      id: "visibility-misuse",
+      label: "VisibilityMisuse (Engine rule)",
+      path: "/engine/visibility-misuse",
+    },
+  ],
+
+  fieldRequired: [
+    {
+      id: "required-form-field-aria-required",
+      label: "RequiredFormFieldAriaRequired (Engine rule)",
+      path: "/engine/required-form-field-aria-required",
+    },
+  ],
+
+  fieldValidations: [
+    {
+      id: "aria-invalid-mismatch",
+      label: "AriaInvalidMismatch (Engine rule)",
+      path: "/engine/aria-invalid-mismatch",
+    },
+    {
+      id: "aria-invalid-misuse",
+      label: "AriaInvalidMisuse (Engine rule)",
+      path: "/engine/aria-invalid-misuse",
+    },
+  ],
+
+  figureSetup: [
+    {
+      id: "figure-discernible",
+      label: "FigureDiscernible (Engine rule)",
+      path: "/engine/figure-discernible",
+    },
+  ],
+
+  formDuplicateIDs: [
+    {
+      id: "form-duplicate-id",
+      label: "FormDuplicateId (Engine rule)",
+      path: "/engine/form-duplicate-id",
+    },
+  ],
+
+  formSubmissionsStatus: [
+    {
+      id: "form-context-change-warning",
+      label: "FormContextChangeWarning (Engine rule)",
+      path: "/engine/form-context-change-warning",
+    },
+  ],
+
+  headlessTables: [
+    {
+      id: "table-headers",
+      label: "TableHeaders (Engine rule)",
+      path: "/engine/table-headers",
+    },
+  ],
+
+  incorrectMainLandmark: [
+    {
+      id: "region-main-content-misuse",
+      label: "RegionMainContentMisuse (Engine rule)",
+      path: "/engine/region-main-content-misuse",
+    },
+  ],
+
+  letterSpacing: [
+    {
+      id: "letter-spacing-positive",
+      label: "LetterSpacingPositive (Engine rule)",
+      path: "/engine/letter-spacing-positive",
+    },
+  ],
+
+  linkContext: [
+    { id: "link-context", label: "LinkContext (Engine rule)", path: "/engine/link-context" },
+  ],
+
+  liveCarousels: [
+    {
+      id: "carousel-aria-live",
+      label: "CarouselAriaLive (Engine rule)",
+      path: "/engine/carousel-aria-live",
+    },
+  ],
+
+  navigationTagging: [
+    {
+      id: "navigation-mismatch",
+      label: "NavigationMismatch (Engine rule)",
+      path: "/engine/navigation-mismatch",
+    },
+    {
+      id: "navigation-discernible",
+      label: "NavigationDiscernible (Engine rule)",
+      path: "/engine/navigation-discernible",
+    },
+  ],
+
+  noticeableFocus: [
+    {
+      id: "focus-noticeable",
+      label: "FocusNoticeable (Engine rule)",
+      path: "/engine/focus-noticeable",
+    },
+  ],
+
+  popupTagging: [
+    {
+      id: "dialog-modal-mismatch",
+      label: "DialogModalMismatch (Engine rule)",
+      path: "/engine/dialog-modal-mismatch",
+    },
+  ],
+
+  redundantAriaLabels: [
+    {
+      id: "redundant-discernible-content",
+      label: "RedundantDiscernibleContent (Engine rule)",
+      path: "/engine/redundant-discernible-content",
+    },
+  ],
+
+  submenuTagging: [
+    {
+      id: "menu-trigger-mismatch",
+      label: "MenuTriggerMismatch (Engine rule)",
+      path: "/engine/menu-trigger-mismatch",
+    },
+  ],
+
+  submenuTriggerTagging: [
+    {
+      id: "menu-trigger-mismatch",
+      label: "MenuTriggerMismatch (Engine rule)",
+      path: "/engine/menu-trigger-mismatch",
+    },
+    {
+      id: "menu-trigger-misuse",
+      label: "MenuTriggerMisuse (Engine rule)",
+      path: "/engine/menu-trigger-misuse",
+    },
+  ],
+
+  tabPanelTagging: [
+    {
+      id: "tab-panel-mismatch",
+      label: "TabPanelMismatch (Engine rule)",
+      path: "/engine/tab-panel-mismatch",
+    },
+    {
+      id: "tab-panel-misuse",
+      label: "TabPanelMisuse (Engine rule)",
+      path: "/engine/tab-panel-misuse",
+    },
+  ],
+
+  tabsTagging: [
+    {
+      id: "tab-list-mismatch",
+      label: "TabListMismatch (Engine rule)",
+      path: "/engine/tab-list-mismatch",
+    },
+    {
+      id: "tab-list-misuse",
+      label: "TabListMisuse (Engine rule)",
+      path: "/engine/tab-list-misuse",
+    },
+  ],
+
+  titleMisuse: [
+    {
+      id: "no-extra-information-in-title",
+      label: "NoExtraInformationInTitle (Engine rule)",
+      path: "/engine/no-extra-information-in-title",
+    },
+  ],
+
+  userRating: [
+    {
+      id: "user-rating-discernible",
+      label: "UserRatingDiscernible (Engine rule)",
+      path: "/engine/user-rating-discernible",
+    },
+  ],
+
+  // Intentionally unmapped (no engine atomic counterpart → Criteria examples = none):
+  // enterClickability, carouselPausing, submenuOperability, keyboardHoverables,
+  // fieldValidationFocus, scrollFocus, inlinePopupFocus
 };
 
 export default legacyEngineMapping;

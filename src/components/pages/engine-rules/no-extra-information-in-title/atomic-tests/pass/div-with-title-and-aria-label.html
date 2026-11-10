@@ -1,0 +1,11 @@
+<!--testconfig
+    "testedClass": "Rules.NoExtraInformationInTitle",
+    "expect": {
+        "inapplicableNodes": [".account-menu"]
+    }
+-->
+<!--
+    The div is name-prohibited, so the title's information cannot be added to its name. Without the gate the
+    aria-label satisfies the rule's `accessibleName` check, the title is missing from that name, and the node fails.
+-->
+<div class="account-menu" title="Opens the account menu" aria-label="Account">Account</div>

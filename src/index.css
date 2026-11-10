@@ -1,5 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Rajdhani:wght@500;600;700&display=swap');
 
+@tailwind utilities;
+
+:root {
+  --primary: 172 100% 32%;
+  --accent: 214 16% 92%;
+  --muted: 214 14% 85%;
+
+  /* Shell zones — contrast steps */
+  --shell-main: 220 14% 96%;
+  --shell-sidebar: 214 16% 92%;
+  --shell-elevated: 0 0% 100%;
+  --shell-panel: 0 0% 100%;
+  --shell-input: 0 0% 100%;
+
+  --border-default: 214 14% 85%;
+  --border-strong: 214 12% 74%;
+
+  --text-primary: 210 15% 9%;
+  --text-secondary: 215 12% 28%;
+  --text-muted: 215 10% 45%;
+  --text-accent: 172 76% 28%;
+
+  --status-pass: 160 84% 32%;
+  --status-fail: 0 72% 48%;
+  --status-warn: 36 100% 40%;
+}
+
 html {
   scroll-behavior: smooth;
   overflow-y: scroll;
@@ -16,6 +43,21 @@ body:not(.app-ready) #root {
   opacity: 0.98;
 }
 
+select,
+option {
+  color-scheme: light;
+}
+
+button {
+  appearance: none;
+  background-color: transparent;
+  border-style: solid;
+  border-width: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
 body {
   margin: 0;
   font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -24,8 +66,8 @@ body {
   min-height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-  background-color: #0d0d0d;
-  color: #e0e0e0;
+  background-color: hsl(var(--shell-main));
+  color: hsl(var(--text-primary));
 }
 
 #root {
@@ -39,29 +81,29 @@ code,
   font-family: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
 }
 
-/* MGS2 Raiden carbon HUD panel */
+/* Raiden HUD panel — light shell */
 .raiden-hud {
-  background-color: #0e0e11;
+  background-color: hsl(var(--shell-panel));
   background-image:
     repeating-linear-gradient(
       -45deg,
       transparent,
       transparent 2px,
-      rgba(255, 255, 255, 0.02) 2px,
-      rgba(255, 255, 255, 0.02) 3px
+      rgba(0, 0, 0, 0.025) 2px,
+      rgba(0, 0, 0, 0.025) 3px
     ),
     repeating-linear-gradient(
       45deg,
       transparent,
       transparent 2px,
-      rgba(255, 255, 255, 0.014) 2px,
-      rgba(255, 255, 255, 0.014) 3px
+      rgba(0, 0, 0, 0.018) 2px,
+      rgba(0, 0, 0, 0.018) 3px
     );
-  border: 1px solid rgba(0, 163, 141, 0.22);
+  border: 1px solid rgba(0, 122, 104, 0.35);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    0 0 20px rgba(0, 163, 141, 0.05);
-  color: #e0e0e0;
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 1px 3px rgba(15, 23, 42, 0.06);
+  color: hsl(var(--text-primary));
   font-family: 'IBM Plex Mono', monospace;
   position: relative;
   overflow: hidden;
@@ -85,7 +127,7 @@ code,
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(94, 200, 232, 0.04) 0%,
+    rgba(0, 163, 141, 0.04) 0%,
     transparent 40%
   );
 }
@@ -115,9 +157,9 @@ code,
   width: 100%;
   max-width: 600px;
   margin: 20px auto;
-  border: 1px solid rgba(94, 200, 232, 0.28);
+  border: 1px solid rgba(0, 122, 104, 0.35);
   padding: 10px;
-  background-color: #111114;
+  background-color: hsl(var(--shell-panel));
 }
 
 .carousel-slide {
@@ -129,9 +171,9 @@ code,
 }
 
 .carousel-button {
-  background-color: #3aa8c8;
-  color: #0a0a0c;
-  border: 1px solid #5ec8e8;
+  background-color: #00a38d;
+  color: #ffffff;
+  border: 1px solid #007a68;
   padding: 10px 15px;
   cursor: pointer;
   font-family: 'IBM Plex Mono', monospace;
@@ -140,19 +182,19 @@ code,
 }
 
 .carousel-button:hover {
-  background-color: #5ec8e8;
-  box-shadow: 0 0 12px rgba(94, 200, 232, 0.45);
+  background-color: #007a68;
+  box-shadow: 0 0 12px rgba(0, 163, 141, 0.25);
 }
 
 .visible-failure {
-  border: 1px solid #ff5c5c;
+  border: 1px solid #dc3d3d;
   padding: 10px;
   margin: 10px 0;
-  background-color: rgba(255, 92, 92, 0.08);
+  background-color: rgba(220, 61, 61, 0.06);
 }
 
 .failure-description {
-  color: #ff8080;
+  color: #b82e2e;
   font-weight: 600;
   margin-top: 5px;
 }

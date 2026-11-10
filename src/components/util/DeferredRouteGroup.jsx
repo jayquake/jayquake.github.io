@@ -1,20 +1,13 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Box, CircularProgress } from "@mui/material";
 import { Route } from "react-router-dom";
 import { CRITERIA_PREFIXES } from "../../routes/criteriaPathUtils";
+import { Spinner } from "../ui/spinner";
 
 const loadingElement = (
-  <Box
-    sx={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      minHeight: "40vh",
-    }}
-  >
-    <CircularProgress size={32} />
-  </Box>
+  <div className="flex min-h-[40vh] items-center justify-center">
+    <Spinner className="size-8" />
+  </div>
 );
 
 /**

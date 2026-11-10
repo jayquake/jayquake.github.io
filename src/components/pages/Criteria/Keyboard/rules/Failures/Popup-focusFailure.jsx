@@ -1,66 +1,59 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): dialog-modal-focus
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueFailure from "../../../../../layout/issueFailure";
 
-const itemDescription = "Keyboard : Popup Focus - Failure";
+const itemDescription = "Keyboard: Popup Focus - Failure";
 
-export default () => (
+const PopupfocusFailure = () => (
   <IssueFailure
     itemContent={
       <>
-        <li id="popupFocus-failure-1">
-          <button>Open Modal</button>
-          <div role="dialog">
-            <h2>Modal Without Focus</h2>
-            <p>No focus moves to this modal, making it inaccessible to keyboard users.</p>
-            <button>Close</button>
-          </div>
-        </li>
-
-        <li id="popupFocus-failure-2">
-          <button>Open Popup</button>
-          <div role="dialog">
-            <input type="text" placeholder="Focusable element" />
-            <button>Submit</button>
-            <button>Close</button>
-          </div>
-          <a href="#">Link outside popup (focus escapes)</a>
-        </li>
-
-        <li id="popupFocus-failure-3">
-          <button>Trigger Help</button>
-          <div>
-            <h2>Help Popup</h2>
-            <p>No ARIA roles or focus management applied.</p>
-            <button>Close</button>
-          </div>
-        </li>
-
-        <li id="popupFocus-failure-4">
-          <button>Open Notification</button>
-          <div>
-            <p>Notification popup appears, but there is no way to access it with the keyboard.</p>
-            <button>Dismiss</button>
-          </div>
-        </li>
-
-        <li id="popupFocus-failure-5">
-          <button>Show Dialog</button>
-          <div role="dialog">
-            <h2>Dialog Without Focus Trap</h2>
-            <p>Focus is not trapped within the dialog and escapes to other page elements.</p>
-            <button>Close</button>
-          </div>
-        </li>
-
-        <li id="popupFocus-failure-6">
-          <button>Open Info Popup</button>
-          <div>
-            <h2>Information Popup</h2>
-            <p>This popup is not accessible because it lacks focus management and ARIA roles.</p>
-          </div>
-        </li>
+        <div
+          className="list-item"
+          id="keyboard-popup-focus-failure-failure-1"
+          data-atomic-source="dialog-modal-focus/dialog-without-autofocus"
+          dangerouslySetInnerHTML={{
+            __html: `<html>
+  <head>
+    <style>
+      [role="dialog"] {
+        position: absolute;
+        z-index: 10;
+        top: 2rem;
+        left: 50vw;
+        transform: translateX(-50%);
+        min-width: calc(640px - (15px * 2));
+        min-height: auto;
+        box-shadow: 0 19px 38px rgb(0 0 0 / 12%), 0 15px 12px rgb(0 0 0 / 22%);
+      }
+    </style>
+  </head>
+  <body>
+    <button type="button" onclick="console.log('open dialog')" aria-haspopup="dialog">Show message</button>
+    <div id="dialog_layer" class="dialogs">
+      <div role="dialog" id="dialog1" aria-labelledby="dialog1_label" aria-modal="true">
+        <h2 id="dialog1_label" class="dialog_label">Important information</h2>
+        <p class="dialog_content">some important information here that the user needs to read before continuing</p>
+        <div id="dialog-actions">
+          <button type="button" onclick="console.log('close dialog')">Close</button>
+          <button type="button" onclick="console.log('accept')">Accept</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default PopupfocusFailure;

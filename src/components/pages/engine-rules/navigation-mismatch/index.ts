@@ -1,4 +1,4 @@
-import { CompliantComponentNavigation, PerceivableComponentNavigation } from "@acsbe/core-engine-classifier";
+import { CompliantComponentNavigation, PerceivableComponentMainNavigation, PerceivableComponentNavigation } from "@acsbe/core-engine-classifier";
 import type { Rule } from "../interfaces";
 import { PassCondition } from "../interfaces";
 
@@ -10,7 +10,7 @@ export const NavigationMismatch: Rule = {
     wcagVersion: "General Guidelines",
     wcagLevel: "N/A",
   },
-  associatedDetectors: [CompliantComponentNavigation, PerceivableComponentNavigation],
+  associatedDetectors: [CompliantComponentNavigation, PerceivableComponentNavigation, PerceivableComponentMainNavigation],
   impact: "moderate",
   title: "A list of navigation links is not contained in a navigation landmark",
   description: "Screen readers rely on accurate tagging and labeling to provide necessary context. If a navigation region is not tagged as a navigation landmark, screen reader users may lose orientation and find the page's structure difficult to understand.",
@@ -40,8 +40,14 @@ export const NavigationMismatch: Rule = {
   passCondition: PassCondition.NoFailedNodes,
   async validate({ classifier, response }) {
     const navElements = classifier.getMatched([PerceivableComponentNavigation]);
+    const mainNavigation = (await classifier.getMatched([PerceivableComponentMainNavigation]))[0];
 
     for (const element of navElements) {
+      if (element === mainNavigation) {
+        response.inapplicableNodes.push(element);
+        continue;
+      }
+
       const isCompliantNav = classifier.assert(element, CompliantComponentNavigation);
 
       if (!isCompliantNav) {

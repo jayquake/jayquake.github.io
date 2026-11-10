@@ -1,57 +1,64 @@
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import MenuIcon from "@mui/icons-material/Menu";
-import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
+import { ChevronLeft } from "lucide-react";
 import RaidenLogo from "../brand/RaidenLogo";
+import { Button } from "../ui/button";
+import {
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarRail,
+  useSidebar,
+} from "../ui/sidebar";
 import RuleTreeSidebar from "./RuleTreeSidebar";
 import SidebarNav from "./SidebarNav";
 import SidebarStatusFooter from "./SidebarStatusFooter";
 
-export default function AppSidebar({ isOpen, onToggle, onCloseMobile }) {
+export default function AppSidebar() {
+  const { open, toggleSidebar, setMobileOpen } = useSidebar();
+
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
-        overflow: "hidden",
-        bgcolor: "background.paper",
-      }}
-    >
-      <Box
-        sx={{
-          px: isOpen ? 1.5 : 1,
-          py: 1.25,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          borderBottom: 1,
-          borderColor: "divider",
-          minHeight: 56,
-          gap: 0.5,
-        }}
-      >
-        <RaidenLogo variant={isOpen ? "full" : "mark"} collapsed={!isOpen} />
-        <IconButton size="small" onClick={onToggle} aria-label="Toggle sidebar">
-          {isOpen ? <ChevronLeftIcon fontSize="small" /> : <MenuIcon fontSize="small" />}
-        </IconButton>
-      </Box>
+    <>
+      <SidebarHeader className="border-b border-border">
+        <div className={`flex items-center gap-2 ${open ? "justify-between px-1" : "justify-center"}`}>
+          <RaidenLogo variant={open ? "full" : "mark"} collapsed={!open} />
+          {open ? (
+            <Button variant="ghost" size="icon" onClick={toggleSidebar} aria-label="Collapse sidebar">
+              <ChevronLeft className="size-4" />
+            </Button>
+          ) : (
+            <Button variant="ghost" size="icon" onClick={toggleSidebar} aria-label="Expand sidebar" className="mt-1">
+              <ChevronLeft className="size-4 rotate-180" />
+            </Button>
+          )}
+        </div>
+      </SidebarHeader>
 
-      <SidebarNav isOpen={isOpen} onCloseMobile={onCloseMobile} />
+      <SidebarContent>
+        <SidebarGroup className="py-0">
+          <SidebarGroupLabel className={open ? "" : "sr-only"}>Application</SidebarGroupLabel>
+          <SidebarNav isOpen={open} onCloseMobile={() => setMobileOpen(false)} />
+        </SidebarGroup>
 
-      <Divider sx={{ my: 0.5 }} />
+        {open ? (
+          <SidebarGroup className="min-h-0 flex-1 overflow-hidden border-t border-border p-0">
+            <SidebarGroupLabel className="px-4 pt-2">Engine rules</SidebarGroupLabel>
+            <div className="min-h-0 flex-1 overflow-hidden px-1 pb-1">
+              <RuleTreeSidebar
+                isOpen={open}
+                showDashboardLink={false}
+                onRequestOpen={() => !open && toggleSidebar()}
+                onCloseMobile={() => setMobileOpen(false)}
+              />
+            </div>
+          </SidebarGroup>
+        ) : null}
+      </SidebarContent>
 
-      <Box sx={{ flex: 1, minHeight: 0, overflow: "hidden" }}>
-        <RuleTreeSidebar
-          isOpen={isOpen}
-          showDashboardLink={false}
-          onRequestOpen={() => !isOpen && onToggle()}
-          onCloseMobile={onCloseMobile}
-        />
-      </Box>
-
-      <SidebarStatusFooter isOpen={isOpen} />
-    </Box>
+      <SidebarFooter className="border-t border-border p-0">
+        <SidebarStatusFooter isOpen={open} />
+      </SidebarFooter>
+      <SidebarRail />
+    </>
   );
 }

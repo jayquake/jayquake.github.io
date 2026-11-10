@@ -39,6 +39,37 @@ describe("MainNavigationDiscernible Rule Validation", () => {
     expect(response.failedNodes).toContain(mainNav);
   });
 
+  it("should use the resolved navigation landmark's accessible name", async () => {
+    const { response, classifier } = validateMethodArguments;
+    const nav = document.createElement("nav");
+    nav.innerHTML = "<div><ul><li><a href='/'>Home</a></li></ul></div>";
+    (classifier.getMatched as jest.Mock).mockReturnValue([nav]);
+    (classifier.getOperations as jest.Mock).mockReturnValue({ contentInfo: { accessibleName: "Main navigation" } });
+
+    await MainNavigationDiscernible.validate(validateMethodArguments);
+
+    expect(response.failedNodes).toHaveLength(0);
+    expect(response.passedNodes).toEqual([nav]);
+    expect(classifier.getParent).not.toHaveBeenCalled();
+  });
+
+  it("should fail the resolved navigation landmark when it has no accessible name", async () => {
+    const { response, classifier } = validateMethodArguments;
+    const nav = document.createElement("nav");
+    nav.innerHTML = "<ul><li><a href='/'>Home</a></li></ul>";
+    (classifier.getMatched as jest.Mock).mockReturnValue([nav]);
+    (classifier.getOperations as jest.Mock).mockReturnValue({
+      contentInfo: { accessibleName: "" },
+    });
+
+    await MainNavigationDiscernible.validate(validateMethodArguments);
+
+    expect(response.failedNodes).toEqual([nav]);
+    expect(response.passedNodes).toHaveLength(0);
+    expect(classifier.getOperations).toHaveBeenCalledWith(nav);
+    expect(classifier.getParent).not.toHaveBeenCalled();
+  });
+
   it("should handle multiple main navigation elements correctly", async () => {
     const { response, classifier } = validateMethodArguments;
     const mainNav1 = document.createElement("nav");

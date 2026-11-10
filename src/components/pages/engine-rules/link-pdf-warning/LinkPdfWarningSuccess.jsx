@@ -45,6 +45,7 @@ const LinkPdfWarningSuccess = () => {
   <a href=".pdf" id="pdf-link" aria-labelledby="pdf-desc">Opens</a>
   <span id="pdf-desc">This link opens pdf application.</span>
 </p>` },
+  { filename: "link pdf with title", content: `<a href="file.pdf" title="Opens PDF">Annual report</a>` },
   { filename: "non pdf link", content: `<a href="malware.zip" id="pdf-link">
   Please click here
 </a>` }

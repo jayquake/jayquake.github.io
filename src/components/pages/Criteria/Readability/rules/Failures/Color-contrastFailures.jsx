@@ -1,69 +1,90 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): color-contrast
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueFailure from "../../../../../layout/issueFailure";
 
-const itemDescription = "Readability : Color Contrast - Failure";
+const itemDescription = "Readability: Color Contrast - Failure";
 
-export default () => (
+const ColorcontrastFailures = () => (
   <IssueFailure
     itemContent={
       <>
-        <div className="list-item" id="colorContrast-failure-1">
-          <div style={{ backgroundColor: "#FFFFFF", color: "#C0C0C0", padding: "10px" }}>
-            Low contrast between white background and light gray text.
-          </div>
-        </div>
-        <div className="list-item" id="colorContrast-failure-2">
-          <div style={{ backgroundColor: "#F5F5F5", color: "#A0A0A0", fontSize: "20px" }}>
-            Insufficient contrast for larger text.
-          </div>
-        </div>
-        <div className="list-item" id="colorContrast-failure-3">
-          <div style={{ backgroundColor: "#FFFFFF", color: "#FFFF00" }}>
-            Yellow text on white background.
-          </div>
-        </div>
-        <div className="list-item" id="colorContrast-failure-4">
-          <div style={{ backgroundColor: "#333333", color: "#444444" }}>
-            Dark gray text on a slightly lighter gray background.
-          </div>
-        </div>
-        <div className="list-item" id="colorContrast-failure-5">
-          <div style={{ backgroundColor: "#FF0000", color: "#FFA500" }}>
-            Orange text on a red background with insufficient contrast.
-          </div>
-        </div>
-        <div className="list-item" id="colorContrast-failure-6">
-          <div style={{ backgroundColor: "#00008B", color: "#0000FF", padding: "10px" }}>
-            Blue text on a dark blue background with poor readability.
-          </div>
-        </div>
-        <p id="fail-small-1" className="text-small" style={{ color: "#767676", backgroundColor: "#CCCCCC" }}>
-      This is a small text with low contrast (gray on light gray). This should fail the WCAG color contrast rule.
-    </p>
-    <p id="fail-small-2" className="text-small" style={{ color: "#ADD8E6", backgroundColor: "#FFFFFF" }}>
-      This is a small text with low contrast (light blue on white). This should fail the WCAG color contrast rule.
-    </p>
-    <p id="fail-large-1" className="text-large" style={{ color: "#767676", backgroundColor: "#CCCCCC" }}>
-      This is a large text with low contrast (gray on light gray). This may fail the WCAG color contrast rule, depending on the ratio.
-    </p>
-    <p id="fail-large-2" className="text-large" style={{ color: "#90EE90", backgroundColor: "#FFFFE0" }}>
-      This is a large text with low contrast (light green on light yellow). This should fail the WCAG color contrast rule.
-    </p>
-    <div id="fail-container-1" style={{ border: "1px solid #000000", padding: "10px", backgroundColor: "#FFFFFF" }}>
-      <p className="text-small" style={{ color: "#767676" }}>
-        This is a small text with low contrast, but inside a bordered container with a white background.
-      </p>
-    </div>
-    <div id="fail-background-1" style={{ backgroundColor: "#EEEEEE", padding: "10px" }}>
-      <p className="text-small" style={{ color: "#767676", backgroundColor: "#CCCCCC" }}>
-        This text has a low contrast ratio with its direct background and the outer background. It should fail the contrast rule.
-      </p>
-    </div>
-    <p id="fail-small-3" className="text-small" style={{ color: "#FFB6C1", backgroundColor: "#FFFFFF" }}>
-      This is a small text with low contrast (light pink on white). This should fail the WCAG color contrast rule.
-    </p>
+        <div
+          className="list-item"
+          id="readability-color-contrast-failure-failure-1"
+          data-atomic-source="color-contrast/div-with-background-black-and-color-black"
+          dangerouslySetInnerHTML={{
+            __html: `<div style="background-color: black; color: black">Content</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="readability-color-contrast-failure-failure-2"
+          data-atomic-source="color-contrast/div-with-background-transparent-and-color-white-and-parent-transparent"
+          dangerouslySetInnerHTML={{
+            __html: `<div style="background-color: transparent">
+  <div id="test-subject" style="background-color: transparent; color: white">Content</div>
+</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="readability-color-contrast-failure-failure-3"
+          data-atomic-source="color-contrast/div-with-background-transparent-and-color-white"
+          dangerouslySetInnerHTML={{
+            __html: `<div style="background-color: transparent; color: white">Content</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="readability-color-contrast-failure-failure-4"
+          data-atomic-source="color-contrast/div-with-background-white-and-color-white"
+          dangerouslySetInnerHTML={{
+            __html: `<div style="background-color: white; color: white">Content</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="readability-color-contrast-failure-failure-5"
+          data-atomic-source="color-contrast/div-with-font-size-16px-with-ratio-3.5"
+          dangerouslySetInnerHTML={{
+            __html: `<div style="font-size: 16px; color: #000000; background-color: #C80909;">Text Contrast Ratio 3.49:1</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="readability-color-contrast-failure-failure-6"
+          data-atomic-source="color-contrast/lab-color-background-contrast-too-dark"
+          dangerouslySetInnerHTML={{
+            __html: `<style>
+    :root {
+        --color-wicked-black: lab(14.9042% -15.339 28.5532);
+        --color-noir-black: lab(0% 0 0);
+    }
+
+    .bg-wicked-black {
+        background-color: var(--color-wicked-black);
+    }
+
+    .text-noir-black {
+        color: var(--color-noir-black);
+    }
+</style>
+
+<div class="bg-wicked-black text-noir-black">
+  “Dressing in one color—head-to-toe—is less complicated... it is just bold and fierce, for lack of a better word.”
+</div>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default ColorcontrastFailures;

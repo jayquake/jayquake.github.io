@@ -12,6 +12,7 @@ const LinkNavigationAmbiguousSuccess = () => {
   "Test with assistive technologies"
   ];
   const htmlExamples = [
+  { filename: "allamericanclothing", content: `<a id="target" class="blog__read-more-button global-button global-button--text extracted_12" href="http://localhost/test" title="Made by Americans: Vermont Teddy Bear"> Read More </a>` },
   { filename: "ambigious link remediated with appened visible text", content: `<a aria-label="Home | click here" href="/home">click here</a>` },
   { filename: "link anchor", content: `<!-- Anchor link should not be audited at all here -->
 <a class="button-solid-reversed" href="#marketoModalForm-demo">Demo</a>
@@ -25,6 +26,16 @@ const LinkNavigationAmbiguousSuccess = () => {
   { filename: "link with non ambiguous long content", content: `<a href="/homepage">this link leads to the homepage</a>` },
   { filename: "link with non ambiguous short content", content: `<a href="/homepage">go to homepage</a>` },
   { filename: "remediated link  bacekdn string is ambigous already includes visible text", content: `<a href="/discover-more/" aria-label="Discover more - gardyn">Discover more</a>` },
+  { filename: "remediated link with context appended to short aria label", content: `<!-- The remediation appends into the highest priority attribute rather than overwriting it, so nothing in the DOM
+     marks the addition - "more Go | Home" is still ambiguous (the "|" is stripped, leaving 3 words, one of them
+     "more") and the only evidence of the added context is the name having outgrown the visible text "Go". -->
+<a href="http://localhost/" aria-label="more Go | Home">Go</a>` },
+  { filename: "remediated link with image alt and sr only context", content: `<a href="http://localhost/">
+  <img alt="click here" />
+  <span data-acsb-sr-only="true" style="position: absolute !important; width: 1px !important; height: 1px !important; padding: 0px !important; overflow: hidden !important; clip: rect(0px, 0px, 0px, 0px) !important; border: 0px !important">
+    Home
+  </span>
+</a>` },
   { filename: "remediated link", content: `<a href="http://localhost/"><span data-acsb-sr-only="true" class="acsb-sr-only" style="position: absolute !important; width: 1px !important; height: 1px !important; padding: 0px !important; overflow: hidden !important; clip: rect(0px, 0px, 0px, 0px) !important; border: 0px !important;">home </span>Go</a>` },
   { filename: "tel link", content: `<a href="tel:6128721152">612-872-1152</a>` }
   ];

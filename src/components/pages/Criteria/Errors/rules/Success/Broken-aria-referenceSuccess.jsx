@@ -1,49 +1,79 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): aria-labelledby-has-reference, aria-describedby-has-reference
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueSuccess from "../../../../../layout/issueSuccess";
 
 const itemDescription = "Errors: Broken Aria Reference - Success";
 
-export default () => (
+const BrokenariareferenceSuccess = () => (
   <IssueSuccess
     itemContent={
       <>
-        <li className="list-item" id="ariaReference-success-1">
-          <label id="name-label" htmlFor="name-input">Name</label>
-          <input id="name-input" type="text" aria-labelledby="name-label" />
-        </li>
-        
-        <li className="list-item" id="ariaReference-success-2">
-          <p id="email-help">Enter your email address.</p>
-          <input id="email-input" type="email" aria-describedby="email-help" />
-        </li>
-        
-        <li className="list-item" id="ariaReference-success-3">
-          <span id="hidden-label" className="sr-only">Search Field</span>
-          <input id="search-input" type="search" aria-labelledby="hidden-label" />
-        </li>
-        
-        <li className="list-item" id="ariaReference-success-4">
-          <p id="password-hint">Password must be at least 8 characters long.</p>
-          <input id="password-input" type="password" aria-describedby="password-hint" />
-        </li>
-        
-        <li className="list-item" id="ariaReference-success-5">
-          <button aria-controls="dropdown-menu" aria-expanded="false">Toggle Menu</button>
-          <ul id="dropdown-menu" hidden>
-            <li>Option 1</li>
-            <li>Option 2</li>
-          </ul>
-        </li>
-        
-        <li className="list-item" id="ariaReference-success-6">
-          <ul id="autocomplete-list" role="listbox">
-            <li id="suggestion1" role="option">Apple</li>
-            <li id="suggestion2" role="option">Orange</li>
-          </ul>
-          <input type="text" aria-activedescendant="suggestion1" aria-owns="autocomplete-list" />
-        </li>
+        <div
+          className="list-item"
+          id="errors-broken-aria-reference-success-success-1"
+          data-atomic-source="aria-labelledby-has-reference/input-with-aria-labelledby-and-matching-element"
+          dangerouslySetInnerHTML={{
+            __html: `<input aria-labelledby="label" />
+<div id="label">Some label</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-broken-aria-reference-success-success-2"
+          data-atomic-source="aria-labelledby-has-reference/input-without-aria-references"
+          dangerouslySetInnerHTML={{
+            __html: `<input aria-label="label" />`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-broken-aria-reference-success-success-3"
+          data-atomic-source="aria-labelledby-has-reference/multiple-inputs-with-labelledby-and-with-matching-element"
+          dangerouslySetInnerHTML={{
+            __html: `<input id="labelled-by" aria-labelledby="description" />
+<div id="description">Some label</div>
+<input id="labelled-by-1" aria-labelledby="label" />
+<div id="label">Some label</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-broken-aria-reference-success-success-4"
+          data-atomic-source="aria-describedby-has-reference/input-with-aria-describedby-and-matching-element"
+          dangerouslySetInnerHTML={{
+            __html: `<input aria-describedby="description" />
+<div id="description">Some description</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-broken-aria-reference-success-success-5"
+          data-atomic-source="aria-describedby-has-reference/input-without-aria-references"
+          dangerouslySetInnerHTML={{
+            __html: `<input aria-label="label" />`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-broken-aria-reference-success-success-6"
+          data-atomic-source="aria-describedby-has-reference/multiple-inputs-with-labelledby-and-describedby-with-matching-element"
+          dangerouslySetInnerHTML={{
+            __html: `<input id="describedby-by" aria-describedby="description" />
+<div id="description">Some description</div>
+<input id="describedby-by-2" aria-describedby="description-2" />
+<div id="description-2">Some description</div>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default BrokenariareferenceSuccess;

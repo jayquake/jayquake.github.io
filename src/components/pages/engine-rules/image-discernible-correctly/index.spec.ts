@@ -13,7 +13,7 @@ describe("ImageDiscernibleCorrectly Rule Validation", () => {
       const ariaLabel = element.getAttribute("aria-label");
       const alt = element.getAttribute("alt");
       return {
-        contentInfo: { srVisibleText: (ariaLabel ? ariaLabel : "") + (alt ? alt : "") },
+        contentInfo: { accessibleName: (ariaLabel ? ariaLabel : "") + (alt ? alt : "") },
       };
     });
   });

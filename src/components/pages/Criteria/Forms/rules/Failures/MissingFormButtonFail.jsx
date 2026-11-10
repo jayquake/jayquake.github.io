@@ -1,110 +1,46 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): form-submit-button-mismatch
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueFailure from "../../../../../layout/issueFailure";
 
-const itemDescription = "Form - Missing Form Button Failures";
+const itemDescription = "Forms: Missing Form Button - Failure";
 
-export default () => (
+const MissingFormButtonFail = () => (
   <IssueFailure
     itemContent={
       <>
-        <h2>A form without any submit button:</h2>
-        <form action="#">
-          <label htmlFor="username">Username:</label>
-          <br />
-          <input type="text" id="username" name="username" />
-          <br />
-          <label htmlFor="password">Password:</label>
-          <br />
-          <input type="password" id="password" name="password" />
-          <br />
-        </form>
-
-        <h2>
-          A form with an input field used as a submit button but without a type
-          attribute:
-        </h2>
-        <form action="#">
-          <label htmlFor="username">Username:</label>
-          <br />
-          <input type="text" id="username" name="username" />
-          <br />
-          <label htmlFor="password">Password:</label>
-          <br />
-          <input type="password" id="password" name="password" />
-          <br />
-          <input type="submit" value="Submit" />
-        </form>
-
-        <h2>A form with a submit button but with a hidden attribute:</h2>
-        <form action="#">
-          <label htmlFor="username">Username:</label>
-          <br />
-          <input type="text" id="username" name="username" />
-          <br />
-          <label htmlFor="password">Password:</label>
-          <br />
-          <input type="password" id="password" name="password" />
-          <br />
-          <button type="submit" hidden>
-            Submit
-          </button>
-        </form>
-
-        <h2>A form with a submit button styled to be invisible:</h2>
-        <form action="#">
-          <label htmlFor="username">Username:</label>
-          <br />
-          <input type="text" id="username" name="username" />
-          <br />
-          <label htmlFor="password">Password:</label>
-          <br />
-          <input type="password" id="password" name="password" />
-          <br />
-          <button type="submit" style={{ opacity: 0 }}>
-            Submit
-          </button>
-        </form>
-
-        <form action="#">
-          <label htmlFor="username">Username:</label>
-          <br />
-          <input type="text" id="username" name="username" />
-          <br />
-          <label htmlFor="password">Password:</label>
-          <br />
-          <input type="password" id="password" name="password" />
-          <br />
-        </form>
-
-        <form action="#">
-          <label htmlFor="username">Username:</label>
-          <br />
-          <input type="text" id="username" name="username" />
-          <br />
-          <label htmlFor="password">Password:</label>
-          <br />
-          <input type="password" id="password" name="password" />
-          <br />
-          <button type="submit" style={{ display: "none" }}>
-            Login
-          </button>
-        </form>
-
-        <form action="#">
-          <label htmlFor="username">Username:</label>
-          <br />
-          <input type="text" id="username" name="username" />
-          <br />
-          <label htmlFor="password">Password:</label>
-          <br />
-          <input type="password" id="password" name="password" />
-          <br />
-          <button type="submit" disabled>
-            Login
-          </button>
-        </form>
+        <div
+          className="list-item"
+          id="forms-missing-form-button-failure-failure-1"
+          data-atomic-source="form-submit-button-mismatch/form-with-button-not-calssified-as-submit"
+          dangerouslySetInnerHTML={{
+            __html: `<form>
+  <input type="text" />
+  <input type="password" />
+  <button>Other button</button>
+</form>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="forms-missing-form-button-failure-failure-2"
+          data-atomic-source="form-submit-button-mismatch/form-with-perceivable-submit-button"
+          dangerouslySetInnerHTML={{
+            __html: `<form>
+  <input type="text" required />
+  <span style="cursor: pointer">go</span>
+</form>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default MissingFormButtonFail;

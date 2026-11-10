@@ -12,6 +12,12 @@ const InputDiscernibleSuccess = () => {
   "Test with assistive technologies"
   ];
   const htmlExamples = [
+  { filename: "div contenteditable without label", content: `<!--
+    CompliantComponentInput matches \`[contenteditable]:not([contenteditable='false'])\`, so this div is an input
+    component with no accessible name. It is also name-prohibited, so the remediation's \`aria-label\` fallback would
+    never be exposed - the node is out of this rule's scope.
+-->
+<div class="comment-box" contenteditable="true" style="min-height: 40px; border: 1px solid #333"></div>` },
   { filename: "input with aria label", content: `<input type="text" id="username" aria-label="Username" />` },
   { filename: "input with for attr for element", content: `<label for="username">Username</label>
 <input type="text" name="username" id="username">` },

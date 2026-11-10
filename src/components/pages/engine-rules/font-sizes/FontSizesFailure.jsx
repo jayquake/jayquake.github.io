@@ -47,7 +47,23 @@ p {
 }
 </style>
 <p>Some text content</p>` },
-  { filename: "paragraph with bad font size in style attribute", content: `<p style="font-size: 10px;">Some text content</p>` }
+  { filename: "paragraph with bad font size in style attribute", content: `<p style="font-size: 10px;">Some text content</p>` },
+  { filename: "paragraph with good font size in css class", content: `<!-- Currently multiple direct visible text sources are not supported as we can't determine which font-size to check -->
+
+<style>
+.good-font-size {
+    font-size: 12px;
+}
+.good-font-size::before {
+    content: '"before text"';
+    font-size: 10px;
+}
+.good-font-size::after {
+    content: '"after text"';
+    font-size: 8px;
+}
+</style>
+<p class="good-font-size">Some text content</p>` }
   ];
 
   return (

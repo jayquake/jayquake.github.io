@@ -1,14 +1,13 @@
 <!--testconfig
     "testedClass": "Rules.MainNavigationMismatch",
     "expect": {
-        "passedNodes": ["#main-nav-parent"],
+        "passedNodes": ["#main-nav"],
         "failedNodes": []
     }
 -->
 <!--
     This test covers a real bug that was found after adding the Shopify main navigation locator.
-    The rule checks whether an element’s parent is compliant.
-    Because the locator used a compliant <nav> element, it caused a loop: a compliant nav was found, its parent failed and was remediated, then that same element was detected again as the main navigation, causing its parent to fail again.
+    The Shopify locator can find a compliant <nav> element. The audit target is that landmark itself.
 -->
 <html>
   <head>

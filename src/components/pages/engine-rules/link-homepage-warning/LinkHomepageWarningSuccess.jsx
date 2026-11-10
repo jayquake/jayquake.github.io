@@ -43,6 +43,10 @@ const LinkHomepageWarningSuccess = () => {
     <span id="homepage-desc" class="sr-only">Redirect to homepage</span>
   </a>
 </p>` },
+  { filename: "link homepage with aria describedby only", content: `<p>
+  <a href="/" aria-describedby="homepage-desc">Back</a>
+</p>
+<p id="homepage-desc">Redirecting to the homepage</p>` },
   { filename: "link homepage with aria describedby", content: `<p>
   <a href="/" id="homepage-link" aria-describedby="homepage-desc">Homepage</a>
 </p>

@@ -1,0 +1,24 @@
+<!--testconfig
+    "testedClass": "Rules.TabbableExposed",
+    "expect": {
+        "passedNodes": ["#dialog-first", "#close-button", "#sentinel-after"]
+    },
+    "skip": true
+-->
+<!-- W3C ACT 6cfa84: Passed Example 4 -->
+<!-- TODO: currently skipped because we don't have the capability of detecting focus sentinels -->
+<div id="sample-modal" role="dialog" aria-label="Sample Modal" aria-modal="true" style="border: solid black 1px; padding: 1rem">
+  <label>First and last name <input id="dialog-first" /></label><br />
+  <button id="close-button">Close button</button>
+</div>
+<div aria-hidden="true">
+  <a href="#" id="sentinel-after" style="position: absolute; top: -999em">Upon receiving focus, this focus sentinel should wrap focus to the top of the modal</a>
+</div>
+<script>
+  document.getElementById("sentinel-after").addEventListener("focus", () => {
+    document.getElementById("dialog-first").focus();
+  });
+  document.getElementById("close-button").addEventListener("click", () => {
+    document.getElementById("sample-modal").style.display = "none";
+  });
+</script>

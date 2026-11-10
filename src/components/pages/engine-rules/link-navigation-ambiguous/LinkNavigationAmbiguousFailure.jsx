@@ -17,7 +17,10 @@ const LinkNavigationAmbiguousFailure = () => {
   { filename: "link with ambiguous content", content: `<a href="/homepage">click here</a>` },
   { filename: "link with image content with ambiguous alt", content: `<a href="/homepage"><img alt="click here" /></a>` },
   { filename: "link with numeric characters only", content: `<a href="http://localhost/" aria-label="123 12">1234 5</a>` },
-  { filename: "link with special characters only", content: `<a href="http://localhost/" aria-label="---">?!?!?!</a>` }
+  { filename: "link with special characters only", content: `<a href="http://localhost/" aria-label="---">?!?!?!</a>` },
+  { filename: "link with sr only context not in accessible name", content: `<!-- A screen-reader-only element is present, but the aria-label outranks it and the context never reaches the name -
+     the screen reader still hears only "click here". Merely nesting a hidden element is not enough to clear the rule. -->
+<a href="http://localhost/" aria-label="click here"><span data-acsb-sr-only="true" style="position: absolute !important; width: 1px !important; height: 1px !important; padding: 0px !important; overflow: hidden !important; clip: rect(0px, 0px, 0px, 0px) !important; border: 0px !important;">Home</span>Go</a>` }
   ];
 
   return (

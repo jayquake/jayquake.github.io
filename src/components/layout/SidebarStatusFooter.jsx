@@ -1,8 +1,7 @@
-import { Box, Typography } from "@mui/material";
 import packageJson from "../../../package.json";
 import { useMissionClock } from "../../hooks/useMissionClock";
 import { HudPulse } from "../motion/HudMotion";
-import { MGS, MIN_TEXT_SIZE, mgsFonts } from "../../theme/mgsTokens";
+import { MGS } from "../../theme/mgsTokens";
 
 export default function SidebarStatusFooter({ isOpen }) {
   const missionTime = useMissionClock();
@@ -11,7 +10,7 @@ export default function SidebarStatusFooter({ isOpen }) {
 
   if (!isOpen) {
     return (
-      <Box sx={{ py: 1, display: "flex", justifyContent: "center" }}>
+      <div className="flex justify-center py-2">
         <HudPulse
           style={{
             width: 8,
@@ -21,21 +20,13 @@ export default function SidebarStatusFooter({ isOpen }) {
             boxShadow: `0 0 6px ${MGS.passGreen}`,
           }}
         />
-      </Box>
+      </div>
     );
   }
 
   return (
-    <Box
-      sx={{
-        px: 2,
-        py: 1.5,
-        borderTop: 1,
-        borderColor: "divider",
-        flexShrink: 0,
-      }}
-    >
-      <Box sx={{ display: "flex", alignItems: "center", gap: 0.75, mb: 1 }}>
+    <div className="shrink-0 border-t border-border px-4 py-3">
+      <div className="mb-2 flex items-center gap-1.5">
         <HudPulse
           style={{
             width: 8,
@@ -46,83 +37,23 @@ export default function SidebarStatusFooter({ isOpen }) {
             flexShrink: 0,
           }}
         />
-        <Typography
-          sx={{
-            fontFamily: mgsFonts.display,
-            fontSize: "0.78rem",
-            fontWeight: 700,
-            letterSpacing: "0.12em",
-            color: "primary.light",
-          }}
-        >
+        <p className="font-['Rajdhani',sans-serif] text-[0.78rem] font-bold tracking-[0.12em] text-foreground-accent">
           OPERATIONAL
-        </Typography>
-      </Box>
+        </p>
+      </div>
 
-      <Box
-        sx={{
-          position: "relative",
-          height: 48,
-          mb: 1,
-          border: 1,
-          borderColor: "primary.dark",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          "&::before, &::after": {
-            content: '""',
-            position: "absolute",
-            width: 8,
-            height: 8,
-            borderColor: "primary.main",
-            borderStyle: "solid",
-          },
-          "&::before": { top: 2, left: 2, borderWidth: "1px 0 0 1px" },
-          "&::after": { bottom: 2, right: 2, borderWidth: "0 1px 1px 0" },
-        }}
-      >
-        <Box
-          component="svg"
-          viewBox="0 0 40 40"
-          sx={{ width: 28, height: 28, opacity: 0.7 }}
-          aria-hidden
-        >
-          <polygon
-            points="20,4 32,32 8,32"
-            fill="none"
-            stroke={MGS.raidenCyan}
-            strokeWidth="1"
-          />
+      <div className="relative mb-2 flex h-12 items-center justify-center border border-primary before:absolute before:left-0.5 before:top-0.5 before:size-2 before:border-l before:border-t before:border-primary after:absolute after:bottom-0.5 after:right-0.5 after:size-2 after:border-b after:border-r after:border-primary">
+        <svg viewBox="0 0 40 40" className="size-7 opacity-70" aria-hidden>
+          <polygon points="20,4 32,32 8,32" fill="none" stroke={MGS.raidenCyan} strokeWidth="1" />
           <line x1="20" y1="12" x2="20" y2="24" stroke={MGS.raidenCyan} strokeWidth="1" />
           <circle cx="20" cy="28" r="2" fill={MGS.raidenCyan} />
-        </Box>
-      </Box>
+        </svg>
+      </div>
 
-      <Typography
-        variant="caption"
-        sx={{
-          display: "block",
-          fontFamily: mgsFonts.hud,
-          fontSize: MIN_TEXT_SIZE,
-          color: "text.secondary",
-          letterSpacing: "0.06em",
-          mb: 0.5,
-        }}
-      >
+      <p className="mb-1 font-mono text-[0.75rem] tracking-wider text-foreground-secondary">
         v{version} build {buildId}
-      </Typography>
-      <Typography
-        variant="caption"
-        sx={{
-          display: "block",
-          fontFamily: mgsFonts.hud,
-          fontSize: MIN_TEXT_SIZE,
-          color: "primary.main",
-          letterSpacing: "0.1em",
-        }}
-      >
-        MISSION {missionTime}
-      </Typography>
-    </Box>
+      </p>
+      <p className="font-mono text-[0.75rem] tracking-[0.1em] text-primary">MISSION {missionTime}</p>
+    </div>
   );
 }

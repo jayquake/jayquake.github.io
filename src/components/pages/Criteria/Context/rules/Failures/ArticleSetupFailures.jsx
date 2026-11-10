@@ -1,32 +1,111 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): article-misuse
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueFailure from "../../../../../layout/issueFailure";
 
 const itemDescription = "Context: Article Setup - Failure";
 
-export default () => (
+const ArticleSetupFailures = () => (
   <IssueFailure
     itemContent={
       <>
-        <li className="list-item" id="rule-failure-1">
-          <article>This is just a basic container, but it's incorrectly marked as an article.</article>
-        </li>
-        <li className="list-item" id="rule-failure-2">
-          <article role="article">Redundant article role, making it more verbose than necessary.</article>
-        </li>
-        <li className="list-item" id="rule-failure-3">
-          <article>This is used to group images but should not be marked as an article.</article>
-        </li>
-        <li className="list-item" id="rule-failure-4">
-          <article>This is a list item, not a complete article, incorrect semantics.</article>
-        </li>
-        <li className="list-item" id="rule-failure-5">
-          <article role="article">Role attribute is unnecessary, adding semantic redundancy.</article>
-        </li>
-        <li className="list-item" id="rule-failure-6">
-          <article>This container element is used for layout purposes, it should use &lt;div&gt; or another non-semantic tag.</article>
-        </li>
+        <div
+          className="list-item"
+          id="context-article-setup-failure-failure-1"
+          data-atomic-source="article-misuse/article-header-short-content"
+          dangerouslySetInnerHTML={{
+            __html: `<article>
+  <header>
+    <h1>The Benefits of Semantic HTML</h1>
+    <p class="date">Published on May 21, 2024 by Jane Doe</p>
+  </header>
+  <p>Short content</p>
+</article>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="context-article-setup-failure-failure-2"
+          data-atomic-source="article-misuse/article-long-content-no-header"
+          dangerouslySetInnerHTML={{
+            __html: `<article>
+  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla quia consectetur esse? Mollitia excepturi officiis
+    nostrum? Reprehenderit doloremque, molestias excepturi porro, facere voluptatem quibusdam commodi exercitationem
+    laborum corrupti laboriosam culpa!</p>
+  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla quia consectetur esse? Mollitia excepturi officiis
+    nostrum? Reprehenderit doloremque, molestias excepturi porro, facere voluptatem quibusdam commodi exercitationem
+    laborum corrupti laboriosam culpa!</p>
+  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla quia consectetur esse? Mollitia excepturi officiis
+    nostrum? Reprehenderit doloremque, molestias excepturi porro, facere voluptatem quibusdam commodi exercitationem
+    laborum corrupti laboriosam culpa!</p>
+  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla quia consectetur esse? Mollitia excepturi officiis
+    nostrum? Reprehenderit doloremque, molestias excepturi porro, facere voluptatem quibusdam commodi exercitationem
+    laborum corrupti laboriosam culpa!</p>
+  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla quia consectetur esse? Mollitia excepturi officiis
+    nostrum? Reprehenderit doloremque, molestias excepturi porro, facere voluptatem quibusdam commodi exercitationem
+    laborum corrupti laboriosam culpa!</p>
+  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla quia consectetur esse? Mollitia excepturi officiis
+    nostrum? Reprehenderit doloremque, molestias excepturi porro, facere voluptatem quibusdam commodi exercitationem
+    laborum corrupti laboriosam culpa!</p>
+  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla quia consectetur esse? Mollitia excepturi officiis
+    nostrum? Reprehenderit doloremque, molestias excepturi porro, facere voluptatem quibusdam commodi exercitationem
+    laborum corrupti laboriosam culpa!</p>
+</article>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="context-article-setup-failure-failure-3"
+          data-atomic-source="article-misuse/div-role-article-header-short-content"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="article">
+  <header>
+    <h1>The Benefits of Semantic HTML</h1>
+    <p class="date">Published on May 21, 2024 by Jane Doe</p>
+  </header>
+  <p>Short content</p>
+</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="context-article-setup-failure-failure-4"
+          data-atomic-source="article-misuse/div-role-article-long-content-no-header"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="article">
+  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla quia consectetur esse? Mollitia excepturi officiis
+    nostrum? Reprehenderit doloremque, molestias excepturi porro, facere voluptatem quibusdam commodi exercitationem
+    laborum corrupti laboriosam culpa!</p>
+  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla quia consectetur esse? Mollitia excepturi officiis
+    nostrum? Reprehenderit doloremque, molestias excepturi porro, facere voluptatem quibusdam commodi exercitationem
+    laborum corrupti laboriosam culpa!</p>
+  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla quia consectetur esse? Mollitia excepturi officiis
+    nostrum? Reprehenderit doloremque, molestias excepturi porro, facere voluptatem quibusdam commodi exercitationem
+    laborum corrupti laboriosam culpa!</p>
+  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla quia consectetur esse? Mollitia excepturi officiis
+    nostrum? Reprehenderit doloremque, molestias excepturi porro, facere voluptatem quibusdam commodi exercitationem
+    laborum corrupti laboriosam culpa!</p>
+  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla quia consectetur esse? Mollitia excepturi officiis
+    nostrum? Reprehenderit doloremque, molestias excepturi porro, facere voluptatem quibusdam commodi exercitationem
+    laborum corrupti laboriosam culpa!</p>
+  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla quia consectetur esse? Mollitia excepturi officiis
+    nostrum? Reprehenderit doloremque, molestias excepturi porro, facere voluptatem quibusdam commodi exercitationem
+    laborum corrupti laboriosam culpa!</p>
+  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla quia consectetur esse? Mollitia excepturi officiis
+    nostrum? Reprehenderit doloremque, molestias excepturi porro, facere voluptatem quibusdam commodi exercitationem
+    laborum corrupti laboriosam culpa!</p>
+</div>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default ArticleSetupFailures;

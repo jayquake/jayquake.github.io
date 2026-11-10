@@ -1,0 +1,16 @@
+<!--testconfig
+    "testedClass": "Rules.NavigationItemLink",
+    "expect": {
+        "passedNodes": ["#home", "#products", "#services", "#more", "#contact", "#input-button"]
+    }
+-->
+<nav aria-label="Main navigation">
+  <ul>
+    <li id="home"><a href="/home">Home</a></li>
+    <li id="products"><button type="button">Products</button></li>
+    <li id="services" onclick="toggleMenu()"><button type="button">Services</button></li>
+    <li id="more"><span role="button" onclick="toggleMenu()">More</span></li>
+    <li id="contact"><span role="link" onclick="navigate()">Contact</span></li>
+    <li id="input-button" onclick="toggleMenu()">Account <input type="button" value="Open account menu"></li>
+  </ul>
+</nav>

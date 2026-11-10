@@ -21,6 +21,9 @@ const VisibilityMisuseSuccess = () => {
   { filename: "div position absolute left negative 9999px", content: `<!-- The element is inapplicable because it is detected as SR-Only -->
 
 <div style="position: absolute; left: -9999px">Visually hidden</div>` },
+  { filename: "element parent of hidden element", content: `<div id="target">
+  <div hidden>123</div>
+</div>` },
   { filename: "element with display none", content: `<div style="display: none">Some invisible content</div>` },
   { filename: "element with nested sr only element", content: `<html>
   <head>
@@ -112,6 +115,21 @@ const VisibilityMisuseSuccess = () => {
     <div class="out-of-screen">This text is still visible to screen reader</div>
   </body>
 </html>` },
+  { filename: "slot with assigned content", content: `<!--
+  This test shows that even though a slot element doesn't have children in the DOM,
+  it can still have assigned content which it adopts as it's children in the
+  accessibility tree. If the slot is marked as aria-hidden, then the content that
+  is assigned (in this case the div) will also be hidden from the screen reader.
+ -->
+
+
+<custom-element>
+  <template shadowrootmode="open"><slot></slot></template>
+  <div>
+    This is shadow dom content. If the slot element is marked as aria-hidden.
+    This content will also be hidden from the screen reader!
+  </div>
+</custom-element>` },
   { filename: "visible element in hidden element", content: `<div id="parent" style="height: 0.5px; width: 0.5px; overflow: hidden">
     <div id="child" style="position: fixed">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -15,6 +15,11 @@ const AUDIT_ONLY_RULES = [
   "list-item-within-list",
   "navigation-submenu-discernible",
   "navigation-submenu-region",
+  // Renamed / removed upstream — drop stale copies left in audit-rules
+  "interactive-not-tabbable",
+  "sr-hidden-tabbable",
+  "tabbable-non-interactive",
+  "tabbable-visible",
 ];
 
 const SKIP_ENTRIES = new Set(["index.ts", "category-metadata.ts"]);

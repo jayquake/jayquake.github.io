@@ -1,0 +1,16 @@
+<!--testconfig
+    "testedClass": "Rules.DialogModalDiscernible",
+    "expect": {
+        "passedNodes": [],
+        "failedNodes": []
+    }
+-->
+<style>
+  dialog { width: 400px; height: 300px; opacity: 0 }
+</style>
+<!-- A compliant modal with a label that is hidden — should be inapplicable, not failed -->
+<dialog open aria-label="Newsletter Subscription" role="dialog">
+  <h2>Subscribe to our newsletter</h2>
+  <p>Enter your email to stay updated.</p>
+  <button>Close</button>
+</dialog>

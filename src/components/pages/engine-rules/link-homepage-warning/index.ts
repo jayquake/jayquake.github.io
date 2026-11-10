@@ -38,14 +38,25 @@ export const LinkHomepageWarning: Rule = {
       }
 
       const { contentInfo } = classifier.getOperations(link);
-      const linkText = contentInfo.srVisibleText.toLowerCase();
-      const containsKeywords = textContainsWords(linkText, ["home", "homepage"]);
+      const keywords: Parameters<typeof textContainsWords>[1] = ["home", "homepage"];
 
-      if (containsKeywords) {
+      if (textContainsWords(contentInfo.accessibleName.toLowerCase(), keywords)) {
         response.passedNodes.push(link);
-      } else {
-        response.failedNodes.push(link);
+        continue;
       }
+
+      /**
+       * The warning can also be conveyed through the accessible description (`aria-describedby`, or `title` when it is not the name),
+       * which screen readers announce after the name.
+       *
+       * @see src/rules/link-homepage-warning/atomic-tests/pass/link-homepage-with-aria-describedby-only.html
+       */
+      if (textContainsWords(contentInfo.accessibleDescription.toLowerCase(), keywords)) {
+        response.passedNodes.push(link);
+        continue;
+      }
+
+      response.failedNodes.push(link);
     }
   },
 };

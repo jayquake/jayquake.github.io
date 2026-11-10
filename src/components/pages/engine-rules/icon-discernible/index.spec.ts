@@ -41,6 +41,25 @@ describe("IconDiscernible Rule Validation", () => {
     expect(response.passedNodes).toContain(element);
   });
 
+  it("should pass an icon inside a named control without checking the icon itself", async () => {
+    const { document, classifier, response } = validateMethodArguments;
+
+    document.body.innerHTML = `
+      <button>Save <svg aria-hidden="false"></svg></button>
+    `;
+    const icon = document.querySelector<HTMLElement>("svg")!;
+    const namedControl = document.querySelector<HTMLElement>("button")!;
+
+    jest.spyOn(classifier, "getMatched").mockReturnValueOnce([icon]);
+    jest.spyOn(classifier, "getParent").mockReturnValueOnce(namedControl);
+
+    await IconDiscernible.validate(validateMethodArguments);
+
+    expect(response.passedNodes).toEqual([icon]);
+    expect(response.failedNodes).toEqual([]);
+    expect(classifier.assert).not.toHaveBeenCalled();
+  });
+
   it("should fail when an icon is visible, has no role=presentation, and no dicernible text", async () => {
     const { document, classifier, response } = validateMethodArguments;
 

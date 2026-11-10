@@ -1,0 +1,23 @@
+<!--testconfig
+    "testedClass": "Rules.DialogModalDiscernible",
+    "expect": {
+        "failedNodes": ["dialog"]
+    }
+-->
+<style>
+  .backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); z-index: 100; }
+  dialog { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 200px; z-index: 101; padding: 16px; }
+</style>
+<div class="backdrop"></div>
+<!-- Dialog with no text content and no label — e.g. an icon-only action panel -->
+<dialog open>
+  <button aria-label="Share">
+    <svg aria-hidden="true" width="20" height="20"><use href="#icon-share"/></svg>
+  </button>
+  <button aria-label="Download">
+    <svg aria-hidden="true" width="20" height="20"><use href="#icon-download"/></svg>
+  </button>
+  <button aria-label="Close">
+    <svg aria-hidden="true" width="20" height="20"><use href="#icon-close"/></svg>
+  </button>
+</dialog>

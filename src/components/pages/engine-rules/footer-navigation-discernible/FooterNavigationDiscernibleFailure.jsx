@@ -20,38 +20,6 @@ const FooterNavigationDiscernibleFailure = () => {
     </ul>
   </nav>
 </div>` },
-  { filename: "footer menu div role contentinfo without aria label", content: `<!-- This test checks for a footer navigation inside a div with role="contentinfo" that doesn't have an accessible name. -->
-<div role="contentinfo">
-<nav id="footer-nav">
-  <ul>
-    <li>
-      <a href="/home">Home</a>
-    </li>
-    <li>
-      <a href="/about">About</a>
-    </li>
-    <li>
-      <a href="/pricing">Pricing</a>
-    </li>
-  </ul>
-</nav>
-</div>` },
-  { filename: "footer menu without aria label", content: `<!-- This test checks for a footer navigation that doesn't have an accessible name. -->
-<footer>
-<nav id="footer-nav">
-  <ul>
-    <li>
-      <a href="/home">Home</a>
-    </li>
-    <li>
-      <a href="/about">About</a>
-    </li>
-    <li>
-      <a href="/pricing">Pricing</a>
-    </li>
-  </ul>
-</nav>
-</footer>` },
   { filename: "footer with empty aria label", content: `<footer>
   <nav id="footer-nav" aria-label="">
     <ul>

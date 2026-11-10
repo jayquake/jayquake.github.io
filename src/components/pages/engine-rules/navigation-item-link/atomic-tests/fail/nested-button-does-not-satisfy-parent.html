@@ -1,0 +1,14 @@
+<!--testconfig
+    "testedClass": "Rules.NavigationItemLink",
+    "expect": {
+        "failedNodes": ["#parent"],
+        "inapplicableNodes": ["#child"]
+    }
+-->
+<nav aria-label="Main navigation">
+  <ul>
+    <li id="parent" onclick="toggleMenu()">Services
+      <ul><li id="child"><button type="button">Web design</button></li></ul>
+    </li>
+  </ul>
+</nav>

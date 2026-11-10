@@ -31,16 +31,26 @@ export const LinkTelephoneWarning: Rule = {
         continue;
       }
 
-      const {
-        contentInfo: { srVisibleText: linkText },
-      } = classifier.getOperations(anchor);
-      const containsKeywords = textContainsWords(linkText.toLowerCase(), ["opens_phone", "opens_dialer"]);
+      const { contentInfo } = classifier.getOperations(anchor);
+      const keywords: Parameters<typeof textContainsWords>[1] = ["opens_phone", "opens_dialer"];
 
-      if (containsKeywords) {
+      if (textContainsWords(contentInfo.accessibleName.toLowerCase(), keywords)) {
         response.passedNodes.push(anchor);
-      } else {
-        response.failedNodes.push(anchor);
+        continue;
       }
+
+      /**
+       * The warning can also be conveyed through the accessible description (`aria-describedby`, or `title` when it is not the name),
+       * which screen readers announce after the name.
+       *
+       * @see src/rules/link-telephone-warning/atomic-tests/pass/link-tel-with-aria-describedby.html
+       */
+      if (textContainsWords(contentInfo.accessibleDescription.toLowerCase(), keywords)) {
+        response.passedNodes.push(anchor);
+        continue;
+      }
+
+      response.failedNodes.push(anchor);
     }
   },
 };

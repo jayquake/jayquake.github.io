@@ -12,7 +12,7 @@ const ButtonMismatchFailure = () => {
   "Test with screen readers"
   ];
   const htmlExamples = [
-  { filename: "button like link href javascript", content: `<a href="javascript: console.log()"></a>` },
+  { filename: "button like link href javascript", content: `<a href="javascript: console.log()">I am a button</a>` },
   { filename: "link with role button", content: `<a href="#anchor" role="button"></a>` }
   ];
 

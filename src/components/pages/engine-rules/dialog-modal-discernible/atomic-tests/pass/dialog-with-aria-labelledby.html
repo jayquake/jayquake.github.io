@@ -1,0 +1,18 @@
+<!--testconfig
+    "testedClass": "Rules.DialogModalDiscernible",
+    "expect": {
+        "passedNodes": ["dialog"]
+    }
+-->
+<style>
+  .backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); z-index: 100; }
+  dialog { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; z-index: 101; }
+</style>
+<div class="backdrop"></div>
+<dialog open aria-labelledby="dialog-title">
+  <h2 id="dialog-title">Confirm Your Order</h2>
+  <p>Please review your order before completing the purchase.</p>
+  <button>Confirm</button>
+  <button>Cancel</button>
+  <button>Close</button>
+</dialog>

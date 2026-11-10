@@ -1,25 +1,16 @@
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
-import SearchIcon from "@mui/icons-material/Search";
-import {
-  Box,
-  Chip,
-  FormControl,
-  InputAdornment,
-  MenuItem,
-  Select,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { FileText, PanelRight } from "lucide-react";
 import { memo, useCallback } from "react";
-import { Link as RouterLink } from "react-router-dom";
-import { HudLayoutIndicator, HudMotion } from "../../motion/HudMotion";
+import { Link as RouterLink, useSearchParams } from "react-router-dom";
+import { HudMotion } from "../../motion/HudMotion";
+import { Badge, severityVariant } from "../../ui/badge";
+import { SearchField } from "../../ui/search-field";
+import { NativeSelect } from "../../ui/native-select";
+import { Skeleton } from "../../ui/skeleton";
+import { Spinner } from "../../ui/spinner";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
+import { Button } from "../../ui/button";
+import { cn } from "../../../lib/utils";
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
-import { MGS, MIN_TEXT_SIZE, mgsFonts, raidenType } from "../../../theme/mgsTokens";
 import {
   getRuleSlug,
   impactToSeverityLabel,
@@ -27,36 +18,28 @@ import {
   RULE_CATEGORY_BY_ID,
 } from "./engineLibraryUtils";
 
-const hudLabelSx = {
-  fontFamily: mgsFonts.hud,
-  fontSize: MIN_TEXT_SIZE,
-  fontWeight: 600,
-  letterSpacing: "0.12em",
-  textTransform: "uppercase",
-  color: "primary.main",
-};
+const ruleLinkClass = "text-inherit no-underline hover:text-foreground-accent hover:underline";
 
-const filterSelectSx = {
-  bgcolor: "background.paper",
-  fontFamily: mgsFonts.hud,
-  fontSize: MIN_TEXT_SIZE,
-  letterSpacing: "0.06em",
-  "& .MuiOutlinedInput-notchedOutline": { borderColor: "divider" },
-  "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "primary.dark" },
-  "&.Mui-focused .MuiOutlinedInput-notchedOutline": { borderColor: "primary.main" },
-};
+function FilterSelect({ label, value, onChange, children }) {
+  return (
+    <NativeSelect aria-label={label} value={value} onChange={(event) => onChange(event.target.value)}>
+      {children}
+    </NativeSelect>
+  );
+}
 
-const ruleLinkSx = {
-  color: "inherit",
-  textDecoration: "none",
-  "&:hover": { color: "primary.light", textDecoration: "underline" },
-};
+function buildRuleHref(slug, searchParams) {
+  const params = new URLSearchParams(searchParams);
+  params.set("detail", "open");
+  return `/engine/${slug}?${params.toString()}`;
+}
 
-const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
+const RuleRow = memo(function RuleRow({ rule, selected, layout, searchParams }) {
   const slug = getRuleSlug(rule);
-  const rulePath = `/engine/${slug}`;
-  const successPath = `${rulePath}_success`;
-  const failurePath = `${rulePath}_failure`;
+  const engineBase = `/engine/${slug}`;
+  const rulePath = buildRuleHref(slug, searchParams);
+  const successPath = `${engineBase}_success`;
+  const failurePath = `${engineBase}_failure`;
   const wcagRefs = rule.refs?.filter((r) => r.type === "WCAG") || [];
   const severity = impactToSeverityLabel(rule.impact);
   const category = RULE_CATEGORY_BY_ID[slug] || "—";
@@ -66,275 +49,102 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, onSelect }) {
     prefetchEngineExample(slug, "success");
   }, [slug]);
 
-  // Nested RouterLinks handle their own navigation; stop the click from also
-  // triggering the row's onSelect (which would override the link's target).
-  const stopRowNav = useCallback((e) => {
-    e.stopPropagation();
-  }, []);
-
   if (!isLibrary) {
     return (
-      <TableRow
-        hover
-        selected={selected}
-        onClick={() => onSelect(slug)}
-        onMouseDown={handleWarm}
-        sx={{
-          cursor: "pointer",
-          position: "relative",
-          "&.Mui-selected td": {
-            bgcolor: MGS.selectionStrong,
-            borderColor: "primary.dark",
-          },
-          "&:hover td": { bgcolor: "action.hover" },
-          "& td": {
-            py: 1,
-            borderColor: "divider",
-            whiteSpace: "normal",
-          },
-        }}
-      >
-        <TableCell sx={{ position: "relative" }}>
-          {selected && (
-            <HudLayoutIndicator
-              layoutId="rule-row-indicator"
-              style={{
-                position: "absolute",
-                left: 0,
-                top: 0,
-                bottom: 0,
-                width: 3,
-                backgroundColor: MGS.raidenCyan,
-                zIndex: 1,
-              }}
-            />
-          )}
-          <Typography
-            component={RouterLink}
+      <TableRow data-state={selected ? "selected" : undefined} className="relative">
+        <TableCell className={cn("relative p-0", selected && "shadow-[inset_3px_0_0_#00a38d]")}>
+          <RouterLink
             to={rulePath}
-            href={rulePath}
-          variant="caption"
-          onMouseDown={handleWarm}
-          onClick={stopRowNav}
-          aria-current={selected ? "page" : undefined}
-          sx={{
-            ...ruleLinkSx,
-            display: "block",
-              fontFamily: mgsFonts.hud,
-              color: "primary.main",
-              fontSize: MIN_TEXT_SIZE,
-              letterSpacing: "0.04em",
-              mb: 0.35,
-            }}
+            onMouseDown={handleWarm}
+            aria-current={selected ? "page" : undefined}
+            className={cn(
+              ruleLinkClass,
+              "flex flex-col gap-1.5 px-2 py-2.5 text-inherit hover:bg-black/[0.02]"
+            )}
           >
-            {slug}
-          </Typography>
-          <Typography
-            component={RouterLink}
-            to={rulePath}
-            href={rulePath}
-          variant="body2"
-          onClick={stopRowNav}
-          aria-current={selected ? "page" : undefined}
-          sx={{
-            ...ruleLinkSx,
-            fontSize: "0.8rem",
-              fontWeight: selected ? 600 : 500,
-              color: selected ? MGS.raidenWhite : "text.primary",
-              lineHeight: 1.45,
-              overflowWrap: "anywhere",
-            }}
-          >
-            {rule.title}
-          </Typography>
-          {(severity !== "—" || wcagRefs[0]) && (
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, mt: 0.6 }}>
-              {severity !== "—" && (
-                <Chip
-                  label={severity}
-                  size="small"
-                  variant="outlined"
-                  sx={{
-                    height: 20,
-                    fontSize: MIN_TEXT_SIZE,
-                    fontFamily: mgsFonts.hud,
-                    borderColor: "primary.main",
-                    color: "primary.main",
-                    borderRadius: 0,
-                  }}
-                />
+            <span className="font-mono text-[0.75rem] tracking-wide text-primary">{slug}</span>
+            <span
+              className={cn(
+                "block text-[0.8rem] leading-snug text-foreground",
+                selected ? "font-semibold" : "font-medium"
               )}
-              {wcagRefs[0] && (
-                <Chip
-                  label={wcagRefs[0].id}
-                  size="small"
-                  variant="outlined"
-                  sx={{ height: 20, fontSize: MIN_TEXT_SIZE }}
-                />
-              )}
-            </Box>
-          )}
+            >
+              {rule.title}
+            </span>
+            {severity !== "—" || wcagRefs[0] ? (
+              <span className="mt-0.5 flex flex-wrap gap-1">
+                {severity !== "—" ? <Badge variant={severityVariant(severity)}>{severity}</Badge> : null}
+                {wcagRefs[0] ? (
+                  <Badge className="border-border-strong text-foreground-secondary">{wcagRefs[0].id}</Badge>
+                ) : null}
+              </span>
+            ) : null}
+          </RouterLink>
         </TableCell>
       </TableRow>
     );
   }
 
   return (
-    <TableRow
-      hover
-      selected={selected}
-      onClick={() => onSelect(slug)}
-      onMouseDown={handleWarm}
-      sx={{
-        cursor: "pointer",
-        "&.Mui-selected td": { bgcolor: "action.selected" },
-        "&.Mui-selected td:first-of-type": {
-          boxShadow: (t) => `inset 2px 0 0 ${t.palette.primary.main}`,
-        },
-        "& td": {
-          py: isLibrary ? 1.1 : 0.65,
-          borderColor: "divider",
-          whiteSpace: "nowrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        },
-      }}
-    >
-      <TableCell title={slug}>
-        <Typography
-          component={RouterLink}
+    <TableRow data-state={selected ? "selected" : undefined}>
+      <TableCell className={cn("max-w-0 p-0", selected && "shadow-[inset_2px_0_0_#00a38d]")}>
+        <RouterLink
           to={rulePath}
-          href={rulePath}
-          variant="caption"
-          noWrap
+          title={slug}
           onMouseDown={handleWarm}
-          onClick={stopRowNav}
           aria-current={selected ? "page" : undefined}
-          sx={{
-            ...ruleLinkSx,
-            ...raidenType.ruleId,
-            fontSize: MIN_TEXT_SIZE,
-          }}
+          className={cn(ruleLinkClass, "block truncate px-2 py-2 font-mono text-[0.75rem] text-primary")}
         >
-          {isLibrary ? `[ ${slug} ]` : slug}
-        </Typography>
+          [ {slug} ]
+        </RouterLink>
       </TableCell>
-      <TableCell title={rule.title}>
-        <Typography
-          component={RouterLink}
+      <TableCell className="max-w-0 p-0">
+        <RouterLink
           to={rulePath}
-          href={rulePath}
-          variant="body2"
-          noWrap
-          onClick={stopRowNav}
+          title={rule.title}
           aria-current={selected ? "page" : undefined}
-          sx={{
-            ...ruleLinkSx,
-            fontSize: isLibrary ? "0.84rem" : "0.78rem",
-            fontWeight: selected ? 600 : 500,
-            color: isLibrary ? MGS.raidenWhite : "text.primary",
-          }}
+          className={cn(
+            ruleLinkClass,
+            "block truncate px-2 py-2 text-[0.84rem] text-foreground",
+            selected ? "font-semibold" : "font-medium"
+          )}
         >
           {rule.title}
-        </Typography>
+        </RouterLink>
       </TableCell>
-      {isLibrary && (
-        <TableCell>
-          <Typography
-            variant="caption"
-            sx={{
-              ...raidenType.tableHead,
-              fontSize: MIN_TEXT_SIZE,
-              color: "text.secondary",
-            }}
-          >
-            {(category || "—").toUpperCase()}
-          </Typography>
-        </TableCell>
-      )}
+      <TableCell className="max-w-0 truncate font-['Rajdhani',sans-serif] text-[0.75rem] uppercase tracking-[0.12em] text-foreground-secondary">
+        {(category || "—").toUpperCase()}
+      </TableCell>
       <TableCell>
-        {severity !== "—" ? (
-          <Chip
-            label={severity}
-            size="small"
-            variant="outlined"
-            sx={{
-              height: 22,
-              fontSize: MIN_TEXT_SIZE,
-              fontFamily: mgsFonts.hud,
-              borderColor: "primary.main",
-              color: "primary.main",
-              borderRadius: 0,
-            }}
-          />
-        ) : (
-          <Typography variant="caption" color="text.secondary">
-            —
-          </Typography>
-        )}
+        {severity !== "—" ? <Badge variant={severityVariant(severity)}>{severity}</Badge> : <span className="text-foreground-muted">—</span>}
       </TableCell>
-      {isLibrary ? (
-        <>
-          <TableCell>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
-              <Box
-                sx={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: "50%",
-                  bgcolor: "primary.main",
-                  boxShadow: "0 0 6px rgba(0,163,141,0.6)",
-                  flexShrink: 0,
-                }}
-              />
-              <Typography variant="caption" sx={{ ...hudLabelSx, fontSize: MIN_TEXT_SIZE }}>
-                ACTIVE
-              </Typography>
-            </Box>
-          </TableCell>
-          <TableCell>
-            <Typography variant="caption" color="text.secondary" sx={{ fontFamily: mgsFonts.hud, fontSize: MIN_TEXT_SIZE }}>
-              {wcagRefs[0]?.id || "—"}
-            </Typography>
-          </TableCell>
-          <TableCell>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.25 }}>
-              <Typography
-                component={RouterLink}
-                to={successPath}
-                href={successPath}
-                variant="caption"
-                onMouseDown={() => prefetchEngineExample(slug, "success")}
-                onClick={stopRowNav}
-                sx={{ ...ruleLinkSx, fontFamily: mgsFonts.hud, fontSize: MIN_TEXT_SIZE, color: "primary.light" }}
-              >
-                Success
-              </Typography>
-              <Typography
-                component={RouterLink}
-                to={failurePath}
-                href={failurePath}
-                variant="caption"
-                onMouseDown={() => prefetchEngineExample(slug, "failure")}
-                onClick={stopRowNav}
-                sx={{ ...ruleLinkSx, fontFamily: mgsFonts.hud, fontSize: MIN_TEXT_SIZE, color: "error.light" }}
-              >
-                Failure
-              </Typography>
-            </Box>
-          </TableCell>
-        </>
-      ) : (
-        <TableCell>
-          {wcagRefs[0] ? (
-            <Chip label={wcagRefs[0].id} size="small" variant="outlined" sx={{ height: 20, fontSize: MIN_TEXT_SIZE }} />
-          ) : (
-            <Typography variant="caption" color="text.secondary">
-              —
-            </Typography>
-          )}
-        </TableCell>
-      )}
+      <TableCell>
+        <span className="inline-flex items-center gap-1.5 font-mono text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-primary">
+          <span className="size-1.5 rounded-full bg-primary shadow-[0_0_6px_rgba(0,163,141,0.6)]" />
+          ACTIVE
+        </span>
+      </TableCell>
+      <TableCell className="font-mono text-[0.75rem] text-foreground-secondary">
+        {wcagRefs[0]?.id || "—"}
+      </TableCell>
+      <TableCell>
+        <div className="flex flex-col">
+          <RouterLink
+            to={successPath}
+            onMouseDown={() => prefetchEngineExample(slug, "success")}
+            className="font-mono text-[0.75rem] text-foreground-accent no-underline hover:underline"
+          >
+            Success
+          </RouterLink>
+          <RouterLink
+            to={failurePath}
+            onMouseDown={() => prefetchEngineExample(slug, "failure")}
+            className="font-mono text-[0.75rem] text-status-fail no-underline hover:underline"
+          >
+            Failure
+          </RouterLink>
+        </div>
+      </TableCell>
     </TableRow>
   );
 });
@@ -360,252 +170,154 @@ export default function EngineRulesTable({
   wcagLevels,
   wcagCriteriaIds,
   loading = false,
+  detailOpen,
+  onToggleDetail,
 }) {
   const isLibrary = layout === "library";
+  const [searchParams] = useSearchParams();
 
   return (
-    <Box
-      sx={{
-        flex: 1,
-        minWidth: 0,
-        height: "100%",
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        overflow: "hidden",
-        bgcolor: "background.default",
-      }}
-    >
-      <Box
-        sx={{
-          px: isLibrary ? { xs: 2, sm: 3 } : { xs: 1.5, sm: 2 },
-          pt: isLibrary ? { xs: 2, sm: 2.5 } : 1.5,
-          pb: 1,
-          flexShrink: 0,
-          borderBottom: isLibrary ? 1 : 0,
-          borderColor: "divider",
-        }}
-      >
+    <div className="flex h-full w-full min-w-0 flex-1 flex-col overflow-hidden bg-shell-main">
+      <div className={`shrink-0 border-border pb-2 ${isLibrary ? "border-b px-4 pt-4 sm:px-6 sm:pt-5" : "px-3 pt-3 sm:px-4"}`}>
         {isLibrary ? (
-          <Box sx={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 2, mb: 2 }}>
-            <Box>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>
-                <DescriptionOutlinedIcon sx={{ color: "primary.light", fontSize: 24 }} />
-                <Typography component="h1" sx={raidenType.pageTitle}>
+          <div className="mb-4 flex items-start justify-between gap-4">
+            <div>
+              <div className="mb-1 flex items-center gap-2">
+                <FileText className="size-6 text-foreground-accent" />
+                <h1 className="font-['Rajdhani',sans-serif] text-base font-bold uppercase tracking-[0.14em] text-primary sm:text-[1.05rem]">
                   Engine Rules Library
-                </Typography>
-              </Box>
-              <Typography sx={{ ...raidenType.bodyHud, fontSize: "0.8rem", maxWidth: 520 }}>
+                </h1>
+              </div>
+              <p className="max-w-[520px] text-[0.8rem] leading-relaxed text-foreground-secondary">
                 Manage and configure accessibility rules used by the RAIDEN engine.
-              </Typography>
-            </Box>
-            <Typography variant="caption" color="text.secondary" sx={{ fontFamily: mgsFonts.hud, flexShrink: 0 }}>
-              {populatedCount} rules · {filteredRules.length} shown
-            </Typography>
-          </Box>
+              </p>
+            </div>
+            <p className="shrink-0 font-mono text-[0.75rem] text-foreground-secondary">
+              {loading ? "Loading rules…" : `${populatedCount ?? 0} rules · ${filteredRules.length} shown`}
+            </p>
+          </div>
         ) : (
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5 }}>
-            {populatedCount} rules · showing {filteredRules.length}
-          </Typography>
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+            <p className="text-sm text-foreground-secondary">
+              {loading ? "Loading rules…" : `${populatedCount ?? 0} rules · showing ${filteredRules.length}`}
+            </p>
+            {onToggleDetail ? (
+              <Button
+                type="button"
+                variant={detailOpen ? "default" : "outline"}
+                size="sm"
+                onClick={onToggleDetail}
+                aria-pressed={detailOpen}
+              >
+                <PanelRight className="size-3.5" />
+                {detailOpen ? "Hide description" : "Show description"}
+              </Button>
+            ) : null}
+          </div>
         )}
 
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: isLibrary
-              ? { xs: "1fr", md: "minmax(140px, 1fr) 2fr minmax(120px, 1fr)" }
-              : {
-                  xs: "1fr",
-                  md: "1fr 1fr",
-                  xl: "2fr repeat(4, minmax(72px, 1fr))",
-                },
-            gap: 1,
-            alignItems: "center",
-          }}
+        <div
+          className={
+            isLibrary
+              ? "grid grid-cols-1 items-stretch gap-2 sm:grid-cols-2 lg:grid-cols-[minmax(140px,1fr)_2fr_minmax(120px,1fr)]"
+              : "grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.4fr)_repeat(4,minmax(108px,1fr))]"
+          }
         >
-          {isLibrary && (
-            <FormControl size="small" fullWidth>
-              <Select
-                value={categoryFilter}
-                displayEmpty
-                onChange={(e) => setCategoryFilter(e.target.value)}
-                inputProps={{ "aria-label": "Filter by category" }}
-                sx={filterSelectSx}
-              >
-                <MenuItem value="all">ALL CATEGORIES</MenuItem>
-                {LIBRARY_CATEGORIES.map((cat) => (
-                  <MenuItem key={cat.id} value={cat.id}>
-                    {cat.label.toUpperCase()}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          )}
-          <TextField
-            size="small"
-            placeholder={isLibrary ? "SEARCH RULES…" : "Search rules…"}
+          {isLibrary ? (
+            <FilterSelect label="Filter by category" value={categoryFilter} onChange={setCategoryFilter}>
+              <option value="all">ALL CATEGORIES</option>
+              {LIBRARY_CATEGORIES.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.label.toUpperCase()}
+                </option>
+              ))}
+            </FilterSelect>
+          ) : null}
+          <SearchField
+            containerClassName={!isLibrary ? "sm:col-span-2 lg:col-span-1" : undefined}
+            placeholder="Search rules…"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            inputProps={{ "aria-label": "Search rules" }}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                bgcolor: "background.paper",
-                fontFamily: mgsFonts.hud,
-                fontSize: MIN_TEXT_SIZE,
-                letterSpacing: "0.04em",
-              },
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon fontSize="small" sx={{ color: "primary.main" }} />
-                </InputAdornment>
-              ),
-            }}
+            onValueChange={setSearchTerm}
+            aria-label="Search rules"
           />
-          <FormControl size="small" fullWidth={isLibrary}>
-            {isLibrary ? (
-              <Select
-                value={impactFilter}
-                displayEmpty
-                onChange={(e) => setImpactFilter(e.target.value)}
-                inputProps={{ "aria-label": "Filter by severity" }}
-                sx={filterSelectSx}
-              >
-                <MenuItem value="all">ALL SEVERITY</MenuItem>
-                <MenuItem value="critical">CRITICAL</MenuItem>
-                <MenuItem value="serious">SERIOUS</MenuItem>
-                <MenuItem value="moderate">MODERATE</MenuItem>
-                <MenuItem value="minor">MINOR</MenuItem>
-              </Select>
-            ) : (
-              <Select
-                value={impactFilter}
-                onChange={(e) => setImpactFilter(e.target.value)}
-                displayEmpty
-                size="small"
-                inputProps={{ "aria-label": "Filter by impact" }}
-              >
-                <MenuItem value="all">Impact: All</MenuItem>
-                <MenuItem value="critical">Critical</MenuItem>
-                <MenuItem value="serious">Serious</MenuItem>
-                <MenuItem value="moderate">Moderate</MenuItem>
-                <MenuItem value="minor">Minor</MenuItem>
-              </Select>
-            )}
-          </FormControl>
-          {!isLibrary && (
+          <FilterSelect
+            label={isLibrary ? "Filter by severity" : "Filter by impact"}
+            value={impactFilter}
+            onChange={setImpactFilter}
+          >
+            <option value="all">{isLibrary ? "ALL SEVERITY" : "Impact: All"}</option>
+            <option value="critical">{isLibrary ? "CRITICAL" : "Critical"}</option>
+            <option value="serious">{isLibrary ? "SERIOUS" : "Serious"}</option>
+            <option value="moderate">{isLibrary ? "MODERATE" : "Moderate"}</option>
+            <option value="minor">{isLibrary ? "MINOR" : "Minor"}</option>
+          </FilterSelect>
+          {!isLibrary ? (
             <>
-              <FormControl size="small">
-                <Select
-                  value={wcagLevelFilter}
-                  onChange={(e) => setWcagLevelFilter(e.target.value)}
-                  displayEmpty
-                  size="small"
-                  inputProps={{ "aria-label": "Filter by WCAG level" }}
-                >
-                  <MenuItem value="all">WCAG: All</MenuItem>
-                  {wcagLevels.map((level) => (
-                    <MenuItem key={level} value={level}>
-                      {level}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <FormControl size="small">
-                <Select
-                  value={wcagCriteriaFilter}
-                  onChange={(e) => setWcagCriteriaFilter(e.target.value)}
-                  displayEmpty
-                  size="small"
-                  inputProps={{ "aria-label": "Filter by WCAG criteria" }}
-                >
-                  <MenuItem value="all">Criteria: All</MenuItem>
-                  {wcagCriteriaIds.map((criteria) => (
-                    <MenuItem key={criteria} value={criteria}>
-                      {criteria}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <FormControl size="small">
-                <Select
-                  value={legacyRuleFilter}
-                  onChange={(e) => setLegacyRuleFilter(e.target.value)}
-                  displayEmpty
-                  size="small"
-                  inputProps={{ "aria-label": "Filter by legacy rule" }}
-                >
-                  <MenuItem value="all">Legacy: All</MenuItem>
-                  <MenuItem value="yes">Has legacy</MenuItem>
-                  <MenuItem value="no">No legacy</MenuItem>
-                </Select>
-              </FormControl>
+              <FilterSelect label="Filter by WCAG level" value={wcagLevelFilter} onChange={setWcagLevelFilter}>
+                <option value="all">WCAG: All</option>
+                {wcagLevels.map((level) => (
+                  <option key={level} value={level}>
+                    {level}
+                  </option>
+                ))}
+              </FilterSelect>
+              <FilterSelect label="Filter by WCAG criteria" value={wcagCriteriaFilter} onChange={setWcagCriteriaFilter}>
+                <option value="all">Criteria: All</option>
+                {wcagCriteriaIds.map((criteria) => (
+                  <option key={criteria} value={criteria}>
+                    {criteria}
+                  </option>
+                ))}
+              </FilterSelect>
+              <FilterSelect label="Filter by legacy rule" value={legacyRuleFilter} onChange={setLegacyRuleFilter}>
+                <option value="all">Legacy: All</option>
+                <option value="yes">Has legacy</option>
+                <option value="no">No legacy</option>
+              </FilterSelect>
             </>
-          )}
-        </Box>
-      </Box>
+          ) : null}
+        </div>
+      </div>
 
       <HudMotion
         variant="fade"
         transitionPreset="fast"
         style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column", overflow: "hidden" }}
       >
-      <Box
-        sx={{ flex: 1, overflow: "auto", px: isLibrary ? { xs: 2, sm: 3 } : { xs: 1, sm: 2 }, pb: 2 }}
-      >
-        {filteredRules.length === 0 ? (
-          <Typography variant="body2" color="text.secondary" sx={{ py: 4, textAlign: "center" }}>
-            No rules match your filters.
-          </Typography>
-        ) : (
-          <Table
-            size="small"
-            stickyHeader
-            sx={{
-              width: "100%",
-              tableLayout: "fixed",
-              "& .MuiTableCell-head": {
-                bgcolor: "background.default",
-                borderBottom: 2,
-                borderColor: "primary.dark",
-                py: 1.25,
-                ...raidenType.tableHead,
-              },
-              "& .MuiTableCell-body": {
-                borderBottom: 1,
-                borderColor: "divider",
-              },
-            }}
-          >
-            <TableHead>
-              <TableRow>
-                {isLibrary ? (
-                  <>
-                    <TableCell sx={{ width: "18%" }}>RULE ID</TableCell>
-                    <TableCell>NAME</TableCell>
-                    <TableCell sx={{ width: "14%" }}>CATEGORY</TableCell>
-                    <TableCell sx={{ width: "10%" }}>SEVERITY</TableCell>
-                    <TableCell sx={{ width: "10%" }}>STATUS</TableCell>
-                    <TableCell sx={{ width: "10%" }}>WCAG</TableCell>
-                    <TableCell sx={{ width: "10%" }}>EXAMPLES</TableCell>
-                  </>
-                ) : (
-                  <TableCell>RULE</TableCell>
-                )}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {loading ? (
-                <TableRow>
-                  <TableCell colSpan={isLibrary ? 7 : 1}>
-                    <Typography variant="caption" color="text.secondary" sx={{ fontFamily: mgsFonts.hud }}>
-                      Loading rules…
-                    </Typography>
-                  </TableCell>
+        <div className={`min-h-0 flex-1 overflow-auto pb-4 ${isLibrary ? "px-4 sm:px-6" : "px-2 sm:px-4"}`}>
+          {loading ? (
+            <div className="flex flex-col gap-3 py-6">
+              <div className="flex items-center gap-2">
+                <Spinner className="size-5" />
+                <span className="font-mono text-xs uppercase tracking-widest text-primary">Loading rules</span>
+              </div>
+              {Array.from({ length: 8 }, (_, index) => (
+                <Skeleton key={index} className="h-10 w-full" />
+              ))}
+            </div>
+          ) : filteredRules.length === 0 ? (
+            <p className="py-8 text-center text-sm text-foreground-secondary">No rules match your filters.</p>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow className="border-b-2 border-primary hover:bg-transparent">
+                  {isLibrary ? (
+                    <>
+                      <TableHead className="w-[18%]">Rule ID</TableHead>
+                      <TableHead>Name</TableHead>
+                      <TableHead className="w-[14%]">Category</TableHead>
+                      <TableHead className="w-[10%]">Severity</TableHead>
+                      <TableHead className="w-[10%]">Status</TableHead>
+                      <TableHead className="w-[10%]">WCAG</TableHead>
+                      <TableHead className="w-[10%]">Examples</TableHead>
+                    </>
+                  ) : (
+                    <TableHead>Rule</TableHead>
+                  )}
                 </TableRow>
-              ) : (
-                filteredRules.map((rule) => {
+              </TableHeader>
+              <TableBody>
+                {filteredRules.map((rule) => {
                   const slug = getRuleSlug(rule);
                   return (
                     <RuleRow
@@ -613,16 +325,15 @@ export default function EngineRulesTable({
                       rule={rule}
                       selected={slug === selectedRuleId}
                       layout={layout}
-                      onSelect={onSelectRule}
+                      searchParams={searchParams}
                     />
                   );
-                })
-              )}
-            </TableBody>
-          </Table>
-        )}
-      </Box>
+                })}
+              </TableBody>
+            </Table>
+          )}
+        </div>
       </HudMotion>
-    </Box>
+    </div>
   );
 }

@@ -1,63 +1,48 @@
-import React, { useEffect } from "react";
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): no-autofocus
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
+import React from "react";
 import IssueSuccess from "../../../../../layout/issueSuccess";
 
 const itemDescription = "Errors: Load Autofocus - Success";
 
-export default () => (
+const LoadautofocusSuccess = () => (
   <IssueSuccess
     itemContent={
       <>
-        <div className="list-item" id="loadAutofocus-success-1">
-          <form>
-            <input type="text" name="name" placeholder="Enter your name" />
-          </form>
-        </div>
-        <div className="list-item" id="loadAutofocus-success-2">
-          <form>
-            <label htmlFor="email">Email:</label>
-            <input type="email" id="email" name="email" />
-          </form>
-        </div>
-        <div className="list-item" id="loadAutofocus-success-3">
-          <form>
-            <textarea placeholder="Leave a comment" id="comment"></textarea>
-          </form>
-        </div>
-        <div className="list-item" id="loadAutofocus-success-4">
-          {(() => {
-            useEffect(() => {
-              const button = document.getElementById("submitButton");
-              button.focus(); // Example of managing focus dynamically.
-            }, []);
-          })()}
-          <button id="submitButton" type="submit">
-            Submit
-          </button>
-        </div>
-        <div className="list-item" id="loadAutofocus-success-5">
-          <form>
-            <label htmlFor="password">Password:</label>
-            <input type="password" id="password" name="password" />
-          </form>
-        </div>
-        <div className="list-item" id="loadAutofocus-success-6">
-          <form>
-            <input
-              type="url"
-              name="website"
-              placeholder="Enter website URL"
-              id="urlInput"
-            />
-            {(() => {
-              useEffect(() => {
-                const input = document.getElementById("urlInput");
-                input.addEventListener("focus", () => console.log("Focused!"));
-              }, []);
-            })()}
-          </form>
-        </div>
+        <div
+          className="list-item"
+          id="errors-load-autofocus-success-success-1"
+          data-atomic-source="no-autofocus/button-no-auto-focus"
+          dangerouslySetInnerHTML={{
+            __html: `<label for="my-button">Clickable Download Link</label>
+<button id="my-button"></button>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-load-autofocus-success-success-2"
+          data-atomic-source="no-autofocus/div-no-auto-focus"
+          dangerouslySetInnerHTML={{
+            __html: `<div id="my-div"></div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-load-autofocus-success-success-3"
+          data-atomic-source="no-autofocus/svg-with-auto-focus"
+          dangerouslySetInnerHTML={{
+            __html: `<svg autofocus></svg>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default LoadautofocusSuccess;

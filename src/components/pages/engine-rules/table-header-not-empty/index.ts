@@ -42,10 +42,10 @@ export const TableHeaderNotEmpty: Rule = {
        */
       if (isExposed) {
         const {
-          contentInfo: { visibleText, ariaText },
+          contentInfo: { visibleText, accessibleName },
         } = classifier.getOperations(header);
 
-        if (visibleText === "" && ariaText === "") {
+        if (visibleText === "" && accessibleName === "") {
           response.failedNodes.push(header);
           continue;
         }

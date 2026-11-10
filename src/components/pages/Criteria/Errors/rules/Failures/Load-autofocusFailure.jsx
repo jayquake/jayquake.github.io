@@ -1,75 +1,39 @@
-import React, { useEffect } from "react";
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): no-autofocus
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
+import React from "react";
 import IssueFailure from "../../../../../layout/issueFailure";
 
 const itemDescription = "Errors: Load Autofocus - Failure";
 
-export default () => (
+const LoadautofocusFailure = () => (
   <IssueFailure
     itemContent={
       <>
-        <div className="list-item" id="loadAutofocus-failure-1">
-          <form>
-            <input
-              type="text"
-              name="name"
-              placeholder="Enter your name"
-              autoFocus
-            />
-          </form>
-        </div>
-        <div className="list-item" id="loadAutofocus-failure-2">
-          <form>
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              autoFocus
-              onFocus={() => console.log("Autofocused email field")}
-            />
-          </form>
-        </div>
-        <div className="list-item" id="loadAutofocus-failure-3">
-          <form>
-            <input
-              type="search"
-              name="query"
-              placeholder="Search"
-              autoFocus
-            />
-          </form>
-        </div>
-        <div className="list-item" id="loadAutofocus-failure-4">
-          <textarea
-            autoFocus
-            placeholder="Leave a comment"
-            id="commentField"
-            onFocus={() => alert("Screen reader interrupted")}
-          ></textarea>
-        </div>
-        <div className="list-item" id="loadAutofocus-failure-5">
-          <form>
-            <input
-              type="url"
-              name="website"
-              placeholder="Enter website URL"
-              autoFocus
-            />
-          </form>
-        </div>
-        <div className="list-item" id="loadAutofocus-failure-6">
-          <form>
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              autoFocus
-            />
-          </form>
-        </div>
+        <div
+          className="list-item"
+          id="errors-load-autofocus-failure-failure-1"
+          data-atomic-source="no-autofocus/button-with-auto-focus"
+          dangerouslySetInnerHTML={{
+            __html: `<button autofocus></button>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="errors-load-autofocus-failure-failure-2"
+          data-atomic-source="no-autofocus/div-with-auto-focus"
+          dangerouslySetInnerHTML={{
+            __html: `<div autofocus></div>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default LoadautofocusFailure;

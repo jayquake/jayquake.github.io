@@ -1,62 +1,53 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): region-main-content-single
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueFailure from "../../../../../layout/issueFailure";
 
-const itemDescription = "Context : Multiple Main Landmarks - Failure";
+const itemDescription = "Context: Multiple Main Landmarks - Failure";
 
-export default () => (
+const MultiplemainlandmarksFailure = () => (
   <IssueFailure
     itemContent={
       <>
-        <div className="list-item" id="multiple-main-failure-1">
-          <main>
-            <h1>Main Content</h1>
-          </main>
-          <main>
-            <h1>Additional Main Content</h1>
-          </main>
-        </div>
-        <div className="list-item" id="multiple-main-failure-2">
-          <main>
-            <h1>Page Main Content</h1>
-          </main>
-          <main>
-            <h1>Extra Main Section</h1>
-          </main>
-        </div>
-        <div className="list-item" id="multiple-main-failure-3">
-          <main>
-            <h1>First Primary Content</h1>
-          </main>
-          <main>
-            <h1>Another Main Content</h1>
-          </main>
-        </div>
-        <div className="list-item" id="multiple-main-failure-4">
-          <main>
-            <h1>Main Section 1</h1>
-          </main>
-          <main>
-            <h1>Main Section 2</h1>
-          </main>
-        </div>
-        <div className="list-item" id="multiple-main-failure-5">
-          <main>
-            <h1>Primary Section</h1>
-          </main>
-          <main>
-            <h1>Redundant Main Section</h1>
-          </main>
-        </div>
-        <div className="list-item" id="multiple-main-failure-6">
-          <main>
-            <h1>Main Area 1</h1>
-          </main>
-          <main>
-            <h1>Main Area 2</h1>
-          </main>
-        </div>
+        <div
+          className="list-item"
+          id="context-multiple-main-landmarks-failure-failure-1"
+          data-atomic-source="region-main-content-single/multiple-visible-elements-with-role-main"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="main">Some main content</div>
+<div role="main" id="redundant-1">Some main content</div>
+<div role="main" id="redundant-2">Some main content</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="context-multiple-main-landmarks-failure-failure-2"
+          data-atomic-source="region-main-content-single/multiple-visible-main-elements-and-role-main"
+          dangerouslySetInnerHTML={{
+            __html: `<main>Main content</main>
+<div role="main" id="redundant-1">Some main content</div>
+<main id="redundant-2">Some main content</main>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="context-multiple-main-landmarks-failure-failure-3"
+          data-atomic-source="region-main-content-single/multiple-visible-main-elements"
+          dangerouslySetInnerHTML={{
+            __html: `<main>Main content</main>
+<main id="redundant-1">Main content</main>
+<main id="redundant-2">Main content</main>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default MultiplemainlandmarksFailure;

@@ -1,4 +1,4 @@
-import { CompliantTraitExposed, PerceivableComponentIcon, PerceivableTraitDiscernibleText } from "@acsbe/core-engine-classifier";
+import { CompliantTraitExposed, PerceivableComponentIcon, PerceivableTraitDiscernibleText, PerceivableTraitNameFromContent } from "@acsbe/core-engine-classifier";
 import type { Rule } from "~/rules/interfaces";
 import { PassCondition } from "~/rules/interfaces";
 
@@ -14,7 +14,7 @@ export const IconDiscernible: Rule = {
   title: "Meaningful icons should have a label, while decorative icons should be hidden",
   description: "Smaller graphics used as decorative or complementary elements, such as icons, and that do not provide additional information will often add unnecessary clutter to a screen reader user's browsing experience.",
   advice: 'If the image is meaningful, assign a text alternative with a description of the image content using the alt attribute for image elements, or aria-label for elements with role="img". If the image is decorative, provide an empty alt attribute for image elements, or role="presentation" for elements with role="img".',
-  associatedDetectors: [CompliantTraitExposed, PerceivableComponentIcon, PerceivableTraitDiscernibleText],
+  associatedDetectors: [CompliantTraitExposed, PerceivableComponentIcon, PerceivableTraitDiscernibleText, PerceivableTraitNameFromContent],
   refs: [
     {
       type: "WCAG",
@@ -38,6 +38,15 @@ export const IconDiscernible: Rule = {
     const icons = classifier.getMatched([PerceivableComponentIcon]);
 
     for (const icon of icons) {
+      /**
+       * An icon inside a control that is already named (e.g. `<button>Save <svg/></button>`) is covered by that control's name.
+       * Only roles named from content count - a labeled landmark like `<nav aria-label="Main">` does not describe its icons.
+       */
+      if (classifier.getParent(icon, PerceivableTraitNameFromContent)) {
+        response.passedNodes.push(icon);
+        continue;
+      }
+
       const isCompliantVisible = classifier.assert(icon, CompliantTraitExposed);
       const hasDiscernibleText = classifier.assert(icon, PerceivableTraitDiscernibleText);
 

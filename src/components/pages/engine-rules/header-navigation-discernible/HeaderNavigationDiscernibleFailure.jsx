@@ -12,38 +12,6 @@ const HeaderNavigationDiscernibleFailure = () => {
   "Test with screen readers"
   ];
   const htmlExamples = [
-  { filename: "header menu div role banner without label", content: `<!-- This test checks for a header navigation inside a div with role="banner" that doesn't have an accessible name. -->
-<div role="banner">
-<nav id="header-nav">
-  <ul>
-    <li>
-      <a href="/home">Home</a>
-    </li>
-    <li>
-      <a href="/about">About</a>
-    </li>
-    <li>
-      <a href="/pricing">Pricing</a>
-    </li>
-  </ul>
-</nav>
-</div>` },
-  { filename: "header menu without aria label", content: `<!-- This test checks for a header navigation that doesn't have an accessible name. -->
-<header>
-<nav id="header-nav">
-  <ul>
-    <li>
-      <a href="/home">Home</a>
-    </li>
-    <li>
-      <a href="/about">About</a>
-    </li>
-    <li>
-      <a href="/pricing">Pricing</a>
-    </li>
-  </ul>
-</nav>
-</header>` },
   { filename: "main nav should be skipped", content: `<!--Taken from main-nav tests, this is a real example from a shopify site that has been slightly modified for the test-->
 <html>
 <head>

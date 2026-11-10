@@ -1,44 +1,90 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): link-new-window-warning
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueSuccess from "../../../../../layout/issueSuccess";
 
-const itemDescription = "Clickables : New Window Links - Success";
+const itemDescription = "Clickables: New Window Links - Success";
 
-export default () => (
+const NewwindolinksSuccess = () => (
   <IssueSuccess
     itemContent={
       <>
-        <li className="list-item" id="rule-success-1">
-          <a href="https://example.com/about-us" target="_blank" aria-label="Learn more about our company (opens in a new window)">
-            About Us<span className="sr-only">New Window</span>
-          </a>
-        </li>
-        <li className="list-item" id="rule-success-2">
-          <a href="https://linkedin.com/in/yourprofile" target="_blank" aria-label="View my LinkedIn profile (opens in a new window)">
-            LinkedIn Profile<span className="sr-only">New Window</span>
-          </a>
-        </li>
-        <li className="list-item" id="rule-success-3">
-          <a href="https://example.com/privacy-policy.pdf" target="_blank" aria-label="Read our Privacy Policy (opens in a new window)">
-            Privacy Policy PDF<span className="sr-only">New Window</span>
-          </a>
-        </li>
-        <li className="list-item" id="rule-success-4">
-          <a href="https://github.com/yourusername" target="_blank" aria-label="View my GitHub profile (opens in a new window)">
-            GitHub Profile<span className="sr-only">New Window</span>
-          </a>
-        </li>
-        <li className="list-item" id="rule-success-5">
-          <a href="https://example.com/docs" target="_blank" aria-label="Access our documentation page (opens in a new window)">
-            Documentation<span className="sr-only">New Window</span>
-          </a>
-        </li>
-        <li className="list-item" id="rule-success-6">
-          <a href="https://example.com/report.pdf" target="_blank" aria-label="Download our annual report (opens in a new window)">
-            Annual Report PDF<span className="sr-only">New Window</span>
-          </a>
-        </li>
+        <div
+          className="list-item"
+          id="clickables-new-window-links-success-success-1"
+          data-atomic-source="link-new-window-warning/link-with-target-blank-aria-describedby-with-new-window"
+          dangerouslySetInnerHTML={{
+            __html: `<a href="/docs" target="_blank" aria-describedby="new-window-desc">Docs</a>
+<span id="new-window-desc">Opens in a new window</span>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="clickables-new-window-links-success-success-2"
+          data-atomic-source="link-new-window-warning/link-with-target-blank-aria-label-with-new-window"
+          dangerouslySetInnerHTML={{
+            __html: `<a href="path/to/page" target="_blank" aria-label="link to new window">link to somewhere</a>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="clickables-new-window-links-success-success-3"
+          data-atomic-source="link-new-window-warning/link-with-target-blank-content-with-hebrew-new-window"
+          dangerouslySetInnerHTML={{
+            __html: `<html lang="he">
+    <a href="path/to/page" target="_blank">לינק לחלון חדש</a>
+</html>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="clickables-new-window-links-success-success-4"
+          data-atomic-source="link-new-window-warning/link-with-target-blank-content-with-new-tab"
+          dangerouslySetInnerHTML={{
+            __html: `<a href="path/to/page" target="_blank">link to new tab</a>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="clickables-new-window-links-success-success-5"
+          data-atomic-source="link-new-window-warning/link-with-target-blank-content-with-new-window"
+          dangerouslySetInnerHTML={{
+            __html: `<a href="path/to/page" target="_blank">link to new Window</a>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="clickables-new-window-links-success-success-6"
+          data-atomic-source="link-new-window-warning/link-with-target-blank-content-with-separate-tab"
+          dangerouslySetInnerHTML={{
+            __html: `<a href="path/to/page" target="_blank">link to separate tab</a>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="clickables-new-window-links-success-success-7"
+          data-atomic-source="link-new-window-warning/link-with-target-blank-content-with-separate-window"
+          dangerouslySetInnerHTML={{
+            __html: `<a href="path/to/page" target="_blank">link to separate tab</a>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="clickables-new-window-links-success-success-8"
+          data-atomic-source="link-new-window-warning/link-with-target-self"
+          dangerouslySetInnerHTML={{
+            __html: `<a href="path/to/page" target="_self">link to somewhere</a>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default NewwindolinksSuccess;

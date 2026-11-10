@@ -1,20 +1,18 @@
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
-import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
-import ScienceOutlinedIcon from "@mui/icons-material/ScienceOutlined";
-import ViewListOutlinedIcon from "@mui/icons-material/ViewListOutlined";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Tooltip from "@mui/material/Tooltip";
+import { FileText, FlaskConical, List, Play } from "lucide-react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
-import { raidenType } from "../../theme/mgsTokens";
+import { cn } from "../../lib/utils";
+import {
+  SidebarMenu,
+  SidebarMenuItem,
+  sidebarMenuButtonActiveClass,
+  sidebarMenuButtonClass,
+} from "../ui/sidebar";
 
 const NAV_LINKS = [
-  { label: "Engine Library", path: "/", icon: ViewListOutlinedIcon },
-  { label: "Test Runner", path: "/test-runner/library", icon: PlayCircleOutlineIcon },
-  { label: "Atomic Tests", path: "/test-runner/atomic-tests", icon: DescriptionOutlinedIcon },
-  { label: "Rule Lab", path: "/rule-lab", icon: ScienceOutlinedIcon },
+  { label: "Engine Library", path: "/", icon: List },
+  { label: "Test Runner", path: "/test-runner/library", icon: Play },
+  { label: "Atomic Tests", path: "/test-runner/atomic-tests", icon: FileText },
+  { label: "Rule Lab", path: "/rule-lab", icon: FlaskConical },
 ];
 
 function isNavActive(pathname, linkPath) {
@@ -37,55 +35,29 @@ export default function SidebarNav({ isOpen, onCloseMobile }) {
   const location = useLocation();
 
   return (
-    <List dense disablePadding sx={{ py: 0.5 }}>
+    <SidebarMenu className="px-1" aria-label="Primary">
       {NAV_LINKS.map((link) => {
         const active = isNavActive(location.pathname, link.path);
         const Icon = link.icon;
-
-        const button = (
-          <ListItemButton
-            component={RouterLink}
-            to={link.path}
-            selected={active}
-            onClick={onCloseMobile}
-            sx={{
-              py: 0.75,
-              px: isOpen ? 2 : 1.5,
-              minHeight: 36,
-              justifyContent: isOpen ? "flex-start" : "center",
-              "&.Mui-selected": {
-                pl: isOpen ? "calc(16px - 2px)" : 1.5,
-              },
-            }}
-          >
-            <ListItemIcon
-              sx={{
-                minWidth: isOpen ? 32 : 0,
-                mr: isOpen ? 0 : 0,
-                justifyContent: "center",
-                color: active ? "primary.light" : "text.secondary",
-              }}
-            >
-              <Icon sx={{ fontSize: isOpen ? 18 : 20 }} />
-            </ListItemIcon>
-            {isOpen && (
-              <ListItemText
-                primary={link.label.toUpperCase()}
-                primaryTypographyProps={{
-                  ...raidenType.navLabel,
-                  color: active ? "primary.light" : "text.secondary",
-                }}
-              />
-            )}
-          </ListItemButton>
-        );
-
         return (
-          <Tooltip key={link.path} title={!isOpen ? link.label : ""} placement="right">
-            <span>{button}</span>
-          </Tooltip>
+          <SidebarMenuItem key={link.path}>
+            <RouterLink
+              to={link.path}
+              onClick={onCloseMobile}
+              aria-current={active ? "page" : undefined}
+              title={!isOpen ? link.label : undefined}
+              className={cn(
+                sidebarMenuButtonClass,
+                active && sidebarMenuButtonActiveClass,
+                !isOpen && "justify-center px-0"
+              )}
+            >
+              <Icon className={isOpen ? "size-[18px] shrink-0" : "size-5 shrink-0"} />
+              {isOpen ? <span className="truncate">{link.label}</span> : null}
+            </RouterLink>
+          </SidebarMenuItem>
         );
       })}
-    </List>
+    </SidebarMenu>
   );
 }

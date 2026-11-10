@@ -1,0 +1,10 @@
+<!--testconfig
+    "testedClass": "Rules.TabbableExposed",
+    "expect": {
+        "failedNodes": ["#offscreen-link"]
+    }
+-->
+<!-- W3C ACT 6cfa84: Failed Example 1 -->
+<div aria-hidden="true">
+  <a href="/" id="offscreen-link" style="position: absolute; top: -999em">Link</a>
+</div>

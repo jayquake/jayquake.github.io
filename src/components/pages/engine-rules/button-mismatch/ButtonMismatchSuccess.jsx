@@ -615,8 +615,8 @@ const ButtonMismatchSuccess = () => {
   </ul>
 </nav>` },
   { filename: "button hidden", content: `<a href="#anchor" hidden></a>` },
-  { filename: "button like link href hash role button", content: `<a href="#" role="button"></a>` },
-  { filename: "button like link href javascript role button", content: `<a href="javascript: console.log()" role="button"></a>` },
+  { filename: "button like link href hash role button", content: `<a href="#" role="button">Click me!</a>` },
+  { filename: "button like link href javascript role button", content: `<a href="javascript: console.log()" role="button">I am a button</a>` },
   { filename: "button not compliant trait exposed", content: `<details id="Details-HeaderMenu-2" class="mega-menu" style="animation-duration: 0.001s; block-size: 47px; height: 47px; inline-size: 110.633px; list-style-type: none; min-block-size: 0px; min-height: 0px; min-inline-size: 0px; min-width: 0px; perspective-origin: 55.3125px 23.5px; transform-origin: 55.3164px 23.5px; width: 110.633px">
   <summary
     class="header__menu-item list-menu__item link focus-inset"

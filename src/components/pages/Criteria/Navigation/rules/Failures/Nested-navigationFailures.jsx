@@ -1,82 +1,157 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): navigation-not-nested
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueFailure from "../../../../../layout/issueFailure";
 
-const itemDescription = "Navigation : Nested Navigation - Failure";
+const itemDescription = "Navigation: Nested Navigation - Failure";
 
-export default () => (
+const NestednavigationFailures = () => (
   <IssueFailure
     itemContent={
       <>
-        <div className="list-item" id="nested-navigation-failure-1">
-          <nav aria-label="Primary Navigation">
-            <nav aria-label="Secondary Navigation">
+        <div
+          className="list-item"
+          id="navigation-nested-navigation-failure-failure-1"
+          data-atomic-source="navigation-not-nested/nav-nested-nav-multi"
+          dangerouslySetInnerHTML={{
+            __html: `<nav id="not-nested-nav">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li>
+      <a href="/about/">About Us</a>
+      <!-- Submenu for "About Us" -->
+      <nav id="nested-nav1">
+        <ul>
+          <li><a href="/about/history">Our History</a></li>
+          <li><a href="/about/team">Our Team</a></li>
+          <li>
+            <a href="/about/mission">Our Mission</a>
+            <nav id="nested-nav2">
               <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
+                <li><a href="/about/mission/start">Our Beginning</a></li>
+                <li><a href="/about/mission/end">Our Goal</a></li>
               </ul>
             </nav>
-          </nav>
-        </div>
-
-        <div className="list-item" id="nested-navigation-failure-2">
-          <header>
-            <nav aria-label="Main Menu">
-              <nav aria-label="Submenu">
-                <ul>
-                  <li><a href="#portfolio">Portfolio</a></li>
-                </ul>
-              </nav>
-            </nav>
-          </header>
-        </div>
-
-        <div className="list-item" id="nested-navigation-failure-3">
-          <footer>
-            <nav aria-label="Footer Navigation">
-              <nav aria-label="Inner Footer Navigation">
-                <ul>
-                  <li><a href="#privacy">Privacy Policy</a></li>
-                </ul>
-              </nav>
-            </nav>
-          </footer>
-        </div>
-
-        <div className="list-item" id="nested-navigation-failure-4">
-          <aside>
-            <nav aria-label="Sidebar Navigation">
-              <nav aria-label="Sidebar Submenu">
-                <ul>
-                  <li><a href="#settings">Settings</a></li>
-                </ul>
-              </nav>
-            </nav>
-          </aside>
-        </div>
-
-        <div className="list-item" id="nested-navigation-failure-5">
-          <div>
-            <nav aria-label="Secondary Navigation">
-              <nav aria-label="Subsection Navigation">
-                <ul>
-                  <li><a href="#news">News</a></li>
-                </ul>
-              </nav>
-            </nav>
-          </div>
-        </div>
-
-        <div className="list-item" id="nested-navigation-failure-6">
-          <nav aria-label="Global Navigation">
-            <nav aria-label="Local Navigation">
-              <ul>
-                <li><a href="#shop">Shop</a></li>
-              </ul>
-            </nav>
-          </nav>
-        </div>
+          </li>
+        </ul>
+      </nav>
+    </li>
+    <li><a href="/services/">Services</a></li>
+    <li><a href="/contact/">Contact</a></li>
+  </ul>
+</nav>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="navigation-nested-navigation-failure-failure-2"
+          data-atomic-source="navigation-not-nested/nav-nested-nav-role"
+          dangerouslySetInnerHTML={{
+            __html: `<nav id="not-nested-nav">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li>
+      <a href="/about/">About Us</a>
+      <!-- Submenu for "About Us" -->
+      <div id="nested-role" role="navigation">
+        <ul>
+          <li><a href="/about/history">Our History</a></li>
+          <li><a href="/about/team">Our Team</a></li>
+          <li><a href="/about/mission">Our Mission</a></li>
+        </ul>
+      </div>
+    </li>
+    <li><a href="/services/">Services</a></li>
+    <li><a href="/contact/">Contact</a></li>
+  </ul>
+</nav>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="navigation-nested-navigation-failure-failure-3"
+          data-atomic-source="navigation-not-nested/nav-nested-nav"
+          dangerouslySetInnerHTML={{
+            __html: `<nav id="not-nested-nav">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li>
+      <a href="/about/">About Us</a>
+      <!-- Submenu for "About Us" -->
+      <nav id="nested-nav">
+        <ul>
+          <li><a href="/about/history">Our History</a></li>
+          <li><a href="/about/team">Our Team</a></li>
+          <li><a href="/about/mission">Our Mission</a></li>
+        </ul>
+      </nav>
+    </li>
+    <li><a href="/services/">Services</a></li>
+    <li><a href="/contact/">Contact</a></li>
+  </ul>
+</nav>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="navigation-nested-navigation-failure-failure-4"
+          data-atomic-source="navigation-not-nested/nav-role-nested-nav-role"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="navigation" id="not-nested-nav">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li>
+      <a href="/about/">About Us</a>
+      <!-- Submenu for "About Us" -->
+      <div id="nested-nav" role="navigation">
+        <ul>
+          <li><a href="/about/history">Our History</a></li>
+          <li><a href="/about/team">Our Team</a></li>
+          <li><a href="/about/mission">Our Mission</a></li>
+        </ul>
+      </div>
+    </li>
+    <li><a href="/services/">Services</a></li>
+    <li><a href="/contact/">Contact</a></li>
+  </ul>
+</div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="navigation-nested-navigation-failure-failure-5"
+          data-atomic-source="navigation-not-nested/nav-role-nested-nav"
+          dangerouslySetInnerHTML={{
+            __html: `<div role="navigation" id="not-nested-nav">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li>
+      <a href="/about/">About Us</a>
+      <!-- Submenu for "About Us" -->
+      <nav id="nested-nav">
+        <ul>
+          <li><a href="/about/history">Our History</a></li>
+          <li><a href="/about/team">Our Team</a></li>
+          <li><a href="/about/mission">Our Mission</a></li>
+        </ul>
+        <nav id="nested-nav2"></nav>
+      </nav>
+    </li>
+    <li><a href="/services/">Services</a></li>
+    <li><a href="/contact/">Contact</a></li>
+  </ul>
+</div>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default NestednavigationFailures;

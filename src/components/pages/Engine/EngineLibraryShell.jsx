@@ -1,34 +1,34 @@
-import { Box, Drawer, useMediaQuery, useTheme } from "@mui/material";
-import { useEffect, useState } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { Navigate, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useEngineRuleFull } from "../../../hooks/useEngineRuleFull";
+import { useLibraryDetailParams } from "../../../hooks/useLibraryDetailParams";
+import { useMatchMedia } from "../../../hooks/useMatchMedia";
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
-import { LIBRARY_LAYOUT } from "../../../theme/layout";
 import { HudPresence } from "../../motion/HudMotion";
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "../../ui/resizable";
 import LibraryLoadingShell from "./LibraryLoadingShell";
 import EngineRuleDetailPane from "./EngineRuleDetailPane";
 import EngineRulesTable from "./EngineRulesTable";
 import { DEFAULT_RULE_ID } from "./engineLibraryUtils";
+import { useLibrarySearchParams } from "../../../hooks/useLibrarySearchParams";
 import { useEngineLibraryRules } from "./useEngineLibraryRules";
 
 export default function EngineLibraryShell() {
   const { ruleId: paramRuleId } = useParams();
   const navigate = useNavigate();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const [searchParams, setSearchParams] = useSearchParams();
+  const isMobile = useMatchMedia("(max-width: 899px)");
+  const { detailOpen, setDetailOpen, toggleDetail } = useLibraryDetailParams();
+  const librarySearch = useLibrarySearchParams();
 
-  const [detailCollapsed, setDetailCollapsed] = useState(false);
-  const [mobileDetailOpen, setMobileDetailOpen] = useState(false);
-
-  const library = useEngineLibraryRules();
+  const library = useEngineLibraryRules(librarySearch);
   const { populatedRules, filteredRules, findRuleBySlug, ...tableProps } = library;
 
   const selectedRuleId = paramRuleId || DEFAULT_RULE_ID;
   const indexRule = findRuleBySlug(selectedRuleId);
   const { rule: selectedRule } = useEngineRuleFull(selectedRuleId);
 
-  const detailRule =
-    selectedRule?.id === selectedRuleId ? selectedRule : indexRule;
+  const detailRule = selectedRule?.id === selectedRuleId ? selectedRule : indexRule;
 
   useEffect(() => {
     if (paramRuleId && !indexRule && !library.loading) {
@@ -47,17 +47,33 @@ export default function EngineLibraryShell() {
     return () => clearTimeout(timer);
   }, [selectedRuleId]);
 
-  const handleSelectRule = (slug) => {
-    navigate(`/engine/${slug}`);
-    if (isMobile) {
-      setMobileDetailOpen(true);
-    } else if (detailCollapsed) {
-      setDetailCollapsed(false);
+  const ensureDetailQuery = () => {
+    if (!searchParams.get("detail")) {
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          next.set("detail", "open");
+          return next;
+        },
+        { replace: true }
+      );
     }
   };
 
+  const buildRuleHref = (slug) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("detail", "open");
+    return `/engine/${slug}?${params.toString()}`;
+  };
+
+  const handleSelectRule = (slug) => {
+    navigate(buildRuleHref(slug));
+    if (isMobile) setDetailOpen(true);
+    else ensureDetailQuery();
+  };
+
   if (!paramRuleId) {
-    return <Navigate to={`/engine/${DEFAULT_RULE_ID}`} replace />;
+    return <Navigate to={`/engine/${DEFAULT_RULE_ID}?detail=open`} replace />;
   }
 
   if (library.loading) {
@@ -68,58 +84,12 @@ export default function EngineLibraryShell() {
     return null;
   }
 
-  const detailCol = detailCollapsed
-    ? `${LIBRARY_LAYOUT.detailCollapsedPx}px`
-    : LIBRARY_LAYOUT.detailColumn;
+  const showDetailPanel = !isMobile && detailOpen;
 
   return (
     <>
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: isMobile ? "1fr" : `${detailCol} ${LIBRARY_LAYOUT.listColumn}`,
-          justifyContent: "stretch",
-          alignContent: "stretch",
-          flex: 1,
-          minHeight: 0,
-          height: "100%",
-          width: "100%",
-          maxWidth: "100%",
-          overflow: "hidden",
-          transition: theme.transitions.create("grid-template-columns", {
-            easing: theme.transitions.easing.easeInOut,
-            duration: theme.transitions.duration.standard,
-          }),
-        }}
-      >
-        {!isMobile && (
-          <Box
-            sx={{
-              minWidth: 0,
-              minHeight: 0,
-              width: "100%",
-              overflow: "hidden",
-              justifySelf: "stretch",
-              alignSelf: "stretch",
-              borderRight: 1,
-              borderColor: "primary.dark",
-            }}
-          >
-            <HudPresence
-              presenceKey={selectedRuleId}
-              variant="slideX"
-              transitionPreset="detail"
-            >
-              <EngineRuleDetailPane
-                rule={detailRule}
-                collapsed={detailCollapsed}
-                onToggleCollapse={() => setDetailCollapsed((c) => !c)}
-              />
-            </HudPresence>
-          </Box>
-        )}
-
-        <Box sx={{ minWidth: 0, minHeight: 0, overflow: "hidden" }}>
+      <ResizablePanelGroup direction="horizontal" className="h-full min-h-0 w-full flex-1">
+        <ResizablePanel id="rules-list" order={1} defaultSize={showDetailPanel ? 58 : 100} minSize={35}>
           <EngineRulesTable
             layout="compact"
             filteredRules={filteredRules}
@@ -127,31 +97,50 @@ export default function EngineLibraryShell() {
             selectedRuleId={selectedRuleId}
             onSelectRule={handleSelectRule}
             loading={library.loading}
+            detailOpen={detailOpen}
+            onToggleDetail={toggleDetail}
             {...tableProps}
           />
-        </Box>
-      </Box>
+        </ResizablePanel>
 
-      <Drawer
-        anchor="bottom"
-        open={isMobile && mobileDetailOpen}
-        onClose={() => setMobileDetailOpen(false)}
-        PaperProps={{
-          sx: {
-            maxHeight: "72vh",
-            borderTopLeftRadius: 8,
-            borderTopRightRadius: 8,
-            bgcolor: "background.default",
-          },
-        }}
-      >
-        <EngineRuleDetailPane
-          rule={detailRule}
-          collapsed={false}
-          onToggleCollapse={() => setMobileDetailOpen(false)}
-          compact
-        />
-      </Drawer>
+        {showDetailPanel ? (
+          <>
+            <ResizableHandle withHandle />
+            <ResizablePanel id="rule-detail" order={2} defaultSize={42} minSize={28} maxSize={55}>
+              <div className="flex h-full min-h-0 flex-col overflow-hidden border-l border-border bg-shell-elevated">
+                <HudPresence presenceKey={selectedRuleId} variant="slideX" transitionPreset="detail">
+                  <EngineRuleDetailPane
+                    rule={detailRule}
+                    collapsed={false}
+                    onToggleCollapse={() => setDetailOpen(false)}
+                    side="right"
+                  />
+                </HudPresence>
+              </div>
+            </ResizablePanel>
+          </>
+        ) : null}
+      </ResizablePanelGroup>
+
+      {isMobile && detailOpen ? (
+        <div className="fixed inset-0 z-40 md:hidden">
+          <button
+            type="button"
+            className="absolute inset-0 bg-black/40"
+            aria-label="Close rule detail"
+            onClick={() => setDetailOpen(false)}
+          />
+          <div className="absolute inset-x-0 bottom-0 max-h-[82vh] overflow-hidden rounded-t-xl border-t border-border bg-shell-elevated shadow-xl">
+            <EngineRuleDetailPane
+              rule={detailRule}
+              collapsed={false}
+              onToggleCollapse={() => setDetailOpen(false)}
+              compact
+              side="right"
+            />
+          </div>
+        </div>
+      ) : null}
     </>
   );
 }

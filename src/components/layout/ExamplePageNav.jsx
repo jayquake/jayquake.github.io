@@ -31,7 +31,7 @@ const textLinkSx = {
   letterSpacing: "0.06em",
   textTransform: "uppercase",
   "&:hover": { color: "primary.main", textDecoration: "underline" },
-  "&[aria-current='page']": { color: MGS.raidenWhite, fontWeight: 700 },
+  "&[aria-current='page']": { color: MGS.textPrimary, fontWeight: 700 },
 };
 
 export default function ExamplePageNav({ ruleId, ruleType, variant }) {
@@ -134,7 +134,7 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
             onFocus={() => warm("success")}
             sx={{
               ...tabSx,
-              color: variant === "success" ? MGS.raidenWhite : "primary.light",
+              color: variant === "success" ? MGS.onAccent : "primary.main",
             }}
           >
             Success
@@ -153,7 +153,7 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
             onFocus={() => warm("failure")}
             sx={{
               ...tabSx,
-              color: variant === "failure" ? MGS.raidenWhite : MGS.alertRed,
+              color: variant === "failure" ? MGS.onAccent : MGS.alertRed,
             }}
           >
             Failure

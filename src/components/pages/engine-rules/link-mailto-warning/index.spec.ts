@@ -18,7 +18,25 @@ describe("LinkNewWindowWarning Rule Validation", () => {
 
     jest.spyOn(classifier, "getMatched").mockReturnValue([link]);
     jest.spyOn(classifier, "getOperations").mockReturnValue({
-      contentInfo: { srVisibleText: "Opens email application" },
+      contentInfo: { accessibleName: "Opens email application", accessibleDescription: "" },
+    });
+
+    await LinkMailtoWarning.validate(validateMethodArguments);
+
+    expect(response.passedNodes).toContain(link);
+    expect(response.failedNodes).toHaveLength(0);
+  });
+
+  it("should pass when the warning is only present in the accessible description", async () => {
+    const { classifier, document, response } = validateMethodArguments;
+
+    const link = document.createElement("a");
+    link.href = "mailto:http://example.com";
+    document.body.appendChild(link);
+
+    jest.spyOn(classifier, "getMatched").mockReturnValue([link]);
+    jest.spyOn(classifier, "getOperations").mockReturnValue({
+      contentInfo: { accessibleName: "Send email", accessibleDescription: "Opens email application" },
     });
 
     await LinkMailtoWarning.validate(validateMethodArguments);
@@ -36,7 +54,7 @@ describe("LinkNewWindowWarning Rule Validation", () => {
 
     jest.spyOn(classifier, "getMatched").mockReturnValue([link]);
     jest.spyOn(classifier, "getOperations").mockReturnValue({
-      contentInfo: { srVisibleText: "Send email" },
+      contentInfo: { accessibleName: "Send email", accessibleDescription: "" },
     });
 
     await LinkMailtoWarning.validate(validateMethodArguments);
@@ -54,7 +72,7 @@ describe("LinkNewWindowWarning Rule Validation", () => {
 
     jest.spyOn(classifier, "getMatched").mockReturnValue([link]);
     jest.spyOn(classifier, "getOperations").mockReturnValue({
-      contentInfo: { allText: "Send email" },
+      contentInfo: { accessibleName: "Send email", accessibleDescription: "" },
     });
 
     await LinkMailtoWarning.validate(validateMethodArguments);
@@ -72,7 +90,7 @@ describe("LinkNewWindowWarning Rule Validation", () => {
 
     jest.spyOn(classifier, "getMatched").mockReturnValue([link]);
     jest.spyOn(classifier, "getOperations").mockReturnValue({
-      contentInfo: { allText: "Send email" },
+      contentInfo: { accessibleName: "Send email", accessibleDescription: "" },
     });
 
     await LinkMailtoWarning.validate(validateMethodArguments);

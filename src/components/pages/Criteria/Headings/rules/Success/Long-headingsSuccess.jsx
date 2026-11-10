@@ -1,32 +1,47 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): heading-lengthy
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueSuccess from "../../../../../layout/issueSuccess";
 
-const itemDescription = "Headings : Long Headings - Success";
+const itemDescription = "Headings: Long Headings - Success";
 
-export default () => (
+const LongheadingsSuccess = () => (
   <IssueSuccess
     itemContent={
       <>
-        <div className="list-item" id="longHeadings-success-1">
-          <h1>Main Heading</h1>
-        </div>
-        <div className="list-item" id="longHeadings-success-2">
-          <h2>About Us</h2>
-        </div>
-        <div className="list-item" id="longHeadings-success-3">
-          <h3>Services Offered</h3>
-        </div>
-        <div className="list-item" id="longHeadings-success-4">
-          <h4>Contact Information</h4>
-        </div>
-        <div className="list-item" id="longHeadings-success-5">
-          <h5>Frequently Asked Questions</h5>
-        </div>
-        <div className="list-item" id="longHeadings-success-6">
-          <h6>Quick Links</h6>
-        </div>
+        <div
+          className="list-item"
+          id="headings-long-headings-success-success-1"
+          data-atomic-source="heading-lengthy/h1-with-less-than-160-chars"
+          dangerouslySetInnerHTML={{
+            __html: `<h1>As twilight embraces the horizon, a lone figure stands atop a hill, gazing at the stars, contemplating the mysteries of the universe and our place in</h1>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="headings-long-headings-success-success-2"
+          data-atomic-source="heading-lengthy/h1-with-more-than-160-chars-due-to-double-spaces-and-trimmable-ends"
+          dangerouslySetInnerHTML={{
+            __html: `<h1>   As  twilight            embraces the horizon, a lone figure stands atop a hill, gazing at the stars, contemplating the mysteries of the universe and our place in</h1>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="headings-long-headings-success-success-3"
+          data-atomic-source="heading-lengthy/h4-with-less-than-160-chars"
+          dangerouslySetInnerHTML={{
+            __html: `<h4>As twilight embraces the horizon, a lone figure stands atop a hill, gazing at the stars, contemplating the mysteries of the universe and our place in</h4>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default LongheadingsSuccess;

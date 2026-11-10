@@ -18,7 +18,25 @@ describe("LinkImageWarning Rule Validation", () => {
 
     jest.spyOn(classifier, "getMatched").mockReturnValue([link]);
     jest.spyOn(classifier, "getOperations").mockReturnValue({
-      contentInfo: { srVisibleText: "Opens an image" },
+      contentInfo: { accessibleName: "Opens an image", accessibleDescription: "" },
+    });
+
+    await LinkImageWarning.validate(validateMethodArguments);
+
+    expect(response.passedNodes).toContain(link);
+    expect(response.failedNodes).toHaveLength(0);
+  });
+
+  it("should pass when the warning is only present in the accessible description", async () => {
+    const { classifier, document, response } = validateMethodArguments;
+
+    const link = document.createElement("a");
+    link.href = "https://example.com/image.png";
+    document.body.appendChild(link);
+
+    jest.spyOn(classifier, "getMatched").mockReturnValue([link]);
+    jest.spyOn(classifier, "getOperations").mockReturnValue({
+      contentInfo: { accessibleName: "View Image", accessibleDescription: "Opens an image" },
     });
 
     await LinkImageWarning.validate(validateMethodArguments);
@@ -36,7 +54,7 @@ describe("LinkImageWarning Rule Validation", () => {
 
     jest.spyOn(classifier, "getMatched").mockReturnValue([link]);
     jest.spyOn(classifier, "getOperations").mockReturnValue({
-      contentInfo: { srVisibleText: "Surprise!" },
+      contentInfo: { accessibleName: "Surprise!", accessibleDescription: "" },
     });
 
     await LinkImageWarning.validate(validateMethodArguments);
@@ -54,7 +72,7 @@ describe("LinkImageWarning Rule Validation", () => {
 
     jest.spyOn(classifier, "getMatched").mockReturnValue([link]);
     jest.spyOn(classifier, "getOperations").mockReturnValue({
-      contentInfo: { allText: "Opens an image" },
+      contentInfo: { accessibleName: "Opens an image", accessibleDescription: "" },
     });
 
     await LinkImageWarning.validate(validateMethodArguments);
@@ -72,7 +90,7 @@ describe("LinkImageWarning Rule Validation", () => {
 
     jest.spyOn(classifier, "getMatched").mockReturnValue([link]);
     jest.spyOn(classifier, "getOperations").mockReturnValue({
-      contentInfo: { srVisibleText: "Opens website" },
+      contentInfo: { accessibleName: "Opens website", accessibleDescription: "" },
     });
 
     await LinkImageWarning.validate(validateMethodArguments);

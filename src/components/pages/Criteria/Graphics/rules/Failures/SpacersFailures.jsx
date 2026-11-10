@@ -1,126 +1,90 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): icon-discernible
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueFailure from "../../../../../layout/issueFailure";
 
-const itemDescription = "Icons : Spacers - Failure";
+const itemDescription = "Graphics: Decorative Content - Failure";
 
-export default () => (
+const SpacersFailures = () => (
   <IssueFailure
     itemContent={
       <>
-        <div className="list-item" id="icon-discernible-failure-1">
-          <p>Variation 1: Icon on the Right</p>
-          <div className="columns-wrapper">
-            <button data-testid="go-back" className="btn--unstyled-icon link link--icon" type="button">
-              <span className="wb link__content">Zurück</span>
-              <svg
-                className="glyph-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 500 500"
-                version="1.1"
-              >
-                <path
-                  d="M 240.292 115.212 C 144.163 211.328, 124.685 231.260, 122.782 235.462 C 120.920 239.573, 120.500 242.247, 120.500 250 C 120.500 257.753, 120.920 260.427, 122.782 264.538 C 124.685 268.740, 144.163 288.672, 240.292 384.788 L 355.520 500 362.119 500 C 368.425 500, 368.926 499.817, 373.393 495.885 C 375.964 493.623, 378.727 490.495, 379.534 488.935 C 381.482 485.168, 381.397 478.045, 379.366 474.973 C 378.468 473.613, 327.731 422.438, 266.618 361.250 L 155.503 250 266.618 138.750 C 327.731 77.563, 378.468 26.387, 379.366 25.027 C 381.379 21.982, 381.487 14.842, 379.577 11.148 C 378.794 9.635, 376.104 6.507, 373.599 4.198 C 369.186 0.130, 368.835 0, 362.283 0 L 355.520 0 240.292 115.212"
-                  stroke="none"
-                  fill="currentColor"
-                  fillRule="evenodd"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <div className="list-item" id="icon-discernible-failure-2">
-          <p>Variation 2: Circular Button</p>
-          <div className="columns-wrapper">
-            <button
-              data-testid="go-back"
-              className="btn--circle link link--icon"
-              type="button"
-              style={{ borderRadius: "50%", padding: "10px" }}
-            >
-              <svg
-                className="glyph-icon"
-                role="presentation"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 500 500"
-                version="1.1"
-              >
-                <path
-                  d="M 240.292 115.212 C 144.163 211.328, 124.685 231.260, 122.782 235.462 C 120.920 239.573, 120.500 242.247, 120.500 250 C 120.500 257.753, 120.920 260.427, 122.782 264.538 C 124.685 268.740, 144.163 288.672, 240.292 384.788 L 355.520 500 362.119 500 C 368.425 500, 368.926 499.817, 373.393 495.885 C 375.964 493.623, 378.727 490.495, 379.534 488.935 C 381.482 485.168, 381.397 478.045, 379.366 474.973 C 378.468 473.613, 327.731 422.438, 266.618 361.250 L 155.503 250 266.618 138.750 C 327.731 77.563, 378.468 26.387, 379.366 25.027 C 381.379 21.982, 381.487 14.842, 379.577 11.148 C 378.794 9.635, 376.104 6.507, 373.599 4.198 C 369.186 0.130, 368.835 0, 362.283 0 L 355.520 0 240.292 115.212"
-                  stroke="none"
-                  fill="currentColor"
-                  fillRule="evenodd"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <div className="list-item" id="icon-discernible-failure-3">
-          <p>Variation 3: Text-Only Button</p>
-          <div className="columns-wrapper">
-            <button data-testid="go-back" className="btn--unstyled link link--text-only" type="button">
-              <span className="wb link__content">Zurück</span>
-            </button>
-          </div>
-        </div>
-
-        <div className="list-item" id="icon-discernible-failure-4">
-          <p>Variation 4: Large Icon Button</p>
-          <div className="columns-wrapper">
-            <button
-              data-testid="go-back"
-              className="btn--unstyled-icon link link--icon"
-              type="button"
-              style={{ fontSize: "24px" }}
-            >
-              <svg
-                className="glyph-icon"
-                role="presentation"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 500 500"
-                version="1.1"
-              >
-                <path
-                  d="M 240.292 115.212 C 144.163 211.328, 124.685 231.260, 122.782 235.462 C 120.920 239.573, 120.500 242.247, 120.500 250 C 120.500 257.753, 120.920 260.427, 122.782 264.538 C 124.685 268.740, 144.163 288.672, 240.292 384.788 L 355.520 500 362.119 500 C 368.425 500, 368.926 499.817, 373.393 495.885 C 375.964 493.623, 378.727 490.495, 379.534 488.935 C 381.482 485.168, 381.397 478.045, 379.366 474.973 C 378.468 473.613, 327.731 422.438, 266.618 361.250 L 155.503 250 266.618 138.750 C 327.731 77.563, 378.468 26.387, 379.366 25.027 C 381.379 21.982, 381.487 14.842, 379.577 11.148 C 378.794 9.635, 376.104 6.507, 373.599 4.198 C 369.186 0.130, 368.835 0, 362.283 0 L 355.520 0 240.292 115.212"
-                  stroke="none"
-                  fill="currentColor"
-                  fillRule="evenodd"
-                ></path>
-              </svg>
-              <span className="wb link__content">Zurück</span>
-            </button>
-          </div>
-        </div>
-
-        <div className="list-item" id="icon-discernible-failure-5">
-          <p>Variation 5: Icon with Tooltip</p>
-          <div className="columns-wrapper">
-            <button
-              data-testid="go-back"
-              className="btn--unstyled-icon link link--icon"
-              type="button"
-              aria-label="Go back"
-            >
-              <svg
-                className="glyph-icon"
-                role="presentation"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 500 500"
-                version="1.1"
-              >
-                <path
-                  d="M 240.292 115.212 C 144.163 211.328, 124.685 231.260, 122.782 235.462 C 120.920 239.573, 120.500 242.247, 120.500 250 C 120.500 257.753, 120.920 260.427, 122.782 264.538 C 124.685 268.740, 144.163 288.672, 240.292 384.788 L 355.520 500 362.119 500 C 368.425 500, 368.926 499.817, 373.393 495.885 C 375.964 493.623, 378.727 490.495, 379.534 488.935 C 381.482 485.168, 381.397 478.045, 379.366 474.973 C 378.468 473.613, 327.731 422.438, 266.618 361.250 L 155.503 250 266.618 138.750 C 327.731 77.563, 378.468 26.387, 379.366 25.027 C 381.379 21.982, 381.487 14.842, 379.577 11.148 C 378.794 9.635, 376.104 6.507, 373.599 4.198 C 369.186 0.130, 368.835 0, 362.283 0 L 355.520 0 240.292 115.212"
-                  stroke="none"
-                  fill="currentColor"
-                  fillRule="evenodd"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
+        <div
+          className="list-item"
+          id="graphics-decorative-content-failure-failure-1"
+          data-atomic-source="icon-discernible/font-awesome-icon"
+          dangerouslySetInnerHTML={{
+            __html: `<!-- classifier returns "\\f005" as discernible text, which is partially corrent, because the screen reader attmpts to read it and shows "[?]" -->
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<i class="fa fa-star"></i>
+<span class="fa fa-star"></span>
+<div class="fa fa-star"></div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="graphics-decorative-content-failure-failure-2"
+          data-atomic-source="icon-discernible/img"
+          dangerouslySetInnerHTML={{
+            __html: `<style>
+    img {
+        width: calc(var(--base-size) * 1px);
+        height: calc(var(--base-size) * 1px);
+        display: block;
+    }
+</style>
+<script>
+    var dpr = window.devicePixelRatio || 1;
+    document.documentElement.style.setProperty('--base-size', 48 * dpr);
+</script>
+<img src="https://banner2.cleanpng.com/20180411/oqq/kisspng-computer-icons-star-5-star-5acdd9ec67db40.8458493715234401084254.jpg" />`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="graphics-decorative-content-failure-failure-3"
+          data-atomic-source="icon-discernible/svg-inside-div-with-aria-label"
+          dangerouslySetInnerHTML={{
+            __html: `<div aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="red" /></svg></div>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="graphics-decorative-content-failure-failure-4"
+          data-atomic-source="icon-discernible/svg-inside-nav-with-aria-label"
+          dangerouslySetInnerHTML={{
+            __html: `<nav aria-label="Main"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="red" /></svg></span></nav>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="graphics-decorative-content-failure-failure-5"
+          data-atomic-source="icon-discernible/svg-inside-unnamed-button"
+          dangerouslySetInnerHTML={{
+            __html: `<button><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="red" /></svg></button>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="graphics-decorative-content-failure-failure-6"
+          data-atomic-source="icon-discernible/svg"
+          dangerouslySetInnerHTML={{
+            __html: `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+</svg>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default SpacersFailures;

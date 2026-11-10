@@ -1,6 +1,15 @@
 import { VisibilityMisuse } from ".";
+import { isInstanceOf } from "@acsbe/core-engine-classifier";
 import type { ValidationMethodArguments } from "../../../test/unit/helpers/validation-method-arguments";
 import validationMethodArguments from "../../../test/unit/helpers/validation-method-arguments";
+
+jest.mock("@acsbe/core-engine-classifier", () => {
+  const actual = jest.requireActual("@acsbe/core-engine-classifier");
+  return {
+    ...actual,
+    isInstanceOf: jest.fn(),
+  };
+});
 
 describe("VisibilityMisuse Rule Validation", () => {
   let validateMethodArguments: ValidationMethodArguments;
@@ -13,11 +22,33 @@ describe("VisibilityMisuse Rule Validation", () => {
     response = validateMethodArguments.response;
     jest.spyOn(classifier, "getMatchedInclusive").mockReturnValue([]);
     jest.spyOn(classifier, "getMatched").mockReturnValue([]);
+    (isInstanceOf as unknown as jest.Mock).mockReturnValue(false);
+  });
+
+  it("should add slot element to inapplicableNodes", async () => {
+    const element = document.createElement("slot");
+    jest.spyOn(classifier, "assert").mockReturnValueOnce(true).mockReturnValueOnce(true);
+    (isInstanceOf as unknown as jest.Mock).mockReturnValue(true);
+    jest.spyOn(classifier, "getMatched").mockReturnValueOnce([element]);
+    await VisibilityMisuse.validate(validateMethodArguments);
+    expect(response.inapplicableNodes).toEqual([element]);
+  });
+
+  it("should add a non-exposed visible hidden element to inapplicableNodes", async () => {
+    const element = document.createElement("div");
+
+    jest.spyOn(classifier, "assert").mockReturnValueOnce(true).mockReturnValueOnce(false);
+    jest.spyOn(classifier, "getMatched").mockReturnValueOnce([element]);
+
+    await VisibilityMisuse.validate(validateMethodArguments);
+
+    expect(response.inapplicableNodes).toEqual([element]);
+    expect(response.failedNodes).toEqual([]);
   });
 
   it("should add srOnlyElement to inapplicableNodes", async () => {
     const element = document.createElement("div");
-    jest.spyOn(classifier, "assert").mockReturnValueOnce(true);
+    jest.spyOn(classifier, "assert").mockReturnValueOnce(true).mockReturnValueOnce(true);
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([element]);
     jest.spyOn(classifier, "getMatchedInclusive").mockReturnValueOnce([element]);
     await VisibilityMisuse.validate(validateMethodArguments);
@@ -28,7 +59,7 @@ describe("VisibilityMisuse Rule Validation", () => {
     const element = document.createElement("div");
     const parent = document.createElement("div");
 
-    jest.spyOn(classifier, "assert").mockReturnValueOnce(true);
+    jest.spyOn(classifier, "assert").mockReturnValueOnce(true).mockReturnValueOnce(true);
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([element]);
     jest.spyOn(classifier, "getParent").mockReturnValue(parent);
 
@@ -41,7 +72,7 @@ describe("VisibilityMisuse Rule Validation", () => {
     const descendant = document.createElement("div");
     element.appendChild(descendant);
 
-    jest.spyOn(classifier, "assert").mockReturnValueOnce(true);
+    jest.spyOn(classifier, "assert").mockReturnValueOnce(true).mockReturnValueOnce(true);
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([element]);
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([]);
     jest.spyOn(classifier, "getMatchedInclusive").mockReturnValueOnce([descendant]);
@@ -54,7 +85,7 @@ describe("VisibilityMisuse Rule Validation", () => {
     const element = document.createElement("div");
     const parent = document.createElement("div");
 
-    jest.spyOn(classifier, "assert").mockReturnValueOnce(true);
+    jest.spyOn(classifier, "assert").mockReturnValueOnce(true).mockReturnValueOnce(true);
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([element]);
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([]);
     jest.spyOn(classifier, "getParent").mockReturnValueOnce(null);
@@ -75,7 +106,7 @@ describe("VisibilityMisuse Rule Validation", () => {
 
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([element]);
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([]);
-    jest.spyOn(classifier, "assert").mockReturnValueOnce(true);
+    jest.spyOn(classifier, "assert").mockReturnValueOnce(true).mockReturnValueOnce(true);
     await VisibilityMisuse.validate(validateMethodArguments);
     expect(response.failedNodes).toEqual([element]);
   });
@@ -94,7 +125,7 @@ describe("VisibilityMisuse Rule Validation", () => {
     const parent = document.createElement("div");
     parent.appendChild(element);
 
-    jest.spyOn(classifier, "assert").mockReturnValueOnce(true);
+    jest.spyOn(classifier, "assert").mockReturnValueOnce(true).mockReturnValueOnce(true);
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([parent]);
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([element]);
 
@@ -109,6 +140,7 @@ describe("VisibilityMisuse Rule Validation", () => {
 
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([parent, element]); // Get hidden elements
     jest.spyOn(classifier, "assert").mockReturnValueOnce(true); // parent is CompliantTraitVisible
+    jest.spyOn(classifier, "assert").mockReturnValueOnce(true); // parent is CompliantTraitExposed
     jest.spyOn(classifier, "getMatchedInclusive").mockReturnValueOnce([]); // parent: no PerceivableTraitScreenReaderOnly
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([]); // parent: no visible descendants
     jest.spyOn(classifier, "getParent").mockReturnValueOnce(undefined); // parent has no PerceivableTraitScreenReaderOnly parent
@@ -118,6 +150,7 @@ describe("VisibilityMisuse Rule Validation", () => {
     jest.spyOn(classifier, "assert").mockReturnValueOnce(false); // parent is NOT CompliantComponentInputRadio
     jest.spyOn(classifier, "assert").mockReturnValueOnce(false); // parent is NOT CompliantComponentInputFile
     jest.spyOn(classifier, "assert").mockReturnValueOnce(true); // element is CompliantTraitVisible
+    jest.spyOn(classifier, "assert").mockReturnValueOnce(true); // element is CompliantTraitExposed
     jest.spyOn(classifier, "getMatchedInclusive").mockReturnValueOnce([]); // element: no PerceivableTraitScreenReaderOnly
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([]); // element: no visible descendants
     jest.spyOn(classifier, "getParent").mockReturnValueOnce(undefined); // element has no PerceivableTraitScreenReaderOnly parent
@@ -138,6 +171,7 @@ describe("VisibilityMisuse Rule Validation", () => {
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([parent, element]); // Get hidden elements
     jest.spyOn(classifier, "assert").mockReturnValueOnce(false); // parent is NOT CompliantTraitVisible -> goes to passedNodes
     jest.spyOn(classifier, "assert").mockReturnValueOnce(true); // element is CompliantTraitVisible
+    jest.spyOn(classifier, "assert").mockReturnValueOnce(true); // element is CompliantTraitExposed
     jest.spyOn(classifier, "getMatchedInclusive").mockReturnValueOnce([]); // element: no PerceivableTraitScreenReaderOnly
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([]); // element: no visible descendants
     jest.spyOn(classifier, "getParent").mockReturnValueOnce(undefined); // element has no PerceivableTraitScreenReaderOnly parent
@@ -157,6 +191,7 @@ describe("VisibilityMisuse Rule Validation", () => {
 
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([element]); // Get hidden elements
     jest.spyOn(classifier, "assert").mockReturnValueOnce(true); // is CompliantTraitVisible
+    jest.spyOn(classifier, "assert").mockReturnValueOnce(true); // is CompliantTraitExposed
     jest.spyOn(classifier, "getMatchedInclusive").mockReturnValueOnce([]); // No PerceivableTraitScreenReaderOnly
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([]); // No visible descendants
     jest.spyOn(classifier, "getParent").mockReturnValueOnce(undefined); // No PerceivableTraitScreenReaderOnly parent
@@ -174,6 +209,7 @@ describe("VisibilityMisuse Rule Validation", () => {
 
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([element]); // Get hidden elements
     jest.spyOn(classifier, "assert").mockReturnValueOnce(true); // is CompliantTraitVisible
+    jest.spyOn(classifier, "assert").mockReturnValueOnce(true); // is CompliantTraitExposed
     jest.spyOn(classifier, "getMatchedInclusive").mockReturnValueOnce([]); // No PerceivableTraitScreenReaderOnly
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([]); // No visible descendants
     jest.spyOn(classifier, "getParent").mockReturnValueOnce(undefined); // No PerceivableTraitScreenReaderOnly parent
@@ -192,6 +228,7 @@ describe("VisibilityMisuse Rule Validation", () => {
 
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([element]); // Get hidden elements
     jest.spyOn(classifier, "assert").mockReturnValueOnce(true); // is CompliantTraitVisible
+    jest.spyOn(classifier, "assert").mockReturnValueOnce(true); // is CompliantTraitExposed
     jest.spyOn(classifier, "getMatchedInclusive").mockReturnValueOnce([]); // No PerceivableTraitScreenReaderOnly
     jest.spyOn(classifier, "getMatched").mockReturnValueOnce([]); // No visible descendants
     jest.spyOn(classifier, "getParent").mockReturnValueOnce(undefined); // No PerceivableTraitScreenReaderOnly parent

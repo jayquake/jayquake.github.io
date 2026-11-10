@@ -2,10 +2,10 @@ import React from "react";
 import EngineIssueFailure from "../../../layout/engineIssueFailure";
 
 const FormContextChangeWarningFailure = () => {
-  const ruleId = "form-context-change-warning";
-  const title = `Interacting with form controls should not cause a change in context unless a user is notified beforehand`;
-  const description = `Interacting with form controls shouldn't automatically submit a form or cause any other change in context without notifying the user in advance. Form controls that cause a context change on input can disorient a user, since the behavior is not expected.`;
-  const helpText = `Make sure that forms can be manually submitted via a submit button, or provide instructions that notify users of the expected behavior before they interact with the control.`;
+  const ruleId = "N/A";
+  const title = `N/A`;
+  const description = `N/A`;
+  const helpText = `N/A`;
   const fixSteps = [
   "Review the HTML structure",
   "Apply proper accessibility attributes",
@@ -71,7 +71,9 @@ const FormContextChangeWarningFailure = () => {
 <form id="missing-submit-2">
   <input type="text" />
   <input type="password" />
-</form>` }
+</form>` },
+  { filename: "sr only warning hidden from screen reader", content: `<!-- The warning text sits inside an sr-only element but under aria-hidden, so a screen reader never announces it. -->
+<form><input type="text"><span data-acsb-sr-only="true" style="position: absolute !important; width: 1px !important; height: 1px !important; padding: 0px !important; overflow: hidden !important; clip: rect(0px, 0px, 0px, 0px) !important; border: 0px !important;">Note: <span aria-hidden="true">filling out the following fields will automatically submit the form</span></span></form>` }
   ];
 
   return (

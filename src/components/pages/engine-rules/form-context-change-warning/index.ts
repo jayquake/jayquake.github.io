@@ -10,6 +10,13 @@ export const textContainsWordOrString = (text: string, key: Parameters<typeof te
   return textContainsWord(text, key) || textContainsString(text, key);
 };
 
+/**
+ * contains either `form` and variations of `submit` or `form_submission` sentence
+ */
+const containsContextChangeWarning = (text: string) => {
+  return textContainsWordOrString(text, "form") && (textContainsWordOrString(text, "submit") || textContainsWordOrString(text, "submission"));
+};
+
 export const FormContextChangeWarning: Rule = {
   id: "form-context-change-warning",
   metadata: {
@@ -72,27 +79,34 @@ export const FormContextChangeWarning: Rule = {
         continue;
       }
 
-      const srOnlyElements = classifier.getMatched([PerceivableTraitScreenReaderOnly], form);
-      const containsContextChangeWarning = srOnlyElements.some((srOnlyElement) => {
-        const {
-          contentInfo: { srVisibleText },
-        } = classifier.getOperations(srOnlyElement);
-        /**
-         * contains either `form` and variations of `submit` or `form_submission` sentance
-         */
-        const containsForm = textContainsWordOrString(srVisibleText, "form");
-
-        if (!containsForm) {
-          return false;
-        }
-
-        return textContainsWordOrString(srVisibleText, "submit") || textContainsWordOrString(srVisibleText, "submission");
-      });
+      const {
+        contentInfo: { accessibleName },
+      } = classifier.getOperations(form);
 
       /**
-       * if the form contains an sr-only element with context change warning then it should pass
+       * The remediation appends the warning to the form's highest priority name attribute when it has one,
+       * so a remediated form must not be failed again.
+       *
+       * @see src/rules/form-context-change-warning/atomic-tests/pass/remediated-form-with-aria-label.html
+       * @see src/rules/form-context-change-warning/atomic-tests/pass/remediated-form-with-aria-labelledby.html
        */
-      if (containsContextChangeWarning) {
+      if (containsContextChangeWarning(accessibleName)) {
+        response.passedNodes.push(form);
+        continue;
+      }
+
+      /**
+       * The form role only takes its accessible name from the author (aria-label, aria-labelledby, title), never from its contents,
+       * so the nested warning is not reflected in the accessibleName check above and must be looked up separately.
+       *
+       * When the form has no existing accessible name source, the remediation adds the warning in a nested sr-only element instead.
+       *
+       * @see https://www.w3.org/TR/wai-aria-1.2/#form
+       * @see src/rules/form-context-change-warning/atomic-tests/pass/remediated-form-with-sr-only-warning.html
+       * @see src/rules/form-context-change-warning/atomic-tests/fail/sr-only-warning-hidden-from-screen-reader.html
+       */
+      const srOnlyElements = classifier.getMatched([PerceivableTraitScreenReaderOnly], form);
+      if (srOnlyElements.some((srOnlyElement) => containsContextChangeWarning(classifier.getOperations(srOnlyElement).contentInfo.srVisibleText))) {
         response.passedNodes.push(form);
         continue;
       }

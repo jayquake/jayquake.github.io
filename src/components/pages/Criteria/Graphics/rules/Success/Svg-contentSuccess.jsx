@@ -1,44 +1,157 @@
+/* eslint-disable react/no-danger */
+/**
+ * AUTO-GENERATED from core-engine atomic-tests.
+ * Source engine rule(s): svg-discernible
+ * Do not hand-edit example bodies — re-run:
+ *   node scripts/generate-criteria-examples-from-atomic.js
+ */
 import React from "react";
 import IssueSuccess from "../../../../../layout/issueSuccess";
 
-const itemDescription = "Graphics : SVG Content - Success";
+const itemDescription = "Graphics: SVG Content - Success";
 
-export default () => (
+const SvgcontentSuccess = () => (
   <IssueSuccess
     itemContent={
       <>
-        <div className="list-item" id="svgContent-success-1">
-          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
-          </svg>
+        <div
+          className="list-item"
+          id="graphics-svg-content-success-success-1"
+          data-atomic-source="svg-discernible/svg-display-none"
+          dangerouslySetInnerHTML={{
+            __html: `<!-- issue with @acsbe/core-engine-classifier -->
+<svg alt="Image description" style="width:100px;height:100px;display: none;" >
+    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+</svg>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="graphics-svg-content-success-success-2"
+          data-atomic-source="svg-discernible/svg-in-button"
+          dangerouslySetInnerHTML={{
+            __html: `<button>
+    <svg style="width:100px;height:100px;" >
+        <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+    </svg>
+</button>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="graphics-svg-content-success-success-3"
+          data-atomic-source="svg-discernible/svg-in-link"
+          dangerouslySetInnerHTML={{
+            __html: `<a href="/search">
+    <svg style="width:100px;height:100px;" >
+        <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+    </svg>
+</a>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="graphics-svg-content-success-success-4"
+          data-atomic-source="svg-discernible/svg-visibility-hidden"
+          dangerouslySetInnerHTML={{
+            __html: `<!-- issue with @acsbe/core-engine-classifier -->
+<svg alt="Image description" style="width:100px;height:100px;visibility: hidden;" >
+    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+</svg>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="graphics-svg-content-success-success-5"
+          data-atomic-source="svg-discernible/svg-with-aria-label-aria-hidden"
+          dangerouslySetInnerHTML={{
+            __html: `<svg aria-label="Image description" aria-hidden="true" style="width:100px;height:100px;" >
+    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+</svg>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="graphics-svg-content-success-success-6"
+          data-atomic-source="svg-discernible/svg-with-aria-label-role-presentation"
+          dangerouslySetInnerHTML={{
+            __html: `<!-- This test is skipped because PerceivableTraitDiscernibleText uses srVisibleText which uses isExplicitlyHiddenFromScreenReader which must be adjusted with isAffectedByRolePresentation -->
+<svg aria-label="Image description" role="presentation" style="width:100px;height:100px;" >
+    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+</svg>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="graphics-svg-content-success-success-7"
+          data-atomic-source="svg-discernible/svg-with-aria-label"
+          dangerouslySetInnerHTML={{
+            __html: `<svg aria-label="Image description" style="width:100px;height:100px;" >
+    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+</svg>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="graphics-svg-content-success-success-8"
+          data-atomic-source="svg-discernible/svg-with-nested-forigin-object-figure-caption"
+          dangerouslySetInnerHTML={{
+            __html: `<!-- issue with @acsbe/core-engine-classifier -->
+<svg style="width:100px;height:100px;" >
+    <foreignObject>
+        <figure>
+            <img src="image.png" />
+            <figcaption>Image description</figcaption>
+        </figure>
+    </foreignObject>
+</svg>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="graphics-svg-content-success-success-9"
+          data-atomic-source="svg-discernible/svg-with-nested-forigin-object-img-alt"
+          dangerouslySetInnerHTML={{
+            __html: `<!-- issue with @acsbe/core-engine-classifier -->
+<svg style="width:100px;height:100px;" >
+    <foreignObject>
+        <img src="path-to-image.png" alt="Image description" xmlns="http://www.w3.org/1999/xhtml" />
+    </foreignObject>
+</svg>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="graphics-svg-content-success-success-10"
+          data-atomic-source="svg-discernible/svg-with-nested-forigin-object-img-aria-label"
+          dangerouslySetInnerHTML={{
+            __html: `<!-- issue with @acsbe/core-engine-classifier -->
+<svg style="width:100px;height:100px;" >
+    <foreignObject>
+        <img src="path-to-image.png" aria-label="Image description" xmlns="http://www.w3.org/1999/xhtml" />
+    </foreignObject>
+</svg>`,
+          }}
+        />
+        <div
+          className="list-item"
+          id="graphics-svg-content-success-success-11"
+          data-atomic-source="svg-discernible/svg-with-nested-forigin-object-text-content"
+          dangerouslySetInnerHTML={{
+            __html: `<!-- issue with @acsbe/core-engine-classifier -->
+<svg style="width:100px;height:100px;" >
+    <foreignObject>
+        <div xmlns="http://www.w3.org/1999/xhtml">
+            SVG Description
         </div>
-        <div className="list-item" id="svgContent-success-2">
-          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M19 13H5v-2h14v2z" />
-          </svg>
-        </div>
-        <div className="list-item" id="svgContent-success-3">
-          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M12 4.54L4.54 12 12 19.46 19.46 12 12 4.54z" />
-          </svg>
-        </div>
-        <div className="list-item" id="svgContent-success-4">
-          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M21 11.5L14.5 2 8 11.5h5v9H7v-7H3v7H0v-9H1L7 1l7 10h-5z" />
-          </svg>
-        </div>
-        <div className="list-item" id="svgContent-success-5">
-          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M12 22c5.52 0 10-4.48 10-10S17.52 2 12 2 2 6.48 2 12s4.48 10 10 10z" />
-          </svg>
-        </div>
-        <div className="list-item" id="svgContent-success-6">
-          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-          </svg>
-        </div>
+    </foreignObject>
+</svg>`,
+          }}
+        />
       </>
     }
     itemDescription={itemDescription}
   />
 );
+
+export default SvgcontentSuccess;

@@ -21,6 +21,7 @@ describe("FormContextChangeWarning Rule Validation", () => {
         formInputs: new Map([]),
       },
     });
+    jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({ contentInfo: { accessibleName: "", srVisibleText: "" } } as any);
   });
 
   afterEach(() => {
@@ -166,13 +167,23 @@ describe("FormContextChangeWarning Rule Validation", () => {
     expect(response.passedNodes[0]).toBe(form);
   });
 
+  it(`should have passed nodes when the form's accessible name contains 'form' & 'submit' related text`, async () => {
+    const { response } = validateMethodArguments;
+    const form = validateMethodArguments.document.body.querySelector("form");
+    (validateMethodArguments.classifier.getMatched as jest.Mock).mockReturnValueOnce([form]).mockReturnValueOnce([]);
+    jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({ contentInfo: { accessibleName: "form submit", srVisibleText: "" } } as any);
+    jest.spyOn(FormContextChangeWarningModule, "textContainsWordOrString").mockImplementation((text, key) => text.includes(key));
+    await FormContextChangeWarning.validate(validateMethodArguments);
+    expect(response.passedNodes.length).toBe(1);
+  });
+
   it(`should have passed nodes when there's an sr-only element with 'form' & 'submit' related text`, async () => {
     const { response } = validateMethodArguments;
     const form = validateMethodArguments.document.body.querySelector("form");
     const srOnlyElement = validateMethodArguments.document.body.querySelector(".sr-only");
     (validateMethodArguments.classifier.getMatched as jest.Mock).mockReturnValueOnce([form]).mockReturnValueOnce([]).mockReturnValueOnce([srOnlyElement]);
-    jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({ contentInfo: { srVisibleText: "" } } as any);
-    jest.spyOn(FormContextChangeWarningModule, "textContainsWordOrString").mockReturnValue(true);
+    jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({ contentInfo: { accessibleName: "", srVisibleText: "form submit" } } as any);
+    jest.spyOn(FormContextChangeWarningModule, "textContainsWordOrString").mockImplementation((text, key) => text.includes(key));
     await FormContextChangeWarning.validate(validateMethodArguments);
     expect(response.passedNodes.length).toBe(1);
   });
@@ -182,8 +193,8 @@ describe("FormContextChangeWarning Rule Validation", () => {
     const form = validateMethodArguments.document.body.querySelector("form");
     const srOnlyElement = validateMethodArguments.document.body.querySelector(".sr-only");
     (validateMethodArguments.classifier.getMatched as jest.Mock).mockReturnValueOnce([form]).mockReturnValueOnce([]).mockReturnValueOnce([srOnlyElement]);
-    jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({ contentInfo: { srVisibleText: "" } } as any);
-    jest.spyOn(FormContextChangeWarningModule, "textContainsWordOrString").mockReturnValue(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true);
+    jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({ contentInfo: { accessibleName: "", srVisibleText: "form submission" } } as any);
+    jest.spyOn(FormContextChangeWarningModule, "textContainsWordOrString").mockImplementation((text, key) => text.includes(key));
     await FormContextChangeWarning.validate(validateMethodArguments);
     expect(response.passedNodes.length).toBe(1);
   });
@@ -193,8 +204,8 @@ describe("FormContextChangeWarning Rule Validation", () => {
     const form = validateMethodArguments.document.body.querySelector("form");
     const srOnlyElement = validateMethodArguments.document.body.querySelector(".sr-only");
     (validateMethodArguments.classifier.getMatched as jest.Mock).mockReturnValueOnce([form]).mockReturnValueOnce([]).mockReturnValueOnce([srOnlyElement]);
-    jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({ contentInfo: { srVisibleText: "" } } as any);
-    jest.spyOn(FormContextChangeWarningModule, "textContainsWordOrString").mockReturnValue(false);
+    jest.spyOn(validateMethodArguments.classifier, "getOperations").mockReturnValue({ contentInfo: { accessibleName: "", srVisibleText: "unrelated text" } } as any);
+    jest.spyOn(FormContextChangeWarningModule, "textContainsWordOrString").mockImplementation((text, key) => text.includes(key));
     await FormContextChangeWarning.validate(validateMethodArguments);
     expect(response.failedNodes.length).toBe(1);
   });
