@@ -1,9 +1,20 @@
 import { type Request, type Response } from 'express';
 import { existsSync, readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
+import { createRequire } from 'module';
 
 import { DatabaseService } from '../../infrastructure/database/DatabaseService';
 import { PathUtils } from '../../infrastructure/utils/PathUtils';
+
+const requireFromCjs = createRequire(__filename);
+const {
+  loadCatalogFromDisk,
+} = requireFromCjs('../../../../src/lib/rulesCatalog/index.js') as {
+  loadCatalogFromDisk: (repoRoot?: string) => {
+    rules: EngineRuleMetadata[];
+    byId: Record<string, EngineRuleMetadata>;
+  };
+};
 
 interface EngineRuleMetadata {
   id: string;
@@ -11,11 +22,13 @@ interface EngineRuleMetadata {
   title: string;
   description: string;
   advice: string;
+  adviceHtml?: string;
   impact: string;
   refs: Array<{ type: string; id: string; level: string; link: string }>;
   detailUrl: string;
   successUrl: string;
   failureUrl: string;
+  populated?: boolean;
 }
 
 interface LegacyRule {
@@ -38,14 +51,20 @@ interface HtmlExample {
 }
 
 let cachedEngineRules: EngineRuleMetadata[] | null = null;
+let cachedEngineById: Record<string, EngineRuleMetadata> | null = null;
 let cachedLegacyRules: LegacyRule[] | null = null;
 
 function loadEngineRules(): EngineRuleMetadata[] {
   if (cachedEngineRules) return cachedEngineRules;
-  const filePath = join(PathUtils.getProjectRoot(), 'src/data/engine-rules-metadata.json');
-  const raw = readFileSync(filePath, 'utf-8');
-  cachedEngineRules = JSON.parse(raw);
+  const catalog = loadCatalogFromDisk(PathUtils.getProjectRoot());
+  cachedEngineRules = catalog.rules;
+  cachedEngineById = catalog.byId;
   return cachedEngineRules!;
+}
+
+function findEngineRule(ruleId: string): EngineRuleMetadata | undefined {
+  loadEngineRules();
+  return cachedEngineById?.[ruleId];
 }
 
 function loadLegacyRules(): LegacyRule[] {
@@ -97,10 +116,9 @@ export class RuleController {
   async getRule(req: Request, res: Response): Promise<void> {
     try {
       const { ruleId } = req.params;
-      const engineRules = loadEngineRules();
       const legacyRules = loadLegacyRules();
 
-      const engineRule = engineRules.find((r) => r.id === ruleId || r.kebabId === ruleId);
+      const engineRule = findEngineRule(ruleId);
       const legacyRule = legacyRules.find((r) => r.route === ruleId);
 
       if (!engineRule && !legacyRule) {
@@ -133,8 +151,7 @@ export class RuleController {
   async getRuleExamples(req: Request, res: Response): Promise<void> {
     try {
       const { ruleId } = req.params;
-      const engineRules = loadEngineRules();
-      const engineRule = engineRules.find((r) => r.id === ruleId || r.kebabId === ruleId);
+      const engineRule = findEngineRule(ruleId);
 
       const discovered: { success: HtmlExample[]; failure: HtmlExample[] } = {
         success: [],

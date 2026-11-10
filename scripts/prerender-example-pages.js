@@ -9,9 +9,10 @@ const path = require("path");
 const { spawn } = require("child_process");
 const { chromium } = require("playwright");
 
+const { loadCatalogFromDisk, isPopulated } = require("../src/lib/rulesCatalog");
+
 const REPO_ROOT = path.join(__dirname, "..");
 const BUILD_DIR = path.join(REPO_ROOT, "build");
-const METADATA_PATH = path.join(BUILD_DIR, "engine-rules-metadata.json");
 const WORKERS = Number(process.env.PRERENDER_WORKERS || 6);
 
 /** Prefer PRERENDER_PORT only when nothing is accepting there; else ephemeral. */
@@ -69,14 +70,9 @@ async function assertSpaServer(baseUrl) {
   }
 }
 
-function isPopulated(rule) {
-  const slug = rule.id || rule.kebabId || "";
-  return Boolean(slug && (rule.title || rule.description));
-}
-
-function collectRoutes(metadata) {
+function collectRoutes(rules) {
   const routes = new Set();
-  for (const rule of metadata) {
+  for (const rule of rules) {
     if (!isPopulated(rule)) continue;
     if (rule.successUrl) routes.add(rule.successUrl);
     if (rule.failureUrl) routes.add(rule.failureUrl);
@@ -197,16 +193,17 @@ async function main() {
     process.exit(1);
   }
 
-  if (!fs.existsSync(METADATA_PATH)) {
-    console.error("build/engine-rules-metadata.json not found — run prebuild");
+  const catalogPath = path.join(BUILD_DIR, "engine-rules.json");
+  if (!fs.existsSync(catalogPath)) {
+    console.error("build/engine-rules.json not found — run prebuild / copy public assets");
     process.exit(1);
   }
 
-  const metadata = JSON.parse(fs.readFileSync(METADATA_PATH, "utf8"));
-  const routes = collectRoutes(metadata);
+  const catalog = loadCatalogFromDisk(REPO_ROOT, catalogPath);
+  const routes = collectRoutes(catalog.rules);
 
   if (routes.length === 0) {
-    console.error("No populated rule routes found in metadata");
+    console.error("No populated rule routes found in catalog");
     process.exit(1);
   }
 

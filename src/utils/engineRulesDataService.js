@@ -1,38 +1,30 @@
-/** Runtime fetch for engine rules — single searchable catalog JSON (like legacy data.json). */
+/** Runtime fetch for engine rules — single searchable catalog JSON. */
+
+const {
+  normalizeRule,
+  indexById,
+  query: catalogQuery,
+  isPopulated,
+} = require("../lib/rulesCatalog");
 
 const CATALOG_URL = `${process.env.PUBLIC_URL || ""}/engine-rules.json`;
 
 let catalogPromise = null;
-/** @type {{ rules: object[], byId: Record<string, object> } | null} */
+/** @type {{ rules: object[], byId: Record<string, object>, populated: object[] } | null} */
 let catalogCache = null;
 
 function buildCacheFromPayload(data) {
-  const byId = {};
-  const rules = (data.rules || []).map((row) => {
-    const rule = catalogRowToRule(row);
-    byId[rule.id] = rule;
-    return rule;
-  });
-  return { rules, byId };
+  const rules = (data.rules || []).map((row) => normalizeRule(row));
+  return {
+    rules,
+    populated: rules.filter(isPopulated),
+    byId: indexById(rules),
+  };
 }
 
-/** Map catalog row → shape expected by library table + detail pane. */
+/** @deprecated use normalizeRule from rulesCatalog */
 export function catalogRowToRule(row) {
-  return {
-    id: row.id,
-    kebabId: row.id,
-    title: row.title,
-    description: row.description || "",
-    advice: row.advice || "",
-    impact: row.impact || "",
-    search: row.search || "",
-    refs: row.refs || (row.wcag || []).map((w) => ({
-      type: "WCAG",
-      id: w.id,
-      level: w.level || "",
-      link: w.link || "",
-    })),
-  };
+  return normalizeRule(row);
 }
 
 /** @deprecated use catalogRowToRule */
@@ -71,18 +63,24 @@ export function fetchEngineRulesCatalog() {
   return catalogPromise;
 }
 
-/** Slim index — delegates to catalog (one network request). */
+/** Slim index — populated rules only (library / tree). */
 export function fetchEngineRulesIndex() {
-  return fetchEngineRulesCatalog().then((c) => c.rules);
+  return fetchEngineRulesCatalog().then((c) => c.populated);
 }
 
 export function fetchEngineRuleById(id) {
   return fetchEngineRulesCatalog().then((c) => c.byId[id] ?? null);
 }
 
-/** Full metadata — same catalog; kept for API compatibility. */
+/** Full catalog including stubs. */
 export function fetchEngineRulesFull() {
   return fetchEngineRulesCatalog().then((c) => c.rules);
+}
+
+export function queryEngineRules(libraryQuery, opts) {
+  return fetchEngineRulesCatalog().then((c) =>
+    catalogQuery(c.rules, libraryQuery, opts)
+  );
 }
 
 /** Clear cache (tests only). */
