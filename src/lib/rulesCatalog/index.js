@@ -1,6 +1,6 @@
 /**
- * Shared rules catalog module (CommonJS).
- * Used by the app (via webpack), Node build scripts, and the Express server.
+ * Shared rules catalog module (CommonJS) — browser-safe surface.
+ * Node-only disk loading: require("./loadFromDisk") or "./node".
  */
 const { CATEGORIES, CATEGORY_BY_KEBAB_ID } = require("./categories");
 const {
@@ -20,7 +20,6 @@ const {
   indexById,
   resolveRule,
 } = require("./query");
-const { loadCatalogFromDisk, DEFAULT_CATALOG_REL } = require("./loadFromDisk");
 
 module.exports = {
   CATEGORIES,
@@ -40,6 +39,4 @@ module.exports = {
   collectFacets,
   indexById,
   resolveRule,
-  loadCatalogFromDisk,
-  DEFAULT_CATALOG_REL,
 };

@@ -66,7 +66,7 @@ export default function AtomicTestLibrary() {
   useEffect(() => {
     let cancelled = false;
     fetchEngineRulesFull()
-      .then((rows) => {
+      .then((rows: any[]) => {
         if (cancelled) return;
         const loaded = rows.map((r: any) => {
           const id = r.kebabId || r.id;

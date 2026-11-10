@@ -9,7 +9,7 @@ const path = require("path");
 const { spawn } = require("child_process");
 const { chromium } = require("playwright");
 
-const { loadCatalogFromDisk, isPopulated } = require("../src/lib/rulesCatalog");
+const { loadCatalogFromDisk, isPopulated } = require("../src/lib/rulesCatalog/node");
 
 const REPO_ROOT = path.join(__dirname, "..");
 const BUILD_DIR = path.join(REPO_ROOT, "build");

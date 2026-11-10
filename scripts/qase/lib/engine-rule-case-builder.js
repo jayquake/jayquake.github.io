@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { loadCatalogFromDisk } = require("../../../src/lib/rulesCatalog");
+const { loadCatalogFromDisk } = require("../../../src/lib/rulesCatalog/node");
 
 const ENGINE_RULES_DIR = path.join(
   __dirname,

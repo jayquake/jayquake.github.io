@@ -9,7 +9,7 @@ import { PathUtils } from '../../infrastructure/utils/PathUtils';
 const requireFromCjs = createRequire(__filename);
 const {
   loadCatalogFromDisk,
-} = requireFromCjs('../../../../src/lib/rulesCatalog/index.js') as {
+} = requireFromCjs('../../../../src/lib/rulesCatalog/node.js') as {
   loadCatalogFromDisk: (repoRoot?: string) => {
     rules: EngineRuleMetadata[];
     byId: Record<string, EngineRuleMetadata>;
