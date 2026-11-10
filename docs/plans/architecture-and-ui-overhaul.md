@@ -26,7 +26,7 @@ Overhaul the RAIDEN audit-rules UI/UX on **shadcn/Tailwind** and **remove MUI en
 |---|---|---|---|---|
 | 7 | Delete the dead legacy chain + fix the build-breaking hook | `refactor/arch-07-dead-code` | [#24](https://github.com/jayquake/jayquake.github.io/pull/24) → main | ✅ open, verified |
 | 1 | Library location module | `refactor/arch-01-library-location` | [#25](https://github.com/jayquake/jayquake.github.io/pull/25) → #24 | ✅ open, verified |
-| 2a | Rule data sync (engine + legacy) | `data/arch-02a-rule-data-sync` | — | 🚧 in progress |
+| 2a | Rule data sync (engine + legacy) | `data/arch-02a-rule-data-sync` | (open after push) → #25 | 🚧 verified, opening PR |
 | 2b | Rules catalog module | — | — | ⏳ decided, not started |
 | 3 | Rule tree model | — | — | ⏳ not grilled |
 | 5 | Example page adapter | — | — | ⏳ not grilled |
@@ -68,37 +68,41 @@ When #24 merges, retarget #25 to `main`, then rebase each later branch in the st
 ## 🚧 #2a: Rule data sync (data only, no app code beyond what the data needs)
 
 ### Engine rules
-- [ ] `git pull --ff-only` in `~/Desktop/core-engine-auditor` (clean on `main`, last commit 2026-11-09). Stop if it can't fast-forward.
-- [ ] `npm run sync:engine-rules` (copies rule folders into `src/components/pages/engine-rules`).
-- [ ] Regenerate the engine metadata and catalog with the existing scripts (`aggregate-rule-metadata.js` → `generate-engine-rules-index.js`). #2b replaces these scripts.
-- [ ] Put the engine data changes in their **own commit**.
+- [x] `git pull --ff-only` in `~/Desktop/core-engine-auditor` (clean on `main`). Fast-forwarded 2026-11-10; only `package.json` / lock churn, no rule content delta.
+- [x] `npm run sync:engine-rules` (copies rule folders into `src/components/pages/engine-rules`).
+- [x] Regenerate the engine metadata and catalog with the existing scripts (`aggregate-rule-metadata.js` → `generate-engine-rules-index.js`). #2b replaces these scripts.
+- [x] Put the engine data changes in their **own commit**. *(No commit needed: sync produced only `generatedAt` churn, reverted.)*
 
 ### Legacy rules (source: `acsbe/accessFlow` main, `deps/mongodb/dump-json/accessFlow/rules.json`)
 Facts:
 - The dump is a Mongo export of concatenated JSON documents, not one JSON array.
 - It has 96 rules: 90 existing plus 6 new (`targetSize`, `sliderAlternativeInput`, `carouselAlternativeNavigation`, `navigationLabel`, `unobscuredHeaderFocus`, `unobscuredFooterFocus`). 18 are disabled.
 - There are 17 criteria; the repo only knows 12.
-- **48 rules moved criteria** (e.g. `linkContext`: clickables → interactive-content). `brokenAriaLabels` changed route.
+- **48 rules moved criteria** (e.g. `linkContext`: clickables → interactive-content). `brokenAriaLabels` changed route (`errors/broken-aria-labels` → `interactive-content/aria-label-misuse`).
 - Field drift: `issueWCAGLinks` (array) replaced `issueWCAGLink` (string). New fields: `wcagVersion`, `engineRules`, `confidence`, `isAutoResolvable`, AI-validation fields.
 - 34 rules carry `engineRules`: engine rule ids referenced by **engine `id`, not kebabId**.
+- Conflict report (confirmed 2026-11-10): **27 agree, 7 differ, 49 local-only**; AccessFlow references retired ids `interactive-not-tabbable`, `tabbable-non-interactive`, `navigation-submenu-region`, `icon-discernible`.
 
 Decisions:
-- [ ] A new `scripts/sync-legacy-rules-from-accessflow.js` (`npm run sync:legacy-rules`). It fetches through `gh api` from `acsbe/accessFlow@main`, or reads a local path from `ACCESSFLOW_RULES_PATH`, and parses the concatenated docs. It writes `public/data.json` and `src/data/legacy-rules.json` in the existing shape, plus a derived `issueWCAGLink` (the first of `issueWCAGLinks`) so current readers keep working.
-- [ ] **Keep disabled rules**, badged "Disabled in AccessFlow".
-- [ ] **New rules get rule pages.** Their example pages show "No examples yet" until fixtures exist.
-- [ ] **Criteria routes are derived from the data**, replacing the hard-coded `CRITERIA_PREFIXES` in `src/routes/criteriaPathUtils.js` (used by `isCriteriaPath` and `parseRoute`).
-- [ ] **URLs move to the new criteria, with redirects** (user decision, 2026-11-10):
+- [x] A new `scripts/sync-legacy-rules-from-accessflow.js` (`npm run sync:legacy-rules`). It fetches through `gh api` from `acsbe/accessFlow@main`, or reads a local path from `ACCESSFLOW_RULES_PATH`, and parses the concatenated docs. It writes `public/data.json` and `src/data/legacy-rules.json` in the existing shape, plus a derived `issueWCAGLink` (the first of `issueWCAGLinks`) so current readers keep working. Also writes `legacy-redirects.json`, `legacy-criteria.json`, `legacy-example-fixtures.json`. Re-running after a sync **keeps** existing redirects. `--rewrite-routes` re-keys `*Routes.jsx` paths.
+- [x] **Keep disabled rules**, badged "Disabled in AccessFlow".
+- [x] **New rules get rule pages.** Their example pages show "No examples yet" until fixtures exist (12 slots: 6 rules × success/failure).
+- [x] **Criteria routes are derived from the data**, replacing the hard-coded `CRITERIA_PREFIXES` in `src/routes/criteriaPathUtils.js` (used by `isCriteriaPath` and `parseRoute`).
+- [x] **URLs move to the new criteria, with redirects** (user decision, 2026-11-10):
   - Canonical URL: `/<new-criteria>/<route>[_success|_failure]`.
-  - Old URLs (`/<old-criteria>/<route>…`, and `brokenAriaLabels`' old route) **redirect** with `replace` to the new ones. Store the redirect map as data generated by the sync, e.g. `src/data/legacy-redirects.json`, built by diffing against the previous data.
-  - **Re-key the Criteria fixture route files** (`src/components/pages/Criteria/*/rules/*Routes.jsx`) so example routes live under the new criteria paths. Fixture component files and their DOM stay **untouched**: only route paths change, and folders don't move.
-  - Static prerender / GitHub Pages: make sure the redirects work for deep links (SPA 404 fallback) and update `scripts/prerender-example-pages.js` if it enumerates legacy paths.
-  - Re-crawl old URLs to prove each one lands on the same content.
-- [ ] Legacy ↔ engine mapping (the merge itself lands in 2b, as catalog logic): the sync **prints a conflict report** comparing AccessFlow `engineRules` with `src/data/legacy-engine-mapping.js`. Today 27 agree, 7 differ, and 49 exist only locally. AccessFlow points at 4 retired ids: `interactive-not-tabbable`, `tabbable-non-interactive`, `navigation-submenu-region` and `icon-discernible`.
-- [ ] Commit legacy data changes separately from the script and route changes.
+  - Old URLs (`/<old-criteria>/<route>…`, and `brokenAriaLabels`' old route) **redirect** with `replace` to the new ones via `LegacyRedirect` + `src/data/legacy-redirects.json` (144 entries).
+  - **Re-keyed the Criteria fixture route files** (96 path attrs in 8 files). Fixture component files and folders stay **untouched**.
+  - Static prerender / GitHub Pages: deep links rely on `build/404.html` SPA shell (documented in `prerender-spa-routes.js`); client then replace-redirects.
+  - Re-crawled 270 old URLs: **0 path mismatches**.
+- [x] Legacy ↔ engine mapping conflict report printed by sync (merge deferred to 2b).
+- [x] Commit legacy data changes separately from the script and route changes.
 
 ### Verification for 2a
-- [ ] Build, the app Jest suites, a crawl comparison with #25's build, and a crawl of **every old legacy URL** asserting it redirects to a page with the same h1.
-- [ ] Check that the legacy tree shows all 96 rules under the 17 criteria.
+- [x] Build (`BUILD_EXIT=0`; 4 engine prerender timeouts on existing flaky fixtures: `popup-focus_*`, `region-main-navigation-mismatch_*`).
+- [x] App Jest: 55 passed with `--testPathIgnorePatterns engine-rules`.
+- [x] Crawl vs #25 build (758 routes): 0 material diffs after filtering new-criteria baseline noise + textLen timing; 42 textLen-only.
+- [x] Crawl of every old legacy URL: 270/270 path redirects OK; rule-name present on rule pages.
+- [x] Legacy tree shows **96** rules; data has **17** criteria.
 
 ---
 
@@ -192,7 +196,7 @@ One module for "analyse an example (backend if healthy, else client), cache it, 
 4. **Flow checks:** a Playwright script of the iteration's user-visible behaviour against the built app.
 5. Check that `public/engine-rules.json` didn't pick up `generatedAt` churn before committing (until 2b fixes it).
 
-Verification scripts currently live in the session scratchpad (`crawl.js`, `reach.js`, `textdiff.js`, `flows01.js`, `verify*.sh`). **To do in 2a: move them into `scripts/verify/`** so they outlive the session.
+Verification scripts live in `scripts/verify/` (`crawl.js`, `reach.js`, `textdiff.js`, `flows01.js`, `verify*.sh`, `crawl-legacy-redirects.js`). Outputs and copied builds stay gitignored under `scripts/verify/out/` and `scripts/verify/baseline/`.
 
 ## Reference facts
 
