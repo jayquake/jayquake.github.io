@@ -1,0 +1,40 @@
+{
+  "criteria": [
+    "carousels",
+    "clickables",
+    "context",
+    "dialogs",
+    "document",
+    "errors",
+    "forms",
+    "general",
+    "graphics",
+    "interactive-content",
+    "keyboard",
+    "landmarks",
+    "lists",
+    "moving-content",
+    "navigation",
+    "tables",
+    "text-content"
+  ],
+  "prefixes": [
+    "/carousels",
+    "/clickables",
+    "/context",
+    "/dialogs",
+    "/document",
+    "/errors",
+    "/forms",
+    "/general",
+    "/graphics",
+    "/interactive-content",
+    "/keyboard",
+    "/landmarks",
+    "/lists",
+    "/moving-content",
+    "/navigation",
+    "/tables",
+    "/text-content"
+  ]
+}
