@@ -4,7 +4,7 @@ import { Badge } from "./components/ui/badge";
 import { Sidebar, SidebarInset, SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";
 import AppRoutes from "./routes/AppRoutes";
 import { ENGINE_RULE_COUNT } from "./utils/engineRuleCount";
-import { parseEngineSlug } from "./utils/engineExampleUtils";
+import { parseRoute } from "./lib/libraryLocation";
 
 const LOGIN_ROUTES = ["/login", "/login/success"];
 
@@ -23,17 +23,14 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
 
-function getShellMode(pathname) {
-  if (pathname === "/" || pathname === "/engine/library") return "libraryHome";
-  const engineMatch = pathname.match(/^\/engine\/([^/]+)$/);
-  if (engineMatch && !engineMatch[1].includes("_")) return "libraryDetail";
-  const exampleMatch = pathname.match(/^\/engine\/(.+)_(success|failure)$/);
-  if (exampleMatch) return "example";
-  return "default";
-}
-
 function getPageInfo(pathname) {
-  const mode = getShellMode(pathname);
+  const route = parseRoute(pathname);
+  const isEngine = route.kind !== "home" && route.kind !== "other" && route.rule.type === "engine";
+  const mode =
+    route.kind === "home" ? "libraryHome"
+    : isEngine && route.kind === "rule" ? "libraryDetail"
+    : isEngine && route.kind === "example" ? "example"
+    : "default";
   const pathnames = pathname.split("/").filter(Boolean);
 
   if (mode === "libraryHome") {
@@ -46,15 +43,14 @@ function getPageInfo(pathname) {
   }
 
   if (mode === "libraryDetail") {
-    const ruleId = pathnames[1];
-    return { mode, title: ruleId, breadcrumb: "Library", subtitle: "Rule detail" };
+    return { mode, title: route.rule.id, breadcrumb: "Library", subtitle: "Rule detail" };
   }
 
   if (mode === "example") {
-    const { ruleId, variant } = parseEngineSlug(pathnames[1]);
+    const { variant } = route;
     return {
       mode,
-      title: ruleId,
+      title: route.rule.id,
       breadcrumb: "Examples",
       subtitle: variant === "success" ? "Success fixtures" : "Failure fixtures",
       variant,

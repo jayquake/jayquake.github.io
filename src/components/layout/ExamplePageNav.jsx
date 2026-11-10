@@ -1,7 +1,8 @@
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import PropTypes from "prop-types";
-import { Link as RouterLink, useLocation } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
+import { useLibraryLocation } from "../../hooks/useLibraryLocation";
 import { HudLayoutIndicator } from "../motion/HudMotion";
 import { prefetchEngineExample } from "../../utils/engineExampleUtils";
 import { MGS, MIN_TEXT_SIZE, mgsFonts, raidenType } from "../../theme/mgsTokens";
@@ -35,12 +36,13 @@ const textLinkSx = {
 };
 
 export default function ExamplePageNav({ ruleId, ruleType, variant }) {
-  const location = useLocation();
-  const basePath = location.pathname.replace(/(_success|_failure)$/, "");
-  const backPath = ruleType === "engine" ? "/" : basePath;
-  const detailPath = ruleType === "engine" && ruleId ? `/engine/${ruleId}` : basePath;
-  const successPath = `${basePath}_success`;
-  const failurePath = `${basePath}_failure`;
+  const { route, hrefs } = useLibraryLocation();
+  // The route is the source of truth for which rule this example belongs to (engine or legacy).
+  const rule = route.kind === "example" || route.kind === "rule" ? route.rule : { type: "engine", id: ruleId || "" };
+  const detailPath = hrefs.rule(rule);
+  const backPath = detailPath;
+  const successPath = hrefs.example(rule, "success");
+  const failurePath = hrefs.example(rule, "failure");
 
   const warm = (v) => {
     if (ruleType === "engine" && ruleId) prefetchEngineExample(ruleId, v);
@@ -92,7 +94,7 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
             px: 0.5,
           }}
         >
-          {ruleType === "engine" ? "Library" : ruleId}
+          {ruleType === "engine" ? "Back to rule" : ruleId}
         </Button>
 
         <Stack

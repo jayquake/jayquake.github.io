@@ -1,7 +1,8 @@
 import { useEffect } from "react";
-import { Navigate, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useEngineRuleFull } from "../../../hooks/useEngineRuleFull";
-import { useLibraryDetailParams } from "../../../hooks/useLibraryDetailParams";
+import { useLibraryLocation } from "../../../hooks/useLibraryLocation";
+import { engineRule } from "../../../lib/libraryLocation";
 import { useMatchMedia } from "../../../hooks/useMatchMedia";
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
 import { HudPresence } from "../../motion/HudMotion";
@@ -10,19 +11,17 @@ import LibraryLoadingShell from "./LibraryLoadingShell";
 import EngineRuleDetailPane from "./EngineRuleDetailPane";
 import EngineRulesTable from "./EngineRulesTable";
 import { DEFAULT_RULE_ID } from "./engineLibraryUtils";
-import { useLibrarySearchParams } from "../../../hooks/useLibrarySearchParams";
 import { useEngineLibraryRules } from "./useEngineLibraryRules";
 
 export default function EngineLibraryShell() {
   const { ruleId: paramRuleId } = useParams();
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
   const isMobile = useMatchMedia("(max-width: 899px)");
-  const { detailOpen, setDetailOpen, toggleDetail } = useLibraryDetailParams();
-  const librarySearch = useLibrarySearchParams();
+  const { query, hrefs, setDetailOpen } = useLibraryLocation();
+  const { detailOpen } = query;
 
-  const library = useEngineLibraryRules(librarySearch);
-  const { populatedRules, filteredRules, findRuleBySlug, ...tableProps } = library;
+  const library = useEngineLibraryRules(query);
+  const { populatedRules, filteredRules, findRuleBySlug, wcagLevels, wcagCriteriaIds } = library;
 
   const selectedRuleId = paramRuleId || DEFAULT_RULE_ID;
   const indexRule = findRuleBySlug(selectedRuleId);
@@ -32,9 +31,9 @@ export default function EngineLibraryShell() {
 
   useEffect(() => {
     if (paramRuleId && !indexRule && !library.loading) {
-      navigate("/", { replace: true });
+      navigate(hrefs.home(), { replace: true });
     }
-  }, [paramRuleId, indexRule, library.loading, navigate]);
+  }, [paramRuleId, indexRule, library.loading, navigate, hrefs]);
 
   useEffect(() => {
     if (!selectedRuleId || typeof window === "undefined") return undefined;
@@ -47,33 +46,8 @@ export default function EngineLibraryShell() {
     return () => clearTimeout(timer);
   }, [selectedRuleId]);
 
-  const ensureDetailQuery = () => {
-    if (!searchParams.get("detail")) {
-      setSearchParams(
-        (prev) => {
-          const next = new URLSearchParams(prev);
-          next.set("detail", "open");
-          return next;
-        },
-        { replace: true }
-      );
-    }
-  };
-
-  const buildRuleHref = (slug) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("detail", "open");
-    return `/engine/${slug}?${params.toString()}`;
-  };
-
-  const handleSelectRule = (slug) => {
-    navigate(buildRuleHref(slug));
-    if (isMobile) setDetailOpen(true);
-    else ensureDetailQuery();
-  };
-
   if (!paramRuleId) {
-    return <Navigate to={`/engine/${DEFAULT_RULE_ID}?detail=open`} replace />;
+    return <Navigate to={hrefs.rule(engineRule(DEFAULT_RULE_ID))} replace />;
   }
 
   if (library.loading) {
@@ -95,11 +69,11 @@ export default function EngineLibraryShell() {
             filteredRules={filteredRules}
             populatedCount={populatedRules.length}
             selectedRuleId={selectedRuleId}
-            onSelectRule={handleSelectRule}
+            wcagLevels={wcagLevels}
+            wcagCriteriaIds={wcagCriteriaIds}
             loading={library.loading}
             detailOpen={detailOpen}
-            onToggleDetail={toggleDetail}
-            {...tableProps}
+            onToggleDetail={() => setDetailOpen(!detailOpen)}
           />
         </ResizablePanel>
 
