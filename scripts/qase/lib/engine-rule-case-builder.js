@@ -1,14 +1,12 @@
 const fs = require("fs");
 const path = require("path");
+const { loadCatalogFromDisk } = require("../../../src/lib/rulesCatalog/node");
 
 const ENGINE_RULES_DIR = path.join(
   __dirname,
   "../../../src/components/pages/engine-rules"
 );
-const METADATA_PATH = path.join(
-  __dirname,
-  "../../../src/data/engine-rules-metadata.json"
-);
+const REPO_ROOT = path.join(__dirname, "../../..");
 
 const IMPACT_TO_SEVERITY = {
   blocker: 2,
@@ -58,11 +56,11 @@ function readFixtures(ruleDir, variant) {
 }
 
 function getMetadataById() {
-  const rows = JSON.parse(fs.readFileSync(METADATA_PATH, "utf-8"));
+  const catalog = loadCatalogFromDisk(REPO_ROOT);
   const map = new Map();
-  for (const row of rows) {
-    const id = row.id || row.kebabId;
-    if (id) map.set(id, row);
+  for (const row of catalog.rules) {
+    if (row.kebabId) map.set(row.kebabId, row);
+    if (row.id) map.set(row.id, row);
   }
   return map;
 }

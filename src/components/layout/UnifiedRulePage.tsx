@@ -56,8 +56,8 @@ import "prismjs/components/prism-markup";
 import "prismjs/themes/prism-okaidia.css";
 import React, { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import engineRulesMetadata from "../../data/engine-rules-metadata.json";
 import legacyEngineMapping from "../../data/legacy-engine-mapping";
+import { getEngineRulesCatalogCache, fetchEngineRulesCatalog } from "../../utils/engineRulesDataService";
 import { MIN_TEXT_SIZE } from "../../theme/mgsTokens";
 import { getRuleSummary } from "../../utils/analysisCache";
 import { analyzeHtmlClientSide } from "../../utils/clientAccessibilityTree";
@@ -152,11 +152,10 @@ export default function UnifiedRulePage({ ruleData }: UnifiedRulePageProps) {
   const handleAnalyzeAll = useCallback(async () => {
     setAnalyzingAll(true);
     try {
-      // Find examples from engine metadata or legacy data
-      const metadata = engineRulesMetadata as any[];
-      const match = metadata.find((r: any) => r.id === ruleId);
+      const catalog =
+        getEngineRulesCatalogCache() || (await fetchEngineRulesCatalog());
+      const match = catalog.byId[ruleId];
       if (match) {
-        // Analyze placeholder examples to populate cache
         const dummyHtml = `<div>Example for ${ruleId}</div>`;
         await analyzeHtmlClientSide(dummyHtml);
       }

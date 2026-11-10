@@ -14,9 +14,18 @@ function routes() {
   ]);
   const eng = require(path.join(repo, "public/engine-rules.json")).rules;
   for (const x of eng) {
-    r.add(`/engine/${x.id}`);
-    r.add(`/engine/${x.id}_success`);
-    r.add(`/engine/${x.id}_failure`);
+    // kebabId is the canonical slug; also crawl engine `id` when it differs (redirects).
+    const slugs = new Set([x.kebabId || x.id, x.id || x.kebabId].filter(Boolean));
+    for (const slug of slugs) {
+      // Library/tree hide stubs; still crawl populated example pages only.
+      if (x.populated === false && slug === (x.kebabId || x.id)) {
+        r.add(`/engine/${slug}`);
+        continue;
+      }
+      r.add(`/engine/${slug}`);
+      r.add(`/engine/${slug}_success`);
+      r.add(`/engine/${slug}_failure`);
+    }
   }
   const critDir = path.join(repo, "src/components/pages/Criteria");
   for (const cat of fs.readdirSync(critDir)) {

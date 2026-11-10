@@ -20,7 +20,7 @@ import ListIcon from '@mui/icons-material/List';
 
 import { api } from '../../api/client';
 import { isStaticDeployment } from '../../utils/environment';
-import engineRulesData from '../../data/engine-rules-metadata.json';
+import { fetchEngineRulesFull } from '../../utils/engineRulesDataService';
 import { RulePicker } from './components/RulePicker';
 import { ExampleAnalysisPanel } from './components/ExampleAnalysisPanel';
 import { DiscoveryPanel } from './components/DiscoveryPanel';
@@ -33,16 +33,25 @@ export interface RuleInfo {
   tags?: string[];
 }
 
-function loadStaticRules(): { engineRules: RuleInfo[]; legacyRules: RuleInfo[] } {
-  const normalize = (rule: any): RuleInfo => ({
-    id: rule.id ?? rule.kebabId ?? rule.route ?? '',
-    name: rule.name ?? rule.title ?? rule.id ?? '',
-    description: rule.description ?? rule.shortDescription ?? '',
+function normalizeEngineRule(rule: any): RuleInfo {
+  const id = rule.kebabId ?? rule.id ?? '';
+  const description =
+    rule.description ||
+    (rule.populated === false ? 'No description yet' : '') ||
+    rule.shortDescription ||
+    '';
+  return {
+    id,
+    name: rule.title || rule.name || id,
+    description,
     impact: rule.impact ?? rule.severity ?? '',
     tags: rule.tags ?? [],
-  });
-  const engine = (engineRulesData as any[]).map(normalize);
-  return { engineRules: engine, legacyRules: [] };
+  };
+}
+
+async function loadStaticRules(): Promise<{ engineRules: RuleInfo[]; legacyRules: RuleInfo[] }> {
+  const engineRows = await fetchEngineRulesFull();
+  return { engineRules: engineRows.map(normalizeEngineRule), legacyRules: [] };
 }
 
 export default function RuleLab() {
@@ -83,7 +92,7 @@ export default function RuleLab() {
       setError(null);
 
       if (staticMode) {
-        const staticRules = loadStaticRules();
+        const staticRules = await loadStaticRules();
 
         // Also try to load legacy rules from the static data.json
         if (!legacyRulesLoaded) {
@@ -112,20 +121,19 @@ export default function RuleLab() {
         setRules(staticRules);
       } else {
         const data = await api.ruleLab.listRules();
-        const normalize = (rule: any): RuleInfo => ({
-          id: rule.id ?? rule.kebabId ?? rule.route ?? '',
+        const engine = (data.engineRules ?? []).map(normalizeEngineRule);
+        const legacy = (data.legacyRules ?? []).map((rule: any) => ({
+          id: rule.route ?? rule.id ?? rule.kebabId ?? '',
           name: rule.name ?? rule.title ?? rule.id ?? '',
-          description: rule.description ?? rule.shortDescription ?? '',
+          description: rule.shortDescription ?? rule.description ?? '',
           impact: rule.impact ?? rule.severity ?? '',
           tags: rule.tags ?? [],
-        });
-        const engine = (data.engineRules ?? []).map(normalize);
-        const legacy = (data.legacyRules ?? []).map(normalize);
+        }));
         setRules({ engineRules: engine, legacyRules: legacy });
       }
     } catch (err: any) {
       if (staticMode) {
-        setRules(loadStaticRules());
+        setRules(await loadStaticRules());
       } else {
         setError(err.message || 'Failed to load rules');
       }

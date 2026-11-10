@@ -23,7 +23,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import engineRulesMetadata from '../../data/engine-rules-metadata.json';
+import { fetchEngineRulesFull } from '../../utils/engineRulesDataService';
 
 interface EngineRule {
   id: string;
@@ -33,6 +33,7 @@ interface EngineRule {
   metadata?: { category?: string };
   passCount?: number;
   failCount?: number;
+  populated?: boolean;
 }
 
 const IMPACT_ORDER: Record<string, number> = {
@@ -63,16 +64,35 @@ export default function AtomicTestLibrary() {
   const [rules, setRules] = useState<EngineRule[]>([]);
 
   useEffect(() => {
-    // Engine rules metadata is static — just load it
-    const loaded = (engineRulesMetadata as any[]).map((r: any) => ({
-      id: r.id,
-      title: r.title || r.id.split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
-      description: r.description || '',
-      impact: r.impact || 'moderate',
-      metadata: r.metadata,
-    }));
-    setRules(loaded);
-    setLoading(false);
+    let cancelled = false;
+    fetchEngineRulesFull()
+      .then((rows: any[]) => {
+        if (cancelled) return;
+        const loaded = rows.map((r: any) => {
+          const id = r.kebabId || r.id;
+          return {
+            id,
+            title:
+              r.title ||
+              id.split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+            description: r.description || (r.populated === false ? 'No description yet' : ''),
+            impact: r.impact || 'moderate',
+            metadata: r.metadata,
+            populated: r.populated,
+          };
+        });
+        setRules(loaded);
+        setLoading(false);
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setRules([]);
+          setLoading(false);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const filtered = useMemo(() => {

@@ -70,8 +70,9 @@
     "sync:legacy-rules": "node scripts/sync-legacy-rules-from-accessflow.js",
     "sync:criteria-examples": "node scripts/generate-criteria-examples-from-atomic.js",
     "validate:atomic-parity": "node scripts/validate-atomic-tests-parity.js",
-    "prebuild": "node scripts/generate-static-projects.js && node scripts/generate-engine-rules-index.js",
-    "build": "npm run prebuild && CI=false react-app-rewired build",
+    "generate:engine-catalog": "node scripts/generate-engine-rules-catalog.js",
+    "prebuild": "node scripts/generate-static-projects.js && node scripts/generate-engine-rules-catalog.js",
+    "build": "CI=false react-app-rewired build",
     "postbuild": "node scripts/prerender-spa-routes.js && node scripts/prerender-example-pages.js",
     "build:analyze": "npm run prebuild && ANALYZE=true CI=false react-app-rewired build",
     "perf:retrace": "node scripts/retrace/raiden-perf-parity.cjs",
@@ -144,6 +145,11 @@
   "jest": {
     "moduleNameMapper": {
       "^@radix-ui/primitive/is-development$": "<rootDir>/node_modules/@radix-ui/primitive/dist/internal/is-development.true.js"
-    }
+    },
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/src/components/pages/engine-rules/"
+    ]
   }
 }
+

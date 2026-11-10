@@ -22,12 +22,13 @@ import { Button } from "../../ui/button";
 import { SearchField } from "../../ui/search-field";
 import { useLibraryLocation, useLibrarySearchInput } from "../../../hooks/useLibraryLocation";
 import { engineRule, ruleKey } from "../../../lib/libraryLocation";
-import ENGINE_RULE_CATEGORIES from "../../../data/engine-rule-categories";
-import { fetchEngineRulesCatalog, getEngineRulesCatalogCache } from "../../../utils/engineRulesDataService";
+import { useRulesCatalog } from "../../../hooks/useRulesCatalog";
 import { prefetchEngineExample } from "../../../utils/engineExampleUtils";
 import { DataService } from "../../util/dataService";
 import { getAllCachedResults } from "../../../utils/analysisCache";
 import { cn } from "../../../lib/utils";
+
+const { CATEGORIES: ENGINE_RULE_CATEGORIES } = require("../../../lib/rulesCatalog");
 
 const STORAGE_KEY = "ruleTreeExpanded";
 
@@ -293,12 +294,18 @@ function RuleNode({ ruleId, ruleLabel, ruleType, criteriaOrCategory, isOpen, exp
   );
 }
 
-function CategoryNode({ categoryId, label, color, icon, rules, ruleType, isOpen, expanded, onToggle, onCloseMobile, location, search, healthMap, getEngineRuleTitle }) {
+function CategoryNode({ categoryId, label, color, icon, rules, ruleType, isOpen, expanded, onToggle, onCloseMobile, location, search, healthMap, getEngineRuleTitle, engineSearchHits }) {
   const isExpanded = expanded[`cat-${ruleType}-${categoryId}`] || false;
   const Icon = typeof icon === "string" ? ICON_MAP[icon] || FileText : icon;
 
   const filteredRules = useMemo(() => {
     if (!search) return rules;
+    if (ruleType === "engine" && engineSearchHits) {
+      return rules.filter((r) => {
+        const ruleId = typeof r === "string" ? r : r.id || r.route;
+        return engineSearchHits.has(ruleId);
+      });
+    }
     const q = search.toLowerCase();
     return rules.filter((r) => {
       const ruleId = typeof r === "string" ? r : r.id || r.route;
@@ -310,7 +317,7 @@ function CategoryNode({ categoryId, label, color, icon, rules, ruleType, isOpen,
           : r.name || r.label || ruleId;
       return ruleId.toLowerCase().includes(q) || String(ruleLabel).toLowerCase().includes(q);
     });
-  }, [rules, search, ruleType, getEngineRuleTitle]);
+  }, [rules, search, ruleType, getEngineRuleTitle, engineSearchHits]);
 
   if (search && filteredRules.length === 0) return null;
 
@@ -407,47 +414,36 @@ export default function RuleTreeSidebar({
   const [expanded, setExpanded] = useState(loadExpanded);
   const [search, setSearch] = useLibrarySearchInput();
   const [data, setData] = useState([]);
-  const [engineTitles, setEngineTitles] = useState({});
-  const [engineRuleCount, setEngineRuleCount] = useState(0);
+  const { populated, getById, query: runCatalogQuery } = useRulesCatalog();
+
+  const engineTitles = useMemo(() => {
+    const titles = {};
+    populated.forEach((row) => {
+      titles[row.kebabId] = row.title;
+      if (row.id) titles[row.id] = row.title;
+    });
+    return titles;
+  }, [populated]);
+  const engineRuleCount = populated.length;
+
+  /** Same full-text query as the library table (id/title ranked). */
+  const engineSearchHits = useMemo(() => {
+    if (!search.trim()) return null;
+    const { rules } = runCatalogQuery(
+      { q: search, filters: { category: "all", impact: "all", level: "all", wcag: "all", legacy: "all" } },
+      { includeStubs: false }
+    );
+    return new Set(rules.map((r) => r.kebabId));
+  }, [search, runCatalogQuery]);
 
   const getEngineRuleTitle = useCallback(
-    (ruleId) => engineTitles[ruleId] || ruleId,
-    [engineTitles]
+    (ruleId) => {
+      const fromMap = engineTitles[ruleId];
+      if (fromMap) return fromMap;
+      return getById(ruleId)?.title || ruleId;
+    },
+    [engineTitles, getById]
   );
-
-  useEffect(() => {
-    const cached = getEngineRulesCatalogCache();
-    if (cached) {
-      const titles = {};
-      cached.rules.forEach((row) => {
-        titles[row.id] = row.title;
-      });
-      setEngineTitles(titles);
-      setEngineRuleCount(cached.rules.length);
-      return undefined;
-    }
-
-    let cancelled = false;
-    fetchEngineRulesCatalog()
-      .then((catalog) => {
-        if (cancelled) return;
-        const titles = {};
-        catalog.rules.forEach((row) => {
-          titles[row.id] = row.title;
-        });
-        setEngineTitles(titles);
-        setEngineRuleCount(catalog.rules.length);
-      })
-      .catch(() => {
-        if (!cancelled) {
-          setEngineTitles({});
-          setEngineRuleCount(0);
-        }
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -617,6 +613,7 @@ export default function RuleTreeSidebar({
               search={search}
               healthMap={healthMap}
               getEngineRuleTitle={getEngineRuleTitle}
+              engineSearchHits={engineSearchHits}
             />
           ))}
         </TierNode>
