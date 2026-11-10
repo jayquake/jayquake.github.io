@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import AppSidebar from "./components/layout/AppSidebar";
 import { Badge } from "./components/ui/badge";
 import { Sidebar, SidebarInset, SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";
@@ -119,7 +119,6 @@ function AppChrome({ pageInfo }) {
 }
 
 function AppShell() {
-  const navigate = useNavigate();
   const location = useLocation();
   const pageInfo = getPageInfo(location.pathname);
 
@@ -131,7 +130,7 @@ function AppShell() {
       <SidebarInset>
         <AppChrome pageInfo={pageInfo} />
         <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
-          <AppRoutes navigate={navigate} />
+          <AppRoutes />
         </div>
       </SidebarInset>
     </SidebarProvider>
@@ -139,11 +138,10 @@ function AppShell() {
 }
 
 export default function App() {
-  const navigate = useNavigate();
   const location = useLocation();
 
   if (isLoginRoute(location.pathname)) {
-    return <AppRoutes navigate={navigate} />;
+    return <AppRoutes />;
   }
 
   return <AppShell />;

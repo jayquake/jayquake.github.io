@@ -2,7 +2,6 @@ import {
   AccessibleTwoTone as AccessibleTwoToneIcon,
   AccountTree as AccountTreeIcon,
   Biotech as BiotechIcon,
-  CheckCircle as CheckCircleIcon,
   Code as CodeIcon,
   ContentCopy as ContentCopyIcon,
   ContentPaste as ContentPasteIcon,
@@ -13,7 +12,6 @@ import {
   Link as LinkIcon,
   OpenInNew as OpenInNewIcon,
   Print as PrintIcon,
-  Science as ScienceIcon,
   Search as SearchIcon,
   Security as SecurityIcon,
   Share as ShareIcon,
@@ -37,7 +35,6 @@ import {
   Grid,
   IconButton,
   Paper,
-  Skeleton,
   Slide,
   SpeedDial,
   SpeedDialAction,
@@ -59,17 +56,13 @@ import "prismjs/components/prism-markup";
 import "prismjs/themes/prism-okaidia.css";
 import React, { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import engineLegacyMapping from "../../data/engine-legacy-mapping";
 import engineRulesMetadata from "../../data/engine-rules-metadata.json";
 import legacyEngineMapping from "../../data/legacy-engine-mapping";
-import legacyRulesData from "../../data/legacy-rules.json";
 import { MIN_TEXT_SIZE } from "../../theme/mgsTokens";
 import { getRuleSummary } from "../../utils/analysisCache";
 import { analyzeHtmlClientSide } from "../../utils/clientAccessibilityTree";
 import { AuditSummaryChips } from "./AuditResultsPanel";
 import SimpleBreadcrumbs from "../util/BreadCrumb";
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const CustomizedBreadcrumbs = require("../util/ruleBreadcrumb").default as React.ComponentType<any>;
 
 const glassCard = {
   background: "rgba(255, 255, 255, 0.55)",
@@ -80,25 +73,6 @@ const glassCard = {
   boxShadow: "0 4px 16px rgba(0, 0, 0, 0.06)",
   transition: "all 0.3s ease",
 };
-
-interface WcagRef {
-  type: string;
-  id: string;
-  level?: string;
-  link?: string;
-}
-
-interface EngineRuleData {
-  id: string;
-  title: string;
-  description: string;
-  advice?: string;
-  impact: string;
-  refs?: WcagRef[];
-  metadata?: Record<string, string>;
-  passCondition?: string;
-  associatedDetectors?: any[];
-}
 
 interface LegacyRuleData {
   _id?: { $oid: string };
@@ -115,11 +89,8 @@ interface LegacyRuleData {
   issueTutorialLink?: string;
 }
 
-type RuleData = EngineRuleData | LegacyRuleData;
-
 interface UnifiedRulePageProps {
-  ruleData: RuleData;
-  ruleType: "engine" | "legacy";
+  ruleData: LegacyRuleData;
 }
 
 function getSeverityColor(level: string | undefined) {
@@ -155,24 +126,18 @@ function TabPanel({ children, value, index }: TabPanelProps) {
   );
 }
 
-export default function UnifiedRulePage({
-  ruleData,
-  ruleType,
-}: UnifiedRulePageProps) {
+export default function UnifiedRulePage({ ruleData }: UnifiedRulePageProps) {
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [tab, setTab] = useState(0);
   const [copied, setCopied] = useState(false);
-  const [loading, setLoading] = useState(ruleType === "engine");
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [jsonExpanded, setJsonExpanded] = useState(false);
 
-  const isEngine = ruleType === "engine";
-  const eng = isEngine ? (ruleData as EngineRuleData) : null;
-  const leg = !isEngine ? (ruleData as LegacyRuleData) : null;
+  const leg = ruleData;
 
-  const ruleId = isEngine ? eng?.id ?? "" : leg?.shortCode || leg?.route || "";
+  const ruleId = leg?.shortCode || leg?.route || "";
   const [auditSummary, setAuditSummary] = useState<{ critical: number; serious: number; moderate: number; minor: number } | null>(null);
   const [analyzingAll, setAnalyzingAll] = useState(false);
 
@@ -199,16 +164,8 @@ export default function UnifiedRulePage({
   }, [ruleId]);
 
   useEffect(() => {
-    if (isEngine) {
-      setLoading(true);
-      const t = setTimeout(() => setLoading(false), 400);
-      return () => clearTimeout(t);
-    }
-  }, [ruleData, isEngine]);
-
-  useEffect(() => {
-    if (!isEngine) Prism.highlightAll();
-  }, [ruleData, isEngine, tab]);
+    Prism.highlightAll();
+  }, [ruleData, tab]);
 
   useEffect(() => {
     const fn = () => setShowScrollTop(window.scrollY > 300);
@@ -234,77 +191,24 @@ export default function UnifiedRulePage({
     );
   }
 
-  if (isEngine && loading) {
-    return (
-      <Box sx={{ px: { xs: 2, sm: 3, md: 4 }, py: { xs: 2, md: 4 }, maxWidth: 1200, mx: "auto" }}>
-        <Paper elevation={0} sx={{ p: { xs: 2, md: 3 }, ...glassCard }}>
-          <Skeleton variant="rectangular" width="60%" height={32} sx={{ mb: 2, borderRadius: 1 }} />
-          <Skeleton variant="rectangular" width="100%" height={2} sx={{ mb: 2 }} />
-          <Skeleton variant="rectangular" width="100%" height={80} sx={{ mb: 2, borderRadius: 2 }} />
-          <Skeleton variant="rectangular" width="80%" height={48} sx={{ mb: 2, borderRadius: 1 }} />
-          <Stack direction="row" spacing={1}>
-            <Skeleton variant="rectangular" width={100} height={28} sx={{ borderRadius: 2 }} />
-            <Skeleton variant="rectangular" width={100} height={28} sx={{ borderRadius: 2 }} />
-          </Stack>
-        </Paper>
-      </Box>
-    );
-  }
-
-  const severity = isEngine ? eng!.impact : leg!.severity;
+  const severity = leg.severity;
   const severityColors = getSeverityColor(severity);
-  const title = isEngine ? eng!.title : leg!.name;
-  const description = isEngine ? eng!.description : leg!.issueDescription || leg!.shortDescription || "";
-  const wcagRefs: WcagRef[] = isEngine
-    ? (eng!.refs?.filter((r) => r.type === "WCAG") ?? [])
-    : leg!.issueWCAGLink
-    ? [{ type: "WCAG", id: leg!.WCAGLevel || "WCAG", level: leg!.WCAGLevel, link: leg!.issueWCAGLink }]
-    : [];
-  const otherRefs: WcagRef[] = isEngine
-    ? (eng!.refs?.filter((r) => r.type !== "WCAG") ?? [])
-    : [];
+  const title = leg.name;
+  const successUrl = `/${leg.criteria}/${leg.route}_success`;
+  const failureUrl = `/${leg.criteria}/${leg.route}_failure`;
 
-  const successUrl = isEngine
-    ? `/engine/${eng!.id}_success`
-    : `/${leg!.criteria}/${leg!.route}_success`;
-  const failureUrl = isEngine
-    ? `/engine/${eng!.id}_failure`
-    : `/${leg!.criteria}/${leg!.route}_failure`;
-
-  const relatedLegacyRules: { path: string; name: string }[] = isEngine
-    ? (engineLegacyMapping as any)[eng!.id] || []
-    : [];
-
-  const relatedEngineRules: { path: string; label: string }[] = !isEngine
-    ? (() => {
-        const from = leg!.shortCode ? (legacyEngineMapping as any)[leg!.shortCode] || [] : [];
+  const relatedEngineRules: { path: string; label: string }[] = (() => {
+        const from = leg.shortCode ? (legacyEngineMapping as any)[leg.shortCode] || [] : [];
         const seen = new Set<string>();
         return from.filter((r: any) => {
           const key = r.label.replace(/\s*\(Engine rule\)\s*/gi, "").toLowerCase();
           return seen.has(key) ? false : (seen.add(key), true);
         });
-      })()
-    : [];
+      })();
 
-  const legacyEquivalent = isEngine
-    ? (() => {
-        for (const [code, rules] of Object.entries(legacyEngineMapping as any)) {
-          const match = (rules as any[]).find((r) => r.id === eng!.id);
-          if (match) {
-            const lr = (legacyRulesData as any[]).find((r: any) => r.shortCode === code);
-            if (lr?.criteria && lr?.route)
-              return { path: `/${lr.criteria}/${lr.route}`, name: lr.name, shortCode: code };
-          }
-        }
-        return null;
-      })()
-    : null;
+  const sanitizedHtml = DOMPurify.sanitize(leg.issueResolution || "");
 
-  const sanitizedHtml = !isEngine ? DOMPurify.sanitize(leg!.issueResolution || "") : "";
-
-  const releaseJson = !isEngine
-    ? `{\n  "shortTextMarkdown": "New rule updated",\n  "bodyMarkdown": "**${leg!.name}** detection has been updated and may affect the number of issues found in your audit.",\n  "ctaLink": "rules/${(leg as any)._id?.$oid || "rule-id"}"\n}`
-    : "";
+  const releaseJson = `{\n  "shortTextMarkdown": "New rule updated",\n  "bodyMarkdown": "**${leg.name}** detection has been updated and may affect the number of issues found in your audit.",\n  "ctaLink": "rules/${(leg as any)._id?.$oid || "rule-id"}"\n}`;
 
   const speedDialActions = [
     { icon: <ShareIcon />, name: "Share", action: () => handleCopy(window.location.href) },
@@ -312,13 +216,11 @@ export default function UnifiedRulePage({
     {
       icon: <ContentCopyIcon />,
       name: "Copy Advice",
-      action: () => handleCopy(isEngine ? eng!.advice || "" : leg!.issueResolution || ""),
+      action: () => handleCopy(leg.issueResolution || ""),
     },
   ];
 
-  const hasRelated = isEngine
-    ? (legacyEquivalent || relatedLegacyRules.length > 0)
-    : relatedEngineRules.length > 0;
+  const hasRelated = relatedEngineRules.length > 0;
 
   return (
     <Box sx={{
@@ -372,38 +274,26 @@ export default function UnifiedRulePage({
           ...glassCard,
           boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
         }}>
-          {isEngine ? <CustomizedBreadcrumbs /> : <SimpleBreadcrumbs />}
+          <SimpleBreadcrumbs />
           <Divider sx={{ my: { xs: 1.5, md: 2 } }} />
 
           {/* Title row with type chip */}
           <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1, flexWrap: "wrap", gap: 0.5 }}>
-            <Tooltip title={isEngine
-              ? "Automated validation rule from the audit engine"
-              : "Guidance for manual and automated accessibility testing"}>
+            <Tooltip title="Guidance for manual and automated accessibility testing">
               <Chip
                 icon={<InfoOutlinedIcon sx={{ fontSize: 14 }} />}
-                label={isEngine ? "Engine Rule" : "Legacy Rule"}
+                label="Legacy Rule"
                 size="small"
                 variant="outlined"
                 sx={{
                   fontWeight: 600,
                   fontSize: MIN_TEXT_SIZE,
                   height: 24,
-                  borderColor: isEngine ? "rgba(102,126,234,0.4)" : "rgba(25,118,210,0.4)",
-                  color: isEngine ? "#667eea" : "#1976d2",
+                  borderColor: "rgba(25,118,210,0.4)",
+                  color: "#1976d2",
                 }}
               />
             </Tooltip>
-            {legacyEquivalent && (
-              <Chip
-                label={`Legacy: ${legacyEquivalent.name}`}
-                size="small"
-                component={Link}
-                to={legacyEquivalent.path}
-                clickable
-                sx={{ fontSize: MIN_TEXT_SIZE, height: 24, fontWeight: 500 }}
-              />
-            )}
           </Stack>
 
           <Typography
@@ -425,56 +315,32 @@ export default function UnifiedRulePage({
           <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ mb: 1.5, gap: 0.5 }}>
             <Chip
               icon={<SecurityIcon sx={{ fontSize: 16 }} />}
-              label={severity ? `${severity.charAt(0).toUpperCase()}${severity.slice(1)} ${isEngine ? "Impact" : "Severity"}` : "Unknown"}
+              label={severity ? `${severity.charAt(0).toUpperCase()}${severity.slice(1)} Severity` : "Unknown"}
               variant="outlined"
               size="small"
               sx={{ borderColor: severityColors.borderColor, color: severityColors.textColor, fontWeight: 600, height: 26 }}
             />
-            {isEngine ? (
-              wcagRefs.length > 0 && (
+            {leg.WCAGLevel && leg.WCAGLevel !== "none" && (
                 <Chip
                   icon={<AccessibleTwoToneIcon sx={{ fontSize: 16 }} />}
-                  label={`WCAG ${wcagRefs.map((r) => r.level).filter(Boolean).filter((v, i, a) => a.indexOf(v) === i).join(", ")}`}
+                  label={`WCAG ${leg.WCAGLevel}`}
                   variant="outlined" size="small"
                   sx={{ borderColor: "#1976d2", color: "#1976d2", fontWeight: 600, height: 26 }}
                 />
-              )
-            ) : (
-              leg!.WCAGLevel && leg!.WCAGLevel !== "none" && (
-                <Chip
-                  icon={<AccessibleTwoToneIcon sx={{ fontSize: 16 }} />}
-                  label={`WCAG ${leg!.WCAGLevel}`}
-                  variant="outlined" size="small"
-                  sx={{ borderColor: "#1976d2", color: "#1976d2", fontWeight: 600, height: 26 }}
-                />
-              )
-            )}
-            {isEngine ? (
-              <Chip label={eng!.id} size="small" sx={{ fontFamily: "monospace", fontSize: MIN_TEXT_SIZE, height: 26, background: "rgba(103,58,183,0.1)", color: "#512da8" }} />
-            ) : (
-              leg!.criteria && (
-                <Chip label={`${leg!.criteria.charAt(0).toUpperCase()}${leg!.criteria.slice(1)}`} size="small" sx={{ height: 26, background: "rgba(25,118,210,0.1)", color: "#1565c0" }} />
-              )
-            )}
+              )}
+            {leg.criteria && (
+                <Chip label={`${leg.criteria.charAt(0).toUpperCase()}${leg.criteria.slice(1)}`} size="small" sx={{ height: 26, background: "rgba(25,118,210,0.1)", color: "#1565c0" }} />
+              )}
           </Stack>
 
           <Typography variant="body2" sx={{ color: "#475569", lineHeight: 1.6, fontSize: { xs: "0.85rem", md: "0.95rem" } }}>
-            {isEngine ? eng!.description : leg!.shortDescription || ""}
+            {leg.shortDescription || ""}
           </Typography>
 
           {/* Cross-links (compact) */}
           {hasRelated && (
             <Box sx={{ mt: 1.5 }}>
-              {isEngine && relatedLegacyRules.length > 0 && (
-                <Stack direction="row" spacing={0.5} flexWrap="wrap" alignItems="center" sx={{ gap: 0.5 }}>
-                  <Typography variant="caption" sx={{ color: "#94a3b8", fontWeight: 600 }}>Related:</Typography>
-                  {relatedLegacyRules.map((r: any) => (
-                    <Chip key={r.path} label={r.name || r.label} size="small" component={Link} to={r.path} clickable
-                      sx={{ height: 22, fontSize: MIN_TEXT_SIZE, background: "rgba(255,255,255,0.6)", border: "1px solid rgba(148,163,184,0.2)" }} />
-                  ))}
-                </Stack>
-              )}
-              {!isEngine && relatedEngineRules.length > 0 && (
+              {relatedEngineRules.length > 0 && (
                 <Stack direction="row" spacing={0.5} flexWrap="wrap" alignItems="center" sx={{ gap: 0.5 }}>
                   <Typography variant="caption" sx={{ color: "#94a3b8", fontWeight: 600 }}>Related:</Typography>
                   {relatedEngineRules.map((r) => (
@@ -546,7 +412,6 @@ export default function UnifiedRulePage({
           <Tab label="Examples" />
           <Tab label="MCP Analysis" />
           <Tab label="References" />
-          {isEngine && <Tab label="Atomic Tests" />}
         </Tabs>
       </Paper>
 
@@ -571,54 +436,13 @@ export default function UnifiedRulePage({
                 borderRadius: 2,
                 border: "1px solid rgba(203,213,225,0.5)",
               }}>
-                {isEngine ? eng!.description : leg!.issueDescription}
+                {leg.issueDescription}
               </Typography>
             </Paper>
           </Fade>
 
-          {/* WCAG compliance (engine) */}
-          {isEngine && wcagRefs.length > 0 && (
-            <Fade in timeout={800}>
-              <Paper elevation={0} sx={{ p: { xs: 2, sm: 2.5, md: 3 }, ...glassCard }}>
-                <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
-                  <AccessibleTwoToneIcon color="primary" sx={{ fontSize: { xs: 20, md: 24 } }} />
-                  <Typography variant="h6" fontWeight="bold" color="primary" sx={{ fontSize: { xs: "1rem", md: "1.15rem" } }}>
-                    WCAG Compliance
-                  </Typography>
-                </Stack>
-                <Grid container spacing={1.5}>
-                  {wcagRefs.map((ref, i) => (
-                    <Grid size={{ xs: 6, sm: 4, md: 3 }} key={i}>
-                      <Card elevation={0} sx={{
-                        p: 1.5,
-                        background: ref.level === "A" ? "rgba(76,175,80,0.08)" : ref.level === "AA" ? "rgba(33,150,243,0.08)" : "rgba(156,39,176,0.08)",
-                        border: `1px solid ${ref.level === "A" ? "rgba(76,175,80,0.25)" : ref.level === "AA" ? "rgba(33,150,243,0.25)" : "rgba(156,39,176,0.25)"}`,
-                        borderRadius: 2,
-                      }}>
-                        <Stack direction="row" alignItems="center" spacing={0.75} sx={{ mb: 0.5 }}>
-                          <Chip
-                            label={ref.level}
-                            size="small"
-                            sx={{ height: 20, fontSize: MIN_TEXT_SIZE, backgroundColor: ref.level === "A" ? "#4caf50" : ref.level === "AA" ? "#2196f3" : "#9c27b0", color: "white", fontWeight: "bold" }}
-                          />
-                          <Typography variant="body2" fontWeight={700} sx={{ color: "#1e293b", fontSize: "0.8rem" }}>{ref.id}</Typography>
-                        </Stack>
-                        {ref.link && (
-                          <Button href={ref.link} target="_blank" rel="noopener noreferrer" variant="text" size="small" endIcon={<OpenInNewIcon sx={{ fontSize: 14 }} />}
-                            sx={{ textTransform: "none", fontSize: MIN_TEXT_SIZE, p: 0, minWidth: 0, fontWeight: 600, color: "#667eea" }}>
-                            View
-                          </Button>
-                        )}
-                      </Card>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Paper>
-            </Fade>
-          )}
-
           {/* WCAG link (legacy) */}
-          {!isEngine && leg!.issueWCAGLink && (
+          {leg.issueWCAGLink && (
             <Fade in timeout={800}>
               <Paper elevation={0} sx={{ p: { xs: 2, sm: 2.5, md: 3 }, ...glassCard }}>
                 <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
@@ -634,13 +458,13 @@ export default function UnifiedRulePage({
                   borderRadius: 2,
                 }}>
                   <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} alignItems={{ sm: "center" }}>
-                    <Button href={leg!.issueWCAGLink} target="_blank" rel="noopener noreferrer" variant="contained" size="small"
+                    <Button href={leg.issueWCAGLink} target="_blank" rel="noopener noreferrer" variant="contained" size="small"
                       startIcon={<OpenInNewIcon />}
                       sx={{ textTransform: "none", backgroundColor: "#1976d2", fontWeight: 600, flexShrink: 0 }}>
                       View WCAG Guidelines
                     </Button>
                     <Typography variant="caption" sx={{ wordBreak: "break-all", fontFamily: "monospace", color: "#64748b", fontSize: "0.75rem" }}>
-                      {leg!.issueWCAGLink}
+                      {leg.issueWCAGLink}
                     </Typography>
                   </Stack>
                 </Card>
@@ -648,39 +472,8 @@ export default function UnifiedRulePage({
             </Fade>
           )}
 
-          {/* Advice (engine) */}
-          {isEngine && eng!.advice && (
-            <Fade in timeout={1000}>
-              <Paper elevation={0} sx={{ p: { xs: 2, sm: 2.5, md: 3 }, ...glassCard }}>
-                <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
-                  <CodeIcon color="primary" sx={{ fontSize: { xs: 20, md: 24 } }} />
-                  <Typography variant="h6" fontWeight="bold" color="primary" sx={{ fontSize: { xs: "1rem", md: "1.15rem" } }}>
-                    Implementation Advice
-                  </Typography>
-                </Stack>
-                <Box sx={{
-                  background: "linear-gradient(135deg,rgba(16,185,129,0.08),rgba(34,197,94,0.08))",
-                  borderRadius: 2,
-                  p: { xs: 2, md: 2.5 },
-                  position: "relative",
-                  border: "1px solid rgba(34,197,94,0.15)",
-                }}>
-                  <Tooltip title={copied ? "Copied!" : "Copy advice"}>
-                    <IconButton onClick={() => handleCopy(eng!.advice!)}
-                      sx={{ position: "absolute", top: 8, right: 8, color: "#059669", backgroundColor: "rgba(255,255,255,0.9)" }} size="small">
-                      <ContentCopyIcon sx={{ fontSize: 16 }} />
-                    </IconButton>
-                  </Tooltip>
-                  <Typography variant="body2" sx={{ lineHeight: 1.7, pr: 4, fontSize: { xs: "0.85rem", md: "0.95rem" }, color: "#065f46", fontWeight: 500 }}>
-                    {eng!.advice}
-                  </Typography>
-                </Box>
-              </Paper>
-            </Fade>
-          )}
-
           {/* Issue Resolution (legacy) */}
-          {!isEngine && leg!.issueResolution && (
+          {leg.issueResolution && (
             <Fade in timeout={1000}>
               <Paper elevation={0} sx={{ p: { xs: 2, sm: 2.5, md: 3 }, ...glassCard }}>
                 <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
@@ -697,7 +490,7 @@ export default function UnifiedRulePage({
                   border: "1px solid rgba(34,197,94,0.15)",
                 }}>
                   <Tooltip title={copied ? "Copied!" : "Copy resolution code"}>
-                    <IconButton onClick={() => navigator.clipboard.writeText(leg!.issueResolution!)}
+                    <IconButton onClick={() => navigator.clipboard.writeText(leg.issueResolution!)}
                       sx={{ position: "absolute", top: 8, right: 8, color: "#059669", backgroundColor: "rgba(255,255,255,0.9)", zIndex: 1 }} size="small">
                       <ContentPasteIcon sx={{ fontSize: 16 }} />
                     </IconButton>
@@ -829,38 +622,8 @@ export default function UnifiedRulePage({
       {/* ── Tab 3: References ────────────────────────────────────────────────── */}
       <TabPanel value={tab} index={3}>
         <Stack spacing={2}>
-          {/* Engine: non-WCAG refs as compact list */}
-          {isEngine && otherRefs.length > 0 && (
-            <Paper elevation={0} sx={{ p: { xs: 2, sm: 2.5, md: 3 }, ...glassCard }}>
-              <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
-                <LinkIcon color="primary" sx={{ fontSize: { xs: 20, md: 24 } }} />
-                <Typography variant="h6" fontWeight="bold" color="primary" sx={{ fontSize: { xs: "1rem", md: "1.15rem" } }}>
-                  Additional Resources
-                </Typography>
-              </Stack>
-              <Stack spacing={1}>
-                {otherRefs.map((ref, i) => (
-                  <Box key={i} sx={{
-                    display: "flex", alignItems: "center", gap: 1.5,
-                    p: 1.5, borderRadius: 2,
-                    background: "rgba(255,255,255,0.5)",
-                    border: "1px solid rgba(255,255,255,0.6)",
-                  }}>
-                    <Chip label={ref.type} size="small" sx={{ fontWeight: 600, fontSize: MIN_TEXT_SIZE, height: 22 }} />
-                    <Typography variant="body2" fontWeight={600} sx={{ flex: 1, fontSize: "0.85rem" }}>{ref.id}</Typography>
-                    {ref.link && (
-                      <IconButton href={ref.link} target="_blank" rel="noopener noreferrer" size="small" sx={{ color: "#667eea" }}>
-                        <OpenInNewIcon sx={{ fontSize: 16 }} />
-                      </IconButton>
-                    )}
-                  </Box>
-                ))}
-              </Stack>
-            </Paper>
-          )}
-
           {/* Legacy: tutorial link */}
-          {!isEngine && leg!.issueTutorialLink && (
+          {leg.issueTutorialLink && (
             <Paper elevation={0} sx={{ p: { xs: 2, sm: 2.5, md: 3 }, ...glassCard }}>
               <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 1.5 }}>
                 <LinkIcon color="primary" sx={{ fontSize: { xs: 20, md: 24 } }} />
@@ -868,7 +631,7 @@ export default function UnifiedRulePage({
                   Tutorial Resource
                 </Typography>
               </Stack>
-              <Button href={leg!.issueTutorialLink} target="_blank" rel="noopener noreferrer" variant="outlined" size="small"
+              <Button href={leg.issueTutorialLink} target="_blank" rel="noopener noreferrer" variant="outlined" size="small"
                 startIcon={<OpenInNewIcon />} sx={{ textTransform: "none", fontWeight: 600 }}>
                 View Tutorial
               </Button>
@@ -876,7 +639,7 @@ export default function UnifiedRulePage({
           )}
 
           {/* Legacy: Release JSON accordion */}
-          {!isEngine && (
+          {(
             <Accordion expanded={jsonExpanded} onChange={() => setJsonExpanded(!jsonExpanded)}
               sx={{ ...glassCard, "&:before": { display: "none" } }}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -899,96 +662,9 @@ export default function UnifiedRulePage({
               </AccordionDetails>
             </Accordion>
           )}
-
-          {/* Engine: WCAG refs in compact grid */}
-          {isEngine && wcagRefs.length > 0 && (
-            <Paper elevation={0} sx={{ p: { xs: 2, sm: 2.5, md: 3 }, ...glassCard }}>
-              <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
-                <AccessibleTwoToneIcon color="primary" sx={{ fontSize: { xs: 20, md: 24 } }} />
-                <Typography variant="h6" fontWeight="bold" color="primary" sx={{ fontSize: { xs: "1rem", md: "1.15rem" } }}>
-                  WCAG References
-                </Typography>
-              </Stack>
-              <Grid container spacing={1.5}>
-                {wcagRefs.map((ref, i) => (
-                  <Grid size={{ xs: 6, sm: 4, md: 3 }} key={i}>
-                    <Card elevation={0} sx={{
-                      p: 1.5, borderRadius: 2,
-                      background: "rgba(255,255,255,0.5)",
-                      border: "1px solid rgba(255,255,255,0.6)",
-                    }}>
-                      <Stack direction="row" spacing={0.75} alignItems="center" sx={{ mb: 0.5 }}>
-                        <Chip label={ref.level || "WCAG"} size="small"
-                          sx={{ height: 20, fontSize: MIN_TEXT_SIZE, backgroundColor: ref.level === "A" ? "#4caf50" : ref.level === "AA" ? "#2196f3" : "#9c27b0", color: "white", fontWeight: "bold" }} />
-                        <Typography variant="body2" fontWeight={700} sx={{ fontSize: "0.8rem" }}>{ref.id}</Typography>
-                      </Stack>
-                      {ref.link && (
-                        <Button href={ref.link} target="_blank" rel="noopener noreferrer" variant="text" size="small"
-                          endIcon={<OpenInNewIcon sx={{ fontSize: 14 }} />}
-                          sx={{ textTransform: "none", fontSize: MIN_TEXT_SIZE, p: 0, minWidth: 0, fontWeight: 600, color: "#667eea" }}>
-                          View
-                        </Button>
-                      )}
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            </Paper>
-          )}
         </Stack>
       </TabPanel>
 
-      {/* ── Tab 4: Atomic Tests (engine only) ───────────────────────────────── */}
-      {isEngine && (
-        <TabPanel value={tab} index={4}>
-          <Paper elevation={0} sx={{ p: { xs: 2, sm: 2.5, md: 3 }, ...glassCard }}>
-            <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
-              <CheckCircleIcon color="primary" sx={{ fontSize: { xs: 20, md: 24 } }} />
-              <Box>
-                <Typography variant="h6" fontWeight="bold" color="primary" sx={{ fontSize: { xs: "1rem", md: "1.15rem" } }}>
-                  Atomic Tests
-                </Typography>
-                <Typography variant="caption" sx={{ color: "#64748b" }}>
-                  Minimal HTML fixtures -- pass and fail scenarios
-                </Typography>
-              </Box>
-            </Stack>
-            <Typography variant="body2" sx={{
-              color: "#475569",
-              fontSize: "0.85rem",
-              lineHeight: 1.6,
-              mb: 2,
-              background: "rgba(248,250,252,0.8)",
-              p: { xs: 1.5, md: 2 },
-              borderRadius: 2,
-              border: "1px solid rgba(203,213,225,0.5)",
-            }}>
-              Atomic tests verify the rule's <code style={{ background: "rgba(0,0,0,0.06)", padding: "1px 4px", borderRadius: 3, fontSize: "0.8rem" }}>validate()</code> logic
-              with minimal fixtures. Use the Test Runner to execute them, or open the Rule Lab to analyze with Playwright MCP.
-            </Typography>
-            <Stack direction="row" spacing={1.5} flexWrap="wrap">
-              <Button
-                variant="outlined"
-                size="small"
-                startIcon={<ScienceIcon />}
-                onClick={() => navigate(`/test-runner/atomic-tests?ruleId=${eng!.id}`)}
-                sx={{ textTransform: "none", fontWeight: 600, borderRadius: 2 }}
-              >
-                Run Atomic Tests
-              </Button>
-              <Button
-                variant="outlined"
-                size="small"
-                startIcon={<BiotechIcon />}
-                onClick={() => navigate(`/rule-lab?ruleId=${eng!.id}`)}
-                sx={{ textTransform: "none", fontWeight: 600, borderRadius: 2 }}
-              >
-                Open in Rule Lab
-              </Button>
-            </Stack>
-          </Paper>
-        </TabPanel>
-      )}
     </Box>
   );
 }

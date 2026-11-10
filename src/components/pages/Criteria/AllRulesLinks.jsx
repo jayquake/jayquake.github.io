@@ -1,7 +1,6 @@
 import React, { lazy, useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Box, Container, Typography, Alert } from "@mui/material";
-import { useSearch } from "../../util/SearchContext";
 import { useLoading } from "../../util/LoadingContext";
 import { DataService } from "../../util/dataService";
 import GlassSpinner, { GlassSkeleton } from "../../util/GlassSpinner";
@@ -10,10 +9,8 @@ import { Progress } from "../../ui/progress";
 const UnifiedRulePage = lazy(() => import("../../layout/UnifiedRulePage"));
 
 function AllRulesWithRoutes({ filters }) {
-  const { query } = useSearch();
   const { showLoading, hideLoading } = useLoading();
   const [filteredFormRules, setFilteredFormRules] = useState([]);
-  const [searchResults, setSearchResults] = useState([]);
   const [error, setError] = useState(null);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -51,7 +48,6 @@ function AllRulesWithRoutes({ filters }) {
           setLoadingProgress(100);
           finishTimer = window.setTimeout(() => {
             setFilteredFormRules(filteredData);
-            setSearchResults(filteredData);
             setIsInitialLoading(false);
             hideLoading();
           }, 300);
@@ -76,18 +72,6 @@ function AllRulesWithRoutes({ filters }) {
     };
   }, [stableFilters, showLoading, hideLoading]);
 
-  useEffect(() => {
-    if (!query) {
-      setSearchResults(filteredFormRules);
-      return;
-    }
-
-    const results = filteredFormRules.filter((rule) =>
-      rule.name.toLowerCase().includes(query.toLowerCase()) ||
-      rule.criteria.toLowerCase().includes(query.toLowerCase())
-    );
-    setSearchResults(results);
-  }, [query, filteredFormRules]);
 
   // Error state with glass styling
   if (error) {
@@ -173,7 +157,7 @@ function AllRulesWithRoutes({ filters }) {
 
   return (
     <Routes>
-      {searchResults.map((formRule) => (
+      {filteredFormRules.map((formRule) => (
         <Route
           key={`${formRule.id}-${formRule.criteria}-${formRule.route}`}
           path={`${formRule.criteria}/${formRule.route}`}

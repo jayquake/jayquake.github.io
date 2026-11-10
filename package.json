@@ -139,5 +139,10 @@
   },
   "peerDependencies": {
     "yaml": "^2.8.1"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^@radix-ui/primitive/is-development$": "<rootDir>/node_modules/@radix-ui/primitive/dist/internal/is-development.true.js"
+    }
   }
 }

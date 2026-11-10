@@ -7,7 +7,6 @@ import { useDeferredRouteElements } from "../components/util/DeferredRouteGroup"
 import RouteSuspense from "../components/util/RouteSuspense";
 import { isCriteriaPath } from "./criteriaPathUtils";
 
-const UnifiedRulePage = React.lazy(() => import("../components/layout/UnifiedRulePage"));
 const AllRulesWithRoutes = React.lazy(() => import("../components/pages/Criteria/AllRulesLinks"));
 const RuleLab = React.lazy(() => import("../pages/RuleLab/index"));
 const ProjectSelector = React.lazy(() => import("../pages/ProjectSelector"));
@@ -26,7 +25,7 @@ const RequireFakeLogin = React.lazy(() => import("../components/routes/RequireFa
 
 const wrap = (element) => <RouteSuspense>{element}</RouteSuspense>;
 
-const AppRoutes = ({ navigate }) => {
+const AppRoutes = () => {
   const criteriaRoutes = useDeferredRouteElements(
     () => import("./criteriaRoutesBundle"),
     isCriteriaPath
@@ -79,17 +78,7 @@ const AppRoutes = ({ navigate }) => {
 
     <Route
       path="/*"
-      element={wrap(<AllRulesWithRoutes navigate={navigate} />)}
-    />
-
-    <Route
-      path="/test-item"
-      element={wrap(
-        <UnifiedRulePage
-          ruleType="legacy"
-          ruleData={{ name: "Test Rule", description: "Testing ItemPage" }}
-        />
-      )}
+      element={wrap(<AllRulesWithRoutes />)}
     />
   </Routes>
     </Box>

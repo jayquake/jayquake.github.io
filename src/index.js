@@ -4,10 +4,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
-import { ModalProvider } from "./components/util/ModalContext";
 import { LoadingProvider } from "./components/util/LoadingContext";
 import GlobalLoading from "./components/util/GlobalLoading";
-import { SearchProvider } from "./components/util/SearchContext";
 import { ToastProvider } from "./components/standalone/ToastContainer";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
@@ -27,18 +25,14 @@ root.render(
       <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <LoadingProvider>
           <ToastProvider>
-            <ModalProvider>
-              <SearchProvider>
-                <AppReadyProvider>
-                  <MotionProvider>
-                    <TooltipProvider>
-                      <GlobalLoading />
-                      <App />
-                    </TooltipProvider>
-                  </MotionProvider>
-                </AppReadyProvider>
-              </SearchProvider>
-            </ModalProvider>
+            <AppReadyProvider>
+              <MotionProvider>
+                <TooltipProvider>
+                  <GlobalLoading />
+                  <App />
+                </TooltipProvider>
+              </MotionProvider>
+            </AppReadyProvider>
           </ToastProvider>
         </LoadingProvider>
       </Router>
