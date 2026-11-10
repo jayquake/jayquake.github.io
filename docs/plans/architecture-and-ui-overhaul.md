@@ -27,7 +27,7 @@ Overhaul the RAIDEN audit-rules UI/UX on **shadcn/Tailwind** and **remove MUI en
 | 7 | Delete the dead legacy chain + fix the build-breaking hook | `refactor/arch-07-dead-code` | [#24](https://github.com/jayquake/jayquake.github.io/pull/24) → main | ✅ open, verified |
 | 1 | Library location module | `refactor/arch-01-library-location` | [#25](https://github.com/jayquake/jayquake.github.io/pull/25) → #24 | ✅ open, verified |
 | 2a | Rule data sync (engine + legacy) | `data/arch-02a-rule-data-sync` | [#26](https://github.com/jayquake/jayquake.github.io/pull/26) → #25 | ✅ open, verified |
-| 2b | Rules catalog module | `data/arch-02b-rules-catalog` | (opening) → #26 | 🚧 in progress |
+| 2b | Rules catalog module | `data/arch-02b-rules-catalog` | [#27](https://github.com/jayquake/jayquake.github.io/pull/27) → #26 | ✅ open, verified |
 | 3 | Rule tree model | — | — | ⏳ not grilled |
 | 5 | Example page adapter | — | — | ⏳ not grilled |
 | 4 | Example audit module | — | — | ⏳ not grilled |
