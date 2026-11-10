@@ -1,0 +1,5 @@
+# Crawl outputs and copied builds — regenerate locally; do not commit.
+out/
+baseline/
+*.json
+!package.json

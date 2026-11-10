@@ -88,6 +88,7 @@ interface LegacyRuleData {
   WCAGLevel?: string;
   issueWCAGLink?: string;
   issueTutorialLink?: string;
+  enabled?: boolean;
 }
 
 interface UnifiedRulePageProps {
@@ -297,6 +298,19 @@ export default function UnifiedRulePage({ ruleData }: UnifiedRulePageProps) {
                 }}
               />
             </Tooltip>
+            {leg.enabled === false && (
+              <Chip
+                label="Disabled in AccessFlow"
+                size="small"
+                sx={{
+                  fontWeight: 600,
+                  fontSize: MIN_TEXT_SIZE,
+                  height: 24,
+                  background: "rgba(158,158,158,0.2)",
+                  color: "#616161",
+                }}
+              />
+            )}
           </Stack>
 
           <Typography

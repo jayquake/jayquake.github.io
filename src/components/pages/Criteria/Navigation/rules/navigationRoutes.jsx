@@ -31,31 +31,31 @@ import SubmenuTaggingFailure from "./Failures/Submenu-taggingFailure";
 
 const NavigationRoutes = () => (
   <>
-    <Route path="navigation/submenu-state_success" element={<SubmenuStateSuccess />} />
-    <Route path="navigation/submenu-state_failure" element={<SubmenuStateFailure />} />
-    <Route path="navigation/nested-navigation_success" element={<NestedNavigationSuccess />} />
-    <Route path="navigation/nested-navigation_failure" element={<NestedNavigationFailures />} />
-    <Route path="navigation/broken-nav-items_success" element={<BrokenNavItemsSuccess />} />
-    <Route path="navigation/broken-nav-items_failure" element={<BrokenNavItemsFailure />} />
+    <Route path="interactive-content/submenu-state_success" element={<SubmenuStateSuccess />} />
+    <Route path="interactive-content/submenu-state_failure" element={<SubmenuStateFailure />} />
+    <Route path="landmarks/nested-navigation_success" element={<NestedNavigationSuccess />} />
+    <Route path="landmarks/nested-navigation_failure" element={<NestedNavigationFailures />} />
+    <Route path="general/broken-nav-items_success" element={<BrokenNavItemsSuccess />} />
+    <Route path="general/broken-nav-items_failure" element={<BrokenNavItemsFailure />} />
     <Route path="navigation/breadcrumbs_success" element={<BreadcrumbsSuccess />} />
     <Route path="navigation/breadcrumbs_failure" element={<BreadcrumbsFailure />} />
     <Route path="navigation/broken-nav-tagging_success" element={<BrokenNavTaggingSuccess />} />
     <Route path="navigation/broken-nav-tagging_failure" element={<BrokenNavTaggingFailures />} />
-    <Route path="navigation/broken-submenu-indication_success" element={<BrokenSubmenuIndicationSuccess />} />
-    <Route path="navigation/broken-submenu-indication_failure" element={<BrokenSubmenuIndicationFailures />} />
-    <Route path="navigation/missing-nav-items_success" element={<MissingNavItemsSuccess />} />
-    <Route path="navigation/missing-nav-items_failure" element={<MissingNavItemsFailure />} />
-    <Route path="navigation/misused-nav-tagging_success" element={<MisusedNavTaggingSuccess />} />
-    <Route path="navigation/misused-nav-tagging_failure" element={<MisusedNavTaggingFailure />} />
-    <Route path="navigation/navigation-tagging_success" element={<NavigationTaggingSuccess />} />
-    <Route path="navigation/navigation-tagging_failure" element={<NavigationTaggingFailure />} />
+    <Route path="interactive-content/broken-submenu-indication_success" element={<BrokenSubmenuIndicationSuccess />} />
+    <Route path="interactive-content/broken-submenu-indication_failure" element={<BrokenSubmenuIndicationFailures />} />
+    <Route path="lists/missing-nav-items_success" element={<MissingNavItemsSuccess />} />
+    <Route path="lists/missing-nav-items_failure" element={<MissingNavItemsFailure />} />
+    <Route path="landmarks/misused-nav-tagging_success" element={<MisusedNavTaggingSuccess />} />
+    <Route path="landmarks/misused-nav-tagging_failure" element={<MisusedNavTaggingFailure />} />
+    <Route path="landmarks/navigation-tagging_success" element={<NavigationTaggingSuccess />} />
+    <Route path="landmarks/navigation-tagging_failure" element={<NavigationTaggingFailure />} />
     <Route path="navigation/navigation-tagging_failure/:id" element={<NavigationTaggingFailure />} />
-    <Route path="navigation/submenu-trigger-tagging_success" element={<SubmenuTriggerTaggingSuccess />} />
-    <Route path="navigation/submenu-trigger-tagging_failure" element={<SubmenuTriggerTaggingFailure />} />
+    <Route path="general/submenu-trigger-tagging_success" element={<SubmenuTriggerTaggingSuccess />} />
+    <Route path="general/submenu-trigger-tagging_failure" element={<SubmenuTriggerTaggingFailure />} />
     <Route path="navigation/submenu-operability_success" element={<SubmenuOperabilitySuccess />} />
     <Route path="navigation/submenu-operability_failure" element={<SubmenuOperabilityFailure />} />
-    <Route path="navigation/submenu-tagging_success" element={<SubmenuTaggingSuccess />} />
-    <Route path="navigation/submenu-tagging_failure" element={<SubmenuTaggingFailure />} />
+    <Route path="landmarks/submenu-tagging_success" element={<SubmenuTaggingSuccess />} />
+    <Route path="landmarks/submenu-tagging_failure" element={<SubmenuTaggingFailure />} />
 
   </>
 );

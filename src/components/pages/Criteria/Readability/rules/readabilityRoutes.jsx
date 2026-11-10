@@ -9,12 +9,12 @@ import LetterSpacingFailure from "./Failures/Letter-spacingFailure";
 
 const ReadabilityRoutes = () => (
   <>
-  <Route path="readability/color-contrast_success" element={<ColorContrastSucces />} />
-    <Route path="readability/color-contrast_failure" element={<ColorContrastFailures />} />
-    <Route path="readability/font-sizes_success" element={<FontSizesSuccess />} />
-    <Route path="readability/font-sizes_failure" element={<FontSizesFailure />} />
-    <Route path="readability/letter-spacing_success" element={<LetterSpacingSuccess />} />
-    <Route path="readability/letter-spacing_failure" element={<LetterSpacingFailure />} />
+  <Route path="text-content/color-contrast_success" element={<ColorContrastSucces />} />
+    <Route path="text-content/color-contrast_failure" element={<ColorContrastFailures />} />
+    <Route path="text-content/font-sizes_success" element={<FontSizesSuccess />} />
+    <Route path="text-content/font-sizes_failure" element={<FontSizesFailure />} />
+    <Route path="text-content/letter-spacing_success" element={<LetterSpacingSuccess />} />
+    <Route path="text-content/letter-spacing_failure" element={<LetterSpacingFailure />} />
 
 
   </>

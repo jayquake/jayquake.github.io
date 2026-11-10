@@ -54,11 +54,44 @@ const LEGACY_CRITERIA_COLORS = {
   context: "#00bcd4",
   document: "#795548",
   readability: "#8bc34a",
+  "text-content": "#8bc34a",
   tables: "#3f51b5",
+  dialogs: "#7b1fa2",
+  general: "#546e7a",
+  "interactive-content": "#c2185b",
+  landmarks: "#00838f",
+  lists: "#6d4c41",
+  "moving-content": "#ef6c00",
 };
 
+/** Preferred tree order; any criteria not listed are appended alphabetically. */
+const LEGACY_CRITERIA_ORDER = [
+  "graphics",
+  "forms",
+  "keyboard",
+  "navigation",
+  "landmarks",
+  "headings",
+  "errors",
+  "context",
+  "clickables",
+  "interactive-content",
+  "document",
+  "text-content",
+  "readability",
+  "tables",
+  "carousels",
+  "moving-content",
+  "dialogs",
+  "lists",
+  "general",
+];
+
 function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
+  return str
+    .split("-")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
 }
 
 const DEFAULT_EXPANDED = {
@@ -471,19 +504,16 @@ export default function RuleTreeSidebar({
       if (!grouped[cat]) grouped[cat] = [];
       grouped[cat].push(rule);
     });
-    const order = [
-      "graphics", "forms", "keyboard", "navigation", "headings",
-      "errors", "context", "clickables", "document", "readability",
-      "tables", "carousels",
-    ];
-    return order
-      .filter((cat) => grouped[cat])
-      .map((cat) => ({
-        id: cat,
-        label: capitalize(cat),
-        color: LEGACY_CRITERIA_COLORS[cat] || "#667eea",
-        rules: grouped[cat],
-      }));
+    const known = LEGACY_CRITERIA_ORDER.filter((cat) => grouped[cat]);
+    const rest = Object.keys(grouped)
+      .filter((cat) => !LEGACY_CRITERIA_ORDER.includes(cat))
+      .sort();
+    return [...known, ...rest].map((cat) => ({
+      id: cat,
+      label: capitalize(cat),
+      color: LEGACY_CRITERIA_COLORS[cat] || "#667eea",
+      rules: grouped[cat],
+    }));
   }, [data]);
 
   const healthMap = useMemo(() => {

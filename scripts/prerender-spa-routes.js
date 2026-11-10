@@ -5,6 +5,10 @@
  *   so deep links return 200 without query-param redirects.
  * - Copies build/index.html to build/404.html so unknown paths still boot
  *   the React app at the requested URL (no ?p= redirect dance).
+ *
+ * Legacy criteria redirects (src/data/legacy-redirects.json) rely on that
+ * 404.html SPA shell: an old deep link boots the app, then LegacyRedirect
+ * replace-navigates to the new criteria path.
  */
 const fs = require("fs");
 const path = require("path");

@@ -67,6 +67,7 @@
     "deploy:actions": "bash scripts/deploy-via-actions.sh",
     "deploy:trigger": "gh workflow run deploy.yml",
     "sync:engine-rules": "node scripts/sync-engine-rules-from-core.js",
+    "sync:legacy-rules": "node scripts/sync-legacy-rules-from-accessflow.js",
     "sync:criteria-examples": "node scripts/generate-criteria-examples-from-atomic.js",
     "validate:atomic-parity": "node scripts/validate-atomic-tests-parity.js",
     "prebuild": "node scripts/generate-static-projects.js && node scripts/generate-engine-rules-index.js",
