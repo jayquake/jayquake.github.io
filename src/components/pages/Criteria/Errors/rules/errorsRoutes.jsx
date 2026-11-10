@@ -28,32 +28,32 @@ import BrokenAriaLabelsSuccess from "./Success/Broken-aria-labelsSuccess";
 import BrokenAriaLabelsFailure from "./Failures/Broken-aria-labelsFailure";
 const ErrorsRoutes = () => (
   <>
-    <Route path="errors/aria-label-misuse_success" element={<AriaLabelMissuseSuccess />} />
-    <Route path="errors/aria-label-misuse_failure" element={<AriaLabelMissuseFailure />} />
+    <Route path="general/aria-label-misuse_success" element={<AriaLabelMissuseSuccess />} />
+    <Route path="general/aria-label-misuse_failure" element={<AriaLabelMissuseFailure />} />
     <Route path="errors/broken-aria-reference_success" element={<BrokenAriaReferenceSuccess />} />
     <Route path="errors/broken-aria-reference_failure" element={<BrokenAriaReferenceFailure />} />
-    <Route path="errors/broken-list_success" element={<BrokenListSuccess />} />
-    <Route path="errors/broken-list_failure" element={<BrokenListFailure />} />
-    <Route path="errors/hidden-visible-content_success" element={<HiddenVisibleContentSuccess />} />
-    <Route path="errors/hidden-visible-content_failure" element={<HiddenVisibleContentFailure />} />
-    <Route path="errors/fake-hidden-content_success" element={<FakeHiddenContentSuccess />} />
-    <Route path="errors/fake-hidden-content_failure" element={<FakeHiddenContentFailures />} />
+    <Route path="lists/broken-list_success" element={<BrokenListSuccess />} />
+    <Route path="lists/broken-list_failure" element={<BrokenListFailure />} />
+    <Route path="general/hidden-visible-content_success" element={<HiddenVisibleContentSuccess />} />
+    <Route path="general/hidden-visible-content_failure" element={<HiddenVisibleContentFailure />} />
+    <Route path="general/fake-hidden-content_success" element={<FakeHiddenContentSuccess />} />
+    <Route path="general/fake-hidden-content_failure" element={<FakeHiddenContentFailures />} />
     <Route path="errors/duplicate-ids_success" element={<DuplicateIdsSuccess />} />
     <Route path="errors/duplicate-ids_failure" element={<DuplicateIdsFailures />} />
-    <Route path="errors/empty-list_success" element={<EmptyListSuccess />} />
-    <Route path="errors/empty-list_failure" element={<EmptyListFailures />} />
-    <Route path="errors/load-autofocus_success" element={<LoadAutofocusSuccess />} />
-    <Route path="errors/load-autofocus_failure" element={<LoadAutofocusFailure />} />
-    <Route path="errors/marquee_success" element={<MarqueeSuccess />} />
-    <Route path="errors/marquee_failure" element={<MarqueeFailure />} />
-    <Route path="errors/role-applications_success" element={<RoleApplicationsSuccess />} />
-    <Route path="errors/role-applications_failure" element={<RoleApplicationsFailure />} />
-    <Route path="errors/title-misuse_success" element={<TitleMisuseSuccess />} />
-    <Route path="errors/title-misuse_failure" element={<TitleMisuseFailure />} />
-    <Route path="errors/redundant-aria-labels_success" element={<RedundantAriaLabelsSuccess />} />
-    <Route path="errors/redundant-aria-labels_failure" element={<RedundantAriaLabelsFailure />} />
-    <Route path="errors/broken-aria-labels_success" element={<BrokenAriaLabelsSuccess />} />
-    <Route path="errors/broken-aria-labels_failure" element={<BrokenAriaLabelsFailure />} />
+    <Route path="lists/empty-list_success" element={<EmptyListSuccess />} />
+    <Route path="lists/empty-list_failure" element={<EmptyListFailures />} />
+    <Route path="general/load-autofocus_success" element={<LoadAutofocusSuccess />} />
+    <Route path="general/load-autofocus_failure" element={<LoadAutofocusFailure />} />
+    <Route path="moving-content/marquee_success" element={<MarqueeSuccess />} />
+    <Route path="moving-content/marquee_failure" element={<MarqueeFailure />} />
+    <Route path="general/role-applications_success" element={<RoleApplicationsSuccess />} />
+    <Route path="general/role-applications_failure" element={<RoleApplicationsFailure />} />
+    <Route path="interactive-content/title-misuse_success" element={<TitleMisuseSuccess />} />
+    <Route path="interactive-content/title-misuse_failure" element={<TitleMisuseFailure />} />
+    <Route path="interactive-content/redundant-aria-labels_success" element={<RedundantAriaLabelsSuccess />} />
+    <Route path="interactive-content/redundant-aria-labels_failure" element={<RedundantAriaLabelsFailure />} />
+    <Route path="interactive-content/aria-label-misuse_success" element={<BrokenAriaLabelsSuccess />} />
+    <Route path="interactive-content/aria-label-misuse_failure" element={<BrokenAriaLabelsFailure />} />
 
 
 

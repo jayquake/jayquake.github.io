@@ -30,28 +30,28 @@ const ContextRoutes = () => (
   <>
     <Route path="context/active-tab_success" element={<ActivetabSuccess />} />
     <Route path="context/active-tab_failure" element={<ActivetabFailures />} />
-    <Route path="context/article-setup_success" element={<ArticleSetupSuccess />} />
-    <Route path="context/article-setup_failure" element={<ArticleSetupFailures />} />
-    <Route path="context/footer-landmark_success" element={<FooterLandmarkSuccess />} />
-    <Route path="context/footer-landmark_failure" element={<FooterLandmarkFailures />} />
-    <Route path="context/iframe-labeling_success" element={<IframelabelingSuccess />} />
-    <Route path="context/iframe-labeling_failure" element={<IframelabelingFailures />} />
-    <Route path="context/incorrect-main-landmark_success" element={<IncorrectMainLandmarkSuccess />} />
-    <Route path="context/incorrect-main-landmark_failure" element={<IncorrectMainLandmarkFailures />} />
+    <Route path="landmarks/article-setup_success" element={<ArticleSetupSuccess />} />
+    <Route path="landmarks/article-setup_failure" element={<ArticleSetupFailures />} />
+    <Route path="landmarks/footer-landmark_success" element={<FooterLandmarkSuccess />} />
+    <Route path="landmarks/footer-landmark_failure" element={<FooterLandmarkFailures />} />
+    <Route path="general/iframe-labeling_success" element={<IframelabelingSuccess />} />
+    <Route path="general/iframe-labeling_failure" element={<IframelabelingFailures />} />
+    <Route path="landmarks/incorrect-main-landmark_success" element={<IncorrectMainLandmarkSuccess />} />
+    <Route path="landmarks/incorrect-main-landmark_failure" element={<IncorrectMainLandmarkFailures />} />
     <Route path="context/copy-of-scroll-focus_success" element={<CopyOfScrollFocusSuccess />} />
     <Route path="context/copy-of-scroll-focus_failure" element={<CopyOfScrollFocusFailures />} />
-    <Route path="context/main-landmark_success" element={<MainLandmarkSuccess />} />
-    <Route path="context/main-landmark_failure" element={<MainLandmarkFailure />} />
-    <Route path="context/multiple-main-landmarks_success" element={<MultipleMainLandmarksSuccess />} />
-    <Route path="context/multiple-main-landmarks_failure" element={<MultipleMainLandmarksFailure />} />
-    <Route path="context/popup-tagging_success" element={<PopupTaggingSuccess />} />
-    <Route path="context/popup-tagging_failure" element={<PopupTaggingFailures />} />
-    <Route path="context/sale-prices_success" element={<SalePrices_Success />} />
-    <Route path="context/sale-prices_failure" element={<SalePrices_Failures />} />
+    <Route path="landmarks/main-landmark_success" element={<MainLandmarkSuccess />} />
+    <Route path="landmarks/main-landmark_failure" element={<MainLandmarkFailure />} />
+    <Route path="landmarks/multiple-main-landmarks_success" element={<MultipleMainLandmarksSuccess />} />
+    <Route path="landmarks/multiple-main-landmarks_failure" element={<MultipleMainLandmarksFailure />} />
+    <Route path="dialogs/popup-tagging_success" element={<PopupTaggingSuccess />} />
+    <Route path="dialogs/popup-tagging_failure" element={<PopupTaggingFailures />} />
+    <Route path="text-content/sale-prices_success" element={<SalePrices_Success />} />
+    <Route path="text-content/sale-prices_failure" element={<SalePrices_Failures />} />
     <Route path="context/tab-panel-tagging_success" element={<TabPanelTaggingSuccess />} />
     <Route path="context/tab-panel-tagging_failure" element={<TabPanelTaggingFailure />} />
-    <Route path="context/user-rating_success" element={<UserratingSuccess />} />
-    <Route path="context/user-rating_failure" element={<UserratingFailure />} />
+    <Route path="graphics/user-rating_success" element={<UserratingSuccess />} />
+    <Route path="graphics/user-rating_failure" element={<UserratingFailure />} />
     <Route path="context/tabs-tagging_success" element={<TabsTaggingSuccess />} />
     <Route path="context/tabs-tagging_failure" element={<TabsTaggingFailures />} />
 

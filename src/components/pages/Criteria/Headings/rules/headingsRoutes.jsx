@@ -13,16 +13,16 @@ import EmptyHeadingsSuccess from "./Success/Empty-headingsSuccess";
 
 const HeadingsRoutes = () => (
   <>
-  <Route path="headings/main-heading_success" element={<MainHeadingSuccess />} />
-  <Route path="headings/main-heading_failure" element={<MainHeadingFailure />} />
-  <Route path="headings/multiple-main-headings_success" element={<MultipleMainHeadingsSuccess />} />
-  <Route path="headings/multiple-main-headings_failure" element={<MultipleMainHeadingsFailure />} />
-  <Route path="headings/untagged-headings_failure" element={<UntaggedHeadingsFailures />} />
-  <Route path="headings/untagged-headings_success" element={<UntaggedHeadingsSuccess />} />
-  <Route path="headings/long-headings_success" element={<LongHeadingsSuccess />} />
-  <Route path="headings/long-headings_failure" element={<LongHeadingsFailure />} /> 
-  <Route path="headings/empty-headings_failure" element={<EmptyHeadingsFailure />} />
-  <Route path="headings/empty-headings_success" element={<EmptyHeadingsSuccess />} />
+  <Route path="text-content/main-heading_success" element={<MainHeadingSuccess />} />
+  <Route path="text-content/main-heading_failure" element={<MainHeadingFailure />} />
+  <Route path="text-content/multiple-main-headings_success" element={<MultipleMainHeadingsSuccess />} />
+  <Route path="text-content/multiple-main-headings_failure" element={<MultipleMainHeadingsFailure />} />
+  <Route path="text-content/untagged-headings_failure" element={<UntaggedHeadingsFailures />} />
+  <Route path="text-content/untagged-headings_success" element={<UntaggedHeadingsSuccess />} />
+  <Route path="text-content/long-headings_success" element={<LongHeadingsSuccess />} />
+  <Route path="text-content/long-headings_failure" element={<LongHeadingsFailure />} /> 
+  <Route path="text-content/empty-headings_failure" element={<EmptyHeadingsFailure />} />
+  <Route path="text-content/empty-headings_success" element={<EmptyHeadingsSuccess />} />
 
   </>
 );

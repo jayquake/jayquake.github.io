@@ -44,8 +44,8 @@ const FormruleRoutes = () => (
     <Route path="/forms/field-validation-focus_failure" element={<FieldValidationFocusFail />} />
     <Route path="/forms/missing-form-button_success" element={<MissingFormButtonSuccess />} />
     <Route path="/forms/missing-form-button_failure" element={<MissingFormButtonFail />} />
-    <Route path="/forms/search-form-tagging_success" element={<SearchFormTaggingSuccess />} />
-    <Route path="/forms/search-form-tagging_failure" element={<SearchFormTaggingFail />} />
+    <Route path="/landmarks/search-form-tagging_success" element={<SearchFormTaggingSuccess />} />
+    <Route path="/landmarks/search-form-tagging_failure" element={<SearchFormTaggingFail />} />
     <Route path="/forms/form-submissions-status_success" element={<SubmissionStatusSuccess />} />
     <Route path="/forms/form-submissions-status_failure" element={<SubmissionStatusFail />} />
     <Route path="/forms/form-duplicate-ids_success" element={<FormDuplicateIdSuccess />} />

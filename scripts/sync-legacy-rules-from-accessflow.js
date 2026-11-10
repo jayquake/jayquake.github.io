@@ -28,6 +28,7 @@ const OUT_PUBLIC = path.join(REPO, "public/data.json");
 const OUT_SRC = path.join(REPO, "src/data/legacy-rules.json");
 const OUT_REDIRECTS = path.join(REPO, "src/data/legacy-redirects.json");
 const OUT_CRITERIA = path.join(REPO, "src/data/legacy-criteria.json");
+const OUT_FIXTURES = path.join(REPO, "src/data/legacy-example-fixtures.json");
 const MAPPING_PATH = path.join(REPO, "src/data/legacy-engine-mapping.js");
 const CRITERIA_DIR = path.join(REPO, "src/components/pages/Criteria");
 const DEFAULT_REMOTE =
@@ -111,10 +112,21 @@ function rulePath(criteria, route, variant) {
   return variant ? `${base}_${variant}` : base;
 }
 
+function loadExistingRedirects() {
+  if (!fs.existsSync(OUT_REDIRECTS)) return {};
+  try {
+    return JSON.parse(fs.readFileSync(OUT_REDIRECTS, "utf8"));
+  } catch {
+    return {};
+  }
+}
+
 function buildRedirects(previous, next) {
   const byShort = new Map(next.map((r) => [r.shortCode, r]));
   /** @type {Record<string, string>} */
-  const redirects = {};
+  // Keep previously recorded redirects so re-running after a sync does not
+  // wipe the old→new map (previous data.json already matches AccessFlow).
+  const redirects = { ...loadExistingRedirects() };
   for (const old of previous) {
     const neu = byShort.get(old.shortCode);
     if (!neu) continue;
@@ -253,6 +265,21 @@ function rewriteRoutesFiles(redirects) {
   console.log(`Route rewrite: ${pathsRewritten} path attrs in ${filesTouched} files`);
 }
 
+/** Scan *Routes.jsx for example paths that have real fixtures. */
+function writeFixtureIndex() {
+  const paths = new Set();
+  for (const file of collectRoutesFiles()) {
+    const src = fs.readFileSync(file, "utf8");
+    for (const m of src.matchAll(/path="([^"]+)"/g)) {
+      const p = "/" + m[1].replace(/^\//, "");
+      if (/_(success|failure)$/.test(p)) paths.add(p);
+    }
+  }
+  const list = [...paths].sort();
+  fs.writeFileSync(OUT_FIXTURES, `${JSON.stringify({ paths: list }, null, 2)}\n`);
+  console.log(`Fixture index: ${list.length} example paths → ${path.relative(REPO, OUT_FIXTURES)}`);
+}
+
 function criteriaFromRules(rules) {
   return [...new Set(rules.map((r) => (r.criteria || "").toLowerCase()).filter(Boolean))].sort();
 }
@@ -303,6 +330,9 @@ function main() {
   } else {
     console.log("\n(Skip route rewrite — pass --rewrite-routes to re-key *Routes.jsx)");
   }
+
+  // Always refresh the fixture index from whatever *Routes.jsx currently say.
+  writeFixtureIndex();
 }
 
 main();

@@ -1,20 +1,11 @@
 /** Path matching for legacy criteria routes — no route component imports. */
+import legacyCriteria from "../data/legacy-criteria.json";
 
-export const CRITERIA_PREFIXES = [
-  "/graphics",
-  "/forms",
-  "/keyboard",
-  "/navigation",
-  "/headings",
-  "/errors",
-  "/carousels",
-  "/clickables",
-  "/context",
-  "/document",
-  "/readability",
-  "/tables",
-];
+/** @type {string[]} */
+export const CRITERIA_PREFIXES = legacyCriteria.prefixes;
 
 export function isCriteriaPath(pathname) {
-  return CRITERIA_PREFIXES.some((prefix) => pathname.startsWith(prefix));
+  return CRITERIA_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
+  );
 }
