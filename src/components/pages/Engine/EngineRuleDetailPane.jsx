@@ -21,11 +21,11 @@ export default function EngineRuleDetailPane({
   side = "left",
 }) {
   const CloseIcon = side === "right" ? ChevronRight : ChevronLeft;
+  const [searchParams] = useSearchParams();
   if (!rule) {
     return <div className="p-4 text-sm text-foreground-secondary">Select a rule from the table.</div>;
   }
 
-  const [searchParams] = useSearchParams();
   const slug = getRuleSlug(rule);
   const wcagRefs = rule.refs?.filter((r) => r.type === "WCAG") || [];
   const canonicalRuleHref = (() => {
