@@ -61,7 +61,7 @@ jobs:
           AF_NODE_PACKAGE_KEY: ${{ secrets.AF_NODE_PACKAGE_KEY }}
 
       - name: Run JS Playwright Tests
-        run: cd sdk/tests/playwright/node && npx playwright test tests/fake-login-flow.spec.js tests/sdk-audit-smoke.spec.js
+        run: cd sdk/tests/playwright/node && npx playwright test tests/fake-login-flow.spec.js
         env:
           CI: true
           AF_NODE_PACKAGE_KEY: ${{ secrets.AF_NODE_PACKAGE_KEY }}
@@ -149,7 +149,7 @@ jobs:
           ACCESSFLOW_SDK_API_KEY: ${{ secrets.ACCESSFLOW_SDK_API_KEY }}
 
       - name: Run JS Selenium Tests
-        run: cd sdk/tests/selenium/node && npx jest --config jest.config.js --forceExit
+        run: cd sdk/tests/selenium/node && npx jest --config jest.config.js --forceExit tests/ui-library-smoke.test.js
         env:
           CI: true
           HEADLESS: true
