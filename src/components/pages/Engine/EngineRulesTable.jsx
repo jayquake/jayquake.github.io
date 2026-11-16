@@ -4,7 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { HudMotion } from "../../motion/HudMotion";
 import { Badge, severityVariant } from "../../ui/badge";
 import { SearchField } from "../../ui/search-field";
-import { NativeSelect } from "../../ui/native-select";
+import { FilterSelect } from "../../ui/filter-select";
 import { Skeleton } from "../../ui/skeleton";
 import { Spinner } from "../../ui/spinner";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
@@ -21,14 +21,6 @@ import {
 } from "./engineLibraryUtils";
 
 const ruleLinkClass = "text-inherit no-underline hover:text-foreground-accent hover:underline";
-
-function FilterSelect({ label, value, onChange, children }) {
-  return (
-    <NativeSelect aria-label={label} value={value} onChange={(event) => onChange(event.target.value)}>
-      {children}
-    </NativeSelect>
-  );
-}
 
 const RuleRow = memo(function RuleRow({ rule, selected, layout, hrefs }) {
   const slug = getRuleSlug(rule);

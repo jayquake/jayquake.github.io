@@ -1,4 +1,6 @@
 import { ChevronLeft } from "lucide-react";
+import { useLocation } from "react-router-dom";
+import { parseRoute } from "../../lib/libraryLocation";
 import RaidenLogo from "../brand/RaidenLogo";
 import { Button } from "../ui/button";
 import {
@@ -16,6 +18,9 @@ import SidebarStatusFooter from "./SidebarStatusFooter";
 
 export default function AppSidebar() {
   const { open, toggleSidebar, setMobileOpen } = useSidebar();
+  const location = useLocation();
+  const route = parseRoute(location.pathname);
+  const showRuleTree = route.kind !== "home";
 
   return (
     <>
@@ -40,7 +45,7 @@ export default function AppSidebar() {
           <SidebarNav isOpen={open} onCloseMobile={() => setMobileOpen(false)} />
         </SidebarGroup>
 
-        {open ? (
+        {open && showRuleTree ? (
           <SidebarGroup className="min-h-0 flex-1 overflow-hidden border-t border-border p-0">
             <SidebarGroupLabel className="px-4 pt-2">Engine rules</SidebarGroupLabel>
             <div className="min-h-0 flex-1 overflow-hidden px-1 pb-1">

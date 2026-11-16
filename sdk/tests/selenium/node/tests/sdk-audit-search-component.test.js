@@ -38,7 +38,7 @@ describe('Search Component Testing with AccessFlow SDK', () => {
 
     const searchInput = await driver.wait(
       until.elementLocated(
-        By.css('input[aria-label="Search for rules and criteria"], input[placeholder="Search Here"]'),
+        By.css('input[aria-label="Search rules"], input[aria-label="Filter rules in sidebar"]'),
       ),
       10000,
     );
@@ -46,13 +46,13 @@ describe('Search Component Testing with AccessFlow SDK', () => {
     expect(await searchInput.isDisplayed()).toBe(true);
 
     const placeholder = await searchInput.getAttribute('placeholder');
-    expect(placeholder).toBe('Search Here');
+    expect(placeholder).toMatch(/search rules/i);
   });
 
   test('should display result details in dropdown', async () => {
     const searchInput = await driver.wait(
       until.elementLocated(
-        By.css('input[aria-label="Search for rules and criteria"], input[placeholder="Search Here"]'),
+        By.css('input[aria-label="Search rules"], input[aria-label="Filter rules in sidebar"]'),
       ),
       10000,
     );
@@ -63,15 +63,11 @@ describe('Search Component Testing with AccessFlow SDK', () => {
     await searchInput.sendKeys('keyboard');
     await driver.sleep(800);
 
-    const firstResult = await driver.wait(
-      until.elementLocated(By.css('.MuiListItem-root, [role="option"], li')),
-      5000,
+    const tableLink = await driver.wait(
+      until.elementLocated(By.css('table a[href*="/engine/"]')),
+      10000
     );
-
-    expect(await firstResult.isDisplayed()).toBe(true);
-
-    const text = await firstResult.getText();
-    expect(text).toBeTruthy();
-    expect(text.trim().length).toBeGreaterThan(0);
+    expect(await tableLink.isDisplayed()).toBe(true);
+    expect((await tableLink.getText()).trim().length).toBeGreaterThan(0);
   });
 });

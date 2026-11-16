@@ -66,7 +66,11 @@ export default function EngineLibraryShell() {
 
   return (
     <>
-      <ResizablePanelGroup direction="horizontal" className="h-full min-h-0 w-full flex-1">
+      <ResizablePanelGroup
+        autoSaveId="raiden-engine-library-panels"
+        direction="horizontal"
+        className="h-full min-h-0 w-full flex-1"
+      >
         <ResizablePanel id="rules-list" order={1} defaultSize={showDetailPanel ? 58 : 100} minSize={35}>
           <EngineRulesTable
             layout="compact"
