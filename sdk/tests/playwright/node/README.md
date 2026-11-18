@@ -2,6 +2,10 @@
 
 This directory contains the Playwright test suite for accessibility testing using the AccessFlow SDK.
 
+## Local runs
+
+**[LOCAL.md](./LOCAL.md)** — where every file lives, npm scripts, and how to run `tests/sdk-local-demo.spec.js`.
+
 ## 📚 Documentation
 
 ### Getting Started

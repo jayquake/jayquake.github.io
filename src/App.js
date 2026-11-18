@@ -6,7 +6,7 @@ import AppRoutes from "./routes/AppRoutes";
 import { ENGINE_RULE_COUNT } from "./utils/engineRuleCount";
 import { parseRoute } from "./lib/libraryLocation";
 
-const LOGIN_ROUTES = ["/login", "/login/success"];
+const STANDALONE_ROUTES = ["/login", "/login/success"];
 
 function normalizePathname(pathname) {
   if (pathname.length > 1 && pathname.endsWith("/")) {
@@ -15,8 +15,8 @@ function normalizePathname(pathname) {
   return pathname;
 }
 
-function isLoginRoute(pathname) {
-  return LOGIN_ROUTES.includes(normalizePathname(pathname));
+function isStandaloneRoute(pathname) {
+  return STANDALONE_ROUTES.includes(normalizePathname(pathname));
 }
 
 function capitalizeFirstLetter(string) {
@@ -136,7 +136,7 @@ function AppShell() {
 export default function App() {
   const location = useLocation();
 
-  if (isLoginRoute(location.pathname)) {
+  if (isStandaloneRoute(location.pathname)) {
     return <AppRoutes />;
   }
 

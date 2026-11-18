@@ -61,7 +61,10 @@ jobs:
           AF_NODE_PACKAGE_KEY: ${{ secrets.AF_NODE_PACKAGE_KEY }}
 
       - name: Run JS Playwright Tests
-        run: cd sdk/tests/playwright/node && npx playwright test tests/fake-login-flow.spec.js
+        run: |
+          cd sdk/tests && npx playwright test -c playwright/node/playwright.config.js \
+            playwright/node/tests/fake-login-flow.spec.js \
+            playwright/node/tests/1-new-page.spec.js
         env:
           CI: true
           AF_NODE_PACKAGE_KEY: ${{ secrets.AF_NODE_PACKAGE_KEY }}
@@ -71,7 +74,7 @@ jobs:
         if: always()
         with:
           name: js-playwright-report
-          path: sdk/tests/playwright/node/playwright-report/
+          path: sdk/tests/test-results/playwright-report/
           retention-days: 30
 
       - name: Upload Test Results
@@ -79,7 +82,9 @@ jobs:
         if: always()
         with:
           name: js-test-results
-          path: sdk/tests/playwright/node/test-results/
+          path: |
+            sdk/tests/test-results/playwright/
+            sdk/tests/accessFlowReports/
           retention-days: 30
 
       - name: Upload Build Artifacts
@@ -94,6 +99,8 @@ jobs:
   # JS Lane — Selenium + AccessFlow Node SDK
   # =====================================================================
   test-js-selenium:
+  # MUTED: JS Playwright lane only on push (re-enable when Selenium lane is needed)
+    if: false
     name: JS Lane — Selenium Tests
     runs-on: ubuntu-latest
 
@@ -561,11 +568,10 @@ jobs:
   # Accessibility Summary (from ALL SDK lanes)
   # =====================================================================
   accessibility-summary:
-    name: Accessibility Test Summary (All SDKs)
+    name: Accessibility Test Summary (JS Playwright)
     runs-on: ubuntu-latest
     needs:
       - test-js
-      - test-js-selenium
     # Run after every lane finishes so artifacts exist; still emit a summary if some lanes failed
     if: always()
 

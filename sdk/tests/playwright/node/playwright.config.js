@@ -9,6 +9,13 @@ const { defineConfig, devices } = require('@playwright/test');
 // `npx serve -s build` ran from a directory with no build/ folder, never
 // bound a port, and the webServer block silently timed out.
 const repoRoot = path.resolve(__dirname, '..', '..', '..', '..');
+/** All SDK lane artifacts: sdk/tests/test-results/ */
+const sdkTestsRoot = path.resolve(__dirname, '..', '..');
+const playwrightResultsDir = path.join(sdkTestsRoot, 'test-results', 'playwright');
+const playwrightReportDir = path.join(sdkTestsRoot, 'test-results', 'playwright-report');
+/** SDK `generateReport(..., "json")` writes accessFlow-report.json here */
+const accessFlowReportsDir = path.join(sdkTestsRoot, 'accessFlowReports');
+const SDK_DEMO_SPECS = /\/(1-new-page|2-subscribe-flow)\.spec\.js$/;
 dotenv.config({ path: path.join(repoRoot, '.env') });
 
 /**
@@ -27,7 +34,7 @@ module.exports = defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [['html', { open: 'never', outputFolder: playwrightReportDir }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -42,11 +49,19 @@ module.exports = defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+      outputDir: playwrightResultsDir,
+      testIgnore: SDK_DEMO_SPECS,
+    },
+    {
+      name: 'sdk-demo',
+      use: { ...devices['Desktop Chrome'] },
+      outputDir: accessFlowReportsDir,
+      testMatch: SDK_DEMO_SPECS,
     },
     {
       name: 'chromium-custom-output',
       use: { ...devices['Desktop Chrome'] },
-      outputDir: './custom-test-output',
+      outputDir: path.join(sdkTestsRoot, 'test-results', 'playwright-custom'),
       testMatch: /custom-output-dir\.spec\.js/,
     },
 
