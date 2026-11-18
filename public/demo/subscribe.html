@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -71,7 +71,13 @@
   <body>
     <main id="subscribe-page" data-fixture="sdk-local-demo">
       <h1 id="subscribe-heading">Stay in the loop</h1>
-      <img class="hero" src="hero.png" width="320" height="180" alt="Hero image" />
+      <img
+        class="hero"
+        id="subscribe-hero"
+        src="hero.png"
+        width="320"
+        height="180"
+      />
       <p>Get product news and accessibility tips in your inbox.</p>
       <p>We ship often — catch issues before they reach production.</p>
       <button id="subscribe-open" type="button">Subscribe</button>
@@ -101,21 +107,27 @@
       const modal = document.getElementById("subscribe-modal");
       const errorEl = document.getElementById("subscribe-error");
 
-      document.getElementById("subscribe-open").addEventListener("click", () => {
-        errorEl.classList.remove("shown");
-        modal.classList.add("open");
-      });
+      document
+        .getElementById("subscribe-open")
+        .addEventListener("click", () => {
+          errorEl.classList.remove("shown");
+          modal.classList.add("open");
+        });
 
-      document.getElementById("subscribe-close").addEventListener("click", () => {
-        modal.classList.remove("open");
-      });
+      document
+        .getElementById("subscribe-close")
+        .addEventListener("click", () => {
+          modal.classList.remove("open");
+        });
 
-      document.getElementById("subscribe-form").addEventListener("submit", (e) => {
-        e.preventDefault();
-        const email = document.getElementById("email").value.trim();
-        const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        errorEl.classList.toggle("shown", !valid);
-      });
+      document
+        .getElementById("subscribe-form")
+        .addEventListener("submit", (e) => {
+          e.preventDefault();
+          const email = document.getElementById("email").value.trim();
+          const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+          errorEl.classList.toggle("shown", !valid);
+        });
     </script>
     <footer>
       <p>© Acme — accessibility demo page</p>

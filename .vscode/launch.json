@@ -17,6 +17,24 @@
       "skipFiles": ["<node_internals>/**"]
     },
     {
+      "name": "Debug SDK Playwright Test (current file)",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "playwright",
+        "test",
+        "-c",
+        "playwright.config.js",
+        "${relativeFile}",
+        "--debug"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
       "name": "Debug Current Playwright Test File",
       "type": "node",
       "request": "launch",

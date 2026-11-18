@@ -135,7 +135,8 @@
   // Performance
   "files.maxMemoryForLargeFilesMB": 4096,
 
-  // Playwright Settings
+  // Playwright Settings — SDK specs: pick repo-root playwright.config.js (or
+  // sdk/tests/playwright/node/playwright.config.js) in the Testing sidebar profile.
   "playwright.reuseBrowser": false,
   "playwright.showTrace": false,
 

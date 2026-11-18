@@ -5,8 +5,12 @@
 
 const fs = require("fs");
 const path = require("path");
+const dotenv = require("dotenv");
 const { AccessFlowSDK } = require("@acsbe/accessflow-sdk");
 const { expect, test } = require("@playwright/test");
+
+const repoRoot = path.resolve(__dirname, "..", "..", "..", "..", "..");
+dotenv.config({ path: path.join(repoRoot, ".env") });
 
 const apiKey =
   process.env.AF_NODE_PACKAGE_KEY || process.env.ACCESSFLOW_SDK_API_KEY;

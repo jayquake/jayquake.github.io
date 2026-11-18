@@ -2,7 +2,18 @@
 
 Everything for **local** AccessFlow SDK + Playwright on this repo, in one place.
 
-## Run the demo test
+## Run from the IDE (Cursor / VS Code)
+
+1. Install the **Playwright** extension (`ms-playwright.playwright`).
+2. In the **Testing** sidebar, open the config profile dropdown and choose **`playwright.config.js`** at the **repo root** (wraps the SDK config), or `sdk/tests/playwright/node/playwright.config.js`.
+3. Use **Run** / **Debug** on the green triangle next to `new subscribe page` in `1-new-page.spec.js`.
+
+Without a real config, the extension uses Playwright defaults (no `baseURL`, no `webServer`) and `page.goto("/demo/...")` fails with **Cannot navigate to invalid URL**.  
+Root `playwright.config.js` exists so discovery works from the workspace root. Ensure repo root `.env` has `AF_NODE_PACKAGE_KEY` or `ACCESSFLOW_SDK_API_KEY`.
+
+**Debug:** Run and Debug → **Debug SDK Playwright Test (current file)**.
+
+## Run the demo test (CLI)
 
 **Working directory:** `sdk/tests`
 
