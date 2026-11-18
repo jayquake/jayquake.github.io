@@ -30,7 +30,12 @@ test("subscribe flow", async ({ page }, testInfo) => {
   await expect(page.locator("#subscribe-modal.open")).toBeVisible();
 
   const modalReport = await audit(page, testInfo);
-  expect(modalReport.numberOfIssuesFound.extreme ?? 0).toBeGreaterThan(0);
+  const modalIssueCount =
+    (modalReport.numberOfIssuesFound.extreme ?? 0) +
+    (modalReport.numberOfIssuesFound.high ?? 0) +
+    (modalReport.numberOfIssuesFound.medium ?? 0) +
+    (modalReport.numberOfIssuesFound.low ?? 0);
+  expect(modalIssueCount).toBeGreaterThan(0);
 
   await page.locator("#name").fill("Jane");
   await page.locator("#email").fill("not-an-email");

@@ -39,6 +39,18 @@ test("new subscribe page", async ({ page }, testInfo) => {
 
   console.log("Accessibility issues by severity:", report.numberOfIssuesFound);
 
+  // Gate (shift-left): no blockers; keep a small budget for incidental findings.
   expect(report.numberOfIssuesFound.extreme ?? 0).toBe(0);
   expect(report.numberOfIssuesFound.high ?? 0).toBeLessThan(5);
+
+  // Fail → fix demo: remove alt on `.hero` in subscribe.html; audit should surface
+  // suggestedFix in accessFlow-report.json, then re-run after adding alt back.
+  const violations = Object.keys(report.ruleViolations ?? {});
+  if (violations.length > 0) {
+    const first = report.ruleViolations[violations[0]];
+    expect(
+      first?.suggestedFix?.HTML || first?.suggestedFix?.suggestionLabel,
+      `rule ${violations[0]} should include suggestedFix when present`,
+    ).toBeTruthy();
+  }
 });

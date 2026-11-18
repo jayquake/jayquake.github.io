@@ -15,7 +15,7 @@ const playwrightResultsDir = path.join(sdkTestsRoot, 'test-results', 'playwright
 const playwrightReportDir = path.join(sdkTestsRoot, 'test-results', 'playwright-report');
 /** SDK `generateReport(..., "json")` writes accessFlow-report.json here */
 const accessFlowReportsDir = path.join(sdkTestsRoot, 'accessFlowReports');
-const SDK_DEMO_SPECS = /\/(1-new-page|2-subscribe-flow)\.spec\.js$/;
+const SDK_DEMO_SPECS = /(1-new-page|2-subscribe-flow)\.spec\.js/;
 dotenv.config({ path: path.join(repoRoot, '.env') });
 
 /**
