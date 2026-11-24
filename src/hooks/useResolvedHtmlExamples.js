@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { engineExampleDescriptors } from "../lib/examplePage";
 
 function fixtureUrl(fixture) {
   const base = process.env.PUBLIC_URL || "";
@@ -10,19 +11,7 @@ function fixtureUrl(fixture) {
  * @param {Array<string|{filename?: string, content?: string, fixture?: string}>} htmlExamples
  */
 export function useResolvedHtmlExamples(htmlExamples) {
-  const descriptors = useMemo(
-    () =>
-      (htmlExamples || []).map((ex) => {
-        if (typeof ex === "string") {
-          return { filename: null, html: ex, fixture: null };
-        }
-        if (ex.fixture) {
-          return { filename: ex.filename || null, html: null, fixture: ex.fixture };
-        }
-        return { filename: ex.filename || null, html: ex.content || "", fixture: null };
-      }),
-    [htmlExamples]
-  );
+  const descriptors = useMemo(() => engineExampleDescriptors(htmlExamples), [htmlExamples]);
 
   const [resolved, setResolved] = useState(null);
   const needsFetch = descriptors.some((d) => d.fixture);
