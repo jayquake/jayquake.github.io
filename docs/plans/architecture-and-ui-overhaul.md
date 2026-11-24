@@ -16,8 +16,8 @@ Overhaul the RAIDEN audit-rules UI/UX on **shadcn/Tailwind** and **remove MUI en
 | Fixtures | Criteria `rules/{Success,Failure}` and `engine-rules/**` example pages are test targets with **intentional a11y failures**. Never restyle or "fix" them. |
 | Theme | **Light by default plus a dark toggle** (CSS variables, persisted per user) |
 | Iteration order | **7 → 1 → 2 (2a, 2b) → 3 → 5 → 4 → 6**. #6 also carries full MUI removal and dark mode. |
-| Delivery | **One branch + PR per iteration, stacked.** Each must pass the build, tests, the route crawl and the flow checks before the next starts. |
-| main | The local baseline commit `a91001ae` is on local `main` only (not pushed). PRs target `origin/main` and carry it (via #24). **Do not push main directly.** |
+| Delivery | Up to #3: one branch + PR per iteration. **From #5 on: commit directly on `main`** (user decision 2026-11-24). Each iteration must still pass the build, tests, the route crawl and the flow checks before it's pushed. |
+| main | Pushing to `main` directly is allowed from #5 on (see Delivery). |
 | Asking | Present decisions to the user through the question UI (AskUserQuestion), not plain text. |
 
 ## Status
