@@ -48,8 +48,6 @@ test("new subscribe page", async ({ page }, testInfo) => {
   expect(report.numberOfIssuesFound.extreme ?? 0).toBe(0);
   expect(report.numberOfIssuesFound.high ?? 0).toBeLessThan(5);
 
-  // Fail → fix demo: remove alt on `.hero` in subscribe.html; audit should surface
-  // suggestedFix in accessFlow-report.json, then re-run after adding alt back.
   const violations = Object.keys(report.ruleViolations ?? {});
   if (violations.length > 0) {
     const first = report.ruleViolations[violations[0]];
