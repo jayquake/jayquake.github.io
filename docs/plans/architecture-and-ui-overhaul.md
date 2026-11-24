@@ -1,7 +1,7 @@
 # Architecture + UI/UX overhaul: master plan
 
 > The single source of truth for this effort. Update it whenever a decision is made or an iteration lands, so nobody has to reconstruct it from memory.
-> Started 2026-11-09. Last updated 2026-11-10.
+> Started 2026-11-09. Last updated 2026-11-24.
 
 ## Goal
 
@@ -25,15 +25,15 @@ Overhaul the RAIDEN audit-rules UI/UX on **shadcn/Tailwind** and **remove MUI en
 | # | Iteration | Branch | PR | State |
 |---|---|---|---|---|
 | 7 | Delete the dead legacy chain + fix the build-breaking hook | `refactor/arch-07-dead-code` | [#24](https://github.com/jayquake/jayquake.github.io/pull/24) → main | ✅ open, verified |
-| 1 | Library location module | `refactor/arch-01-library-location` | [#25](https://github.com/jayquake/jayquake.github.io/pull/25) → #24 | ✅ open, verified |
-| 2a | Rule data sync (engine + legacy) | `data/arch-02a-rule-data-sync` | [#26](https://github.com/jayquake/jayquake.github.io/pull/26) → #25 | ✅ open, verified |
-| 2b | Rules catalog module | `data/arch-02b-rules-catalog` | [#27](https://github.com/jayquake/jayquake.github.io/pull/27) → #26 | ✅ open, verified |
-| 3 | Rule tree model | — | — | ⏳ not grilled |
+| 1 | Library location module | `refactor/arch-01-library-location` | [#25](https://github.com/jayquake/jayquake.github.io/pull/25) → #24 | ✅ on `main` (PR still open) |
+| 2a | Rule data sync (engine + legacy) | `data/arch-02a-rule-data-sync` | [#26](https://github.com/jayquake/jayquake.github.io/pull/26) → #25 | ✅ on `main` (PR still open) |
+| 2b | Rules catalog module | `data/arch-02b-rules-catalog` | [#27](https://github.com/jayquake/jayquake.github.io/pull/27) → #26 | ✅ on `main` (PR still open) |
+| 3 | Rule tree model | `refactor/arch-03-rule-tree` | → main | ✅ verified |
 | 5 | Example page adapter | — | — | ⏳ not grilled |
 | 4 | Example audit module | — | — | ⏳ not grilled |
 | 6 | Design tokens + MUI removal + dark mode | — | — | ⏳ not grilled |
 
-When #24 merges, retarget #25 to `main`, then rebase each later branch in the stack.
+#24 merged; #1, 2a and 2b then fast-forwarded onto `origin/main` directly, so #25–#27 are open but already contained in `main`. From #3 on, each iteration branches off `main` and its PR targets `main`.
 
 ---
 
@@ -61,7 +61,7 @@ When #24 merges, retarget #25 to `main`, then rebase each later branch in the st
   - The mobile sheet didn't open on tap. It's now driven by the URL.
   - The drawer didn't close on link click.
   - `?debug=mcp` was dead.
-- **Known follow-up:** "MCP Debug" and "Rule Lab" now open the same page (Rule Lab reads neither `view` nor `mode`). Merge them in the shadcn pass.
+- **Known follow-up:** "MCP Debug" and "Rule Lab" opened the same page. Merged in #3.
 
 ---
 
@@ -139,15 +139,30 @@ Decisions:
 
 ---
 
-## ⏳ #3: Rule tree model (strong; not grilled yet)
+## ✅ #3: Rule tree model
 
-Split `RuleTreeSidebar/index.jsx` (about 630 lines, six jobs) into a **pure tree model** with a thin shadcn view. The model takes the catalog, legacy rules, search, location and health, and returns nodes {label, count, href, active, expanded}.
+Decisions (2026-11-24):
+- Legacy criteria order and labels are **written by the sync**. Colours stay a small presentation map for #6 to tokenise.
+- Health **refreshes on cache writes**.
+- **Persist tier and category expansion only.**
+- The only view change is **merging MCP Debug into Rule Lab**. Otherwise the DOM is identical; the restyle waits for #6.
 
-Known issues to fold in:
-- `healthMap` is memoised with `[]`, so it never refreshes.
-- Legacy categories, colours and order are hard-coded. They should come from the 2a data, which has 17 criteria.
-- The legacy count falls back to a magic `|| 90`.
-- Expanded state persists in localStorage.
+Done:
+- [x] `sync-legacy-rules` writes `entries: [{id,label,order}]` into `src/data/legacy-criteria.json` (`criteria`/`prefixes` unchanged). `--criteria-only` rebuilds it without fetching.
+- [x] Pure model `src/lib/ruleTree/` (`buildRuleTree`, `activeAncestors`, `healthFromResults`, `load/saveExpanded`), plus `legacyCriteriaColors.js`. 21 Jest tests.
+- [x] **Fixed: the engine tree showed the 12 stub rules** (the categories summed to 167 while the tier said 155).
+- [x] Fixed: `healthMap` never refreshed. `analysisCache` now dispatches `audit-analysis-cache-changed`, and `useRuleHealth` listens to it and to `storage`.
+- [x] Fixed: the hard-coded legacy colours/order (19 entries for 17 criteria) and the magic `|| 90` legacy count.
+- [x] Expanded state persists only `tier-*`/`cat-*`. Old `rule-*` keys are dropped on load. Rule action bars are in-memory, and the active rule's bar comes from the URL.
+- [x] MCP Debug merged into Rule Lab, in the tree and in `EngineRuleDetailPane`.
+- [x] Deleted the unused `useEngineRulesIndex`.
+- [x] Fixed `App.test.js` "names the page after the rule", which **also failed on main**. The module-level catalog cache kept the stub's empty catalog, so the rule page resolved to not-found after the first test. The stub now serves the real `alt-misuse` row.
+
+Verification:
+- [x] Build exit 0 (306 pages, 4 known skips).
+- [x] Jest: **101 passed**.
+- [x] `scripts/verify/flows03.js`: **16/16** on the branch. Current `main` fails 7, which are exactly the bugs above.
+- [x] Route crawl vs the current `main` build (794 routes): **0 real diffs**. 4 are captcha "Index of" h1 noise from the served dir name. 3 were goto timeouts while both crawls ran in parallel: 2 load fine on recheck, and `/engine/skip-link-first` hangs the same way on `main` (pre-existing).
 
 ## ⏳ #5: Example page adapter (worth exploring)
 
@@ -182,7 +197,7 @@ One module for "analyse an example (backend if healthy, else client), cache it, 
   - Persist panel sizes (`autoSaveId`).
 - **Filters:** replace `NativeSelect` with shadcn `Select`, and fold the compact-layout filters into a "Filters" popover.
 - Hide or collapse the sidebar rule tree on `/` when the full table is showing.
-- Merge the duplicate "MCP Debug" and "Rule Lab" actions.
+- ~~Merge the duplicate "MCP Debug" and "Rule Lab" actions.~~ Done in #3.
 - Show a "Rule not found" message instead of a silent redirect for unknown rules.
 
 ## Verification method (every iteration)
