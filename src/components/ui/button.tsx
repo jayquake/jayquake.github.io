@@ -3,7 +3,7 @@ import { cn } from "../../lib/utils";
 const VARIANTS = {
   default: "border border-primary bg-primary/15 text-foreground hover:bg-primary/25",
   outline: "border border-border-strong bg-transparent text-foreground-secondary hover:border-primary hover:text-foreground",
-  ghost: "border border-transparent bg-transparent text-foreground-secondary hover:bg-black/5 hover:text-foreground",
+  ghost: "border border-transparent bg-transparent text-foreground-secondary hover:bg-hover/5 hover:text-foreground",
 } as const;
 
 const SIZES = {

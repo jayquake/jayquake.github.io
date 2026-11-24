@@ -1,13 +1,22 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  // Theme follows <html data-theme>; see src/theme/colorScheme.js.
+  darkMode: ["selector", '[data-theme="dark"]'],
   corePlugins: {
     preflight: false,
   },
   theme: {
     extend: {
       colors: {
-        primary: "hsl(var(--primary) / <alpha-value>)",
+        primary: {
+          DEFAULT: "hsl(var(--primary) / <alpha-value>)",
+          dim: "hsl(var(--primary-dim) / <alpha-value>)",
+          bright: "hsl(var(--primary-bright) / <alpha-value>)",
+          foreground: "hsl(var(--on-accent) / <alpha-value>)",
+        },
+        overlay: "hsl(var(--overlay) / <alpha-value>)",
+        hover: "hsl(var(--hover) / <alpha-value>)",
         accent: "hsl(var(--accent) / <alpha-value>)",
         muted: "hsl(var(--muted) / <alpha-value>)",
         shell: {
@@ -31,6 +40,13 @@ module.exports = {
           pass: "hsl(var(--status-pass) / <alpha-value>)",
           fail: "hsl(var(--status-fail) / <alpha-value>)",
           warn: "hsl(var(--status-warn) / <alpha-value>)",
+          info: "hsl(var(--status-info) / <alpha-value>)",
+        },
+        severity: {
+          critical: "hsl(var(--severity-critical) / <alpha-value>)",
+          serious: "hsl(var(--severity-serious) / <alpha-value>)",
+          moderate: "hsl(var(--severity-moderate) / <alpha-value>)",
+          minor: "hsl(var(--severity-minor) / <alpha-value>)",
         },
       },
       keyframes: {

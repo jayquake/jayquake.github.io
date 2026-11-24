@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import AppSidebar from "./components/layout/AppSidebar";
 import { Badge } from "./components/ui/badge";
+import { ThemeToggle } from "./components/ui/theme-toggle";
 import { Sidebar, SidebarInset, SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";
 import AppRoutes from "./routes/AppRoutes";
 import { ENGINE_RULE_COUNT } from "./utils/engineRuleCount";
@@ -110,6 +111,7 @@ function AppChrome({ pageInfo }) {
           </Badge>
         ) : null}
       </div>
+      <ThemeToggle />
     </header>
   );
 }

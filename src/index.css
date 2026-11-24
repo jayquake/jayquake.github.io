@@ -2,8 +2,13 @@
 
 @tailwind utilities;
 
-:root {
+:root,
+[data-theme="light"] {
+  color-scheme: light;
   --primary: 172 100% 32%;
+  --primary-dim: 171 100% 24%;
+  --primary-bright: 171 83% 31%;
+  --on-accent: 0 0% 100%;
   --accent: 214 16% 92%;
   --muted: 214 14% 85%;
 
@@ -25,6 +30,53 @@
   --status-pass: 160 84% 32%;
   --status-fail: 0 72% 48%;
   --status-warn: 36 100% 40%;
+  --status-info: 211 70% 44%;
+
+  /* Severity family: impact -> colour (see src/theme/severity.ts) */
+  --severity-critical: 0 72% 45%;
+  --severity-serious: 18 85% 44%;
+  --severity-moderate: 36 100% 36%;
+  --severity-minor: 211 60% 45%;
+
+  --overlay: 215 25% 10%;
+  --hover: 0 0% 0%;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --primary: 172 100% 32%;
+  --primary-dim: 171 60% 52%;
+  --primary-bright: 191 81% 62%;
+  --on-accent: 0 0% 100%;
+  --accent: 0 0% 12%;
+  --muted: 0 0% 20%;
+
+  --shell-main: 0 0% 5%;
+  --shell-sidebar: 0 0% 10%;
+  --shell-elevated: 0 0% 9%;
+  --shell-panel: 0 0% 8%;
+  --shell-input: 0 0% 6%;
+
+  --border-default: 0 0% 16%;
+  --border-strong: 0 0% 24%;
+
+  --text-primary: 204 14% 92%;
+  --text-secondary: 210 13% 76%;
+  --text-muted: 212 8% 60%;
+  --text-accent: 171 60% 55%;
+
+  --status-pass: 156 66% 67%;
+  --status-fail: 0 100% 68%;
+  --status-warn: 40 100% 65%;
+  --status-info: 211 90% 70%;
+
+  --severity-critical: 0 100% 70%;
+  --severity-serious: 20 100% 66%;
+  --severity-moderate: 40 100% 62%;
+  --severity-minor: 211 90% 72%;
+
+  --overlay: 0 0% 0%;
+  --hover: 0 0% 100%;
 }
 
 html {
@@ -45,7 +97,7 @@ body:not(.app-ready) #root {
 
 select,
 option {
-  color-scheme: light;
+  color-scheme: inherit;
 }
 
 button {
@@ -197,4 +249,12 @@ code,
   color: #b82e2e;
   font-weight: 600;
   margin-top: 5px;
+}
+
+/* Dark shell: HUD panels drop the light-surface highlight. Fixture classes above keep fixed colours. */
+[data-theme="dark"] .raiden-hud {
+  background-image:
+    repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255, 255, 255, 0.012) 2px, rgba(255, 255, 255, 0.012) 3px);
+  border-color: rgba(0, 163, 141, 0.22);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
