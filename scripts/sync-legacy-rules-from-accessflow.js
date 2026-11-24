@@ -12,7 +12,11 @@
  *   public/data.json
  *   src/data/legacy-rules.json
  *   src/data/legacy-redirects.json   (old path → new path, incl. _success/_failure)
- *   src/data/legacy-criteria.json    (sorted criteria slugs for route matching)
+ *   src/data/legacy-criteria.json    (sorted criteria slugs for route matching,
+ *                                     plus ordered { id, label, order } entries for the rule tree)
+ *
+ * With --criteria-only: rebuild legacy-criteria.json from the existing
+ * src/data/legacy-rules.json (no fetch, nothing else written).
  *
  * With --rewrite-routes: re-keys path="..." in Criteria *Routes.jsx files
  * (fixture components and folders are left untouched).
@@ -42,6 +46,30 @@ const RETIRED_ENGINE_IDS = new Set([
 ]);
 
 const REWRITE_ROUTES = process.argv.includes("--rewrite-routes");
+const CRITERIA_ONLY = process.argv.includes("--criteria-only");
+
+/** Preferred rule-tree order; criteria not listed are appended alphabetically. */
+const CRITERIA_ORDER = [
+  "graphics",
+  "forms",
+  "keyboard",
+  "navigation",
+  "landmarks",
+  "headings",
+  "errors",
+  "context",
+  "clickables",
+  "interactive-content",
+  "document",
+  "text-content",
+  "readability",
+  "tables",
+  "carousels",
+  "moving-content",
+  "dialogs",
+  "lists",
+  "general",
+];
 
 function parseConcatenatedJson(raw) {
   const docs = [];
@@ -284,7 +312,31 @@ function criteriaFromRules(rules) {
   return [...new Set(rules.map((r) => (r.criteria || "").toLowerCase()).filter(Boolean))].sort();
 }
 
+function criteriaLabel(slug) {
+  return slug
+    .split("-")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function criteriaFile(criteria) {
+  const known = CRITERIA_ORDER.filter((c) => criteria.includes(c));
+  const rest = criteria.filter((c) => !CRITERIA_ORDER.includes(c)).sort();
+  const entries = [...known, ...rest].map((id, order) => ({ id, label: criteriaLabel(id), order }));
+  return { criteria, prefixes: criteria.map((c) => `/${c}`), entries };
+}
+
+function writeCriteria(criteria) {
+  fs.writeFileSync(OUT_CRITERIA, `${JSON.stringify(criteriaFile(criteria), null, 2)}\n`);
+}
+
 function main() {
+  if (CRITERIA_ONLY) {
+    const criteria = criteriaFromRules(loadPreviousRules());
+    writeCriteria(criteria);
+    console.log(`Wrote ${criteria.length} criteria → ${path.relative(REPO, OUT_CRITERIA)}`);
+    return;
+  }
   const previous = loadPreviousRules();
   const raw = loadSourceRaw();
   const docs = parseConcatenatedJson(raw);
@@ -309,10 +361,7 @@ function main() {
   fs.writeFileSync(OUT_PUBLIC, json);
   fs.writeFileSync(OUT_SRC, json);
   fs.writeFileSync(OUT_REDIRECTS, `${JSON.stringify(redirects, null, 2)}\n`);
-  fs.writeFileSync(
-    OUT_CRITERIA,
-    `${JSON.stringify({ criteria, prefixes: criteria.map((c) => `/${c}`) }, null, 2)}\n`
-  );
+  writeCriteria(criteria);
 
   console.log(`Wrote ${rules.length} rules → public/data.json + src/data/legacy-rules.json`);
   console.log(`Criteria (${criteria.length}): ${criteria.join(", ")}`);
