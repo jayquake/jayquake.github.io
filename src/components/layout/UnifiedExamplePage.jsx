@@ -1,12 +1,14 @@
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { AnimatePresence } from "motion/react";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Alert,
   Box,
+  Button,
   Chip,
   Divider,
   Paper,
@@ -15,8 +17,6 @@ import {
 } from "@mui/material";
 import {
   CheckCircle as CheckIcon,
-  CheckCircleOutline as SuccessIcon,
-  Code as CodeIcon,
   ErrorOutline as ErrorIcon,
   ExpandMore as ExpandMoreIcon,
   Info as InfoIcon,
@@ -25,6 +25,7 @@ import {
 import { m } from "../motion/HudMotion";
 import ExampleCard from "./ExampleCard";
 import ExamplePageNav from "./ExamplePageNav";
+import engineLegacyMapping from "../../data/engine-legacy-mapping";
 import { HUD_PANEL, PAGE_SHELL } from "../../theme/layout";
 import { MGS, MIN_TEXT_SIZE, mgsFonts, raidenType } from "../../theme/mgsTokens";
 import { hudVariantMotion, hudVariantTransition } from "../../theme/motionPresets";
@@ -63,6 +64,13 @@ export default function UnifiedExamplePage({
 }) {
   const pal = PALETTE[variant];
   const StatusIcon = pal.statusIcon;
+  const location = useLocation();
+  const legacyPath = location.pathname.replace(/_(success|failure)$/, "");
+  const relatedEngineRules = ruleType === "legacy"
+    ? Object.entries(engineLegacyMapping)
+        .filter(([, legacyRules]) => legacyRules.some((legacy) => legacy.path === legacyPath))
+        .map(([id]) => id)
+    : [];
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -76,58 +84,66 @@ export default function UnifiedExamplePage({
         elevation={0}
         sx={{
           ...HUD_PANEL,
-          p: { xs: 2, sm: 2.5 },
+          overflow: "hidden",
           width: "100%",
           borderLeft: `3px solid ${pal.primary}`,
         }}
       >
-        {title && (
-          <Typography
-            variant="subtitle1"
-            component="h1"
-            sx={{
-              fontFamily: mgsFonts.display,
-              fontWeight: 700,
-              color: pal.primary,
-              lineHeight: 1.35,
-              fontSize: { xs: "0.95rem", sm: "1.05rem" },
-              textTransform: "uppercase",
-              letterSpacing: "0.08em",
-              mb: description ? 0.75 : 1,
-              overflowWrap: "break-word",
-            }}
-          >
-            {title}
-          </Typography>
-        )}
+        <Box sx={{ p: { xs: 2, sm: 2.5 }, background: `linear-gradient(120deg, ${pal.tint}, transparent 55%)` }}>
+          <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2}>
+            <Box sx={{ minWidth: 0 }}>
+              <Typography sx={{ ...sectionLabelSx, color: pal.primary, mb: 0.75, fontSize: "0.68rem" }}>
+                Fixture review · {variant === "success" ? "expected pass" : "expected finding"}
+              </Typography>
+              {title && (
+                <Typography
+                  variant="subtitle1"
+                  component="h1"
+                  sx={{
+                    fontFamily: mgsFonts.display,
+                    fontWeight: 700,
+                    color: "text.primary",
+                    lineHeight: 1.2,
+                    fontSize: { xs: "1.05rem", sm: "1.2rem" },
+                    textTransform: "uppercase",
+                    letterSpacing: "0.06em",
+                    mb: description ? 0.9 : 0,
+                    overflowWrap: "break-word",
+                  }}
+                >
+                  {title}
+                </Typography>
+              )}
+            </Box>
+            <Box sx={{ display: { xs: "none", sm: "flex" }, flexShrink: 0, width: 38, height: 38, alignItems: "center", justifyContent: "center", border: `1px solid ${pal.border}`, color: pal.primary, bgcolor: pal.tint }}>
+              <StatusIcon sx={{ fontSize: 21 }} />
+            </Box>
+          </Stack>
 
-        {description && (
-          <Typography variant="body2" sx={{ ...raidenType.bodyHud, mb: 1 }}>
-            {description}
-          </Typography>
-        )}
+          {description && (
+            <Typography variant="body2" sx={{ ...raidenType.bodyHud, maxWidth: 820 }}>
+              {description}
+            </Typography>
+          )}
+        </Box>
 
-        <Stack direction="row" spacing={0.75} flexWrap="wrap" sx={{ gap: 0.5 }}>
+        <Stack direction="row" spacing={0.75} flexWrap="wrap" sx={{ gap: 0.5, px: { xs: 2, sm: 2.5 }, py: 1.25, borderTop: `1px solid ${pal.border}`, bgcolor: "background.default" }}>
           <Chip
             icon={<StatusIcon sx={{ fontSize: 14 }} />}
             label={pal.statusLabel}
             size="small"
             variant="outlined"
-            sx={{
-              height: 24,
-              fontWeight: 600,
-              borderColor: pal.border,
-              color: pal.primary,
-              fontFamily: mgsFonts.hud,
-              fontSize: MIN_TEXT_SIZE,
-            }}
+            sx={{ height: 24, fontWeight: 600, borderColor: pal.border, color: pal.primary, fontFamily: mgsFonts.hud, fontSize: MIN_TEXT_SIZE }}
           />
           <Chip
-            label={`${examples.length} example${examples.length !== 1 ? "s" : ""}`}
+            label={`${examples.length} fixture${examples.length !== 1 ? "s" : ""}`}
             size="small"
             variant="outlined"
             sx={{ height: 24, fontSize: MIN_TEXT_SIZE }}
           />
+          <Typography sx={{ ml: "auto", alignSelf: "center", fontFamily: mgsFonts.hud, color: "text.secondary", fontSize: MIN_TEXT_SIZE }}>
+            Preview · source · audit tree
+          </Typography>
         </Stack>
       </Paper>
 
@@ -208,14 +224,39 @@ export default function UnifiedExamplePage({
       )}
 
       <Paper elevation={0} sx={{ ...HUD_PANEL, p: { xs: 2, sm: 2.5 }, width: "100%" }}>
-        <Typography
-          variant="subtitle2"
-          sx={{ ...sectionLabelSx, color: pal.primary, fontSize: MIN_TEXT_SIZE, mb: 1.5 }}
-        >
-          {variant === "success" ? "Success Examples" : "Failure Examples"}
-        </Typography>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2} sx={{ mb: 1.5 }}>
+          <Box>
+            <Typography variant="subtitle2" sx={{ ...sectionLabelSx, color: pal.primary, fontSize: MIN_TEXT_SIZE }}>
+              {variant === "success" ? "Success fixtures" : "Failure fixtures"}
+            </Typography>
+            <Typography variant="body2" sx={{ mt: 0.35, fontSize: "0.78rem" }}>
+              Inspect each isolated case before moving it into your test run.
+            </Typography>
+          </Box>
+          <Chip label={`${examples.length} total`} size="small" variant="outlined" sx={{ flexShrink: 0, height: 23, fontSize: MIN_TEXT_SIZE }} />
+        </Stack>
 
         <Divider sx={{ mb: 1.5 }} />
+
+        {relatedEngineRules.length > 0 && (
+          <Box sx={{ mb: 1.5, p: 1.25, border: "1px solid", borderColor: "divider", bgcolor: "background.default" }}>
+            <Typography sx={{ ...sectionLabelSx, mb: 0.75, fontSize: "0.68rem" }}>Mapped engine fixtures</Typography>
+            <Stack direction="row" flexWrap="wrap" gap={0.75}>
+              {relatedEngineRules.map((engineId) => (
+                <Button
+                  key={engineId}
+                  component={RouterLink}
+                  to={`/engine/${engineId}_${variant}`}
+                  size="small"
+                  variant="outlined"
+                  sx={{ textTransform: "none", fontSize: MIN_TEXT_SIZE }}
+                >
+                  {engineId}
+                </Button>
+              ))}
+            </Stack>
+          </Box>
+        )}
 
         <Box role="region" aria-label={`${variant} examples list`}>
           {examples.length > 0 ? (

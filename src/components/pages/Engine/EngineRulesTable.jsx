@@ -1,4 +1,4 @@
-import { FileText, PanelRight, X } from "lucide-react";
+import { ArrowRight, FileText, FlaskConical, Layers3, PanelRight, Play, ShieldCheck, X } from "lucide-react";
 import { memo, useCallback } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { HudMotion } from "../../motion/HudMotion";
@@ -222,6 +222,8 @@ export default function EngineRulesTable({
   const isLibrary = layout === "library";
   const { query, hrefs, clearFilters, setSearch } = useLibraryLocation();
   const hasNarrowing = Boolean(query.q) || activeFilterCount(query.filters) > 0;
+  const categoriesCovered = new Set(filteredRules.map((rule) => RULE_CATEGORY_BY_ID[getRuleSlug(rule)]).filter(Boolean)).size;
+  const wcagMapped = filteredRules.filter((rule) => rule.refs?.some((ref) => ref.type === "WCAG")).length;
   const countText = loading
     ? "Loading rules…"
     : `${populatedCount ?? 0} rules · ${filteredRules.length} shown`;
@@ -230,21 +232,57 @@ export default function EngineRulesTable({
     <div className="flex h-full w-full min-w-0 flex-1 flex-col overflow-hidden bg-shell-main">
       <div className={`shrink-0 border-border pb-2 ${isLibrary ? "border-b px-4 pt-4 sm:px-6 sm:pt-5" : "px-3 pt-3 sm:px-4"}`}>
         {isLibrary ? (
-          <div className="mb-4 flex items-start justify-between gap-4">
-            <div>
-              <div className="mb-1 flex items-center gap-2">
-                <FileText className="size-6 text-foreground-accent" />
-                <h1 className="font-['Rajdhani',sans-serif] text-base font-bold uppercase tracking-[0.14em] text-primary sm:text-[1.05rem]">
-                  Engine Rules Library
-                </h1>
+          <div className="mb-4 overflow-hidden border border-border bg-shell-elevated">
+            <div className="relative grid gap-5 border-b border-border bg-[radial-gradient(circle_at_top_right,rgba(0,163,141,0.13),transparent_38%)] p-4 sm:p-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+              <div className="absolute left-0 top-0 h-full w-1 bg-primary" aria-hidden="true" />
+              <div className="min-w-0 pl-2">
+                <p className="mb-2 font-mono text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-foreground-accent">
+                  Accessibility intelligence workspace
+                </p>
+                <div className="flex items-center gap-2.5">
+                  <span className="flex size-9 shrink-0 items-center justify-center border border-primary/35 bg-primary/10 text-primary">
+                    <FileText className="size-4" aria-hidden="true" />
+                  </span>
+                  <div>
+                    <h1 className="font-['Rajdhani',sans-serif] text-xl font-bold uppercase leading-none tracking-[0.1em] text-foreground sm:text-2xl">
+                      Engine Rules Library
+                    </h1>
+                    <p className="mt-1.5 max-w-[580px] text-[0.82rem] leading-relaxed text-foreground-secondary">
+                      Search, inspect, and validate the checks that power your accessibility audits.
+                    </p>
+                  </div>
+                </div>
               </div>
-              <p className="max-w-[520px] text-[0.8rem] leading-relaxed text-foreground-secondary">
-                Manage and configure accessibility rules used by the RAIDEN engine.
-              </p>
+              <div className="flex flex-wrap gap-2 lg:justify-end">
+                <RouterLink to="/test-runner/library" className="inline-flex h-9 items-center gap-2 border border-primary bg-primary px-3 font-mono text-[0.72rem] font-semibold uppercase tracking-[0.1em] text-white no-underline transition-colors hover:bg-foreground-accent">
+                  <Play className="size-3.5" aria-hidden="true" />
+                  Run tests
+                  <ArrowRight className="size-3.5" aria-hidden="true" />
+                </RouterLink>
+                <RouterLink to="/rule-lab" className="inline-flex h-9 items-center gap-2 border border-border-strong px-3 font-mono text-[0.72rem] font-semibold uppercase tracking-[0.1em] text-foreground-secondary no-underline transition-colors hover:border-primary hover:text-foreground">
+                  <FlaskConical className="size-3.5" aria-hidden="true" />
+                  Open rule lab
+                </RouterLink>
+              </div>
             </div>
-            <p className="shrink-0 font-mono text-[0.75rem] text-foreground-secondary" aria-live="polite">
-              {countText}
-            </p>
+            <div className="grid grid-cols-3 divide-x divide-border">
+              <div className="px-3 py-2.5 sm:px-5">
+                <span className="flex items-center gap-1.5 font-mono text-[0.63rem] uppercase tracking-[0.1em] text-foreground-muted">
+                  <ShieldCheck className="size-3 text-status-pass" aria-hidden="true" /> Active rules
+                </span>
+                <p className="mt-1 font-['Rajdhani',sans-serif] text-lg font-bold leading-none text-foreground" aria-live="polite">{loading ? "—" : populatedCount ?? 0}</p>
+              </div>
+              <div className="px-3 py-2.5 sm:px-5">
+                <span className="flex items-center gap-1.5 font-mono text-[0.63rem] uppercase tracking-[0.1em] text-foreground-muted">
+                  <Layers3 className="size-3 text-primary" aria-hidden="true" /> Categories
+                </span>
+                <p className="mt-1 font-['Rajdhani',sans-serif] text-lg font-bold leading-none text-foreground">{loading ? "—" : categoriesCovered}</p>
+              </div>
+              <div className="px-3 py-2.5 sm:px-5">
+                <span className="font-mono text-[0.63rem] uppercase tracking-[0.1em] text-foreground-muted">WCAG mapped</span>
+                <p className="mt-1 font-['Rajdhani',sans-serif] text-lg font-bold leading-none text-foreground">{loading ? "—" : wcagMapped}</p>
+              </div>
+            </div>
           </div>
         ) : (
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2">

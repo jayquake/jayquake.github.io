@@ -13,7 +13,7 @@ const AltMisuseFailure = () => {
   ];
   const htmlExamples = [
   { filename: "div with alt", content: `<div alt="this div is remarkable, you should know this"></div>` },
-  { filename: "div with role img and alt", content: `<div role-="image" alt="this div is remarkable, you should know this"></div>` }
+  { filename: "div with role img and alt", content: `<div role="img" alt="this div is remarkable, you should know this"></div>` }
   ];
 
   return (

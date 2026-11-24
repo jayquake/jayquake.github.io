@@ -257,7 +257,7 @@ export default function ExampleCard({
     <Card
       sx={{
         mb: 2,
-        bgcolor: "background.default",
+        bgcolor: "background.paper",
         border: `1px solid ${fpFlagged ? "rgba(255, 193, 77, 0.5)" : cfg.borderColor}`,
         borderLeft: `3px solid ${fpFlagged ? "#ffc14d" : cfg.color}`,
         borderRadius: 0,
@@ -279,7 +279,10 @@ export default function ExampleCard({
           sx={{ mb: 1.5, flexWrap: "wrap", gap: 1 }}
         >
           <Stack direction="row" alignItems="center" spacing={1} sx={{ flexWrap: "wrap", gap: 0.5 }}>
-            <StatusIcon sx={{ color: cfg.color, fontSize: 20 }} />
+            <Box sx={{ display: "grid", placeItems: "center", width: 25, height: 25, bgcolor: cfg.bgTint, border: `1px solid ${cfg.borderColor}`, color: cfg.darkColor, fontFamily: '"IBM Plex Mono", monospace', fontSize: "0.7rem", fontWeight: 700 }}>
+              {String(index + 1).padStart(2, "0")}
+            </Box>
+            <StatusIcon sx={{ color: cfg.color, fontSize: 18 }} />
             <Typography
               id={`${variant}-example-${index}`}
               variant="subtitle2"
@@ -318,7 +321,7 @@ export default function ExampleCard({
           </Stack>
 
           {/* Action buttons */}
-          <Stack direction="row" spacing={0.5} sx={{ flexWrap: "wrap", gap: 0.5 }}>
+          <Stack direction="row" spacing={0.5} sx={{ flexWrap: "wrap", gap: 0.5 }} aria-label={`Actions for example ${index + 1}`}>
             <Tooltip title={showCode ? "Show rendered" : "Show code"}>
               <IconButton
                 size="small"
@@ -411,7 +414,7 @@ export default function ExampleCard({
               variant="caption"
               sx={{ color: cfg.darkColor, fontWeight: 600, mb: 1, display: "block", textTransform: "uppercase", letterSpacing: "0.5px", fontSize: MIN_TEXT_SIZE }}
             >
-              Rendered Output:
+              Fixture Preview
             </Typography>
             <Box
               component="section"
@@ -446,7 +449,7 @@ export default function ExampleCard({
               variant="caption"
               sx={{ color: variant === "failure" ? "#ffcdd2" : "#c8e6c9", fontWeight: 600, mb: 1, display: "block", textTransform: "uppercase", letterSpacing: "0.5px", fontSize: MIN_TEXT_SIZE }}
             >
-              HTML Code:
+              Fixture Source
             </Typography>
             <Typography
               component="pre"
