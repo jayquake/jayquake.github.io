@@ -29,9 +29,9 @@ Overhaul the RAIDEN audit-rules UI/UX on **shadcn/Tailwind** and **remove MUI en
 | 2a | Rule data sync (engine + legacy) | `data/arch-02a-rule-data-sync` | [#26](https://github.com/jayquake/jayquake.github.io/pull/26) → #25 | ✅ on `main` (PR closed) |
 | 2b | Rules catalog module | `data/arch-02b-rules-catalog` | [#27](https://github.com/jayquake/jayquake.github.io/pull/27) → #26 | ✅ on `main` (PR closed) |
 | 3 | Rule tree model | `refactor/arch-03-rule-tree` | [#28](https://github.com/jayquake/jayquake.github.io/pull/28) → main | ✅ merged |
-| 5 | Example page adapter | — | — | ⏳ not grilled |
-| 4 | Example audit module | — | — | ⏳ not grilled |
-| 6 | Design tokens + MUI removal + dark mode | — | — | ⏳ not grilled |
+| 5 | Example page adapter | `main` | — | ✅ on main, verified |
+| 4 | Example audit module | `main` | — | ✅ on main, verified |
+| 6 | Design tokens + MUI removal + dark mode | `main` | — | 🚧 in progress (all in one pass) |
 
 #24 merged; #1, 2a and 2b then fast-forwarded onto `origin/main` directly, so #25–#27 were closed (2026-11-24) with a note that their commits landed on `main` directly. From #3 on, each iteration branches off `main` and its PR targets `main`.
 
@@ -164,13 +164,20 @@ Verification:
 - [x] `scripts/verify/flows03.js`: **16/16** on the branch. Current `main` fails 7, which are exactly the bugs above.
 - [x] Route crawl vs the current `main` build (794 routes): **0 real diffs**. 4 are captcha "Index of" h1 noise from the served dir name. 3 were goto timeouts while both crawls ran in parallel: 2 load fine on recheck, and `/engine/skip-link-first` hangs the same way on `main` (pre-existing).
 
-## ⏳ #5: Example page adapter (worth exploring)
+## ✅ #5: Example page adapter
 
-Collapse `issueFailure`/`issueSuccess`/`engineIssueFailure`/`engineIssueSuccess` (shallow duplicates) into one example-page module that takes the variant plus HTML or children. The rule comes from the library location module, not from parsing the pathname. **Keep the 4 default exports as one-line re-exports so no fixture file changes.**
+- `src/lib/examplePage.js`: `legacyExamples` (JSX → example HTML; `list-item` children or every child) and `engineExampleDescriptors` (shared with `useResolvedHtmlExamples`).
+- `ExamplePage.jsx` `examplePageFor(ruleType, variant)`. The four `layout/{engine,}issue{Success,Failure}.jsx` are now one-line calls, so **no fixture file changed** (510 importers).
+- The legacy rule id comes from the library location (falls back to the last path segment).
+- Verification: build OK; Jest 118; **`scripts/verify/domparity.js`: 496/508 example pages have identical `<main>` DOM** vs the pre-#5 build. The 12 others time out on both builds (captcha dir listings, `popup-focus_*`, `region-main-navigation*_*`, `visibility-misuse_success`, `fake-hidden-content_success`).
 
-## ⏳ #4: Example audit module (worth exploring)
+## ✅ #4: Example audit module
 
-One module for "analyse an example (backend if healthy, else client), cache it, flag false positives, give per-rule health". The backend and the client are two adapters. Today it's duplicated in `ExampleCard.jsx` and `RuleLab/ExampleAnalysisPanel.tsx`, with two separate false-positive stores in localStorage.
+- `src/lib/exampleAudit/`: `createExampleAuditor(adapters)` is one policy: cache hit → static client → backend if healthy → client fallback. Only client results are cached. `src/utils/exampleAuditor.ts` binds the real adapters.
+- `ExampleCard` and Rule Lab `ExampleAnalysisPanel` both use it. Rule Lab gains the health check and caching, and **no longer analyses twice** in static mode.
+- One false-positive store, `example-false-positives` (`{flagged, notes, issues[]}` per rule/example), replaces `rule-lab-false-positives` + `audit-issue-fps`. Old keys migrate on first read.
+- Per-rule health stays in `ruleTree.healthFromResults` / `useRuleHealth` (#3).
+- Verification: 11 new Jest tests (policy + migration); same build/DOM parity as #5.
 
 ## ⏳ #6: Design tokens + MUI removal + dark mode
 
