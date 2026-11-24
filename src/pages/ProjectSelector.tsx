@@ -1,168 +1,166 @@
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import BiotechIcon from '@mui/icons-material/Biotech';
-import ChecklistIcon from '@mui/icons-material/Checklist';
-import HistoryIcon from '@mui/icons-material/History';
-import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
-import SpeedIcon from '@mui/icons-material/Speed';
-import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router-dom';
+import type { ReactNode } from 'react';
+import { ArrowRight, Gauge, History, ListChecks, Microscope, Rocket } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { buttonClass } from '../components/ui/button';
+import { Separator } from '../components/ui/separator';
+import { cn } from '../lib/utils';
 
-const TOOLS = [
+interface ToolAccent {
+  icon: string;
+  bar: string;
+  badge: string;
+  hoverBorder: string;
+  cta: string;
+}
+
+/** Literal class strings so Tailwind can see them. */
+const ACCENTS = {
+  primary: {
+    icon: 'text-primary',
+    bar: 'bg-primary',
+    badge: 'bg-primary/10 text-primary',
+    hoverBorder: 'hover:border-primary focus-within:border-primary',
+    cta: 'border-primary text-primary hover:bg-primary/10 hover:text-primary',
+  },
+  info: {
+    icon: 'text-status-info',
+    bar: 'bg-status-info',
+    badge: 'bg-status-info/10 text-status-info',
+    hoverBorder: 'hover:border-status-info focus-within:border-status-info',
+    cta: 'border-status-info text-status-info hover:bg-status-info/10 hover:text-status-info',
+  },
+  pass: {
+    icon: 'text-status-pass',
+    bar: 'bg-status-pass',
+    badge: 'bg-status-pass/10 text-status-pass',
+    hoverBorder: 'hover:border-status-pass focus-within:border-status-pass',
+    cta: 'border-status-pass text-status-pass hover:bg-status-pass/10 hover:text-status-pass',
+  },
+  warn: {
+    icon: 'text-status-warn',
+    bar: 'bg-status-warn',
+    badge: 'bg-status-warn/10 text-status-warn',
+    hoverBorder: 'hover:border-status-warn focus-within:border-status-warn',
+    cta: 'border-status-warn text-status-warn hover:bg-status-warn/10 hover:text-status-warn',
+  },
+} satisfies Record<string, ToolAccent>;
+
+interface Tool {
+  icon: (className: string) => ReactNode;
+  title: string;
+  description: string;
+  badge: string;
+  accent: ToolAccent;
+  cta: string;
+  to: string;
+}
+
+const TOOLS: Tool[] = [
   {
-    icon: <RocketLaunchIcon sx={{ fontSize: 36, color: '#667eea' }} />,
+    icon: c => <Rocket aria-hidden="true" className={c} />,
     title: 'SDK Test Suites',
     description:
       'Select an AccessFlow SDK project (Node, Python, Java) and run E2E tests with environment targeting, test selection, and audit reporting.',
     badge: 'Node · Python · Java',
-    accent: '#667eea',
+    accent: ACCENTS.primary,
     cta: 'Run SDK Tests',
     to: '/test-runner/library',
   },
   {
-    icon: <BiotechIcon sx={{ fontSize: 36, color: '#5c6bc0' }} />,
+    icon: c => <Microscope aria-hidden="true" className={c} />,
     title: 'Engine Rule Atomic Tests',
     description:
       'Browse and run pass/fail HTML fixture tests for all 158 engine rules. Filter by impact level, search by rule ID, and deep-link to Rule Lab analysis.',
     badge: '158 rules · 1,288 fixtures',
-    accent: '#5c6bc0',
+    accent: ACCENTS.info,
     cta: 'Browse Tests',
     to: '/test-runner/atomic-tests',
   },
   {
-    icon: <ChecklistIcon sx={{ fontSize: 36, color: '#00897b' }} />,
+    icon: c => <ListChecks aria-hidden="true" className={c} />,
     title: 'Validation',
     description:
       'Run rule validation checks and see structured pass/fail output. Cross-reference results with Qase test cases and export reports.',
     badge: 'Qase integration',
-    accent: '#00897b',
+    accent: ACCENTS.pass,
     cta: 'Open Validation',
     to: '/test-runner/validation',
   },
   {
-    icon: <HistoryIcon sx={{ fontSize: 36, color: '#f57c00' }} />,
+    icon: c => <History aria-hidden="true" className={c} />,
     title: 'Test History',
     description:
       'Browse previous test runs, filter by status, and review detailed results including screenshots, step traces, and error logs.',
     badge: 'All past runs',
-    accent: '#f57c00',
+    accent: ACCENTS.warn,
     cta: 'View History',
     to: '/test-runner/history',
   },
 ];
 
 export default function ProjectSelector() {
-  const navigate = useNavigate();
-
   return (
-    <Box sx={{ px: { xs: 2, sm: 4, md: 6 }, py: 4, maxWidth: 1100, mx: 'auto' }}>
+    <div className="mx-auto max-w-[1100px] px-4 py-8 sm:px-8 md:px-12">
       {/* Header */}
-      <Stack spacing={1} sx={{ mb: 5 }}>
-        <Stack direction="row" alignItems="center" spacing={2}>
-          <SpeedIcon sx={{ fontSize: 40, color: 'primary.main' }} />
-          <Box>
-            <Typography fontWeight={800} variant="h3" sx={{ lineHeight: 1.1 }}>
-              Test Runner{' '}
-              <Box component="span" sx={{ color: 'primary.main' }}>
-                Hub
-              </Box>
-            </Typography>
-            <Typography color="text.secondary" variant="body1" sx={{ mt: 0.5 }}>
+      <div className="mb-10 flex flex-col gap-2">
+        <div className="flex items-center gap-4">
+          <Gauge aria-hidden="true" className="size-10 shrink-0 text-primary" />
+          <div>
+            <h3 className="m-0 text-5xl font-extrabold leading-[1.1] text-foreground">
+              Test Runner <span className="text-primary">Hub</span>
+            </h3>
+            <p className="m-0 mt-1 text-base text-foreground-secondary">
               Engine rule testing tools — atomic fixtures, validation, and run history
-            </Typography>
-          </Box>
-        </Stack>
-        <Divider sx={{ mt: 2 }} />
-      </Stack>
+            </p>
+          </div>
+        </div>
+        <Separator className="mt-4" />
+      </div>
 
-      {/* Tool cards */}
-      <Grid container spacing={3}>
+      {/* Tool cards: the CTA link stretches over the whole card so the card stays clickable. */}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {TOOLS.map(tool => (
-          <Grid size={{ xs: 12, md: 4 }} key={tool.to}>
-            <Card
-              onClick={() => navigate(tool.to)}
-              elevation={0}
-              sx={{
-                height: '100%',
-                cursor: 'pointer',
-                display: 'flex',
-                flexDirection: 'column',
-                borderRadius: 3,
-                border: '2px solid',
-                borderColor: 'rgba(0,0,0,0.06)',
-                transition: 'all 0.2s ease',
-                position: 'relative',
-                overflow: 'hidden',
-                '&:hover': {
-                  transform: 'translateY(-4px)',
-                  borderColor: tool.accent,
-                  boxShadow: `0 8px 28px ${tool.accent}28`,
-                },
-                '&::before': {
-                  content: '""',
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  height: 4,
-                  background: tool.accent,
-                },
-              }}
-            >
-              <CardContent sx={{ p: 3, flex: 1, display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Box>{tool.icon}</Box>
+          <div
+            key={tool.to}
+            className={cn(
+              'relative flex h-full flex-col overflow-hidden rounded-xl border-2 border-border bg-shell-panel transition-all duration-200 hover:-translate-y-1 hover:shadow-lg',
+              tool.accent.hoverBorder,
+            )}
+          >
+            <div aria-hidden="true" className={cn('absolute inset-x-0 top-0 h-1', tool.accent.bar)} />
+            <div className="flex flex-1 flex-col gap-4 p-6">
+              <div>{tool.icon(cn('size-9', tool.accent.icon))}</div>
 
-                <Box>
-                  <Typography fontWeight={700} variant="h6" sx={{ mb: 0.5 }}>
-                    {tool.title}
-                  </Typography>
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      display: 'inline-block',
-                      mb: 1.5,
-                      px: 1,
-                      py: 0.25,
-                      borderRadius: 1,
-                      background: `${tool.accent}18`,
-                      color: tool.accent,
-                      fontWeight: 600,
-                    }}
-                  >
-                    {tool.badge}
-                  </Typography>
-                  <Typography color="text.secondary" variant="body2" sx={{ lineHeight: 1.6 }}>
-                    {tool.description}
-                  </Typography>
-                </Box>
-
-                <Button
-                  endIcon={<ArrowForwardIcon />}
-                  onClick={e => { e.stopPropagation(); navigate(tool.to); }}
-                  sx={{
-                    mt: 'auto',
-                    alignSelf: 'flex-start',
-                    textTransform: 'none',
-                    fontWeight: 600,
-                    color: tool.accent,
-                    borderColor: tool.accent,
-                    '&:hover': { borderColor: tool.accent, background: `${tool.accent}10` },
-                  }}
-                  variant="outlined"
+              <div>
+                <h6 className="m-0 mb-1 text-xl font-bold text-foreground">{tool.title}</h6>
+                <span
+                  className={cn(
+                    'mb-3 inline-block rounded px-2 py-0.5 text-[0.75rem] font-semibold',
+                    tool.accent.badge,
+                  )}
                 >
-                  {tool.cta}
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
+                  {tool.badge}
+                </span>
+                <p className="m-0 text-sm leading-relaxed text-foreground-secondary">{tool.description}</p>
+              </div>
+
+              <Link
+                to={tool.to}
+                className={buttonClass({
+                  variant: 'outline',
+                  className: cn(
+                    'mt-auto self-start normal-case tracking-normal font-semibold no-underline after:absolute after:inset-0 after:content-[""]',
+                    tool.accent.cta,
+                  ),
+                })}
+              >
+                {tool.cta}
+                <ArrowRight aria-hidden="true" className="size-4" />
+              </Link>
+            </div>
+          </div>
         ))}
-      </Grid>
-    </Box>
+      </div>
+    </div>
   );
 }

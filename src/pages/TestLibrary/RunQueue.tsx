@@ -1,22 +1,9 @@
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Chip from '@mui/material/Chip';
-import CircularProgress from '@mui/material/CircularProgress';
-import Collapse from '@mui/material/Collapse';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import { ChevronDown, ChevronRight, Play } from 'lucide-react';
 import { useState } from 'react';
 
-import { MIN_TEXT_SIZE } from '../../theme/mgsTokens';
+import { Button } from '../../components/ui/button';
+import { Chip } from '../../components/ui/chip';
+import { Spinner } from '../../components/ui/spinner';
 import type { TestCaseInfo, TestFileInfo } from './types';
 
 function stripQasePrefix(title: string): string {
@@ -67,28 +54,28 @@ export default function RunQueue({
   };
 
   return (
-    <Paper sx={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-      <Box sx={{ px: 2, pt: 2, pb: 1 }}>
-        <Typography variant="subtitle1" fontWeight={600}>
+    <section className="flex flex-col border border-border bg-shell-panel">
+      <div className="px-4 pb-2 pt-4">
+        <h6 className="m-0 text-base font-semibold text-foreground">
           Run Queue
           {selectedFiles.length > 0 && (
-            <Typography component="span" variant="body2" color="text.secondary" sx={{ ml: 1 }}>
+            <span className="ml-2 text-sm font-normal text-foreground-secondary">
               ({selectedFiles.length} file{selectedFiles.length !== 1 ? 's' : ''})
-            </Typography>
+            </span>
           )}
-        </Typography>
-      </Box>
+        </h6>
+      </div>
 
-      <Divider />
+      <div className="h-px bg-border" />
 
       {selectedFiles.length === 0 ? (
-        <Box sx={{ py: 4, px: 2, textAlign: 'center' }}>
-          <Typography variant="body2" color="text.secondary">
+        <div className="px-4 py-8 text-center">
+          <p className="m-0 text-sm text-foreground-secondary">
             No tests selected — choose from the tree
-          </Typography>
-        </Box>
+          </p>
+        </div>
       ) : (
-        <List dense disablePadding sx={{ maxHeight: 240, overflow: 'auto' }}>
+        <ul className="m-0 max-h-60 list-none overflow-auto p-0">
           {selectedFiles.map((file) => {
             const cases = testCasesCache.get(file.relativePath) || [];
             const selectedCases = selectedTestCases.get(file.relativePath);
@@ -96,90 +83,83 @@ export default function RunQueue({
             const activeCases = selectedCases
               ? cases.filter((c: TestCaseInfo) => selectedCases.has(c.title))
               : cases;
+            const casesId = `run-queue-cases-${file.relativePath}`;
 
             return (
-              <Box key={file.relativePath}>
-                <ListItem
-                  disablePadding
-                  sx={{ px: 2 }}
-                  secondaryAction={
-                    activeCases.length > 0 ? (
-                      <IconButton size="small" edge="end" onClick={() => toggleFile(file.relativePath)}>
-                        {isExpanded ? <ExpandMoreIcon fontSize="small" /> : <ChevronRightIcon fontSize="small" />}
-                      </IconButton>
-                    ) : null
-                  }
-                >
-                  <ListItemText
-                    primary={
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexWrap: 'wrap', py: 0.5 }}>
-                        <Typography variant="body2" sx={{ fontFamily: 'monospace', fontSize: 12 }}>
-                          {file.name}
-                        </Typography>
-                        {file.qaseId && (
-                          <Chip label={`Q-${file.qaseId}`} size="small" color="info" variant="outlined" sx={{ minHeight: 20, fontSize: MIN_TEXT_SIZE }} />
-                        )}
-                        <Chip
-                          label={`${activeCases.length} case${activeCases.length !== 1 ? 's' : ''}`}
-                          size="small"
-                          variant="outlined"
-                          sx={{ minHeight: 20, fontSize: MIN_TEXT_SIZE }}
-                        />
-                      </Box>
-                    }
-                    secondary={
-                      <Typography variant="caption" color="text.secondary" sx={{ fontFamily: 'monospace' }}>
-                        {file.relativePath.replace(file.name, '').replace(/\/$/, '')}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
+              <li key={file.relativePath} className="border-b border-border">
+                <div className="flex items-center gap-2 px-4 py-1">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-1 py-1">
+                      <span className="font-mono text-xs text-foreground">
+                        {file.name}
+                      </span>
+                      {file.qaseId && (
+                        <Chip tone="info">{`Q-${file.qaseId}`}</Chip>
+                      )}
+                      <Chip>
+                        {`${activeCases.length} case${activeCases.length !== 1 ? 's' : ''}`}
+                      </Chip>
+                    </div>
+                    <span className="block font-mono text-[0.75rem] text-foreground-secondary">
+                      {file.relativePath.replace(file.name, '').replace(/\/$/, '')}
+                    </span>
+                  </div>
+                  {activeCases.length > 0 ? (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => toggleFile(file.relativePath)}
+                      aria-expanded={isExpanded}
+                      aria-controls={isExpanded ? casesId : undefined}
+                      aria-label={`${isExpanded ? 'Collapse' : 'Expand'} cases for ${file.name}`}
+                    >
+                      {isExpanded ? (
+                        <ChevronDown className="size-4" aria-hidden="true" />
+                      ) : (
+                        <ChevronRight className="size-4" aria-hidden="true" />
+                      )}
+                    </Button>
+                  ) : null}
+                </div>
 
-                <Collapse in={isExpanded}>
-                  <Stack direction="row" flexWrap="wrap" gap={0.5} sx={{ px: 3, pb: 1 }}>
+                {isExpanded && (
+                  <div id={casesId} className="flex flex-row flex-wrap gap-1 px-6 pb-2">
                     {activeCases.map((tc: TestCaseInfo) => (
                       <Chip
                         key={tc.title}
-                        label={tc.qaseId ? `Q-${tc.qaseId}: ${stripQasePrefix(tc.title).slice(0, 40)}` : stripQasePrefix(tc.title).slice(0, 40)}
-                        size="small"
-                        variant="outlined"
-                        color={tc.qaseId ? 'info' : 'default'}
+                        tone={tc.qaseId ? 'info' : 'default'}
                         title={stripQasePrefix(tc.title)}
-                        sx={{ height: 20, fontSize: MIN_TEXT_SIZE }}
-                      />
+                      >
+                        {tc.qaseId ? `Q-${tc.qaseId}: ${stripQasePrefix(tc.title).slice(0, 40)}` : stripQasePrefix(tc.title).slice(0, 40)}
+                      </Chip>
                     ))}
-                  </Stack>
-                </Collapse>
-                <Divider />
-              </Box>
+                  </div>
+                )}
+              </li>
             );
           })}
-        </List>
+        </ul>
       )}
 
-      <Box sx={{ p: 2 }}>
+      <div className="p-4">
         <Button
-          variant="contained"
-          fullWidth
-          size="large"
+          variant="default"
           disabled={!canRun}
           onClick={onRun}
-          startIcon={
-            isSubmitting ? (
-              <CircularProgress size={18} color="inherit" />
-            ) : (
-              <PlayArrowIcon />
-            )
-          }
-          sx={{ fontWeight: 700 }}
+          className="h-11 w-full text-sm font-bold"
         >
+          {isSubmitting ? (
+            <Spinner className="size-4 text-current" aria-hidden="true" role={undefined} aria-label={undefined} />
+          ) : (
+            <Play className="size-4" aria-hidden="true" />
+          )}
           {isSubmitting
             ? 'Starting…'
             : totalSelected > 0
             ? `Run ${totalSelected} Test${totalSelected !== 1 ? 's' : ''}`
             : 'Run Tests'}
         </Button>
-      </Box>
-    </Paper>
+      </div>
+    </section>
   );
 }

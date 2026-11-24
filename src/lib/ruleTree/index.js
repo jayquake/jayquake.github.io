@@ -9,7 +9,6 @@
  * `rule-<tier>-<ruleId>`. Only tier and category keys are persisted.
  */
 import { engineRule, ruleKey } from "../libraryLocation";
-import { legacyCriteriaColor } from "./legacyCriteriaColors";
 
 export const TIER_ENGINE = "engine";
 export const TIER_LEGACY = "legacy";
@@ -149,13 +148,18 @@ function ruleNode({ tier, ref, label, title, ctx }) {
   };
 }
 
-function categoryNode({ tier, id, label, color, icon, rules, ctx }) {
+export const CATEGORY_TONES = 8;
+
+/** Decorative tone 1..8 for a category, by its position (see --cat-N tokens). */
+export const categoryTone = (index) => (index % CATEGORY_TONES) + 1;
+
+function categoryNode({ tier, id, label, tone, icon, rules, ctx }) {
   const key = categoryKey(tier, id);
   return {
     key,
     id,
     label,
-    color,
+    tone,
     icon,
     count: rules.length,
     expanded: Boolean(ctx.expanded[key]),
@@ -225,7 +229,7 @@ export function buildRuleTree({
   const searching = q.length > 0;
 
   const engineCats = engineCategories
-    .map((cat) => {
+    .map((cat, index) => {
       let ids = cat.rules.filter((id) => populatedIds.has(id));
       if (searching) {
         ids = engineSearchHits
@@ -235,12 +239,12 @@ export function buildRuleTree({
       const rules = ids.map((id) =>
         ruleNode({ tier: TIER_ENGINE, ref: engineRule(id), label: id, title: engineTitle(id), ctx })
       );
-      return categoryNode({ tier: TIER_ENGINE, id: cat.id, label: cat.label, color: cat.color, icon: cat.icon, rules, ctx });
+      return categoryNode({ tier: TIER_ENGINE, id: cat.id, label: cat.label, tone: categoryTone(index), icon: cat.icon, rules, ctx });
     })
     .filter((cat) => !searching || cat.count > 0);
 
   const legacyCats = orderLegacyCriteria(legacyRules, legacyCriteria)
-    .map(({ id, label, rules: source }) => {
+    .map(({ id, label, rules: source }, index) => {
       const matches = searching
         ? source.filter(
             (r) => r.route.toLowerCase().includes(q) || String(r.name || r.route).toLowerCase().includes(q)
@@ -255,7 +259,7 @@ export function buildRuleTree({
           ctx,
         })
       );
-      return categoryNode({ tier: TIER_LEGACY, id, label, color: legacyCriteriaColor(id), icon: null, rules, ctx });
+      return categoryNode({ tier: TIER_LEGACY, id, label, tone: categoryTone(index), icon: null, rules, ctx });
     })
     .filter((cat) => !searching || cat.count > 0);
 

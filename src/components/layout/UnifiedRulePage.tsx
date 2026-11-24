@@ -1,53 +1,23 @@
 import {
-  AccessibleTwoTone as AccessibleTwoToneIcon,
-  AccountTree as AccountTreeIcon,
-  Biotech as BiotechIcon,
-  Code as CodeIcon,
-  ContentCopy as ContentCopyIcon,
-  ContentPaste as ContentPasteIcon,
-  Description as DescriptionIcon,
-  ExpandMore as ExpandMoreIcon,
-  InfoOutlined as InfoOutlinedIcon,
-  KeyboardArrowUp as KeyboardArrowUpIcon,
+  Accessibility,
+  ChevronUp,
+  ClipboardPaste,
+  Code2,
+  Copy,
+  ExternalLink,
+  FileText,
+  Info,
   Link as LinkIcon,
-  OpenInNew as OpenInNewIcon,
-  Print as PrintIcon,
-  Search as SearchIcon,
-  Security as SecurityIcon,
-  Share as ShareIcon,
-  ThumbDownAlt as ThumbDownAltIcon,
-  ThumbUpAlt as ThumbUpAltIcon,
-} from "@mui/icons-material";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Alert,
-  AlertTitle,
-  Box,
-  Button,
-  Card,
-  CardActionArea,
-  Chip,
-  Divider,
-  Fab,
-  Fade,
-  Grid,
-  IconButton,
-  Paper,
-  Slide,
-  SpeedDial,
-  SpeedDialAction,
-  SpeedDialIcon,
-  Stack,
-  Tab,
-  Tabs,
-  Tooltip,
-  Typography,
-  useMediaQuery,
-  Zoom,
-} from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+  Microscope,
+  Network,
+  Plus,
+  Printer,
+  Search,
+  Share2,
+  Shield,
+  ThumbsDown,
+  ThumbsUp,
+} from "lucide-react";
 import DOMPurify from "dompurify";
 import Prism from "prismjs";
 import "prismjs/components/prism-javascript";
@@ -55,25 +25,41 @@ import "prismjs/components/prism-json";
 import "prismjs/components/prism-markup";
 import "prismjs/themes/prism-okaidia.css";
 import React, { useCallback, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import legacyEngineMapping from "../../data/legacy-engine-mapping";
 import { getEngineRulesCatalogCache, fetchEngineRulesCatalog } from "../../utils/engineRulesDataService";
-import { MIN_TEXT_SIZE } from "../../theme/mgsTokens";
 import { getRuleSummary } from "../../utils/analysisCache";
 import { analyzeHtmlClientSide } from "../../utils/clientAccessibilityTree";
 import { AuditSummaryChips } from "./AuditResultsPanel";
 import { useLibraryLocation } from "../../hooks/useLibraryLocation";
 import SimpleBreadcrumbs from "../util/BreadCrumb";
+import { cn } from "../../lib/utils";
+import { severityOf, type Impact } from "../../theme/severity";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
+import { Alert, AlertTitle } from "../ui/alert";
+import { Button, buttonClass } from "../ui/button";
+import { Chip } from "../ui/chip";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { Separator } from "../ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
-const glassCard = {
-  background: "rgba(255, 255, 255, 0.55)",
-  backdropFilter: "blur(20px)",
-  WebkitBackdropFilter: "blur(20px)",
-  border: "1px solid rgba(255, 255, 255, 0.7)",
-  borderRadius: 3,
-  boxShadow: "0 4px 16px rgba(0, 0, 0, 0.06)",
-  transition: "all 0.3s ease",
-};
+/** Panel surface (was the "glassCard" sx preset). */
+const panelClass = "rounded-xl border border-solid border-border bg-shell-panel shadow-sm transition-all duration-300";
+
+/** Section heading row: MUI Typography variant="h6" -> <h6>. */
+const sectionHeadingClass = "m-0 text-base font-bold text-primary md:text-[1.15rem]";
+
+/** Always-dark code panel; pins the dark palette so tokens read as on a dark surface. */
+const codePanelClass = "max-h-[400px] overflow-auto rounded-lg bg-shell-input p-4 text-foreground";
+
+const copyButtonClass =
+  "absolute right-2 top-2 z-[1] inline-flex size-8 cursor-pointer items-center justify-center rounded-full bg-shell-panel/90 p-0 text-status-pass";
 
 interface LegacyRuleData {
   _id?: { $oid: string };
@@ -95,45 +81,69 @@ interface UnifiedRulePageProps {
   ruleData: LegacyRuleData;
 }
 
-function getSeverityColor(level: string | undefined) {
+interface RelatedEngineRule {
+  id?: string;
+  path: string;
+  label: string;
+}
+
+/** Legacy severity names map onto the shared impact family. */
+function impactOf(level: string | undefined): Impact | null {
   switch (level?.toLowerCase()) {
     case "critical":
     case "extreme":
-      return { textColor: "#d32f2f", borderColor: "#d32f2f" };
+      return "critical";
     case "serious":
     case "major":
     case "high":
-      return { textColor: "#f57c00", borderColor: "#f57c00" };
+      return "serious";
     case "moderate":
     case "medium":
-      return { textColor: "#1976d2", borderColor: "#1976d2" };
+      return "moderate";
     case "minor":
     case "low":
-      return { textColor: "#388e3c", borderColor: "#388e3c" };
+      return "minor";
     default:
-      return { textColor: "#666", borderColor: "#666" };
+      return null;
   }
 }
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
+type TabValue = "overview" | "examples" | "mcp" | "references";
+
+interface ActionCardProps {
+  to: string;
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  accentClass: string;
 }
-function TabPanel({ children, value, index }: TabPanelProps) {
+
+/** Navigating card: the whole card is one real link. */
+function ActionCard({ to, icon, title, description, accentClass }: ActionCardProps) {
   return (
-    <Box role="tabpanel" hidden={value !== index} sx={{ py: { xs: 1.5, md: 2 } }}>
-      {value === index && children}
-    </Box>
+    <Link
+      to={to}
+      className={cn(
+        panelClass,
+        "flex h-full flex-col items-start p-4 text-left text-inherit no-underline hover:border-primary/40 hover:bg-primary/5 md:p-5"
+      )}
+    >
+      <span className={cn("mb-2", accentClass)} aria-hidden="true">
+        {icon}
+      </span>
+      <h6 className="m-0 mb-1 text-sm font-bold text-foreground">{title}</h6>
+      <span className="mb-3 text-[0.75rem] leading-normal text-foreground-secondary">{description}</span>
+      <span className={cn("mt-auto inline-flex items-center gap-1 text-[0.75rem] font-semibold", accentClass)}>
+        Open
+        <ExternalLink className="size-3.5" aria-hidden="true" />
+      </span>
+    </Link>
   );
 }
 
 export default function UnifiedRulePage({ ruleData }: UnifiedRulePageProps) {
-  const navigate = useNavigate();
   const { hrefs } = useLibraryLocation();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState<TabValue>("overview");
   const [copied, setCopied] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [jsonExpanded, setJsonExpanded] = useState(false);
@@ -185,39 +195,45 @@ export default function UnifiedRulePage({ ruleData }: UnifiedRulePageProps) {
 
   if (!ruleData) {
     return (
-      <Box sx={{ px: { xs: 2, sm: 3, md: 4 }, py: { xs: 2, md: 4 }, maxWidth: 1200, mx: "auto" }}>
-        <Paper elevation={0} sx={{ p: { xs: 2, md: 3 }, textAlign: "center", ...glassCard }}>
-          <Alert severity="info"><AlertTitle>No Rule Data</AlertTitle>The requested rule could not be loaded.</Alert>
-        </Paper>
-      </Box>
+      <div className="mx-auto max-w-[1200px] px-4 py-4 sm:px-6 md:px-8 md:py-8">
+        <div className={cn(panelClass, "p-4 text-center md:p-6")}>
+          <Alert role="alert" variant="info" className="border-solid text-left">
+            <AlertTitle className="m-0">No Rule Data</AlertTitle>
+            The requested rule could not be loaded.
+          </Alert>
+        </div>
+      </div>
     );
   }
 
   const severity = leg.severity;
-  const severityColors = getSeverityColor(severity);
+  const impact = impactOf(severity);
+  const severityClass = impact ? severityOf(impact).className : "text-foreground-muted";
+  const severityBorderClass = impact ? severityOf(impact).badgeClassName : "border-foreground-muted";
   const title = leg.name;
   const legacyRef = { type: "legacy" as const, criteria: leg.criteria, route: leg.route };
   const successUrl = hrefs.example(legacyRef, "success");
   const failureUrl = hrefs.example(legacyRef, "failure");
 
-  const relatedEngineRules: { path: string; label: string }[] = (() => {
-        const from = leg.shortCode ? (legacyEngineMapping as any)[leg.shortCode] || [] : [];
-        const seen = new Set<string>();
-        return from.filter((r: any) => {
-          const key = r.label.replace(/\s*\(Engine rule\)\s*/gi, "").toLowerCase();
-          return seen.has(key) ? false : (seen.add(key), true);
-        });
-      })();
+  const relatedEngineRules: RelatedEngineRule[] = (() => {
+    const mapping = legacyEngineMapping as Record<string, RelatedEngineRule[] | undefined>;
+    const from = leg.shortCode ? mapping[leg.shortCode] || [] : [];
+    const seen = new Set<string>();
+    return from.filter((r) => {
+      const key = r.label.replace(/\s*\(Engine rule\)\s*/gi, "").toLowerCase();
+      return seen.has(key) ? false : (seen.add(key), true);
+    });
+  })();
 
   const sanitizedHtml = DOMPurify.sanitize(leg.issueResolution || "");
 
-  const releaseJson = `{\n  "shortTextMarkdown": "New rule updated",\n  "bodyMarkdown": "**${leg.name}** detection has been updated and may affect the number of issues found in your audit.",\n  "ctaLink": "rules/${(leg as any)._id?.$oid || "rule-id"}"\n}`;
+  const releaseJson = `{\n  "shortTextMarkdown": "New rule updated",\n  "bodyMarkdown": "**${leg.name}** detection has been updated and may affect the number of issues found in your audit.",\n  "ctaLink": "rules/${leg._id?.$oid || "rule-id"}"\n}`;
 
   const speedDialActions = [
-    { icon: <ShareIcon />, name: "Share", action: () => handleCopy(window.location.href) },
-    { icon: <PrintIcon />, name: "Print", action: () => window.print() },
+    { icon: <Share2 className="size-4" aria-hidden="true" />, name: "Share", action: () => handleCopy(window.location.href) },
+    { icon: <Printer className="size-4" aria-hidden="true" />, name: "Print", action: () => window.print() },
     {
-      icon: <ContentCopyIcon />,
+      icon: <Copy className="size-4" aria-hidden="true" />,
       name: "Copy Advice",
       action: () => handleCopy(leg.issueResolution || ""),
     },
@@ -226,461 +242,334 @@ export default function UnifiedRulePage({ ruleData }: UnifiedRulePageProps) {
   const hasRelated = relatedEngineRules.length > 0;
 
   return (
-    <Box sx={{
-      px: { xs: 2, sm: 3, md: 4 },
-      py: { xs: 2, sm: 3, md: 4 },
-      maxWidth: 1200,
-      mx: "auto",
-      position: "relative",
-    }}>
+    <div className="relative mx-auto max-w-[1200px] px-4 py-4 sm:px-6 sm:py-6 md:px-8 md:py-8">
       {/* Scroll to top */}
-      <Zoom in={showScrollTop}>
-        <Fab
+      {showScrollTop && (
+        <Button
+          variant="default"
+          size="icon"
+          aria-label="Scroll to top"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          color="primary" size="small"
-          sx={{
-            position: "fixed",
-            bottom: { xs: 144, md: 80 },
-            right: { xs: 16, md: 24 },
-            zIndex: 1000,
-            background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-            boxShadow: "0 4px 20px rgba(103,58,183,0.4)",
-          }}
+          className="fixed bottom-36 right-4 z-[1000] size-10 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary-dim md:bottom-20 md:right-6"
         >
-          <KeyboardArrowUpIcon />
-        </Fab>
-      </Zoom>
+          <ChevronUp className="size-5" aria-hidden="true" />
+        </Button>
+      )}
 
-      {/* Speed dial */}
-      <SpeedDial
-        ariaLabel="Quick actions"
-        sx={{
-          position: "fixed",
-          bottom: { xs: 80, md: 16 },
-          right: 16,
-          "& .MuiSpeedDial-fab": {
-            background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-          },
-        }}
-        icon={<SpeedDialIcon />}
-      >
-        {speedDialActions.map((a) => (
-          <SpeedDialAction key={a.name} icon={a.icon} tooltipTitle={a.name} onClick={a.action} tooltipOpen={!isMobile} />
-        ))}
-      </SpeedDial>
+      {/* Quick actions (was an MUI SpeedDial) */}
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          aria-label="Quick actions"
+          className="fixed bottom-20 right-4 z-[1000] inline-flex size-14 cursor-pointer items-center justify-center rounded-full bg-primary p-0 text-primary-foreground shadow-lg hover:bg-primary-dim md:bottom-4"
+        >
+          <Plus className="size-6" aria-hidden="true" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent side="top" align="end">
+          {speedDialActions.map((a) => (
+            <DropdownMenuItem key={a.name} onSelect={a.action}>
+              {a.icon}
+              {a.name}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
 
       {/* ── Hero Header ──────────────────────────────────────────────────────── */}
-      <Slide in direction="down" timeout={500}>
-        <Paper elevation={0} sx={{
-          p: { xs: 2, sm: 3, md: 4 },
-          mb: { xs: 1, md: 2 },
-          ...glassCard,
-          boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
-        }}>
-          <SimpleBreadcrumbs />
-          <Divider sx={{ my: { xs: 1.5, md: 2 } }} />
+      <div className={cn(panelClass, "mb-2 p-4 shadow-md sm:p-6 md:mb-4 md:p-8")}>
+        <SimpleBreadcrumbs />
+        <Separator className="my-3 md:my-4" />
 
-          {/* Title row with type chip */}
-          <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1, flexWrap: "wrap", gap: 0.5 }}>
-            <Tooltip title="Guidance for manual and automated accessibility testing">
-              <Chip
-                icon={<InfoOutlinedIcon sx={{ fontSize: 14 }} />}
-                label="Legacy Rule"
-                size="small"
-                variant="outlined"
-                sx={{
-                  fontWeight: 600,
-                  fontSize: MIN_TEXT_SIZE,
-                  height: 24,
-                  borderColor: "rgba(25,118,210,0.4)",
-                  color: "#1976d2",
-                }}
-              />
-            </Tooltip>
-            {leg.enabled === false && (
-              <Chip
-                label="Disabled in AccessFlow"
-                size="small"
-                sx={{
-                  fontWeight: 600,
-                  fontSize: MIN_TEXT_SIZE,
-                  height: 24,
-                  background: "rgba(158,158,158,0.2)",
-                  color: "#616161",
-                }}
-              />
-            )}
-          </Stack>
-
-          <Typography
-            variant="h3"
-            sx={{
-              fontWeight: 800,
-              mb: 1,
-              background: "linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              fontSize: { xs: "1.3rem", sm: "1.6rem", md: "2rem" },
-              lineHeight: 1.2,
-            }}
-          >
-            {title}
-          </Typography>
-
-          {/* Chips row */}
-          <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ mb: 1.5, gap: 0.5 }}>
-            <Chip
-              icon={<SecurityIcon sx={{ fontSize: 16 }} />}
-              label={severity ? `${severity.charAt(0).toUpperCase()}${severity.slice(1)} Severity` : "Unknown"}
-              variant="outlined"
-              size="small"
-              sx={{ borderColor: severityColors.borderColor, color: severityColors.textColor, fontWeight: 600, height: 26 }}
-            />
-            {leg.WCAGLevel && leg.WCAGLevel !== "none" && (
-                <Chip
-                  icon={<AccessibleTwoToneIcon sx={{ fontSize: 16 }} />}
-                  label={`WCAG ${leg.WCAGLevel}`}
-                  variant="outlined" size="small"
-                  sx={{ borderColor: "#1976d2", color: "#1976d2", fontWeight: 600, height: 26 }}
-                />
-              )}
-            {leg.criteria && (
-                <Chip label={`${leg.criteria.charAt(0).toUpperCase()}${leg.criteria.slice(1)}`} size="small" sx={{ height: 26, background: "rgba(25,118,210,0.1)", color: "#1565c0" }} />
-              )}
-          </Stack>
-
-          <Typography variant="body2" sx={{ color: "#475569", lineHeight: 1.6, fontSize: { xs: "0.85rem", md: "0.95rem" } }}>
-            {leg.shortDescription || ""}
-          </Typography>
-
-          {/* Cross-links (compact) */}
-          {hasRelated && (
-            <Box sx={{ mt: 1.5 }}>
-              {relatedEngineRules.length > 0 && (
-                <Stack direction="row" spacing={0.5} flexWrap="wrap" alignItems="center" sx={{ gap: 0.5 }}>
-                  <Typography variant="caption" sx={{ color: "#94a3b8", fontWeight: 600 }}>Related:</Typography>
-                  {relatedEngineRules.map((r) => (
-                    <Chip key={r.path} label={r.label} size="small" component={Link} to={r.path} clickable
-                      sx={{ height: 22, fontSize: MIN_TEXT_SIZE, background: "rgba(255,255,255,0.6)", border: "1px solid rgba(148,163,184,0.2)" }} />
-                  ))}
-                </Stack>
-              )}
-            </Box>
+        {/* Title row with type chip */}
+        <div className="mb-2 flex flex-row flex-wrap items-center gap-1 sm:gap-2">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span className="inline-flex h-6 items-center gap-1 rounded-full border border-solid border-status-info/40 px-2 text-[0.75rem] font-semibold text-status-info">
+                <Info className="size-3.5" aria-hidden="true" />
+                Legacy Rule
+              </span>
+            </TooltipTrigger>
+            <TooltipContent>Guidance for manual and automated accessibility testing</TooltipContent>
+          </Tooltip>
+          {leg.enabled === false && (
+            <Chip className="h-6 rounded-full border-transparent bg-muted font-sans font-semibold text-foreground-secondary">
+              Disabled in AccessFlow
+            </Chip>
           )}
-        </Paper>
-      </Slide>
+        </div>
+
+        <h3 className="m-0 mb-2 text-[1.3rem] font-extrabold leading-[1.2] text-foreground sm:text-[1.6rem] md:text-[2rem]">
+          {title}
+        </h3>
+
+        {/* Chips row */}
+        <div className="mb-3 flex flex-row flex-wrap gap-1 sm:gap-2">
+          <span
+            className={cn(
+              "inline-flex h-[26px] items-center gap-1 rounded-full border border-solid bg-transparent px-2 text-[0.8rem] font-semibold",
+              severityBorderClass,
+              severityClass
+            )}
+          >
+            <Shield className="size-4" aria-hidden="true" />
+            {severity ? `${severity.charAt(0).toUpperCase()}${severity.slice(1)} Severity` : "Unknown"}
+          </span>
+          {leg.WCAGLevel && leg.WCAGLevel !== "none" && (
+            <Chip
+              tone="info"
+              className="h-[26px] rounded-full bg-transparent font-sans text-[0.8rem] font-semibold"
+              icon={<Accessibility className="size-4" aria-hidden="true" />}
+            >
+              {`WCAG ${leg.WCAGLevel}`}
+            </Chip>
+          )}
+          {leg.criteria && (
+            <Chip tone="info" className="h-[26px] rounded-full border-transparent font-sans text-[0.8rem]">
+              {`${leg.criteria.charAt(0).toUpperCase()}${leg.criteria.slice(1)}`}
+            </Chip>
+          )}
+        </div>
+
+        <p className="m-0 text-[0.85rem] leading-relaxed text-foreground-secondary md:text-[0.95rem]">
+          {leg.shortDescription || ""}
+        </p>
+
+        {/* Cross-links (compact) */}
+        {hasRelated && (
+          <div className="mt-3">
+            {relatedEngineRules.length > 0 && (
+              <div className="flex flex-row flex-wrap items-center gap-1">
+                <span className="text-[0.75rem] font-semibold text-foreground-muted">Related:</span>
+                {relatedEngineRules.map((r) => (
+                  <Link
+                    key={r.path}
+                    to={r.path}
+                    className="inline-flex h-[22px] items-center rounded-full border border-solid border-border bg-shell-main px-2 text-[0.75rem] text-foreground no-underline hover:border-primary/40 hover:bg-primary/10"
+                  >
+                    {r.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
 
       {/* ── Audit Summary Strip ──────────────────────────────────────────────── */}
       {(auditSummary || !analyzingAll) && (
-        <Paper elevation={0} sx={{ ...glassCard, px: 2, py: 1, mb: 1, display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
-          <Typography variant="caption" sx={{ fontWeight: 600, color: "#64748b" }}>
-            Audit:
-          </Typography>
+        <div className={cn(panelClass, "mb-2 flex flex-wrap items-center gap-2 px-4 py-2")}>
+          <span className="text-[0.75rem] font-semibold text-foreground-secondary">Audit:</span>
           {auditSummary ? (
             <AuditSummaryChips summary={auditSummary} />
           ) : (
-            <Chip
-              label={analyzingAll ? "Analyzing..." : "Not analyzed"}
-              size="small"
-              variant="outlined"
-              sx={{ height: 20, fontSize: MIN_TEXT_SIZE }}
-            />
+            <Chip className="h-5 rounded-full">{analyzingAll ? "Analyzing..." : "Not analyzed"}</Chip>
           )}
           {!auditSummary && !analyzingAll && (
-            <Button size="small" variant="outlined" onClick={handleAnalyzeAll}
-              sx={{ textTransform: "none", fontSize: MIN_TEXT_SIZE, height: 24, ml: "auto" }}>
+            <Button size="sm" onClick={handleAnalyzeAll} className="ml-auto h-6 normal-case">
               Analyze
             </Button>
           )}
-        </Paper>
+        </div>
       )}
 
-      {/* ── Tabs (sticky) ─────────────────────────────────────────────────────── */}
-      <Paper elevation={0} sx={{
-        ...glassCard,
-        position: "sticky",
-        top: { xs: 56, md: 64 },
-        zIndex: 10,
-        mb: 1,
-      }}>
-        <Tabs
-          value={tab}
-          onChange={(_, v) => setTab(v)}
-          variant="scrollable"
-          scrollButtons="auto"
-          sx={{
-            px: { xs: 1, md: 2 },
-            "& .MuiTab-root": {
-              textTransform: "none",
-              fontWeight: 600,
-              minHeight: { xs: 44, md: 48 },
-              fontSize: { xs: "0.8rem", md: "0.85rem" },
-              px: { xs: 1.5, md: 2 },
-            },
-            "& .MuiTabs-indicator": {
-              background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-              height: 3,
-              borderRadius: 2,
-            },
-          }}
-        >
-          <Tab label="Overview" />
-          <Tab label="Examples" />
-          <Tab label="MCP Analysis" />
-          <Tab label="References" />
-        </Tabs>
-      </Paper>
+      <Tabs value={tab} onValueChange={(v) => setTab(v as TabValue)}>
+        {/* ── Tabs (sticky) ─────────────────────────────────────────────────── */}
+        <div className={cn(panelClass, "sticky top-14 z-10 mb-2 md:top-16")}>
+          <TabsList className="border-0 px-2 md:px-4">
+            <TabsTrigger value="overview" className="h-11 px-3 font-sans text-[0.8rem] font-semibold normal-case tracking-normal md:h-12 md:px-4 md:text-[0.85rem]">
+              Overview
+            </TabsTrigger>
+            <TabsTrigger value="examples" className="h-11 px-3 font-sans text-[0.8rem] font-semibold normal-case tracking-normal md:h-12 md:px-4 md:text-[0.85rem]">
+              Examples
+            </TabsTrigger>
+            <TabsTrigger value="mcp" className="h-11 px-3 font-sans text-[0.8rem] font-semibold normal-case tracking-normal md:h-12 md:px-4 md:text-[0.85rem]">
+              MCP Analysis
+            </TabsTrigger>
+            <TabsTrigger value="references" className="h-11 px-3 font-sans text-[0.8rem] font-semibold normal-case tracking-normal md:h-12 md:px-4 md:text-[0.85rem]">
+              References
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
-      {/* ── Tab 0: Overview ───────────────────────────────────────────────────── */}
-      <TabPanel value={tab} index={0}>
-        <Stack spacing={2}>
-          {/* Description */}
-          <Fade in timeout={600}>
-            <Paper elevation={0} sx={{ p: { xs: 2, sm: 2.5, md: 3 }, ...glassCard }}>
-              <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
-                <DescriptionIcon color="primary" sx={{ fontSize: { xs: 20, md: 24 } }} />
-                <Typography variant="h6" fontWeight="bold" color="primary" sx={{ fontSize: { xs: "1rem", md: "1.15rem" } }}>
-                  Rule Description
-                </Typography>
-              </Stack>
-              <Typography variant="body2" sx={{
-                lineHeight: 1.7,
-                fontSize: { xs: "0.85rem", md: "0.95rem" },
-                color: "#374151",
-                background: "rgba(248,250,252,0.8)",
-                p: { xs: 1.5, sm: 2, md: 2.5 },
-                borderRadius: 2,
-                border: "1px solid rgba(203,213,225,0.5)",
-              }}>
+        {/* ── Tab 0: Overview ───────────────────────────────────────────────── */}
+        <TabsContent value="overview" className="py-3 md:py-4">
+          <div className="flex flex-col gap-4">
+            {/* Description */}
+            <div className={cn(panelClass, "p-4 sm:p-5 md:p-6")}>
+              <div className="mb-4 flex flex-row items-center gap-3">
+                <FileText className="size-5 text-primary md:size-6" aria-hidden="true" />
+                <h6 className={sectionHeadingClass}>Rule Description</h6>
+              </div>
+              <p className="m-0 rounded-lg border border-solid border-border bg-shell-main p-3 text-[0.85rem] leading-[1.7] text-foreground-secondary sm:p-4 md:p-5 md:text-[0.95rem]">
                 {leg.issueDescription}
-              </Typography>
-            </Paper>
-          </Fade>
+              </p>
+            </div>
 
-          {/* WCAG link (legacy) */}
-          {leg.issueWCAGLink && (
-            <Fade in timeout={800}>
-              <Paper elevation={0} sx={{ p: { xs: 2, sm: 2.5, md: 3 }, ...glassCard }}>
-                <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
-                  <LinkIcon color="primary" sx={{ fontSize: { xs: 20, md: 24 } }} />
-                  <Typography variant="h6" fontWeight="bold" color="primary" sx={{ fontSize: { xs: "1rem", md: "1.15rem" } }}>
-                    WCAG Documentation
-                  </Typography>
-                </Stack>
-                <Card elevation={0} sx={{
-                  p: { xs: 1.5, md: 2 },
-                  background: "linear-gradient(135deg,rgba(25,118,210,0.06),rgba(21,101,192,0.06))",
-                  border: "1px solid rgba(25,118,210,0.15)",
-                  borderRadius: 2,
-                }}>
-                  <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} alignItems={{ sm: "center" }}>
-                    <Button href={leg.issueWCAGLink} target="_blank" rel="noopener noreferrer" variant="contained" size="small"
-                      startIcon={<OpenInNewIcon />}
-                      sx={{ textTransform: "none", backgroundColor: "#1976d2", fontWeight: 600, flexShrink: 0 }}>
+            {/* WCAG link (legacy) */}
+            {leg.issueWCAGLink && (
+              <div className={cn(panelClass, "p-4 sm:p-5 md:p-6")}>
+                <div className="mb-4 flex flex-row items-center gap-3">
+                  <LinkIcon className="size-5 text-primary md:size-6" aria-hidden="true" />
+                  <h6 className={sectionHeadingClass}>WCAG Documentation</h6>
+                </div>
+                <div className="rounded-lg border border-solid border-status-info/20 bg-status-info/5 p-3 md:p-4">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <a
+                      href={leg.issueWCAGLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={buttonClass({ variant: "default", size: "sm", className: "shrink-0 font-semibold normal-case no-underline" })}
+                    >
+                      <ExternalLink className="size-4" aria-hidden="true" />
                       View WCAG Guidelines
-                    </Button>
-                    <Typography variant="caption" sx={{ wordBreak: "break-all", fontFamily: "monospace", color: "#64748b", fontSize: "0.75rem" }}>
-                      {leg.issueWCAGLink}
-                    </Typography>
-                  </Stack>
-                </Card>
-              </Paper>
-            </Fade>
-          )}
+                    </a>
+                    <span className="break-all font-mono text-[0.75rem] text-foreground-secondary">{leg.issueWCAGLink}</span>
+                  </div>
+                </div>
+              </div>
+            )}
 
-          {/* Issue Resolution (legacy) */}
-          {leg.issueResolution && (
-            <Fade in timeout={1000}>
-              <Paper elevation={0} sx={{ p: { xs: 2, sm: 2.5, md: 3 }, ...glassCard }}>
-                <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
-                  <CodeIcon color="primary" sx={{ fontSize: { xs: 20, md: 24 } }} />
-                  <Typography variant="h6" fontWeight="bold" color="primary" sx={{ fontSize: { xs: "1rem", md: "1.15rem" } }}>
-                    Issue Resolution
-                  </Typography>
-                </Stack>
-                <Box sx={{
-                  background: "linear-gradient(135deg,rgba(16,185,129,0.08),rgba(34,197,94,0.08))",
-                  borderRadius: 2,
-                  p: { xs: 1.5, md: 2 },
-                  position: "relative",
-                  border: "1px solid rgba(34,197,94,0.15)",
-                }}>
-                  <Tooltip title={copied ? "Copied!" : "Copy resolution code"}>
-                    <IconButton onClick={() => navigator.clipboard.writeText(leg.issueResolution!)}
-                      sx={{ position: "absolute", top: 8, right: 8, color: "#059669", backgroundColor: "rgba(255,255,255,0.9)", zIndex: 1 }} size="small">
-                      <ContentPasteIcon sx={{ fontSize: 16 }} />
-                    </IconButton>
+            {/* Issue Resolution (legacy) */}
+            {leg.issueResolution && (
+              <div className={cn(panelClass, "p-4 sm:p-5 md:p-6")}>
+                <div className="mb-4 flex flex-row items-center gap-3">
+                  <Code2 className="size-5 text-primary md:size-6" aria-hidden="true" />
+                  <h6 className={sectionHeadingClass}>Issue Resolution</h6>
+                </div>
+                <div className="relative rounded-lg border border-solid border-status-pass/15 bg-status-pass/5 p-3 md:p-4">
+                  <Tooltip>
+                    <TooltipTrigger
+                      onClick={() => navigator.clipboard.writeText(leg.issueResolution!)}
+                      aria-label={copied ? "Copied!" : "Copy resolution code"}
+                      className={copyButtonClass}
+                    >
+                      <ClipboardPaste className="size-4" aria-hidden="true" />
+                    </TooltipTrigger>
+                    <TooltipContent>{copied ? "Copied!" : "Copy resolution code"}</TooltipContent>
                   </Tooltip>
-                  <Box sx={{ background: "rgba(30,30,30,0.95)", borderRadius: 2, p: 2, maxHeight: "400px", overflow: "auto" }}>
-                    <pre style={{ margin: 0, color: "#f8f8f2", fontSize: "0.8rem", lineHeight: 1.5 }}>
+                  <div data-theme="dark" className={codePanelClass}>
+                    <pre style={{ margin: 0, fontSize: "0.8rem", lineHeight: 1.5 }}>
                       <code className="language-html" dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />
                     </pre>
-                  </Box>
-                </Box>
-              </Paper>
-            </Fade>
-          )}
-        </Stack>
-      </TabPanel>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </TabsContent>
 
-      {/* ── Tab 1: Examples ──────────────────────────────────────────────────── */}
-      <TabPanel value={tab} index={1}>
-        <Grid container spacing={{ xs: 1.5, md: 2 }}>
-          <Grid size={{ xs: 12, sm: 6 }}>
-            <Link to={successUrl} style={{ textDecoration: "none" }}>
-              <Card elevation={0} sx={{
-                ...glassCard,
-                background: "linear-gradient(135deg, rgba(76,175,80,0.08) 0%, rgba(56,142,60,0.08) 100%)",
-                border: "1px solid rgba(76,175,80,0.25)",
-                "&:hover": { transform: "translateY(-3px)", boxShadow: "0 8px 24px rgba(76,175,80,0.2)", borderColor: "rgba(76,175,80,0.4)" },
-              }}>
-                <CardActionArea sx={{ p: { xs: 2, md: 2.5 }, textAlign: "center" }}>
-                  <ThumbUpAltIcon sx={{ fontSize: { xs: 28, md: 36 }, color: "#4caf50", mb: 1 }} />
-                  <Typography variant="subtitle1" sx={{ fontWeight: 700, color: "#2e7d32", mb: 0.5, fontSize: { xs: "0.9rem", md: "1rem" } }}>
-                    Success Examples
-                  </Typography>
-                  <Typography variant="caption" sx={{ color: "#64748b", fontSize: "0.75rem" }}>
-                    See correct implementations
-                  </Typography>
-                </CardActionArea>
-              </Card>
+        {/* ── Tab 1: Examples ──────────────────────────────────────────────── */}
+        <TabsContent value="examples" className="py-3 md:py-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4">
+            <Link
+              to={successUrl}
+              className={cn(
+                panelClass,
+                "block border-status-pass/25 bg-status-pass/5 p-4 text-center no-underline hover:-translate-y-0.5 hover:border-status-pass/40 hover:shadow-lg md:p-5"
+              )}
+            >
+              <ThumbsUp className="mx-auto mb-2 block size-7 text-status-pass md:size-9" aria-hidden="true" />
+              <h6 className="m-0 mb-1 text-[0.9rem] font-bold text-status-pass md:text-base">Success Examples</h6>
+              <span className="text-[0.75rem] text-foreground-secondary">See correct implementations</span>
             </Link>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 6 }}>
-            <Link to={failureUrl} style={{ textDecoration: "none" }}>
-              <Card elevation={0} sx={{
-                ...glassCard,
-                background: "linear-gradient(135deg, rgba(244,67,54,0.08) 0%, rgba(211,47,47,0.08) 100%)",
-                border: "1px solid rgba(244,67,54,0.25)",
-                "&:hover": { transform: "translateY(-3px)", boxShadow: "0 8px 24px rgba(244,67,54,0.2)", borderColor: "rgba(244,67,54,0.4)" },
-              }}>
-                <CardActionArea sx={{ p: { xs: 2, md: 2.5 }, textAlign: "center" }}>
-                  <ThumbDownAltIcon sx={{ fontSize: { xs: 28, md: 36 }, color: "#f44336", mb: 1 }} />
-                  <Typography variant="subtitle1" sx={{ fontWeight: 700, color: "#c62828", mb: 0.5, fontSize: { xs: "0.9rem", md: "1rem" } }}>
-                    Failure Examples
-                  </Typography>
-                  <Typography variant="caption" sx={{ color: "#64748b", fontSize: "0.75rem" }}>
-                    Common mistakes and fixes
-                  </Typography>
-                </CardActionArea>
-              </Card>
+            <Link
+              to={failureUrl}
+              className={cn(
+                panelClass,
+                "block border-status-fail/25 bg-status-fail/5 p-4 text-center no-underline hover:-translate-y-0.5 hover:border-status-fail/40 hover:shadow-lg md:p-5"
+              )}
+            >
+              <ThumbsDown className="mx-auto mb-2 block size-7 text-status-fail md:size-9" aria-hidden="true" />
+              <h6 className="m-0 mb-1 text-[0.9rem] font-bold text-status-fail md:text-base">Failure Examples</h6>
+              <span className="text-[0.75rem] text-foreground-secondary">Common mistakes and fixes</span>
             </Link>
-          </Grid>
-        </Grid>
-      </TabPanel>
+          </div>
+        </TabsContent>
 
-      {/* ── Tab 2: MCP Analysis (action grid) ────────────────────────────────── */}
-      <TabPanel value={tab} index={2}>
-        <Grid container spacing={{ xs: 1.5, md: 2 }}>
-          <Grid size={{ xs: 12, sm: 4 }}>
-            <Card elevation={0} sx={{ ...glassCard, height: "100%" }}>
-              <CardActionArea
-                onClick={() => navigate(`/rule-lab?ruleId=${ruleId}`)}
-                sx={{ p: { xs: 2, md: 2.5 }, height: "100%", display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "flex-start" }}
-              >
-                <BiotechIcon sx={{ fontSize: 28, color: "#667eea", mb: 1 }} />
-                <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "#1e293b", mb: 0.5 }}>
-                  Analyze in Rule Lab
-                </Typography>
-                <Typography variant="caption" sx={{ color: "#64748b", lineHeight: 1.5, mb: 1.5 }}>
-                  Deep analysis with Playwright MCP -- accessibility tree, ARIA roles, screen reader narration
-                </Typography>
-                <Button size="small" endIcon={<OpenInNewIcon sx={{ fontSize: 14 }} />}
-                  sx={{ mt: "auto", textTransform: "none", fontWeight: 600, fontSize: "0.75rem", color: "#667eea" }}>
-                  Open
-                </Button>
-              </CardActionArea>
-            </Card>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 4 }}>
-            <Card elevation={0} sx={{ ...glassCard, height: "100%" }}>
-              <CardActionArea
-                onClick={() => navigate(`/rule-lab?ruleId=${ruleId}&view=tree`)}
-                sx={{ p: { xs: 2, md: 2.5 }, height: "100%", display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "flex-start" }}
-              >
-                <AccountTreeIcon sx={{ fontSize: 28, color: "#00897b", mb: 1 }} />
-                <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "#1e293b", mb: 0.5 }}>
-                  Accessibility Tree
-                </Typography>
-                <Typography variant="caption" sx={{ color: "#64748b", lineHeight: 1.5, mb: 1.5 }}>
-                  Inspect computed roles, states, and properties visible to assistive technologies
-                </Typography>
-                <Button size="small" endIcon={<OpenInNewIcon sx={{ fontSize: 14 }} />}
-                  sx={{ mt: "auto", textTransform: "none", fontWeight: 600, fontSize: "0.75rem", color: "#00897b" }}>
-                  Open
-                </Button>
-              </CardActionArea>
-            </Card>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 4 }}>
-            <Card elevation={0} sx={{ ...glassCard, height: "100%" }}>
-              <CardActionArea
-                onClick={() => navigate(`/rule-lab?ruleId=${ruleId}&view=discover`)}
-                sx={{ p: { xs: 2, md: 2.5 }, height: "100%", display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "flex-start" }}
-              >
-                <SearchIcon sx={{ fontSize: 28, color: "#e91e63", mb: 1 }} />
-                <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "#1e293b", mb: 0.5 }}>
-                  Discover Patterns
-                </Typography>
-                <Typography variant="caption" sx={{ color: "#64748b", lineHeight: 1.5, mb: 1.5 }}>
-                  Find real-world instances of this pattern across curated websites
-                </Typography>
-                <Button size="small" endIcon={<OpenInNewIcon sx={{ fontSize: 14 }} />}
-                  sx={{ mt: "auto", textTransform: "none", fontWeight: 600, fontSize: "0.75rem", color: "#e91e63" }}>
-                  Open
-                </Button>
-              </CardActionArea>
-            </Card>
-          </Grid>
-        </Grid>
-      </TabPanel>
+        {/* ── Tab 2: MCP Analysis (action grid) ────────────────────────────── */}
+        <TabsContent value="mcp" className="py-3 md:py-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 md:gap-4">
+            <ActionCard
+              to={`/rule-lab?ruleId=${ruleId}`}
+              icon={<Microscope className="size-7" />}
+              title="Analyze in Rule Lab"
+              description="Deep analysis with Playwright MCP -- accessibility tree, ARIA roles, screen reader narration"
+              accentClass="text-primary"
+            />
+            <ActionCard
+              to={`/rule-lab?ruleId=${ruleId}&view=tree`}
+              icon={<Network className="size-7" />}
+              title="Accessibility Tree"
+              description="Inspect computed roles, states, and properties visible to assistive technologies"
+              accentClass="text-status-pass"
+            />
+            <ActionCard
+              to={`/rule-lab?ruleId=${ruleId}&view=discover`}
+              icon={<Search className="size-7" />}
+              title="Discover Patterns"
+              description="Find real-world instances of this pattern across curated websites"
+              accentClass="text-status-info"
+            />
+          </div>
+        </TabsContent>
 
-      {/* ── Tab 3: References ────────────────────────────────────────────────── */}
-      <TabPanel value={tab} index={3}>
-        <Stack spacing={2}>
-          {/* Legacy: tutorial link */}
-          {leg.issueTutorialLink && (
-            <Paper elevation={0} sx={{ p: { xs: 2, sm: 2.5, md: 3 }, ...glassCard }}>
-              <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 1.5 }}>
-                <LinkIcon color="primary" sx={{ fontSize: { xs: 20, md: 24 } }} />
-                <Typography variant="h6" fontWeight="bold" color="primary" sx={{ fontSize: { xs: "1rem", md: "1.15rem" } }}>
-                  Tutorial Resource
-                </Typography>
-              </Stack>
-              <Button href={leg.issueTutorialLink} target="_blank" rel="noopener noreferrer" variant="outlined" size="small"
-                startIcon={<OpenInNewIcon />} sx={{ textTransform: "none", fontWeight: 600 }}>
-                View Tutorial
-              </Button>
-            </Paper>
-          )}
+        {/* ── Tab 3: References ────────────────────────────────────────────── */}
+        <TabsContent value="references" className="py-3 md:py-4">
+          <div className="flex flex-col gap-4">
+            {/* Legacy: tutorial link */}
+            {leg.issueTutorialLink && (
+              <div className={cn(panelClass, "p-4 sm:p-5 md:p-6")}>
+                <div className="mb-3 flex flex-row items-center gap-3">
+                  <LinkIcon className="size-5 text-primary md:size-6" aria-hidden="true" />
+                  <h6 className={sectionHeadingClass}>Tutorial Resource</h6>
+                </div>
+                <a
+                  href={leg.issueTutorialLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={buttonClass({ variant: "outline", size: "sm", className: "font-semibold normal-case no-underline" })}
+                >
+                  <ExternalLink className="size-4" aria-hidden="true" />
+                  View Tutorial
+                </a>
+              </div>
+            )}
 
-          {/* Legacy: Release JSON accordion */}
-          {(
-            <Accordion expanded={jsonExpanded} onChange={() => setJsonExpanded(!jsonExpanded)}
-              sx={{ ...glassCard, "&:before": { display: "none" } }}>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography fontWeight={600} fontSize="0.9rem">Rule Release JSON</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Box sx={{ position: "relative" }}>
-                  <Tooltip title={copied ? "Copied!" : "Copy JSON"}>
-                    <IconButton onClick={() => handleCopy(releaseJson)}
-                      sx={{ position: "absolute", top: 8, right: 8, color: "#059669", backgroundColor: "rgba(255,255,255,0.9)", zIndex: 1 }} size="small">
-                      <ContentPasteIcon sx={{ fontSize: 16 }} />
-                    </IconButton>
-                  </Tooltip>
-                  <Box sx={{ background: "rgba(30,30,30,0.95)", borderRadius: 2, p: 2, overflow: "auto", border: "1px solid rgba(255,255,255,0.1)" }}>
-                    <pre style={{ margin: 0, color: "#f8f8f2", fontSize: "0.8rem", lineHeight: 1.5 }}>
-                      <code className="language-json">{releaseJson}</code>
-                    </pre>
-                  </Box>
-                </Box>
-              </AccordionDetails>
+            {/* Legacy: Release JSON accordion */}
+            <Accordion
+              type="single"
+              collapsible
+              value={jsonExpanded ? "release-json" : ""}
+              onValueChange={(v) => setJsonExpanded(v === "release-json")}
+              className={cn(panelClass, "overflow-hidden")}
+            >
+              <AccordionItem value="release-json" className="border-0 bg-transparent">
+                <AccordionTrigger className="min-h-12 cursor-pointer px-4">
+                  <p className="m-0 text-[0.9rem] font-semibold">Rule Release JSON</p>
+                </AccordionTrigger>
+                <AccordionContent forceMount className="border-0 px-4 pb-4 data-[state=closed]:hidden">
+                  <div className="relative">
+                    <Tooltip>
+                      <TooltipTrigger
+                        onClick={() => handleCopy(releaseJson)}
+                        aria-label={copied ? "Copied!" : "Copy JSON"}
+                        className={copyButtonClass}
+                      >
+                        <ClipboardPaste className="size-4" aria-hidden="true" />
+                      </TooltipTrigger>
+                      <TooltipContent>{copied ? "Copied!" : "Copy JSON"}</TooltipContent>
+                    </Tooltip>
+                    <div data-theme="dark" className={cn(codePanelClass, "max-h-none border border-solid border-border")}>
+                      <pre style={{ margin: 0, fontSize: "0.8rem", lineHeight: 1.5 }}>
+                        <code className="language-json">{releaseJson}</code>
+                      </pre>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
             </Accordion>
-          )}
-        </Stack>
-      </TabPanel>
-
-    </Box>
+          </div>
+        </TabsContent>
+      </Tabs>
+    </div>
   );
 }

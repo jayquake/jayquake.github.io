@@ -1,11 +1,6 @@
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import CloseIcon from '@mui/icons-material/Close';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { ExternalLink, X } from 'lucide-react';
+
+import { Button } from '../../components/ui/button';
 
 interface PlaywrightUIPanelProps {
   onHide: () => void;
@@ -28,37 +23,24 @@ export default function PlaywrightUIPanel({ onHide, proxyUrl, runId }: Playwrigh
   };
 
   return (
-    <Paper elevation={2} sx={{ overflow: 'hidden' }}>
-      <Stack
-        alignItems="center"
-        direction="row"
-        justifyContent="space-between"
-        sx={{ px: 2, py: 1, borderBottom: 1, borderColor: 'divider' }}
-      >
-        <Box>
-          <Typography fontWeight={600} variant="subtitle1">
-            Playwright UI Mode
-          </Typography>
-          <Typography color="text.secondary" variant="caption">
-            Interactive test inspector embedded in app
-          </Typography>
-        </Box>
-        <Stack direction="row" spacing={1}>
-          <Button
-            onClick={handleOpenInNew}
-            size="small"
-            startIcon={<OpenInNewIcon />}
-            variant="outlined"
-          >
+    <section className="overflow-hidden border border-border bg-shell-panel shadow-md">
+      <div className="flex items-center justify-between border-b border-border px-4 py-2">
+        <div>
+          <h6 className="m-0 text-base font-semibold text-foreground">Playwright UI Mode</h6>
+          <span className="text-xs text-foreground-secondary">Interactive test inspector embedded in app</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button onClick={handleOpenInNew} size="sm" variant="outline">
+            <ExternalLink aria-hidden="true" className="size-4" />
             Open in New Window
           </Button>
-          <IconButton onClick={onHide} size="small" title="Hide Playwright UI">
-            <CloseIcon />
-          </IconButton>
-        </Stack>
-      </Stack>
+          <Button aria-label="Hide Playwright UI" onClick={onHide} size="icon" title="Hide Playwright UI" variant="ghost">
+            <X aria-hidden="true" className="size-5" />
+          </Button>
+        </div>
+      </div>
 
-      <Box sx={{ height: 700, position: 'relative', bgcolor: 'background.default' }}>
+      <div className="relative h-[700px] bg-shell-main">
         <iframe
           onError={() => {
             console.error('Failed to load Playwright UI in iframe');
@@ -68,40 +50,21 @@ export default function PlaywrightUIPanel({ onHide, proxyUrl, runId }: Playwrigh
           style={{ border: 'none', height: '100%', width: '100%' }}
           title="Playwright UI"
         />
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 8,
-            right: 8,
-            bgcolor: 'background.paper',
-            opacity: 0.9,
-            borderRadius: 1,
-            px: 1,
-            py: 0.5,
-          }}
-        >
-          <Typography
-            component="button"
+        <div className="absolute right-2 top-2 rounded bg-shell-panel/90 px-2 py-1">
+          <button
+            className="cursor-pointer border-0 bg-transparent p-0 text-xs text-primary hover:underline focus-visible:underline"
             onClick={handleOpenInNew}
-            sx={{
-              background: 'none',
-              border: 'none',
-              color: 'primary.main',
-              cursor: 'pointer',
-              fontSize: '0.75rem',
-              '&:hover': { textDecoration: 'underline' },
-            }}
-            variant="caption"
+            type="button"
           >
             Open Full Screen →
-          </Typography>
-        </Box>
-      </Box>
+          </button>
+        </div>
+      </div>
 
-      <Typography color="text.secondary" sx={{ px: 2, py: 1 }} variant="caption">
+      <span className="block px-4 py-2 text-xs text-foreground-secondary">
         💡 The Playwright UI is embedded via proxy. If it doesn't load, try "Open in New Window"
         above.
-      </Typography>
-    </Paper>
+      </span>
+    </section>
   );
 }

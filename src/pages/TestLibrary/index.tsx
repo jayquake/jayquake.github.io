@@ -1,25 +1,14 @@
 import type { Project, QaseConfig, TestRunConfig } from '../../../shared/types';
 
-import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Chip from '@mui/material/Chip';
-import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
-import LinearProgress from '@mui/material/LinearProgress';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import FolderIcon from '@mui/icons-material/Folder';
-import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import { ArrowRight, Folder, Rocket } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 import { api } from '../../api/client';
 import { useToast } from '../../components/standalone/ToastContainer';
-import { MIN_TEXT_SIZE } from '../../theme/mgsTokens';
+import { Alert } from '../../components/ui/alert';
+import { Chip, type ChipTone } from '../../components/ui/chip';
+import { cn } from '../../lib/utils';
 import { isStaticDeployment } from '../../utils/environment';
 import AdvancedOptionsAccordion from './AdvancedOptionsAccordion';
 import ExecutionModeCard from './ExecutionModeCard';
@@ -28,6 +17,22 @@ import StickyRunHeader from './StickyRunHeader';
 import TargetEnvironmentCard from './TargetEnvironmentCard';
 import TestFileTree from './TestFileTree';
 import type { ExecutionMode, TestCaseInfo, TestFileInfo, TestSuiteGroup } from './types';
+
+// ─── project card accents (token classes; literal strings for Tailwind JIT) ──
+
+interface Accent {
+  bar: string;
+  hoverBorder: string;
+  text: string;
+}
+
+const SDK_ACCENT: Record<string, Accent> = {
+  node: { bar: 'bg-status-info', hoverBorder: 'hover:border-status-info focus-within:border-status-info', text: 'text-status-info' },
+  python: { bar: 'bg-status-pass', hoverBorder: 'hover:border-status-pass focus-within:border-status-pass', text: 'text-status-pass' },
+  java: { bar: 'bg-status-warn', hoverBorder: 'hover:border-status-warn focus-within:border-status-warn', text: 'text-status-warn' },
+};
+
+const DEFAULT_ACCENT: Accent = { bar: 'bg-primary', hoverBorder: 'hover:border-primary focus-within:border-primary', text: 'text-primary' };
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 
@@ -470,81 +475,43 @@ export default function TestLibrary() {
     const logoSrc = candidateProject?.logo ?? null;
 
     return (
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100vh',
-          gap: 2.5,
-          bgcolor: 'background.default',
-          '@keyframes fadeSlideUp': {
-            from: { opacity: 0, transform: 'translateY(16px)' },
-            to: { opacity: 1, transform: 'translateY(0)' },
-          },
-          animation: 'fadeSlideUp 0.35s ease-out both',
-        }}
-      >
+      <div className="flex h-screen flex-col items-center justify-center gap-5 bg-shell-main">
         {/* Project logo with pulse animation */}
-        <Box
-          sx={{
-            '@keyframes logoPulse': {
-              '0%, 100%': { transform: 'scale(1)', opacity: 1 },
-              '50%': { transform: 'scale(1.08)', opacity: 0.8 },
-            },
-            animation: 'logoPulse 1.4s ease-in-out infinite',
-          }}
-        >
+        <div className="animate-pulse">
           {logoSrc ? (
-            <Box
-              component="img"
+            <img
               src={logoSrc}
               alt={displayName}
-              sx={{ width: 80, height: 80, objectFit: 'contain', display: 'block' }}
+              className="block size-20 object-contain"
             />
           ) : (
-            <Box
-              sx={{
-                width: 80,
-                height: 80,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 3,
-                bgcolor: 'action.selected',
-              }}
-            >
-              <FolderIcon sx={{ fontSize: 40, color: 'text.disabled' }} />
-            </Box>
+            <div className="flex size-20 items-center justify-center rounded-xl bg-primary/10">
+              <Folder className="size-10 text-foreground-muted" aria-hidden="true" />
+            </div>
           )}
-        </Box>
+        </div>
 
         {/* Loading text */}
-        <Box sx={{ textAlign: 'center' }}>
-          <Typography
-            variant="h5"
-            fontWeight={700}
-            letterSpacing="-0.5px"
-            sx={{ mb: 0.5 }}
-          >
+        <div className="text-center">
+          <h5 className="m-0 mb-1 text-2xl font-bold tracking-[-0.5px] text-foreground">
             Loading {displayName}
-          </Typography>
-          <Typography color="text.secondary" variant="body2">
+          </h5>
+          <p className="m-0 text-sm text-foreground-secondary">
             Preparing test suite…
-          </Typography>
-        </Box>
+          </p>
+        </div>
 
         {/* Progress indicator */}
-        <LinearProgress sx={{ width: 220, borderRadius: 1 }} />
-      </Box>
+        <div role="progressbar" aria-label={`Loading ${displayName}`} className="relative h-1 w-[220px] overflow-hidden rounded bg-primary/20">
+          <div className="absolute inset-y-0 left-0 w-2/5 animate-progress-indeterminate bg-primary" />
+        </div>
+      </div>
     );
   }
 
   if (!project) {
     const frameworkLabel: Record<string, string> = { playwright: 'Playwright', pytest: 'Pytest', maven: 'Maven', selenium: 'Selenium' };
-    const sdkColor: Record<string, 'info' | 'success' | 'warning'> = { node: 'info', python: 'success', java: 'warning' };
-    const sdkAccent: Record<string, string> = { node: '#2196f3', python: '#4caf50', java: '#ff9800' };
+    const sdkTone: Record<string, ChipTone> = { node: 'info', python: 'pass', java: 'warn' };
     const projectById = new Map(allProjects.map((p) => [p.id, p]));
 
     type LangKey = 'node' | 'python' | 'java';
@@ -570,12 +537,12 @@ export default function TestLibrary() {
     const renderProjectCard = (
       cardKey: string,
       p: Project | null,
-      accent: string,
+      accent: Accent,
       isComingSoon: boolean,
       langKey: LangKey,
       section: 'playwright' | 'selenium',
     ) => {
-      const onClick = !isComingSoon && p ? () => navigate(`?project=${p.id}`) : undefined;
+      const href = !isComingSoon && p ? `?project=${p.id}` : undefined;
       const langInfo = languageOrder.find((item) => item.key === langKey)!;
       const iconsToShow: string[] = [langInfo.logo];
       if (!isComingSoon && p?.logos?.length) {
@@ -585,185 +552,143 @@ export default function TestLibrary() {
       const sectionLabel = section === 'playwright' ? 'Playwright' : 'Selenium';
       const comingSoonTitle = `AccessFlow (${langLabels[langKey]} ${sectionLabel})`;
       const comingSoonDescription = `AccessFlow ${langLabels[langKey]} SDK E2E test suite using ${sectionLabel} — coming soon.`;
+      const title = isComingSoon ? comingSoonTitle : p!.name;
       return (
-        <Grid size={{ xs: 12, sm: 6, md: 4 }} key={cardKey}>
-          <Card
-            onClick={onClick}
-            elevation={0}
-            sx={{
-              height: '100%',
-              cursor: isComingSoon ? 'default' : 'pointer',
-              display: 'flex',
-              flexDirection: 'column',
-              borderRadius: 3,
-              border: '2px solid',
-              borderColor: isComingSoon ? 'action.disabledBackground' : 'rgba(0,0,0,0.06)',
-              transition: 'all 0.2s ease',
-              position: 'relative',
-              overflow: 'hidden',
-              opacity: isComingSoon ? 0.75 : 1,
-              '&:hover': isComingSoon
-                ? {}
-                : {
-                    transform: 'translateY(-4px)',
-                    borderColor: accent,
-                    boxShadow: `0 8px 28px ${accent}28`,
-                  },
-              '&::before': {
-                content: '""',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: 4,
-                background: isComingSoon ? 'grey' : accent,
-              },
-            }}
+        <div key={cardKey} className="h-full">
+          <div
+            className={cn(
+              'relative flex h-full flex-col overflow-hidden rounded-xl border-2 bg-shell-panel transition-all duration-200',
+              isComingSoon
+                ? 'border-border opacity-75'
+                : cn('border-border focus-within:-translate-y-1 hover:-translate-y-1 hover:shadow-lg', accent.hoverBorder)
+            )}
           >
-            <CardContent sx={{ p: 3, flex: 1, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-              <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
+            <div aria-hidden="true" className={cn('absolute inset-x-0 top-0 h-1', isComingSoon ? 'bg-foreground-muted' : accent.bar)} />
+            <div className="flex flex-1 flex-col gap-3 p-6">
+              <div className="flex flex-row flex-wrap items-center gap-2">
                 {uniqueIcons.map((logoSrc, i) => (
-                  <Box
-                    key={i}
-                    component="img"
-                    src={logoSrc}
-                    alt=""
-                    sx={{ width: 44, height: 44, objectFit: 'contain' }}
-                  />
+                  <img key={i} src={logoSrc} alt="" className="size-11 object-contain" />
                 ))}
-              </Stack>
+              </div>
 
-              <Box>
-                <Typography fontWeight={700} variant="h6" sx={{ mb: 0.5 }}>
-                  {isComingSoon ? comingSoonTitle : p!.name}
-                </Typography>
-                <Stack direction="row" spacing={0.5} sx={{ mb: 1, flexWrap: 'wrap', gap: 0.5 }}>
+              <div>
+                <h6 className="m-0 mb-1 text-xl font-bold text-foreground">
+                  {href ? (
+                    <Link
+                      to={href}
+                      className="text-inherit no-underline outline-none after:absolute after:inset-0 after:content-[''] focus-visible:underline"
+                    >
+                      {title}
+                    </Link>
+                  ) : (
+                    title
+                  )}
+                </h6>
+                <div className="mb-2 flex flex-row flex-wrap gap-1">
                   {!isComingSoon && p?.sdkType && (
-                    <Chip
-                      label={p.sdkType.toUpperCase()}
-                      size="small"
-                      color={sdkColor[p.sdkType] || 'default'}
-                      sx={{ fontSize: MIN_TEXT_SIZE, height: 20, fontWeight: 700 }}
-                    />
+                    <Chip tone={sdkTone[p.sdkType] || 'default'} className="h-5 font-bold">
+                      {p.sdkType.toUpperCase()}
+                    </Chip>
                   )}
                   {isComingSoon ? (
-                    <Chip
-                      label="Coming Soon"
-                      size="small"
-                      color="default"
-                      variant="outlined"
-                      sx={{ fontSize: MIN_TEXT_SIZE, height: 20 }}
-                    />
+                    <Chip className="h-5">Coming Soon</Chip>
                   ) : (
                     p?.testFramework && (
-                      <Chip
-                        label={frameworkLabel[p.testFramework] || p.testFramework}
-                        size="small"
-                        variant="outlined"
-                        sx={{ fontSize: MIN_TEXT_SIZE, height: 20 }}
-                      />
+                      <Chip className="h-5">
+                        {frameworkLabel[p.testFramework] || p.testFramework}
+                      </Chip>
                     )
                   )}
-                </Stack>
-                <Typography color="text.secondary" variant="body2" sx={{ lineHeight: 1.6 }}>
+                </div>
+                <p className="m-0 text-sm leading-relaxed text-foreground-secondary">
                   {isComingSoon ? comingSoonDescription : p!.description}
-                </Typography>
-              </Box>
+                </p>
+              </div>
 
               {!isComingSoon && (
-                <Box sx={{ mt: 'auto', pt: 1, display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                  <Typography variant="body2" fontWeight={600} sx={{ color: accent }}>
-                    Select Project
-                  </Typography>
-                  <ArrowForwardIcon sx={{ fontSize: 16, color: accent }} />
-                </Box>
+                <div aria-hidden="true" className={cn('mt-auto flex items-center gap-1 pt-2', accent.text)}>
+                  <span className="text-sm font-semibold">Select Project</span>
+                  <ArrowRight className="size-4" />
+                </div>
               )}
-            </CardContent>
-          </Card>
-        </Grid>
+            </div>
+          </div>
+        </div>
       );
     };
 
     return (
-      <Box sx={{ px: { xs: 2, sm: 4, md: 6 }, py: 4, maxWidth: 1100, mx: 'auto' }}>
-        <Stack spacing={1} sx={{ mb: 5 }}>
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <RocketLaunchIcon sx={{ fontSize: 40, color: 'primary.main' }} />
-            <Box>
-              <Typography fontWeight={800} variant="h3" sx={{ lineHeight: 1.1 }}>
+      <div className="mx-auto max-w-[1100px] px-4 py-8 sm:px-8 md:px-12">
+        <div className="mb-10 flex flex-col gap-2">
+          <div className="flex flex-row items-center gap-4">
+            <Rocket className="size-10 text-primary" aria-hidden="true" />
+            <div>
+              <h3 className="m-0 text-5xl font-extrabold leading-tight text-foreground">
                 Run{' '}
-                <Box component="span" sx={{ color: 'primary.main' }}>
+                <span className="text-primary">
                   SDK Tests
-                </Box>
-              </Typography>
-              <Typography color="text.secondary" variant="body1" sx={{ mt: 0.5 }}>
+                </span>
+              </h3>
+              <p className="m-0 mt-1 text-base text-foreground-secondary">
                 Select a project to configure and run tests
-              </Typography>
-            </Box>
-          </Stack>
-          <Divider sx={{ mt: 2 }} />
-        </Stack>
+              </p>
+            </div>
+          </div>
+          <div className="mt-4 h-px bg-border" />
+        </div>
 
         {allProjects.length === 0 ? (
-          <Box sx={{ textAlign: 'center', py: 8 }}>
-            <Typography color="text.secondary">Loading projects...</Typography>
-            <LinearProgress sx={{ width: 200, mx: 'auto', mt: 2, borderRadius: 1 }} />
-          </Box>
+          <div className="py-16 text-center">
+            <p className="m-0 text-foreground-secondary">Loading projects...</p>
+            <div role="progressbar" aria-label="Loading projects" className="relative mx-auto mt-4 h-1 w-[200px] overflow-hidden rounded bg-primary/20">
+              <div className="absolute inset-y-0 left-0 w-2/5 animate-progress-indeterminate bg-primary" />
+            </div>
+          </div>
         ) : (
-          <Stack spacing={4}>
-            <Box>
-              <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
-                <Box
-                  component="img"
-                  src="/logos/playwright.svg"
-                  alt="Playwright"
-                  sx={{ width: 32, height: 32, objectFit: 'contain' }}
-                />
-                <Typography variant="h6" fontWeight={700}>
+          <div className="flex flex-col gap-8">
+            <section>
+              <div className="mb-4 flex flex-row items-center gap-3">
+                <img src="/logos/playwright.svg" alt="Playwright" className="size-8 object-contain" />
+                <h6 className="m-0 text-xl font-bold text-foreground">
                   Playwright
-                </Typography>
-              </Stack>
-              <Grid container spacing={3}>
+                </h6>
+              </div>
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
                 {languageOrder.map(({ key }) => {
                   const id = playwrightProjectIds[key];
                   const proj = id ? projectById.get(id) ?? null : null;
-                  const accent = sdkAccent[key] || '#667eea';
+                  const accent = SDK_ACCENT[key] || DEFAULT_ACCENT;
                   return renderProjectCard(`playwright-${key}`, proj, accent, !proj && !!id, key, 'playwright');
                 })}
-              </Grid>
-            </Box>
+              </div>
+            </section>
 
-            <Box>
-              <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
-                <Box
-                  component="img"
-                  src="/logos/selenium.svg"
-                  alt="Selenium"
-                  sx={{ width: 32, height: 32, objectFit: 'contain' }}
-                />
-                <Typography variant="h6" fontWeight={700}>
+            <section>
+              <div className="mb-4 flex flex-row items-center gap-3">
+                <img src="/logos/selenium.svg" alt="Selenium" className="size-8 object-contain" />
+                <h6 className="m-0 text-xl font-bold text-foreground">
                   Selenium
-                </Typography>
-              </Stack>
-              <Grid container spacing={3}>
+                </h6>
+              </div>
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
                 {languageOrder.map(({ key }) => {
                   const id = seleniumProjectIds[key];
                   const proj = id ? projectById.get(id) ?? null : null;
-                  const accent = sdkAccent[key] || '#667eea';
+                  const accent = SDK_ACCENT[key] || DEFAULT_ACCENT;
                   const isComingSoon = !proj;
                   return renderProjectCard(`selenium-${key}`, proj ?? null, accent, isComingSoon, key, 'selenium');
                 })}
-              </Grid>
-            </Box>
-          </Stack>
+              </div>
+            </section>
+          </div>
         )}
-      </Box>
+      </div>
     );
   }
 
   if (isStaticDeployment()) {
     return (
-      <Box sx={{ px: { xs: 2, sm: 4, md: 6 }, py: 4, maxWidth: 800, mx: 'auto' }}>
+      <div className="mx-auto max-w-[800px] px-4 py-8 sm:px-8 md:px-12">
         <StickyRunHeader
           projectName={project.name}
           projectId={project.id}
@@ -775,16 +700,16 @@ export default function TestLibrary() {
           onBack={() => navigate('/test-runner')}
           onProjectChange={(id) => navigate(`/test-runner/library?project=${id}`)}
         />
-        <Alert severity="info" sx={{ mt: 3 }}>
+        <Alert variant="info" className="mt-6">
           Test execution requires the backend server. Run locally with{' '}
           <code>npm run dev:full</code> or deploy with Docker for full functionality.
         </Alert>
-      </Box>
+      </div>
     );
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
+    <div className="flex h-screen flex-col overflow-hidden">
       {/* Sticky header */}
       <StickyRunHeader
         projectName={project.name}
@@ -799,18 +724,9 @@ export default function TestLibrary() {
       />
 
       {/* Two-column body */}
-      <Box
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: { xs: '1fr', md: '380px 1fr' },
-          gap: 2,
-          flex: 1,
-          overflow: 'hidden',
-          p: 2,
-        }}
-      >
+      <div className="grid flex-1 grid-cols-1 gap-4 overflow-hidden p-4 md:grid-cols-[380px_1fr]">
         {/* Left — Test Browser */}
-        <Box sx={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+        <div className="flex flex-col overflow-hidden">
           <TestFileTree
             suiteGroup={filteredSuiteGroup}
             selectedTests={selectedTests}
@@ -831,61 +747,41 @@ export default function TestLibrary() {
             onSelectAll={handleSelectAll}
             onClearAll={handleClearAll}
           />
-        </Box>
+        </div>
 
         {/* Right — Launch Configuration */}
-        <Box sx={{ overflow: 'auto', display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <div className="flex flex-col gap-4 overflow-auto">
 
           {/* Project identity */}
-          <Paper
-            variant="outlined"
-            sx={{
-              p: 1.5,
-              display: 'flex',
-              alignItems: 'center',
-              gap: 1.5,
-              borderRadius: 2,
-              bgcolor: 'action.hover',
-            }}
-          >
+          <div className="flex items-center gap-3 rounded-lg border border-border bg-hover/5 p-3">
             {project.logo ? (
-              <Box
-                component="img"
+              <img
                 src={project.logo}
                 alt={project.name}
                 onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
                   e.currentTarget.style.display = 'none';
                   (e.currentTarget.nextElementSibling as HTMLElement | null)?.style.setProperty('display', 'flex');
                 }}
-                sx={{ width: 36, height: 36, objectFit: 'contain', flexShrink: 0 }}
+                className="size-9 shrink-0 object-contain"
               />
             ) : null}
-            <Box
-              sx={{
-                width: 36,
-                height: 36,
-                flexShrink: 0,
-                display: project.logo ? 'none' : 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 1,
-                bgcolor: 'primary.main',
-                color: 'primary.contrastText',
-              }}
+            <div
+              className="size-9 shrink-0 items-center justify-center rounded bg-primary text-primary-foreground"
+              style={{ display: project.logo ? 'none' : 'flex' }}
             >
-              <FolderIcon sx={{ fontSize: 20 }} />
-            </Box>
-            <Box sx={{ minWidth: 0 }}>
-              <Typography variant="subtitle2" fontWeight={700} lineHeight={1.2} noWrap>
+              <Folder className="size-5" aria-hidden="true" />
+            </div>
+            <div className="min-w-0">
+              <h6 className="m-0 truncate text-sm font-bold leading-tight text-foreground">
                 {project.name}
-              </Typography>
+              </h6>
               {project.description && (
-                <Typography variant="caption" color="text.secondary" noWrap display="block">
+                <span className="block truncate text-[0.75rem] text-foreground-secondary">
                   {project.description}
-                </Typography>
+                </span>
               )}
-            </Box>
-          </Paper>
+            </div>
+          </div>
 
           <TargetEnvironmentCard
             baseUrl={baseUrl}
@@ -928,8 +824,8 @@ export default function TestLibrary() {
             isSubmitting={isSubmitting}
             onRun={() => handleRunTests()}
           />
-        </Box>
-      </Box>
-    </Box>
+        </div>
+      </div>
+    </div>
   );
 }

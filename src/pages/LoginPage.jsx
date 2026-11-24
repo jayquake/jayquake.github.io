@@ -1,18 +1,19 @@
-import Alert from "@mui/material/Alert";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import { Alert } from "../components/ui/alert";
+import { Button } from "../components/ui/button";
+import { Card } from "../components/ui/card";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
 import {
   isFakeLoginAuthenticated,
   setFakeLoginAuthenticated,
   validateFakeLoginCredentials,
 } from "../utils/fakeLoginAuth";
 import { FAKE_LOGIN_IDS } from "../utils/fakeLoginIds";
+
+const INPUT_CLASS =
+  "border border-border-strong bg-shell-input px-3 text-sm focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/15";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -38,75 +39,60 @@ export default function LoginPage() {
   };
 
   return (
-    <Box
+    <main
       id={FAKE_LOGIN_IDS.page}
-      component="main"
-      sx={{
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        bgcolor: "background.default",
-        px: 2,
-      }}
+      className="flex min-h-screen items-center justify-center bg-shell-main px-4"
     >
-      <Card id={FAKE_LOGIN_IDS.card} sx={{ width: "100%", maxWidth: 400 }}>
-        <CardContent sx={{ p: 3 }}>
-          <Typography id={FAKE_LOGIN_IDS.heading} component="h1" variant="h5" gutterBottom>
-            Sign in
-          </Typography>
-          <Typography
-            id={FAKE_LOGIN_IDS.description}
-            variant="body2"
-            color="text.secondary"
-            sx={{ mb: 3 }}
-          >
-            Enter your credentials to continue.
-          </Typography>
+      <Card id={FAKE_LOGIN_IDS.card} className="w-full max-w-[400px] p-6">
+        <h1 id={FAKE_LOGIN_IDS.heading} className="m-0 mb-2 text-2xl font-semibold text-foreground">
+          Sign in
+        </h1>
+        <p id={FAKE_LOGIN_IDS.description} className="m-0 mb-6 text-sm text-foreground-secondary">
+          Enter your credentials to continue.
+        </p>
 
-          <Box id={FAKE_LOGIN_IDS.form} component="form" onSubmit={handleSubmit} noValidate>
-            <TextField
+        <form id={FAKE_LOGIN_IDS.form} onSubmit={handleSubmit} noValidate>
+          <div className="mb-2 mt-4 flex flex-col gap-1.5">
+            <Label htmlFor={FAKE_LOGIN_IDS.usernameInput}>
+              Username <span aria-hidden="true">*</span>
+            </Label>
+            <Input
               id={FAKE_LOGIN_IDS.usernameInput}
               name="username"
-              label="Username"
               autoComplete="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              fullWidth
               required
-              margin="normal"
+              className={INPUT_CLASS}
             />
-            <TextField
+          </div>
+          <div className="mb-2 mt-4 flex flex-col gap-1.5">
+            <Label htmlFor={FAKE_LOGIN_IDS.passwordInput}>
+              Password <span aria-hidden="true">*</span>
+            </Label>
+            <Input
               id={FAKE_LOGIN_IDS.passwordInput}
               name="password"
-              label="Password"
               type="password"
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              fullWidth
               required
-              margin="normal"
+              className={INPUT_CLASS}
             />
+          </div>
 
-            {error && (
-              <Alert id={FAKE_LOGIN_IDS.errorMessage} severity="error" sx={{ mt: 2 }}>
-                {error}
-              </Alert>
-            )}
+          {error && (
+            <Alert id={FAKE_LOGIN_IDS.errorMessage} variant="error" className="mt-4">
+              {error}
+            </Alert>
+          )}
 
-            <Button
-              id={FAKE_LOGIN_IDS.submitButton}
-              type="submit"
-              variant="contained"
-              fullWidth
-              sx={{ mt: 3 }}
-            >
-              Sign in
-            </Button>
-          </Box>
-        </CardContent>
+          <Button id={FAKE_LOGIN_IDS.submitButton} type="submit" variant="default" className="mt-6 w-full">
+            Sign in
+          </Button>
+        </form>
       </Card>
-    </Box>
+    </main>
   );
 }

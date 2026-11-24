@@ -2,53 +2,90 @@ import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { AnimatePresence } from "motion/react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Alert,
-  Box,
-  Button,
-  Chip,
-  Divider,
-  Paper,
-  Stack,
-  Typography,
-} from "@mui/material";
-import {
-  CheckCircle as CheckIcon,
-  ErrorOutline as ErrorIcon,
-  ExpandMore as ExpandMoreIcon,
-  Info as InfoIcon,
-  Lightbulb as LightbulbIcon,
-} from "@mui/icons-material";
+import { AlertCircle, CheckCircle2, Info, Lightbulb } from "lucide-react";
 import { m } from "../motion/HudMotion";
 import ExampleCard from "./ExampleCard";
 import ExamplePageNav from "./ExamplePageNav";
 import engineLegacyMapping from "../../data/engine-legacy-mapping";
-import { HUD_PANEL, PAGE_SHELL } from "../../theme/layout";
-import { MGS, MIN_TEXT_SIZE, mgsFonts, raidenType } from "../../theme/mgsTokens";
+import { cn } from "../../lib/utils";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
+import { Alert } from "../ui/alert";
+import { buttonClass } from "../ui/button";
+import { Chip } from "../ui/chip";
+import { Separator } from "../ui/separator";
 import { hudVariantMotion, hudVariantTransition } from "../../theme/motionPresets";
 
+/** Per-variant token classes, written out in full so Tailwind can see them. */
 const PALETTE = {
   success: {
-    primary: MGS.passGreen,
-    tint: "rgba(110, 231, 183, 0.08)",
-    border: "rgba(110, 231, 183, 0.28)",
+    text: "text-status-pass",
+    border: "border-status-pass/30",
+    borderLeft: "border-l-status-pass",
+    tint: "bg-status-pass/10",
+    gradient: "linear-gradient(120deg, hsl(var(--status-pass) / 0.08), transparent 55%)",
     statusLabel: "Compliant",
-    statusIcon: CheckIcon,
+    statusIcon: CheckCircle2,
   },
   failure: {
-    primary: MGS.alertRed,
-    tint: "rgba(255, 92, 92, 0.08)",
-    border: "rgba(255, 92, 92, 0.28)",
+    text: "text-status-fail",
+    border: "border-status-fail/30",
+    borderLeft: "border-l-status-fail",
+    tint: "bg-status-fail/10",
+    gradient: "linear-gradient(120deg, hsl(var(--status-fail) / 0.08), transparent 55%)",
     statusLabel: "Needs Fix",
-    statusIcon: ErrorIcon,
+    statusIcon: AlertCircle,
   },
 };
 
-const sectionLabelSx = {
-  ...raidenType.sectionLabel,
+/** Tailwind equivalent of PAGE_SHELL (theme/layout). */
+const PAGE_SHELL_CLASS =
+  "box-border flex h-full min-h-0 w-full max-w-full flex-col items-stretch gap-3 overflow-y-auto overflow-x-hidden px-4 py-4 text-left sm:px-5 sm:py-5 md:px-6";
+
+/** Tailwind equivalent of HUD_PANEL (theme/layout). */
+const HUD_PANEL_CLASS = "w-full rounded border border-solid border-border bg-shell-panel";
+
+/** raidenType.sectionLabel */
+const sectionLabelClass = "m-0 font-mono text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-primary-dim";
+
+/** raidenType.bodyHud */
+const bodyHudClass = "m-0 font-sans text-[0.85rem] leading-[1.55] text-foreground-secondary";
+
+function GuidanceAccordion({ icon, iconClass, label, helpText, items }) {
+  const Icon = icon;
+  return (
+    <Accordion type="single" collapsible className={HUD_PANEL_CLASS}>
+      <AccordionItem value="guidance" className="border-0">
+        <AccordionTrigger className="min-h-12 cursor-pointer px-4">
+          <span className="flex flex-row items-center gap-2">
+            <Icon className={cn("size-[18px]", iconClass)} aria-hidden="true" />
+            <h6 className={sectionLabelClass}>{label}</h6>
+          </span>
+        </AccordionTrigger>
+        <AccordionContent className="border-0 px-4 pb-4 pt-0">
+          {helpText && helpText !== "N/A" && (
+            <p className={cn(bodyHudClass, items?.length ? "mb-3" : "mb-0")}>{helpText}</p>
+          )}
+          {items && items.length > 0 && (
+            <div className="flex flex-col gap-1.5">
+              {items.map((item, i) => (
+                <p key={i} className={bodyHudClass}>
+                  {i + 1}. {item}
+                </p>
+              ))}
+            </div>
+          )}
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  );
+}
+
+GuidanceAccordion.propTypes = {
+  icon: PropTypes.elementType.isRequired,
+  iconClass: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  helpText: PropTypes.string,
+  items: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default function UnifiedExamplePage({
@@ -80,185 +117,105 @@ export default function UnifiedExamplePage({
 
   const variantContent = (
     <>
-      <Paper
-        elevation={0}
-        sx={{
-          ...HUD_PANEL,
-          overflow: "hidden",
-          width: "100%",
-          borderLeft: `3px solid ${pal.primary}`,
-        }}
-      >
-        <Box sx={{ p: { xs: 2, sm: 2.5 }, background: `linear-gradient(120deg, ${pal.tint}, transparent 55%)` }}>
-          <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2}>
-            <Box sx={{ minWidth: 0 }}>
-              <Typography sx={{ ...sectionLabelSx, color: pal.primary, mb: 0.75, fontSize: "0.68rem" }}>
+      <div className={cn(HUD_PANEL_CLASS, "overflow-hidden border-l-[3px]", pal.borderLeft)}>
+        <div className="p-4 sm:p-5" style={{ background: pal.gradient }}>
+          <div className="flex flex-row items-start justify-between gap-4">
+            <div className="min-w-0">
+              <p className={cn(sectionLabelClass, pal.text, "mb-1.5 text-[0.68rem]")}>
                 Fixture review · {variant === "success" ? "expected pass" : "expected finding"}
-              </Typography>
+              </p>
               {title && (
-                <Typography
-                  variant="subtitle1"
-                  component="h1"
-                  sx={{
-                    fontFamily: mgsFonts.display,
-                    fontWeight: 700,
-                    color: "text.primary",
-                    lineHeight: 1.2,
-                    fontSize: { xs: "1.05rem", sm: "1.2rem" },
-                    textTransform: "uppercase",
-                    letterSpacing: "0.06em",
-                    mb: description ? 0.9 : 0,
-                    overflowWrap: "break-word",
-                  }}
+                <h1
+                  className={cn(
+                    "m-0 break-words font-['Rajdhani',sans-serif] text-[1.05rem] font-bold uppercase leading-[1.2] tracking-[0.06em] text-foreground sm:text-[1.2rem]",
+                    description ? "mb-2" : "mb-0"
+                  )}
                 >
                   {title}
-                </Typography>
+                </h1>
               )}
-            </Box>
-            <Box sx={{ display: { xs: "none", sm: "flex" }, flexShrink: 0, width: 38, height: 38, alignItems: "center", justifyContent: "center", border: `1px solid ${pal.border}`, color: pal.primary, bgcolor: pal.tint }}>
-              <StatusIcon sx={{ fontSize: 21 }} />
-            </Box>
-          </Stack>
+            </div>
+            <div
+              className={cn(
+                "hidden size-[38px] shrink-0 items-center justify-center border border-solid sm:flex",
+                pal.border,
+                pal.text,
+                pal.tint
+              )}
+            >
+              <StatusIcon className="size-[21px]" aria-hidden="true" />
+            </div>
+          </div>
 
-          {description && (
-            <Typography variant="body2" sx={{ ...raidenType.bodyHud, maxWidth: 820 }}>
-              {description}
-            </Typography>
+          {description && <p className={cn(bodyHudClass, "max-w-[820px]")}>{description}</p>}
+        </div>
+
+        <div
+          className={cn(
+            "flex flex-row flex-wrap gap-1 border-0 border-t border-solid bg-shell-main px-4 py-2.5 sm:px-5",
+            pal.border
           )}
-        </Box>
-
-        <Stack direction="row" spacing={0.75} flexWrap="wrap" sx={{ gap: 0.5, px: { xs: 2, sm: 2.5 }, py: 1.25, borderTop: `1px solid ${pal.border}`, bgcolor: "background.default" }}>
+        >
           <Chip
-            icon={<StatusIcon sx={{ fontSize: 14 }} />}
-            label={pal.statusLabel}
-            size="small"
-            variant="outlined"
-            sx={{ height: 24, fontWeight: 600, borderColor: pal.border, color: pal.primary, fontFamily: mgsFonts.hud, fontSize: MIN_TEXT_SIZE }}
-          />
-          <Chip
-            label={`${examples.length} fixture${examples.length !== 1 ? "s" : ""}`}
-            size="small"
-            variant="outlined"
-            sx={{ height: 24, fontSize: MIN_TEXT_SIZE }}
-          />
-          <Typography sx={{ ml: "auto", alignSelf: "center", fontFamily: mgsFonts.hud, color: "text.secondary", fontSize: MIN_TEXT_SIZE }}>
+            className={cn("h-6 rounded-full font-semibold", pal.border, pal.text)}
+            icon={<StatusIcon className="size-3.5" aria-hidden="true" />}
+          >
+            {pal.statusLabel}
+          </Chip>
+          <Chip className="h-6 rounded-full">{`${examples.length} fixture${examples.length !== 1 ? "s" : ""}`}</Chip>
+          <p className="m-0 ml-auto self-center font-mono text-[0.75rem] text-foreground-secondary">
             Preview · source · audit tree
-          </Typography>
-        </Stack>
-      </Paper>
+          </p>
+        </div>
+      </div>
 
       {variant === "success" && (helpText || (bestPractices && bestPractices.length > 0)) && (
-        <Accordion
-          defaultExpanded={false}
-          disableGutters
-          sx={{
-            ...HUD_PANEL,
-            width: "100%",
-            "&:before": { display: "none" },
-            "&.Mui-expanded": { margin: 0 },
-          }}
-        >
-          <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: "text.secondary" }} />}>
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <LightbulbIcon sx={{ color: pal.primary, fontSize: 18 }} />
-              <Typography variant="subtitle2" sx={sectionLabelSx}>
-                Best Practices
-              </Typography>
-            </Stack>
-          </AccordionSummary>
-          <AccordionDetails sx={{ pt: 0 }}>
-            {helpText && helpText !== "N/A" && (
-              <Typography variant="body2" sx={{ mb: bestPractices?.length ? 1.5 : 0, ...raidenType.bodyHud }}>
-                {helpText}
-              </Typography>
-            )}
-            {bestPractices && bestPractices.length > 0 && (
-              <Stack spacing={0.75}>
-                {bestPractices.map((practice, i) => (
-                  <Typography key={i} variant="body2" sx={{ ...raidenType.bodyHud, fontSize: "0.85rem" }}>
-                    {i + 1}. {practice}
-                  </Typography>
-                ))}
-              </Stack>
-            )}
-          </AccordionDetails>
-        </Accordion>
+        <GuidanceAccordion
+          icon={Lightbulb}
+          iconClass={pal.text}
+          label="Best Practices"
+          helpText={helpText}
+          items={bestPractices}
+        />
       )}
 
       {variant === "failure" && (helpText || (fixSteps && fixSteps.length > 0)) && (
-        <Accordion
-          defaultExpanded={false}
-          disableGutters
-          sx={{
-            ...HUD_PANEL,
-            width: "100%",
-            "&:before": { display: "none" },
-            "&.Mui-expanded": { margin: 0 },
-          }}
-        >
-          <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: "text.secondary" }} />}>
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <InfoIcon sx={{ color: "primary.main", fontSize: 18 }} />
-              <Typography variant="subtitle2" sx={sectionLabelSx}>
-                How to Fix
-              </Typography>
-            </Stack>
-          </AccordionSummary>
-          <AccordionDetails sx={{ pt: 0 }}>
-            {helpText && helpText !== "N/A" && (
-              <Typography variant="body2" sx={{ mb: fixSteps?.length ? 1.5 : 0, ...raidenType.bodyHud }}>
-                {helpText}
-              </Typography>
-            )}
-            {fixSteps && fixSteps.length > 0 && (
-              <Stack spacing={0.75}>
-                {fixSteps.map((step, i) => (
-                  <Typography key={i} variant="body2" sx={{ ...raidenType.bodyHud, fontSize: "0.85rem" }}>
-                    {i + 1}. {step}
-                  </Typography>
-                ))}
-              </Stack>
-            )}
-          </AccordionDetails>
-        </Accordion>
+        <GuidanceAccordion icon={Info} iconClass="text-primary" label="How to Fix" helpText={helpText} items={fixSteps} />
       )}
 
-      <Paper elevation={0} sx={{ ...HUD_PANEL, p: { xs: 2, sm: 2.5 }, width: "100%" }}>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2} sx={{ mb: 1.5 }}>
-          <Box>
-            <Typography variant="subtitle2" sx={{ ...sectionLabelSx, color: pal.primary, fontSize: MIN_TEXT_SIZE }}>
+      <div className={cn(HUD_PANEL_CLASS, "p-4 sm:p-5")}>
+        <div className="mb-3 flex flex-row items-center justify-between gap-4">
+          <div>
+            <h6 className={cn(sectionLabelClass, pal.text)}>
               {variant === "success" ? "Success fixtures" : "Failure fixtures"}
-            </Typography>
-            <Typography variant="body2" sx={{ mt: 0.35, fontSize: "0.78rem" }}>
+            </h6>
+            <p className="m-0 mt-1 text-[0.78rem] text-foreground">
               Inspect each isolated case before moving it into your test run.
-            </Typography>
-          </Box>
-          <Chip label={`${examples.length} total`} size="small" variant="outlined" sx={{ flexShrink: 0, height: 23, fontSize: MIN_TEXT_SIZE }} />
-        </Stack>
+            </p>
+          </div>
+          <Chip className="h-[23px] shrink-0 rounded-full">{`${examples.length} total`}</Chip>
+        </div>
 
-        <Divider sx={{ mb: 1.5 }} />
+        <Separator className="mb-3" />
 
         {relatedEngineRules.length > 0 && (
-          <Box sx={{ mb: 1.5, p: 1.25, border: "1px solid", borderColor: "divider", bgcolor: "background.default" }}>
-            <Typography sx={{ ...sectionLabelSx, mb: 0.75, fontSize: "0.68rem" }}>Mapped engine fixtures</Typography>
-            <Stack direction="row" flexWrap="wrap" gap={0.75}>
+          <div className="mb-3 border border-solid border-border bg-shell-main p-2.5">
+            <p className={cn(sectionLabelClass, "mb-1.5 text-[0.68rem]")}>Mapped engine fixtures</p>
+            <div className="flex flex-row flex-wrap gap-1.5">
               {relatedEngineRules.map((engineId) => (
-                <Button
+                <RouterLink
                   key={engineId}
-                  component={RouterLink}
                   to={`/engine/${engineId}_${variant}`}
-                  size="small"
-                  variant="outlined"
-                  sx={{ textTransform: "none", fontSize: MIN_TEXT_SIZE }}
+                  className={buttonClass({ variant: "outline", size: "sm", className: "normal-case no-underline" })}
                 >
                   {engineId}
-                </Button>
+                </RouterLink>
               ))}
-            </Stack>
-          </Box>
+            </div>
+          </div>
         )}
 
-        <Box role="region" aria-label={`${variant} examples list`}>
+        <div role="region" aria-label={`${variant} examples list`}>
           {examples.length > 0 ? (
             examples.map((ex, i) => (
               <ExampleCard
@@ -273,25 +230,24 @@ export default function UnifiedExamplePage({
               />
             ))
           ) : (
-            <Alert severity="info" icon={<InfoIcon />}>
+            <Alert role="alert" variant="info" className="border-solid">
               No {variant} examples available for this rule.
             </Alert>
           )}
-        </Box>
-      </Paper>
+        </div>
+      </div>
     </>
   );
 
   return (
-    <Box sx={{ ...PAGE_SHELL, display: "flex", flexDirection: "column", gap: 1.5 }}>
+    <div className={PAGE_SHELL_CLASS}>
       <ExamplePageNav ruleId={ruleId} ruleType={ruleType} variant={variant} />
 
-      <Box
-        component="main"
+      <main
         data-scan-ready="true"
         data-rule-id={ruleId}
         data-variant={variant}
-        sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}
+        className="flex flex-col gap-3"
       >
         {ruleType === "legacy" ? (
           <AnimatePresence mode="wait">
@@ -309,8 +265,8 @@ export default function UnifiedExamplePage({
         ) : (
           variantContent
         )}
-      </Box>
-    </Box>
+      </main>
+    </div>
   );
 }
 

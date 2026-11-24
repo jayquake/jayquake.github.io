@@ -1,5 +1,3 @@
-import CssBaseline from "@mui/material/CssBaseline";
-import { ThemeProvider } from "@mui/material/styles";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -12,7 +10,6 @@ import reportWebVitals from "./reportWebVitals";
 import { AppReadyProvider } from "./context/AppReadyContext";
 import { MotionProvider } from "./components/motion/HudMotion";
 import { TooltipProvider } from "./components/ui/tooltip";
-import { theme } from "./theme";
 import { prefetchEngineRulesCatalog } from "./utils/engineRulesDataService";
 
 prefetchEngineRulesCatalog();
@@ -20,23 +17,20 @@ prefetchEngineRulesCatalog();
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-        <LoadingProvider>
-          <ToastProvider>
-            <AppReadyProvider>
-              <MotionProvider>
-                <TooltipProvider>
-                  <GlobalLoading />
-                  <App />
-                </TooltipProvider>
-              </MotionProvider>
-            </AppReadyProvider>
-          </ToastProvider>
-        </LoadingProvider>
-      </Router>
-    </ThemeProvider>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <LoadingProvider>
+        <ToastProvider>
+          <AppReadyProvider>
+            <MotionProvider>
+              <TooltipProvider>
+                <GlobalLoading />
+                <App />
+              </TooltipProvider>
+            </MotionProvider>
+          </AppReadyProvider>
+        </ToastProvider>
+      </LoadingProvider>
+    </Router>
   </React.StrictMode>
 );
 

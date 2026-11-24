@@ -1,0 +1,50 @@
+- generic [ref=f3e3]:
+  - banner [ref=f3e4]:
+    - generic [ref=f3e5]:
+      - link [ref=f3e6] [cursor=pointer]:
+        - /url: /
+        - img "AccessE2E" [ref=f3e7]
+      - navigation "Main" [ref=f3e8]:
+        - link "Projects" [ref=f3e9] [cursor=pointer]:
+          - /url: /
+        - link "Run Tests" [ref=f3e10] [cursor=pointer]:
+          - /url: /run
+        - link "History" [ref=f3e11] [cursor=pointer]:
+          - /url: /history
+        - link "CI Runs" [ref=f3e12] [cursor=pointer]:
+          - /url: /ci-runs
+  - main [ref=f3e13]:
+    - generic [ref=f3e14]:
+      - generic [ref=f3e15]:
+        - heading "Select a Project" [level=1] [ref=f3e16]
+        - paragraph [ref=f3e17]: Choose a project to run E2E tests, open Journeys Visualization, or jump into comparison tools.
+      - generic [ref=f3e18]:
+        - generic [ref=f3e20]:
+          - generic [ref=f3e23]:
+            - heading "AccessFlow" [level=3] [ref=f3e24]
+            - paragraph [ref=f3e25]: AccessFlow E2E test suite
+          - generic [ref=f3e26]:
+            - button "Run automated tests" [ref=f3e27] [cursor=pointer]
+            - button "Journeys" [ref=f3e28] [cursor=pointer]
+        - generic [ref=f3e30]:
+          - generic [ref=f3e33]:
+            - heading "AccessScan" [level=3] [ref=f3e34]
+            - paragraph [ref=f3e35]: AccessScan audit form and email E2E test suite
+          - button "Run automated tests" [ref=f3e37] [cursor=pointer]
+        - generic [ref=f3e39]:
+          - generic [ref=f3e42]:
+            - heading "Customer Portal" [level=3] [ref=f3e43]
+            - paragraph [ref=f3e44]: Customer Portal E2E test suite
+          - button "Run automated tests" [ref=f3e46] [cursor=pointer]
+        - generic [ref=f3e48]:
+          - generic [ref=f3e49]:
+            - generic [ref=f3e50]: S
+            - generic [ref=f3e52]:
+              - heading "Smoke (temp)" [level=3] [ref=f3e53]
+              - paragraph [ref=f3e54]: temporary smoke project
+          - button "Run automated tests" [ref=f3e56] [cursor=pointer]
+        - generic [ref=f3e58]:
+          - generic [ref=f3e64]:
+            - heading "AIComparisonTool" [level=3] [ref=f3e65]
+            - paragraph [ref=f3e66]: Compare envs & AI-verify selector gaps (FP/TP) against WCAG 2.1
+          - button "Open tool" [ref=f3e68] [cursor=pointer]

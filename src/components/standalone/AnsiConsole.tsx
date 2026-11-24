@@ -1,17 +1,22 @@
 import AnsiToHtml from 'ansi-to-html';
-import Box from '@mui/material/Box';
+import type { CSSProperties } from 'react';
 import { useEffect, useMemo, useRef } from 'react';
 
 type AnsiConsoleProps = {
   autoScroll?: boolean;
   output: string;
+  /** Extra inline styles merged over the defaults (was an MUI `sx` object). */
   sx?: object;
 };
 
+/* Fixed terminal palette: the console stays dark in both app themes. */
+const TERMINAL_BG = '#1e1e1e';
+const TERMINAL_FG = '#e0e0e0';
+
 const ansiConverter = new AnsiToHtml({
-  bg: '#1e1e1e',
+  bg: TERMINAL_BG,
   escapeXML: true,
-  fg: '#e0e0e0',
+  fg: TERMINAL_FG,
   newline: true,
   stream: false,
 });
@@ -33,24 +38,11 @@ export const AnsiConsole = ({ autoScroll = true, output, sx }: AnsiConsoleProps)
   }, [output, autoScroll]);
 
   return (
-    <Box
+    <div
+      className="max-h-96 overflow-y-auto whitespace-pre-wrap break-all rounded p-4 font-mono text-[0.8rem] leading-relaxed [&_span]:font-[inherit]"
       dangerouslySetInnerHTML={{ __html: htmlOutput }}
       ref={containerRef}
-      sx={{
-        bgcolor: '#1e1e1e',
-        color: '#e0e0e0',
-        p: 2,
-        borderRadius: 1,
-        fontFamily: 'monospace',
-        fontSize: '0.8rem',
-        lineHeight: 1.6,
-        maxHeight: 384,
-        overflowY: 'auto',
-        whiteSpace: 'pre-wrap',
-        wordBreak: 'break-all',
-        '& span': { fontFamily: 'inherit' },
-        ...sx,
-      }}
+      style={{ backgroundColor: TERMINAL_BG, color: TERMINAL_FG, lineHeight: 1.6, ...(sx as CSSProperties | undefined) }}
     />
   );
 };

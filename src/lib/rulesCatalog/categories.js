@@ -7,7 +7,6 @@ const CATEGORIES = [
     id: "aria-roles",
     label: "ARIA & Roles",
     icon: "Accessibility",
-    color: "#7c4dff",
     rules: [
       "aria-controls-has-reference",
       "aria-describedby-has-reference",
@@ -24,7 +23,6 @@ const CATEGORIES = [
     id: "forms-inputs",
     label: "Forms & Inputs",
     icon: "EditNote",
-    color: "#2196f3",
     rules: [
       "captcha-accessible-provider-2.0",
       "captcha-accessible-provider-2.2",
@@ -58,7 +56,6 @@ const CATEGORIES = [
     id: "links-navigation",
     label: "Links & Navigation",
     icon: "Link",
-    color: "#9c27b0",
     rules: [
       "breadcrumbs-nav",
       "breadcrumbs-mismatch",
@@ -104,7 +101,6 @@ const CATEGORIES = [
     id: "images-media",
     label: "Images & Media",
     icon: "Image",
-    color: "#4caf50",
     rules: [
       "alt-misuse",
       "background-image-discernible",
@@ -124,7 +120,6 @@ const CATEGORIES = [
     id: "structure-semantics",
     label: "Structure & Semantics",
     icon: "AccountTree",
-    color: "#ff9800",
     rules: [
       "article-misuse",
       "footer-navigation-discernible",
@@ -161,7 +156,6 @@ const CATEGORIES = [
     id: "interactive-widgets",
     label: "Interactive Widgets",
     icon: "Widgets",
-    color: "#e91e63",
     rules: [
       "button-discernible",
       "button-mismatch",
@@ -195,7 +189,6 @@ const CATEGORIES = [
     id: "text-content",
     label: "Text & Content",
     icon: "TextFields",
-    color: "#00897b",
     rules: [
       "color-contrast",
       "emphasis-mismatch",
@@ -215,7 +208,6 @@ const CATEGORIES = [
     id: "page-document",
     label: "Page & Document",
     icon: "Description",
-    color: "#607d8b",
     rules: [
       "duplicate-id",
       "html-lang",

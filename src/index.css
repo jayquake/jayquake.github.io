@@ -5,9 +5,9 @@
 :root,
 [data-theme="light"] {
   color-scheme: light;
-  --primary: 172 100% 32%;
-  --primary-dim: 171 100% 24%;
-  --primary-bright: 171 83% 31%;
+  --primary: 172 100% 23%;
+  --primary-dim: 171 100% 20%;
+  --primary-bright: 171 83% 24%;
   --on-accent: 0 0% 100%;
   --accent: 214 16% 92%;
   --muted: 214 14% 85%;
@@ -24,22 +24,32 @@
 
   --text-primary: 210 15% 9%;
   --text-secondary: 215 12% 28%;
-  --text-muted: 215 10% 45%;
-  --text-accent: 172 76% 28%;
+  --text-muted: 215 12% 39%;
+  --text-accent: 172 80% 24%;
 
-  --status-pass: 160 84% 32%;
+  --status-pass: 160 84% 26%;
   --status-fail: 0 72% 48%;
-  --status-warn: 36 100% 40%;
+  --status-warn: 32 100% 30%;
   --status-info: 211 70% 44%;
 
   /* Severity family: impact -> colour (see src/theme/severity.ts) */
   --severity-critical: 0 72% 45%;
   --severity-serious: 18 85% 44%;
-  --severity-moderate: 36 100% 36%;
+  --severity-moderate: 32 100% 30%;
   --severity-minor: 211 60% 45%;
 
   --overlay: 215 25% 10%;
   --hover: 0 0% 0%;
+
+  /* Categorical palette for decorative category icons (rule tree). */
+  --cat-1: 262 52% 47%;
+  --cat-2: 207 90% 40%;
+  --cat-3: 174 100% 26%;
+  --cat-4: 30 100% 38%;
+  --cat-5: 340 70% 45%;
+  --cat-6: 122 45% 34%;
+  --cat-7: 199 89% 35%;
+  --cat-8: 16 60% 40%;
 }
 
 [data-theme="dark"] {
@@ -47,7 +57,7 @@
   --primary: 172 100% 32%;
   --primary-dim: 171 60% 52%;
   --primary-bright: 191 81% 62%;
-  --on-accent: 0 0% 100%;
+  --on-accent: 0 0% 4%;
   --accent: 0 0% 12%;
   --muted: 0 0% 20%;
 
@@ -77,6 +87,50 @@
 
   --overlay: 0 0% 0%;
   --hover: 0 0% 100%;
+
+  --cat-1: 262 80% 75%;
+  --cat-2: 207 90% 68%;
+  --cat-3: 174 70% 55%;
+  --cat-4: 30 100% 62%;
+  --cat-5: 340 85% 72%;
+  --cat-6: 122 45% 62%;
+  --cat-7: 199 89% 64%;
+  --cat-8: 16 85% 66%;
+}
+
+/*
+ * Global base that MUI's CssBaseline used to provide. Fixtures were authored and
+ * audited on top of it, so it must stay byte-for-byte equivalent.
+ */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  -webkit-text-size-adjust: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+strong,
+b {
+  font-weight: 700;
+}
+
+body {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+}
+
+@media print {
+  body {
+    background-color: #fff;
+  }
 }
 
 html {
@@ -93,6 +147,19 @@ html {
 
 body:not(.app-ready) #root {
   opacity: 0.98;
+}
+
+/*
+ * Tailwind preflight is off, so `border` utilities set a width but no style and
+ * borders never rendered. Give app elements that use border classes a solid,
+ * zero-width default (Tailwind's own reset), at zero specificity.
+ * Fixture content ([data-fixture]) is excluded: fixtures carry intentional a11y
+ * failures and must render exactly as authored.
+ */
+:where([class*="border"]:not([data-fixture], [data-fixture] *)) {
+  border-width: 0;
+  border-style: solid;
+  border-color: hsl(var(--border-default));
 }
 
 select,

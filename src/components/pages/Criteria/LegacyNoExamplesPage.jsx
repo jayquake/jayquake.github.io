@@ -1,4 +1,4 @@
-import { Alert, AlertTitle, Box, Paper, Typography } from "@mui/material";
+import { Alert, AlertTitle } from "../../ui/alert";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { parseRoute, rulePath } from "../../../lib/libraryLocation";
 
@@ -16,16 +16,18 @@ export default function LegacyNoExamplesPage() {
     parsed.kind === "example" || parsed.kind === "rule" ? rulePath(parsed.rule) : "/";
 
   return (
-    <Box sx={{ px: { xs: 2, sm: 3, md: 4 }, py: { xs: 2, md: 4 }, maxWidth: 720, mx: "auto" }}>
-      <Paper elevation={0} sx={{ p: { xs: 2, md: 3 } }}>
-        <Alert severity="info">
+    <div className="mx-auto w-full max-w-[720px] px-4 py-4 sm:px-6 md:px-8 md:py-8">
+      <div className="border border-border bg-shell-panel p-4 md:p-6">
+        <Alert variant="info">
           <AlertTitle>No examples yet</AlertTitle>
           {label} fixtures for this legacy rule have not been added.
         </Alert>
-        <Typography variant="body2" sx={{ mt: 2, color: "text.secondary" }}>
-          <RouterLink to={ruleHref}>Back to the rule page</RouterLink>
-        </Typography>
-      </Paper>
-    </Box>
+        <p className="mt-4 text-sm text-foreground-secondary">
+          <RouterLink to={ruleHref} className="text-foreground-accent underline">
+            Back to the rule page
+          </RouterLink>
+        </p>
+      </div>
+    </div>
   );
 }

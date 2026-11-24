@@ -1,9 +1,9 @@
-import Alert from '@mui/material/Alert';
-import IconButton from '@mui/material/IconButton';
-import Slide, { type SlideProps } from '@mui/material/Slide';
-import Snackbar from '@mui/material/Snackbar';
-import CloseIcon from '@mui/icons-material/Close';
+import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
+
+import { Alert } from '../ui/alert';
+import { Button } from '../ui/button';
+import { cn } from '../../lib/utils';
 
 export type ToastType = 'error' | 'info' | 'success' | 'warning';
 
@@ -14,12 +14,18 @@ type ToastProps = {
   type: ToastType;
 };
 
-function SlideUp(props: SlideProps) {
-  return <Slide {...props} direction="down" />;
-}
+/** Length of the slide/fade exit before the toast is removed (matches duration-200). */
+const EXIT_MS = 200;
 
 export default function Toast({ duration = 5000, message, onClose, type }: ToastProps) {
   const [open, setOpen] = useState(true);
+  const [entered, setEntered] = useState(false);
+
+  // Slide in on the frame after mount.
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setEntered(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -28,34 +34,50 @@ export default function Toast({ duration = 5000, message, onClose, type }: Toast
     return () => clearTimeout(timer);
   }, [duration]);
 
-  const handleClose = (_: unknown, reason?: string) => {
-    if (reason === 'clickaway') return;
-    setOpen(false);
-  };
+  // Escape dismisses, as the MUI Snackbar did (click-away never did).
+  useEffect(() => {
+    if (!open) return undefined;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [open]);
+
+  // Once closed, let the exit transition finish, then unmount via onClose.
+  useEffect(() => {
+    if (open) return undefined;
+    const timer = setTimeout(onClose, EXIT_MS);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  const shown = open && entered;
 
   return (
-    <Snackbar
-      TransitionComponent={SlideUp}
-      TransitionProps={{ onExited: onClose }}
-      anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-      autoHideDuration={null}
-      onClose={handleClose}
-      open={open}
-      sx={{ position: 'static', transform: 'none' }}
+    <div
+      className={cn(
+        'bg-shell-elevated shadow-lg transition-all duration-200 ease-out motion-reduce:transition-none',
+        shown ? 'translate-y-0 opacity-100' : '-translate-y-2 opacity-0'
+      )}
     >
       <Alert
         action={
-          <IconButton aria-label="close" color="inherit" onClick={() => setOpen(false)} size="small">
-            <CloseIcon fontSize="inherit" />
-          </IconButton>
+          <Button
+            aria-label="close"
+            className="size-6 text-inherit"
+            onClick={() => setOpen(false)}
+            size="icon"
+            variant="ghost"
+          >
+            <X aria-hidden="true" className="size-4" />
+          </Button>
         }
-        onClose={() => setOpen(false)}
-        severity={type}
-        sx={{ width: '100%', boxShadow: 3 }}
-        variant="filled"
+        className="w-full"
+        variant={type}
       >
         {message}
       </Alert>
-    </Snackbar>
+    </div>
   );
 }

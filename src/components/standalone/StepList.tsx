@@ -1,18 +1,12 @@
 import type { TestStep } from '../../../shared/types';
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import Typography from '@mui/material/Typography';
-import AlertCircleIcon from '@mui/icons-material/ErrorOutline';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import XCircleIcon from '@mui/icons-material/Cancel';
+import { AlertCircle, CheckCircle2, ChevronDown, ChevronUp, XCircle } from 'lucide-react';
 import { useMemo, useState } from 'react';
+
+import { Button } from '../ui/button';
+import { Chip } from '../ui/chip';
+import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group';
+import { cn } from '../../lib/utils';
 
 type FilterType = 'all' | 'failed' | 'passed';
 
@@ -39,114 +33,92 @@ export const StepList = ({ enableFilter = false, maxSteps, steps }: StepListProp
   const remainingCount = maxSteps ? filteredSteps.length - maxSteps : 0;
 
   if (steps.length === 0) {
-    return (
-      <Typography align="center" color="text.secondary" sx={{ py: 3 }} variant="body2">
-        No steps available
-      </Typography>
-    );
+    return <p className="m-0 py-6 text-center text-sm text-foreground-secondary">No steps available</p>;
   }
 
   return (
-    <Stack spacing={1.5}>
+    <div className="flex flex-col gap-3">
       {/* Header */}
-      <Stack alignItems="center" direction="row" justifyContent="space-between">
-        <Stack alignItems="center" direction="row" spacing={1}>
-          <Chip color="info" label={`${filteredSteps.length} steps`} size="small" variant="outlined" />
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Chip className="bg-transparent" tone="info">{`${filteredSteps.length} steps`}</Chip>
           {filter !== 'all' && (
-            <Typography color="text.secondary" variant="caption">
-              (filtered from {steps.length} total)
-            </Typography>
+            <span className="text-xs text-foreground-secondary">(filtered from {steps.length} total)</span>
           )}
-        </Stack>
+        </div>
 
         {enableFilter && (
-          <ToggleButtonGroup
-            exclusive
-            onChange={(_, v) => { if (v) setFilter(v); }}
-            size="small"
+          <ToggleGroup
+            onValueChange={v => { if (v) setFilter(v as FilterType); }}
+            type="single"
             value={filter}
           >
-            <ToggleButton value="all">All</ToggleButton>
-            <ToggleButton value="passed" sx={{ color: 'success.main' }}>Passed</ToggleButton>
-            <ToggleButton value="failed" sx={{ color: 'error.main' }}>Failed</ToggleButton>
-          </ToggleButtonGroup>
+            <ToggleGroupItem value="all">All</ToggleGroupItem>
+            <ToggleGroupItem className="text-status-pass data-[state=on]:text-status-pass" value="passed">Passed</ToggleGroupItem>
+            <ToggleGroupItem className="text-status-fail data-[state=on]:text-status-fail" value="failed">Failed</ToggleGroupItem>
+          </ToggleGroup>
         )}
-      </Stack>
+      </div>
 
       {/* Steps */}
-      <Stack component="ul" spacing={1} sx={{ listStyle: 'none', m: 0, p: 0 }}>
+      <ul className="m-0 flex list-none flex-col gap-2 p-0">
         {displayedSteps.map((step, index) => {
           const isPassed = step.status === 'passed';
           const isFailed = step.status === 'failed';
 
           return (
-            <Box
-              component="li"
+            <li
+              className={cn(
+                'rounded border p-3',
+                isFailed ? 'border-status-fail bg-status-fail/5' : 'border-border bg-shell-panel'
+              )}
               key={index}
-              sx={{
-                p: 1.5,
-                borderRadius: 1,
-                border: 1,
-                borderColor: isFailed ? 'error.main' : 'divider',
-                bgcolor: isFailed ? 'error.50' : 'background.paper',
-              }}
             >
-              <Stack alignItems="flex-start" direction="row" spacing={1.5}>
+              <div className="flex items-start gap-3">
                 {isPassed ? (
-                  <CheckCircleIcon color="success" sx={{ fontSize: 18, flexShrink: 0, mt: 0.25 }} />
+                  <CheckCircle2 aria-hidden="true" className="mt-0.5 size-[18px] shrink-0 text-status-pass" />
                 ) : (
-                  <XCircleIcon color="error" sx={{ fontSize: 18, flexShrink: 0, mt: 0.25 }} />
+                  <XCircle aria-hidden="true" className="mt-0.5 size-[18px] shrink-0 text-status-fail" />
                 )}
 
-                <Box flex={1} minWidth={0}>
-                  <Stack alignItems="flex-start" direction="row" justifyContent="space-between" spacing={1}>
-                    <Typography
-                      color={isFailed ? 'error.main' : 'text.primary'}
-                      fontWeight={500}
-                      variant="body2"
-                    >
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-start justify-between gap-2">
+                    <p className={cn('m-0 text-sm font-medium', isFailed ? 'text-status-fail' : 'text-foreground')}>
                       {step.title}
-                    </Typography>
+                    </p>
                     {step.duration !== undefined && step.duration > 0 && (
-                      <Typography color="text.secondary" noWrap variant="caption">
+                      <span className="whitespace-nowrap text-xs text-foreground-secondary">
                         {(step.duration / 1000).toFixed(2)}s
-                      </Typography>
+                      </span>
                     )}
-                  </Stack>
+                  </div>
 
                   {isFailed && step.error && (
-                    <Stack
-                      alignItems="flex-start"
-                      direction="row"
-                      spacing={0.5}
-                      sx={{ mt: 1, p: 1, bgcolor: 'error.50', border: 1, borderColor: 'error.light', borderRadius: 1 }}
-                    >
-                      <AlertCircleIcon color="error" sx={{ fontSize: 14, flexShrink: 0, mt: 0.15 }} />
-                      <Typography color="error.main" fontFamily="monospace" variant="caption">
-                        {step.error}
-                      </Typography>
-                    </Stack>
+                    <div className="mt-2 flex items-start gap-1 rounded border border-status-fail/60 bg-status-fail/5 p-2">
+                      <AlertCircle aria-hidden="true" className="mt-0.5 size-3.5 shrink-0 text-status-fail" />
+                      <span className="font-mono text-xs text-status-fail">{step.error}</span>
+                    </div>
                   )}
-                </Box>
-              </Stack>
-            </Box>
+                </div>
+              </div>
+            </li>
           );
         })}
-      </Stack>
+      </ul>
 
       {/* Expand / collapse */}
       {maxSteps && filteredSteps.length > maxSteps && (
-        <Box display="flex" justifyContent="center">
-          <Button
-            onClick={() => setIsExpanded(!isExpanded)}
-            size="small"
-            startIcon={isExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-            variant="text"
-          >
+        <div className="flex justify-center">
+          <Button onClick={() => setIsExpanded(!isExpanded)} size="sm" variant="ghost">
+            {isExpanded ? (
+              <ChevronUp aria-hidden="true" className="size-4" />
+            ) : (
+              <ChevronDown aria-hidden="true" className="size-4" />
+            )}
             {isExpanded ? 'Show Less' : `Show All (${remainingCount} more steps)`}
           </Button>
-        </Box>
+        </div>
       )}
-    </Stack>
+    </div>
   );
 };

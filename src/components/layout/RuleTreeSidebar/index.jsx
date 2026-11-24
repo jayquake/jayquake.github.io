@@ -48,15 +48,17 @@ const ICON_MAP = {
 };
 
 const ACTION_STYLE = {
-  success: { icon: CircleCheck, color: "#6ee7b7" },
-  failure: { icon: CircleX, color: "#ff6b6b" },
-  "rule-lab": { icon: FlaskConical, color: "#8b9cf6" },
+  success: { icon: CircleCheck, className: "text-status-pass", activeClassName: "border-status-pass bg-status-pass/15" },
+  failure: { icon: CircleX, className: "text-status-fail", activeClassName: "border-status-fail bg-status-fail/15" },
+  "rule-lab": { icon: FlaskConical, className: "text-status-info", activeClassName: "border-status-info bg-status-info/15" },
 };
 
 const TIER_STYLE = {
-  engine: { icon: FlaskConical, color: "#673ab7" },
-  legacy: { icon: FileText, color: "#1e88e5" },
+  engine: { icon: FlaskConical, className: "text-primary" },
+  legacy: { icon: FileText, className: "text-status-info" },
 };
+
+const toneColor = (tone) => `hsl(var(--cat-${tone}))`;
 
 const safeStorage = () => {
   try {
@@ -70,7 +72,7 @@ function RuleActionBar({ rule, onCloseMobile }) {
   return (
     <div className="mb-0.5 flex items-center gap-0.5 py-0.5 pl-12 pr-2">
       {rule.actions.map((action) => {
-        const { icon: Icon, color } = ACTION_STYLE[action.key];
+        const { icon: Icon, className: toneClass, activeClassName } = ACTION_STYLE[action.key];
         const prefetch =
           rule.type === "engine" && (action.key === "success" || action.key === "failure")
             ? () => prefetchEngineExample(rule.id, action.key)
@@ -84,14 +86,10 @@ function RuleActionBar({ rule, onCloseMobile }) {
             onClick={onCloseMobile}
             onMouseEnter={prefetch}
             className={cn(
-              "rounded-sm border border-border p-1 no-underline transition-colors",
-              action.active && "ring-1 ring-primary/30"
+              "rounded-sm border border-border bg-transparent p-1 no-underline transition-colors",
+              toneClass,
+              action.active && cn("ring-1 ring-primary/30", activeClassName)
             )}
-            style={{
-              borderColor: action.active ? color : undefined,
-              backgroundColor: action.active ? `${color}26` : "transparent",
-              color,
-            }}
           >
             <Icon className="size-3" />
           </RouterLink>
@@ -101,25 +99,16 @@ function RuleActionBar({ rule, onCloseMobile }) {
   );
 }
 
+const HEALTH = {
+  green: { className: "bg-status-pass opacity-80", title: "No critical/serious issues" },
+  yellow: { className: "bg-status-warn opacity-80", title: "Has moderate/minor issues" },
+  red: { className: "bg-status-fail opacity-80", title: "Has critical/serious issues" },
+  gray: { className: "bg-foreground-muted opacity-40", title: "Not analyzed" },
+};
+
 function HealthDot({ status }) {
-  const colors = {
-    green: "#00a38d",
-    yellow: "#ff9800",
-    red: "#f44336",
-    gray: "#cbd5e1",
-  };
-  const title =
-    status === "green" ? "No critical/serious issues" :
-    status === "yellow" ? "Has moderate/minor issues" :
-    status === "red" ? "Has critical/serious issues" :
-    "Not analyzed";
-  return (
-    <span
-      title={title}
-      className="ml-1 inline-block size-2 shrink-0 rounded-full"
-      style={{ backgroundColor: colors[status] || colors.gray, opacity: status === "gray" ? 0.4 : 0.8 }}
-    />
-  );
+  const h = HEALTH[status] || HEALTH.gray;
+  return <span title={h.title} className={cn("ml-1 inline-block size-2 shrink-0 rounded-full", h.className)} />;
 }
 
 function RuleNode({ rule, isOpen, onToggleRule, onCloseMobile }) {
@@ -147,7 +136,7 @@ function RuleNode({ rule, isOpen, onToggleRule, onCloseMobile }) {
               top: 4,
               bottom: 4,
               width: 2,
-              backgroundColor: "#00a38d",
+              backgroundColor: "hsl(var(--primary))",
               pointerEvents: "none",
             }}
           />
@@ -205,7 +194,7 @@ function CategoryNode({ category, isOpen, onToggle, onToggleRule, onCloseMobile 
         onClick={() => onToggle(category.key)}
         className={cn("h-auto min-h-8 w-[calc(100%-4px)] justify-start rounded-md py-1 text-left font-sans normal-case tracking-normal", isOpen ? "mx-1 pl-8" : "pl-4")}
       >
-        <Icon className="mr-1 size-4 shrink-0" style={{ color: category.color }} />
+        <Icon className="mr-1 size-4 shrink-0" style={{ color: toneColor(category.tone) }} aria-hidden="true" />
         {isOpen ? (
           <>
             <span className="min-w-0 flex-1 truncate text-[0.76rem] font-semibold text-foreground">{category.label}</span>
@@ -232,7 +221,7 @@ function CategoryNode({ category, isOpen, onToggle, onToggleRule, onCloseMobile 
 }
 
 function TierNode({ tier, isOpen, onToggle, onRequestOpen, children }) {
-  const { icon: Icon, color } = TIER_STYLE[tier.id];
+  const { icon: Icon, className: tierClass } = TIER_STYLE[tier.id];
 
   const handleClick = () => {
     if (!isOpen && onRequestOpen) {
@@ -254,7 +243,7 @@ function TierNode({ tier, isOpen, onToggle, onRequestOpen, children }) {
           isOpen ? "mx-1 min-h-10 py-2 pl-4" : "mx-0.5 min-h-11 justify-center py-2"
         )}
       >
-        <Icon className={isOpen ? "mr-2 size-5 shrink-0" : "size-5 shrink-0"} style={{ color }} />
+        <Icon className={cn(isOpen ? "mr-2 size-5 shrink-0" : "size-5 shrink-0", tierClass)} aria-hidden="true" />
         {isOpen ? (
           <>
             <span className="min-w-0 flex-1 truncate text-[0.85rem] font-bold text-foreground">{tier.label}</span>

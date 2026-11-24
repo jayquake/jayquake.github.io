@@ -1,24 +1,12 @@
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
-import CircularProgress from '@mui/material/CircularProgress';
-import Divider from '@mui/material/Divider';
-import LinearProgress from '@mui/material/LinearProgress';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import CancelIcon from '@mui/icons-material/Cancel';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
+import { CheckCircle2, ChevronDown, Circle, SkipForward, XCircle } from 'lucide-react';
+import type { ReactNode } from 'react';
 
+import { Alert } from '../../components/ui/alert';
+import { Chip, type ChipTone } from '../../components/ui/chip';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../../components/ui/collapsible';
+import { Separator } from '../../components/ui/separator';
+import { Spinner } from '../../components/ui/spinner';
+import { cn } from '../../lib/utils';
 import type { MonitorState, ParsedTestResult, RunStatus, TestResultItem, TestStep } from './types';
 
 interface TestExecutionListProps {
@@ -39,43 +27,46 @@ function StatusIcon({
   status: string;
 }) {
   if (isRunning || status === 'running') {
-    return <CircularProgress size={16} />;
+    return <Spinner className="size-4 shrink-0" />;
   }
   if (status === 'passed') {
-    return <CheckCircleIcon color="success" fontSize="small" />;
+    return <CheckCircle2 aria-hidden="true" className="size-5 shrink-0 text-status-pass" />;
   }
   if (status === 'failed' || status === 'timedOut') {
-    return <CancelIcon color="error" fontSize="small" />;
+    return <XCircle aria-hidden="true" className="size-5 shrink-0 text-status-fail" />;
   }
   if (status === 'skipped') {
-    return <SkipNextIcon color="warning" fontSize="small" />;
+    return <SkipForward aria-hidden="true" className="size-5 shrink-0 text-status-warn" />;
   }
-  return <RadioButtonUncheckedIcon color="disabled" fontSize="small" />;
+  return <Circle aria-hidden="true" className="size-5 shrink-0 text-foreground-muted" />;
 }
 
 function StepTimeline({ steps }: { steps: TestStep[] }) {
   if (!steps || steps.length === 0) return null;
 
   return (
-    <List dense disablePadding>
+    <ul className="m-0 list-none p-0">
       {steps.map((step, i) => (
-        <ListItem disablePadding key={i} sx={{ py: 0.25 }}>
-          <ListItemIcon sx={{ minWidth: 28 }}>
+        <li className="flex items-center py-0.5" key={i}>
+          <span className="flex w-7 shrink-0 items-center">
             <StatusIcon status={step.status ?? 'pending'} />
-          </ListItemIcon>
-          <ListItemText
-            primary={step.title}
-            primaryTypographyProps={{
-              variant: 'caption',
-              color: step.status === 'failed' ? 'error.main' : 'text.secondary',
-              noWrap: true,
-            }}
-            secondary={step.duration ? `${step.duration}ms` : undefined}
-            secondaryTypographyProps={{ variant: 'caption' }}
-          />
-        </ListItem>
+          </span>
+          <span className="min-w-0 flex-1 py-1">
+            <span
+              className={cn(
+                'block truncate text-xs',
+                step.status === 'failed' ? 'text-status-fail' : 'text-foreground-secondary'
+              )}
+            >
+              {step.title}
+            </span>
+            {step.duration ? (
+              <span className="block text-xs text-foreground-secondary">{`${step.duration}ms`}</span>
+            ) : null}
+          </span>
+        </li>
       ))}
-    </List>
+    </ul>
   );
 }
 
@@ -103,67 +94,60 @@ function TestRow({
   subtitle?: string;
 }) {
   const isFailed = status === 'failed' || status === 'timedOut';
-  const chipColor: 'default' | 'error' | 'info' | 'success' | 'warning' =
+  const chipTone: ChipTone =
     status === 'passed'
-      ? 'success'
+      ? 'pass'
       : isFailed
-        ? 'error'
+        ? 'fail'
         : isRunning || status === 'running'
           ? 'info'
           : status === 'skipped'
-            ? 'warning'
+            ? 'warn'
             : 'default';
 
   return (
-    <Accordion
-      disableGutters
-      elevation={0}
-      expanded={isExpanded}
-      onChange={() => onToggle(index)}
-      sx={{
-        border: 1,
-        borderColor: isFailed ? 'error.light' : 'divider',
-        borderRadius: 1,
-        mb: 1,
-        '&:before': { display: 'none' },
-        bgcolor: isFailed ? 'error.50' : 'background.paper',
-      }}
+    <Collapsible
+      className={cn(
+        'mb-2 rounded border',
+        isFailed ? 'border-status-fail/60 bg-status-fail/5' : 'border-border bg-shell-panel'
+      )}
+      onOpenChange={() => onToggle(index)}
+      open={isExpanded}
     >
-      <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ px: 2, py: 0.5 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flex: 1, minWidth: 0 }}>
-          <StatusIcon isRunning={isRunning} status={status} />
-          <Chip
-            color={chipColor}
-            label={isRunning ? 'Running' : status}
-            size="small"
-            sx={{ flexShrink: 0 }}
+      <h3 className="m-0 text-base font-normal">
+        <CollapsibleTrigger className="group flex w-full cursor-pointer items-center gap-3 border-0 bg-transparent px-4 py-2 text-left text-inherit hover:bg-hover/5">
+          <span className="flex min-w-0 flex-1 items-center gap-3">
+            <StatusIcon isRunning={isRunning} status={status} />
+            <Chip className="shrink-0" tone={chipTone}>
+              {isRunning ? 'Running' : status}
+            </Chip>
+            <span className="min-w-0 flex-1">
+              <span
+                className={cn('block truncate text-sm', isFailed ? 'text-status-fail' : 'text-foreground')}
+              >
+                {name}
+              </span>
+              {(file || subtitle) && (
+                <span className="block truncate text-xs text-foreground-secondary">{file || subtitle}</span>
+              )}
+            </span>
+          </span>
+          <ChevronDown
+            aria-hidden="true"
+            className="size-5 shrink-0 text-foreground-secondary transition-transform group-data-[state=open]:rotate-180"
           />
-          <Box sx={{ flex: 1, minWidth: 0 }}>
-            <Typography
-              color={isFailed ? 'error.main' : 'text.primary'}
-              noWrap
-              variant="body2"
-            >
-              {name}
-            </Typography>
-            {(file || subtitle) && (
-              <Typography color="text.secondary" noWrap variant="caption">
-                {file || subtitle}
-              </Typography>
-            )}
-          </Box>
-        </Box>
-      </AccordionSummary>
+        </CollapsibleTrigger>
+      </h3>
 
-      <AccordionDetails sx={{ pt: 0, pb: 1, px: 2 }}>
+      <CollapsibleContent className="px-4 pb-2">
         {steps && steps.length > 0 && (
           <>
             <StepTimeline steps={steps} />
-            <Divider sx={{ my: 1 }} />
+            <Separator className="my-2" />
           </>
         )}
         {isFailed && error && (
-          <Alert severity="error" sx={{ mt: 0.5 }}>
+          <Alert className="mt-1" variant="error">
             <pre
               style={{
                 fontSize: '0.75rem',
@@ -177,12 +161,19 @@ function TestRow({
           </Alert>
         )}
         {!steps?.length && !error && (
-          <Typography color="text.secondary" variant="caption">
-            No step details available.
-          </Typography>
+          <span className="text-xs text-foreground-secondary">No step details available.</span>
         )}
-      </AccordionDetails>
-    </Accordion>
+      </CollapsibleContent>
+    </Collapsible>
+  );
+}
+
+function ListPanel({ children }: { children: ReactNode }) {
+  return (
+    <section className="bg-shell-panel p-4">
+      <h6 className="m-0 mb-2 text-xl font-medium text-foreground">Test Execution</h6>
+      {children}
+    </section>
   );
 }
 
@@ -204,11 +195,8 @@ export default function TestExecutionList({
   // Prefer final report results over live data
   if (testResults.length > 0) {
     return (
-      <Paper elevation={0} sx={{ p: 2 }}>
-        <Typography gutterBottom variant="h6">
-          Test Execution
-        </Typography>
-        <Box sx={{ maxHeight: '50vh', overflowY: 'auto' }}>
+      <ListPanel>
+        <div className="max-h-[50vh] overflow-y-auto">
           {testResults.map((r, i) => (
             <TestRow
               error={r.error}
@@ -223,19 +211,16 @@ export default function TestExecutionList({
               subtitle={r.duration ? `${(r.duration / 1000).toFixed(1)}s` : undefined}
             />
           ))}
-        </Box>
-      </Paper>
+        </div>
+      </ListPanel>
     );
   }
 
   // Live updates from monitor
   if (monitorState && monitorState.tests.length > 0) {
     return (
-      <Paper elevation={0} sx={{ p: 2 }}>
-        <Typography gutterBottom variant="h6">
-          Test Execution
-        </Typography>
-        <Box sx={{ maxHeight: '50vh', overflowY: 'auto' }}>
+      <ListPanel>
+        <div className="max-h-[50vh] overflow-y-auto">
           {monitorState.tests.map((test: TestResultItem, i: number) => (
             <TestRow
               error={test.error}
@@ -251,8 +236,8 @@ export default function TestExecutionList({
               subtitle={test.formattedDuration}
             />
           ))}
-        </Box>
-      </Paper>
+        </div>
+      </ListPanel>
     );
   }
 
@@ -260,55 +245,48 @@ export default function TestExecutionList({
   const isRunDone = runStatus === 'completed' || runStatus === 'failed' || runStatus === 'cancelled';
   if (isRunDone) {
     return (
-      <Paper elevation={0} sx={{ p: 2 }}>
-        <Typography gutterBottom variant="h6">
-          Test Execution
-        </Typography>
-        <Box sx={{ py: 1 }}>
-          <LinearProgress sx={{ borderRadius: 1, mb: 1.5 }} />
-          <Typography color="text.secondary" variant="body2">
+      <ListPanel>
+        <div className="py-2">
+          <div
+            aria-label="Finalising results"
+            className="relative mb-3 h-1 w-full overflow-hidden rounded bg-primary/20"
+            role="progressbar"
+          >
+            <div className="absolute inset-y-0 left-0 w-2/5 animate-progress-indeterminate bg-primary motion-reduce:animate-none" />
+          </div>
+          <p className="m-0 text-sm text-foreground-secondary">
             Finalising results — this takes a few seconds…
-          </Typography>
-        </Box>
-      </Paper>
+          </p>
+        </div>
+      </ListPanel>
     );
   }
 
   // Waiting / initialising state
   return (
-    <Paper elevation={0} sx={{ p: 2 }}>
-      <Typography gutterBottom variant="h6">
-        Test Execution
-      </Typography>
-
+    <ListPanel>
       {hasConsoleOutput ? (
         /* Console is streaming — show animated "in-progress" indicator */
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, py: 1.5 }}>
-          <CircularProgress size={18} thickness={5} />
-          <Box>
-            <Typography color="text.primary" variant="body2">
-              Test run in progress — parsing output…
-            </Typography>
-            <Typography color="text.secondary" variant="caption">
+        <div className="flex items-center gap-4 py-3">
+          <Spinner className="size-[18px] shrink-0" />
+          <div>
+            <p className="m-0 text-sm text-foreground">Test run in progress — parsing output…</p>
+            <span className="text-xs text-foreground-secondary">
               Individual test cards will appear as results are detected in the console.
-            </Typography>
-          </Box>
-        </Box>
+            </span>
+          </div>
+        </div>
       ) : testUpdates.length > 0 ? (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, py: 1.5 }}>
-          <CircularProgress size={18} thickness={5} />
-          <Typography color="text.secondary" variant="body2">
-            Processing test events…
-          </Typography>
-        </Box>
+        <div className="flex items-center gap-4 py-3">
+          <Spinner className="size-[18px] shrink-0" />
+          <p className="m-0 text-sm text-foreground-secondary">Processing test events…</p>
+        </div>
       ) : (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, py: 1.5 }}>
-          <CircularProgress size={18} thickness={5} color="inherit" />
-          <Typography color="text.secondary" variant="body2">
-            Waiting for tests to start…
-          </Typography>
-        </Box>
+        <div className="flex items-center gap-4 py-3">
+          <Spinner className="size-[18px] shrink-0 text-current" />
+          <p className="m-0 text-sm text-foreground-secondary">Waiting for tests to start…</p>
+        </div>
       )}
-    </Paper>
+    </ListPanel>
   );
 }

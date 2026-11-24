@@ -1,29 +1,24 @@
 import { type Project } from '../../../../shared/types';
-import Alert from '@mui/material/Alert';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Chip from '@mui/material/Chip';
-import Grid from '@mui/material/Grid';
-import LinearProgress from '@mui/material/LinearProgress';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
-import BiotechIcon from '@mui/icons-material/Biotech';
-import BugReportIcon from '@mui/icons-material/BugReport';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ErrorIcon from '@mui/icons-material/Error';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-import WarningIcon from '@mui/icons-material/Warning';
+import {
+  AlertTriangle,
+  Bug,
+  CheckCircle2,
+  FileText,
+  Filter,
+  FlaskConical,
+  XCircle,
+} from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { StepList } from '../../../components/standalone/StepList';
-import { MIN_TEXT_SIZE } from '../../../theme/mgsTokens';
+import { Alert } from '../../../components/ui/alert';
+import { Button } from '../../../components/ui/button';
+import { Card } from '../../../components/ui/card';
+import { Chip, type ChipTone } from '../../../components/ui/chip';
+import { Progress } from '../../../components/ui/progress';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../../../components/ui/tooltip';
+import { cn } from '../../../lib/utils';
 import { type TestResult, type TestRunData } from '../models/TestRunData';
 
 type StatusFilter = 'all' | 'failed' | 'passed' | 'skipped';
@@ -78,6 +73,24 @@ function getProjectForFile(filePath: string, projects: Project[]): Project | und
   return projects.find(p => normalised.includes(p.testDirectory.replace(/\\/g, '/')));
 }
 
+const panelClass = 'border border-border bg-shell-panel';
+
+/** Project logo with its name as a tooltip (replaces MUI Tooltip + square Avatar). */
+function ProjectLogo({ project, size }: { project: Project; size: 16 | 20 }) {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <img
+          alt={project.name}
+          className={cn('shrink-0 object-contain', size === 16 ? 'size-4' : 'size-5')}
+          src={project.logo}
+        />
+      </TooltipTrigger>
+      <TooltipContent>{project.name}</TooltipContent>
+    </Tooltip>
+  );
+}
+
 export const SummaryTab = ({
   allProjects = [],
   onDebugWithMCP,
@@ -85,7 +98,6 @@ export const SummaryTab = ({
   summary,
   testRun,
 }: SummaryTabProps) => {
-  const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
   const [projectFilter, setProjectFilter] = useState<string>('all');
 
@@ -136,438 +148,341 @@ export const SummaryTab = ({
 
   if (!summary || summary.total === 0) {
     return (
-      <Paper sx={{ p: 6, textAlign: 'center' }} variant="outlined">
-        <InsertDriveFileIcon sx={{ fontSize: 48, color: 'text.disabled', mb: 2 }} />
-        <Typography gutterBottom variant="h6">
-          No Test Results
-        </Typography>
-        <Typography color="text.secondary" variant="body2">
+      <div className={cn(panelClass, 'p-12 text-center')}>
+        <FileText aria-hidden="true" className="mx-auto mb-4 size-12 text-foreground-muted" />
+        <h6 className="m-0 mb-1 text-lg font-medium text-foreground">No Test Results</h6>
+        <p className="m-0 text-sm text-foreground-secondary">
           No test results are available for this run.
-        </Typography>
-        <Box
-          sx={{ mt: 3, p: 2, bgcolor: 'background.default', borderRadius: 1, textAlign: 'left' }}
-        >
-          <Typography fontWeight={600} gutterBottom variant="caption">
-            Tips:
-          </Typography>
-          <Stack component="ul" spacing={0.5} sx={{ m: 0, pl: 2 }}>
+        </p>
+        <div className="mt-6 rounded bg-shell-main p-4 text-left">
+          <span className="mb-1 block text-xs font-semibold text-foreground">Tips:</span>
+          <ul className="m-0 flex flex-col gap-1 pl-4">
             {[
               'Check if the test execution completed successfully',
               'Verify that tests were selected and executed',
               'Review test execution logs for more details',
             ].map(tip => (
-              <Typography component="li" key={tip} variant="caption">
+              <li className="text-xs text-foreground-secondary" key={tip}>
                 {tip}
-              </Typography>
+              </li>
             ))}
-          </Stack>
-        </Box>
-      </Paper>
+          </ul>
+        </div>
+      </div>
     );
   }
 
+  const statCards: {
+    borderClass: string;
+    icon: React.ReactNode;
+    label: string;
+    value: number;
+    valueClass: string;
+  }[] = [
+    {
+      borderClass: '',
+      icon: <FileText aria-hidden="true" className="size-4 text-foreground-muted" />,
+      label: 'Total Tests',
+      value: summary.total,
+      valueClass: 'text-foreground',
+    },
+    {
+      borderClass: 'border-status-pass/50',
+      icon: <CheckCircle2 aria-hidden="true" className="size-4 text-status-pass" />,
+      label: 'Passed',
+      value: summary.passed,
+      valueClass: 'text-status-pass',
+    },
+    {
+      borderClass: 'border-status-fail/50',
+      icon: <XCircle aria-hidden="true" className="size-4 text-status-fail" />,
+      label: 'Failed',
+      value: summary.failed,
+      valueClass: 'text-status-fail',
+    },
+    {
+      borderClass: 'border-status-warn/50',
+      icon: <AlertTriangle aria-hidden="true" className="size-4 text-status-warn" />,
+      label: 'Skipped',
+      value: summary.skipped,
+      valueClass: 'text-status-warn',
+    },
+  ];
+
+  const passRateTone =
+    passRate >= 80
+      ? 'bg-status-pass/20 [&>[data-slot=progress-indicator]]:bg-status-pass'
+      : passRate >= 50
+        ? 'bg-status-warn/20 [&>[data-slot=progress-indicator]]:bg-status-warn'
+        : 'bg-status-fail/20 [&>[data-slot=progress-indicator]]:bg-status-fail';
+
   return (
-    <Stack spacing={3}>
-      <Typography variant="h6">Test Run Summary</Typography>
+    <div className="flex flex-col gap-6">
+      <h6 className="m-0 text-lg font-medium text-foreground">Test Run Summary</h6>
 
       {/* Stats Cards */}
-      <Grid container spacing={2}>
-        <Grid size={{ xs: 6, sm: 3 }}>
-          <Card variant="outlined">
-            <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
-              <Typography fontWeight={700} variant="h4">
-                {summary.total}
-              </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.5 }}>
-                <InsertDriveFileIcon color="action" fontSize="small" />
-                <Typography color="text.secondary" variant="body2">
-                  Total Tests
-                </Typography>
-              </Box>
-            </CardContent>
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        {statCards.map(card => (
+          <Card className={cn('gap-0 p-4', card.borderClass)} key={card.label}>
+            <h4 className={cn('m-0 text-3xl font-bold', card.valueClass)}>{card.value}</h4>
+            <div className="mt-1 flex items-center gap-1">
+              {card.icon}
+              <p className="m-0 text-sm text-foreground-secondary">{card.label}</p>
+            </div>
           </Card>
-        </Grid>
-        <Grid size={{ xs: 6, sm: 3 }}>
-          <Card sx={{ borderColor: 'success.light' }} variant="outlined">
-            <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
-              <Typography color="success.main" fontWeight={700} variant="h4">
-                {summary.passed}
-              </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.5 }}>
-                <CheckCircleIcon color="success" fontSize="small" />
-                <Typography color="text.secondary" variant="body2">
-                  Passed
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid size={{ xs: 6, sm: 3 }}>
-          <Card sx={{ borderColor: 'error.light' }} variant="outlined">
-            <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
-              <Typography color="error.main" fontWeight={700} variant="h4">
-                {summary.failed}
-              </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.5 }}>
-                <ErrorIcon color="error" fontSize="small" />
-                <Typography color="text.secondary" variant="body2">
-                  Failed
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid size={{ xs: 6, sm: 3 }}>
-          <Card sx={{ borderColor: 'warning.light' }} variant="outlined">
-            <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
-              <Typography color="warning.main" fontWeight={700} variant="h4">
-                {summary.skipped}
-              </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.5 }}>
-                <WarningIcon color="warning" fontSize="small" />
-                <Typography color="text.secondary" variant="body2">
-                  Skipped
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+        ))}
+      </div>
 
       {/* Pass Rate & Duration */}
-      <Grid container spacing={2}>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <Paper sx={{ p: 2 }} variant="outlined">
-            <Stack alignItems="center" direction="row" justifyContent="space-between">
-              <Box>
-                <Typography color="text.secondary" fontWeight={600} variant="body2">
-                  Pass Rate
-                </Typography>
-                <Typography fontWeight={700} variant="h5">
-                  {passRate}%
-                </Typography>
-              </Box>
-              <Box sx={{ width: 120 }}>
-                <LinearProgress
-                  color={passRate >= 80 ? 'success' : passRate >= 50 ? 'warning' : 'error'}
-                  sx={{ height: 8, borderRadius: 1 }}
-                  value={passRate}
-                  variant="determinate"
-                />
-              </Box>
-            </Stack>
-          </Paper>
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <Paper sx={{ p: 2 }} variant="outlined">
-            <Stack spacing={1}>
-              <Stack direction="row" justifyContent="space-between">
-                <Typography color="text.secondary" fontWeight={600} variant="body2">
-                  Total Duration
-                </Typography>
-                <Typography fontWeight={700} variant="body1">
-                  {totalDuration > 0 ? `${(totalDuration / 1000).toFixed(2)}s` : 'N/A'}
-                </Typography>
-              </Stack>
-              {allResults.length > 0 && (
-                <Stack direction="row" justifyContent="space-between">
-                  <Typography color="text.secondary" variant="caption">
-                    Average per test
-                  </Typography>
-                  <Typography variant="caption">
-                    {avgDuration > 0 ? `${(avgDuration / 1000).toFixed(2)}s` : 'N/A'}
-                  </Typography>
-                </Stack>
-              )}
-            </Stack>
-          </Paper>
-        </Grid>
-      </Grid>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className={cn(panelClass, 'p-4')}>
+          <div className="flex flex-row items-center justify-between">
+            <div>
+              <p className="m-0 text-sm font-semibold text-foreground-secondary">Pass Rate</p>
+              <h5 className="m-0 text-2xl font-bold text-foreground">{passRate}%</h5>
+            </div>
+            <div className="w-[120px]">
+              <Progress aria-label="Pass rate" className={cn('rounded', passRateTone)} value={passRate} />
+            </div>
+          </div>
+        </div>
+        <div className={cn(panelClass, 'p-4')}>
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-row justify-between">
+              <p className="m-0 text-sm font-semibold text-foreground-secondary">Total Duration</p>
+              <p className="m-0 font-bold text-foreground">
+                {totalDuration > 0 ? `${(totalDuration / 1000).toFixed(2)}s` : 'N/A'}
+              </p>
+            </div>
+            {allResults.length > 0 && (
+              <div className="flex flex-row justify-between">
+                <span className="text-xs text-foreground-secondary">Average per test</span>
+                <span className="text-xs text-foreground">
+                  {avgDuration > 0 ? `${(avgDuration / 1000).toFixed(2)}s` : 'N/A'}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
 
       {/* Failed Tests Summary */}
       {failedTests.length > 0 && (
-        <Paper
-          sx={{ p: 2, borderLeft: 4, borderColor: 'error.main' }}
-          variant="outlined"
-        >
-          <Stack
-            alignItems="center"
-            direction="row"
-            justifyContent="space-between"
-            sx={{ mb: 2 }}
-          >
-            <Stack alignItems="center" direction="row" spacing={1}>
-              <ErrorIcon color="error" />
-              <Typography color="error.main" fontWeight={700} variant="h6">
+        <div className={cn(panelClass, 'border-l-4 border-l-status-fail p-4')}>
+          <div className="mb-4 flex flex-row items-center justify-between">
+            <div className="flex flex-row items-center gap-2">
+              <XCircle aria-hidden="true" className="size-6 text-status-fail" />
+              <h6 className="m-0 text-lg font-bold text-status-fail">
                 {failedTests.length} Failed Test{failedTests.length !== 1 ? 's' : ''}
-              </Typography>
-            </Stack>
+              </h6>
+            </div>
             {onDebugWithMCP && (
               <Button
                 onClick={() => onDebugWithMCP(failedTests as TestResult[])}
-                size="small"
-                startIcon={<BugReportIcon />}
-                variant="contained"
+                size="sm"
+                variant="default"
               >
+                <Bug aria-hidden="true" className="size-4" />
                 Debug with MCP
               </Button>
             )}
-          </Stack>
-          <Stack spacing={0.5}>
+          </div>
+          <div className="flex flex-col gap-1">
             {failedTests.slice(0, 5).map((test: any, idx: number) => {
               const project = getProjectForFile(test.file, allProjects);
               return (
-                <Stack alignItems="center" direction="row" key={idx} spacing={1}>
-                  {project?.logo && (
-                    <Tooltip title={project.name}>
-                      <Avatar
-                        alt={project.name}
-                        src={project.logo}
-                        sx={{ width: 16, height: 16, flexShrink: 0 }}
-                        variant="square"
-                      />
-                    </Tooltip>
-                  )}
-                  <Typography variant="body2">
+                <div className="flex flex-row items-center gap-2" key={idx}>
+                  {project?.logo && <ProjectLogo project={project} size={16} />}
+                  <p className="m-0 text-sm text-foreground">
                     <strong>{test.name}</strong>
                     {test.file && (
-                      <Typography
-                        color="text.secondary"
-                        component="span"
-                        sx={{ ml: 1 }}
-                        variant="caption"
-                      >
+                      <span className="ml-2 text-xs text-foreground-secondary">
                         ({test.file.split('/').pop()})
-                      </Typography>
+                      </span>
                     )}
-                  </Typography>
-                </Stack>
+                  </p>
+                </div>
               );
             })}
             {failedTests.length > 5 && (
-              <Typography color="text.secondary" fontStyle="italic" variant="caption">
+              <span className="text-xs italic text-foreground-secondary">
                 … and {failedTests.length - 5} more failed test
                 {failedTests.length - 5 !== 1 ? 's' : ''}
-              </Typography>
+              </span>
             )}
-          </Stack>
-        </Paper>
+          </div>
+        </div>
       )}
 
       {/* Test Results List */}
       {hasResults ? (
-        <Stack spacing={2}>
+        <div className="flex flex-col gap-4">
           {/* Filter Bar */}
-          <Paper sx={{ p: 1.5 }} variant="outlined">
-            <Stack spacing={1.5}>
+          <div className={cn(panelClass, 'p-3')}>
+            <div className="flex flex-col gap-3">
               {/* Status Filters */}
-              <Stack alignItems="center" direction="row" flexWrap="wrap" gap={1}>
-                <Stack alignItems="center" direction="row" spacing={0.5} sx={{ mr: 0.5 }}>
-                  <FilterListIcon fontSize="small" sx={{ color: 'text.secondary' }} />
-                  <Typography color="text.secondary" fontWeight={600} variant="caption">
-                    Status
-                  </Typography>
-                </Stack>
+              <div className="flex flex-row flex-wrap items-center gap-2">
+                <div className="mr-1 flex flex-row items-center gap-1">
+                  <Filter aria-hidden="true" className="size-4 text-foreground-secondary" />
+                  <span className="text-xs font-semibold text-foreground-secondary">Status</span>
+                </div>
                 {(
                   [
-                    { label: 'All', value: 'all', count: counts.all, color: undefined },
-                    { label: 'Passed', value: 'passed', count: counts.passed, color: 'success' as const },
-                    { label: 'Failed', value: 'failed', count: counts.failed, color: 'error' as const },
-                    { label: 'Skipped', value: 'skipped', count: counts.skipped, color: 'warning' as const },
-                  ] satisfies { color: 'error' | 'success' | 'warning' | undefined; count: number; label: string; value: StatusFilter }[]
-                ).map(({ color, count, label, value }) => (
+                    { label: 'All', value: 'all', count: counts.all, tone: undefined },
+                    { label: 'Passed', value: 'passed', count: counts.passed, tone: 'pass' as const },
+                    { label: 'Failed', value: 'failed', count: counts.failed, tone: 'fail' as const },
+                    { label: 'Skipped', value: 'skipped', count: counts.skipped, tone: 'warn' as const },
+                  ] satisfies { count: number; label: string; tone: ChipTone | undefined; value: StatusFilter }[]
+                ).map(({ count, label, tone, value }) => (
                   <Chip
-                    clickable
-                    color={statusFilter === value ? (color ?? 'primary') : undefined}
+                    aria-pressed={statusFilter === value}
                     key={value}
-                    label={`${label} (${count})`}
                     onClick={() => setStatusFilter(value)}
-                    size="small"
-                    variant={statusFilter === value ? 'filled' : 'outlined'}
-                  />
+                    tone={statusFilter === value ? (tone ?? 'primary') : 'default'}
+                  >
+                    {`${label} (${count})`}
+                  </Chip>
                 ))}
-              </Stack>
+              </div>
 
               {/* Project Filters — only rendered when multiple projects are present */}
               {showProjectFilter && (
-                <Stack alignItems="center" direction="row" flexWrap="wrap" gap={1}>
-                  <Stack alignItems="center" direction="row" spacing={0.5} sx={{ mr: 0.5 }}>
-                    <Typography color="text.secondary" fontWeight={600} variant="caption">
-                      Project
-                    </Typography>
-                  </Stack>
+                <div className="flex flex-row flex-wrap items-center gap-2">
+                  <div className="mr-1 flex flex-row items-center gap-1">
+                    <span className="text-xs font-semibold text-foreground-secondary">Project</span>
+                  </div>
                   <Chip
-                    clickable
-                    color={projectFilter === 'all' ? 'primary' : undefined}
-                    label="All projects"
+                    aria-pressed={projectFilter === 'all'}
                     onClick={() => setProjectFilter('all')}
-                    size="small"
-                    variant={projectFilter === 'all' ? 'filled' : 'outlined'}
-                  />
+                    tone={projectFilter === 'all' ? 'primary' : 'default'}
+                  >
+                    All projects
+                  </Chip>
                   {activeProjects.map(project => {
                     const isActive = projectFilter === project.id;
                     return (
                       <Chip
-                        avatar={
-                          <Avatar
+                        aria-pressed={isActive}
+                        icon={
+                          <img
                             alt={project.name}
+                            className="size-4 shrink-0 rounded-full object-contain"
                             src={project.logo}
-                            sx={{ bgcolor: 'transparent !important' }}
                           />
                         }
-                        clickable
-                        color={isActive ? 'primary' : undefined}
                         key={project.id}
-                        label={project.name}
                         onClick={() => setProjectFilter(project.id)}
-                        size="small"
-                        variant={isActive ? 'filled' : 'outlined'}
-                      />
+                        tone={isActive ? 'primary' : 'default'}
+                      >
+                        {project.name}
+                      </Chip>
                     );
                   })}
-                </Stack>
+                </div>
               )}
-            </Stack>
-          </Paper>
+            </div>
+          </div>
 
-          <Typography color="text.secondary" variant="body2">
+          <p className="m-0 text-sm text-foreground-secondary">
             Showing {filteredResults.length} of {allResults.length} test
             {allResults.length !== 1 ? 's' : ''} — {passedTests.length} passed,{' '}
             {failedTests.length} failed, {summary.skipped} skipped
-          </Typography>
+          </p>
 
           {filteredResults.length === 0 ? (
-            <Paper sx={{ p: 4, textAlign: 'center' }} variant="outlined">
-              <Typography color="text.secondary" variant="body2">
+            <div className={cn(panelClass, 'p-8 text-center')}>
+              <p className="m-0 text-sm text-foreground-secondary">
                 No tests match the current filters.
-              </Typography>
-            </Paper>
+              </p>
+            </div>
           ) : (
-            <Box sx={{ maxHeight: 600, overflowY: 'auto' }}>
-              <Stack spacing={2}>
+            <div className="max-h-[600px] overflow-y-auto">
+              <div className="flex flex-col gap-4">
                 {filteredResults.map((result: any, index: number) => {
                   const isFailed = result.status === 'failed';
                   const isPassed = result.status === 'passed';
                   const project = getProjectForFile(result.file, allProjects);
 
                   return (
-                    <Paper
-                      key={index}
-                      sx={{
-                        p: 2,
-                        borderLeft: 4,
-                        borderColor: isFailed
-                          ? 'error.main'
+                    <div
+                      className={cn(
+                        panelClass,
+                        'border-l-4 p-4',
+                        isFailed
+                          ? 'border-l-status-fail'
                           : isPassed
-                            ? 'success.main'
-                            : 'warning.main',
-                      }}
-                      variant="outlined"
+                            ? 'border-l-status-pass'
+                            : 'border-l-status-warn'
+                      )}
+                      key={index}
                     >
-                      <Stack
-                        alignItems="flex-start"
-                        direction="row"
-                        justifyContent="space-between"
-                        sx={{ mb: 1 }}
-                      >
-                        <Stack alignItems="center" direction="row" spacing={1} sx={{ flex: 1, minWidth: 0 }}>
+                      <div className="mb-2 flex flex-row items-start justify-between">
+                        <div className="flex min-w-0 flex-1 flex-row items-center gap-2">
                           {/* Project logo */}
-                          {project?.logo && (
-                            <Tooltip title={project.name}>
-                              <Avatar
-                                alt={project.name}
-                                src={project.logo}
-                                sx={{ width: 20, height: 20, flexShrink: 0, bgcolor: 'transparent' }}
-                                variant="square"
-                              />
-                            </Tooltip>
-                          )}
-                          <Chip
-                            color={isPassed ? 'success' : isFailed ? 'error' : 'warning'}
-                            label={`${isPassed ? '✓' : isFailed ? '✗' : '⊘'} ${result.status}`}
-                            size="small"
-                            sx={{ flexShrink: 0 }}
-                          />
-                          <Typography fontWeight={600} noWrap variant="body2">
+                          {project?.logo && <ProjectLogo project={project} size={20} />}
+                          <Chip className="shrink-0" tone={isPassed ? 'pass' : isFailed ? 'fail' : 'warn'}>
+                            {`${isPassed ? '✓' : isFailed ? '✗' : '⊘'} ${result.status}`}
+                          </Chip>
+                          <p className="m-0 truncate text-sm font-semibold text-foreground">
                             {result.name}
-                          </Typography>
-                        </Stack>
+                          </p>
+                        </div>
                         {result.duration && (
-                          <Typography color="text.secondary" sx={{ flexShrink: 0, ml: 1 }} variant="caption">
+                          <span className="ml-2 shrink-0 text-xs text-foreground-secondary">
                             ⏱️ {(result.duration / 1000).toFixed(2)}s
-                          </Typography>
+                          </span>
                         )}
-                      </Stack>
+                      </div>
 
-                      <Stack alignItems="center" direction="row" spacing={1} sx={{ mb: 1 }}>
-                        <Typography color="text.secondary" variant="caption">
+                      <div className="mb-2 flex flex-row items-center gap-2">
+                        <span className="text-xs text-foreground-secondary">
                           <code>{result.file?.split('/').slice(-2).join('/') || ''}</code>
-                        </Typography>
+                        </span>
                         {project && (
-                          <Typography color="text.secondary" variant="caption">
-                            · {project.name}
-                          </Typography>
+                          <span className="text-xs text-foreground-secondary">· {project.name}</span>
                         )}
-                      </Stack>
+                      </div>
 
                       {isFailed && result.error && (
-                        <Alert severity="error" sx={{ mt: 1, mb: 1 }}>
-                          <Typography
-                            sx={{
-                              fontFamily: 'monospace',
-                              whiteSpace: 'pre-wrap',
-                              maxHeight: 128,
-                              overflow: 'auto',
-                            }}
-                            variant="caption"
-                          >
+                        <Alert className="my-2" variant="error">
+                          <span className="block max-h-32 overflow-auto whitespace-pre-wrap font-mono text-xs">
                             {result.error}
-                          </Typography>
+                          </span>
                           {result.error.length > 500 && (
-                            <Typography
-                              color="text.secondary"
-                              fontStyle="italic"
-                              sx={{ mt: 0.5 }}
-                              variant="caption"
-                            >
+                            <span className="mt-1 block text-xs italic text-foreground-secondary">
                               Error truncated. See Test Details tab for full error.
-                            </Typography>
+                            </span>
                           )}
                         </Alert>
                       )}
 
                       {result.steps && result.steps.length > 0 && (
-                        <Box sx={{ mt: 1, pt: 1, borderTop: 1, borderColor: 'divider' }}>
-                          <Typography color="text.secondary" gutterBottom variant="caption">
+                        <div className="mt-2 border-t border-border pt-2">
+                          <span className="mb-1 block text-xs text-foreground-secondary">
                             Test Steps ({result.steps.length})
-                          </Typography>
+                          </span>
                           <StepList enableFilter maxSteps={5} steps={result.steps} />
-                        </Box>
+                        </div>
                       )}
 
                       {isFailed && (
-                        <Stack
-                          alignItems="center"
-                          direction="row"
-                          justifyContent="space-between"
-                          sx={{ mt: 1, pt: 1, borderTop: 1, borderColor: 'divider' }}
-                        >
-                          <Typography color="text.secondary" variant="caption">
+                        <div className="mt-2 flex flex-row items-center justify-between border-t border-border pt-2">
+                          <span className="text-xs text-foreground-secondary">
                             💡 Check the <strong>Test Details</strong> tab for screenshots, videos,
                             and traces
-                          </Typography>
+                          </span>
                           {onDebugWithMCP && (
                             <Button
+                              className="shrink-0"
                               onClick={() => onDebugWithMCP([result as TestResult])}
-                              size="small"
-                              startIcon={<BugReportIcon />}
-                              sx={{ flexShrink: 0 }}
-                              variant="outlined"
+                              size="sm"
+                              variant="outline"
                             >
+                              <Bug aria-hidden="true" className="size-4" />
                               Debug
                             </Button>
                           )}
-                        </Stack>
+                        </div>
                       )}
 
                       {/* Related engine rules for failed tests */}
@@ -575,57 +490,61 @@ export const SummaryTab = ({
                         const related = getRelatedRules(result.name, result.error);
                         if (related.length === 0) return null;
                         return (
-                          <Box sx={{ mt: 1, pt: 1, borderTop: 1, borderColor: 'divider' }}>
-                            <Typography color="text.secondary" variant="caption" sx={{ display: 'block', mb: 0.5 }}>
+                          <div className="mt-2 border-t border-border pt-2">
+                            <span className="mb-1 block text-xs text-foreground-secondary">
                               Related engine rules:
-                            </Typography>
-                            <Stack direction="row" spacing={0.5} flexWrap="wrap">
+                            </span>
+                            <div className="flex flex-row flex-wrap gap-1">
                               {related.map(ruleId => (
-                                <Chip
+                                <Link
+                                  className="mb-1 rounded-full no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
                                   key={ruleId}
-                                  label={ruleId}
-                                  size="small"
-                                  icon={<BiotechIcon />}
-                                  onClick={() => navigate(`/engine/${ruleId}`)}
-                                  sx={{ fontFamily: 'monospace', fontSize: MIN_TEXT_SIZE, cursor: 'pointer', mb: 0.5 }}
-                                />
+                                  to={`/engine/${ruleId}`}
+                                >
+                                  <Chip
+                                    className="hover:border-primary hover:text-foreground"
+                                    icon={<FlaskConical aria-hidden="true" className="size-3.5" />}
+                                  >
+                                    {ruleId}
+                                  </Chip>
+                                </Link>
                               ))}
-                            </Stack>
-                          </Box>
+                            </div>
+                          </div>
                         );
                       })()}
-                    </Paper>
+                    </div>
                   );
                 })}
-              </Stack>
-            </Box>
+              </div>
+            </div>
           )}
-        </Stack>
+        </div>
       ) : (
-        <Paper sx={{ p: 4, textAlign: 'center' }} variant="outlined">
-          <InsertDriveFileIcon sx={{ fontSize: 48, color: 'text.disabled', mb: 2 }} />
-          <Typography gutterBottom variant="subtitle1">
+        <div className={cn(panelClass, 'p-8 text-center')}>
+          <FileText aria-hidden="true" className="mx-auto mb-4 size-12 text-foreground-muted" />
+          <h6 className="m-0 mb-1 text-base font-medium text-foreground">
             Detailed Test Results Not Available
-          </Typography>
-          <Typography color="text.secondary" sx={{ mb: 2 }} variant="body2">
+          </h6>
+          <p className="m-0 mb-4 text-sm text-foreground-secondary">
             Test result details are not available in the database. Check the{' '}
             <strong>Test Details</strong> tab for the full Playwright HTML report with screenshots,
             videos, and traces.
-          </Typography>
-          <Stack spacing={0.5}>
-            <Typography variant="caption">
+          </p>
+          <div className="flex flex-col gap-1">
+            <span className="text-xs text-foreground">
               📊 <strong>Summary Stats:</strong> {summary.total} total, {summary.passed} passed,{' '}
               {summary.failed} failed, {summary.skipped} skipped
-            </Typography>
+            </span>
             {summary.failed > 0 && (
-              <Typography color="error" variant="caption">
+              <span className="text-xs text-status-fail">
                 ⚠️ {summary.failed} test{summary.failed !== 1 ? 's' : ''} failed — review the Test
                 Details tab for error information
-              </Typography>
+              </span>
             )}
-          </Stack>
-        </Paper>
+          </div>
+        </div>
       )}
-    </Stack>
+    </div>
   );
 };

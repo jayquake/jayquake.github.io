@@ -1,5 +1,4 @@
 import React from "react";
-import { Box } from "@mui/material";
 import { Navigate, Route, Routes } from "react-router-dom";
 import EngineLibraryHome from "../components/pages/Engine/EngineLibraryHome";
 import EngineSlugOutlet from "../components/routes/EngineSlugOutlet";
@@ -46,7 +45,7 @@ const AppRoutes = () => {
   return (
     <LegacyRedirect>
       <EngineIdRedirect>
-        <Box sx={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
           <Routes>
             <Route index element={<EngineLibraryHome />} />
             <Route path="/login" element={wrap(<LoginPage />)} />
@@ -83,7 +82,7 @@ const AppRoutes = () => {
 
             <Route path="/*" element={wrap(<AllRulesWithRoutes />)} />
           </Routes>
-        </Box>
+        </div>
       </EngineIdRedirect>
     </LegacyRedirect>
   );

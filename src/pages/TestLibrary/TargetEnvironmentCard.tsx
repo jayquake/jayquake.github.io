@@ -1,13 +1,8 @@
-import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
-import InputAdornment from '@mui/material/InputAdornment';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import LockIcon from '@mui/icons-material/Lock';
+import { AlertCircle, CheckCircle2, Lock } from 'lucide-react';
+import { useId } from 'react';
+
+import { Label } from '../../components/ui/label';
+import { cn } from '../../lib/utils';
 
 interface TargetEnvironmentCardProps {
   baseUrl: string;
@@ -20,6 +15,11 @@ interface TargetEnvironmentCardProps {
   onHttpAuthUsernameChange: (v: string) => void;
 }
 
+const fieldInputClass = cn(
+  'h-9 w-full min-w-0 border border-border bg-shell-input px-2.5 font-mono text-xs text-foreground outline-none',
+  'placeholder:text-foreground-muted focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/15'
+);
+
 export default function TargetEnvironmentCard({
   baseUrl,
   httpAuthEnabled,
@@ -31,63 +31,83 @@ export default function TargetEnvironmentCard({
   onHttpAuthUsernameChange,
 }: TargetEnvironmentCardProps) {
   const hasUrl = baseUrl.trim().length > 0;
+  const showError = hasUrl && !isUrlValid;
+  const uid = useId();
+  const urlId = `${uid}-base-url`;
+  const urlHelpId = `${uid}-base-url-help`;
+  const usernameId = `${uid}-auth-username`;
+  const passwordId = `${uid}-auth-password`;
 
   return (
-    <Paper sx={{ p: 2 }}>
-      <Typography variant="subtitle1" fontWeight={600} gutterBottom>
+    <section className="border border-border bg-shell-panel p-4">
+      <h6 className="m-0 mb-2 text-base font-semibold text-foreground">
         Target Environment
-      </Typography>
+      </h6>
 
       {/* URL input */}
-      <TextField
-        fullWidth
-        size="small"
-        label="Base URL"
-        placeholder="https://example.com"
-        value={baseUrl}
-        onChange={(e) => onBaseUrlChange(e.target.value)}
-        error={hasUrl && !isUrlValid}
-        helperText={hasUrl && !isUrlValid ? 'Enter a valid URL (e.g., https://example.com)' : undefined}
-        InputProps={{
-          endAdornment: hasUrl ? (
-            <InputAdornment position="end">
+      <div className="mb-3 flex flex-col gap-1">
+        <Label htmlFor={urlId} className={cn(showError && 'text-status-fail')}>
+          Base URL
+        </Label>
+        <div className="relative flex items-center">
+          <input
+            id={urlId}
+            className={cn(fieldInputClass, hasUrl && 'pr-8', showError && 'border-status-fail')}
+            placeholder="https://example.com"
+            value={baseUrl}
+            onChange={(e) => onBaseUrlChange(e.target.value)}
+            aria-invalid={showError || undefined}
+            aria-describedby={showError ? urlHelpId : undefined}
+          />
+          {hasUrl ? (
+            <span className="pointer-events-none absolute right-2 flex items-center">
               {isUrlValid ? (
-                <CheckCircleOutlineIcon fontSize="small" color="success" />
+                <CheckCircle2 className="size-4 text-status-pass" aria-hidden="true" />
               ) : (
-                <ErrorOutlineIcon fontSize="small" color="error" />
+                <AlertCircle className="size-4 text-status-fail" aria-hidden="true" />
               )}
-            </InputAdornment>
-          ) : null,
-        }}
-        sx={{ mb: 1.5 }}
-      />
+            </span>
+          ) : null}
+        </div>
+        {showError ? (
+          <p id={urlHelpId} className="m-0 text-[0.75rem] text-status-fail">
+            Enter a valid URL (e.g., https://example.com)
+          </p>
+        ) : null}
+      </div>
 
       {/* HTTP auth (auto-reveal for acsb-test.com) */}
-      <Collapse in={httpAuthEnabled}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1 }}>
-          <LockIcon fontSize="small" color="warning" />
-          <Typography variant="caption" color="warning.main" fontWeight={500}>
-            HTTP Basic Auth required
-          </Typography>
-        </Box>
-        <Stack direction="row" gap={1}>
-          <TextField
-            size="small"
-            label="Username"
-            value={httpAuthUsername}
-            onChange={(e) => onHttpAuthUsernameChange(e.target.value)}
-            sx={{ flex: 1 }}
-          />
-          <TextField
-            size="small"
-            label="Password"
-            type="password"
-            value={httpAuthPassword}
-            onChange={(e) => onHttpAuthPasswordChange(e.target.value)}
-            sx={{ flex: 1 }}
-          />
-        </Stack>
-      </Collapse>
-    </Paper>
+      {httpAuthEnabled && (
+        <div>
+          <div className="mb-2 flex items-center gap-1">
+            <Lock className="size-4 text-status-warn" aria-hidden="true" />
+            <span className="text-[0.75rem] font-medium text-status-warn">
+              HTTP Basic Auth required
+            </span>
+          </div>
+          <div className="flex flex-row gap-2">
+            <div className="flex flex-1 flex-col gap-1">
+              <Label htmlFor={usernameId}>Username</Label>
+              <input
+                id={usernameId}
+                className={fieldInputClass}
+                value={httpAuthUsername}
+                onChange={(e) => onHttpAuthUsernameChange(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-1 flex-col gap-1">
+              <Label htmlFor={passwordId}>Password</Label>
+              <input
+                id={passwordId}
+                type="password"
+                className={fieldInputClass}
+                value={httpAuthPassword}
+                onChange={(e) => onHttpAuthPasswordChange(e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
   );
 }

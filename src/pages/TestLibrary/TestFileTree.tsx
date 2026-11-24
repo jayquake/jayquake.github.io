@@ -1,30 +1,14 @@
-import Box from '@mui/material/Box';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import Chip from '@mui/material/Chip';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import LinearProgress from '@mui/material/LinearProgress';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Paper from '@mui/material/Paper';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import CircularProgress from '@mui/material/CircularProgress';
-import Tooltip from '@mui/material/Tooltip';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import FolderIcon from '@mui/icons-material/Folder';
-import FolderOpenIcon from '@mui/icons-material/FolderOpen';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import SearchIcon from '@mui/icons-material/Search';
-import { useState } from 'react';
-import { MIN_TEXT_SIZE } from '../../theme/mgsTokens';
+import { Check, ChevronDown, ChevronRight, Folder, FolderOpen, Minus, Play } from 'lucide-react';
+import { useRef, useState } from 'react';
+import type { FocusEvent, KeyboardEvent, MouseEvent, ReactNode } from 'react';
+
+import { Button } from '../../components/ui/button';
+import { Chip } from '../../components/ui/chip';
+import { Progress } from '../../components/ui/progress';
+import { SearchField } from '../../components/ui/search-field';
+import { Spinner } from '../../components/ui/spinner';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../../components/ui/tooltip';
+import { cn } from '../../lib/utils';
 import type { TestCaseInfo, TestFileInfo, TestSuiteGroup } from './types';
 
 /** Strip leading "Qase NNN: " or "Qase NNN - " prefix from a test title.
@@ -54,6 +38,49 @@ interface TestFileTreeProps {
   totalAvailable: number;
 }
 
+type CheckState = 'mixed' | boolean;
+
+/** One visible tree item, in document order — drives roving focus and keyboard actions. */
+interface VisibleNode {
+  /** Enter / click on the row. */
+  activate: () => void;
+  expandable: boolean;
+  expanded: boolean;
+  key: string;
+  parentKey: null | string;
+  /** Shift+Enter (suites only). */
+  run?: () => void;
+  /** Space / checkbox click. */
+  toggleCheck: () => void;
+  toggleExpand?: () => void;
+}
+
+const suiteKey = (path: string) => `s:${path}`;
+const fileKey = (path: string) => `f:${path}`;
+const caseKey = (path: string, title: string) => `c:${path}::${title}`;
+
+/** Visual-only checkbox; the treeitem carries aria-checked. */
+function CheckMark({ state, onClick }: { onClick: (e: MouseEvent<HTMLSpanElement>) => void; state: CheckState }) {
+  const on = state !== false;
+  return (
+    <span
+      aria-hidden="true"
+      onClick={onClick}
+      className={cn(
+        'inline-flex size-4 shrink-0 cursor-pointer items-center justify-center border',
+        on ? 'border-primary bg-primary text-primary-foreground' : 'border-border-strong bg-shell-input'
+      )}
+    >
+      {state === 'mixed' ? <Minus className="size-3" /> : state ? <Check className="size-3" /> : null}
+    </span>
+  );
+}
+
+const rowBase =
+  'tree-row flex min-h-8 cursor-pointer items-center gap-2 pr-2 hover:bg-hover/5';
+const itemFocus =
+  'outline-none [&:focus-visible>.tree-row]:outline [&:focus-visible>.tree-row]:outline-2 [&:focus-visible>.tree-row]:-outline-offset-2 [&:focus-visible>.tree-row]:outline-primary';
+
 export default function TestFileTree({
   expandedSuites,
   expandedTestFiles,
@@ -75,6 +102,8 @@ export default function TestFileTree({
   totalAvailable,
 }: TestFileTreeProps) {
   const [hoveredSuite, setHoveredSuite] = useState<null | string>(null);
+  const [focusKey, setFocusKey] = useState<null | string>(null);
+  const itemRefs = useRef(new Map<string, HTMLLIElement>());
 
   const selectedFileCount = selectedTests.size;
   const selectedCaseCount = Array.from(selectedTestCases.values()).reduce(
@@ -84,112 +113,211 @@ export default function TestFileTree({
   const totalSelected = selectedFileCount + selectedCaseCount;
   const selectionRatio = totalAvailable > 0 ? Math.min(totalSelected / totalAvailable, 1) : 0;
 
-  const renderTestFile = (file: TestFileInfo, suitePath: string) => {
+  // ── visible node list (same order as the render below) ──
+  const visible: VisibleNode[] = [];
+
+  const collectFile = (file: TestFileInfo, parentKey: null | string) => {
+    const testCases = testCasesCache.get(file.relativePath) || [];
+    const isLoading = loadingTestCases.has(file.relativePath);
+    const expandable = !isLoading && testCases.length > 0;
+    const expanded = expandedTestFiles.has(file.relativePath);
+    const key = fileKey(file.relativePath);
+    visible.push({
+      activate: () => onToggleTest(file.relativePath),
+      expandable,
+      expanded: expandable && expanded,
+      key,
+      parentKey,
+      toggleCheck: () => onToggleTest(file.relativePath),
+      toggleExpand: () => onToggleTestFile(file.relativePath),
+    });
+    if (expanded && testCases.length > 0) {
+      for (const tc of testCases) {
+        visible.push({
+          activate: () => onToggleTestCase(file.relativePath, tc.title),
+          expandable: false,
+          expanded: false,
+          key: caseKey(file.relativePath, tc.title),
+          parentKey: key,
+          toggleCheck: () => onToggleTestCase(file.relativePath, tc.title),
+        });
+      }
+    }
+  };
+
+  const collectSuite = (suite: TestSuiteGroup, path: string, parentKey: null | string) => {
+    if (suite.name === 'root') {
+      Object.entries(suite.suites).forEach(([key, sub]) => collectSuite(sub, key, null));
+      suite.tests.forEach(f => collectFile(f, null));
+      return;
+    }
+    const key = suiteKey(path);
+    const expanded = expandedSuites.has(path);
+    visible.push({
+      activate: () => onToggleSuite(path),
+      expandable: true,
+      expanded,
+      key,
+      parentKey,
+      run: () => onRunSuite(suite),
+      toggleCheck: () => onSelectSuite(suite, path),
+      toggleExpand: () => onToggleSuite(path),
+    });
+    if (expanded) {
+      Object.entries(suite.suites).forEach(([k, sub]) => collectSuite(sub, `${path}/${k}`, key));
+      suite.tests.forEach(f => collectFile(f, key));
+    }
+  };
+
+  if (suiteGroup) collectSuite(suiteGroup, 'root', null);
+
+  const tabStopKey =
+    focusKey && visible.some(n => n.key === focusKey) ? focusKey : visible[0]?.key ?? null;
+
+  const focusItem = (key: string) => {
+    setFocusKey(key);
+    itemRefs.current.get(key)?.focus();
+  };
+
+  const setItemRef = (key: string) => (el: HTMLLIElement | null) => {
+    if (el) itemRefs.current.set(key, el);
+    else itemRefs.current.delete(key);
+  };
+
+  const handleTreeKeyDown = (e: KeyboardEvent<HTMLUListElement>) => {
+    const target = e.target as HTMLElement;
+    const key = target.getAttribute('data-tree-key');
+    if (!key || target.getAttribute('role') !== 'treeitem') return;
+    const index = visible.findIndex(n => n.key === key);
+    if (index < 0) return;
+    const node = visible[index];
+
+    switch (e.key) {
+      case 'ArrowDown':
+        if (index < visible.length - 1) focusItem(visible[index + 1].key);
+        break;
+      case 'ArrowUp':
+        if (index > 0) focusItem(visible[index - 1].key);
+        break;
+      case 'Home':
+        focusItem(visible[0].key);
+        break;
+      case 'End':
+        focusItem(visible[visible.length - 1].key);
+        break;
+      case 'ArrowRight':
+        if (node.expandable && !node.expanded) node.toggleExpand?.();
+        else if (node.expanded && visible[index + 1]?.parentKey === node.key) focusItem(visible[index + 1].key);
+        break;
+      case 'ArrowLeft':
+        if (node.expandable && node.expanded) node.toggleExpand?.();
+        else if (node.parentKey) focusItem(node.parentKey);
+        break;
+      case ' ':
+        node.toggleCheck();
+        break;
+      case 'Enter':
+        if (e.shiftKey && node.run) node.run();
+        else node.activate();
+        break;
+      default:
+        return;
+    }
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const treeItemProps = (key: string, level: number, checked: CheckState, expanded?: boolean) => ({
+    'aria-checked': checked,
+    'aria-expanded': expanded,
+    'aria-level': level,
+    className: itemFocus,
+    'data-tree-key': key,
+    onFocus: (e: FocusEvent<HTMLLIElement>) => {
+      if (e.target === e.currentTarget) setFocusKey(key);
+    },
+    ref: setItemRef(key),
+    role: 'treeitem' as const,
+    tabIndex: tabStopKey === key ? 0 : -1,
+  });
+
+  const renderTestFile = (file: TestFileInfo, suitePath: string, level: number): ReactNode => {
     const isSelected = selectedTests.has(file.relativePath);
     const isExpanded = expandedTestFiles.has(file.relativePath);
     const isLoading = loadingTestCases.has(file.relativePath);
     const testCases = testCasesCache.get(file.relativePath) || [];
     const fileCaseSelections = selectedTestCases.get(file.relativePath) || new Set<string>();
+    const expandable = !isLoading && testCases.length > 0;
+    const key = fileKey(file.relativePath);
+    const indent = (suitePath.split('/').length) * 16 + 48;
 
     return (
-      <Box key={file.relativePath}>
-        <ListItem
-          disablePadding
-          secondaryAction={
-            isLoading ? (
-              <CircularProgress size={14} />
-            ) : testCases.length > 0 ? (
-              <IconButton
-                edge="end"
-                size="small"
-                onClick={() => onToggleTestFile(file.relativePath)}
-              >
-                {isExpanded ? <ExpandMoreIcon fontSize="small" /> : <ChevronRightIcon fontSize="small" />}
-              </IconButton>
-            ) : null
-          }
-          sx={{ pl: `${(suitePath.split('/').length) * 16 + 32}px` }}
+      <li
+        key={file.relativePath}
+        {...treeItemProps(key, level, isSelected, expandable ? isExpanded : undefined)}
+        aria-label={file.qaseId ? `${file.name}, Q-${file.qaseId}` : file.name}
+      >
+        <div
+          className={rowBase}
+          style={{ paddingLeft: indent }}
+          onClick={() => { setFocusKey(key); onToggleTest(file.relativePath); }}
         >
-          <ListItemButton
-            dense
-            onClick={() => onToggleTest(file.relativePath)}
-            sx={{ borderRadius: 1, py: 0.5 }}
-          >
-            <ListItemIcon sx={{ minWidth: 32 }}>
-              <Checkbox
-                size="small"
-                checked={isSelected}
-                onChange={() => onToggleTest(file.relativePath)}
-                onClick={(e) => e.stopPropagation()}
-                sx={{ p: 0 }}
-              />
-            </ListItemIcon>
-            <ListItemText
-              primary={
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexWrap: 'wrap' }}>
-                  <Typography variant="body2" component="span" sx={{ fontFamily: 'monospace', fontSize: 12 }}>
-                    {file.name}
-                  </Typography>
-                  {file.qaseId && (
-                    <Chip label={`Q-${file.qaseId}`} size="small" color="info" variant="outlined" sx={{ height: 18, fontSize: MIN_TEXT_SIZE }} />
-                  )}
-                  {testCases.length > 0 && (
-                    <Chip label={testCases.length} size="small" variant="outlined" sx={{ height: 18, fontSize: MIN_TEXT_SIZE }} />
-                  )}
-                </Box>
-              }
-            />
-          </ListItemButton>
-        </ListItem>
+          <CheckMark
+            state={isSelected}
+            onClick={(e) => { e.stopPropagation(); setFocusKey(key); onToggleTest(file.relativePath); }}
+          />
+          <span className="flex min-w-0 flex-1 flex-wrap items-center gap-1 py-1">
+            <span className="font-mono text-xs text-foreground">{file.name}</span>
+            {file.qaseId && <Chip tone="info" className="h-[18px]">{`Q-${file.qaseId}`}</Chip>}
+            {testCases.length > 0 && <Chip className="h-[18px]">{testCases.length}</Chip>}
+          </span>
+          {isLoading ? (
+            <Spinner className="size-3.5" />
+          ) : testCases.length > 0 ? (
+            <span
+              aria-hidden="true"
+              className="inline-flex size-6 items-center justify-center text-foreground-secondary hover:text-foreground"
+              onClick={(e) => { e.stopPropagation(); setFocusKey(key); onToggleTestFile(file.relativePath); }}
+            >
+              {isExpanded ? <ChevronDown className="size-4" /> : <ChevronRight className="size-4" />}
+            </span>
+          ) : null}
+        </div>
 
         {/* Expanded test cases */}
-        <Collapse in={isExpanded && testCases.length > 0}>
-          <List dense disablePadding>
+        {isExpanded && testCases.length > 0 && (
+          <ul role="group" className="m-0 list-none p-0">
             {testCases.map((tc: TestCaseInfo) => {
               const isCaseSelected = fileCaseSelections.has(tc.title);
+              const cKey = caseKey(file.relativePath, tc.title);
               return (
-                <ListItem
-                  key={tc.title}
-                  disablePadding
-                  sx={{ pl: `${(suitePath.split('/').length) * 16 + 48}px` }}
-                >
-                  <ListItemButton
-                    dense
-                    onClick={() => onToggleTestCase(file.relativePath, tc.title)}
-                    sx={{ borderRadius: 1, py: 0.25 }}
+                <li key={tc.title} {...treeItemProps(cKey, level + 1, isCaseSelected)}>
+                  <div
+                    className={cn(rowBase, 'min-h-7')}
+                    style={{ paddingLeft: (suitePath.split('/').length) * 16 + 64 }}
+                    onClick={() => { setFocusKey(cKey); onToggleTestCase(file.relativePath, tc.title); }}
                   >
-                    <ListItemIcon sx={{ minWidth: 28 }}>
-                      <Checkbox
-                        size="small"
-                        checked={isCaseSelected}
-                        onChange={() => onToggleTestCase(file.relativePath, tc.title)}
-                        onClick={(e) => e.stopPropagation()}
-                        sx={{ p: 0 }}
-                      />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                          {tc.qaseId && (
-                            <Chip label={`Q-${tc.qaseId}`} size="small" color="info" variant="outlined" sx={{ minHeight: 20, fontSize: MIN_TEXT_SIZE, flexShrink: 0 }} />
-                          )}
-                          <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                            {stripQasePrefix(tc.title)}
-                          </Typography>
-                        </Box>
-                      }
+                    <CheckMark
+                      state={isCaseSelected}
+                      onClick={(e) => { e.stopPropagation(); setFocusKey(cKey); onToggleTestCase(file.relativePath, tc.title); }}
                     />
-                  </ListItemButton>
-                </ListItem>
+                    <span className="flex min-w-0 items-center gap-1">
+                      {tc.qaseId && <Chip tone="info" className="shrink-0">{`Q-${tc.qaseId}`}</Chip>}
+                      <span className="text-[0.75rem] text-foreground-secondary">
+                        {stripQasePrefix(tc.title)}
+                      </span>
+                    </span>
+                  </div>
+                </li>
               );
             })}
-          </List>
-        </Collapse>
-      </Box>
+          </ul>
+        )}
+      </li>
     );
   };
 
-  const renderSuite = (suite: TestSuiteGroup, path: string, depth = 0) => {
+  const renderSuite = (suite: TestSuiteGroup, path: string, depth = 0): ReactNode => {
     const isExpanded = expandedSuites.has(path) || suite.name === 'root';
     const allTests = getAllTests(suite);
     const allSelected = allTests.length > 0 && allTests.every(t => selectedTests.has(t.relativePath));
@@ -197,140 +325,130 @@ export default function TestFileTree({
 
     if (suite.name === 'root') {
       return (
-        <Box key="root">
+        <>
           {Object.entries(suite.suites).map(([key, sub]) =>
             renderSuite(sub, key, 0)
           )}
-          {suite.tests.map(f => renderTestFile(f, ''))}
-        </Box>
+          {suite.tests.map(f => renderTestFile(f, '', 1))}
+        </>
       );
     }
 
+    const key = suiteKey(path);
+    const checked: CheckState = allSelected ? true : someSelected ? 'mixed' : false;
+    const showRun = hoveredSuite === path || focusKey === key;
+
     return (
-      <Box key={path}>
-        <ListItem
-          disablePadding
+      <li
+        key={path}
+        {...treeItemProps(key, depth + 1, checked, isExpanded)}
+        aria-keyshortcuts="Shift+Enter"
+        aria-label={`${suite.name}, ${allTests.length} test file${allTests.length !== 1 ? 's' : ''}`}
+      >
+        <div
+          className={cn(rowBase, 'min-h-9')}
+          style={{ paddingLeft: depth * 16 + 16 }}
           onMouseEnter={() => setHoveredSuite(path)}
           onMouseLeave={() => setHoveredSuite(null)}
-          secondaryAction={
-            hoveredSuite === path ? (
-              <Tooltip title={`Run all in ${suite.name}`}>
-                <IconButton
-                  size="small"
-                  onClick={(e) => { e.stopPropagation(); onRunSuite(suite); }}
-                >
-                  <PlayArrowIcon fontSize="small" color="primary" />
-                </IconButton>
+          onClick={() => { setFocusKey(key); onToggleSuite(path); }}
+        >
+          <CheckMark
+            state={checked}
+            onClick={(e) => { e.stopPropagation(); setFocusKey(key); onSelectSuite(suite, path); }}
+          />
+          {isExpanded ? (
+            <FolderOpen className="size-4 shrink-0 text-primary" aria-hidden="true" />
+          ) : (
+            <Folder className="size-4 shrink-0 text-foreground-muted" aria-hidden="true" />
+          )}
+          <span className="min-w-0 flex-1 truncate text-sm font-medium text-foreground">
+            {suite.name}
+          </span>
+          {isExpanded ? (
+            <ChevronDown className="size-4 shrink-0 text-foreground-secondary" aria-hidden="true" />
+          ) : (
+            <ChevronRight className="size-4 shrink-0 text-foreground-secondary" aria-hidden="true" />
+          )}
+          <span className="flex w-8 shrink-0 justify-center">
+            {showRun ? (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    tabIndex={-1}
+                    aria-hidden="true"
+                    className="size-6"
+                    onClick={(e) => { e.stopPropagation(); onRunSuite(suite); }}
+                  >
+                    <Play className="size-4 text-primary" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>{`Run all in ${suite.name}`}</TooltipContent>
               </Tooltip>
             ) : (
-              <Chip label={allTests.length} size="small" variant="outlined" sx={{ height: 18, fontSize: MIN_TEXT_SIZE }} />
-            )
-          }
-          sx={{ pl: `${depth * 16}px` }}
-        >
-          <ListItemButton dense onClick={() => onToggleSuite(path)} sx={{ borderRadius: 1, py: 0.75 }}>
-            <ListItemIcon sx={{ minWidth: 32 }}>
-              <Checkbox
-                size="small"
-                checked={allSelected}
-                indeterminate={someSelected}
-                onChange={(e) => { e.stopPropagation(); onSelectSuite(suite, path); }}
-                onClick={(e) => e.stopPropagation()}
-                sx={{ p: 0 }}
-              />
-            </ListItemIcon>
-            <ListItemIcon sx={{ minWidth: 28 }}>
-              {isExpanded ? (
-                <FolderOpenIcon fontSize="small" color="primary" />
-              ) : (
-                <FolderIcon fontSize="small" color="action" />
-              )}
-            </ListItemIcon>
-            <ListItemText
-              primary={
-                <Typography variant="body2" fontWeight={500}>
-                  {suite.name}
-                </Typography>
-              }
-            />
-            {isExpanded ? (
-              <ExpandMoreIcon fontSize="small" sx={{ color: 'text.secondary' }} />
-            ) : (
-              <ChevronRightIcon fontSize="small" sx={{ color: 'text.secondary' }} />
+              <Chip className="h-[18px]">{allTests.length}</Chip>
             )}
-          </ListItemButton>
-        </ListItem>
+          </span>
+        </div>
 
-        <Collapse in={isExpanded}>
-          <List dense disablePadding>
-            {Object.entries(suite.suites).map(([key, sub]) =>
-              renderSuite(sub, `${path}/${key}`, depth + 1)
+        {isExpanded && (
+          <ul role="group" className="m-0 list-none p-0">
+            {Object.entries(suite.suites).map(([k, sub]) =>
+              renderSuite(sub, `${path}/${k}`, depth + 1)
             )}
-            {suite.tests.map(f => renderTestFile(f, path))}
-          </List>
-        </Collapse>
-      </Box>
+            {suite.tests.map(f => renderTestFile(f, path, depth + 2))}
+          </ul>
+        )}
+      </li>
     );
   };
 
   return (
-    <Paper
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-        overflow: 'hidden',
-      }}
-    >
+    <div className="flex h-full flex-col overflow-hidden border border-border bg-shell-panel">
       {/* Search + Select All / Clear */}
-      <Box sx={{ p: 1.5, borderBottom: 1, borderColor: 'divider', display: 'flex', gap: 1 }}>
-        <TextField
-          size="small"
-          placeholder="Search tests…"
+      <div className="flex gap-2 border-b border-border p-3">
+        <SearchField
           value={search}
-          onChange={(e) => onSearchChange(e.target.value)}
-          sx={{ flex: 1 }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon fontSize="small" />
-              </InputAdornment>
-            ),
-          }}
+          onValueChange={onSearchChange}
+          placeholder="Search tests…"
+          aria-label="Search tests"
+          containerClassName="flex-1"
         />
-        <ButtonGroup size="small" variant="outlined">
-          <Button onClick={onSelectAll}>All</Button>
-          <Button onClick={onClearAll}>Clear</Button>
-        </ButtonGroup>
-      </Box>
+        <div role="group" aria-label="Selection" className="flex shrink-0">
+          <Button size="sm" onClick={onSelectAll}>All</Button>
+          <Button size="sm" onClick={onClearAll} className="-ml-px">Clear</Button>
+        </div>
+      </div>
 
       {/* Tree */}
-      <Box sx={{ flex: 1, overflow: 'auto' }}>
+      <div className="flex-1 overflow-auto">
         {!suiteGroup ? (
-          <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
-            <CircularProgress size={32} />
-          </Box>
+          <div className="flex justify-center p-8">
+            <Spinner className="size-8" />
+          </div>
         ) : (
-          <List dense disablePadding>
+          <ul
+            role="tree"
+            aria-label="Test files"
+            className="m-0 list-none p-0 py-1"
+            onKeyDown={handleTreeKeyDown}
+          >
             {renderSuite(suiteGroup, 'root')}
-          </List>
+          </ul>
         )}
-      </Box>
+      </div>
 
       {/* Selection footer */}
-      <Box sx={{ p: 1.5, borderTop: 1, borderColor: 'divider' }}>
-        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
+      <div className="border-t border-border p-3">
+        <span className="mb-1 block text-[0.75rem] text-foreground-secondary">
           {selectedFileCount > 0 || selectedCaseCount > 0
             ? `${selectedFileCount} file${selectedFileCount !== 1 ? 's' : ''} · ${selectedCaseCount > 0 ? `${selectedCaseCount} case${selectedCaseCount !== 1 ? 's' : ''} selected` : 'all cases'}`
             : 'No tests selected'}
-        </Typography>
-        <LinearProgress
-          variant="determinate"
-          value={selectionRatio * 100}
-          sx={{ borderRadius: 1, height: 4 }}
-        />
-      </Box>
-    </Paper>
+        </span>
+        <Progress value={selectionRatio * 100} aria-label="Selected tests" className="h-1" />
+      </div>
+    </div>
   );
 }
 

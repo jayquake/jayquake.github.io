@@ -1,18 +1,12 @@
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Button from '@mui/material/Button';
-import Chip from '@mui/material/Chip';
-import Link from '@mui/material/Link';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import HomeIcon from '@mui/icons-material/Home';
-import HistoryIcon from '@mui/icons-material/History';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import SendIcon from '@mui/icons-material/Send';
+import { ChevronRight, History, Home, Send } from 'lucide-react';
+import type { MouseEvent } from 'react';
+import { Link } from 'react-router-dom';
 import type { Project } from '../../../shared/types';
 
 import ProjectBreadcrumbItem from '../../components/standalone/ProjectBreadcrumbItem';
+import { Button, buttonClass } from '../../components/ui/button';
+import { Chip, type ChipTone } from '../../components/ui/chip';
+import { routeClick } from '../../lib/routeClick';
 
 interface ResultsAppBarProps {
   onNavigateBack: () => void;
@@ -29,12 +23,27 @@ interface ResultsAppBarProps {
   showSlack?: boolean;
 }
 
-const STATUS_COLOR: Record<string, 'default' | 'error' | 'info' | 'success' | 'warning'> = {
-  cancelled: 'warning',
-  completed: 'success',
-  failed: 'error',
+const STATUS_TONE: Record<string, ChipTone> = {
+  cancelled: 'warn',
+  completed: 'pass',
+  failed: 'fail',
   running: 'info',
 };
+
+/**
+ * Real links keep their href (middle-click, copy link, open in new tab) while a
+ * plain left click still runs the caller's navigation handler.
+ */
+const crumbLinkClass =
+  'inline-flex items-center gap-1 text-sm text-inherit no-underline hover:underline focus-visible:underline';
+
+function Separator() {
+  return (
+    <li aria-hidden="true" className="flex items-center text-foreground-muted">
+      <ChevronRight className="size-4" />
+    </li>
+  );
+}
 
 export default function ResultsAppBar({
   onNavigateBack,
@@ -53,78 +62,70 @@ export default function ResultsAppBar({
   const shortId = runId.substring(0, 8);
 
   return (
-    <AppBar color="default" elevation={1} position="sticky" sx={{ zIndex: t => t.zIndex.appBar }}>
-      <Toolbar sx={{ gap: 1, flexWrap: 'wrap', py: 0.5 }}>
-        <Breadcrumbs
-          aria-label="breadcrumb"
-          separator={<NavigateNextIcon fontSize="small" />}
-          sx={{ flexGrow: 1, minWidth: 0 }}
-        >
-          <Link
-            color="inherit"
-            onClick={onNavigateBack}
-            sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 0.5 }}
-            underline="hover"
-            variant="body2"
-          >
-            <HomeIcon sx={{ fontSize: 16 }} />
-            Projects
-          </Link>
-          {projectId && projectName && (
-            <ProjectBreadcrumbItem
-              projectId={projectId}
-              projectName={projectName}
-              projects={projects}
-              onProjectChange={onProjectChange}
-            />
-          )}
-          {projectId && onNavigateToLibrary && (
-            <Link
-              color="inherit"
-              onClick={onNavigateToLibrary}
-              sx={{ cursor: 'pointer' }}
-              underline="hover"
-              variant="body2"
-            >
-              Test Configuration
-            </Link>
-          )}
-          <Typography color="text.primary" fontWeight={600} variant="body2">
-            Results &middot; {shortId}
-          </Typography>
-        </Breadcrumbs>
+    <header className="sticky top-0 z-30 border-b border-border bg-shell-elevated text-foreground-secondary shadow-sm">
+      <div className="flex min-h-12 flex-wrap items-center gap-2 px-4 py-1">
+        <nav aria-label="breadcrumb" className="min-w-0 flex-grow">
+          <ol className="m-0 flex list-none flex-wrap items-center gap-2 p-0">
+            <li className="flex items-center">
+              <Link className={crumbLinkClass} onClick={routeClick(onNavigateBack)} to="/test-runner">
+                <Home aria-hidden="true" className="size-4" />
+                Projects
+              </Link>
+            </li>
+            {projectId && projectName && (
+              <>
+                <Separator />
+                <li className="flex items-center">
+                  <ProjectBreadcrumbItem
+                    projectId={projectId}
+                    projectName={projectName}
+                    projects={projects}
+                    onProjectChange={onProjectChange}
+                  />
+                </li>
+              </>
+            )}
+            {projectId && onNavigateToLibrary && (
+              <>
+                <Separator />
+                <li className="flex items-center">
+                  <Link
+                    className={crumbLinkClass}
+                    onClick={routeClick(onNavigateToLibrary)}
+                    to={`/test-runner/library?project=${projectId}`}
+                  >
+                    Test Configuration
+                  </Link>
+                </li>
+              </>
+            )}
+            <Separator />
+            <li aria-current="page" className="flex items-center text-sm font-semibold text-foreground">
+              Results &middot; {shortId}
+            </li>
+          </ol>
+        </nav>
 
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexShrink: 0 }}>
-          {runStatus && (
-            <Chip
-              color={STATUS_COLOR[runStatus] ?? 'default'}
-              label={runStatus.toUpperCase()}
-              size="small"
-            />
-          )}
+        <div className="flex shrink-0 items-center gap-2">
+          {runStatus && <Chip tone={STATUS_TONE[runStatus] ?? 'default'}>{runStatus.toUpperCase()}</Chip>}
 
           {showSlack && onShareToSlack && (
-            <Button
-              disabled={sendingToSlack}
-              onClick={onShareToSlack}
-              size="small"
-              startIcon={<SendIcon />}
-              variant="outlined"
-            >
+            <Button disabled={sendingToSlack} onClick={onShareToSlack} size="sm" variant="outline">
+              <Send aria-hidden="true" className="size-4" />
               {sendingToSlack ? 'Sending…' : 'Share to Slack'}
             </Button>
           )}
 
-          <Button
-            onClick={onNavigateToHistory}
-            size="small"
-            startIcon={<HistoryIcon />}
-            variant="outlined"
+          <Link
+            className={buttonClass({ size: 'sm', variant: 'outline', className: 'no-underline' })}
+            onClick={routeClick(onNavigateToHistory)}
+            to="/test-runner/history"
           >
+            <History aria-hidden="true" className="size-4" />
             History
-          </Button>
-        </Box>
-      </Toolbar>
-    </AppBar>
+          </Link>
+        </div>
+      </div>
+    </header>
   );
 }

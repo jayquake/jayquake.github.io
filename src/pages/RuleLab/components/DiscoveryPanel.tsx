@@ -1,31 +1,59 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import LinearProgress from '@mui/material/LinearProgress';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import IconButton from '@mui/material/IconButton';
-import Chip from '@mui/material/Chip';
-import Alert from '@mui/material/Alert';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import SearchIcon from '@mui/icons-material/Search';
-import AddIcon from '@mui/icons-material/Add';
-import StarIcon from '@mui/icons-material/Star';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import LanguageIcon from '@mui/icons-material/Language';
+import { ExternalLink, Globe, Plus, Search, Star, X } from 'lucide-react';
 
 import { api } from '../../../api/client';
 import { useRuleLabSocket, type RuleLabEvent } from '../../../hooks/useRuleLabSocket';
-import { MIN_TEXT_SIZE } from '../../../theme/mgsTokens';
+import { Alert } from '../../../components/ui/alert';
+import { Button } from '../../../components/ui/button';
+import { Card } from '../../../components/ui/card';
+import { Chip } from '../../../components/ui/chip';
+import { Input } from '../../../components/ui/input';
+import { Label } from '../../../components/ui/label';
+import { NativeSelect } from '../../../components/ui/native-select';
+import { Progress } from '../../../components/ui/progress';
+import { Switch } from '../../../components/ui/switch';
+import { cn } from '../../../lib/utils';
+
+interface SiteRow {
+  id: string;
+  name: string;
+  url: string;
+  category?: string;
+  enabled?: boolean;
+}
+
+interface ExampleRow {
+  id?: string;
+  htmlSnippet?: string;
+  html?: string;
+  selector?: string;
+  curated?: boolean;
+  explanation?: string;
+}
+
+interface SiteResultRow {
+  siteId?: string;
+  siteName?: string;
+  name?: string;
+  siteUrl?: string;
+  url?: string;
+  examples?: ExampleRow[];
+}
+
+function errorMessage(err: unknown): string | undefined {
+  return err instanceof Error ? err.message : undefined;
+}
+
+/** Indeterminate linear progress (replaces MUI LinearProgress). */
+function IndeterminateBar({ className, label = 'Loading' }: { className?: string; label?: string }) {
+  return (
+    <div role="progressbar" aria-label={label} className={cn('relative h-1 w-full overflow-hidden bg-primary/20', className)}>
+      <div className="h-full w-2/5 animate-progress-indeterminate bg-primary" />
+    </div>
+  );
+}
+
+const FIELD_INPUT_CLASS = 'h-8 border border-border-strong bg-shell-input px-2.5 focus-visible:border-primary';
 
 interface DiscoveryPanelProps {
   ruleId: string;
@@ -86,7 +114,7 @@ export function DiscoveryPanel({ ruleId, ruleType }: DiscoveryPanelProps) {
       setLoadingSites(true);
       const data = await api.ruleLab.listSites();
       setSites(
-        (data ?? []).map((s: any) => ({
+        ((data ?? []) as SiteRow[]).map((s) => ({
           id: s.id,
           name: s.name,
           url: s.url,
@@ -94,8 +122,8 @@ export function DiscoveryPanel({ ruleId, ruleType }: DiscoveryPanelProps) {
           enabled: s.enabled ?? true,
         }))
       );
-    } catch (err: any) {
-      setError(err.message || 'Failed to load sites');
+    } catch (err: unknown) {
+      setError(errorMessage(err) || 'Failed to load sites');
     } finally {
       setLoadingSites(false);
     }
@@ -133,7 +161,7 @@ export function DiscoveryPanel({ ruleId, ruleType }: DiscoveryPanelProps) {
           siteId: site.id,
           siteName: site.name,
           siteUrl: site.url,
-          examples: (result?.examples ?? []).map((ex: any) => ({
+          examples: ((result?.examples ?? []) as ExampleRow[]).map((ex) => ({
             id: ex.id,
             htmlSnippet: ex.htmlSnippet ?? ex.html ?? '',
             selector: ex.selector,
@@ -145,8 +173,8 @@ export function DiscoveryPanel({ ruleId, ruleType }: DiscoveryPanelProps) {
           const filtered = prev.filter((r) => r.siteId !== site.id);
           return [...filtered, dr];
         });
-      } catch (err: any) {
-        setError(err.message || `Discovery failed for ${site.name}`);
+      } catch (err: unknown) {
+        setError(errorMessage(err) || `Discovery failed for ${site.name}`);
       } finally {
         setDiscovering(false);
       }
@@ -160,11 +188,11 @@ export function DiscoveryPanel({ ruleId, ruleType }: DiscoveryPanelProps) {
     setDiscoveryResults([]);
     try {
       const result = await api.ruleLab.discoverAll(ruleId, ruleType);
-      const results: DiscoveryResult[] = (result?.sites ?? []).map((r: any) => ({
+      const results: DiscoveryResult[] = ((result?.sites ?? []) as SiteResultRow[]).map((r) => ({
         siteId: r.siteId,
         siteName: r.siteName ?? r.name ?? '',
         siteUrl: r.siteUrl ?? r.url ?? '',
-        examples: (r.examples ?? []).map((ex: any) => ({
+        examples: (r.examples ?? []).map((ex) => ({
           id: ex.id,
           htmlSnippet: ex.htmlSnippet ?? ex.html ?? '',
           selector: ex.selector,
@@ -173,8 +201,8 @@ export function DiscoveryPanel({ ruleId, ruleType }: DiscoveryPanelProps) {
         })),
       }));
       setDiscoveryResults(results);
-    } catch (err: any) {
-      setError(err.message || 'Discovery failed');
+    } catch (err: unknown) {
+      setError(errorMessage(err) || 'Discovery failed');
     } finally {
       setDiscovering(false);
     }
@@ -190,8 +218,8 @@ export function DiscoveryPanel({ ruleId, ruleType }: DiscoveryPanelProps) {
       setNewSiteCategory('other');
       setShowAddSite(false);
       await loadSites();
-    } catch (err: any) {
-      setError(err.message || 'Failed to add site');
+    } catch (err: unknown) {
+      setError(errorMessage(err) || 'Failed to add site');
     } finally {
       setAddingSite(false);
     }
@@ -208,279 +236,238 @@ export function DiscoveryPanel({ ruleId, ruleType }: DiscoveryPanelProps) {
           ),
         }))
       );
-    } catch (err: any) {
-      setError(err.message || 'Failed to curate example');
+    } catch (err: unknown) {
+      setError(errorMessage(err) || 'Failed to curate example');
     }
   }, []);
 
   return (
-    <Box sx={{ mt: 1 }}>
+    <div className="mt-2">
       {error && (
-        <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError(null)}>
+        <Alert
+          variant="error"
+          className="mb-4"
+          action={
+            <Button aria-label="Close" size="icon" variant="ghost" className="size-6" onClick={() => setError(null)}>
+              <X aria-hidden="true" className="size-4" />
+            </Button>
+          }
+        >
           {error}
         </Alert>
       )}
 
       {/* Sites section */}
-      <Paper variant="outlined" sx={{ p: 2, mb: 2 }}>
-        <Box sx={{ display: 'flex', alignItems: { xs: 'flex-start', sm: 'center' }, justifyContent: 'space-between', mb: 2, flexWrap: 'wrap', gap: 1 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <LanguageIcon fontSize="small" color="primary" />
-            <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-              Curated Sites
-            </Typography>
-            <Chip label={sites.length} size="small" sx={{ height: 20 }} />
-          </Box>
-          <Box sx={{ display: 'flex', gap: 1 }}>
-            <Button
-              size="small"
-              variant="outlined"
-              startIcon={<AddIcon />}
-              onClick={() => setShowAddSite(!showAddSite)}
-            >
+      <div className="mb-4 border border-border bg-shell-panel p-4">
+        <div className="mb-4 flex flex-wrap items-start justify-between gap-2 sm:items-center">
+          <div className="flex items-center gap-2">
+            <Globe aria-hidden="true" className="size-4 text-primary" />
+            <h6 className="m-0 text-sm font-semibold text-foreground">Curated Sites</h6>
+            <Chip className="h-5">{sites.length}</Chip>
+          </div>
+          <div className="flex gap-2">
+            <Button size="sm" variant="outline" onClick={() => setShowAddSite(!showAddSite)}>
+              <Plus aria-hidden="true" className="size-4" />
               Add Site
             </Button>
             <Button
-              size="small"
-              variant="contained"
-              disableElevation
-              startIcon={<SearchIcon />}
+              size="sm"
+              variant="default"
               onClick={discoverAll}
               disabled={discovering || sites.filter((s) => s.enabled).length === 0}
             >
+              <Search aria-hidden="true" className="size-4" />
               Discover on All
             </Button>
-          </Box>
-        </Box>
+          </div>
+        </div>
 
         {discovering && (
-          <Box sx={{ mb: 2 }}>
+          <div className="mb-4">
             {discoveryProgress.active && discoveryProgress.siteUrl ? (
-              <Alert severity="info" icon={false} sx={{ py: 0.5 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight: 500 }}>
+              <Alert variant="info" icon={false} className="py-1">
+                <div className="flex items-center gap-3">
+                  <p className="m-0 text-sm font-medium">
                     Scanning: {discoveryProgress.siteUrl}
-                  </Typography>
+                  </p>
                   {discoveryProgress.total > 0 && (
-                    <Chip
-                      label={`${discoveryProgress.found} / ${discoveryProgress.total} elements`}
-                      size="small"
-                      sx={{ height: 20, fontSize: MIN_TEXT_SIZE }}
-                    />
+                    <Chip className="h-5">
+                      {`${discoveryProgress.found} / ${discoveryProgress.total} elements`}
+                    </Chip>
                   )}
-                </Box>
-                <LinearProgress
-                  variant={discoveryProgress.total > 0 ? 'determinate' : 'indeterminate'}
-                  value={discoveryProgress.total > 0 ? (discoveryProgress.found / discoveryProgress.total) * 100 : undefined}
-                  sx={{ mt: 1 }}
-                />
+                </div>
+                {discoveryProgress.total > 0 ? (
+                  <Progress
+                    aria-label="Discovery progress"
+                    className="mt-2 h-1 rounded-none"
+                    value={(discoveryProgress.found / discoveryProgress.total) * 100}
+                  />
+                ) : (
+                  <IndeterminateBar className="mt-2" />
+                )}
               </Alert>
             ) : (
-              <LinearProgress />
+              <IndeterminateBar />
             )}
-          </Box>
+          </div>
         )}
 
         {showAddSite && (
-          <Paper variant="outlined" sx={{ p: 2, mb: 2, bgcolor: 'grey.50' }}>
-            <Typography variant="body2" sx={{ fontWeight: 500, mb: 1.5 }}>
-              Add a new curated site
-            </Typography>
-            <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap' }}>
-              <TextField
-                size="small"
-                label="Site Name"
-                value={newSiteName}
-                onChange={(e) => setNewSiteName(e.target.value)}
-                sx={{ flex: 1, minWidth: 150 }}
-              />
-              <TextField
-                size="small"
-                label="URL"
-                value={newSiteUrl}
-                onChange={(e) => setNewSiteUrl(e.target.value)}
-                sx={{ flex: 2, minWidth: 200 }}
-              />
-              <FormControl size="small" sx={{ minWidth: 120 }}>
-                <InputLabel>Category</InputLabel>
-                <Select
+          <div className="mb-4 border border-border bg-shell-input p-4">
+            <p className="m-0 mb-3 text-sm font-medium text-foreground">Add a new curated site</p>
+            <div className="flex flex-wrap items-end gap-3">
+              <div className="flex min-w-[150px] flex-1 flex-col gap-1">
+                <Label htmlFor="discovery-new-site-name">Site Name</Label>
+                <Input
+                  id="discovery-new-site-name"
+                  value={newSiteName}
+                  onChange={(e) => setNewSiteName(e.target.value)}
+                  className={FIELD_INPUT_CLASS}
+                />
+              </div>
+              <div className="flex min-w-[200px] flex-[2] flex-col gap-1">
+                <Label htmlFor="discovery-new-site-url">URL</Label>
+                <Input
+                  id="discovery-new-site-url"
+                  value={newSiteUrl}
+                  onChange={(e) => setNewSiteUrl(e.target.value)}
+                  className={FIELD_INPUT_CLASS}
+                />
+              </div>
+              <div className="flex min-w-[120px] flex-col gap-1">
+                <Label htmlFor="discovery-new-site-category">Category</Label>
+                <NativeSelect
+                  id="discovery-new-site-category"
                   value={newSiteCategory}
-                  label="Category"
                   onChange={(e) => setNewSiteCategory(e.target.value)}
+                  className="h-8"
                 >
                   {SITE_CATEGORIES.map((cat) => (
-                    <MenuItem key={cat} value={cat}>
+                    <option key={cat} value={cat}>
                       {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                    </MenuItem>
+                    </option>
                   ))}
-                </Select>
-              </FormControl>
+                </NativeSelect>
+              </div>
               <Button
-                variant="contained"
-                disableElevation
-                size="small"
+                variant="default"
+                size="sm"
                 onClick={addSite}
                 disabled={addingSite || !newSiteName.trim() || !newSiteUrl.trim()}
               >
                 Add
               </Button>
-            </Box>
-          </Paper>
+            </div>
+          </div>
         )}
 
         {loadingSites ? (
-          <LinearProgress />
+          <IndeterminateBar />
         ) : sites.length === 0 ? (
-          <Typography variant="body2" color="text.secondary" textAlign="center" sx={{ py: 2 }}>
+          <p className="m-0 py-4 text-center text-sm text-foreground-secondary">
             No curated sites configured. Add one to start discovering examples.
-          </Typography>
+          </p>
         ) : (
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+          <div className="flex flex-col gap-1">
             {sites.map((site) => (
-              <Box
+              <div
                 key={site.id}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 1,
-                  px: { xs: 0.5, sm: 1.5 },
-                  py: 0.75,
-                  borderRadius: 1,
-                  flexWrap: 'wrap',
-                  '&:hover': { bgcolor: 'action.hover' },
-                }}
+                className="flex flex-wrap items-center gap-2 rounded px-1 py-1.5 hover:bg-hover/5 sm:px-3"
               >
-                <FormControlLabel
-                  control={
-                    <Switch
-                      size="small"
-                      checked={site.enabled}
-                      onChange={() => toggleSite(site)}
-                    />
-                  }
-                  label=""
-                  sx={{ m: 0, mr: 0.5 }}
+                <Switch
+                  aria-label={`Enable ${site.name}`}
+                  checked={site.enabled}
+                  onCheckedChange={() => toggleSite(site)}
+                  className="mr-1"
                 />
-                <Typography variant="body2" sx={{ fontWeight: 500, minWidth: { xs: 80, sm: 120 } }}>
+                <span className="min-w-[80px] text-sm font-medium text-foreground sm:min-w-[120px]">
                   {site.name}
-                </Typography>
-                <Typography
-                  variant="caption"
-                  color="text.secondary"
-                  noWrap
-                  sx={{ flex: 1, fontFamily: 'monospace', minWidth: 0, display: { xs: 'none', sm: 'block' } }}
-                >
+                </span>
+                <span className="hidden min-w-0 flex-1 truncate font-mono text-[0.75rem] text-foreground-secondary sm:block">
                   {site.url}
-                </Typography>
-                <Chip label={site.category} size="small" variant="outlined" sx={{ height: 20, fontSize: MIN_TEXT_SIZE }} />
-                <IconButton
-                  size="small"
+                </span>
+                <Chip className="h-5">{site.category}</Chip>
+                <Button
+                  size="icon"
+                  variant="ghost"
                   onClick={() => discoverOnSite(site)}
                   disabled={discovering || !site.enabled}
                   title="Discover on this site"
+                  aria-label="Discover on this site"
                 >
-                  <SearchIcon fontSize="small" />
-                </IconButton>
-              </Box>
+                  <Search aria-hidden="true" className="size-4" />
+                </Button>
+              </div>
             ))}
-          </Box>
+          </div>
         )}
-      </Paper>
+      </div>
 
       {/* Discovery results */}
       {discoveryResults.length > 0 && (
-        <Box>
-          <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1.5 }}>
-            Discovery Results
-          </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <div>
+          <h6 className="m-0 mb-3 text-sm font-semibold text-foreground">Discovery Results</h6>
+          <div className="flex flex-col gap-4">
             {discoveryResults.map((dr, drIdx) => (
-              <Card key={drIdx} variant="outlined">
-                <CardContent sx={{ pb: '16px !important' }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5, flexWrap: 'wrap' }}>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                      {dr.siteName}
-                    </Typography>
-                    <Typography
-                      component="a"
-                      href={dr.siteUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      variant="caption"
-                      color="primary"
-                      sx={{ display: 'flex', alignItems: 'center', gap: 0.25, textDecoration: 'none', wordBreak: 'break-all', minWidth: 0 }}
-                    >
-                      {dr.siteUrl} <OpenInNewIcon sx={{ fontSize: 12 }} />
-                    </Typography>
-                    <Chip
-                      label={`${dr.examples.length} found`}
-                      size="small"
-                      color={dr.examples.length > 0 ? 'success' : 'default'}
-                      sx={{ height: 20, fontSize: MIN_TEXT_SIZE }}
-                    />
-                  </Box>
+              <Card key={drIdx} className="p-4">
+                <div className="mb-3 flex flex-wrap items-center gap-2">
+                  <h6 className="m-0 text-sm font-semibold text-foreground">{dr.siteName}</h6>
+                  <a
+                    href={dr.siteUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex min-w-0 items-center gap-0.5 break-all text-[0.75rem] text-primary no-underline"
+                  >
+                    {dr.siteUrl} <ExternalLink aria-hidden="true" className="size-3" />
+                  </a>
+                  <Chip tone={dr.examples.length > 0 ? 'pass' : 'default'} className="h-5">
+                    {`${dr.examples.length} found`}
+                  </Chip>
+                </div>
 
-                  {dr.examples.length === 0 ? (
-                    <Typography variant="body2" color="text.secondary">
-                      No matching examples found on this site.
-                    </Typography>
-                  ) : (
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-                      {dr.examples.map((ex, exIdx) => (
-                        <Paper key={exIdx} variant="outlined" sx={{ p: 1.5 }}>
-                          <Paper
-                            sx={{
-                              p: 1,
-                              mb: 1,
-                              bgcolor: 'grey.50',
-                              fontFamily: 'monospace',
-                              fontSize: '0.8rem',
-                              whiteSpace: 'pre-wrap',
-                              wordBreak: 'break-word',
-                              overflow: 'auto',
-                              maxHeight: 150,
-                            }}
-                            variant="outlined"
-                          >
-                            {ex.htmlSnippet}
-                          </Paper>
-                          {ex.explanation && (
-                            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                              {ex.explanation}
-                            </Typography>
-                          )}
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            {ex.selector && (
-                              <Chip
-                                label={ex.selector}
-                                size="small"
-                                variant="outlined"
-                                sx={{ fontFamily: 'monospace', fontSize: MIN_TEXT_SIZE, maxWidth: 300 }}
+                {dr.examples.length === 0 ? (
+                  <p className="m-0 text-sm text-foreground-secondary">
+                    No matching examples found on this site.
+                  </p>
+                ) : (
+                  <div className="flex flex-col gap-3">
+                    {dr.examples.map((ex, exIdx) => (
+                      <div key={exIdx} className="border border-border p-3">
+                        <pre className="m-0 mb-2 max-h-[150px] overflow-auto whitespace-pre-wrap break-words border border-border bg-shell-input p-2 font-mono text-[0.8rem] text-foreground">
+                          {ex.htmlSnippet}
+                        </pre>
+                        {ex.explanation && (
+                          <p className="m-0 mb-2 text-sm text-foreground-secondary">{ex.explanation}</p>
+                        )}
+                        <div className="flex items-center gap-2">
+                          {ex.selector && <Chip className="max-w-[300px]">{ex.selector}</Chip>}
+                          <div className="flex-1" />
+                          {ex.id && (
+                            <Button
+                              size="icon"
+                              variant="ghost"
+                              onClick={() => ex.id && curateExample(ex.id)}
+                              disabled={ex.curated}
+                              title={ex.curated ? 'Curated' : 'Mark as curated'}
+                              aria-label={ex.curated ? 'Curated' : 'Mark as curated'}
+                              className={cn(ex.curated && 'text-status-warn disabled:opacity-100')}
+                            >
+                              <Star
+                                aria-hidden="true"
+                                className={cn('size-4', ex.curated && 'fill-current')}
                               />
-                            )}
-                            <Box sx={{ flex: 1 }} />
-                            {ex.id && (
-                              <IconButton
-                                size="small"
-                                color={ex.curated ? 'warning' : 'default'}
-                                onClick={() => ex.id && curateExample(ex.id)}
-                                disabled={ex.curated}
-                                title={ex.curated ? 'Curated' : 'Mark as curated'}
-                              >
-                                {ex.curated ? <StarIcon fontSize="small" /> : <StarBorderIcon fontSize="small" />}
-                              </IconButton>
-                            )}
-                          </Box>
-                        </Paper>
-                      ))}
-                    </Box>
-                  )}
-                </CardContent>
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </Card>
             ))}
-          </Box>
-        </Box>
+          </div>
+        </div>
       )}
-    </Box>
+    </div>
   );
 }

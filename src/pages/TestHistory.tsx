@@ -1,59 +1,42 @@
 import { TestRunSummary } from '../../shared/domain/valueObjects/TestRunSummary';
 import { type Project } from '../../shared/types';
-import Alert from '@mui/material/Alert';
-import AppBar from '@mui/material/AppBar';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Chip from '@mui/material/Chip';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import LinearProgress from '@mui/material/LinearProgress';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import MenuItem from '@mui/material/MenuItem';
-import Paper from '@mui/material/Paper';
-import Select from '@mui/material/Select';
-import Skeleton from '@mui/material/Skeleton';
-import Stack from '@mui/material/Stack';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import TextField from '@mui/material/TextField';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import Toolbar from '@mui/material/Toolbar';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ErrorIcon from '@mui/icons-material/Error';
-import MenuIcon from '@mui/icons-material/Menu';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import SearchIcon from '@mui/icons-material/Search';
-import ShowChartIcon from '@mui/icons-material/ShowChart';
-import TableRowsIcon from '@mui/icons-material/TableRows';
-import ViewModuleIcon from '@mui/icons-material/ViewModule';
-import WarningIcon from '@mui/icons-material/Warning';
-import { useEffect, useMemo, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {
+  AlertTriangle,
+  ArrowDown,
+  ArrowRight,
+  ArrowUp,
+  CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  LayoutGrid,
+  LineChart,
+  Menu,
+  RefreshCw,
+  Rows3,
+  Search,
+  XCircle,
+} from 'lucide-react';
+import { useEffect, useId, useMemo, useState } from 'react';
+import type { ReactNode } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 import { api } from '../api/client';
 import { useToast } from '../components/standalone/ToastContainer';
+import { Alert } from '../components/ui/alert';
+import { Button, buttonClass } from '../components/ui/button';
+import { Chip, type ChipTone } from '../components/ui/chip';
+import { Dialog, DialogContent, DialogTitle } from '../components/ui/dialog';
+import { Label } from '../components/ui/label';
+import { NativeSelect } from '../components/ui/native-select';
+import { Progress } from '../components/ui/progress';
+import { SearchField } from '../components/ui/search-field';
+import { Skeleton } from '../components/ui/skeleton';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../components/ui/table';
+import { ToggleGroup, ToggleGroupItem } from '../components/ui/toggle-group';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../components/ui/tooltip';
 import { useCommonShortcuts } from '../hooks/useKeyboardShortcuts';
-import { MIN_TEXT_SIZE } from '../theme/mgsTokens';
+import { cn } from '../lib/utils';
 
 type FilterType = 'all' | 'completed' | 'failed';
 type SortField = 'date' | 'passRate' | 'duration' | 'project' | 'total';
@@ -66,12 +49,30 @@ const NAV_LINKS = [
   { label: 'History', to: '/history' },
 ];
 
-const STATUS_COLOR: Record<string, 'default' | 'error' | 'success' | 'warning'> = {
-  completed: 'success',
-  failed: 'error',
-  running: 'warning',
+const STATUS_TONE: Record<string, ChipTone> = {
+  completed: 'pass',
+  failed: 'fail',
+  running: 'warn',
   cancelled: 'default',
 };
+
+const FILTER_TYPES: readonly FilterType[] = ['all', 'completed', 'failed'];
+const SORT_FIELDS: readonly SortField[] = ['date', 'passRate', 'duration', 'project', 'total'];
+const VIEW_MODES: readonly ViewMode[] = ['table', 'cards'];
+
+function isOneOf<T extends string>(list: readonly T[], value: string): value is T {
+  return (list as readonly string[]).includes(value);
+}
+
+const sdkTone = (sdkType: string): ChipTone =>
+  sdkType === 'node' ? 'info' : sdkType === 'python' ? 'pass' : 'warn';
+
+const statusBorder = (status: string) =>
+  status === 'completed' ? 'border-l-status-pass'
+  : status === 'failed' ? 'border-l-status-fail'
+  : 'border-l-border';
+
+const resultsHref = (runId: string) => `/test-runner/results/${runId}`;
 
 /* ─── Sub-components ────────────────────────────────────── */
 
@@ -89,32 +90,125 @@ function RelativeTime({ iso }: { iso: string }) {
     : date.toLocaleDateString();
 
   return (
-    <Tooltip title={date.toLocaleString()}>
-      <Typography color="text.secondary" variant="caption" noWrap>{label}</Typography>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <time dateTime={iso} className="whitespace-nowrap text-[0.75rem] text-foreground-secondary">{label}</time>
+      </TooltipTrigger>
+      <TooltipContent>{date.toLocaleString()}</TooltipContent>
     </Tooltip>
   );
 }
 
 function PassRateBar({ value, compact = false }: { value: number; compact?: boolean }) {
-  const color: 'error' | 'success' | 'warning' =
-    value >= 80 ? 'success' : value >= 40 ? 'warning' : 'error';
+  const tone = value >= 80 ? 'pass' : value >= 40 ? 'warn' : 'fail';
+  const indicator = {
+    pass: '[&>[data-slot=progress-indicator]]:bg-status-pass',
+    warn: '[&>[data-slot=progress-indicator]]:bg-status-warn',
+    fail: '[&>[data-slot=progress-indicator]]:bg-status-fail',
+  }[tone];
+  const text = { pass: 'text-status-pass', warn: 'text-status-warn', fail: 'text-status-fail' }[tone];
   return (
-    <Stack alignItems="center" direction="row" spacing={1} sx={{ minWidth: compact ? 80 : 120 }}>
-      <LinearProgress
-        color={color}
-        sx={{ flex: 1, height: 6, borderRadius: 1 }}
+    <div className={cn('flex flex-row items-center gap-2', compact ? 'min-w-20' : 'min-w-[120px]')}>
+      <Progress
         value={value}
-        variant="determinate"
+        aria-label="Pass rate"
+        className={cn('h-1.5 flex-1 rounded bg-muted', indicator)}
       />
-      <Typography
-        color={`${color}.main`}
-        fontWeight={700}
-        noWrap
-        sx={{ fontSize: '0.75rem', minWidth: 36, textAlign: 'right' }}
-      >
+      <span className={cn('min-w-9 whitespace-nowrap text-right text-[0.75rem] font-bold', text)}>
         {value.toFixed(0)}%
-      </Typography>
-    </Stack>
+      </span>
+    </div>
+  );
+}
+
+function SortHeader({
+  active,
+  dir,
+  label,
+  onSort,
+}: {
+  active: boolean;
+  dir: SortDir;
+  label: string;
+  onSort: () => void;
+}) {
+  const Arrow = dir === 'asc' ? ArrowUp : ArrowDown;
+  return (
+    <button
+      type="button"
+      onClick={onSort}
+      className={cn(
+        'group inline-flex cursor-pointer items-center gap-1 border-0 bg-transparent p-0 font-[inherit] uppercase tracking-[inherit] text-inherit',
+        active ? 'text-foreground' : 'hover:text-foreground'
+      )}
+    >
+      {label}
+      <Arrow
+        aria-hidden="true"
+        className={cn('size-3.5 transition-opacity', active ? 'opacity-100' : 'opacity-0 group-hover:opacity-50')}
+      />
+    </button>
+  );
+}
+
+function Pagination({
+  count,
+  onPageChange,
+  onRowsPerPageChange,
+  page,
+  rowsPerPage,
+  rowsPerPageOptions,
+}: {
+  count: number;
+  onPageChange: (page: number) => void;
+  onRowsPerPageChange: (rows: number) => void;
+  page: number;
+  rowsPerPage: number;
+  rowsPerPageOptions: number[];
+}) {
+  const id = useId();
+  const from = count === 0 ? 0 : page * rowsPerPage + 1;
+  const to = Math.min(count, (page + 1) * rowsPerPage);
+  const options = rowsPerPageOptions.includes(rowsPerPage)
+    ? rowsPerPageOptions
+    : [...rowsPerPageOptions, rowsPerPage].sort((a, b) => a - b);
+  return (
+    <div className="flex flex-wrap items-center justify-end gap-4 px-2 py-2 text-[0.75rem] text-foreground-secondary">
+      <div className="flex items-center gap-2">
+        <Label htmlFor={`${id}-rows`} className="normal-case tracking-normal">Rows per page:</Label>
+        <div className="w-20">
+          <NativeSelect
+            id={`${id}-rows`}
+            value={rowsPerPage}
+            onChange={e => onRowsPerPageChange(Number(e.target.value))}
+            className="h-8"
+          >
+            {options.map(n => <option key={n} value={n}>{n}</option>)}
+          </NativeSelect>
+        </div>
+      </div>
+      <span aria-live="polite">{`${from}–${to} of ${count}`}</span>
+      <div className="flex items-center gap-1">
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label="Go to previous page"
+          disabled={page === 0}
+          onClick={() => onPageChange(page - 1)}
+        >
+          <ChevronLeft className="size-4" aria-hidden="true" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label="Go to next page"
+          disabled={(page + 1) * rowsPerPage >= count}
+          onClick={() => onPageChange(page + 1)}
+        >
+          <ChevronRight className="size-4" aria-hidden="true" />
+        </Button>
+      </div>
+    </div>
   );
 }
 
@@ -126,82 +220,72 @@ function HistoryAppBar() {
 
   return (
     <>
-      <AppBar
-        color="default"
-        elevation={1}
-        position="sticky"
-        sx={{ zIndex: t => t.zIndex.appBar, bgcolor: 'background.paper' }}
-      >
-        <Toolbar sx={{ gap: 2 }}>
-          <Box
-            component={Link}
-            to="/test-runner"
-            sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexGrow: 1 }}
-          >
-            <Box
-              alt="AccessE2E"
-              component="img"
-              src="/accessE2E_logo.png"
-              sx={{ height: { xs: 32, sm: 40 }, width: 'auto' }}
-            />
-          </Box>
+      <header className="sticky top-0 z-50 border-b border-border bg-shell-elevated shadow-sm">
+        <div className="flex min-h-14 items-center gap-4 px-4 sm:min-h-16">
+          <Link to="/test-runner" className="flex flex-grow items-center no-underline">
+            <img alt="AccessE2E" src="/accessE2E_logo.png" className="h-8 w-auto sm:h-10" />
+          </Link>
 
-          <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: 0.5 }}>
+          <nav aria-label="Main" className="hidden gap-1 sm:flex">
             {NAV_LINKS.map(link => (
-              <Button
-                color={isActive(link.to) ? 'primary' : 'inherit'}
-                component={Link}
+              <Link
                 key={link.to}
                 to={link.to}
-                sx={{
-                  fontWeight: isActive(link.to) ? 700 : 500,
-                  borderBottom: isActive(link.to) ? '2px solid' : '2px solid transparent',
-                  borderRadius: 0,
-                  pb: '6px',
-                  minWidth: 0,
-                }}
+                aria-current={isActive(link.to) ? 'page' : undefined}
+                className={cn(
+                  'border-b-2 px-2 pb-1.5 pt-2 text-sm uppercase no-underline',
+                  isActive(link.to)
+                    ? 'border-primary font-bold text-primary'
+                    : 'border-transparent font-medium text-foreground hover:text-primary'
+                )}
               >
                 {link.label}
-              </Button>
+              </Link>
             ))}
-          </Box>
+          </nav>
 
-          <IconButton
+          <Button
             aria-label="open navigation menu"
-            edge="end"
+            variant="ghost"
+            size="icon"
             onClick={() => setDrawerOpen(true)}
-            sx={{ display: { sm: 'none' } }}
+            className="sm:hidden"
           >
-            <MenuIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+            <Menu className="size-5" aria-hidden="true" />
+          </Button>
+        </div>
+      </header>
 
-      <Drawer
-        anchor="right"
-        onClose={() => setDrawerOpen(false)}
-        open={drawerOpen}
-        PaperProps={{ sx: { width: 240 } }}
-      >
-        <Box sx={{ pt: 2, pb: 1, px: 2 }}>
-          <Box alt="AccessE2E" component="img" src="/accessE2E_logo.png" sx={{ height: 32, width: 'auto' }} />
-        </Box>
-        <Divider />
-        <List>
-          {NAV_LINKS.map(link => (
-            <ListItem disablePadding key={link.to}>
-              <ListItemButton
-                component={Link}
-                selected={isActive(link.to)}
-                to={link.to}
-                sx={{ fontWeight: isActive(link.to) ? 700 : 400 }}
-              >
-                <ListItemText primary={link.label} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
+      <Dialog open={drawerOpen} onOpenChange={setDrawerOpen}>
+        <DialogContent
+          aria-describedby={undefined}
+          className="left-auto right-0 top-0 h-screen max-h-screen w-60 translate-x-0 translate-y-0 gap-0 p-0"
+        >
+          <DialogTitle className="sr-only">Navigation</DialogTitle>
+          <div className="px-4 pb-2 pt-4">
+            <img alt="AccessE2E" src="/accessE2E_logo.png" className="h-8 w-auto" />
+          </div>
+          <div className="h-px bg-border" />
+          <nav aria-label="Main">
+            <ul className="m-0 list-none p-0 py-2">
+              {NAV_LINKS.map(link => (
+                <li key={link.to}>
+                  <Link
+                    to={link.to}
+                    aria-current={isActive(link.to) ? 'page' : undefined}
+                    className={cn(
+                      'block px-4 py-2 text-sm text-foreground no-underline hover:bg-hover/5',
+                      isActive(link.to) ? 'bg-primary/10 font-bold' : 'font-normal'
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
@@ -220,7 +304,6 @@ export default function TestHistory() {
   const [viewMode, setViewMode] = useState<ViewMode>('table');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
-  const navigate = useNavigate();
   const { showToast } = useToast();
 
   useCommonShortcuts();
@@ -316,67 +399,78 @@ export default function TestHistory() {
     return { avgPassRate, completed, failed, total };
   }, [runs]);
 
-  const sortLabel = (field: SortField, label: string) => (
-    <TableSortLabel
+  const sortHeader = (field: SortField, label: string) => (
+    <SortHeader
       active={sortField === field}
-      direction={sortField === field ? sortDir : 'desc'}
-      onClick={() => handleSort(field)}
-    >
-      {label}
-    </TableSortLabel>
+      dir={sortField === field ? sortDir : 'desc'}
+      label={label}
+      onSort={() => handleSort(field)}
+    />
   );
+
+  const ariaSort = (field: SortField): 'ascending' | 'descending' | undefined =>
+    sortField === field ? (sortDir === 'asc' ? 'ascending' : 'descending') : undefined;
+
+  const ids = { search: useId(), sort: useId() };
+
+  const headCell = 'sticky top-0 z-10 bg-shell-panel font-bold';
+
+  const projectLogo = (project: Project | undefined, size: string): ReactNode =>
+    project?.logo ? (
+      <img alt={project.name} src={project.logo} className={cn('shrink-0 object-contain', size)} />
+    ) : null;
 
   /* ─── Shell ─────────────────────────────────────────── */
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>
+    <div className="flex min-h-screen flex-col bg-shell-main">
       <HistoryAppBar />
 
-      <Box component="main" sx={{ flex: 1, width: '100%', px: { xs: 2, sm: 3, md: 4 }, py: { xs: 2, sm: 3 } }}>
+      <main className="w-full flex-1 px-4 py-4 sm:px-6 sm:py-6 md:px-8">
 
         {/* ─── Page header ──────────────────────────────── */}
-        <Stack
-          alignItems={{ sm: 'center' }}
-          direction={{ xs: 'column', sm: 'row' }}
-          justifyContent="space-between"
-          spacing={2}
-          sx={{ mb: 3 }}
-        >
-          <Box>
-            <Typography fontWeight={700} variant="h5">
-              Test <Box component="span" sx={{ color: 'primary.main' }}>History</Box>
-            </Typography>
-            <Typography color="text.secondary" variant="body2" sx={{ mt: 0.25 }}>
+        <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+          <div>
+            <h5 className="m-0 text-2xl font-bold text-foreground">
+              Test <span className="text-primary">History</span>
+            </h5>
+            <p className="m-0 mt-0.5 text-sm text-foreground-secondary">
               {loading ? 'Loading…' : `${runs.length} total runs across all projects`}
-            </Typography>
-          </Box>
-          <Stack direction="row" spacing={1}>
-            <Button disabled={loading} onClick={loadHistory} size="small" startIcon={<RefreshIcon />} variant="outlined">
+            </p>
+          </div>
+          <div className="flex flex-row gap-2">
+            <Button disabled={loading} onClick={loadHistory} size="sm">
+              <RefreshCw className="size-4" aria-hidden="true" />
               Refresh
             </Button>
-          </Stack>
-        </Stack>
+          </div>
+        </div>
 
         {/* ─── Loading ──────────────────────────────────── */}
         {loading && (
-          <Stack spacing={3}>
-            <Stack direction="row" spacing={2}>
-              {[...Array(4)].map((_, i) => <Skeleton key={i} height={80} sx={{ flex: 1, borderRadius: 2 }} variant="rectangular" />)}
-            </Stack>
-            <Paper variant="outlined">
+          <div className="flex flex-col gap-6">
+            <div className="flex flex-row gap-4">
+              {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-20 flex-1 rounded-lg" />)}
+            </div>
+            <div className="border border-border bg-shell-panel">
               {[...Array(10)].map((_, i) => (
-                <Box key={i} sx={{ px: 3, py: 1.5, borderBottom: 1, borderColor: 'divider' }}>
-                  <Skeleton height={22} />
-                </Box>
+                <div key={i} className="border-b border-border px-6 py-3">
+                  <Skeleton className="h-[22px]" />
+                </div>
               ))}
-            </Paper>
-          </Stack>
+            </div>
+          </div>
         )}
 
         {/* ─── Error ────────────────────────────────────── */}
         {!loading && error && (
           <Alert
-            action={<Button color="inherit" onClick={loadHistory} size="small" startIcon={<RefreshIcon />}>Retry</Button>}
-            severity="error"
+            action={
+              <Button onClick={loadHistory} size="sm" variant="ghost">
+                <RefreshCw className="size-4" aria-hidden="true" />
+                Retry
+              </Button>
+            }
+            variant="error"
           >
             {error}
           </Alert>
@@ -384,137 +478,149 @@ export default function TestHistory() {
 
         {/* ─── Stats strip ──────────────────────────────── */}
         {!loading && !error && runs.length > 0 && (
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mb: 2.5 }}>
+          <div className="mb-5 flex flex-col gap-4 sm:flex-row">
             {[
-              { color: 'text.primary',  icon: <ShowChartIcon color="primary" />,  label: 'Total Runs',    value: stats.total },
-              { color: 'success.main',  icon: <CheckCircleIcon color="success" />, label: 'Completed',     value: stats.completed },
-              { color: 'error.main',    icon: <ErrorIcon color="error" />,         label: 'Failed',        value: stats.failed },
-              { color: 'warning.main',  icon: <WarningIcon color="warning" />,     label: 'Avg Pass Rate', value: `${stats.avgPassRate.toFixed(1)}%` },
+              { color: 'text-foreground',  icon: <LineChart className="size-6 text-primary" aria-hidden="true" />,         label: 'Total Runs',    value: stats.total },
+              { color: 'text-status-pass', icon: <CheckCircle2 className="size-6 text-status-pass" aria-hidden="true" />,  label: 'Completed',     value: stats.completed },
+              { color: 'text-status-fail', icon: <XCircle className="size-6 text-status-fail" aria-hidden="true" />,       label: 'Failed',        value: stats.failed },
+              { color: 'text-status-warn', icon: <AlertTriangle className="size-6 text-status-warn" aria-hidden="true" />, label: 'Avg Pass Rate', value: `${stats.avgPassRate.toFixed(1)}%` },
             ].map(s => (
-              <Card key={s.label} sx={{ flex: 1 }}>
-                <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2, py: '10px !important' }}>
-                  {s.icon}
-                  <Box>
-                    <Typography fontWeight={700} lineHeight={1} sx={{ color: s.color }} variant="h6">{s.value}</Typography>
-                    <Typography color="text.secondary" variant="caption">{s.label}</Typography>
-                  </Box>
-                </CardContent>
-              </Card>
+              <div key={s.label} className="flex flex-1 items-center gap-4 border border-border bg-shell-panel px-4 py-2.5 shadow-sm">
+                {s.icon}
+                <div>
+                  <h6 className={cn('m-0 text-xl font-bold leading-none', s.color)}>{s.value}</h6>
+                  <span className="text-[0.75rem] text-foreground-secondary">{s.label}</span>
+                </div>
+              </div>
             ))}
-          </Stack>
+          </div>
         )}
 
         {/* ─── Toolbar ──────────────────────────────────── */}
         {!loading && !error && runs.length > 0 && (
-          <Paper sx={{ p: 1.5, mb: 2 }} variant="outlined">
-            <Stack spacing={1.5}>
+          <div className="mb-4 border border-border bg-shell-panel p-3">
+            <div className="flex flex-col gap-3">
               {/* Row 1: search, status filter, view toggle */}
-              <Stack alignItems="center" direction={{ xs: 'column', sm: 'row' }} spacing={1.5}>
-                <TextField
-                  InputProps={{ startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment> }}
-                  onChange={e => { setSearchQuery(e.target.value); setPage(0); }}
-                  placeholder="Search project, domain, run ID…"
-                  size="small"
-                  sx={{ flex: 1, minWidth: 220 }}
+              <div className="flex flex-col items-center gap-3 sm:flex-row">
+                <SearchField
+                  id={ids.search}
+                  aria-label="Search runs"
                   value={searchQuery}
+                  onValueChange={v => { setSearchQuery(v); setPage(0); }}
+                  placeholder="Search project, domain, run ID…"
+                  containerClassName="min-w-[220px] flex-1"
                 />
 
-                <ToggleButtonGroup
-                  exclusive
-                  onChange={(_, v) => { if (v) { setFilterType(v); setPage(0); } }}
-                  size="small"
+                <ToggleGroup
+                  type="single"
+                  aria-label="Status filter"
                   value={filterType}
+                  onValueChange={v => { if (v && isOneOf(FILTER_TYPES, v)) { setFilterType(v); setPage(0); } }}
                 >
-                  <ToggleButton value="all">All</ToggleButton>
-                  <ToggleButton value="completed" sx={{ color: 'success.main' }}>Completed</ToggleButton>
-                  <ToggleButton value="failed" sx={{ color: 'error.main' }}>Failed</ToggleButton>
-                </ToggleButtonGroup>
+                  <ToggleGroupItem value="all">All</ToggleGroupItem>
+                  <ToggleGroupItem value="completed" className="text-status-pass hover:text-status-pass data-[state=on]:text-status-pass">Completed</ToggleGroupItem>
+                  <ToggleGroupItem value="failed" className="text-status-fail hover:text-status-fail data-[state=on]:text-status-fail">Failed</ToggleGroupItem>
+                </ToggleGroup>
 
                 {viewMode === 'cards' && (
-                  <Select onChange={e => setSortField(e.target.value as SortField)} size="small" value={sortField}>
-                    <MenuItem value="date">Date</MenuItem>
-                    <MenuItem value="passRate">Pass Rate</MenuItem>
-                    <MenuItem value="duration">Duration</MenuItem>
-                    <MenuItem value="total">Total Tests</MenuItem>
-                    <MenuItem value="project">Project</MenuItem>
-                  </Select>
+                  <div className="w-36">
+                    <NativeSelect
+                      id={ids.sort}
+                      aria-label="Sort by"
+                      value={sortField}
+                      onChange={e => { if (isOneOf(SORT_FIELDS, e.target.value)) setSortField(e.target.value); }}
+                    >
+                      <option value="date">Date</option>
+                      <option value="passRate">Pass Rate</option>
+                      <option value="duration">Duration</option>
+                      <option value="total">Total Tests</option>
+                      <option value="project">Project</option>
+                    </NativeSelect>
+                  </div>
                 )}
 
-                <ToggleButtonGroup exclusive onChange={(_, v) => v && setViewMode(v)} size="small" value={viewMode}>
-                  <Tooltip title="Table view"><ToggleButton value="table"><TableRowsIcon fontSize="small" /></ToggleButton></Tooltip>
-                  <Tooltip title="Card view"><ToggleButton value="cards"><ViewModuleIcon fontSize="small" /></ToggleButton></Tooltip>
-                </ToggleButtonGroup>
-              </Stack>
+                <ToggleGroup
+                  type="single"
+                  aria-label="View mode"
+                  value={viewMode}
+                  onValueChange={v => { if (v && isOneOf(VIEW_MODES, v)) setViewMode(v); }}
+                >
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <ToggleGroupItem value="table" aria-label="Table view"><Rows3 className="size-4" aria-hidden="true" /></ToggleGroupItem>
+                    </TooltipTrigger>
+                    <TooltipContent>Table view</TooltipContent>
+                  </Tooltip>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <ToggleGroupItem value="cards" aria-label="Card view"><LayoutGrid className="size-4" aria-hidden="true" /></ToggleGroupItem>
+                    </TooltipTrigger>
+                    <TooltipContent>Card view</TooltipContent>
+                  </Tooltip>
+                </ToggleGroup>
+              </div>
 
               {/* Row 2: project filter chips — only shown when multiple projects exist */}
               {activeProjects.length > 1 && (
-                <Stack alignItems="center" direction="row" flexWrap="wrap" gap={0.75}>
-                  <Typography color="text.secondary" fontWeight={600} sx={{ mr: 0.5, flexShrink: 0 }} variant="caption">
+                <div role="group" aria-label="Project filter" className="flex flex-row flex-wrap items-center gap-1.5">
+                  <span className="mr-1 shrink-0 text-[0.75rem] font-semibold text-foreground-secondary">
                     Project:
-                  </Typography>
+                  </span>
                   <Chip
-                    clickable
-                    color={projectFilter === 'all' ? 'primary' : undefined}
-                    label="All"
+                    tone={projectFilter === 'all' ? 'primary' : 'default'}
+                    aria-pressed={projectFilter === 'all'}
                     onClick={() => { setProjectFilter('all'); setPage(0); }}
-                    size="small"
-                    variant={projectFilter === 'all' ? 'filled' : 'outlined'}
-                  />
+                  >
+                    All
+                  </Chip>
                   {activeProjects.map(project => (
                     <Chip
-                      avatar={
-                        <Avatar
-                          alt={project.name}
-                          src={project.logo}
-                          sx={{ bgcolor: 'transparent !important' }}
-                        />
-                      }
-                      clickable
-                      color={projectFilter === project.id ? 'primary' : undefined}
                       key={project.id}
-                      label={project.name}
+                      tone={projectFilter === project.id ? 'primary' : 'default'}
+                      aria-pressed={projectFilter === project.id}
+                      icon={project.logo ? <img alt="" src={project.logo} className="size-4 rounded-full object-contain" /> : undefined}
                       onClick={() => { setProjectFilter(project.id); setPage(0); }}
-                      size="small"
-                      variant={projectFilter === project.id ? 'filled' : 'outlined'}
-                    />
+                    >
+                      {project.name}
+                    </Chip>
                   ))}
-                </Stack>
+                </div>
               )}
-            </Stack>
-          </Paper>
+            </div>
+          </div>
         )}
 
         {/* Result count */}
         {!loading && !error && filteredRuns.length > 0 && (
-          <Typography color="text.secondary" sx={{ mb: 1 }} variant="caption">
+          <span className="mb-2 block text-[0.75rem] text-foreground-secondary">
             Showing {Math.min(page * rowsPerPage + 1, filteredRuns.length)}–{Math.min((page + 1) * rowsPerPage, filteredRuns.length)} of {filteredRuns.length} run{filteredRuns.length !== 1 ? 's' : ''}
             {filteredRuns.length !== runs.length && ` (filtered from ${runs.length})`}
-          </Typography>
+          </span>
         )}
 
         {/* ─── TABLE VIEW ───────────────────────────────── */}
         {!loading && !error && viewMode === 'table' && filteredRuns.length > 0 && (
-          <Paper variant="outlined" sx={{ overflow: 'hidden' }}>
-            <TableContainer sx={{ maxHeight: 'calc(100vh - 340px)' }}>
-              <Table stickyHeader size="small">
-                <TableHead>
+          <div className="overflow-hidden border border-border bg-shell-panel">
+            <div className="max-h-[calc(100vh-340px)] overflow-auto">
+              <Table className="border-collapse">
+                <TableHeader className="bg-shell-panel">
                   <TableRow>
-                    <TableCell sx={{ fontWeight: 700, minWidth: 90,  bgcolor: 'background.paper' }}>Status</TableCell>
-                    <TableCell sx={{ fontWeight: 700, minWidth: 120, bgcolor: 'background.paper' }}>{sortLabel('project', 'Project')}</TableCell>
-                    <TableCell sx={{ fontWeight: 700, minWidth: 220, bgcolor: 'background.paper' }}>Domain</TableCell>
-                    <TableCell sx={{ fontWeight: 700, minWidth: 100, bgcolor: 'background.paper' }}>{sortLabel('date', 'Date')}</TableCell>
-                    <TableCell sx={{ fontWeight: 700, minWidth: 80,  bgcolor: 'background.paper' }} align="center">{sortLabel('duration', 'Duration')}</TableCell>
-                    <TableCell sx={{ fontWeight: 700, minWidth: 56,  bgcolor: 'background.paper' }} align="center">
-                      <CheckCircleIcon color="success" sx={{ fontSize: 13, verticalAlign: 'middle', mr: 0.5 }} />Pass
-                    </TableCell>
-                    <TableCell sx={{ fontWeight: 700, minWidth: 56,  bgcolor: 'background.paper' }} align="center">
-                      <ErrorIcon color="error" sx={{ fontSize: 13, verticalAlign: 'middle', mr: 0.5 }} />Fail
-                    </TableCell>
-                    <TableCell sx={{ fontWeight: 700, minWidth: 60,  bgcolor: 'background.paper' }} align="center">{sortLabel('total', 'Total')}</TableCell>
-                    <TableCell sx={{ fontWeight: 700, minWidth: 160, bgcolor: 'background.paper' }}>{sortLabel('passRate', 'Pass Rate')}</TableCell>
-                    <TableCell sx={{ fontWeight: 700, minWidth: 52,  bgcolor: 'background.paper' }} align="right" />
+                    <TableHead className={cn(headCell, 'min-w-[90px]')}>Status</TableHead>
+                    <TableHead className={cn(headCell, 'min-w-[120px]')} aria-sort={ariaSort('project')}>{sortHeader('project', 'Project')}</TableHead>
+                    <TableHead className={cn(headCell, 'min-w-[220px]')}>Domain</TableHead>
+                    <TableHead className={cn(headCell, 'min-w-[100px]')} aria-sort={ariaSort('date')}>{sortHeader('date', 'Date')}</TableHead>
+                    <TableHead className={cn(headCell, 'min-w-[80px] text-center')} aria-sort={ariaSort('duration')}>{sortHeader('duration', 'Duration')}</TableHead>
+                    <TableHead className={cn(headCell, 'min-w-14 text-center')}>
+                      <CheckCircle2 className="mr-1 inline size-[13px] align-middle text-status-pass" aria-hidden="true" />Pass
+                    </TableHead>
+                    <TableHead className={cn(headCell, 'min-w-14 text-center')}>
+                      <XCircle className="mr-1 inline size-[13px] align-middle text-status-fail" aria-hidden="true" />Fail
+                    </TableHead>
+                    <TableHead className={cn(headCell, 'min-w-[60px] text-center')} aria-sort={ariaSort('total')}>{sortHeader('total', 'Total')}</TableHead>
+                    <TableHead className={cn(headCell, 'min-w-40')} aria-sort={ariaSort('passRate')}>{sortHeader('passRate', 'Pass Rate')}</TableHead>
+                    <TableHead className={cn(headCell, 'min-w-[52px] text-right')}><span className="sr-only">Actions</span></TableHead>
                   </TableRow>
-                </TableHead>
+                </TableHeader>
                 <TableBody>
                   {paginatedRuns.map((run, i) => {
                     const s = getSummary(run);
@@ -527,100 +633,99 @@ export default function TestHistory() {
 
                     return (
                       <TableRow
-                        hover
                         key={run.id}
-                        onClick={() => navigate(`/test-runner/results/${run.id}`)}
-                        sx={{
-                          cursor: 'pointer',
-                          bgcolor: i % 2 === 0 ? 'transparent' : 'action.hover',
-                          borderLeft: '3px solid',
-                          borderColor:
-                            run.status === 'completed' ? 'success.main'
-                            : run.status === 'failed' ? 'error.main'
-                            : 'divider',
-                        }}
+                        className={cn(
+                          'border-l-[3px] hover:bg-hover/5',
+                          i % 2 === 0 ? 'bg-transparent' : 'bg-hover/[0.03]',
+                          statusBorder(run.status)
+                        )}
                       >
-                        <TableCell>
-                          <Chip
-                            color={STATUS_COLOR[run.status] ?? 'default'}
-                            label={run.status}
-                            size="small"
-                            sx={{ fontSize: MIN_TEXT_SIZE, height: 20 }}
-                          />
+                        <TableCell className="align-middle">
+                          <Chip tone={STATUS_TONE[run.status] ?? 'default'} className="h-5">
+                            {run.status}
+                          </Chip>
                         </TableCell>
 
-                        <TableCell>
-                          <Stack alignItems="center" direction="row" spacing={0.75}>
+                        <TableCell className="align-middle">
+                          <div className="flex flex-row items-center gap-1.5">
                             {project?.logo && (
-                              <Tooltip title={project.name}>
-                                <Avatar
-                                  alt={project.name}
-                                  src={project.logo}
-                                  sx={{ width: 20, height: 20, flexShrink: 0, bgcolor: 'transparent' }}
-                                  variant="square"
-                                />
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  {projectLogo(project, 'size-5')}
+                                </TooltipTrigger>
+                                <TooltipContent>{project.name}</TooltipContent>
                               </Tooltip>
                             )}
-                            <Box sx={{ minWidth: 0 }}>
-                              <Stack alignItems="center" direction="row" spacing={0.5}>
-                                <Typography fontWeight={600} noWrap variant="body2">
+                            <div className="min-w-0">
+                              <div className="flex flex-row items-center gap-1">
+                                <Link
+                                  to={resultsHref(run.id)}
+                                  className="truncate text-sm font-semibold text-foreground no-underline hover:underline"
+                                >
                                   {project?.name ?? run.projectId ?? 'Multi-Project'}
-                                </Typography>
+                                </Link>
                                 {run.sdkType && (
-                                  <Chip
-                                    color={run.sdkType === 'node' ? 'info' : run.sdkType === 'python' ? 'success' : 'warning'}
-                                    label={run.sdkType}
-                                    size="small"
-                                    sx={{ fontSize: MIN_TEXT_SIZE, minHeight: 20, textTransform: 'uppercase', fontWeight: 700 }}
-                                  />
+                                  <Chip tone={sdkTone(run.sdkType)} className="min-h-5 font-bold uppercase">
+                                    {run.sdkType}
+                                  </Chip>
                                 )}
-                              </Stack>
-                              <Typography color="text.disabled" noWrap sx={{ fontSize: MIN_TEXT_SIZE, fontFamily: 'monospace' }}>
+                              </div>
+                              <span className="block truncate font-mono text-[0.75rem] text-foreground-muted">
                                 {run.id.substring(0, 14)}…
-                              </Typography>
-                            </Box>
-                          </Stack>
+                              </span>
+                            </div>
+                          </div>
                         </TableCell>
 
-                        <TableCell>
+                        <TableCell className="align-middle">
                           {displayDomain ? (
-                            <Tooltip title={run.config?.baseUrl}>
-                              <Typography color="primary" noWrap sx={{ maxWidth: 280, fontSize: '0.75rem' }}>
-                                {displayDomain}
-                              </Typography>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <span className="block max-w-[280px] truncate text-[0.75rem] text-primary">
+                                  {displayDomain}
+                                </span>
+                              </TooltipTrigger>
+                              <TooltipContent>{run.config?.baseUrl}</TooltipContent>
                             </Tooltip>
                           ) : (
-                            <Typography color="text.disabled" variant="caption">—</Typography>
+                            <span className="text-[0.75rem] text-foreground-muted">—</span>
                           )}
                         </TableCell>
 
-                        <TableCell><RelativeTime iso={run.startTime} /></TableCell>
+                        <TableCell className="align-middle"><RelativeTime iso={run.startTime} /></TableCell>
 
-                        <TableCell align="center">
-                          <Typography variant="caption">{duration}s</Typography>
+                        <TableCell className="text-center align-middle">
+                          <span className="text-[0.75rem]">{duration}s</span>
                         </TableCell>
 
-                        <TableCell align="center">
-                          <Typography color="success.main" fontWeight={700} variant="body2">{s.passed}</Typography>
+                        <TableCell className="text-center align-middle">
+                          <span className="text-sm font-bold text-status-pass">{s.passed}</span>
                         </TableCell>
 
-                        <TableCell align="center">
-                          <Typography color={s.failed > 0 ? 'error.main' : 'text.secondary'} fontWeight={s.failed > 0 ? 700 : 400} variant="body2">
+                        <TableCell className="text-center align-middle">
+                          <span className={cn('text-sm', s.failed > 0 ? 'font-bold text-status-fail' : 'font-normal text-foreground-secondary')}>
                             {s.failed}
-                          </Typography>
+                          </span>
                         </TableCell>
 
-                        <TableCell align="center">
-                          <Typography variant="body2">{s.total}</Typography>
+                        <TableCell className="text-center align-middle">
+                          <span className="text-sm text-foreground">{s.total}</span>
                         </TableCell>
 
-                        <TableCell><PassRateBar compact value={passRate} /></TableCell>
+                        <TableCell className="align-middle"><PassRateBar compact value={passRate} /></TableCell>
 
-                        <TableCell align="right" onClick={e => e.stopPropagation()}>
-                          <Tooltip title="View results">
-                            <IconButton onClick={() => navigate(`/test-runner/results/${run.id}`)} size="small">
-                              <OpenInNewIcon fontSize="small" />
-                            </IconButton>
+                        <TableCell className="text-right align-middle">
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Link
+                                to={resultsHref(run.id)}
+                                aria-label="View results"
+                                className={buttonClass({ variant: 'ghost', size: 'icon' })}
+                              >
+                                <ExternalLink className="size-4" aria-hidden="true" />
+                              </Link>
+                            </TooltipTrigger>
+                            <TooltipContent>View results</TooltipContent>
                           </Tooltip>
                         </TableCell>
                       </TableRow>
@@ -628,23 +733,22 @@ export default function TestHistory() {
                   })}
                 </TableBody>
               </Table>
-            </TableContainer>
-            <TablePagination
-              component="div"
+            </div>
+            <Pagination
               count={filteredRuns.length}
-              onPageChange={(_, p) => setPage(p)}
-              onRowsPerPageChange={e => { setRowsPerPage(Number(e.target.value)); setPage(0); }}
+              onPageChange={p => setPage(p)}
+              onRowsPerPageChange={n => { setRowsPerPage(n); setPage(0); }}
               page={page}
               rowsPerPage={rowsPerPage}
               rowsPerPageOptions={[10, 25, 50, 100]}
             />
-          </Paper>
+          </div>
         )}
 
         {/* ─── CARDS VIEW ───────────────────────────────── */}
         {!loading && !error && viewMode === 'cards' && filteredRuns.length > 0 && (
           <>
-            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr', lg: '1fr 1fr 1fr 1fr' }, gap: 2 }}>
+            <ul className="m-0 grid list-none grid-cols-1 gap-4 p-0 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {paginatedRuns.map(run => {
                 const s = getSummary(run);
                 const passRate = s.getSuccessRate();
@@ -655,77 +759,65 @@ export default function TestHistory() {
                 const project = getProject(run.projectId);
 
                 return (
-                  <Card
+                  <li
                     key={run.id}
-                    onClick={() => navigate(`/test-runner/results/${run.id}`)}
-                    sx={{
-                      cursor: 'pointer',
-                      borderLeft: '4px solid',
-                      borderColor: run.status === 'completed' ? 'success.main' : run.status === 'failed' ? 'error.main' : 'divider',
-                      transition: 'box-shadow 0.2s, transform 0.1s',
-                      '&:hover': { boxShadow: 4, transform: 'translateY(-2px)' },
-                    }}
-                    variant="outlined"
+                    className={cn(
+                      'relative border border-l-4 border-border bg-shell-panel p-4 pb-3 transition-[box-shadow,transform] duration-200',
+                      'focus-within:-translate-y-0.5 focus-within:shadow-lg hover:-translate-y-0.5 hover:shadow-lg',
+                      statusBorder(run.status)
+                    )}
                   >
-                    <CardContent sx={{ pb: '12px !important' }}>
-                      <Stack alignItems="flex-start" direction="row" justifyContent="space-between" sx={{ mb: 1 }}>
-                        <Stack alignItems="center" direction="row" spacing={0.75} sx={{ flex: 1, minWidth: 0 }}>
-                          {project?.logo && (
-                            <Avatar
-                              alt={project.name}
-                              src={project.logo}
-                              sx={{ width: 22, height: 22, flexShrink: 0, bgcolor: 'transparent' }}
-                              variant="square"
-                            />
-                          )}
-                          <Box sx={{ minWidth: 0 }}>
-                            <Stack alignItems="center" direction="row" spacing={0.5}>
-                              <Typography fontWeight={700} noWrap variant="subtitle2">
+                    <div className="mb-2 flex flex-row items-start justify-between">
+                      <div className="flex min-w-0 flex-1 flex-row items-center gap-1.5">
+                        {projectLogo(project, 'size-[22px]')}
+                        <div className="min-w-0">
+                          <div className="flex flex-row items-center gap-1">
+                            <h6 className="m-0 truncate text-sm font-bold text-foreground">
+                              <Link
+                                to={resultsHref(run.id)}
+                                className="text-inherit no-underline outline-none after:absolute after:inset-0 after:content-[''] hover:underline focus-visible:underline"
+                              >
                                 {project?.name ?? run.projectId ?? 'Multi-Project'}
-                              </Typography>
-                              {run.sdkType && (
-                                <Chip
-                                  color={run.sdkType === 'node' ? 'info' : run.sdkType === 'python' ? 'success' : 'warning'}
-                                  label={run.sdkType}
-                                  size="small"
-                                  sx={{ fontSize: MIN_TEXT_SIZE, minHeight: 20, textTransform: 'uppercase', fontWeight: 700 }}
-                                />
-                              )}
-                            </Stack>
-                            {displayDomain && <Typography color="primary" noWrap variant="caption">{displayDomain}</Typography>}
-                          </Box>
-                        </Stack>
-                        <Chip color={STATUS_COLOR[run.status] ?? 'default'} label={run.status} size="small" sx={{ ml: 1, flexShrink: 0, height: 20, fontSize: MIN_TEXT_SIZE }} />
-                      </Stack>
-                      <Stack direction="row" justifyContent="space-between" sx={{ mb: 1 }}>
-                        <Stack direction="row" spacing={2}>
-                          {[
-                            { color: 'success.main', label: 'pass', value: s.passed },
-                            { color: s.failed > 0 ? 'error.main' : 'text.secondary', label: 'fail', value: s.failed },
-                            { color: 'text.primary', label: 'total', value: s.total },
-                          ].map(stat => (
-                            <Box key={stat.label} sx={{ textAlign: 'center' }}>
-                              <Typography color={stat.color} fontWeight={700} lineHeight={1} variant="h6">{stat.value}</Typography>
-                              <Typography color="text.secondary" variant="caption">{stat.label}</Typography>
-                            </Box>
-                          ))}
-                        </Stack>
-                        <Stack alignItems="flex-end" justifyContent="center">
-                          <RelativeTime iso={run.startTime} />
-                          {duration && <Typography color="text.disabled" variant="caption">{duration}s</Typography>}
-                        </Stack>
-                      </Stack>
-                      <PassRateBar value={passRate} />
-                    </CardContent>
-                  </Card>
+                              </Link>
+                            </h6>
+                            {run.sdkType && (
+                              <Chip tone={sdkTone(run.sdkType)} className="min-h-5 font-bold uppercase">
+                                {run.sdkType}
+                              </Chip>
+                            )}
+                          </div>
+                          {displayDomain && <span className="block truncate text-[0.75rem] text-primary">{displayDomain}</span>}
+                        </div>
+                      </div>
+                      <Chip tone={STATUS_TONE[run.status] ?? 'default'} className="ml-2 h-5 shrink-0">{run.status}</Chip>
+                    </div>
+                    <div className="mb-2 flex flex-row justify-between">
+                      <div className="flex flex-row gap-4">
+                        {[
+                          { color: 'text-status-pass', label: 'pass', value: s.passed },
+                          { color: s.failed > 0 ? 'text-status-fail' : 'text-foreground-secondary', label: 'fail', value: s.failed },
+                          { color: 'text-foreground', label: 'total', value: s.total },
+                        ].map(stat => (
+                          <div key={stat.label} className="text-center">
+                            <span className={cn('block text-xl font-bold leading-none', stat.color)}>{stat.value}</span>
+                            <span className="text-[0.75rem] text-foreground-secondary">{stat.label}</span>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="relative z-[1] flex flex-col items-end justify-center">
+                        <RelativeTime iso={run.startTime} />
+                        {duration && <span className="text-[0.75rem] text-foreground-muted">{duration}s</span>}
+                      </div>
+                    </div>
+                    <PassRateBar value={passRate} />
+                  </li>
                 );
               })}
-            </Box>
-            <TablePagination
-              component="div"
+            </ul>
+            <Pagination
               count={filteredRuns.length}
-              onPageChange={(_, p) => setPage(p)}
-              onRowsPerPageChange={e => { setRowsPerPage(Number(e.target.value)); setPage(0); }}
+              onPageChange={p => setPage(p)}
+              onRowsPerPageChange={n => { setRowsPerPage(n); setPage(0); }}
               page={page}
               rowsPerPage={rowsPerPage}
               rowsPerPageOptions={[12, 24, 48]}
@@ -735,29 +827,30 @@ export default function TestHistory() {
 
         {/* ─── Empty: no match ──────────────────────────── */}
         {!loading && !error && filteredRuns.length === 0 && runs.length > 0 && (
-          <Paper sx={{ textAlign: 'center', py: 8 }} variant="outlined">
-            <SearchIcon sx={{ fontSize: 56, color: 'text.disabled', mb: 2 }} />
-            <Typography color="text.secondary" variant="h6">No matching runs</Typography>
-            <Typography color="text.secondary" sx={{ mt: 1 }} variant="body2">Try adjusting your filters or search query</Typography>
-            <Button onClick={() => { setSearchQuery(''); setFilterType('all'); setProjectFilter('all'); }} size="small" sx={{ mt: 2 }} variant="outlined">
+          <div className="border border-border bg-shell-panel py-16 text-center">
+            <Search className="mx-auto mb-4 block size-14 text-foreground-muted" aria-hidden="true" />
+            <h6 className="m-0 text-xl font-medium text-foreground-secondary">No matching runs</h6>
+            <p className="m-0 mt-2 text-sm text-foreground-secondary">Try adjusting your filters or search query</p>
+            <Button onClick={() => { setSearchQuery(''); setFilterType('all'); setProjectFilter('all'); }} size="sm" className="mt-4">
               Clear filters
             </Button>
-          </Paper>
+          </div>
         )}
 
         {/* ─── Empty: no runs ───────────────────────────── */}
         {!loading && !error && runs.length === 0 && (
-          <Paper sx={{ textAlign: 'center', py: 10 }} variant="outlined">
-            <ShowChartIcon sx={{ fontSize: 72, color: 'text.disabled', mb: 2 }} />
-            <Typography color="text.secondary" variant="h6">No test runs yet</Typography>
-            <Typography color="text.secondary" sx={{ mt: 1 }} variant="body2">Run your first test to see history here</Typography>
-            <Button component={Link} size="small" startIcon={<ArrowForwardIcon />} sx={{ mt: 2 }} to="/test-runner" variant="contained">
+          <div className="border border-border bg-shell-panel py-20 text-center">
+            <LineChart className="mx-auto mb-4 block size-[72px] text-foreground-muted" aria-hidden="true" />
+            <h6 className="m-0 text-xl font-medium text-foreground-secondary">No test runs yet</h6>
+            <p className="m-0 mt-2 text-sm text-foreground-secondary">Run your first test to see history here</p>
+            <Link to="/test-runner" className={buttonClass({ variant: 'default', size: 'sm', className: 'mt-4 no-underline' })}>
+              <ArrowRight className="size-4" aria-hidden="true" />
               Go to Projects
-            </Button>
-          </Paper>
+            </Link>
+          </div>
         )}
 
-      </Box>
-    </Box>
+      </main>
+    </div>
   );
 }

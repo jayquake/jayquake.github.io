@@ -1,42 +1,44 @@
 import React, { useMemo } from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
+
+import { cn } from '../../../lib/utils';
 
 interface AccessibilityTreeViewProps {
-  treeData: string | Record<string, any> | null;
+  treeData: string | Record<string, unknown> | null;
   title?: string;
 }
 
-const ROLE_COLORS: Record<string, string> = {
-  button: '#1976d2',
-  link: '#7b1fa2',
-  heading: '#e65100',
-  img: '#2e7d32',
-  textbox: '#0097a7',
-  checkbox: '#f57c00',
-  radio: '#f57c00',
-  list: '#5d4037',
-  listitem: '#795548',
-  navigation: '#455a64',
-  banner: '#455a64',
-  main: '#455a64',
-  complementary: '#455a64',
-  contentinfo: '#455a64',
-  form: '#6a1b9a',
-  table: '#283593',
-  row: '#3949ab',
-  cell: '#5c6bc0',
-  generic: '#757575',
+/** Role -> token text colour. Literal class strings so Tailwind can see them. */
+const ROLE_CLASSES: Record<string, string> = {
+  button: 'text-primary',
+  link: 'text-status-info',
+  heading: 'text-severity-serious',
+  img: 'text-status-pass',
+  textbox: 'text-primary-dim',
+  checkbox: 'text-status-warn',
+  radio: 'text-status-warn',
+  list: 'text-severity-moderate',
+  listitem: 'text-severity-moderate',
+  navigation: 'text-foreground-secondary',
+  banner: 'text-foreground-secondary',
+  main: 'text-foreground-secondary',
+  complementary: 'text-foreground-secondary',
+  contentinfo: 'text-foreground-secondary',
+  form: 'text-severity-critical',
+  table: 'text-status-info',
+  row: 'text-status-info',
+  cell: 'text-status-info',
+  generic: 'text-foreground-muted',
 };
 
-function getRoleColor(role: string): string {
-  return ROLE_COLORS[role.toLowerCase()] ?? '#616161';
+function getRoleClass(role: string): string {
+  return ROLE_CLASSES[role.toLowerCase()] ?? 'text-foreground-muted';
 }
 
 function parseTreeText(text: string): string[] {
   return text.split('\n').filter((line) => line.trim().length > 0);
 }
+
+const LINE_CLASS = 'font-mono text-[0.8rem] leading-[1.6]';
 
 function TreeLine({ line }: { line: string }) {
   const indent = line.search(/\S/);
@@ -45,65 +47,46 @@ function TreeLine({ line }: { line: string }) {
   const roleMatch = trimmed.match(/^\[?(\w+)\]?\s*"?([^"]*)"?\s*(.*)/);
   if (!roleMatch) {
     return (
-      <Box sx={{ pl: indent * 0.5, fontFamily: 'monospace', fontSize: '0.8rem', lineHeight: 1.6 }}>
+      <div className={LINE_CLASS} style={{ paddingLeft: indent * 4 }}>
         {trimmed}
-      </Box>
+      </div>
     );
   }
 
   const [, role, name, rest] = roleMatch;
 
   return (
-    <Box sx={{ pl: indent * 0.5, fontFamily: 'monospace', fontSize: '0.8rem', lineHeight: 1.6, display: 'flex', gap: 0.5 }}>
-      <Box component="span" sx={{ color: getRoleColor(role), fontWeight: 600 }}>
-        [{role}]
-      </Box>
-      {name && (
-        <Box component="span" sx={{ color: 'text.primary' }}>
-          "{name}"
-        </Box>
-      )}
-      {rest && (
-        <Box component="span" sx={{ color: 'text.secondary', fontSize: '0.75rem' }}>
-          {rest}
-        </Box>
-      )}
-    </Box>
+    <div className={cn(LINE_CLASS, 'flex gap-1')} style={{ paddingLeft: indent * 4 }}>
+      <span className={cn('font-semibold', getRoleClass(role))}>[{role}]</span>
+      {name && <span className="text-foreground">"{name}"</span>}
+      {rest && <span className="text-[0.75rem] text-foreground-secondary">{rest}</span>}
+    </div>
   );
 }
 
-function renderObjectTree(node: Record<string, any>, depth = 0): React.ReactNode[] {
+function renderObjectTree(node: Record<string, unknown>, depth = 0): React.ReactNode[] {
   const lines: React.ReactNode[] = [];
-  const role = node.role ?? 'generic';
-  const name = node.name ?? '';
+  const role = String(node.role ?? 'generic');
+  const name = String(node.name ?? '');
   const states = Object.entries(node)
     .filter(([k]) => !['role', 'name', 'children'].includes(k))
     .map(([k, v]) => `${k}: ${v}`)
     .join(', ');
 
   lines.push(
-    <Box
+    <div
       key={`${depth}-${role}-${name}-${lines.length}`}
-      sx={{ pl: depth * 2, fontFamily: 'monospace', fontSize: '0.8rem', lineHeight: 1.6, display: 'flex', gap: 0.5 }}
+      className={cn(LINE_CLASS, 'flex gap-1')}
+      style={{ paddingLeft: depth * 16 }}
     >
-      <Box component="span" sx={{ color: getRoleColor(role), fontWeight: 600 }}>
-        [{role}]
-      </Box>
-      {name && (
-        <Box component="span" sx={{ color: 'text.primary' }}>
-          "{name}"
-        </Box>
-      )}
-      {states && (
-        <Box component="span" sx={{ color: 'text.secondary', fontSize: '0.75rem' }}>
-          {`{${states}}`}
-        </Box>
-      )}
-    </Box>
+      <span className={cn('font-semibold', getRoleClass(role))}>[{role}]</span>
+      {name && <span className="text-foreground">"{name}"</span>}
+      {states && <span className="text-[0.75rem] text-foreground-secondary">{`{${states}}`}</span>}
+    </div>
   );
 
   if (Array.isArray(node.children)) {
-    for (const child of node.children) {
+    for (const child of node.children as Record<string, unknown>[]) {
       lines.push(...renderObjectTree(child, depth + 1));
     }
   }
@@ -129,30 +112,18 @@ export function AccessibilityTreeView({ treeData, title = 'Accessibility Tree' }
 
   if (!treeData) {
     return (
-      <Paper variant="outlined" sx={{ p: 2, textAlign: 'center' }}>
-        <Typography variant="body2" color="text.secondary">
+      <div className="border border-border bg-shell-panel p-4 text-center">
+        <p className="m-0 text-sm text-foreground-secondary">
           No accessibility tree data available. Run an analysis to generate it.
-        </Typography>
-      </Paper>
+        </p>
+      </div>
     );
   }
 
   return (
-    <Box>
-      <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 600 }}>
-        {title}
-      </Typography>
-      <Paper
-        variant="outlined"
-        sx={{
-          p: 2,
-          bgcolor: 'grey.50',
-          maxHeight: 400,
-          overflow: 'auto',
-        }}
-      >
-        {content}
-      </Paper>
-    </Box>
+    <div>
+      <h6 className="m-0 mb-2 text-sm font-semibold text-foreground">{title}</h6>
+      <div className="max-h-[400px] overflow-auto border border-border bg-shell-input p-4">{content}</div>
+    </div>
   );
 }

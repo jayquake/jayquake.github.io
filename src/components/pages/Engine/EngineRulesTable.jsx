@@ -40,7 +40,7 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, hrefs }) {
   if (!isLibrary) {
     return (
       <TableRow data-state={selected ? "selected" : undefined} className="relative">
-        <TableCell className={cn("relative p-0", selected && "shadow-[inset_3px_0_0_#00a38d]")}>
+        <TableCell className={cn("relative p-0", selected && "shadow-[inset_3px_0_0_hsl(var(--primary))]")}>
           <RouterLink
             to={rulePath}
             onMouseDown={handleWarm}
@@ -75,7 +75,7 @@ const RuleRow = memo(function RuleRow({ rule, selected, layout, hrefs }) {
 
   return (
     <TableRow data-state={selected ? "selected" : undefined}>
-      <TableCell className={cn("max-w-0 p-0", selected && "shadow-[inset_2px_0_0_#00a38d]")}>
+      <TableCell className={cn("max-w-0 p-0", selected && "shadow-[inset_2px_0_0_hsl(var(--primary))]")}>
         <RouterLink
           to={rulePath}
           title={slug}

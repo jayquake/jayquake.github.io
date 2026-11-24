@@ -1,56 +1,95 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Chip from '@mui/material/Chip';
-import CircularProgress from '@mui/material/CircularProgress';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import LinearProgress from '@mui/material/LinearProgress';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
-import TextField from '@mui/material/TextField';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
-import MovieIcon from '@mui/icons-material/Movie';
-import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-import TextSnippetIcon from '@mui/icons-material/TextSnippet';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import BugReportIcon from '@mui/icons-material/BugReport';
-import CancelIcon from '@mui/icons-material/Cancel';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import CloseIcon from '@mui/icons-material/Close';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import DescriptionIcon from '@mui/icons-material/Description';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import ScienceIcon from '@mui/icons-material/Science';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import {
+  AlertCircle,
+  AlertTriangle,
+  Bug,
+  Camera,
+  CheckCircle2,
+  ChevronDown,
+  ChevronRight,
+  Clock,
+  Copy,
+  Eye,
+  FileText,
+  Film,
+  FlaskConical,
+  MapPin,
+  Sparkles,
+  X,
+  XCircle,
+} from 'lucide-react';
 
 import { api } from '../../../api/client';
 import { StepList } from '../../../components/standalone/StepList';
-import { MIN_TEXT_SIZE } from '../../../theme/mgsTokens';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../../components/ui/accordion';
+import { Alert, AlertTitle } from '../../../components/ui/alert';
+import { Button } from '../../../components/ui/button';
+import { Chip } from '../../../components/ui/chip';
+import { Dialog, DialogClose, DialogContent, DialogTitle } from '../../../components/ui/dialog';
+import { Input } from '../../../components/ui/input';
+import { Separator } from '../../../components/ui/separator';
+import { Spinner } from '../../../components/ui/spinner';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../../components/ui/tabs';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../../../components/ui/tooltip';
+import { cn } from '../../../lib/utils';
 import { type MCPAnalysis } from '../models/MCPAnalysis';
 import { type TestResult } from '../models/TestRunData';
 import { MCPAnalysisFilter } from '../services/MCPAnalysisFilter';
 import { type TestNavResult } from '../../../../shared/types';
+
+/* ─── Presentation helpers ───────────────────────────────── */
+const CHIP_ICON = 'size-3';
+/** MUI "outlined" chip variant: same tone, no fill. */
+const OUTLINED_CHIP = 'bg-transparent';
+/** MUI caption typography. */
+const CAPTION = 'text-xs';
+/** Monospace block used for selectors and code snippets. */
+const CODE_BLOCK = 'block border border-border bg-shell-main p-3 font-mono text-[0.8rem] [word-break:break-all]';
+
+/** Simple text tooltip, replacing MUI <Tooltip title>. */
+const Hint = ({ children, title }: { children: React.ReactElement; title: string }) => (
+  <Tooltip>
+    <TooltipTrigger asChild>{children}</TooltipTrigger>
+    <TooltipContent>{title}</TooltipContent>
+  </Tooltip>
+);
+
+/** Full-size screenshot viewer (replaces the MUI Dialog + close IconButton). */
+const FullSizeImageDialog = ({
+  alt,
+  onClose,
+  open,
+  src,
+}: {
+  alt: string;
+  onClose: () => void;
+  open: boolean;
+  src: string;
+}) => (
+  <Dialog onOpenChange={next => { if (!next) onClose(); }} open={open}>
+    <DialogContent aria-describedby={undefined} className="w-auto max-w-[90vw] p-0" hideClose>
+      <DialogTitle className="sr-only">{alt}</DialogTitle>
+      <DialogClose asChild>
+        <Button
+          aria-label="Close"
+          className="absolute right-2 top-2 bg-shell-elevated/80 text-foreground hover:bg-shell-elevated"
+          size="icon"
+          variant="ghost"
+        >
+          <X aria-hidden="true" className="size-5" />
+        </Button>
+      </DialogClose>
+      <img alt={alt} className="block max-h-[90vh] max-w-[90vw]" src={src} />
+    </DialogContent>
+  </Dialog>
+);
+
+/** Indeterminate linear progress (replaces MUI <LinearProgress />). */
+const IndeterminateBar = ({ label }: { label: string }) => (
+  <div aria-label={label} className="relative h-1 w-full overflow-hidden bg-primary/20" role="progressbar">
+    <div className="absolute inset-y-0 left-0 w-2/5 animate-progress-indeterminate bg-primary" />
+  </div>
+);
 
 type NavProgressStep = {
   detail?: string;
@@ -197,14 +236,22 @@ const classifyError = (error: string): ErrorClassification => {
 
 const ErrorDiagnosticBanner = ({ classification }: { classification: ErrorClassification }) => (
   <Alert
-    icon={<WarningAmberIcon />}
-    severity={classification.category === 'assertion' ? 'info' : 'warning'}
+    icon={
+      <AlertTriangle
+        aria-hidden="true"
+        className={cn(
+          'mt-0.5 size-4 shrink-0',
+          classification.category === 'assertion' ? 'text-status-info' : 'text-status-warn'
+        )}
+      />
+    }
+    variant={classification.category === 'assertion' ? 'info' : 'warning'}
   >
     <AlertTitle>{classification.headline}</AlertTitle>
     {classification.detail}
-    <Typography display="block" sx={{ mt: 0.5 }} variant="caption">
+    <span className={cn(CAPTION, 'mt-1 block')}>
       Hint: {classification.hint}
-    </Typography>
+    </span>
   </Alert>
 );
 
@@ -243,66 +290,57 @@ const NavigationProgressLog = ({ isActive, steps }: { isActive: boolean; steps: 
   if (steps.length === 0 && !isActive) return null;
 
   const statusIcon = (s: string) => {
-    if (s === 'running') return <CircularProgress size={12} />;
-    if (s === 'done') return <CheckCircleIcon color="success" sx={{ fontSize: 14 }} />;
-    return <CancelIcon color="error" sx={{ fontSize: 14 }} />;
+    if (s === 'running') return <Spinner className="size-3" />;
+    if (s === 'done') return <CheckCircle2 aria-hidden="true" className="size-3.5 text-status-pass" />;
+    return <XCircle aria-hidden="true" className="size-3.5 text-status-fail" />;
   };
 
   return (
-    <Paper sx={{ mb: 2, overflow: 'hidden' }} variant="outlined">
-      <Stack
-        alignItems="center"
-        direction="row"
-        spacing={1}
-        sx={{ px: 2, py: 1, borderBottom: 1, borderColor: 'divider', bgcolor: 'background.default' }}
-      >
-        <AccessTimeIcon fontSize="small" color="action" />
-        <Typography color="text.secondary" variant="caption" fontWeight={600} sx={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+    <div className="mb-4 overflow-hidden border border-border bg-shell-panel text-foreground">
+      <div className="flex flex-row items-center gap-2 border-b border-border bg-shell-main px-4 py-2">
+        <Clock aria-hidden="true" className="size-4 text-foreground-secondary" />
+        <span className={cn(CAPTION, 'font-semibold uppercase tracking-[0.08em] text-foreground-secondary')}>
           Navigation Progress
-        </Typography>
+        </span>
         {isActive && (
-          <Stack alignItems="center" direction="row" spacing={0.5} sx={{ ml: 'auto !important' }}>
-            <CircularProgress size={10} />
-            <Typography color="primary" variant="caption">In progress…</Typography>
-          </Stack>
+          <div className="ml-auto flex flex-row items-center gap-1">
+            <Spinner className="size-2.5" />
+            <span className={cn(CAPTION, 'text-primary')}>In progress…</span>
+          </div>
         )}
-      </Stack>
-      <Box sx={{ maxHeight: 256, overflowY: 'auto', p: 1 }}>
-        <List dense disablePadding>
+      </div>
+      <div className="max-h-64 overflow-y-auto p-2">
+        <ul className="m-0 list-none p-0">
           {steps.map((s, i) => (
-            <ListItem
+            <li
+              className={cn(
+                'mb-0.5 flex items-start gap-2 rounded px-4 py-1',
+                s.status === 'error' ? 'bg-status-fail/10' : s.status === 'running' ? 'bg-status-info/10' : 'bg-transparent'
+              )}
               key={i}
-              sx={{
-                borderRadius: 1,
-                mb: 0.25,
-                bgcolor: s.status === 'error' ? 'error.50' : s.status === 'running' ? 'info.50' : 'transparent',
-                gap: 1,
-                alignItems: 'flex-start',
-                py: 0.5,
-              }}
             >
-              <Box sx={{ mt: 0.25, flexShrink: 0 }}>{statusIcon(s.status)}</Box>
-              <ListItemText
-                primary={s.step}
-                primaryTypographyProps={{ variant: 'caption', fontWeight: 500 }}
-                secondary={s.detail}
-                secondaryTypographyProps={{ variant: 'caption', sx: { wordBreak: 'break-all' } }}
-              />
-              <Typography color="text.disabled" variant="caption" sx={{ flexShrink: 0, fontSize: MIN_TEXT_SIZE }}>
+              <div className="mt-0.5 shrink-0">{statusIcon(s.status)}</div>
+              <div className="min-w-0 flex-1">
+                <span className={cn(CAPTION, 'block font-medium')}>{s.step}</span>
+                {s.detail && (
+                  <span className={cn(CAPTION, 'block text-foreground-secondary [word-break:break-all]')}>{s.detail}</span>
+                )}
+              </div>
+              <span className="shrink-0 text-[0.75rem] text-foreground-muted">
                 {new Date(s.timestamp).toLocaleTimeString()}
-              </Typography>
-            </ListItem>
+              </span>
+            </li>
           ))}
           {isActive && steps.length === 0 && (
-            <ListItem sx={{ gap: 1 }}>
-              <CircularProgress size={12} />
-              <Typography color="text.secondary" variant="caption">Starting navigation…</Typography>
-            </ListItem>
+            <li className="flex items-center gap-2 px-4 py-1">
+              <Spinner className="size-3" />
+              <span className={cn(CAPTION, 'text-foreground-secondary')}>Starting navigation…</span>
+            </li>
           )}
-        </List>
+        </ul>
         <div ref={bottomRef} />
-      </Box>
-    </Paper>
+      </div>
+    </div>
   );
 };
 
@@ -320,59 +358,62 @@ const FailureScreenshotCard = ({ screenshot }: { screenshot: string }) => {
 
   return (
     <>
-      <Accordion expanded={expanded} onChange={() => setExpanded(v => !v)} sx={{ mb: 2 }} variant="outlined">
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Stack alignItems="center" direction="row" spacing={1}>
-            <VisibilityIcon color="primary" fontSize="small" />
-            <Typography variant="caption" fontWeight={600} sx={{ textTransform: 'uppercase', letterSpacing: 1 }}>
-              Failure Point Screenshot
-            </Typography>
-            <Chip label="Captured" size="small" color="info" />
-          </Stack>
-        </AccordionSummary>
-        <AccordionDetails sx={{ pt: 0 }}>
-          <Box
-            alt="Failure point"
-            component="img"
-            onClick={() => setDialogOpen(true)}
-            onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-              e.currentTarget.style.display = 'none';
-            }}
-            src={src}
-            sx={{ width: '100%', borderRadius: 1, border: 1, borderColor: 'divider', cursor: 'pointer', '&:hover': { opacity: 0.9 } }}
-          />
-          <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
-            <Button onClick={() => setDialogOpen(true)} size="small" startIcon={<VisibilityIcon />} variant="outlined">
-              View Full Size
-            </Button>
-            <Button
-              onClick={() => {
-                const link = document.createElement('a');
-                link.download = `failure-screenshot-${Date.now()}.png`;
-                link.href = src;
-                link.click();
+      <Accordion
+        className="mb-4"
+        collapsible
+        onValueChange={() => setExpanded(v => !v)}
+        type="single"
+        value={expanded ? 'screenshot' : ''}
+      >
+        <AccordionItem value="screenshot">
+          <AccordionTrigger>
+            <span className="flex flex-row items-center gap-2">
+              <Eye aria-hidden="true" className="size-4 text-primary" />
+              <span className={cn(CAPTION, 'font-semibold uppercase tracking-[0.08em]')}>
+                Failure Point Screenshot
+              </span>
+              <Chip tone="info">Captured</Chip>
+            </span>
+          </AccordionTrigger>
+          <AccordionContent className="border-t-0 pt-0">
+            <img
+              alt="Failure point"
+              className="block w-full cursor-pointer rounded border border-border hover:opacity-90"
+              onClick={() => setDialogOpen(true)}
+              onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                e.currentTarget.style.display = 'none';
               }}
-              size="small"
-              startIcon={<ContentCopyIcon />}
-              variant="outlined"
-            >
-              Download
-            </Button>
-          </Stack>
-        </AccordionDetails>
+              src={src}
+            />
+            <div className="mt-2 flex flex-row gap-2">
+              <Button onClick={() => setDialogOpen(true)} size="sm" variant="outline">
+                <Eye aria-hidden="true" className="size-4" />
+                View Full Size
+              </Button>
+              <Button
+                onClick={() => {
+                  const link = document.createElement('a');
+                  link.download = `failure-screenshot-${Date.now()}.png`;
+                  link.href = src;
+                  link.click();
+                }}
+                size="sm"
+                variant="outline"
+              >
+                <Copy aria-hidden="true" className="size-4" />
+                Download
+              </Button>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
       </Accordion>
 
-      <Dialog maxWidth="xl" onClose={() => setDialogOpen(false)} open={dialogOpen}>
-        <DialogContent sx={{ p: 0, position: 'relative' }}>
-          <IconButton
-            onClick={() => setDialogOpen(false)}
-            sx={{ position: 'absolute', top: 8, right: 8, bgcolor: 'rgba(0,0,0,0.6)', color: 'white', '&:hover': { bgcolor: 'rgba(0,0,0,0.8)' } }}
-          >
-            <CloseIcon />
-          </IconButton>
-          <Box alt="Failure point — full size" component="img" src={src} sx={{ maxWidth: '90vw', maxHeight: '90vh', display: 'block' }} />
-        </DialogContent>
-      </Dialog>
+      <FullSizeImageDialog
+        alt="Failure point — full size"
+        onClose={() => setDialogOpen(false)}
+        open={dialogOpen}
+        src={src}
+      />
     </>
   );
 };
@@ -381,29 +422,29 @@ const FailureScreenshotCard = ({ screenshot }: { screenshot: string }) => {
 const SelectorValidationBadge = ({ validation }: { validation: ValidatedSelector }) => {
   if (validation.status === 'pass' && validation.count === 1) {
     return (
-      <Chip
-        color="success"
-        icon={<CheckCircleIcon />}
-        label={`1 match${validation.tag ? ` (${validation.tag})` : ''}`}
-        size="small"
-      />
+      <Chip icon={<CheckCircle2 aria-hidden="true" className={CHIP_ICON} />} tone="pass">
+        {`1 match${validation.tag ? ` (${validation.tag})` : ''}`}
+      </Chip>
     );
   }
   if (validation.status === 'pass' && validation.count > 1) {
     return (
-      <Chip
-        color="warning"
-        icon={<WarningAmberIcon />}
-        label={`${validation.count} matches — ambiguous`}
-        size="small"
-      />
+      <Chip icon={<AlertTriangle aria-hidden="true" className={CHIP_ICON} />} tone="warn">
+        {`${validation.count} matches — ambiguous`}
+      </Chip>
     );
   }
-  return <Chip color="error" icon={<CancelIcon />} label="No match" size="small" />;
+  return (
+    <Chip icon={<XCircle aria-hidden="true" className={CHIP_ICON} />} tone="fail">
+      No match
+    </Chip>
+  );
 };
 
 
 /* ─── NavigationOutcomeBanner ────────────────────────────── */
+const URL_LINE = cn(CAPTION, 'block font-mono [word-break:break-all]');
+
 const NavigationOutcomeBanner = ({
   currentUrl,
   error,
@@ -419,12 +460,12 @@ const NavigationOutcomeBanner = ({
 
   if (outcome === 'correct') {
     return (
-      <Alert severity="success" sx={{ mb: 2 }}>
+      <Alert className="mb-4" variant="success">
         Navigation succeeded — confirmed on the expected page
         {currentUrl && (
-          <Typography component="div" variant="caption" sx={{ mt: 0.5, fontFamily: 'monospace', wordBreak: 'break-all' }}>
+          <div className={cn(URL_LINE, 'mt-1')}>
             {currentUrl}
-          </Typography>
+          </div>
         )}
       </Alert>
     );
@@ -432,22 +473,22 @@ const NavigationOutcomeBanner = ({
 
   if (outcome === 'auth-redirect') {
     return (
-      <Alert severity="error" sx={{ mb: 2 }}>
+      <Alert className="mb-4" variant="error">
         <strong>Authentication Required</strong> — Redirected to login page instead of the failure URL.
         {currentUrl && (
-          <Typography component="div" variant="caption" sx={{ mt: 0.5, fontFamily: 'monospace', wordBreak: 'break-all' }}>
+          <div className={cn(URL_LINE, 'mt-1')}>
             Landed on: {currentUrl}
-          </Typography>
+          </div>
         )}
         {expectedUrl && (
-          <Typography component="div" variant="caption" sx={{ fontFamily: 'monospace', wordBreak: 'break-all' }}>
+          <div className={URL_LINE}>
             Expected: {expectedUrl}
-          </Typography>
+          </div>
         )}
         {error && (
-          <Typography component="div" variant="caption" sx={{ mt: 0.5, color: 'error.dark' }}>
+          <div className={cn(CAPTION, 'mt-1 text-status-fail')}>
             {error}
-          </Typography>
+          </div>
         )}
       </Alert>
     );
@@ -455,10 +496,10 @@ const NavigationOutcomeBanner = ({
 
   if (outcome === 'not-loaded') {
     return (
-      <Alert severity="error" sx={{ mb: 2 }}>
+      <Alert className="mb-4" variant="error">
         <strong>Page Did Not Load</strong> — The browser could not reach the failure URL.
         {error && (
-          <Typography component="div" variant="caption" sx={{ mt: 0.5 }}>{error}</Typography>
+          <div className={cn(CAPTION, 'mt-1')}>{error}</div>
         )}
       </Alert>
     );
@@ -466,17 +507,17 @@ const NavigationOutcomeBanner = ({
 
   if (outcome === 'wrong-page') {
     return (
-      <Alert severity="warning" sx={{ mb: 2 }}>
+      <Alert className="mb-4" variant="warning">
         <strong>Wrong Page</strong> — Navigation landed on a different page than expected. Screenshot was taken from the actual location.
         {currentUrl && (
-          <Typography component="div" variant="caption" sx={{ mt: 0.5, fontFamily: 'monospace', wordBreak: 'break-all' }}>
+          <div className={cn(URL_LINE, 'mt-1')}>
             Actual: {currentUrl}
-          </Typography>
+          </div>
         )}
         {expectedUrl && (
-          <Typography component="div" variant="caption" sx={{ fontFamily: 'monospace', wordBreak: 'break-all' }}>
+          <div className={URL_LINE}>
             Expected: {expectedUrl}
-          </Typography>
+          </div>
         )}
       </Alert>
     );
@@ -542,18 +583,18 @@ const TestArtifactsViewer = ({
 
   if (loading) {
     return (
-      <Box sx={{ py: 2 }}>
-        <LinearProgress />
-        <Typography color="text.secondary" sx={{ mt: 1 }} variant="caption">
+      <div className="py-4">
+        <IndeterminateBar label="Loading test artifacts" />
+        <span className={cn(CAPTION, 'mt-2 block text-foreground-secondary')}>
           Loading test artifacts…
-        </Typography>
-      </Box>
+        </span>
+      </div>
     );
   }
 
   if (error) {
     return (
-      <Alert severity="warning" sx={{ mt: 1 }}>
+      <Alert className="mt-2" variant="warning">
         Could not load artifacts: {error}
       </Alert>
     );
@@ -564,9 +605,9 @@ const TestArtifactsViewer = ({
   const hasArtifacts = artifacts.screenshotUrl || artifacts.videoUrl || artifacts.pageSnapshotContent;
   if (!hasArtifacts) {
     return (
-      <Typography color="text.secondary" variant="caption">
+      <span className={cn(CAPTION, 'text-foreground-secondary')}>
         No artifacts found for this test result.
-      </Typography>
+      </span>
     );
   }
 
@@ -579,98 +620,85 @@ const TestArtifactsViewer = ({
     : null;
 
   return (
-    <Stack spacing={2}>
+    <div className="flex flex-col gap-4">
       {/* Screenshot */}
       {fullScreenshotSrc && (
-        <Box>
-          <Stack alignItems="center" direction="row" spacing={1} sx={{ mb: 1 }}>
-            <PhotoCameraIcon color="error" fontSize="small" />
-            <Typography fontWeight={600} variant="caption">Failure Screenshot</Typography>
-            <Chip color="error" label="At failure" size="small" />
-          </Stack>
-          <Box
+        <div>
+          <div className="mb-2 flex flex-row items-center gap-2">
+            <Camera aria-hidden="true" className="size-4 text-status-fail" />
+            <span className={cn(CAPTION, 'font-semibold')}>Failure Screenshot</span>
+            <Chip tone="fail">At failure</Chip>
+          </div>
+          <img
             alt="Test failure screenshot"
-            component="img"
+            className="block max-h-80 w-full cursor-zoom-in rounded border border-border bg-shell-main object-contain"
             onClick={() => setScreenshotDialogOpen(true)}
             onError={(e: React.SyntheticEvent<HTMLImageElement>) => { e.currentTarget.style.display = 'none'; }}
             src={fullScreenshotSrc}
-            sx={{ width: '100%', maxHeight: 320, objectFit: 'contain', border: 1, borderColor: 'divider', borderRadius: 1, cursor: 'zoom-in', bgcolor: 'background.default' }}
           />
           <Button
+            className="mt-1"
             onClick={() => setScreenshotDialogOpen(true)}
-            size="small"
-            startIcon={<VisibilityIcon />}
-            sx={{ mt: 0.5 }}
-            variant="text"
+            size="sm"
+            variant="ghost"
           >
+            <Eye aria-hidden="true" className="size-4" />
             View Full Size
           </Button>
-          <Dialog maxWidth="xl" onClose={() => setScreenshotDialogOpen(false)} open={screenshotDialogOpen}>
-            <DialogContent sx={{ p: 0, position: 'relative' }}>
-              <IconButton
-                onClick={() => setScreenshotDialogOpen(false)}
-                sx={{ position: 'absolute', top: 8, right: 8, bgcolor: 'rgba(0,0,0,0.6)', color: 'white' }}
-              >
-                <CloseIcon />
-              </IconButton>
-              <Box alt="Full size failure screenshot" component="img" src={fullScreenshotSrc} sx={{ maxWidth: '90vw', maxHeight: '90vh', display: 'block' }} />
-            </DialogContent>
-          </Dialog>
-        </Box>
+          <FullSizeImageDialog
+            alt="Full size failure screenshot"
+            onClose={() => setScreenshotDialogOpen(false)}
+            open={screenshotDialogOpen}
+            src={fullScreenshotSrc}
+          />
+        </div>
       )}
 
       {/* Video */}
       {fullVideoSrc && (
-        <Box>
-          <Stack alignItems="center" direction="row" spacing={1} sx={{ mb: 1 }}>
-            <MovieIcon color="secondary" fontSize="small" />
-            <Typography fontWeight={600} variant="caption">Test Recording</Typography>
-          </Stack>
-          <Box
-            component="video"
+        <div>
+          <div className="mb-2 flex flex-row items-center gap-2">
+            <Film aria-hidden="true" className="size-4 text-foreground-accent" />
+            <span className={cn(CAPTION, 'font-semibold')}>Test Recording</span>
+          </div>
+          <video
+            className="block max-h-[360px] w-full rounded border border-border"
             controls
             src={fullVideoSrc}
-            sx={{ width: '100%', maxHeight: 360, borderRadius: 1, border: 1, borderColor: 'divider', display: 'block' }}
           />
-        </Box>
+        </div>
       )}
 
       {/* Page Snapshot */}
       {artifacts.pageSnapshotContent && (
-        <Box>
-          <Stack alignItems="center" direction="row" spacing={1} sx={{ mb: 0.5 }}>
-            <TextSnippetIcon color="info" fontSize="small" />
-            <Typography fontWeight={600} variant="caption">Page Snapshot at Failure</Typography>
-            <Chip color="info" label="Accessibility tree" size="small" />
-          </Stack>
+        <div>
+          <div className="mb-1 flex flex-row items-center gap-2">
+            <FileText aria-hidden="true" className="size-4 text-status-info" />
+            <span className={cn(CAPTION, 'font-semibold')}>Page Snapshot at Failure</span>
+            <Chip tone="info">Accessibility tree</Chip>
+          </div>
           <Accordion
-            expanded={snapshotExpanded}
-            onChange={() => setSnapshotExpanded(v => !v)}
-            sx={{ border: 1, borderColor: 'divider' }}
-            variant="outlined"
+            collapsible
+            onValueChange={() => setSnapshotExpanded(v => !v)}
+            type="single"
+            value={snapshotExpanded ? 'snapshot' : ''}
           >
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="caption" fontWeight={600}>
-                {snapshotExpanded ? 'Hide' : 'Show'} page accessibility tree YAML ({(artifacts.pageSnapshotContent.length / 1024).toFixed(1)} KB)
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails sx={{ p: 0 }}>
-              <Box
-                component="pre"
-                sx={{
-                  m: 0, p: 2, maxHeight: 400, overflowY: 'auto',
-                  fontSize: MIN_TEXT_SIZE, fontFamily: 'monospace', lineHeight: 1.5,
-                  wordBreak: 'break-all', whiteSpace: 'pre-wrap',
-                  bgcolor: 'background.default',
-                }}
-              >
-                {artifacts.pageSnapshotContent}
-              </Box>
-            </AccordionDetails>
+            <AccordionItem value="snapshot">
+              <AccordionTrigger>
+                <span className={cn(CAPTION, 'font-semibold')}>
+                  {snapshotExpanded ? 'Hide' : 'Show'} page accessibility tree YAML ({(artifacts.pageSnapshotContent.length / 1024).toFixed(1)} KB)
+                </span>
+              </AccordionTrigger>
+              <AccordionContent className="p-0">
+                <pre className="m-0 max-h-[400px] overflow-y-auto whitespace-pre-wrap bg-shell-main p-4 font-mono text-[0.75rem] leading-normal [word-break:break-all]">
+                  {artifacts.pageSnapshotContent}
+                </pre>
+              </AccordionContent>
+            </AccordionItem>
           </Accordion>
-        </Box>
+        </div>
       )}
-    </Stack>
+    </div>
   );
 };
 
@@ -716,274 +744,319 @@ const FailedTestCard = ({
   };
 
   return (
-    <Card
-      sx={{ borderLeft: 4, borderColor: hasMcpData ? 'primary.main' : 'error.main' }}
-      variant="outlined"
+    <div
+      className={cn(
+        'border border-l-4 border-border bg-shell-panel text-foreground',
+        hasMcpData ? 'border-l-primary' : 'border-l-status-fail'
+      )}
     >
       {/* ── Header (always visible) ── */}
-      <CardContent
+      <button
+        aria-expanded={expanded}
+        className="block w-full cursor-pointer border-0 bg-transparent p-4 text-left text-inherit hover:bg-hover/5"
         onClick={() => setExpanded(v => !v)}
-        sx={{ cursor: 'pointer', pb: expanded ? undefined : '16px !important' }}
+        type="button"
       >
-        <Stack alignItems="flex-start" direction="row" justifyContent="space-between" spacing={1}>
-          <Box sx={{ flex: 1, minWidth: 0 }}>
-            <Stack alignItems="center" direction="row" spacing={1} sx={{ mb: 0.5 }} flexWrap="wrap">
-              <Chip color="error" label="FAILED" size="small" />
-              {hasMcpData && <Chip color="primary" label="Analyzed" size="small" />}
-              <Typography fontWeight={600} noWrap variant="body2">{test.name}</Typography>
-            </Stack>
-            <Stack alignItems="center" direction="row" spacing={1}>
-              <DescriptionIcon sx={{ fontSize: 12, color: 'text.secondary' }} />
-              <Typography color="text.secondary" component="code" noWrap variant="caption">
+        <span className="flex flex-row items-start justify-between gap-2">
+          <span className="block min-w-0 flex-1">
+            <span className="mb-1 flex flex-row flex-wrap items-center gap-2">
+              <Chip tone="fail">FAILED</Chip>
+              {hasMcpData && <Chip tone="primary">Analyzed</Chip>}
+              <span className="truncate text-sm font-semibold">{test.name}</span>
+            </span>
+            <span className="flex flex-row items-center gap-2">
+              <FileText aria-hidden="true" className="size-3 shrink-0 text-foreground-secondary" />
+              <code className={cn(CAPTION, 'truncate text-foreground-secondary')}>
                 {test.file.split('/').slice(-2).join('/')}
-              </Typography>
+              </code>
               {test.duration && (
-                <Typography color="text.secondary" variant="caption">
+                <span className={cn(CAPTION, 'text-foreground-secondary')}>
                   ⏱ {(test.duration / 1000).toFixed(2)}s
-                </Typography>
+                </span>
               )}
-              {test.qaseId && <Chip label={`Qase #${test.qaseId}`} size="small" />}
-            </Stack>
-          </Box>
-          {expanded ? <ExpandMoreIcon fontSize="small" /> : <ChevronRightIcon fontSize="small" />}
-        </Stack>
-      </CardContent>
+              {test.qaseId && <Chip>{`Qase #${test.qaseId}`}</Chip>}
+            </span>
+          </span>
+          {expanded
+            ? <ChevronDown aria-hidden="true" className="size-4 shrink-0" />
+            : <ChevronRight aria-hidden="true" className="size-4 shrink-0" />}
+        </span>
+      </button>
 
       {/* ── Expanded content ── */}
       {expanded && (
-        <Box onClick={e => e.stopPropagation()} sx={{ borderTop: 1, borderColor: 'divider' }}>
-          <Tabs
-            onChange={(_, v) => setActiveTab(v)}
-            sx={{ borderBottom: 1, borderColor: 'divider', px: 2 }}
-            value={activeTab}
-            variant="scrollable"
-          >
-            <Tab label="Error" value="error" />
-            <Tab label="Artifacts" value="artifacts" />
-            <Tab
-              label={
-                navLoading ? (
-                  <Stack alignItems="center" direction="row" spacing={0.5}>
-                    <CircularProgress size={10} />
+        <div className="border-t border-border" onClick={e => e.stopPropagation()}>
+          <Tabs onValueChange={v => setActiveTab(v as 'artifacts' | 'error' | 'mcp')} value={activeTab}>
+            <TabsList className="px-4">
+              <TabsTrigger value="error">Error</TabsTrigger>
+              <TabsTrigger value="artifacts">Artifacts</TabsTrigger>
+              <TabsTrigger value="mcp">
+                {navLoading ? (
+                  <span className="flex flex-row items-center gap-1">
+                    <Spinner aria-hidden="true" className="size-2.5" />
                     <span>MCP Analysis</span>
-                  </Stack>
-                ) : 'MCP Analysis'
-              }
-              value="mcp"
-            />
-          </Tabs>
+                  </span>
+                ) : 'MCP Analysis'}
+              </TabsTrigger>
+            </TabsList>
 
-          <Box sx={{ p: 2 }}>
-            {/* ── Error tab ── */}
-            {activeTab === 'error' && (
-              <Stack spacing={2}>
-                {test.error && (
-                  <Alert icon={<ErrorOutlineIcon />} severity="error">
-                    <Box
-                      component="pre"
-                      sx={{ m: 0, fontSize: '0.75rem', fontFamily: 'monospace', whiteSpace: 'pre-wrap', wordBreak: 'break-all', maxHeight: 200, overflowY: 'auto' }}
-                    >
-                      {test.error}
-                    </Box>
-                  </Alert>
-                )}
-                {test.steps && test.steps.length > 0 && (
-                  <Box>
-                    <Typography color="text.secondary" fontWeight={600} gutterBottom variant="caption">
-                      Test Steps ({test.steps.length}):
-                    </Typography>
-                    <StepList
-                      enableFilter
-                      maxSteps={15}
-                      steps={test.steps.map((s, i) => ({ ...s, order: i + 1 }))}
-                    />
-                  </Box>
-                )}
-                {!test.error && !test.steps?.length && (
-                  <Typography color="text.secondary" variant="caption">No error details available.</Typography>
-                )}
-              </Stack>
-            )}
-
-            {/* ── Artifacts tab ── */}
-            {activeTab === 'artifacts' && (
-              <TestArtifactsViewer
-                onSnapshotLoaded={setPageSnapshotContent}
-                testResultId={test.id}
-              />
-            )}
-
-            {/* ── MCP Analysis tab ── */}
-            {activeTab === 'mcp' && (() => {
-              const errorClass = test.error ? classifyError(test.error) : null;
-              const isNonElementError = errorClass !== null
-                && errorClass.category !== 'element'
-                && errorClass.category !== 'unknown';
-
-              return (
-              <Stack spacing={2}>
-                {/* Navigate buttons — hidden entirely for config/network/auth errors */}
-                {isNonElementError ? (
-                  <Alert
-                    severity={
-                      errorClass?.category === 'config' ? 'warning'
-                      : errorClass?.category === 'network' ? 'error'
-                      : 'info'
-                    }
-                  >
-                    <strong>Navigation not applicable</strong> — this is a{' '}
-                    <strong>{errorClass?.category}</strong> error, not a UI element issue.
-                    Fix the underlying problem and re-run the test.
-                  </Alert>
-                ) : (
-                  <Stack direction="row" spacing={1} flexWrap="wrap">
-                    <Tooltip title={mcpStatus.available ? 'Navigate the MCP browser to this failure point' : 'MCP server unavailable'}>
-                      <span>
-                        <Button
-                          disabled={mcpInteracting || !mcpStatus.available}
-                          onClick={() => onNavigateToFailureFromTest(test, pageSnapshotContent)}
-                          size="small"
-                          startIcon={navLoading ? <CircularProgress size={14} /> : <LocationOnIcon />}
-                          variant="contained"
-                        >
-                          {navLoading ? 'Navigating…' : 'Navigate to Failure Point'}
-                        </Button>
+            <div className="p-4">
+              {/* ── Error tab ── */}
+              <TabsContent value="error">
+                <div className="flex flex-col gap-4">
+                  {test.error && (
+                    <Alert icon={<AlertCircle aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-status-fail" />} variant="error">
+                      <pre className="m-0 max-h-[200px] overflow-y-auto whitespace-pre-wrap font-mono text-[0.75rem] [word-break:break-all]">
+                        {test.error}
+                      </pre>
+                    </Alert>
+                  )}
+                  {test.steps && test.steps.length > 0 && (
+                    <div>
+                      <span className={cn(CAPTION, 'mb-1 block font-semibold text-foreground-secondary')}>
+                        Test Steps ({test.steps.length}):
                       </span>
-                    </Tooltip>
-                    {matchingAnalysis && (
-                      <Tooltip title="Navigate using MCP analysis context (better selector targeting)">
-                        <span>
+                      <StepList
+                        enableFilter
+                        maxSteps={15}
+                        steps={test.steps.map((s, i) => ({ ...s, order: i + 1 }))}
+                      />
+                    </div>
+                  )}
+                  {!test.error && !test.steps?.length && (
+                    <span className={cn(CAPTION, 'text-foreground-secondary')}>No error details available.</span>
+                  )}
+                </div>
+              </TabsContent>
+
+              {/* ── Artifacts tab ── */}
+              <TabsContent value="artifacts">
+                <TestArtifactsViewer
+                  onSnapshotLoaded={setPageSnapshotContent}
+                  testResultId={test.id}
+                />
+              </TabsContent>
+
+              {/* ── MCP Analysis tab ── */}
+              <TabsContent value="mcp">
+              {(() => {
+                const errorClass = test.error ? classifyError(test.error) : null;
+                const isNonElementError = errorClass !== null
+                  && errorClass.category !== 'element'
+                  && errorClass.category !== 'unknown';
+
+                return (
+                <div className="flex flex-col gap-4">
+                  {/* Navigate buttons — hidden entirely for config/network/auth errors */}
+                  {isNonElementError ? (
+                    <Alert
+                      variant={
+                        errorClass?.category === 'config' ? 'warning'
+                        : errorClass?.category === 'network' ? 'error'
+                        : 'info'
+                      }
+                    >
+                      <strong>Navigation not applicable</strong> — this is a{' '}
+                      <strong>{errorClass?.category}</strong> error, not a UI element issue.
+                      Fix the underlying problem and re-run the test.
+                    </Alert>
+                  ) : (
+                    <div className="flex flex-row flex-wrap gap-2">
+                      <Hint title={mcpStatus.available ? 'Navigate the MCP browser to this failure point' : 'MCP server unavailable'}>
+                        <span className="inline-flex">
                           <Button
                             disabled={mcpInteracting || !mcpStatus.available}
-                            onClick={() => onNavigateToFailure(matchingAnalysis)}
-                            size="small"
-                            startIcon={<AutoAwesomeIcon />}
-                            variant="outlined"
+                            onClick={() => onNavigateToFailureFromTest(test, pageSnapshotContent)}
+                            size="sm"
+                            variant="default"
                           >
-                            Navigate via Analysis
+                            {navLoading
+                              ? <Spinner aria-hidden="true" className="size-3.5" />
+                              : <MapPin aria-hidden="true" className="size-4" />}
+                            {navLoading ? 'Navigating…' : 'Navigate to Failure Point'}
                           </Button>
                         </span>
-                      </Tooltip>
-                    )}
-                  </Stack>
-                )}
-
-                {/* Navigation progress and outcome */}
-                {testNavResult && (
-                  <>
-                    <NavigationOutcomeBanner
-                      currentUrl={testNavResult.currentUrl}
-                      error={testNavResult.error}
-                      expectedUrl={testNavResult.expectedUrl}
-                      outcome={testNavResult.navigationOutcome}
-                    />
-                    <NavigationProgressLog
-                      isActive={testNavResult.loading}
-                      steps={testNavResult.steps}
-                    />
-                    {testNavResult.screenshot && (
-                      <Box>
-                        <Typography fontWeight={600} gutterBottom variant="caption">
-                          MCP Screenshot (Live Navigation)
-                        </Typography>
-                        <FailureScreenshotCard screenshot={testNavResult.screenshot} />
-                      </Box>
-                    )}
-                  </>
-                )}
-
-                {/* ── Full MCP analysis content (merged from analysis card) ── */}
-                {matchingAnalysis && (
-                  <>
-                    <Divider />
-
-                    {/* Confidence — hidden for non-element errors where it is meaningless */}
-                    {!isNonElementError && (
-                      <Stack alignItems="center" direction="row" spacing={1}>
-                        <CheckCircleIcon color="success" sx={{ fontSize: 14 }} />
-                        <Typography color="text.secondary" variant="caption">
-                          MCP analysis —{' '}
-                          <Chip
-                            color={matchingAnalysis.hasHighConfidence() ? 'success' : 'warning'}
-                            label={`${matchingAnalysis.getConfidencePercentage()}% confidence`}
-                            size="small"
-                          />
-                        </Typography>
-                      </Stack>
-                    )}
-
-                    {/* Test context */}
-                    {matchingAnalysis.navigationContext && (
-                      <Paper sx={{ p: 1.5, bgcolor: 'primary.50', borderColor: 'primary.light' }} variant="outlined">
-                        <Typography color="primary" fontWeight={600} gutterBottom variant="caption">
-                          Test Context:
-                        </Typography>
-                        {matchingAnalysis.navigationContext.stepBeforeFailure && (
-                          <Typography color="text.secondary" display="block" variant="caption">
-                            <strong>Step before failure:</strong>{' '}
-                            {matchingAnalysis.navigationContext.stepBeforeFailure.title}
-                          </Typography>
-                        )}
-                        {matchingAnalysis.navigationContext.failureStep && (
-                          <Typography color="error" display="block" variant="caption">
-                            <strong>Failure step:</strong>{' '}
-                            {matchingAnalysis.navigationContext.failureStep.title}
-                          </Typography>
-                        )}
-                        <Typography color="text.secondary" display="block" variant="caption">
-                          <strong>URL:</strong> {matchingAnalysis.getNavigationUrl()}
-                        </Typography>
-                      </Paper>
-                    )}
-
-                    {/* Failing selector */}
-                    {(() => {
-                      const isUnknown = !matchingAnalysis.selector || matchingAnalysis.selector === 'unknown';
-                      const isElementError = !isNonElementError;
-                      const derived = isUnknown && isElementError && test.error
-                        ? deriveSelectorsFromError(test.error)
-                        : [];
-
-                      // For non-element errors, show a diagnostic banner — no selector label, no suggestions
-                      if (isUnknown && isNonElementError && errorClass) {
-                        return <ErrorDiagnosticBanner classification={errorClass} />;
-                      }
-
-                      return (
-                        <Box>
-                          <Stack alignItems="center" direction="row" justifyContent="space-between" sx={{ mb: 0.5 }}>
-                            <Typography color="text.secondary" variant="caption">Failing Selector:</Typography>
-                            {!isUnknown && (
-                              <Tooltip title="Copy selector">
-                                <IconButton onClick={() => navigator.clipboard.writeText(matchingAnalysis.selector)} size="small">
-                                  <ContentCopyIcon fontSize="small" />
-                                </IconButton>
-                              </Tooltip>
-                            )}
-                          </Stack>
-                          {isUnknown ? (
-                            <Alert severity="info" icon={<AutoAwesomeIcon />} sx={{ mb: derived.length > 0 ? 1 : 0 }}>
-                              Selector not detected from analysis — derived candidates from error message
-                              {derived.length === 0 && ' (none found)'}
-                            </Alert>
-                          ) : (
-                            <Paper
-                              component="code"
-                              sx={{ display: 'block', p: 1.5, fontSize: '0.8rem', fontFamily: 'monospace', wordBreak: 'break-all', bgcolor: 'background.default' }}
-                              variant="outlined"
+                      </Hint>
+                      {matchingAnalysis && (
+                        <Hint title="Navigate using MCP analysis context (better selector targeting)">
+                          <span className="inline-flex">
+                            <Button
+                              disabled={mcpInteracting || !mcpStatus.available}
+                              onClick={() => onNavigateToFailure(matchingAnalysis)}
+                              size="sm"
+                              variant="outline"
                             >
-                              {matchingAnalysis.selector}
-                            </Paper>
+                              <Sparkles aria-hidden="true" className="size-4" />
+                              Navigate via Analysis
+                            </Button>
+                          </span>
+                        </Hint>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Navigation progress and outcome */}
+                  {testNavResult && (
+                    <>
+                      <NavigationOutcomeBanner
+                        currentUrl={testNavResult.currentUrl}
+                        error={testNavResult.error}
+                        expectedUrl={testNavResult.expectedUrl}
+                        outcome={testNavResult.navigationOutcome}
+                      />
+                      <NavigationProgressLog
+                        isActive={testNavResult.loading}
+                        steps={testNavResult.steps}
+                      />
+                      {testNavResult.screenshot && (
+                        <div>
+                          <span className={cn(CAPTION, 'mb-1 block font-semibold')}>
+                            MCP Screenshot (Live Navigation)
+                          </span>
+                          <FailureScreenshotCard screenshot={testNavResult.screenshot} />
+                        </div>
+                      )}
+                    </>
+                  )}
+
+                  {/* ── Full MCP analysis content (merged from analysis card) ── */}
+                  {matchingAnalysis && (
+                    <>
+                      <Separator />
+
+                      {/* Confidence — hidden for non-element errors where it is meaningless */}
+                      {!isNonElementError && (
+                        <div className="flex flex-row items-center gap-2">
+                          <CheckCircle2 aria-hidden="true" className="size-3.5 text-status-pass" />
+                          <span className={cn(CAPTION, 'text-foreground-secondary')}>
+                            MCP analysis —{' '}
+                            <Chip tone={matchingAnalysis.hasHighConfidence() ? 'pass' : 'warn'}>
+                              {`${matchingAnalysis.getConfidencePercentage()}% confidence`}
+                            </Chip>
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Test context */}
+                      {matchingAnalysis.navigationContext && (
+                        <div className="border border-primary/60 bg-primary/10 p-3">
+                          <span className={cn(CAPTION, 'mb-1 block font-semibold text-primary')}>
+                            Test Context:
+                          </span>
+                          {matchingAnalysis.navigationContext.stepBeforeFailure && (
+                            <span className={cn(CAPTION, 'block text-foreground-secondary')}>
+                              <strong>Step before failure:</strong>{' '}
+                              {matchingAnalysis.navigationContext.stepBeforeFailure.title}
+                            </span>
                           )}
-                          {/* Derived selectors from error — only for genuine element-not-found errors */}
-                          {derived.length > 0 && (
-                            <Stack spacing={1} sx={{ mt: 1 }}>
-                              {derived.map((sel, idx) => (
+                          {matchingAnalysis.navigationContext.failureStep && (
+                            <span className={cn(CAPTION, 'block text-status-fail')}>
+                              <strong>Failure step:</strong>{' '}
+                              {matchingAnalysis.navigationContext.failureStep.title}
+                            </span>
+                          )}
+                          <span className={cn(CAPTION, 'block text-foreground-secondary')}>
+                            <strong>URL:</strong> {matchingAnalysis.getNavigationUrl()}
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Failing selector */}
+                      {(() => {
+                        const isUnknown = !matchingAnalysis.selector || matchingAnalysis.selector === 'unknown';
+                        const isElementError = !isNonElementError;
+                        const derived = isUnknown && isElementError && test.error
+                          ? deriveSelectorsFromError(test.error)
+                          : [];
+
+                        // For non-element errors, show a diagnostic banner — no selector label, no suggestions
+                        if (isUnknown && isNonElementError && errorClass) {
+                          return <ErrorDiagnosticBanner classification={errorClass} />;
+                        }
+
+                        return (
+                          <div>
+                            <div className="mb-1 flex flex-row items-center justify-between">
+                              <span className={cn(CAPTION, 'text-foreground-secondary')}>Failing Selector:</span>
+                              {!isUnknown && (
+                                <Hint title="Copy selector">
+                                  <Button
+                                    aria-label="Copy selector"
+                                    onClick={() => navigator.clipboard.writeText(matchingAnalysis.selector)}
+                                    size="icon"
+                                    variant="ghost"
+                                  >
+                                    <Copy aria-hidden="true" className="size-4" />
+                                  </Button>
+                                </Hint>
+                              )}
+                            </div>
+                            {isUnknown ? (
+                              <Alert
+                                className={derived.length > 0 ? 'mb-2' : 'mb-0'}
+                                icon={<Sparkles aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-status-info" />}
+                                variant="info"
+                              >
+                                Selector not detected from analysis — derived candidates from error message
+                                {derived.length === 0 && ' (none found)'}
+                              </Alert>
+                            ) : (
+                              <code className={CODE_BLOCK}>
+                                {matchingAnalysis.selector}
+                              </code>
+                            )}
+                            {/* Derived selectors from error — only for genuine element-not-found errors */}
+                            {derived.length > 0 && (
+                              <div className="mt-2 flex flex-col gap-2">
+                                {derived.map((sel, idx) => (
+                                  <SelectorRow
+                                    disabled={mcpInteracting || !mcpStatus.available}
+                                    highlighted={localSelectedLocator === sel}
+                                    isLive
+                                    key={`derived-${idx}`}
+                                    liveValidation={selectorValidations.get(sel)}
+                                    onCopy={() => navigator.clipboard.writeText(sel)}
+                                    onSelect={() => { setLocalSelectedLocator(sel); onSelectLocator?.(sel); }}
+                                    onTest={() => handleValidateSelector(sel)}
+                                    selector={sel}
+                                  />
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })()}
+
+                      {/* Suggested selectors — specific/moderate only, generic suppressed.
+                          Hidden entirely for non-element errors. */}
+                      {(() => {
+                        if (isNonElementError) return null;
+
+                        const meaningful = sortSelectorsByQuality(
+                          (matchingAnalysis.suggestedSelectors ?? []).filter(
+                            s => getSelectorQuality(s) !== 'generic'
+                          )
+                        );
+
+                        if (meaningful.length === 0) {
+                          return (
+                            <Alert variant="warning">
+                              No specific selectors found — navigate to the failure point and re-analyze to generate targeted suggestions.
+                            </Alert>
+                          );
+                        }
+
+                        return (
+                          <div>
+                            <h6 className="mb-2 mt-0 text-sm font-bold">
+                              Suggested Selectors ({meaningful.length}):
+                            </h6>
+                            <div className="flex flex-col gap-2">
+                              {meaningful.map((sel, idx) => (
                                 <SelectorRow
                                   disabled={mcpInteracting || !mcpStatus.available}
                                   highlighted={localSelectedLocator === sel}
-                                  isLive
-                                  key={`derived-${idx}`}
+                                  key={idx}
                                   liveValidation={selectorValidations.get(sel)}
                                   onCopy={() => navigator.clipboard.writeText(sel)}
                                   onSelect={() => { setLocalSelectedLocator(sel); onSelectLocator?.(sel); }}
@@ -991,140 +1064,100 @@ const FailedTestCard = ({
                                   selector={sel}
                                 />
                               ))}
-                            </Stack>
-                          )}
-                        </Box>
-                      );
-                    })()}
-
-                    {/* Suggested selectors — specific/moderate only, generic suppressed.
-                        Hidden entirely for non-element errors. */}
-                    {(() => {
-                      if (isNonElementError) return null;
-
-                      const meaningful = sortSelectorsByQuality(
-                        (matchingAnalysis.suggestedSelectors ?? []).filter(
-                          s => getSelectorQuality(s) !== 'generic'
-                        )
-                      );
-
-                      if (meaningful.length === 0) {
-                        return (
-                          <Alert severity="warning">
-                            No specific selectors found — navigate to the failure point and re-analyze to generate targeted suggestions.
-                          </Alert>
+                            </div>
+                          </div>
                         );
-                      }
+                      })()}
 
-                      return (
-                        <Box>
-                          <Typography fontWeight={700} gutterBottom variant="subtitle2">
-                            Suggested Selectors ({meaningful.length}):
-                          </Typography>
-                          <Stack spacing={1}>
-                            {meaningful.map((sel, idx) => (
-                              <SelectorRow
-                                disabled={mcpInteracting || !mcpStatus.available}
-                                highlighted={localSelectedLocator === sel}
-                                key={idx}
-                                liveValidation={selectorValidations.get(sel)}
-                                onCopy={() => navigator.clipboard.writeText(sel)}
-                                onSelect={() => { setLocalSelectedLocator(sel); onSelectLocator?.(sel); }}
-                                onTest={() => handleValidateSelector(sel)}
-                                selector={sel}
+                      {/* Selected locator editor */}
+                      {localSelectedLocator && (
+                        <div className="rounded border border-primary/60 bg-primary/10 p-4">
+                          <span className={cn(CAPTION, 'mb-1 block font-semibold text-primary')}>
+                            Selected Locator:
+                          </span>
+                          <div className="flex flex-row gap-2">
+                            <div className="flex-1 border border-border bg-shell-input px-2">
+                              <Input
+                                aria-label="Selected locator"
+                                onChange={e => setLocalSelectedLocator(e.target.value)}
+                                placeholder="Enter or modify locator…"
+                                value={localSelectedLocator}
                               />
-                            ))}
-                          </Stack>
-                        </Box>
-                      );
-                    })()}
-
-                    {/* Selected locator editor */}
-                    {localSelectedLocator && (
-                      <Box sx={{ p: 2, bgcolor: 'primary.50', borderRadius: 1, border: 1, borderColor: 'primary.light' }}>
-                        <Typography color="primary" fontWeight={600} gutterBottom variant="caption">
-                          Selected Locator:
-                        </Typography>
-                        <Stack direction="row" spacing={1}>
-                          <TextField
-                            fullWidth
-                            onChange={e => setLocalSelectedLocator(e.target.value)}
-                            placeholder="Enter or modify locator…"
-                            size="small"
-                            value={localSelectedLocator}
-                          />
-                          {onTabChange && matchingAnalysis.testFile && (
-                            <Button
-                              onClick={() => {
-                                onTabChange('details');
-                                // eslint-disable-next-line no-alert
-                                alert(`Locator selected: ${localSelectedLocator}\n\nNavigate to the test file to update:\n${matchingAnalysis.testFile}`);
-                              }}
-                              size="small"
-                              variant="contained"
-                            >
-                              Go to Test
-                            </Button>
+                            </div>
+                            {onTabChange && matchingAnalysis.testFile && (
+                              <Button
+                                onClick={() => {
+                                  onTabChange('details');
+                                  // eslint-disable-next-line no-alert
+                                  alert(`Locator selected: ${localSelectedLocator}\n\nNavigate to the test file to update:\n${matchingAnalysis.testFile}`);
+                                }}
+                                size="sm"
+                                variant="default"
+                              >
+                                Go to Test
+                              </Button>
+                            )}
+                          </div>
+                          {matchingAnalysis.testFile && (
+                            <span className={cn(CAPTION, 'mt-2 block text-foreground-secondary')}>
+                              Update the locator in: <code>{matchingAnalysis.testFile}</code>
+                            </span>
                           )}
-                        </Stack>
-                        {matchingAnalysis.testFile && (
-                          <Typography color="text.secondary" sx={{ mt: 1 }} variant="caption">
-                            Update the locator in: <code>{matchingAnalysis.testFile}</code>
-                          </Typography>
-                        )}
-                      </Box>
-                    )}
+                        </div>
+                      )}
 
-                    {/* Element info — hidden for non-element errors or when the only info is "unknown" tag */}
-                    {matchingAnalysis.elementInfo && !isNonElementError && (
-                      (() => {
-                        const { tag, text, attributes } = matchingAnalysis.elementInfo as {
-                          tag?: string;
-                          text?: string;
-                          attributes?: Record<string, string>;
-                        };
-                        const hasUsefulInfo = (tag && tag !== 'unknown') || text || attributes?.['data-testid'];
-                        if (!hasUsefulInfo) return null;
-                        return (
-                          <>
-                            <Divider />
-                            <Typography color="text.secondary" gutterBottom variant="caption">
-                              Element Info:
-                            </Typography>
-                            <Stack spacing={0.25}>
-                              {tag && tag !== 'unknown' && (
-                                <Typography variant="caption">Tag: <code>{tag}</code></Typography>
-                              )}
-                              {text && (
-                                <Typography variant="caption">
-                                  Text: {text.substring(0, 60)}
-                                </Typography>
-                              )}
-                              {attributes?.['data-testid'] && (
-                                <Typography variant="caption">
-                                  Test ID: <code>{attributes['data-testid']}</code>
-                                </Typography>
-                              )}
-                            </Stack>
-                          </>
-                        );
-                      })()
-                    )}
-                  </>
-                )}
+                      {/* Element info — hidden for non-element errors or when the only info is "unknown" tag */}
+                      {matchingAnalysis.elementInfo && !isNonElementError && (
+                        (() => {
+                          const { tag, text, attributes } = matchingAnalysis.elementInfo as {
+                            tag?: string;
+                            text?: string;
+                            attributes?: Record<string, string>;
+                          };
+                          const hasUsefulInfo = (tag && tag !== 'unknown') || text || attributes?.['data-testid'];
+                          if (!hasUsefulInfo) return null;
+                          return (
+                            <>
+                              <Separator />
+                              <span className={cn(CAPTION, 'block text-foreground-secondary')}>
+                                Element Info:
+                              </span>
+                              <div className="flex flex-col gap-0.5">
+                                {tag && tag !== 'unknown' && (
+                                  <span className={CAPTION}>Tag: <code>{tag}</code></span>
+                                )}
+                                {text && (
+                                  <span className={CAPTION}>
+                                    Text: {text.substring(0, 60)}
+                                  </span>
+                                )}
+                                {attributes?.['data-testid'] && (
+                                  <span className={CAPTION}>
+                                    Test ID: <code>{attributes['data-testid']}</code>
+                                  </span>
+                                )}
+                              </div>
+                            </>
+                          );
+                        })()
+                      )}
+                    </>
+                  )}
 
-                {!testNavResult && !matchingAnalysis && (
-                  <Typography color="text.secondary" variant="caption">
-                    Click "Navigate to Failure Point" to start MCP analysis, or "Analyze Failing Elements" for selector recommendations.
-                  </Typography>
-                )}
-              </Stack>
-              );
-            })()}
-          </Box>
-        </Box>
+                  {!testNavResult && !matchingAnalysis && (
+                    <span className={cn(CAPTION, 'text-foreground-secondary')}>
+                      Click "Navigate to Failure Point" to start MCP analysis, or "Analyze Failing Elements" for selector recommendations.
+                    </span>
+                  )}
+                </div>
+                );
+              })()}
+              </TabsContent>
+            </div>
+          </Tabs>
+        </div>
       )}
-    </Card>
+    </div>
   );
 };
 
@@ -1152,113 +1185,116 @@ const SelectorRow = ({
 }) => {
   const quality = getSelectorQuality(selector);
   const borderColor = highlighted
-    ? 'primary.main'
+    ? 'border-primary'
     : liveValidation && !liveValidation.loading && !liveValidation.error
-      ? liveValidation.count === -1 ? 'info.light'
-        : liveValidation.count === 1 ? 'success.main'
-        : liveValidation.count === 0 ? 'error.main'
-        : 'warning.main'
-      : validation?.status === 'pass' ? 'success.light'
-        : validation?.status === 'fail' ? 'error.light'
-        : 'divider';
+      ? liveValidation.count === -1 ? 'border-status-info/60'
+        : liveValidation.count === 1 ? 'border-status-pass'
+        : liveValidation.count === 0 ? 'border-status-fail'
+        : 'border-status-warn'
+      : validation?.status === 'pass' ? 'border-status-pass/60'
+        : validation?.status === 'fail' ? 'border-status-fail/60'
+        : 'border-border';
 
   const bgColor = highlighted
-    ? 'primary.50'
+    ? 'bg-primary/10'
     : liveValidation && !liveValidation.loading && !liveValidation.error
-      ? liveValidation.count === -1 ? 'background.paper'
-        : liveValidation.count === 1 ? 'success.50'
-        : liveValidation.count === 0 ? 'error.50'
-        : 'warning.50'
-      : 'background.paper';
+      ? liveValidation.count === -1 ? 'bg-shell-panel'
+        : liveValidation.count === 1 ? 'bg-status-pass/10'
+        : liveValidation.count === 0 ? 'bg-status-fail/10'
+        : 'bg-status-warn/10'
+      : 'bg-shell-panel';
 
   return (
-    <Stack
-      direction="column"
-      spacing={0.75}
-      sx={{ p: 1.5, borderRadius: 1, border: 1, borderColor, bgcolor: bgColor }}
-    >
+    <div className={cn('flex flex-col gap-1.5 rounded border p-3', borderColor, bgColor)}>
       {/* Badge row */}
-      <Stack alignItems="center" direction="row" spacing={0.5} flexWrap="wrap">
-        {isLive && <Chip icon={<AutoAwesomeIcon />} label="Derived" size="small" color="info" />}
+      <div className="flex flex-row flex-wrap items-center gap-1">
+        {isLive && (
+          <Chip icon={<Sparkles aria-hidden="true" className={CHIP_ICON} />} tone="info">Derived</Chip>
+        )}
         {quality === 'generic' && (
-          <Chip label="Ambiguous" size="small" color="warning" variant="outlined" />
+          <Chip className={OUTLINED_CHIP} tone="warn">Ambiguous</Chip>
         )}
         {quality === 'specific' && !liveValidation && (
-          <Chip label="Specific" size="small" color="success" variant="outlined" />
+          <Chip className={OUTLINED_CHIP} tone="pass">Specific</Chip>
         )}
         {validation && <SelectorValidationBadge validation={validation} />}
         {/* Live MCP validation result */}
         {liveValidation?.loading && (
-          <Stack alignItems="center" direction="row" spacing={0.5}>
-            <CircularProgress size={10} />
-            <Typography color="text.secondary" variant="caption">Checking…</Typography>
-          </Stack>
+          <div className="flex flex-row items-center gap-1">
+            <Spinner className="size-2.5" />
+            <span className={cn(CAPTION, 'text-foreground-secondary')}>Checking…</span>
+          </div>
         )}
         {liveValidation && !liveValidation.loading && liveValidation.count !== -1 && !liveValidation.error && (
           <Chip
-            color={liveValidation.count === 1 ? 'success' : liveValidation.count === 0 ? 'error' : 'warning'}
-            icon={liveValidation.count === 1 ? <CheckCircleIcon /> : liveValidation.count === 0 ? <CancelIcon /> : <WarningAmberIcon />}
-            label={
+            icon={
+              liveValidation.count === 1 ? <CheckCircle2 aria-hidden="true" className={CHIP_ICON} />
+              : liveValidation.count === 0 ? <XCircle aria-hidden="true" className={CHIP_ICON} />
+              : <AlertTriangle aria-hidden="true" className={CHIP_ICON} />
+            }
+            tone={liveValidation.count === 1 ? 'pass' : liveValidation.count === 0 ? 'fail' : 'warn'}
+          >
+            {
               liveValidation.count === 0 ? 'No match'
               : liveValidation.count === 1 ? '1 match'
               : `${liveValidation.count} matches — ambiguous`
             }
-            size="small"
-          />
+          </Chip>
         )}
         {liveValidation && !liveValidation.loading && liveValidation.count === -1 && (
-          <Chip color="info" label="Playwright locator — use in test code" size="small" variant="outlined" />
+          <Chip className={OUTLINED_CHIP} tone="info">Playwright locator — use in test code</Chip>
         )}
         {liveValidation?.error && liveValidation.count !== -1 && (
-          <Chip color="error" label={`Error: ${liveValidation.error.slice(0, 40)}`} size="small" variant="outlined" />
+          <Chip className={OUTLINED_CHIP} tone="fail">{`Error: ${liveValidation.error.slice(0, 40)}`}</Chip>
         )}
-      </Stack>
+      </div>
 
       {/* Selector code + actions */}
-      <Stack alignItems="flex-start" direction="row" spacing={1}>
-        <Typography
-          component="code"
-          sx={{ flex: 1, fontSize: '0.8rem', fontFamily: 'monospace', wordBreak: 'break-all' }}
-        >
+      <div className="flex flex-row items-start gap-2">
+        <code className="flex-1 font-mono text-[0.8rem] [word-break:break-all]">
           {selector}
-        </Typography>
-        <Stack direction="row" spacing={0.5} sx={{ flexShrink: 0 }}>
-          <Tooltip title="Copy">
-            <IconButton onClick={onCopy} size="small"><ContentCopyIcon fontSize="small" /></IconButton>
-          </Tooltip>
-          <Button disabled={disabled} onClick={onSelect} size="small" variant="outlined">
+        </code>
+        <div className="flex shrink-0 flex-row gap-1">
+          <Hint title="Copy">
+            <Button aria-label="Copy" onClick={onCopy} size="icon" variant="ghost">
+              <Copy aria-hidden="true" className="size-4" />
+            </Button>
+          </Hint>
+          <Button disabled={disabled} onClick={onSelect} size="sm" variant="outline">
             Select
           </Button>
-          <Tooltip title={liveValidation?.loading ? 'Validating…' : 'Test against live MCP page'}>
-            <span>
+          <Hint title={liveValidation?.loading ? 'Validating…' : 'Test against live MCP page'}>
+            <span className="inline-flex">
               <Button
                 disabled={disabled || liveValidation?.loading}
                 onClick={onTest}
-                size="small"
-                startIcon={liveValidation?.loading ? <CircularProgress size={12} /> : <ScienceIcon />}
-                variant="contained"
+                size="sm"
+                variant="default"
               >
+                {liveValidation?.loading
+                  ? <Spinner aria-hidden="true" className="size-3" />
+                  : <FlaskConical aria-hidden="true" className="size-4" />}
                 Test
               </Button>
             </span>
-          </Tooltip>
-        </Stack>
-      </Stack>
+          </Hint>
+        </div>
+      </div>
 
       {/* First-match sample */}
       {liveValidation && !liveValidation.loading && (liveValidation.matches?.length ?? 0) > 0 && (
-        <Box sx={{ pl: 0.5 }}>
+        <div className="pl-1">
           {liveValidation.matches!.slice(0, 3).map((m, i) => (
-            <Typography color="text.secondary" key={i} variant="caption" sx={{ display: 'block', fontFamily: 'monospace' }}>
+            <span className={cn(CAPTION, 'block font-mono text-foreground-secondary')} key={i}>
               &lt;{m.tag}{m.id ? ` id="${m.id}"` : ''}&gt; {m.text || '(no text)'}
-            </Typography>
+            </span>
           ))}
           {(liveValidation.matches!.length > 3) && (
-            <Typography color="text.disabled" variant="caption">…and {liveValidation.matches!.length - 3} more</Typography>
+            <span className={cn(CAPTION, 'text-foreground-muted')}>…and {liveValidation.matches!.length - 3} more</span>
           )}
-        </Box>
+        </div>
       )}
-    </Stack>
+    </div>
   );
 };
 
@@ -1316,57 +1352,49 @@ export const MCPDebugTab = ({
   /* ── Loading ── */
   if (mcpLoading) {
     return (
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 8 }}>
-        <Stack alignItems="center" spacing={2}>
-          <CircularProgress />
-          <Typography color="text.secondary">Analyzing failing elements with MCP…</Typography>
-        </Stack>
-      </Box>
+      <div className="flex items-center justify-center py-16">
+        <div className="flex flex-col items-center gap-4">
+          <Spinner className="size-10" />
+          <p className="m-0 text-foreground-secondary">Analyzing failing elements with MCP…</p>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Box>
+    <div className="text-foreground">
       {/* ── Header ── */}
-      <Stack
-        alignItems={{ sm: 'flex-start' }}
-        direction={{ xs: 'column', sm: 'row' }}
-        justifyContent="space-between"
-        spacing={2}
-        sx={{ mb: 3 }}
-      >
-        <Box>
-          <Stack alignItems="center" direction="row" spacing={1} sx={{ mb: 0.5 }}>
-            <BugReportIcon color="action" />
-            <Typography fontWeight={700} variant="h6">MCP Debug</Typography>
-            <Chip color="error" label="Failed Tests Only" size="small" />
-            <Chip
-              color={mcpStatus.available ? 'success' : 'error'}
-              label={mcpStatus.cliMode ? 'CLI Mode' : mcpStatus.available ? 'MCP Available' : 'MCP Unavailable'}
-              size="small"
-            />
-          </Stack>
-          <Typography color="text.secondary" variant="body2">
+      <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
+        <div>
+          <div className="mb-1 flex flex-row items-center gap-2">
+            <Bug aria-hidden="true" className="size-6 text-foreground-secondary" />
+            <h6 className="m-0 text-lg font-bold">MCP Debug</h6>
+            <Chip tone="fail">Failed Tests Only</Chip>
+            <Chip tone={mcpStatus.available ? 'pass' : 'fail'}>
+              {mcpStatus.cliMode ? 'CLI Mode' : mcpStatus.available ? 'MCP Available' : 'MCP Unavailable'}
+            </Chip>
+          </div>
+          <p className="m-0 text-sm text-foreground-secondary">
             {mcpStatus.cliMode
               ? 'Analyze failing elements and get better selectors using Playwright CLI'
               : 'Analyze failing elements and get better selectors using Playwright MCP'}
-          </Typography>
-        </Box>
+          </p>
+        </div>
         <Button
+          className="shrink-0"
           disabled={mcpLoading || !mcpStatus.available}
           onClick={onAnalyze}
-          size="small"
-          startIcon={<BugReportIcon />}
-          sx={{ flexShrink: 0 }}
-          variant="contained"
+          size="sm"
+          variant="default"
         >
+          <Bug aria-hidden="true" className="size-4" />
           {mcpLoading ? 'Analyzing…' : 'Analyze Failing Elements'}
         </Button>
-      </Stack>
+      </div>
 
       {/* ── Filter info ── */}
       {filterStats.total > 0 && (
-        <Alert severity="info" sx={{ mb: 2 }}>
+        <Alert className="mb-4" variant="info">
           {failedAnalyses.length > 0
             ? `${failedAnalyses.length} MCP ${failedAnalyses.length === 1 ? 'analysis' : 'analyses'} loaded — selector suggestions are shown inside each failed test card`
             : `${filterStats.total} total analyses, none matched failed tests`}
@@ -1376,18 +1404,18 @@ export const MCPDebugTab = ({
 
       {/* ── Failed test results (per-test tabbed cards) ── */}
       {failedTests.length > 0 && (
-        <Box sx={{ mb: 4 }}>
-          <Stack alignItems="center" direction="row" justifyContent="space-between" sx={{ mb: 2 }}>
-            <Stack alignItems="center" direction="row" spacing={1}>
-              <ErrorOutlineIcon color="error" fontSize="small" />
-              <Typography fontWeight={700} variant="subtitle1">
+        <div className="mb-8">
+          <div className="mb-4 flex flex-row items-center justify-between">
+            <div className="flex flex-row items-center gap-2">
+              <AlertCircle aria-hidden="true" className="size-4 text-status-fail" />
+              <h6 className="m-0 text-base font-bold">
                 Failed Test Results ({failedTests.length})
-              </Typography>
-            </Stack>
-            <Chip color="error" label={`${failedTests.length} failure${failedTests.length !== 1 ? 's' : ''}`} size="small" />
-          </Stack>
+              </h6>
+            </div>
+            <Chip tone="fail">{`${failedTests.length} failure${failedTests.length !== 1 ? 's' : ''}`}</Chip>
+          </div>
 
-          <Stack spacing={2}>
+          <div className="flex flex-col gap-4">
             {failedTests.map((test, idx) => {
               const testKey = test.id || `test-${idx}`;
               const matchingAnalysis = failedAnalyses.find(
@@ -1408,122 +1436,112 @@ export const MCPDebugTab = ({
                 />
               );
             })}
-          </Stack>
-        </Box>
+          </div>
+        </div>
       )}
 
       {/* ── Orphaned MCP Analyses (no matching failed test card) ── */}
       {orphanedAnalyses.length > 0 ? (
-        <Stack spacing={3}>
+        <div className="flex flex-col gap-6">
           {orphanedAnalyses.map((analysis, index) => {
             const isSelected = selectedAnalysis === index;
             const currentSelectedLocator = isSelected && selectedLocator ? selectedLocator : localSelectedLocator;
 
             return (
-              <Card
+              <div
+                className={cn('bg-shell-panel p-4', isSelected ? 'border-2 border-primary' : 'border border-border')}
                 key={analysis.id}
-                sx={{ borderColor: isSelected ? 'primary.main' : undefined, borderWidth: isSelected ? 2 : 1 }}
-                variant="outlined"
               >
-                <CardContent>
-                  {/* Analysis header */}
-                  <Stack alignItems="flex-start" direction="row" justifyContent="space-between" spacing={1} sx={{ mb: 2 }}>
-                    <Stack alignItems="center" direction="row" flexWrap="wrap" spacing={1}>
-                      <Typography fontWeight={700} variant="subtitle1">
-                        {analysis.testName || 'Failing Test'}
-                      </Typography>
-                      {analysis.qaseId && <Chip label={`Qase ID: ${analysis.qaseId}`} size="small" />}
-                      {analysis.testFile && (
-                        <Chip
-                          icon={<DescriptionIcon />}
-                          label={analysis.testFile.split('/').pop()}
-                          size="small"
-                          variant="outlined"
-                        />
-                      )}
-                    </Stack>
-                    <Chip
-                      color={analysis.hasHighConfidence() ? 'success' : 'warning'}
-                      label={`${analysis.getConfidencePercentage()}% confidence`}
-                      size="small"
-                      sx={{ flexShrink: 0 }}
-                    />
-                  </Stack>
+                {/* Analysis header */}
+                <div className="mb-4 flex flex-row items-start justify-between gap-2">
+                  <div className="flex flex-row flex-wrap items-center gap-2">
+                    <h6 className="m-0 text-base font-bold">
+                      {analysis.testName || 'Failing Test'}
+                    </h6>
+                    {analysis.qaseId && <Chip>{`Qase ID: ${analysis.qaseId}`}</Chip>}
+                    {analysis.testFile && (
+                      <Chip className={OUTLINED_CHIP} icon={<FileText aria-hidden="true" className={CHIP_ICON} />}>
+                        {analysis.testFile.split('/').pop()}
+                      </Chip>
+                    )}
+                  </div>
+                  <Chip className="shrink-0" tone={analysis.hasHighConfidence() ? 'pass' : 'warn'}>
+                    {`${analysis.getConfidencePercentage()}% confidence`}
+                  </Chip>
+                </div>
 
-                  {/* Test context */}
-                  {analysis.navigationContext && (
-                    <Paper sx={{ p: 1.5, mb: 2, bgcolor: 'primary.50', borderColor: 'primary.light' }} variant="outlined">
-                      <Typography color="primary" fontWeight={600} gutterBottom variant="caption">
-                        Test Context:
-                      </Typography>
-                      {analysis.navigationContext.stepBeforeFailure && (
-                        <Typography color="text.secondary" variant="caption" display="block">
-                          <strong>Step before failure:</strong>{' '}
-                          {analysis.navigationContext.stepBeforeFailure.title}
-                        </Typography>
-                      )}
-                      {analysis.navigationContext.failureStep && (
-                        <Typography color="error" variant="caption" display="block">
-                          <strong>Failure step:</strong>{' '}
-                          {analysis.navigationContext.failureStep.title}
-                        </Typography>
-                      )}
-                      <Typography color="text.secondary" variant="caption" display="block">
-                        <strong>URL:</strong> {analysis.getNavigationUrl()}
-                      </Typography>
-                    </Paper>
-                  )}
-
-                  {/* Failing selector */}
-                  <Box sx={{ mb: 2 }}>
-                    <Stack alignItems="center" direction="row" justifyContent="space-between" sx={{ mb: 0.5 }}>
-                      <Typography color="text.secondary" variant="caption">Failing Selector:</Typography>
-                      <Tooltip title="Copy">
-                        <IconButton onClick={() => navigator.clipboard.writeText(analysis.selector)} size="small">
-                          <ContentCopyIcon fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
-                    </Stack>
-                    <Paper
-                      component="code"
-                      sx={{ display: 'block', p: 1.5, fontSize: '0.85rem', fontFamily: 'monospace', wordBreak: 'break-all', bgcolor: 'background.default' }}
-                      variant="outlined"
-                    >
-                      {analysis.selector}
-                    </Paper>
-                  </Box>
-
-                  {/* Navigate to failure — always shown when MCP is available */}
-                  <Tooltip title={!mcpStatus.available ? 'MCP server unavailable' : analysis.hasNavigationContext() ? 'Navigate to the failure URL' : 'Navigate to the test base URL (no specific URL detected)'}>
-                    <span>
-                      <Button
-                        disabled={mcpInteracting || !mcpStatus.available}
-                        onClick={() => onNavigateToFailure(analysis)}
-                        size="small"
-                        startIcon={<LocationOnIcon />}
-                        sx={{ mb: 2 }}
-                        variant="outlined"
-                      >
-                        {mcpInteracting ? 'Navigating…' : 'Navigate to Failure Point'}
-                      </Button>
+                {/* Test context */}
+                {analysis.navigationContext && (
+                  <div className="mb-4 border border-primary/60 bg-primary/10 p-3">
+                    <span className={cn(CAPTION, 'mb-1 block font-semibold text-primary')}>
+                      Test Context:
                     </span>
-                  </Tooltip>
+                    {analysis.navigationContext.stepBeforeFailure && (
+                      <span className={cn(CAPTION, 'block text-foreground-secondary')}>
+                        <strong>Step before failure:</strong>{' '}
+                        {analysis.navigationContext.stepBeforeFailure.title}
+                      </span>
+                    )}
+                    {analysis.navigationContext.failureStep && (
+                      <span className={cn(CAPTION, 'block text-status-fail')}>
+                        <strong>Failure step:</strong>{' '}
+                        {analysis.navigationContext.failureStep.title}
+                      </span>
+                    )}
+                    <span className={cn(CAPTION, 'block text-foreground-secondary')}>
+                      <strong>URL:</strong> {analysis.getNavigationUrl()}
+                    </span>
+                  </div>
+                )}
 
-                  {/* Suggested selectors */}
-                  {analysis.suggestedSelectors && analysis.suggestedSelectors.length > 0 && (
-                    <Box>
-                      {false ? (
-                        <Accordion elevation={0} sx={{ border: 1, borderColor: 'divider', borderRadius: '8px !important', '&:before': { display: 'none' } }}>
-                          <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            onClick={() => setShowOriginalSelectors(v => !v)}
-                          >
-                            <Typography variant="body2" fontWeight={600}>
+                {/* Failing selector */}
+                <div className="mb-4">
+                  <div className="mb-1 flex flex-row items-center justify-between">
+                    <span className={cn(CAPTION, 'text-foreground-secondary')}>Failing Selector:</span>
+                    <Hint title="Copy">
+                      <Button
+                        aria-label="Copy"
+                        onClick={() => navigator.clipboard.writeText(analysis.selector)}
+                        size="icon"
+                        variant="ghost"
+                      >
+                        <Copy aria-hidden="true" className="size-4" />
+                      </Button>
+                    </Hint>
+                  </div>
+                  <code className={cn(CODE_BLOCK, 'text-[0.85rem]')}>
+                    {analysis.selector}
+                  </code>
+                </div>
+
+                {/* Navigate to failure — always shown when MCP is available */}
+                <Hint title={!mcpStatus.available ? 'MCP server unavailable' : analysis.hasNavigationContext() ? 'Navigate to the failure URL' : 'Navigate to the test base URL (no specific URL detected)'}>
+                  <span className="mb-4 inline-flex">
+                    <Button
+                      disabled={mcpInteracting || !mcpStatus.available}
+                      onClick={() => onNavigateToFailure(analysis)}
+                      size="sm"
+                      variant="outline"
+                    >
+                      <MapPin aria-hidden="true" className="size-4" />
+                      {mcpInteracting ? 'Navigating…' : 'Navigate to Failure Point'}
+                    </Button>
+                  </span>
+                </Hint>
+
+                {/* Suggested selectors */}
+                {analysis.suggestedSelectors && analysis.suggestedSelectors.length > 0 && (
+                  <div>
+                    {false ? (
+                      <Accordion collapsible type="single">
+                        <AccordionItem className="rounded-lg" value="original">
+                          <AccordionTrigger onClick={() => setShowOriginalSelectors(v => !v)}>
+                            <span className="text-sm font-semibold">
                               Original Suggested Selectors ({analysis.suggestedSelectors.length})
-                            </Typography>
-                          </AccordionSummary>
-                          <AccordionDetails>
-                            <Stack spacing={1} sx={{ opacity: 0.8 }}>
+                            </span>
+                          </AccordionTrigger>
+                          <AccordionContent>
+                            <div className="flex flex-col gap-2 opacity-80">
                               {analysis.suggestedSelectors.map((selector, idx) => (
                                 <SelectorRow
                                   disabled={mcpInteracting}
@@ -1535,129 +1553,131 @@ export const MCPDebugTab = ({
                                   selector={selector}
                                 />
                               ))}
-                            </Stack>
-                          </AccordionDetails>
-                        </Accordion>
-                      ) : (
-                        <>
-                          <Typography fontWeight={700} gutterBottom variant="subtitle2">
-                            Suggested Selectors ({analysis.suggestedSelectors.length}):
-                          </Typography>
-                          <Stack spacing={1}>
-                            {analysis.suggestedSelectors.map((selector, idx) => (
-                              <SelectorRow
-                                disabled={mcpInteracting}
-                                highlighted={isSelected && currentSelectedLocator === selector}
-                                key={idx}
-                                onCopy={() => navigator.clipboard.writeText(selector)}
-                                onSelect={() => handleSelectLocator(selector, index)}
-                                onTest={() => onTestSelector(selector)}
-                                selector={selector}
-                              />
-                            ))}
-                          </Stack>
-                        </>
-                      )}
-                    </Box>
-                  )}
+                            </div>
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion>
+                    ) : (
+                      <>
+                        <h6 className="mb-2 mt-0 text-sm font-bold">
+                          Suggested Selectors ({analysis.suggestedSelectors.length}):
+                        </h6>
+                        <div className="flex flex-col gap-2">
+                          {analysis.suggestedSelectors.map((selector, idx) => (
+                            <SelectorRow
+                              disabled={mcpInteracting}
+                              highlighted={isSelected && currentSelectedLocator === selector}
+                              key={idx}
+                              onCopy={() => navigator.clipboard.writeText(selector)}
+                              onSelect={() => handleSelectLocator(selector, index)}
+                              onTest={() => onTestSelector(selector)}
+                              selector={selector}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )}
 
-                  {/* Selected locator editor */}
-                  {isSelected && currentSelectedLocator && (
-                    <Box sx={{ mt: 2, p: 2, bgcolor: 'primary.50', borderRadius: 1, border: 1, borderColor: 'primary.light' }}>
-                      <Typography color="primary" fontWeight={600} gutterBottom variant="caption">
-                        Selected Locator:
-                      </Typography>
-                      <Stack direction="row" spacing={1}>
-                        <TextField
-                          fullWidth
+                {/* Selected locator editor */}
+                {isSelected && currentSelectedLocator && (
+                  <div className="mt-4 rounded border border-primary/60 bg-primary/10 p-4">
+                    <span className={cn(CAPTION, 'mb-1 block font-semibold text-primary')}>
+                      Selected Locator:
+                    </span>
+                    <div className="flex flex-row gap-2">
+                      <div className="flex-1 border border-border bg-shell-input px-2">
+                        <Input
+                          aria-label="Selected locator"
                           onChange={e => setLocalSelectedLocator(e.target.value)}
                           placeholder="Enter or modify locator…"
-                          size="small"
                           value={currentSelectedLocator}
                         />
-                        {onTabChange && analysis.testFile && (
-                          <Button
-                            onClick={() => {
-                              onTabChange('details');
-                              // eslint-disable-next-line no-alert
-                              alert(`Locator selected: ${currentSelectedLocator}\n\nNavigate to the test file to update:\n${analysis.testFile}`);
-                            }}
-                            size="small"
-                            variant="contained"
-                          >
-                            Go to Test
-                          </Button>
-                        )}
-                      </Stack>
-                      {analysis.testFile && (
-                        <Typography color="text.secondary" sx={{ mt: 1 }} variant="caption">
-                          Update the locator in: <code>{analysis.testFile}</code>
-                        </Typography>
+                      </div>
+                      {onTabChange && analysis.testFile && (
+                        <Button
+                          onClick={() => {
+                            onTabChange('details');
+                            // eslint-disable-next-line no-alert
+                            alert(`Locator selected: ${currentSelectedLocator}\n\nNavigate to the test file to update:\n${analysis.testFile}`);
+                          }}
+                          size="sm"
+                          variant="default"
+                        >
+                          Go to Test
+                        </Button>
                       )}
-                    </Box>
-                  )}
+                    </div>
+                    {analysis.testFile && (
+                      <span className={cn(CAPTION, 'mt-2 block text-foreground-secondary')}>
+                        Update the locator in: <code>{analysis.testFile}</code>
+                      </span>
+                    )}
+                  </div>
+                )}
 
-                  {/* Element info */}
-                  {analysis.elementInfo && (
-                    <>
-                      <Divider sx={{ my: 2 }} />
-                      <Typography color="text.secondary" gutterBottom variant="caption">
-                        Element Info:
-                      </Typography>
-                      <Stack spacing={0.25}>
-                        {analysis.elementInfo.tag && (
-                          <Typography variant="caption">
-                            Tag: <code>{analysis.elementInfo.tag}</code>
-                          </Typography>
-                        )}
-                        {analysis.elementInfo.text && (
-                          <Typography variant="caption">
-                            Text: {analysis.elementInfo.text.substring(0, 50)}
-                          </Typography>
-                        )}
-                        {analysis.elementInfo.attributes?.['data-testid'] && (
-                          <Typography variant="caption">
-                            Test ID: <code>{analysis.elementInfo.attributes['data-testid']}</code>
-                          </Typography>
-                        )}
-                      </Stack>
-                    </>
-                  )}
-                </CardContent>
-              </Card>
+                {/* Element info */}
+                {analysis.elementInfo && (
+                  <>
+                    <Separator className="my-4" />
+                    <span className={cn(CAPTION, 'mb-1 block text-foreground-secondary')}>
+                      Element Info:
+                    </span>
+                    <div className="flex flex-col gap-0.5">
+                      {analysis.elementInfo.tag && (
+                        <span className={CAPTION}>
+                          Tag: <code>{analysis.elementInfo.tag}</code>
+                        </span>
+                      )}
+                      {analysis.elementInfo.text && (
+                        <span className={CAPTION}>
+                          Text: {analysis.elementInfo.text.substring(0, 50)}
+                        </span>
+                      )}
+                      {analysis.elementInfo.attributes?.['data-testid'] && (
+                        <span className={CAPTION}>
+                          Test ID: <code>{analysis.elementInfo.attributes['data-testid']}</code>
+                        </span>
+                      )}
+                    </div>
+                  </>
+                )}
+              </div>
             );
           })}
-        </Stack>
+        </div>
       ) : failedTests.length === 0 ? (
         /* ── Empty state — no failed tests at all ── */
-        <Paper sx={{ p: 6, textAlign: 'center' }} variant="outlined">
-          <BugReportIcon sx={{ fontSize: 48, color: 'text.disabled', mb: 2 }} />
-          <Typography gutterBottom variant="h6">No Failed Test Analyses Available</Typography>
-          <Typography color="text.secondary" sx={{ mb: 2 }} variant="body2">
+        <div className="border border-border bg-shell-panel p-12 text-center">
+          <Bug aria-hidden="true" className="mx-auto mb-4 block size-12 text-foreground-muted" />
+          <h6 className="mb-2 mt-0 text-lg font-medium">No Failed Test Analyses Available</h6>
+          <p className="mb-4 mt-0 text-sm text-foreground-secondary">
             {analyses.length > 0
               ? `Found ${analyses.length} analyses, but none match failed tests here.`
               : mcpStatus.cliMode
                 ? 'Click "Analyze Failing Elements" to use Playwright CLI to find better selectors for failing tests.'
                 : 'Click "Analyze Failing Elements" to use MCP to find better selectors for failing tests.'}
-          </Typography>
-          <Paper sx={{ p: 2, bgcolor: 'background.default', textAlign: 'left', mb: 3 }} variant="outlined">
-            <Typography fontWeight={600} gutterBottom variant="caption">Tips:</Typography>
-            <Stack component="ul" spacing={0.5} sx={{ m: 0, pl: 2 }}>
+          </p>
+          <div className="mb-6 border border-border bg-shell-main p-4 text-left">
+            <span className={cn(CAPTION, 'mb-1 block font-semibold')}>Tips:</span>
+            <ul className="m-0 flex list-disc flex-col gap-1 pl-4">
               {(mcpStatus.cliMode
                 ? ['MCP Debug only shows analyses for tests that failed', 'Playwright CLI mode is active — no MCP server required', 'Analyses help identify better selectors for failing elements']
                 : ['MCP Debug only shows analyses for tests that failed', 'Make sure the Playwright MCP server is running: npm run mcp:start', 'Analyses help identify better selectors for failing elements']
               ).map(tip => (
-                <Typography component="li" key={tip} variant="caption">{tip}</Typography>
+                <li className={CAPTION} key={tip}>{tip}</li>
               ))}
-            </Stack>
-          </Paper>
+            </ul>
+          </div>
           {mcpStatus.available && (
-            <Button onClick={onAnalyze} startIcon={<BugReportIcon />} variant="contained">
+            <Button className="mx-auto" onClick={onAnalyze} variant="default">
+              <Bug aria-hidden="true" className="size-4" />
               Analyze Failing Elements
             </Button>
           )}
-        </Paper>
+        </div>
       ) : null}
-    </Box>
+    </div>
   );
 };

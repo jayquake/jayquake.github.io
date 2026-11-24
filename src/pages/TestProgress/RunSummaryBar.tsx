@@ -1,83 +1,68 @@
-import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
-import LinearProgress from '@mui/material/LinearProgress';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import { CheckCircle2, CircleMinus, AlertCircle } from 'lucide-react';
 
+import { Chip } from '../../components/ui/chip';
+import { Progress } from '../../components/ui/progress';
+import { cn } from '../../lib/utils';
 import type { MonitorState } from './types';
 
 interface RunSummaryBarProps {
   monitorState: MonitorState | null;
 }
 
+/* Track + indicator colour per run outcome (the Progress primitive's indicator carries data-slot). */
+const PROGRESS_TONE = {
+  fail: 'bg-status-fail/20 [&_[data-slot=progress-indicator]]:bg-status-fail',
+  pass: 'bg-status-pass/20 [&_[data-slot=progress-indicator]]:bg-status-pass',
+  primary: '',
+} as const;
+
 export default function RunSummaryBar({ monitorState }: RunSummaryBarProps) {
   if (!monitorState || monitorState.progress.total === 0) return null;
 
   const { progress, summary } = monitorState;
 
+  const tone: keyof typeof PROGRESS_TONE =
+    summary && summary.failed > 0 ? 'fail' : progress.percentage === 100 ? 'pass' : 'primary';
+
   return (
-    <Paper elevation={0} sx={{ px: 3, py: 1.5, borderRadius: 0, borderBottom: 1, borderColor: 'divider' }}>
-      <Stack alignItems="center" direction="row" spacing={2} useFlexGap flexWrap="wrap">
+    <div className="border-b border-border bg-shell-panel px-6 py-3">
+      <div className="flex flex-wrap items-center gap-4">
         {/* Progress bar */}
-        <Box sx={{ flexGrow: 1, minWidth: 120 }}>
-          <LinearProgress
-            color={
-              summary && summary.failed > 0
-                ? 'error'
-                : progress.percentage === 100
-                  ? 'success'
-                  : 'primary'
-            }
-            sx={{ borderRadius: 1, height: 8 }}
-            value={progress.percentage}
-            variant="determinate"
-          />
-        </Box>
+        <div className="min-w-[120px] flex-grow">
+          <Progress aria-label="Test run progress" className={cn('rounded', PROGRESS_TONE[tone])} value={progress.percentage} />
+        </div>
 
         {/* Percentage label */}
-        <Typography color="text.secondary" noWrap variant="body2">
-          {progress.percentage}%
-        </Typography>
+        <p className="m-0 whitespace-nowrap text-sm text-foreground-secondary">{progress.percentage}%</p>
 
         {/* Chips */}
         {summary && (
           <>
             <Chip
-              color="success"
-              icon={<CheckCircleOutlineIcon />}
-              label={`${summary.passed} passed`}
-              size="small"
-              variant={summary.passed > 0 ? 'filled' : 'outlined'}
-            />
+              className={summary.passed > 0 ? undefined : 'bg-transparent'}
+              icon={<CheckCircle2 aria-hidden="true" className="size-3.5" />}
+              tone="pass"
+            >
+              {`${summary.passed} passed`}
+            </Chip>
             {summary.failed > 0 && (
-              <Chip
-                color="error"
-                icon={<ErrorOutlineIcon />}
-                label={`${summary.failed} failed`}
-                size="small"
-              />
+              <Chip icon={<AlertCircle aria-hidden="true" className="size-3.5" />} tone="fail">
+                {`${summary.failed} failed`}
+              </Chip>
             )}
             {summary.skipped > 0 && (
-              <Chip
-                color="warning"
-                icon={<DoNotDisturbOnIcon />}
-                label={`${summary.skipped} skipped`}
-                size="small"
-                variant="outlined"
-              />
+              <Chip className="bg-transparent" icon={<CircleMinus aria-hidden="true" className="size-3.5" />} tone="warn">
+                {`${summary.skipped} skipped`}
+              </Chip>
             )}
           </>
         )}
 
         {/* Count */}
-        <Typography color="text.secondary" noWrap variant="body2">
+        <p className="m-0 whitespace-nowrap text-sm text-foreground-secondary">
           <strong>{progress.completed}</strong>/{progress.total} tests
-        </Typography>
-      </Stack>
-    </Paper>
+        </p>
+      </div>
+    </div>
   );
 }

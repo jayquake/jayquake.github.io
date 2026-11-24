@@ -16,14 +16,16 @@ type ChipTone = keyof typeof TONES;
  * Replaces MUI <Chip>. Static by default; pass `href` (render your own link around it)
  * or `onClick` to get a real <button>. Never a clickable <span>.
  */
-function Chip({
-  className,
-  tone = "default",
-  icon,
-  onClick,
-  children,
-  ...props
-}: React.ComponentProps<"span"> & { tone?: ChipTone; icon?: React.ReactNode; onClick?: React.MouseEventHandler<HTMLButtonElement> }) {
+type ChipProps = Omit<React.ComponentProps<"span">, "onClick"> & {
+  tone?: ChipTone;
+  icon?: React.ReactNode;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+};
+
+const Chip = React.forwardRef<HTMLElement, ChipProps>(function Chip(
+  { className, tone = "default", icon, onClick, children, ...props },
+  ref
+) {
   const classes = cn(
     "inline-flex h-6 max-w-full items-center gap-1 rounded-full border px-2 font-mono text-[0.75rem] tracking-wide",
     TONES[tone],
@@ -38,17 +40,23 @@ function Chip({
   );
   if (onClick) {
     return (
-      <button type="button" onClick={onClick} className={classes} {...(props as React.ComponentProps<"button">)}>
+      <button
+        ref={ref as React.Ref<HTMLButtonElement>}
+        type="button"
+        onClick={onClick}
+        className={classes}
+        {...(props as React.ComponentProps<"button">)}
+      >
         {content}
       </button>
     );
   }
   return (
-    <span className={classes} {...props}>
+    <span ref={ref as React.Ref<HTMLSpanElement>} className={classes} {...props}>
       {content}
     </span>
   );
-}
+});
 
 export { Chip };
 export type { ChipTone };

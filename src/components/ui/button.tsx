@@ -1,3 +1,4 @@
+import * as React from "react";
 import { cn } from "../../lib/utils";
 
 const VARIANTS = {
@@ -32,14 +33,11 @@ function buttonClass({
   );
 }
 
-function Button({
-  className,
-  variant = "outline",
-  size = "default",
-  type = "button",
-  ...props
-}: React.ComponentProps<"button"> & { variant?: ButtonVariant; size?: ButtonSize }) {
-  return <button type={type} className={buttonClass({ variant, size, className })} {...props} />;
-}
+const Button = React.forwardRef<
+  HTMLButtonElement,
+  React.ComponentProps<"button"> & { variant?: ButtonVariant; size?: ButtonSize }
+>(function Button({ className, variant = "outline", size = "default", type = "button", ...props }, ref) {
+  return <button ref={ref} type={type} className={buttonClass({ variant, size, className })} {...props} />;
+});
 
 export { Button, buttonClass };

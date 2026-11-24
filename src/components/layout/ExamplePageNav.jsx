@@ -1,39 +1,17 @@
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { ChevronLeft } from "lucide-react";
 import PropTypes from "prop-types";
 import { Link as RouterLink } from "react-router-dom";
 import { useLibraryLocation } from "../../hooks/useLibraryLocation";
+import { cn } from "../../lib/utils";
 import { HudLayoutIndicator } from "../motion/HudMotion";
 import { prefetchEngineExample } from "../../utils/engineExampleUtils";
-import { MGS, MIN_TEXT_SIZE, mgsFonts, raidenType } from "../../theme/mgsTokens";
+import { MGS } from "../../theme/mgsTokens";
 
-const tabSx = {
-  minWidth: 88,
-  px: 2,
-  py: 0.65,
-  minHeight: 32,
-  fontSize: MIN_TEXT_SIZE,
-  fontFamily: mgsFonts.display,
-  fontWeight: 700,
-  letterSpacing: "0.12em",
-  borderRadius: 0,
-  border: 0,
-  boxShadow: "none",
-  position: "relative",
-  zIndex: 1,
-  flex: 1,
-};
+const tabClass =
+  "relative z-[1] inline-flex min-h-8 min-w-[88px] flex-1 items-center justify-center px-4 py-1.5 font-['Rajdhani',sans-serif] text-[0.75rem] font-bold uppercase tracking-[0.12em] no-underline transition-colors";
 
-const textLinkSx = {
-  color: "primary.light",
-  textDecoration: "none",
-  fontFamily: mgsFonts.hud,
-  fontSize: MIN_TEXT_SIZE,
-  letterSpacing: "0.06em",
-  textTransform: "uppercase",
-  "&:hover": { color: "primary.main", textDecoration: "underline" },
-  "&[aria-current='page']": { color: MGS.textPrimary, fontWeight: 700 },
-};
+const hudLinkClass =
+  "font-mono text-[0.75rem] tracking-[0.06em] text-primary-bright no-underline hover:text-primary hover:underline";
 
 export default function ExamplePageNav({ ruleId, ruleType, variant }) {
   const { route, hrefs } = useLibraryLocation();
@@ -49,66 +27,25 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
   };
 
   return (
-    <Box sx={{ mb: 1 }}>
+    <div className="mb-2">
       {ruleId && (
-        <Typography
-          component={RouterLink}
+        <RouterLink
           to={detailPath}
-          href={detailPath}
-          sx={{
-            ...raidenType.ruleId,
-            ...textLinkSx,
-            mb: 0.75,
-            display: "block",
-            textTransform: "none",
-          }}
+          className={cn(hudLinkClass, "mb-1.5 block tracking-[0.04em] aria-[current=page]:font-bold aria-[current=page]:text-foreground")}
         >
           [ {ruleId} ]
-        </Typography>
+        </RouterLink>
       )}
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-          gap: 1,
-          py: 0.5,
-          borderBottom: 1,
-          borderColor: "primary.dark",
-        }}
-      >
-        <Button
-          component={RouterLink}
-          to={backPath}
-          href={backPath}
-          size="small"
-          startIcon={<ChevronLeftIcon sx={{ fontSize: 18 }} />}
-          sx={{
-            textTransform: "none",
-            color: "primary.light",
-            fontFamily: mgsFonts.hud,
-            fontSize: MIN_TEXT_SIZE,
-            letterSpacing: "0.06em",
-            minWidth: 0,
-            px: 0.5,
-          }}
-        >
+      <div className="flex flex-wrap items-center justify-between gap-2 border-0 border-b border-solid border-primary-dim py-1">
+        <RouterLink to={backPath} className={cn(hudLinkClass, "inline-flex h-8 items-center gap-1 px-1")}>
+          <ChevronLeft className="size-[18px]" aria-hidden="true" />
           {ruleType === "engine" ? "Back to rule" : ruleId}
-        </Button>
+        </RouterLink>
 
-        <Stack
-          direction="row"
+        <div
           role="tablist"
           aria-label="Example variant"
-          sx={{
-            position: "relative",
-            border: 1,
-            borderColor: "primary.main",
-            borderRadius: 0,
-            overflow: "hidden",
-            flexShrink: 0,
-          }}
+          className="relative flex shrink-0 flex-row overflow-hidden border border-solid border-primary"
         >
           <HudLayoutIndicator
             layout
@@ -122,47 +59,29 @@ export default function ExamplePageNav({ ruleId, ruleType, variant }) {
               zIndex: 0,
             }}
           />
-          <Button
-            component={RouterLink}
+          <RouterLink
             to={successPath}
-            href={successPath}
             role="tab"
             aria-selected={variant === "success"}
-            size="small"
-            variant="text"
-            color="inherit"
-            disableElevation
             onMouseEnter={() => warm("success")}
             onFocus={() => warm("success")}
-            sx={{
-              ...tabSx,
-              color: variant === "success" ? MGS.onAccent : "primary.main",
-            }}
+            className={cn(tabClass, variant === "success" ? "text-primary-foreground" : "text-primary")}
           >
             Success
-          </Button>
-          <Button
-            component={RouterLink}
+          </RouterLink>
+          <RouterLink
             to={failurePath}
-            href={failurePath}
             role="tab"
             aria-selected={variant === "failure"}
-            size="small"
-            variant="text"
-            color="inherit"
-            disableElevation
             onMouseEnter={() => warm("failure")}
             onFocus={() => warm("failure")}
-            sx={{
-              ...tabSx,
-              color: variant === "failure" ? MGS.onAccent : MGS.alertRed,
-            }}
+            className={cn(tabClass, variant === "failure" ? "text-primary-foreground" : "text-status-fail")}
           >
             Failure
-          </Button>
-        </Stack>
-      </Box>
-    </Box>
+          </RouterLink>
+        </div>
+      </div>
+    </div>
   );
 }
 

@@ -1,44 +1,63 @@
 import React, { useState } from 'react';
-import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Checkbox from '@mui/material/Checkbox';
-import Chip from '@mui/material/Chip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import LinearProgress from '@mui/material/LinearProgress';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ErrorIcon from '@mui/icons-material/Error';
-import InfoIcon from '@mui/icons-material/Info';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import WarningIcon from '@mui/icons-material/Warning';
+import { AlertTriangle, CheckCircle2, Info, Play, X, XCircle } from 'lucide-react';
 
 import { api } from '../api/client';
+import { Alert } from '../components/ui/alert';
+import { Button } from '../components/ui/button';
+import { Card } from '../components/ui/card';
+import { Checkbox } from '../components/ui/checkbox';
+import { Chip, type ChipTone } from '../components/ui/chip';
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
+import { Progress } from '../components/ui/progress';
+import { Spinner } from '../components/ui/spinner';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../components/ui/table';
+import { cn } from '../lib/utils';
 
 type ValidationStatus = 'completed' | 'error' | 'idle' | 'running';
 
-const STATUS_CHIP_COLOR: Record<string, 'default' | 'error' | 'success' | 'warning'> = {
-  accurate: 'success',
-  mismatch: 'error',
-  needs_update: 'warning',
+interface ValidationEvidence {
+  type: string;
+  severity: string;
+}
+
+interface ValidationCase {
+  caseId: string | number;
+  title: string;
+  status: string;
+  evidence?: ValidationEvidence[];
+  proposedChanges?: { confidence?: number };
+}
+
+interface ValidationPilotReport {
+  validationReport?: {
+    metadata?: {
+      totalCases?: number;
+      accurateCount?: number;
+      needsUpdateCount?: number;
+      mismatchCount?: number;
+    };
+    summary?: { accuracyRate?: number };
+    cases?: ValidationCase[];
+  };
+  applyResult?: { appliedOperations?: unknown[] };
+  approvalRequest?: { hash: string; metadata?: { lowConfidenceCount?: number } };
+}
+
+const STATUS_CHIP_TONE: Record<string, ChipTone> = {
+  accurate: 'pass',
+  mismatch: 'fail',
+  needs_update: 'warn',
 };
 
-const SEVERITY_CHIP_COLOR: Record<string, 'default' | 'error' | 'info' | 'warning'> = {
-  critical: 'error',
-  major: 'warning',
+const SEVERITY_CHIP_TONE: Record<string, ChipTone> = {
+  critical: 'fail',
+  major: 'warn',
   minor: 'info',
 };
+
+const INPUT_CLASS =
+  'h-8 border border-border-strong bg-shell-input px-2.5 focus-visible:border-primary disabled:opacity-50';
 
 export const ValidationView: React.FC = () => {
   const [suiteId, setSuiteId]           = useState('');
@@ -46,7 +65,7 @@ export const ValidationView: React.FC = () => {
   const [applyApproved, setApplyApproved] = useState(false);
   const [status, setStatus]             = useState<ValidationStatus>('idle');
   const [error, setError]               = useState('');
-  const [report, setReport]             = useState<any>(null);
+  const [report, setReport]             = useState<ValidationPilotReport | null>(null);
 
   const running = status === 'running';
 
@@ -59,7 +78,7 @@ export const ValidationView: React.FC = () => {
     setError('');
     setReport(null);
     try {
-      const result = await api.qase.validationPilot({
+      const result: ValidationPilotReport = await api.qase.validationPilot({
         applyApproved,
         baseUrl,
         qaseConfig: { apiToken: process.env.REACT_APP_QASE_API_TOKEN || '', enabled: true, projectCode: 'ACCESSFLOW' },
@@ -67,8 +86,8 @@ export const ValidationView: React.FC = () => {
       });
       setReport(result);
       setStatus('completed');
-    } catch (err: any) {
-      setError(err.message || 'Validation failed');
+    } catch (err: unknown) {
+      setError((err instanceof Error && err.message) || 'Validation failed');
       setStatus('error');
     }
   };
@@ -77,194 +96,201 @@ export const ValidationView: React.FC = () => {
   const accuracyRate = report?.validationReport?.summary?.accuracyRate ?? 0;
   const cases        = report?.validationReport?.cases ?? [];
 
+  const accuracyIndicator =
+    accuracyRate >= 80
+      ? '[&>[data-slot=progress-indicator]]:bg-status-pass'
+      : accuracyRate >= 50
+        ? '[&>[data-slot=progress-indicator]]:bg-status-warn'
+        : '[&>[data-slot=progress-indicator]]:bg-status-fail';
+
   return (
-    <Stack spacing={3}>
+    <div className="flex flex-col gap-6">
       {/* Page header */}
-      <Box>
-        <Typography fontWeight={700} variant="h5">
-          UI vs Qase <Box component="span" sx={{ color: 'primary.main' }}>Validation Pilot</Box>
-        </Typography>
-        <Typography color="text.secondary" sx={{ mt: 0.5 }} variant="body2">
+      <div>
+        <h5 className="m-0 text-2xl font-bold text-foreground">
+          UI vs Qase <span className="text-primary">Validation Pilot</span>
+        </h5>
+        <p className="m-0 mt-1 text-sm text-foreground-secondary">
           Validate Qase test cases against live AccessFlow UI using Playwright MCP
-        </Typography>
-      </Box>
+        </p>
+      </div>
 
       {/* Config form */}
-      <Card variant="outlined">
-        <CardContent>
-          <Stack spacing={2}>
-            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-              <TextField
+      <Card className="p-4">
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
+            <div className="flex min-w-[120px] flex-none flex-col gap-1">
+              <Label htmlFor="validation-suite-id">Suite ID</Label>
+              <Input
+                id="validation-suite-id"
                 disabled={running}
-                label="Suite ID"
                 onChange={e => setSuiteId(e.target.value)}
                 placeholder="e.g., 856"
-                size="small"
-                sx={{ minWidth: 120, flex: '0 0 auto' }}
+                className={INPUT_CLASS}
                 value={suiteId}
               />
-              <TextField
+            </div>
+            <div className="flex flex-1 flex-col gap-1">
+              <Label htmlFor="validation-base-url">Base URL</Label>
+              <Input
+                id="validation-base-url"
                 disabled={running}
-                fullWidth
-                label="Base URL"
                 onChange={e => setBaseUrl(e.target.value)}
                 placeholder="https://mix-p-sdk--accessflow--test.acsb-test.com"
-                size="small"
+                className={INPUT_CLASS}
                 value={baseUrl}
               />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={applyApproved}
-                    disabled={running}
-                    onChange={e => setApplyApproved(e.target.checked)}
-                    size="small"
-                  />
-                }
-                label={<Typography variant="body2">Auto-apply approved</Typography>}
-                sx={{ flexShrink: 0 }}
+            </div>
+            <div className="flex h-8 shrink-0 items-center gap-2">
+              <Checkbox
+                id="validation-apply-approved"
+                checked={applyApproved}
+                disabled={running}
+                onCheckedChange={checked => setApplyApproved(checked === true)}
               />
-            </Stack>
+              <Label htmlFor="validation-apply-approved" className="text-sm normal-case tracking-normal">
+                Auto-apply approved
+              </Label>
+            </div>
+          </div>
 
-            <Button
-              disabled={running || !suiteId || !baseUrl}
-              fullWidth
-              loading={running}
-              onClick={handleRun}
-              startIcon={<PlayArrowIcon />}
-              variant="contained"
-            >
-              {running ? 'Running Validation…' : 'Run Validation Pilot'}
-            </Button>
+          <Button
+            disabled={running || !suiteId || !baseUrl}
+            onClick={handleRun}
+            variant="default"
+            className="w-full"
+          >
+            {running ? <Spinner className="size-4" /> : <Play aria-hidden="true" className="size-4" />}
+            {running ? 'Running Validation…' : 'Run Validation Pilot'}
+          </Button>
 
-            {running && <LinearProgress />}
-          </Stack>
-        </CardContent>
+          {running && (
+            <div className="relative h-1 w-full overflow-hidden bg-primary/20" role="progressbar" aria-label="Running validation">
+              <div className="h-full w-2/5 animate-progress-indeterminate bg-primary" />
+            </div>
+          )}
+        </div>
       </Card>
 
       {/* Error */}
       {error && (
-        <Alert onClose={() => setError('')} severity="error">{error}</Alert>
+        <Alert
+          variant="error"
+          action={
+            <Button aria-label="Close" size="icon" variant="ghost" className="size-6" onClick={() => setError('')}>
+              <X aria-hidden="true" className="size-4" />
+            </Button>
+          }
+        >
+          {error}
+        </Alert>
       )}
 
       {/* Results */}
       {report && (
-        <Stack spacing={2}>
+        <div className="flex flex-col gap-4">
           {/* Summary stats */}
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+          <div className="flex flex-col gap-4 sm:flex-row">
             {[
-              { color: 'text.primary',  icon: <InfoIcon color="info" />,         label: 'Total Cases',   value: metadata?.totalCases ?? 0 },
-              { color: 'success.main',  icon: <CheckCircleIcon color="success" />, label: 'Accurate',      value: metadata?.accurateCount ?? 0 },
-              { color: 'warning.main',  icon: <WarningIcon color="warning" />,    label: 'Needs Update',  value: metadata?.needsUpdateCount ?? 0 },
-              { color: 'error.main',    icon: <ErrorIcon color="error" />,        label: 'Mismatches',    value: metadata?.mismatchCount ?? 0 },
+              { color: 'text-foreground',   icon: <Info aria-hidden="true" className="size-6 text-status-info" />,          label: 'Total Cases',  value: metadata?.totalCases ?? 0 },
+              { color: 'text-status-pass',  icon: <CheckCircle2 aria-hidden="true" className="size-6 text-status-pass" />,  label: 'Accurate',     value: metadata?.accurateCount ?? 0 },
+              { color: 'text-status-warn',  icon: <AlertTriangle aria-hidden="true" className="size-6 text-status-warn" />, label: 'Needs Update', value: metadata?.needsUpdateCount ?? 0 },
+              { color: 'text-status-fail',  icon: <XCircle aria-hidden="true" className="size-6 text-status-fail" />,       label: 'Mismatches',   value: metadata?.mismatchCount ?? 0 },
             ].map(s => (
-              <Card key={s.label} sx={{ flex: 1 }}>
-                <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2, py: '10px !important' }}>
-                  {s.icon}
-                  <Box>
-                    <Typography color={s.color} fontWeight={700} lineHeight={1} variant="h5">{s.value}</Typography>
-                    <Typography color="text.secondary" variant="caption">{s.label}</Typography>
-                  </Box>
-                </CardContent>
+              <Card key={s.label} className="flex-1 flex-row items-center gap-4 px-4 py-2.5">
+                {s.icon}
+                <div>
+                  <h5 className={cn('m-0 text-2xl font-bold leading-none', s.color)}>{s.value}</h5>
+                  <span className="text-[0.75rem] text-foreground-secondary">{s.label}</span>
+                </div>
               </Card>
             ))}
-          </Stack>
+          </div>
 
           {/* Accuracy bar */}
-          <Card variant="outlined">
-            <CardContent>
-              <Stack alignItems="center" direction="row" justifyContent="space-between" sx={{ mb: 1 }}>
-                <Typography fontWeight={600} variant="subtitle1">Accuracy Rate</Typography>
-                <Typography fontWeight={700} variant="subtitle1">{accuracyRate.toFixed(1)}%</Typography>
-              </Stack>
-              <LinearProgress
-                color={accuracyRate >= 80 ? 'success' : accuracyRate >= 50 ? 'warning' : 'error'}
-                sx={{ height: 10, borderRadius: 1 }}
-                value={accuracyRate}
-                variant="determinate"
-              />
-            </CardContent>
+          <Card className="p-4">
+            <div className="mb-2 flex items-center justify-between">
+              <h6 className="m-0 text-base font-semibold text-foreground">Accuracy Rate</h6>
+              <h6 className="m-0 text-base font-bold text-foreground">{accuracyRate.toFixed(1)}%</h6>
+            </div>
+            <Progress
+              aria-label="Accuracy rate"
+              className={cn('h-2.5 rounded', accuracyIndicator)}
+              value={accuracyRate}
+            />
           </Card>
 
           {/* Details table */}
           {cases.length > 0 && (
-            <Paper variant="outlined">
-              <Box sx={{ px: 2, py: 1.5, borderBottom: 1, borderColor: 'divider' }}>
-                <Typography fontWeight={600} variant="subtitle1">Validation Details</Typography>
-              </Box>
-              <TableContainer>
-                <Table size="small">
-                  <TableHead>
+            <div className="border border-border bg-shell-panel">
+              <div className="border-b border-border px-4 py-3">
+                <h6 className="m-0 text-base font-semibold text-foreground">Validation Details</h6>
+              </div>
+              <div className="overflow-x-auto">
+                <Table className="text-sm">
+                  <TableHeader className="bg-shell-panel">
                     <TableRow>
-                      <TableCell sx={{ fontWeight: 700 }}>Case ID</TableCell>
-                      <TableCell sx={{ fontWeight: 700 }}>Title</TableCell>
-                      <TableCell sx={{ fontWeight: 700 }}>Status</TableCell>
-                      <TableCell sx={{ fontWeight: 700 }}>Evidence</TableCell>
-                      <TableCell sx={{ fontWeight: 700 }}>Confidence</TableCell>
+                      <TableHead className="font-bold">Case ID</TableHead>
+                      <TableHead className="font-bold">Title</TableHead>
+                      <TableHead className="font-bold">Status</TableHead>
+                      <TableHead className="font-bold">Evidence</TableHead>
+                      <TableHead className="font-bold">Confidence</TableHead>
                     </TableRow>
-                  </TableHead>
+                  </TableHeader>
                   <TableBody>
-                    {cases.map((c: any) => (
-                      <TableRow hover key={c.caseId}>
+                    {cases.map(c => (
+                      <TableRow key={c.caseId}>
                         <TableCell>
-                          <Typography fontFamily="monospace" variant="body2">{c.caseId}</Typography>
+                          <span className="font-mono text-sm">{c.caseId}</span>
                         </TableCell>
                         <TableCell>{c.title}</TableCell>
                         <TableCell>
-                          <Chip
-                            color={STATUS_CHIP_COLOR[c.status] ?? 'default'}
-                            label={c.status}
-                            size="small"
-                          />
+                          <Chip tone={STATUS_CHIP_TONE[c.status] ?? 'default'}>{c.status}</Chip>
                         </TableCell>
                         <TableCell>
-                          {c.evidence?.length > 0 ? (
-                            <Stack direction="row" flexWrap="wrap" spacing={0.5}>
-                              {c.evidence.map((ev: any, i: number) => (
-                                <Chip
-                                  color={SEVERITY_CHIP_COLOR[ev.severity] ?? 'default'}
-                                  key={i}
-                                  label={`${ev.type} (${ev.severity})`}
-                                  size="small"
-                                  variant="outlined"
-                                />
+                          {c.evidence && c.evidence.length > 0 ? (
+                            <div className="flex flex-wrap gap-1">
+                              {c.evidence.map((ev, i) => (
+                                <Chip key={i} tone={SEVERITY_CHIP_TONE[ev.severity] ?? 'default'}>
+                                  {`${ev.type} (${ev.severity})`}
+                                </Chip>
                               ))}
-                            </Stack>
+                            </div>
                           ) : (
-                            <Typography color="text.secondary" variant="caption">No issues</Typography>
+                            <span className="text-[0.75rem] text-foreground-secondary">No issues</span>
                           )}
                         </TableCell>
                         <TableCell>
-                          <Typography variant="body2">
+                          <span className="text-sm">
                             {c.proposedChanges?.confidence
                               ? `${(c.proposedChanges.confidence * 100).toFixed(0)}%`
                               : '—'}
-                          </Typography>
+                          </span>
                         </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
-              </TableContainer>
-            </Paper>
+              </div>
+            </div>
           )}
 
           {/* Apply result */}
           {report.applyResult && (
-            <Alert severity="success">
+            <Alert variant="success">
               Successfully applied {report.applyResult.appliedOperations?.length ?? 0} updates to Qase
             </Alert>
           )}
 
           {/* Approval required */}
           {report.approvalRequest && (
-            <Alert severity="info">
+            <Alert variant="info">
               {report.approvalRequest.metadata?.lowConfidenceCount ?? 0} low-confidence updates require manual approval.{' '}
-              Approval hash: <Box component="code" sx={{ fontFamily: 'monospace', bgcolor: 'action.hover', px: 0.75, borderRadius: 0.5 }}>{report.approvalRequest.hash}</Box>
+              Approval hash: <code className="rounded-sm bg-hover/5 px-1.5 font-mono">{report.approvalRequest.hash}</code>
             </Alert>
           )}
-        </Stack>
+        </div>
       )}
-    </Stack>
+    </div>
   );
 };

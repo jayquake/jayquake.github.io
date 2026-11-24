@@ -1,18 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import Chip from '@mui/material/Chip';
-import Divider from '@mui/material/Divider';
-import InputAdornment from '@mui/material/InputAdornment';
-import SearchIcon from '@mui/icons-material/Search';
-import SettingsIcon from '@mui/icons-material/Settings';
-import HistoryIcon from '@mui/icons-material/History';
+import { History, Settings } from 'lucide-react';
 
-import { MIN_TEXT_SIZE } from '../../../theme/mgsTokens';
+import { Chip, type ChipTone } from '../../../components/ui/chip';
+import { SearchField } from '../../../components/ui/search-field';
+import { Separator } from '../../../components/ui/separator';
+import { cn } from '../../../lib/utils';
 import type { RuleInfo } from '../index';
 
 interface RulePickerProps {
@@ -22,9 +14,9 @@ interface RulePickerProps {
   onSelect: (rule: RuleInfo, type: 'engine' | 'legacy') => void;
 }
 
-const IMPACT_COLORS: Record<string, 'error' | 'warning' | 'info' | 'default'> = {
-  critical: 'error',
-  serious: 'warning',
+const IMPACT_TONES: Record<string, ChipTone> = {
+  critical: 'fail',
+  serious: 'warn',
   moderate: 'info',
   minor: 'default',
 };
@@ -49,32 +41,22 @@ export function RulePicker({ engineRules, legacyRules, selectedRule, onSelect }:
   }, [legacyRules, filter]);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <Box sx={{ p: 2, pb: 1 }}>
-        <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
-          Rules
-        </Typography>
-        <TextField
-          size="small"
-          fullWidth
+    <div className="flex h-full flex-col">
+      <div className="p-4 pb-2">
+        <h6 className="m-0 mb-2 text-base font-semibold text-foreground">Rules</h6>
+        <SearchField
           placeholder="Filter rules..."
+          aria-label="Filter rules"
           value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon fontSize="small" color="action" />
-              </InputAdornment>
-            ),
-          }}
+          onValueChange={setFilter}
         />
-      </Box>
+      </div>
 
-      <Box sx={{ flex: 1, overflow: 'auto' }}>
+      <div className="flex-1 overflow-auto">
         {filteredEngine.length > 0 && (
           <RuleSection
             title="Engine Rules"
-            icon={<SettingsIcon fontSize="small" />}
+            icon={<Settings aria-hidden="true" className="size-4" />}
             rules={filteredEngine}
             ruleType="engine"
             selectedRule={selectedRule}
@@ -85,12 +67,12 @@ export function RulePicker({ engineRules, legacyRules, selectedRule, onSelect }:
           />
         )}
 
-        {filteredEngine.length > 0 && filteredLegacy.length > 0 && <Divider />}
+        {filteredEngine.length > 0 && filteredLegacy.length > 0 && <Separator />}
 
         {filteredLegacy.length > 0 && (
           <RuleSection
             title="Legacy Rules"
-            icon={<HistoryIcon fontSize="small" />}
+            icon={<History aria-hidden="true" className="size-4" />}
             rules={filteredLegacy}
             ruleType="legacy"
             selectedRule={selectedRule}
@@ -102,14 +84,14 @@ export function RulePicker({ engineRules, legacyRules, selectedRule, onSelect }:
         )}
 
         {filteredEngine.length === 0 && filteredLegacy.length === 0 && (
-          <Box sx={{ p: 3, textAlign: 'center' }}>
-            <Typography variant="body2" color="text.secondary">
+          <div className="p-6 text-center">
+            <p className="m-0 text-sm text-foreground-secondary">
               No rules match "{filter}"
-            </Typography>
-          </Box>
+            </p>
+          </div>
         )}
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }
 
@@ -136,50 +118,39 @@ function RuleSection({
 }) {
   return (
     <>
-      <Box sx={{ px: 2, py: 1, display: 'flex', alignItems: 'center', gap: 1, bgcolor: 'action.hover' }}>
+      <div className="flex items-center gap-2 bg-hover/5 px-4 py-2 text-foreground-secondary">
         {icon}
-        <Typography variant="caption" sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>
-          {title}
-        </Typography>
-        <Chip
-          label={isFiltered ? `${filteredCount}/${count}` : count}
-          size="small"
-          sx={{ height: 18, fontSize: MIN_TEXT_SIZE }}
-        />
-      </Box>
-      <List dense disablePadding>
-        {rules.map((rule) => (
-          <ListItemButton
-            key={rule.id}
-            selected={selectedRule?.id === rule.id}
-            onClick={() => onSelect(rule, ruleType)}
-            sx={{ py: 0.75, px: 2 }}
-          >
-            <ListItemText
-              primary={
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                  <Typography variant="body2" noWrap sx={{ flex: 1, fontSize: '0.825rem' }}>
-                    {rule.name}
-                  </Typography>
+        <span className="text-[0.75rem] font-semibold uppercase tracking-[0.04em]">{title}</span>
+        <Chip className="h-[18px]">{isFiltered ? `${filteredCount}/${count}` : count}</Chip>
+      </div>
+      <ul className="m-0 list-none p-0">
+        {rules.map((rule) => {
+          const selected = selectedRule?.id === rule.id;
+          return (
+            <li key={rule.id}>
+              <button
+                type="button"
+                aria-current={selected ? 'true' : undefined}
+                onClick={() => onSelect(rule, ruleType)}
+                className={cn(
+                  'flex w-full cursor-pointer flex-col gap-0.5 border-0 bg-transparent px-4 py-1.5 text-left transition-colors hover:bg-hover/5',
+                  selected && 'bg-primary/10 hover:bg-primary/15'
+                )}
+              >
+                <span className="flex w-full items-center gap-1">
+                  <span className="min-w-0 flex-1 truncate text-[0.825rem] text-foreground">{rule.name}</span>
                   {rule.impact && (
-                    <Chip
-                      label={rule.impact}
-                      size="small"
-                      color={IMPACT_COLORS[rule.impact] ?? 'default'}
-                      sx={{ height: 18, fontSize: MIN_TEXT_SIZE }}
-                    />
+                    <Chip tone={IMPACT_TONES[rule.impact] ?? 'default'} className="h-[18px]">
+                      {rule.impact}
+                    </Chip>
                   )}
-                </Box>
-              }
-              secondary={
-                <Typography variant="caption" color="text.disabled" sx={{ fontFamily: 'monospace', fontSize: MIN_TEXT_SIZE }}>
-                  {rule.id}
-                </Typography>
-              }
-            />
-          </ListItemButton>
-        ))}
-      </List>
+                </span>
+                <span className="font-mono text-[0.75rem] text-foreground-muted">{rule.id}</span>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
     </>
   );
 }

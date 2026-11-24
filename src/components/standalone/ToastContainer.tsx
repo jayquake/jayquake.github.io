@@ -1,4 +1,3 @@
-import Box from '@mui/material/Box';
 import { createContext, type ReactNode, useCallback, useContext, useState } from 'react';
 
 import Toast, { type ToastType } from './Toast';
@@ -38,21 +37,14 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      {/* Stack toasts in the top-right corner */}
-      <Box
-        sx={{
-          position: 'fixed',
-          top: 16,
-          right: 16,
-          zIndex: t => t.zIndex.snackbar + 1,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 1,
-          maxWidth: 400,
-          width: '100%',
-          pointerEvents: 'none',
-          '& > *': { pointerEvents: 'auto' },
-        }}
+      {/*
+        Stack toasts in the top-right corner. The region is always mounted so screen
+        readers pick up each toast (role="status", or role="alert" for errors) as it is added.
+      */}
+      <div
+        aria-live="polite"
+        aria-relevant="additions"
+        className="pointer-events-none fixed right-4 top-4 z-[1401] flex w-full max-w-[400px] flex-col gap-2 [&>*]:pointer-events-auto"
       >
         {toasts.map(toast => (
           <Toast
@@ -62,7 +54,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
             type={toast.type}
           />
         ))}
-      </Box>
+      </div>
     </ToastContext.Provider>
   );
 };

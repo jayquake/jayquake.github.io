@@ -1,16 +1,11 @@
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Box from '@mui/material/Box';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Stack from '@mui/material/Stack';
-import Switch from '@mui/material/Switch';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import TuneIcon from '@mui/icons-material/Tune';
+import { SlidersHorizontal } from 'lucide-react';
+import { useId } from 'react';
 
 import type { QaseConfig } from '../../../shared/types';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../components/ui/accordion';
+import { Label } from '../../components/ui/label';
+import { Switch } from '../../components/ui/switch';
+import { cn } from '../../lib/utils';
 
 interface AdvancedOptionsAccordionProps {
   httpAuthPassword: string;
@@ -24,6 +19,12 @@ interface AdvancedOptionsAccordionProps {
   showHttpAuth: boolean;
 }
 
+/** Bordered text input used for the labelled fields below. */
+const fieldInputClass = cn(
+  'h-9 w-full min-w-0 border border-border bg-shell-input px-2.5 font-mono text-xs text-foreground outline-none',
+  'placeholder:text-foreground-muted focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/15'
+);
+
 export default function AdvancedOptionsAccordion({
   httpAuthPassword,
   httpAuthUsername,
@@ -35,92 +36,114 @@ export default function AdvancedOptionsAccordion({
   qaseEnabled,
   showHttpAuth,
 }: AdvancedOptionsAccordionProps) {
+  const uid = useId();
+  const ids = {
+    qaseSwitch: `${uid}-qase-enabled`,
+    apiToken: `${uid}-qase-token`,
+    projectCode: `${uid}-qase-project`,
+    environment: `${uid}-qase-env`,
+    username: `${uid}-auth-username`,
+    password: `${uid}-auth-password`,
+  };
+
   return (
-    <Accordion disableGutters elevation={0} sx={{ border: 1, borderColor: 'divider', borderRadius: 1, '&:before': { display: 'none' } }}>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <TuneIcon fontSize="small" color="action" />
-          <Typography variant="subtitle2">Advanced Options</Typography>
-        </Box>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Stack gap={2}>
-          {/* Qase section */}
-          <Box>
-            <FormControlLabel
-              control={
+    <Accordion type="single" collapsible>
+      <AccordionItem value="advanced">
+        <AccordionTrigger>
+          <span className="flex items-center gap-2">
+            <SlidersHorizontal className="size-4 text-foreground-secondary" aria-hidden="true" />
+            <span className="text-sm font-medium text-foreground">Advanced Options</span>
+          </span>
+        </AccordionTrigger>
+        <AccordionContent>
+          <div className="flex flex-col gap-4 py-1">
+            {/* Qase section */}
+            <div>
+              <div className="flex items-center gap-2">
                 <Switch
-                  size="small"
+                  id={ids.qaseSwitch}
                   checked={qaseEnabled}
-                  onChange={(e) => onQaseEnabledChange(e.target.checked)}
+                  onCheckedChange={(checked) => onQaseEnabledChange(checked)}
                 />
-              }
-              label={<Typography variant="body2">Report to Qase</Typography>}
-            />
+                <Label htmlFor={ids.qaseSwitch} className="cursor-pointer text-sm normal-case tracking-normal text-foreground">
+                  Report to Qase
+                </Label>
+              </div>
 
-            {qaseEnabled && (
-              <Stack gap={1.5} sx={{ mt: 1.5 }}>
-                <TextField
-                  size="small"
-                  fullWidth
-                  label="Qase API Token"
-                  type="password"
-                  value={qaseConfig.apiToken}
-                  onChange={(e) =>
-                    onQaseConfigChange({ ...qaseConfig, apiToken: e.target.value })
-                  }
-                />
-                <Stack direction="row" gap={1}>
-                  <TextField
-                    size="small"
-                    label="Project Code"
-                    value={qaseConfig.projectCode}
-                    onChange={(e) =>
-                      onQaseConfigChange({ ...qaseConfig, projectCode: e.target.value })
-                    }
-                    sx={{ flex: 1 }}
-                  />
-                  <TextField
-                    size="small"
-                    label="Environment"
-                    value={qaseConfig.environment || ''}
-                    onChange={(e) =>
-                      onQaseConfigChange({ ...qaseConfig, environment: e.target.value })
-                    }
-                    sx={{ flex: 1 }}
-                  />
-                </Stack>
-              </Stack>
+              {qaseEnabled && (
+                <div className="mt-3 flex flex-col gap-3">
+                  <div className="flex flex-col gap-1">
+                    <Label htmlFor={ids.apiToken}>Qase API Token</Label>
+                    <input
+                      id={ids.apiToken}
+                      type="password"
+                      className={fieldInputClass}
+                      value={qaseConfig.apiToken}
+                      onChange={(e) =>
+                        onQaseConfigChange({ ...qaseConfig, apiToken: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="flex flex-row gap-2">
+                    <div className="flex flex-1 flex-col gap-1">
+                      <Label htmlFor={ids.projectCode}>Project Code</Label>
+                      <input
+                        id={ids.projectCode}
+                        className={fieldInputClass}
+                        value={qaseConfig.projectCode}
+                        onChange={(e) =>
+                          onQaseConfigChange({ ...qaseConfig, projectCode: e.target.value })
+                        }
+                      />
+                    </div>
+                    <div className="flex flex-1 flex-col gap-1">
+                      <Label htmlFor={ids.environment}>Environment</Label>
+                      <input
+                        id={ids.environment}
+                        className={fieldInputClass}
+                        value={qaseConfig.environment || ''}
+                        onChange={(e) =>
+                          onQaseConfigChange({ ...qaseConfig, environment: e.target.value })
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* HTTP auth override (shown when not auto-detected) */}
+            {showHttpAuth && (
+              <fieldset className="m-0 min-w-0 border-0 p-0">
+                <legend className="mb-1 p-0 text-[0.75rem] text-foreground-secondary">
+                  HTTP Basic Auth Override
+                </legend>
+                <div className="flex flex-row gap-2">
+                  <div className="flex flex-1 flex-col gap-1">
+                    <Label htmlFor={ids.username}>Username</Label>
+                    <input
+                      id={ids.username}
+                      className={fieldInputClass}
+                      value={httpAuthUsername}
+                      onChange={(e) => onHttpAuthUsernameChange(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex flex-1 flex-col gap-1">
+                    <Label htmlFor={ids.password}>Password</Label>
+                    <input
+                      id={ids.password}
+                      type="password"
+                      className={fieldInputClass}
+                      value={httpAuthPassword}
+                      onChange={(e) => onHttpAuthPasswordChange(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </fieldset>
             )}
-          </Box>
-
-          {/* HTTP auth override (shown when not auto-detected) */}
-          {showHttpAuth && (
-            <Box>
-              <Typography variant="caption" color="text.secondary" gutterBottom display="block">
-                HTTP Basic Auth Override
-              </Typography>
-              <Stack direction="row" gap={1}>
-                <TextField
-                  size="small"
-                  label="Username"
-                  value={httpAuthUsername}
-                  onChange={(e) => onHttpAuthUsernameChange(e.target.value)}
-                  sx={{ flex: 1 }}
-                />
-                <TextField
-                  size="small"
-                  label="Password"
-                  type="password"
-                  value={httpAuthPassword}
-                  onChange={(e) => onHttpAuthPasswordChange(e.target.value)}
-                  sx={{ flex: 1 }}
-                />
-              </Stack>
-            </Box>
-          )}
-        </Stack>
-      </AccordionDetails>
+          </div>
+        </AccordionContent>
+      </AccordionItem>
     </Accordion>
   );
 }

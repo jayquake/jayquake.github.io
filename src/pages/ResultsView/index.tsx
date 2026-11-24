@@ -1,15 +1,13 @@
 import { TestRunSummary } from '../../../shared/domain/valueObjects/TestRunSummary';
 import { type TestNavResult, type Project } from '../../../shared/types';
-import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import CircularProgress from '@mui/material/CircularProgress';
-import Stack from '@mui/material/Stack';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { api } from '../../api/client';
 import { useToast } from '../../components/standalone/ToastContainer';
+import { Alert } from '../../components/ui/alert';
+import { Button } from '../../components/ui/button';
+import { Spinner } from '../../components/ui/spinner';
 import { useCommonShortcuts, useKeyboardShortcuts } from '../../hooks/useKeyboardShortcuts';
 import { ConsoleOutputTab } from './components/ConsoleOutputTab';
 import { MCPDebugTab } from './components/MCPDebugTab';
@@ -512,9 +510,7 @@ export default function ResultsView() {
   const mcpCount = mcpAnalysesData.length || mcpFailedTests.length;
 
   return (
-    <Box
-      sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}
-    >
+    <div className="flex min-h-screen flex-col bg-shell-main">
       <ResultsAppBar
         onNavigateBack={() => navigate('/test-runner')}
         onNavigateToHistory={() => navigate('/test-runner/history')}
@@ -530,31 +526,29 @@ export default function ResultsView() {
         showSlack={Boolean(slackConfig?.configured && slackConfig?.enabled)}
       />
 
-      <Box sx={{ flex: 1 }}>
+      <div className="flex-1">
         {loading ? (
-          <Box
-            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 8 }}
-          >
-            <CircularProgress />
-          </Box>
+          <div className="flex items-center justify-center py-16">
+            <Spinner className="size-10" />
+          </div>
         ) : error || !run ? (
-          <Box sx={{ p: 4, maxWidth: 600, mx: 'auto' }}>
+          <div className="mx-auto max-w-[600px] p-8">
             <Alert
               action={
-                <Stack direction="row" spacing={1}>
-                  <Button color="inherit" onClick={loadResults} size="small">
+                <div className="flex flex-row gap-2">
+                  <Button onClick={loadResults} size="sm" variant="ghost">
                     Retry
                   </Button>
-                  <Button color="inherit" onClick={() => navigate(-1)} size="small">
+                  <Button onClick={() => navigate(-1)} size="sm" variant="ghost">
                     Back
                   </Button>
-                </Stack>
+                </div>
               }
-              severity="error"
+              variant="error"
             >
               {error || 'Results not found'}
             </Alert>
-          </Box>
+          </div>
         ) : (
           <>
             {summary && (
@@ -567,7 +561,7 @@ export default function ResultsView() {
               />
             )}
 
-            <Box sx={{ px: 2 }}>
+            <div className="px-4">
               <ResultsTabs
                 activeTab={activeTab}
                 mcpCount={mcpCount}
@@ -575,7 +569,7 @@ export default function ResultsView() {
                 sdkAuditCount={sdkAuditReport?.totalIssues}
               />
 
-              <Box sx={{ pt: 2, pb: 4 }}>
+              <div className="pb-8 pt-4">
                 {activeTab === 'summary' && (
                   <SummaryTab
                     allProjects={allProjects}
@@ -635,11 +629,11 @@ export default function ResultsView() {
                     testResults={testRunData.results}
                   />
                 )}
-              </Box>
-            </Box>
+              </div>
+            </div>
           </>
         )}
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }

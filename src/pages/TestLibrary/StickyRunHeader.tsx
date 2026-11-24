@@ -1,19 +1,12 @@
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Button from '@mui/material/Button';
-import CircularProgress from '@mui/material/CircularProgress';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Stepper from '@mui/material/Stepper';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import HomeIcon from '@mui/icons-material/Home';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import Link from '@mui/material/Link';
+import { Home, Play } from 'lucide-react';
+import type { MouseEvent } from 'react';
+import { Link } from 'react-router-dom';
+
 import type { Project } from '../../../shared/types';
 import ProjectBreadcrumbItem from '../../components/standalone/ProjectBreadcrumbItem';
-import { MIN_TEXT_SIZE } from '../../theme/mgsTokens';
+import { Button } from '../../components/ui/button';
+import { Spinner } from '../../components/ui/spinner';
+import { cn } from '../../lib/utils';
 
 interface StickyRunHeaderProps {
   isSubmitting: boolean;
@@ -28,6 +21,10 @@ interface StickyRunHeaderProps {
 }
 
 const STEPS = ['Project', 'Configure', 'Execute', 'Results'];
+const ACTIVE_STEP = 1;
+
+/** Route of the project picker; the breadcrumb is a real link to it. */
+const PROJECTS_HREF = '/test-runner';
 
 export default function StickyRunHeader({
   isSubmitting,
@@ -42,70 +39,109 @@ export default function StickyRunHeader({
 }: StickyRunHeaderProps) {
   const canRun = selectedCount > 0 && validUrl && !isSubmitting;
 
+  // Plain left-clicks go through onBack (same behaviour as before); modified
+  // clicks (new tab / window) fall through to the link's href.
+  const handleBackClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    onBack();
+  };
+
   return (
-    <AppBar
-      position="sticky"
-      color="default"
-      elevation={1}
-      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: 'background.paper' }}
-    >
-      <Toolbar sx={{ gap: 2, minHeight: { xs: 56, sm: 64 } }}>
+    <header className="sticky top-0 z-[60] border-b border-border bg-shell-elevated shadow-sm">
+      <div className="flex min-h-14 items-center gap-4 px-4 sm:min-h-16">
         {/* Breadcrumbs */}
-        <Breadcrumbs aria-label="breadcrumb" sx={{ flexShrink: 0, mr: 1 }}>
-          <Link
-            component="button"
-            variant="body2"
-            underline="hover"
-            color="inherit"
-            onClick={onBack}
-            sx={{ display: 'flex', alignItems: 'center', gap: 0.5, cursor: 'pointer' }}
-          >
-            <HomeIcon sx={{ fontSize: 16 }} />
-            Projects
-          </Link>
+        <nav aria-label="breadcrumb" className="mr-2 shrink-0">
+          <ol className="m-0 flex list-none items-center gap-2 p-0 text-sm text-foreground-secondary">
+            <li className="flex items-center">
+              <Link
+                to={PROJECTS_HREF}
+                onClick={handleBackClick}
+                className="flex items-center gap-1 text-inherit no-underline hover:underline"
+              >
+                <Home className="size-4" aria-hidden="true" />
+                Projects
+              </Link>
+            </li>
+            <li aria-hidden="true">/</li>
 
-          {/* Project dropdown */}
-          <ProjectBreadcrumbItem
-            projectId={projectId}
-            projectName={projectName}
-            projects={projects}
-            onProjectChange={onProjectChange}
-          />
+            {/* Project dropdown */}
+            <li className="flex items-center">
+              <ProjectBreadcrumbItem
+                projectId={projectId}
+                projectName={projectName}
+                projects={projects}
+                onProjectChange={onProjectChange}
+              />
+            </li>
+            <li aria-hidden="true">/</li>
 
-          <Typography variant="body2" color="text.primary" fontWeight={500}>
-            Configure Tests
-          </Typography>
-        </Breadcrumbs>
+            <li>
+              <span aria-current="page" className="font-medium text-foreground">
+                Configure Tests
+              </span>
+            </li>
+          </ol>
+        </nav>
 
         {/* Stepper — centred */}
-        <Box sx={{ flex: 1, display: { xs: 'none', md: 'block' } }}>
-          <Stepper activeStep={1} alternativeLabel sx={{ '& .MuiStepLabel-label': { fontSize: MIN_TEXT_SIZE } }}>
-            {STEPS.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-        </Box>
+        <div className="hidden flex-1 md:block">
+          <ol aria-label="Progress" className="m-0 flex list-none items-start justify-center p-0">
+            {STEPS.map((label, i) => {
+              const done = i < ACTIVE_STEP;
+              const active = i === ACTIVE_STEP;
+              return (
+                <li
+                  key={label}
+                  aria-current={active ? 'step' : undefined}
+                  className="relative flex flex-1 flex-col items-center gap-1"
+                >
+                  {i > 0 && (
+                    <span
+                      aria-hidden="true"
+                      className="absolute right-1/2 top-3 mr-4 h-px w-[calc(100%-2rem)] bg-border-strong"
+                    />
+                  )}
+                  <span
+                    aria-hidden="true"
+                    className={cn(
+                      'z-[1] flex size-6 items-center justify-center rounded-full text-[0.75rem] font-semibold',
+                      done || active
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-muted text-foreground-muted'
+                    )}
+                  >
+                    {i + 1}
+                  </span>
+                  <span
+                    className={cn(
+                      'text-[0.75rem]',
+                      active ? 'font-semibold text-foreground' : 'text-foreground-secondary'
+                    )}
+                  >
+                    {label}
+                  </span>
+                </li>
+              );
+            })}
+          </ol>
+        </div>
 
         {/* Run button */}
         <Button
-          variant="contained"
-          size="large"
+          variant="default"
           disabled={!canRun}
           onClick={onRun}
-          startIcon={
-            isSubmitting ? (
-              <CircularProgress size={16} color="inherit" />
-            ) : (
-              <PlayArrowIcon />
-            )
-          }
-          sx={{ flexShrink: 0, fontWeight: 700, minWidth: 160 }}
+          className="ml-auto h-11 min-w-40 shrink-0 text-sm font-bold"
         >
+          {isSubmitting ? (
+            <Spinner className="size-4 text-current" aria-hidden="true" role={undefined} aria-label={undefined} />
+          ) : (
+            <Play className="size-4" aria-hidden="true" />
+          )}
           {isSubmitting ? 'Starting…' : `Run ${selectedCount} Test${selectedCount !== 1 ? 's' : ''}`}
         </Button>
-      </Toolbar>
-    </AppBar>
+      </div>
+    </header>
   );
 }

@@ -1,6 +1,4 @@
 import { TestProgressMonitor } from '../../../shared/utils/TestProgressMonitor';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import type { Project } from '../../../shared/types';
@@ -262,7 +260,7 @@ export default function TestProgress() {
   const showPlaywrightUIToggle = Boolean(playwrightUIProxyUrl);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>
+    <div className="flex min-h-screen flex-col bg-shell-main">
       {/* Sticky top app bar */}
       <ProgressAppBar
         connected={connected}
@@ -285,7 +283,7 @@ export default function TestProgress() {
       <RunSummaryBar monitorState={monitorState} />
 
       {/* Main scrollable content */}
-      <Stack spacing={2} sx={{ flex: 1, overflowY: 'auto', p: 2 }}>
+      <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
         {/* Playwright UI panel (optional) */}
         {playwrightUIProxyUrl && showUIViewer && runId && (
           <PlaywrightUIPanel
@@ -313,7 +311,7 @@ export default function TestProgress() {
           onToggleExpanded={() => setConsoleExpanded(v => !v)}
           runStatus={runStatus}
         />
-      </Stack>
-    </Box>
+      </div>
+    </div>
   );
 }

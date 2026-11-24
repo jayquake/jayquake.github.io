@@ -1,24 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Chip from '@mui/material/Chip';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
-import CircularProgress from '@mui/material/CircularProgress';
-import Drawer from '@mui/material/Drawer';
-import Fab from '@mui/material/Fab';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
-import ScienceIcon from '@mui/icons-material/Science';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ErrorIcon from '@mui/icons-material/Error';
-import InfoIcon from '@mui/icons-material/Info';
-import ListIcon from '@mui/icons-material/List';
+import { CheckCircle2, FlaskConical, Info, List, XCircle } from 'lucide-react';
 
 import { api } from '../../api/client';
+import { Alert, AlertTitle } from '../../components/ui/alert';
+import { Button } from '../../components/ui/button';
+import { Chip, type ChipTone } from '../../components/ui/chip';
+import { Dialog, DialogContent, DialogTitle } from '../../components/ui/dialog';
+import { Spinner } from '../../components/ui/spinner';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
+import { useMatchMedia } from '../../hooks/useMatchMedia';
+import { cn } from '../../lib/utils';
 import { isStaticDeployment } from '../../utils/environment';
 import { fetchEngineRulesFull } from '../../utils/engineRulesDataService';
 import { RulePicker } from './components/RulePicker';
@@ -33,7 +25,25 @@ export interface RuleInfo {
   tags?: string[];
 }
 
-function normalizeEngineRule(rule: any): RuleInfo {
+/** Loose shape of engine/legacy rule rows from the API or static data. */
+interface RawRuleRow {
+  kebabId?: string;
+  id?: string;
+  route?: string;
+  title?: string;
+  name?: string;
+  description?: string;
+  shortDescription?: string;
+  populated?: boolean;
+  impact?: string;
+  severity?: string;
+  tags?: string[];
+}
+
+/** Matches MUI theme.breakpoints.down('md'). */
+const MOBILE_QUERY = '(max-width: 899.95px)';
+
+function normalizeEngineRule(rule: RawRuleRow): RuleInfo {
   const id = rule.kebabId ?? rule.id ?? '';
   const description =
     rule.description ||
@@ -51,13 +61,12 @@ function normalizeEngineRule(rule: any): RuleInfo {
 
 async function loadStaticRules(): Promise<{ engineRules: RuleInfo[]; legacyRules: RuleInfo[] }> {
   const engineRows = await fetchEngineRulesFull();
-  return { engineRules: engineRows.map(normalizeEngineRule), legacyRules: [] };
+  return { engineRules: (engineRows as RawRuleRow[]).map(normalizeEngineRule), legacyRules: [] };
 }
 
 export default function RuleLab() {
   const [searchParams] = useSearchParams();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile: boolean = useMatchMedia(MOBILE_QUERY);
   const initialRuleId = searchParams.get('ruleId') || searchParams.get('rule');
   const initialRuleType = searchParams.get('type') as 'engine' | 'legacy' | null;
   const initialHtmlParam = searchParams.get('html');
@@ -100,7 +109,7 @@ export default function RuleLab() {
             const resp = await fetch(`${process.env.PUBLIC_URL || ''}/data.json`);
             if (resp.ok) {
               const legacyData = await resp.json();
-              const normalize = (rule: any): RuleInfo => ({
+              const normalize = (rule: RawRuleRow): RuleInfo => ({
                 id: rule.route ?? rule.name ?? '',
                 name: rule.name ?? '',
                 description: rule.shortDescription ?? '',
@@ -108,7 +117,7 @@ export default function RuleLab() {
                 tags: [],
               });
               const legacy = Array.isArray(legacyData)
-                ? legacyData.map(normalize)
+                ? (legacyData as RawRuleRow[]).map(normalize)
                 : [];
               staticRules.legacyRules = legacy;
               setLegacyRulesLoaded(true);
@@ -121,8 +130,8 @@ export default function RuleLab() {
         setRules(staticRules);
       } else {
         const data = await api.ruleLab.listRules();
-        const engine = (data.engineRules ?? []).map(normalizeEngineRule);
-        const legacy = (data.legacyRules ?? []).map((rule: any) => ({
+        const engine = ((data.engineRules ?? []) as RawRuleRow[]).map(normalizeEngineRule);
+        const legacy = ((data.legacyRules ?? []) as RawRuleRow[]).map((rule) => ({
           id: rule.route ?? rule.id ?? rule.kebabId ?? '',
           name: rule.name ?? rule.title ?? rule.id ?? '',
           description: rule.shortDescription ?? rule.description ?? '',
@@ -131,11 +140,11 @@ export default function RuleLab() {
         }));
         setRules({ engineRules: engine, legacyRules: legacy });
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       if (staticMode) {
         setRules(await loadStaticRules());
       } else {
-        setError(err.message || 'Failed to load rules');
+        setError((err instanceof Error && err.message) || 'Failed to load rules');
       }
     } finally {
       setLoading(false);
@@ -206,19 +215,21 @@ export default function RuleLab() {
     if (isMobile) setDrawerOpen(false);
   }, [isMobile]);
 
+  const viewportHeight = isMobile ? 'h-[calc(100vh-128px)]' : 'h-[calc(100vh-64px)]';
+
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: isMobile ? 'calc(100vh - 128px)' : 'calc(100vh - 64px)' }}>
-        <CircularProgress />
-      </Box>
+      <div className={cn('flex items-center justify-center', viewportHeight)}>
+        <Spinner className="size-10" />
+      </div>
     );
   }
 
   if (error) {
     return (
-      <Box sx={{ p: { xs: 2, md: 3 } }}>
-        <Alert severity="error">{error}</Alert>
-      </Box>
+      <div className="p-4 md:p-6">
+        <Alert variant="error">{error}</Alert>
+      </div>
     );
   }
 
@@ -232,43 +243,30 @@ export default function RuleLab() {
   );
 
   return (
-    <Box sx={{ display: 'flex', height: isMobile ? 'calc(100vh - 128px)' : 'calc(100vh - 64px)', overflow: 'hidden' }}>
+    <div className={cn('flex overflow-hidden', viewportHeight)}>
       {/* Desktop: fixed sidebar */}
       {!isMobile && (
-        <Box
-          sx={{
-            width: 300,
-            minWidth: 300,
-            borderRight: 1,
-            borderColor: 'divider',
-            overflow: 'auto',
-          }}
-        >
+        <div className="w-[300px] min-w-[300px] overflow-auto border-r border-border">
           {rulePickerContent}
-        </Box>
+        </div>
       )}
 
-      {/* Mobile: temporary drawer */}
+      {/* Mobile: side-anchored drawer */}
       {isMobile && (
-        <Drawer
-          variant="temporary"
-          open={drawerOpen}
-          onClose={() => setDrawerOpen(false)}
-          ModalProps={{ keepMounted: true }}
-          sx={{
-            '& .MuiDrawer-paper': {
-              width: 300,
-              maxWidth: '85vw',
-            },
-          }}
-        >
-          {rulePickerContent}
-        </Drawer>
+        <Dialog open={drawerOpen} onOpenChange={setDrawerOpen}>
+          <DialogContent
+            aria-describedby={undefined}
+            className="left-0 top-0 h-full max-h-none w-[300px] max-w-[85vw] translate-x-0 translate-y-0 gap-0 overflow-hidden border-y-0 border-l-0 p-0"
+          >
+            <DialogTitle className="sr-only">Rule picker</DialogTitle>
+            {rulePickerContent}
+          </DialogContent>
+        </Dialog>
       )}
 
-      <Box sx={{ flex: 1, overflow: 'auto', p: { xs: 1.5, sm: 2, md: 3 } }}>
+      <div className="flex-1 overflow-auto p-3 sm:p-4 md:p-6">
         {staticMode && (
-          <Alert severity="info" icon={<InfoIcon />} sx={{ mb: 2 }}>
+          <Alert variant="info" icon={<Info aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-status-info" />} className="mb-4">
             <AlertTitle>Static Mode</AlertTitle>
             Analysis uses the client-side engine. Live site discovery requires the local backend.
           </Alert>
@@ -278,94 +276,84 @@ export default function RuleLab() {
         ) : (
           <>
             <RuleHeader rule={selectedRule} ruleType={selectedRuleType} mcpHealthy={mcpHealthy} staticMode={staticMode} isMobile={isMobile} />
-            <Tabs
-              value={activeTab}
-              onChange={(_, v) => setActiveTab(v)}
-              variant={isMobile ? 'fullWidth' : 'standard'}
-              sx={{ mb: 2, borderBottom: 1, borderColor: 'divider' }}
-            >
-              <Tab label="Example Analysis" />
-              <Tab label="Discovery" disabled={staticMode} />
+            <Tabs value={String(activeTab)} onValueChange={(v) => setActiveTab(Number(v))}>
+              <TabsList className="mb-4">
+                <TabsTrigger value="0" className={cn(isMobile && 'flex-1 justify-center')}>
+                  Example Analysis
+                </TabsTrigger>
+                <TabsTrigger value="1" disabled={staticMode} className={cn(isMobile && 'flex-1 justify-center')}>
+                  Discovery
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="0">
+                <ExampleAnalysisPanel
+                  ruleId={selectedRule.id}
+                  ruleType={selectedRuleType as 'engine' | 'legacy'}
+                  initialHtml={initialHtml}
+                  initialExampleType={initialExampleType}
+                />
+              </TabsContent>
+              <TabsContent value="1">
+                {!staticMode && (
+                  <DiscoveryPanel ruleId={selectedRule.id} ruleType={selectedRuleType as 'engine' | 'legacy'} />
+                )}
+              </TabsContent>
             </Tabs>
-            {activeTab === 0 && (
-              <ExampleAnalysisPanel
-                ruleId={selectedRule.id}
-                ruleType={selectedRuleType as 'engine' | 'legacy'}
-                initialHtml={initialHtml}
-                initialExampleType={initialExampleType}
-              />
-            )}
-            {activeTab === 1 && !staticMode && (
-              <DiscoveryPanel ruleId={selectedRule.id} ruleType={selectedRuleType as 'engine' | 'legacy'} />
-            )}
           </>
         )}
-      </Box>
+      </div>
 
       {/* Mobile FAB to open rule picker */}
       {isMobile && (
-        <Fab
-          color="primary"
+        <Button
+          variant="default"
+          size="icon"
           onClick={() => setDrawerOpen(true)}
-          sx={{
-            position: 'fixed',
-            bottom: 80,
-            right: 16,
-            zIndex: (t) => t.zIndex.drawer - 1,
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          }}
+          className="fixed bottom-20 right-4 z-[69] size-14 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary-bright"
           aria-label="Open rule picker"
         >
-          <ListIcon />
-        </Fab>
+          <List aria-hidden="true" className="size-6" />
+        </Button>
       )}
-    </Box>
+    </div>
   );
 }
 
 function EmptyState({ ruleCount, isMobile, onOpenPicker }: { ruleCount: number; isMobile?: boolean; onOpenPicker?: () => void }) {
+  const Heading = isMobile ? 'h6' : 'h5';
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100%',
-        color: 'text.secondary',
-        gap: 2,
-        px: 2,
-      }}
-    >
-      <ScienceIcon sx={{ fontSize: { xs: 48, md: 64 }, opacity: 0.3 }} />
-      <Typography variant={isMobile ? 'h6' : 'h5'} color="text.secondary">
+    <div className="flex h-full flex-col items-center justify-center gap-4 px-4 text-foreground-secondary">
+      <FlaskConical aria-hidden="true" className="size-12 opacity-30 md:size-16" />
+      <Heading className={cn('m-0 font-normal text-foreground-secondary', isMobile ? 'text-xl' : 'text-2xl')}>
         Rule Lab
-      </Typography>
-      <Typography variant="body2" color="text.secondary" textAlign="center" maxWidth={400}>
+      </Heading>
+      <p className="m-0 max-w-[400px] text-center text-sm text-foreground-secondary">
         {isMobile
           ? 'Tap the button below to pick a rule and start analyzing.'
           : 'Select a rule from the sidebar to analyze its examples, explore accessibility tree data, and discover real-world instances across curated sites.'}
-      </Typography>
+      </p>
       {ruleCount > 0 && (
-        <Chip label={`${ruleCount} rules available`} size="small" variant="outlined" />
+        <Chip>{`${ruleCount} rules available`}</Chip>
       )}
       {isMobile && onOpenPicker && (
-        <Fab
-          variant="extended"
-          color="primary"
+        <Button
+          variant="default"
           onClick={onOpenPicker}
-          sx={{
-            mt: 1,
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          }}
+          className="mt-2 h-12 rounded-full bg-primary px-5 text-primary-foreground shadow-lg hover:bg-primary-bright"
         >
-          <ListIcon sx={{ mr: 1 }} />
+          <List aria-hidden="true" className="size-5" />
           Pick a Rule
-        </Fab>
+        </Button>
       )}
-    </Box>
+    </div>
   );
 }
+
+const IMPACT_TONES: Record<string, ChipTone> = {
+  critical: 'fail',
+  serious: 'warn',
+  moderate: 'info',
+};
 
 function RuleHeader({
   rule,
@@ -380,53 +368,37 @@ function RuleHeader({
   staticMode?: boolean;
   isMobile?: boolean;
 }) {
+  const Heading = isMobile ? 'h6' : 'h5';
   return (
-    <Box sx={{ mb: 2 }}>
-      <Box sx={{ display: 'flex', alignItems: isMobile ? 'flex-start' : 'center', gap: 1, mb: 1, flexWrap: 'wrap' }}>
-        <Typography variant={isMobile ? 'h6' : 'h5'} sx={{ fontWeight: 600, width: isMobile ? '100%' : 'auto' }}>
+    <div className="mb-4">
+      <div className={cn('mb-2 flex flex-wrap gap-2', isMobile ? 'items-start' : 'items-center')}>
+        <Heading className={cn('m-0 font-semibold text-foreground', isMobile ? 'w-full text-xl' : 'w-auto text-2xl')}>
           {rule.name}
-        </Typography>
-        <Chip label={rule.id} size="small" variant="outlined" sx={{ fontFamily: 'monospace', fontSize: '0.75rem' }} />
-        <Chip
-          label={ruleType}
-          size="small"
-          color={ruleType === 'engine' ? 'primary' : 'secondary'}
-        />
+        </Heading>
+        <Chip>{rule.id}</Chip>
+        <Chip tone={ruleType === 'engine' ? 'primary' : 'info'}>{ruleType}</Chip>
         {rule.impact && (
-          <Chip
-            label={rule.impact}
-            size="small"
-            color={
-              rule.impact === 'critical' ? 'error' :
-              rule.impact === 'serious' ? 'warning' :
-              rule.impact === 'moderate' ? 'info' : 'default'
-            }
-          />
+          <Chip tone={IMPACT_TONES[rule.impact] ?? 'default'}>{rule.impact}</Chip>
         )}
-        {!isMobile && <Box sx={{ flex: 1 }} />}
+        {!isMobile && <div className="flex-1" />}
         {staticMode ? (
-          <Chip
-            icon={<ScienceIcon />}
-            label="Client-Side Engine"
-            size="small"
-            color="default"
-            variant="outlined"
-          />
+          <Chip icon={<FlaskConical aria-hidden="true" className="size-3.5" />}>Client-Side Engine</Chip>
         ) : mcpHealthy !== null ? (
           <Chip
-            icon={mcpHealthy ? <CheckCircleIcon /> : <ErrorIcon />}
-            label={mcpHealthy ? 'MCP Connected' : 'MCP Offline'}
-            size="small"
-            color={mcpHealthy ? 'success' : 'error'}
-            variant="outlined"
-          />
+            tone={mcpHealthy ? 'pass' : 'fail'}
+            icon={mcpHealthy
+              ? <CheckCircle2 aria-hidden="true" className="size-3.5" />
+              : <XCircle aria-hidden="true" className="size-3.5" />}
+          >
+            {mcpHealthy ? 'MCP Connected' : 'MCP Offline'}
+          </Chip>
         ) : null}
-      </Box>
+      </div>
       {rule.description && (
-        <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.8rem', md: '0.875rem' } }}>
+        <p className="m-0 text-[0.8rem] text-foreground-secondary md:text-sm">
           {rule.description}
-        </Typography>
+        </p>
       )}
-    </Box>
+    </div>
   );
 }

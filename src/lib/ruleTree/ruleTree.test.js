@@ -12,7 +12,6 @@ import {
 } from ".";
 import { DEFAULT_QUERY, engineRule, exampleHref, ruleHref, ruleLabHref } from "../libraryLocation";
 import legacyCriteria from "../../data/legacy-criteria.json";
-import { legacyCriteriaColor } from "./legacyCriteriaColors";
 
 const { CATEGORIES } = require("../rulesCatalog");
 
@@ -109,7 +108,7 @@ describe("buildRuleTree: legacy tier", () => {
       ["keyboard", "Keyboard"],
       ["zzz-new", "Zzz New"],
     ]);
-    expect(legacy.categories[0].color).toBe(legacyCriteriaColor("graphics"));
+    expect(legacy.categories.map((c) => c.tone)).toEqual([1, 2, 3, 4]);
   });
 
   test("count is 0 while legacy rules are loading", () => {

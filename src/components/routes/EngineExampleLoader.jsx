@@ -1,17 +1,20 @@
-import { Box, Skeleton } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { PAGE_SHELL } from "../../theme/layout";
+import { Skeleton } from "../ui/skeleton";
 import { loadEngineExample } from "../../utils/engineExampleUtils";
+
+/** Tailwind equivalent of PAGE_SHELL (theme/layout) for the example page scroll region. */
+const PAGE_SHELL_CLASS =
+  "box-border flex h-full min-h-0 w-full max-w-full flex-col items-stretch gap-3 overflow-y-auto overflow-x-hidden px-4 py-4 text-left sm:px-5 sm:py-5 md:px-6";
 
 function ExampleLoaderSkeleton() {
   return (
-    <Box sx={{ ...PAGE_SHELL, display: "flex", flexDirection: "column", gap: 1.5 }}>
-      <Skeleton variant="text" width="35%" height={28} />
-      <Skeleton variant="rectangular" height={48} sx={{ borderRadius: 0 }} />
-      <Skeleton variant="rectangular" height={120} sx={{ borderRadius: 0 }} />
-      <Skeleton variant="rectangular" height={240} sx={{ borderRadius: 0 }} />
-    </Box>
+    <div className={PAGE_SHELL_CLASS}>
+      <Skeleton className="h-7 w-[35%] rounded-none" />
+      <Skeleton className="h-12 rounded-none" />
+      <Skeleton className="h-[120px] rounded-none" />
+      <Skeleton className="h-[240px] rounded-none" />
+    </div>
   );
 }
 

@@ -1,26 +1,13 @@
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Button from '@mui/material/Button';
-import Chip from '@mui/material/Chip';
-import IconButton from '@mui/material/IconButton';
-import Link from '@mui/material/Link';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import CancelIcon from '@mui/icons-material/Cancel';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import HomeIcon from '@mui/icons-material/Home';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import ReplayIcon from '@mui/icons-material/Replay';
-import SignalWifi4BarIcon from '@mui/icons-material/SignalWifi4Bar';
-import SignalWifiOffIcon from '@mui/icons-material/SignalWifiOff';
-import TableChartIcon from '@mui/icons-material/TableChart';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { CheckCircle2, ChevronRight, Eye, EyeOff, Home, RotateCcw, Table2, Wifi, WifiOff, XCircle } from 'lucide-react';
+import type { MouseEvent } from 'react';
+import { Link } from 'react-router-dom';
 import type { Project } from '../../../shared/types';
 
 import ProjectBreadcrumbItem from '../../components/standalone/ProjectBreadcrumbItem';
+import { Button, buttonClass } from '../../components/ui/button';
+import { Chip, type ChipTone } from '../../components/ui/chip';
 import type { RunStatus } from './types';
+import { routeClick } from '../../lib/routeClick';
 
 interface ProgressAppBarProps {
   connected: boolean;
@@ -39,13 +26,27 @@ interface ProgressAppBarProps {
   showUIViewer?: boolean;
 }
 
-const STATUS_CHIP_COLOR: Record<RunStatus, 'default' | 'error' | 'info' | 'success' | 'warning'> =
-  {
-    cancelled: 'warning',
-    completed: 'success',
-    failed: 'error',
-    running: 'info',
-  };
+const STATUS_CHIP_TONE: Record<RunStatus, ChipTone> = {
+  cancelled: 'warn',
+  completed: 'pass',
+  failed: 'fail',
+  running: 'info',
+};
+
+/**
+ * Real links keep their href (middle-click, copy link, open in new tab) while a
+ * plain left click still runs the caller's navigation handler.
+ */
+const crumbLinkClass =
+  'inline-flex items-center gap-1 text-sm text-inherit no-underline hover:underline focus-visible:underline';
+
+function Separator() {
+  return (
+    <li aria-hidden="true" className="flex items-center text-foreground-muted">
+      <ChevronRight className="size-4" />
+    </li>
+  );
+}
 
 export default function ProgressAppBar({
   connected,
@@ -64,126 +65,113 @@ export default function ProgressAppBar({
   showUIViewer = false,
 }: ProgressAppBarProps) {
   const shortRunId = runId.substring(0, 8);
+  // Mirrors the page's onNavigateBack target so the links carry a real href.
+  const backHref = projectId ? `/test-runner/library?project=${projectId}` : '/test-runner';
+  const toggleLabel = showUIViewer ? 'Hide Playwright UI' : 'Show Playwright UI';
 
   return (
-    <AppBar
-      color="default"
-      elevation={1}
-      position="sticky"
-      sx={{ zIndex: theme => theme.zIndex.appBar }}
-    >
-      <Toolbar sx={{ gap: 1, flexWrap: 'wrap', py: 0.5 }}>
+    <header className="sticky top-0 z-30 border-b border-border bg-shell-elevated text-foreground-secondary shadow-sm">
+      <div className="flex min-h-12 flex-wrap items-center gap-2 px-4 py-1">
         {/* Breadcrumbs */}
-        <Breadcrumbs
-          aria-label="breadcrumb"
-          separator={<NavigateNextIcon fontSize="small" />}
-          sx={{ flexGrow: 1, minWidth: 0 }}
-        >
-          <Link
-            color="inherit"
-            onClick={onNavigateBack}
-            sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 0.5 }}
-            underline="hover"
-            variant="body2"
-          >
-            <HomeIcon sx={{ fontSize: 16 }} />
-            Projects
-          </Link>
-          {projectName && (
-            <ProjectBreadcrumbItem
-              projectId={projectId}
-              projectName={projectName}
-              projects={projects}
-              onProjectChange={onProjectChange}
-            />
-          )}
-          {projectId && (
-            <Link
-              color="inherit"
-              onClick={onNavigateBack}
-              sx={{ cursor: 'pointer' }}
-              underline="hover"
-              variant="body2"
-            >
-              Test Configuration
-            </Link>
-          )}
-          <Typography color="text.primary" fontWeight={600} variant="body2">
-            Execution &middot; {shortRunId}
-          </Typography>
-        </Breadcrumbs>
+        <nav aria-label="breadcrumb" className="min-w-0 flex-grow">
+          <ol className="m-0 flex list-none flex-wrap items-center gap-2 p-0">
+            <li className="flex items-center">
+              <Link className={crumbLinkClass} onClick={routeClick(onNavigateBack)} to={backHref}>
+                <Home aria-hidden="true" className="size-4" />
+                Projects
+              </Link>
+            </li>
+            {projectName && (
+              <>
+                <Separator />
+                <li className="flex items-center">
+                  <ProjectBreadcrumbItem
+                    projectId={projectId}
+                    projectName={projectName}
+                    projects={projects}
+                    onProjectChange={onProjectChange}
+                  />
+                </li>
+              </>
+            )}
+            {projectId && (
+              <>
+                <Separator />
+                <li className="flex items-center">
+                  <Link className={crumbLinkClass} onClick={routeClick(onNavigateBack)} to={backHref}>
+                    Test Configuration
+                  </Link>
+                </li>
+              </>
+            )}
+            <Separator />
+            <li className="flex items-center text-sm font-semibold text-foreground">
+              Execution &middot; {shortRunId}
+            </li>
+          </ol>
+        </nav>
 
         {/* Status chips */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexShrink: 0 }}>
+        <div className="flex shrink-0 items-center gap-2">
           <Chip
-            color={connected ? 'success' : 'error'}
-            icon={connected ? <SignalWifi4BarIcon /> : <SignalWifiOffIcon />}
-            label={connected ? 'Connected' : 'Disconnected'}
-            size="small"
-            variant="outlined"
-          />
+            className="bg-transparent"
+            icon={connected ? <Wifi aria-hidden="true" className="size-3.5" /> : <WifiOff aria-hidden="true" className="size-3.5" />}
+            tone={connected ? 'pass' : 'fail'}
+          >
+            {connected ? 'Connected' : 'Disconnected'}
+          </Chip>
           <Chip
-            color={STATUS_CHIP_COLOR[runStatus]}
             icon={
               runStatus === 'completed' ? (
-                <CheckCircleIcon />
+                <CheckCircle2 aria-hidden="true" className="size-3.5" />
               ) : runStatus === 'failed' || runStatus === 'cancelled' ? (
-                <CancelIcon />
+                <XCircle aria-hidden="true" className="size-3.5" />
               ) : undefined
             }
-            label={runStatus.toUpperCase()}
-            size="small"
-          />
-        </Box>
+            tone={STATUS_CHIP_TONE[runStatus]}
+          >
+            {runStatus.toUpperCase()}
+          </Chip>
+        </div>
 
         {/* Action buttons */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexShrink: 0 }}>
+        <div className="flex shrink-0 items-center gap-2">
           {runStatus === 'running' && (
             <Button
-              color="error"
+              className="border-status-fail bg-status-fail/15 text-status-fail hover:bg-status-fail/25 hover:text-status-fail"
               onClick={onCancel}
-              size="small"
-              startIcon={<CancelIcon />}
-              variant="contained"
+              size="sm"
+              variant="default"
             >
+              <XCircle aria-hidden="true" className="size-4" />
               Cancel
             </Button>
           )}
 
           {(runStatus === 'completed' || runStatus === 'failed') && (
             <>
-              <Button
-                color="primary"
-                onClick={onViewResults}
-                size="small"
-                startIcon={<TableChartIcon />}
-                variant="contained"
+              <Link
+                className={buttonClass({ size: 'sm', variant: 'default', className: 'no-underline' })}
+                onClick={routeClick(onViewResults)}
+                to={`/test-runner/results/${runId}`}
               >
+                <Table2 aria-hidden="true" className="size-4" />
                 View Results
-              </Button>
-              <Button
-                color="inherit"
-                onClick={onRetry}
-                size="small"
-                startIcon={<ReplayIcon />}
-                variant="outlined"
-              >
+              </Link>
+              <Button onClick={onRetry} size="sm" variant="outline">
+                <RotateCcw aria-hidden="true" className="size-4" />
                 Retry
               </Button>
             </>
           )}
 
           {showPlaywrightUIToggle && (
-            <IconButton
-              onClick={onTogglePlaywrightUI}
-              size="small"
-              title={showUIViewer ? 'Hide Playwright UI' : 'Show Playwright UI'}
-            >
-              {showUIViewer ? <VisibilityOffIcon /> : <VisibilityIcon />}
-            </IconButton>
+            <Button aria-label={toggleLabel} onClick={onTogglePlaywrightUI} size="icon" title={toggleLabel} variant="ghost">
+              {showUIViewer ? <EyeOff aria-hidden="true" className="size-5" /> : <Eye aria-hidden="true" className="size-5" />}
+            </Button>
           )}
-        </Box>
-      </Toolbar>
-    </AppBar>
+        </div>
+      </div>
+    </header>
   );
 }

@@ -1,28 +1,17 @@
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Chip from '@mui/material/Chip';
-import CircularProgress from '@mui/material/CircularProgress';
-import Grid from '@mui/material/Grid';
-import InputAdornment from '@mui/material/InputAdornment';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Alert from '@mui/material/Alert';
-import Divider from '@mui/material/Divider';
-import BiotechIcon from '@mui/icons-material/Biotech';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CancelIcon from '@mui/icons-material/Cancel';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import SearchIcon from '@mui/icons-material/Search';
+import { CheckCircle2, Microscope, Play, XCircle } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
+import { Alert } from '../../components/ui/alert';
+import { buttonClass } from '../../components/ui/button';
+import { Chip } from '../../components/ui/chip';
+import { Label } from '../../components/ui/label';
+import { NativeSelect } from '../../components/ui/native-select';
+import { SearchField } from '../../components/ui/search-field';
+import { Separator } from '../../components/ui/separator';
+import { Spinner } from '../../components/ui/spinner';
+import { cn } from '../../lib/utils';
+import { IMPACTS, SEVERITY, type Impact } from '../../theme/severity';
 import { fetchEngineRulesFull } from '../../utils/engineRulesDataService';
 
 interface EngineRule {
@@ -36,6 +25,16 @@ interface EngineRule {
   populated?: boolean;
 }
 
+interface EngineRuleRow {
+  kebabId?: string;
+  id: string;
+  title?: string;
+  description?: string;
+  impact?: string;
+  metadata?: { category?: string };
+  populated?: boolean;
+}
+
 const IMPACT_ORDER: Record<string, number> = {
   critical: 0,
   serious: 1,
@@ -43,18 +42,12 @@ const IMPACT_ORDER: Record<string, number> = {
   minor: 3,
 };
 
-function impactColor(impact: string) {
-  switch (impact?.toLowerCase()) {
-    case 'critical': return { bg: 'rgba(211,47,47,0.12)', color: '#c62828', border: '#c62828' };
-    case 'serious':  return { bg: 'rgba(245,124,0,0.12)', color: '#e65100', border: '#e65100' };
-    case 'moderate': return { bg: 'rgba(25,118,210,0.12)', color: '#1565c0', border: '#1565c0' };
-    case 'minor':    return { bg: 'rgba(56,142,60,0.12)', color: '#2e7d32', border: '#2e7d32' };
-    default:         return { bg: 'rgba(100,116,139,0.12)', color: '#475569', border: '#475569' };
-  }
+function impactChipClass(impact: string): string {
+  const key = impact?.toLowerCase() as Impact;
+  return IMPACTS.includes(key) ? SEVERITY[key].badgeClassName : '';
 }
 
 export default function AtomicTestLibrary() {
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const initialRuleId = searchParams.get('ruleId') || '';
 
@@ -66,9 +59,9 @@ export default function AtomicTestLibrary() {
   useEffect(() => {
     let cancelled = false;
     fetchEngineRulesFull()
-      .then((rows: any[]) => {
+      .then((rows: EngineRuleRow[]) => {
         if (cancelled) return;
-        const loaded = rows.map((r: any) => {
+        const loaded = rows.map((r) => {
           const id = r.kebabId || r.id;
           return {
             id,
@@ -109,138 +102,106 @@ export default function AtomicTestLibrary() {
   }, [rules, search, impactFilter]);
 
   return (
-    <Box>
-      <Stack spacing={1} sx={{ mb: 4 }}>
-        <Typography fontWeight={700} variant="h4">
-          Engine Rule{' '}
-          <Box component="span" sx={{ color: 'primary.main' }}>
-            Atomic Tests
-          </Box>
-        </Typography>
-        <Typography color="text.secondary" variant="body1">
+    <div>
+      <div className="mb-8 flex flex-col gap-2">
+        <h4 className="m-0 text-3xl font-bold text-foreground">
+          Engine Rule <span className="text-primary">Atomic Tests</span>
+        </h4>
+        <p className="m-0 text-base text-foreground-secondary">
           Browse and run atomic test fixtures (pass/fail HTML snippets) for each engine rule.
           Each rule has dedicated test fixtures verifying its <code>validate()</code> logic.
-        </Typography>
-      </Stack>
+        </p>
+      </div>
 
       {/* Filter bar */}
-      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mb: 3 }}>
-        <TextField
-          fullWidth
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end">
+        <SearchField
           placeholder="Search by rule ID or title…"
-          size="small"
+          aria-label="Search by rule ID or title"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          InputProps={{ startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment> }}
-          sx={{ '& .MuiOutlinedInput-root': { background: 'rgba(255,255,255,0.8)' } }}
+          onValueChange={setSearch}
+          containerClassName="flex-1"
         />
-        <FormControl size="small" sx={{ minWidth: 160 }}>
-          <InputLabel>Impact</InputLabel>
-          <Select label="Impact" value={impactFilter} onChange={(e) => setImpactFilter(e.target.value)} sx={{ background: 'rgba(255,255,255,0.8)' }}>
-            <MenuItem value="all">All Impacts</MenuItem>
-            <MenuItem value="critical">Critical</MenuItem>
-            <MenuItem value="serious">Serious</MenuItem>
-            <MenuItem value="moderate">Moderate</MenuItem>
-            <MenuItem value="minor">Minor</MenuItem>
-          </Select>
-        </FormControl>
-      </Stack>
+        <div className="flex min-w-[160px] flex-col gap-1">
+          <Label htmlFor="atomic-impact-filter">Impact</Label>
+          <NativeSelect
+            id="atomic-impact-filter"
+            value={impactFilter}
+            onChange={(e) => setImpactFilter(e.target.value)}
+          >
+            <option value="all">All Impacts</option>
+            <option value="critical">Critical</option>
+            <option value="serious">Serious</option>
+            <option value="moderate">Moderate</option>
+            <option value="minor">Minor</option>
+          </NativeSelect>
+        </div>
+      </div>
 
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+      <p className="m-0 mb-4 text-sm text-foreground-secondary">
         {loading ? 'Loading…' : `${filtered.length} of ${rules.length} rules`}
-      </Typography>
+      </p>
 
       {loading ? (
-        <Box sx={{ display: 'flex', justifyContent: 'center', py: 10 }}>
-          <CircularProgress />
-        </Box>
+        <div className="flex justify-center py-20">
+          <Spinner className="size-10" />
+        </div>
       ) : filtered.length === 0 ? (
-        <Alert severity="info">No rules match the current filters.</Alert>
+        <Alert variant="info">No rules match the current filters.</Alert>
       ) : (
-        <Grid container spacing={2}>
-          {filtered.map((rule) => {
-            const ic = impactColor(rule.impact);
-            return (
-              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={rule.id}>
-                <Card
-                  elevation={0}
-                  sx={{
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    borderRadius: 3,
-                    background: 'rgba(255,255,255,0.7)',
-                    border: '1px solid rgba(255,255,255,0.8)',
-                    boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
-                    transition: 'all 0.2s ease',
-                    '&:hover': { transform: 'translateY(-3px)', boxShadow: '0 6px 20px rgba(0,0,0,0.12)' },
-                  }}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+          {filtered.map((rule) => (
+            <div
+              key={rule.id}
+              className="flex h-full flex-col gap-3 rounded-xl border border-border bg-shell-panel p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+            >
+              <div className="flex flex-wrap gap-2">
+                <Chip className={cn('font-bold', impactChipClass(rule.impact))}>
+                  {rule.impact.charAt(0).toUpperCase() + rule.impact.slice(1)}
+                </Chip>
+                {rule.metadata?.category && <Chip>{rule.metadata.category}</Chip>}
+              </div>
+
+              <div>
+                <h6 className="m-0 mb-1 text-sm font-bold leading-snug text-foreground">{rule.title}</h6>
+                <span className="font-mono text-[0.75rem] text-foreground-muted">{rule.id}</span>
+              </div>
+
+              <p className="m-0 line-clamp-2 flex-1 text-sm leading-normal text-foreground-secondary">
+                {rule.description}
+              </p>
+
+              <Separator />
+
+              <div className="flex gap-2">
+                <Chip tone="pass" icon={<CheckCircle2 aria-hidden="true" className="size-3.5" />}>Pass</Chip>
+                <Chip tone="fail" icon={<XCircle aria-hidden="true" className="size-3.5" />}>Fail</Chip>
+              </div>
+
+              <div className="mt-auto flex gap-2">
+                <Link
+                  to={`/engine/${rule.id}`}
+                  className={buttonClass({ size: 'sm', className: 'flex-1 normal-case no-underline' })}
                 >
-                  <CardContent sx={{ p: 2.5, flex: 1, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-                    <Stack direction="row" spacing={1} flexWrap="wrap">
-                      <Chip
-                        label={rule.impact.charAt(0).toUpperCase() + rule.impact.slice(1)}
-                        size="small"
-                        sx={{ fontWeight: 700, background: ic.bg, color: ic.color, border: `1px solid ${ic.border}40` }}
-                      />
-                      {rule.metadata?.category && (
-                        <Chip label={rule.metadata.category} size="small" variant="outlined" />
-                      )}
-                    </Stack>
-
-                    <Box>
-                      <Typography variant="subtitle2" fontWeight={700} sx={{ color: '#1e293b', lineHeight: 1.3, mb: 0.5 }}>
-                        {rule.title}
-                      </Typography>
-                      <Typography variant="caption" sx={{ fontFamily: 'monospace', color: '#64748b' }}>
-                        {rule.id}
-                      </Typography>
-                    </Box>
-
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      sx={{ lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', flex: 1 }}
-                    >
-                      {rule.description}
-                    </Typography>
-
-                    <Divider />
-
-                    <Stack direction="row" spacing={1}>
-                      <Chip icon={<CheckCircleIcon />} label="Pass" size="small" sx={{ background: 'rgba(56,142,60,0.1)', color: '#2e7d32' }} />
-                      <Chip icon={<CancelIcon />} label="Fail" size="small" sx={{ background: 'rgba(211,47,47,0.1)', color: '#c62828' }} />
-                    </Stack>
-
-                    <Stack direction="row" spacing={1} sx={{ mt: 'auto' }}>
-                      <Button
-                        size="small"
-                        variant="outlined"
-                        startIcon={<PlayArrowIcon />}
-                        fullWidth
-                        onClick={() => navigate(`/engine/${rule.id}`)}
-                        sx={{ textTransform: 'none' }}
-                      >
-                        View Rule
-                      </Button>
-                      <Button
-                        size="small"
-                        variant="outlined"
-                        startIcon={<BiotechIcon />}
-                        onClick={() => navigate(`/rule-lab?ruleId=${rule.id}`)}
-                        sx={{ textTransform: 'none', minWidth: 40, px: 1, color: '#5c6bc0', borderColor: '#5c6bc0' }}
-                        title="Open in Rule Lab"
-                      >
-                        Lab
-                      </Button>
-                    </Stack>
-                  </CardContent>
-                </Card>
-              </Grid>
-            );
-          })}
-        </Grid>
+                  <Play aria-hidden="true" className="size-4" />
+                  View Rule
+                </Link>
+                <Link
+                  to={`/rule-lab?ruleId=${rule.id}`}
+                  title="Open in Rule Lab"
+                  className={buttonClass({
+                    size: 'sm',
+                    className: 'min-w-10 px-2 normal-case no-underline border-status-info text-status-info hover:border-status-info hover:bg-status-info/10 hover:text-status-info',
+                  })}
+                >
+                  <Microscope aria-hidden="true" className="size-4" />
+                  Lab
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
       )}
-    </Box>
+    </div>
   );
 }

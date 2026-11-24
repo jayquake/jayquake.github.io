@@ -1,0 +1,4 @@
+[     536ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/api/runs/test-run-id-123:1
+[     536ms] [ERROR] Error loading results: Error: API error: Not Found
+    at Et (http://localhost:3000/assets/index-sjHkNErR.js:644:50502)
+    at async M (http://localhost:3000/assets/index-sjHkNErR.js:774:2636) @ http://localhost:3000/assets/index-sjHkNErR.js:774
