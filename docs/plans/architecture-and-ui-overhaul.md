@@ -25,15 +25,15 @@ Overhaul the RAIDEN audit-rules UI/UX on **shadcn/Tailwind** and **remove MUI en
 | # | Iteration | Branch | PR | State |
 |---|---|---|---|---|
 | 7 | Delete the dead legacy chain + fix the build-breaking hook | `refactor/arch-07-dead-code` | [#24](https://github.com/jayquake/jayquake.github.io/pull/24) → main | ✅ open, verified |
-| 1 | Library location module | `refactor/arch-01-library-location` | [#25](https://github.com/jayquake/jayquake.github.io/pull/25) → #24 | ✅ on `main` (PR still open) |
-| 2a | Rule data sync (engine + legacy) | `data/arch-02a-rule-data-sync` | [#26](https://github.com/jayquake/jayquake.github.io/pull/26) → #25 | ✅ on `main` (PR still open) |
-| 2b | Rules catalog module | `data/arch-02b-rules-catalog` | [#27](https://github.com/jayquake/jayquake.github.io/pull/27) → #26 | ✅ on `main` (PR still open) |
+| 1 | Library location module | `refactor/arch-01-library-location` | [#25](https://github.com/jayquake/jayquake.github.io/pull/25) → #24 | ✅ on `main` (PR closed) |
+| 2a | Rule data sync (engine + legacy) | `data/arch-02a-rule-data-sync` | [#26](https://github.com/jayquake/jayquake.github.io/pull/26) → #25 | ✅ on `main` (PR closed) |
+| 2b | Rules catalog module | `data/arch-02b-rules-catalog` | [#27](https://github.com/jayquake/jayquake.github.io/pull/27) → #26 | ✅ on `main` (PR closed) |
 | 3 | Rule tree model | `refactor/arch-03-rule-tree` | [#28](https://github.com/jayquake/jayquake.github.io/pull/28) → main | ✅ open, verified |
 | 5 | Example page adapter | — | — | ⏳ not grilled |
 | 4 | Example audit module | — | — | ⏳ not grilled |
 | 6 | Design tokens + MUI removal + dark mode | — | — | ⏳ not grilled |
 
-#24 merged; #1, 2a and 2b then fast-forwarded onto `origin/main` directly, so #25–#27 are open but already contained in `main`. From #3 on, each iteration branches off `main` and its PR targets `main`.
+#24 merged; #1, 2a and 2b then fast-forwarded onto `origin/main` directly, so #25–#27 were closed (2026-11-24) with a note that their commits landed on `main` directly. From #3 on, each iteration branches off `main` and its PR targets `main`.
 
 ---
 
