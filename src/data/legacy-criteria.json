@@ -36,5 +36,92 @@
     "/navigation",
     "/tables",
     "/text-content"
+  ],
+  "entries": [
+    {
+      "id": "graphics",
+      "label": "Graphics",
+      "order": 0
+    },
+    {
+      "id": "forms",
+      "label": "Forms",
+      "order": 1
+    },
+    {
+      "id": "keyboard",
+      "label": "Keyboard",
+      "order": 2
+    },
+    {
+      "id": "navigation",
+      "label": "Navigation",
+      "order": 3
+    },
+    {
+      "id": "landmarks",
+      "label": "Landmarks",
+      "order": 4
+    },
+    {
+      "id": "errors",
+      "label": "Errors",
+      "order": 5
+    },
+    {
+      "id": "context",
+      "label": "Context",
+      "order": 6
+    },
+    {
+      "id": "clickables",
+      "label": "Clickables",
+      "order": 7
+    },
+    {
+      "id": "interactive-content",
+      "label": "Interactive Content",
+      "order": 8
+    },
+    {
+      "id": "document",
+      "label": "Document",
+      "order": 9
+    },
+    {
+      "id": "text-content",
+      "label": "Text Content",
+      "order": 10
+    },
+    {
+      "id": "tables",
+      "label": "Tables",
+      "order": 11
+    },
+    {
+      "id": "carousels",
+      "label": "Carousels",
+      "order": 12
+    },
+    {
+      "id": "moving-content",
+      "label": "Moving Content",
+      "order": 13
+    },
+    {
+      "id": "dialogs",
+      "label": "Dialogs",
+      "order": 14
+    },
+    {
+      "id": "lists",
+      "label": "Lists",
+      "order": 15
+    },
+    {
+      "id": "general",
+      "label": "General",
+      "order": 16
+    }
   ]
 }
