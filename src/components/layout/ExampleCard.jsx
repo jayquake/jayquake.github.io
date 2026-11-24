@@ -27,9 +27,8 @@ import {
   Bookmark as BookmarkIcon,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { isStaticDeployment } from "../../utils/environment";
-import { analyzeHtmlClientSide } from "../../utils/clientAccessibilityTree";
-import { getCachedAnalysis, cacheAnalysis } from "../../utils/analysisCache";
+import { analyzeExample } from "../../utils/exampleAuditor";
+import { getFalsePositive, setFalsePositive } from "../../lib/exampleAudit/falsePositives";
 import AuditResultsPanel, { issueKey } from "./AuditResultsPanel";
 import { scopeExampleHtml } from "../../utils/scopeExampleHtml";
 import { MIN_TEXT_SIZE } from "../../theme/mgsTokens";
@@ -63,19 +62,13 @@ const VARIANT_CONFIG = {
   },
 };
 
-const FP_STORAGE_KEY = "rule-lab-false-positives";
-
-function loadFPFlags() {
+const fpStorage = () => {
   try {
-    return JSON.parse(localStorage.getItem(FP_STORAGE_KEY) || "{}");
+    return window.localStorage;
   } catch {
-    return {};
+    return null;
   }
-}
-
-function saveFPFlags(data) {
-  localStorage.setItem(FP_STORAGE_KEY, JSON.stringify(data));
-}
+};
 
 export default function ExampleCard({
   index,
@@ -98,14 +91,8 @@ export default function ExampleCard({
   const [treeData, setTreeData] = useState(null);
   const [treeLoading, setTreeLoading] = useState(false);
   const [treeError, setTreeError] = useState(null);
-  const [fpFlagged, setFpFlagged] = useState(() => {
-    const all = loadFPFlags();
-    return !!all?.[ruleId]?.[index]?.flagged;
-  });
-  const [fpNotes, setFpNotes] = useState(() => {
-    const all = loadFPFlags();
-    return all?.[ruleId]?.[index]?.notes || "";
-  });
+  const [fpFlagged, setFpFlagged] = useState(() => getFalsePositive(fpStorage(), ruleId, index).flagged);
+  const [fpNotes, setFpNotes] = useState(() => getFalsePositive(fpStorage(), ruleId, index).notes);
 
   const handleCopy = useCallback(async () => {
     try {
@@ -137,60 +124,10 @@ export default function ExampleCard({
     setTreeLoading(true);
     setTreeError(null);
 
-    // Check cache first
-    const cached = getCachedAnalysis(ruleId || "anonymous", index, html || "");
-    if (cached) {
-      setTreeData(cached);
-      setTreeLoading(false);
-      return;
-    }
-
-    const staticMode = isStaticDeployment();
-
-    if (staticMode) {
-      // Client-side analysis only
-      try {
-        const result = await analyzeHtmlClientSide(html || "");
-        cacheAnalysis(ruleId || "anonymous", index, html || "", result);
-        setTreeData(result);
-      } catch (err) {
-        setTreeError("Client-side analysis failed: " + (err.message || "Unknown error"));
-      } finally {
-        setTreeLoading(false);
-      }
-      return;
-    }
-
-    // Backend mode: try backend first, fall back to client-side
     try {
-      const { api } = await import("../../api/client");
-
-      const health = await api.ruleLab.checkHealth().catch(() => null);
-      if (health && !health.healthy) {
-        // Fall back to client-side
-        const result = await analyzeHtmlClientSide(html || "");
-        cacheAnalysis(ruleId || "anonymous", index, html || "", result);
-        setTreeData(result);
-        setTreeLoading(false);
-        return;
-      }
-
-      const result = await api.ruleLab.analyzeExample(
-        ruleId || "anonymous",
-        ruleType || "engine",
-        html || "",
-        variant
-      );
-      setTreeData(result);
+      setTreeData(await analyzeExample({ ruleId, ruleType, variant, html: html || "", index }));
     } catch (err) {
-      // Fall back to client-side analysis
-      try {
-        const result = await analyzeHtmlClientSide(html || "");
-        cacheAnalysis(ruleId || "anonymous", index, html || "", result);
-        setTreeData(result);
-      } catch (clientErr) {
-        setTreeError("Analysis failed: " + (err.message || "The server may be unreachable."));
-      }
+      setTreeError("Analysis failed: " + (err.message || "The server may be unreachable."));
     } finally {
       setTreeLoading(false);
     }
@@ -199,59 +136,34 @@ export default function ExampleCard({
   const handleFPToggle = useCallback(() => {
     const next = !fpFlagged;
     setFpFlagged(next);
-    const all = loadFPFlags();
-    if (!all[ruleId]) all[ruleId] = {};
-    all[ruleId][index] = {
-      flagged: next,
-      notes: fpNotes,
-      timestamp: new Date().toISOString(),
-    };
-    saveFPFlags(all);
+    setFalsePositive(fpStorage(), ruleId, index, { flagged: next, notes: fpNotes });
   }, [fpFlagged, fpNotes, ruleId, index]);
 
   const handleFPNotes = useCallback(
     (e) => {
       const notes = e.target.value;
       setFpNotes(notes);
-      const all = loadFPFlags();
-      if (!all[ruleId]) all[ruleId] = {};
-      all[ruleId][index] = {
-        flagged: fpFlagged,
-        notes,
-        timestamp: new Date().toISOString(),
-      };
-      saveFPFlags(all);
+      setFalsePositive(fpStorage(), ruleId, index, { flagged: fpFlagged, notes });
     },
     [ruleId, index, fpFlagged]
   );
 
-  // Per-audit-issue FP tracking
-  const [auditFPs, setAuditFPs] = useState(() => {
-    try {
-      const stored = JSON.parse(localStorage.getItem("audit-issue-fps") || "{}");
-      const ruleIssues = stored[ruleId]?.[index] || [];
-      return new Set(ruleIssues);
-    } catch { return new Set(); }
-  });
+  // Per-audit-issue false positives (same store as the example-level flag).
+  const [auditFPs, setAuditFPs] = useState(() => new Set(getFalsePositive(fpStorage(), ruleId, index).issues));
 
-  const handleAuditFP = useCallback((issue, flagged) => {
-    const key = issueKey(issue);
-    setAuditFPs(prev => {
-      const next = new Set(prev);
-      if (flagged) next.add(key);
-      else next.delete(key);
-
-      // Persist
-      try {
-        const stored = JSON.parse(localStorage.getItem("audit-issue-fps") || "{}");
-        if (!stored[ruleId]) stored[ruleId] = {};
-        stored[ruleId][index] = Array.from(next);
-        localStorage.setItem("audit-issue-fps", JSON.stringify(stored));
-      } catch { /* ignore */ }
-
-      return next;
-    });
-  }, [ruleId, index]);
+  const handleAuditFP = useCallback(
+    (issue, flagged) => {
+      const key = issueKey(issue);
+      setAuditFPs((prev) => {
+        const next = new Set(prev);
+        if (flagged) next.add(key);
+        else next.delete(key);
+        setFalsePositive(fpStorage(), ruleId, index, { issues: Array.from(next) });
+        return next;
+      });
+    },
+    [ruleId, index]
+  );
 
   return (
     <Card

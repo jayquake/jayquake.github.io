@@ -20,7 +20,7 @@ import RestoreIcon from '@mui/icons-material/Restore';
 import { api } from '../../../api/client';
 import { isStaticDeployment } from '../../../utils/environment';
 import { analyzeHtmlClientSide, type ClientAnalysisResult } from '../../../utils/clientAccessibilityTree';
-import { getCachedAnalysis, cacheAnalysis } from '../../../utils/analysisCache';
+import { analyzeExample as runExampleAudit } from '../../../utils/exampleAuditor';
 import AuditResultsPanel from '../../../components/layout/AuditResultsPanel';
 import { useRuleLabSocket, type RuleLabEvent } from '../../../hooks/useRuleLabSocket';
 import { MIN_TEXT_SIZE } from '../../../theme/mgsTokens';
@@ -165,25 +165,8 @@ export function ExampleAnalysisPanel({ ruleId, ruleType, initialHtml, initialExa
     async (index: number, htmlSnippet: string, exampleType: string) => {
       setAnalyzing((prev) => ({ ...prev, [index]: true }));
       try {
-        if (staticMode) {
-          const cached = getCachedAnalysis(ruleId, index, htmlSnippet);
-          if (cached) {
-            setAnalysisResults((prev) => ({ ...prev, [index]: { ...cached, source: 'client' } }));
-          } else {
-            const result = await doClientSideAnalysis(htmlSnippet);
-            const fullResult = await analyzeHtmlClientSide(htmlSnippet);
-            cacheAnalysis(ruleId, index, htmlSnippet, fullResult);
-            setAnalysisResults((prev) => ({ ...prev, [index]: result }));
-          }
-        } else {
-          try {
-            const result = await api.ruleLab.analyzeExample(ruleId, ruleType, htmlSnippet, exampleType);
-            setAnalysisResults((prev) => ({ ...prev, [index]: { ...result, source: 'mcp' } }));
-          } catch {
-            const result = await doClientSideAnalysis(htmlSnippet);
-            setAnalysisResults((prev) => ({ ...prev, [index]: result }));
-          }
-        }
+        const result = await runExampleAudit({ ruleId, ruleType, variant: exampleType, html: htmlSnippet, index });
+        setAnalysisResults((prev) => ({ ...prev, [index]: result }));
       } catch (err: any) {
         setAnalysisResults((prev) => ({
           ...prev,
@@ -193,7 +176,7 @@ export function ExampleAnalysisPanel({ ruleId, ruleType, initialHtml, initialExa
         setAnalyzing((prev) => ({ ...prev, [index]: false }));
       }
     },
-    [ruleId, ruleType, staticMode, doClientSideAnalysis]
+    [ruleId, ruleType]
   );
 
   const analyzeCustom = useCallback(async () => {
@@ -201,24 +184,14 @@ export function ExampleAnalysisPanel({ ruleId, ruleType, initialHtml, initialExa
     setAnalyzingCustom(true);
     setCustomResult(null);
     try {
-      if (staticMode) {
-        const result = await doClientSideAnalysis(customHtml);
-        setCustomResult(result);
-      } else {
-        try {
-          const result = await api.ruleLab.analyzeExample(ruleId, ruleType, customHtml, 'custom');
-          setCustomResult({ ...result, source: 'mcp' });
-        } catch {
-          const result = await doClientSideAnalysis(customHtml);
-          setCustomResult(result);
-        }
-      }
+      // No index: ad-hoc HTML is never cached.
+      setCustomResult(await runExampleAudit({ ruleId, ruleType, variant: 'custom', html: customHtml }));
     } catch (err: any) {
       setCustomResult({ error: err.message || 'Analysis failed' });
     } finally {
       setAnalyzingCustom(false);
     }
-  }, [ruleId, ruleType, customHtml, staticMode, doClientSideAnalysis]);
+  }, [ruleId, ruleType, customHtml]);
 
   // Live editor: debounced real-time analysis
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
