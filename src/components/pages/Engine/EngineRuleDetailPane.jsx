@@ -1,4 +1,4 @@
-import { Bug, ChevronLeft, ChevronRight, CircleCheck, CircleX, FlaskConical } from "lucide-react";
+import { ChevronLeft, ChevronRight, CircleCheck, CircleX, FlaskConical } from "lucide-react";
 import { Link as RouterLink } from "react-router-dom";
 import { useLibraryLocation } from "../../../hooks/useLibraryLocation";
 import { engineRule } from "../../../lib/libraryLocation";
@@ -129,10 +129,6 @@ export default function EngineRuleDetailPane({
           <RouterLink to={hrefs.ruleLab(ref)} className={buttonClass({ className: "w-full justify-start" })}>
             <FlaskConical className="size-4" />
             Rule Lab
-          </RouterLink>
-          <RouterLink to={hrefs.ruleLab(ref)} className={buttonClass({ className: "w-full justify-start" })}>
-            <Bug className="size-4" />
-            MCP Debug
           </RouterLink>
           </div>
         </Card>

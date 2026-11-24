@@ -1,6 +1,16 @@
 import type { ClientAnalysisResult } from './clientAccessibilityTree';
 
-const CACHE_PREFIX = 'audit-analysis-';
+export const CACHE_PREFIX = 'audit-analysis-';
+/** Dispatched on `window` whenever this tab writes or clears cached analyses. */
+export const CACHE_CHANGED_EVENT = 'audit-analysis-cache-changed';
+
+function notifyChanged(): void {
+  try {
+    window.dispatchEvent(new CustomEvent(CACHE_CHANGED_EVENT));
+  } catch {
+    // no window (SSR / tests without jsdom)
+  }
+}
 const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 
 function contentHash(str: string): string {
@@ -43,6 +53,7 @@ export function cacheAnalysis(
   try {
     const key = cacheKey(ruleId, index, html);
     localStorage.setItem(key, JSON.stringify({ result, ts: Date.now() }));
+    notifyChanged();
   } catch {
     // localStorage full -- evict oldest entries
     try {
@@ -68,6 +79,7 @@ export function cacheAnalysis(
         cacheKey(ruleId, index, html),
         JSON.stringify({ result, ts: Date.now() }),
       );
+      notifyChanged();
     } catch {
       // Still full -- give up silently
     }
@@ -134,4 +146,5 @@ export function clearCache(): void {
     }
   }
   keysToRemove.forEach(k => localStorage.removeItem(k));
+  notifyChanged();
 }
